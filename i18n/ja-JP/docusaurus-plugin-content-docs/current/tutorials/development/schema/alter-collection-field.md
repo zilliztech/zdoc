@@ -23,23 +23,23 @@ import TabItem from '@theme/TabItem';
 
 collection field のプロパティを変更して、列の制約を変更したり、より厳格なデータ整合性ルールを適用したりできます。
 
-このページでは field プロパティの変更について説明します。field の追加や削除のような schema 形状の変更は対象ではありません。既存の collection に scalar field を追加したり、field を削除したりするには、[Collection Schema の変更](./add-fields-to-an-existing-collection)を参照してください。
+このページでは、field の追加や削除などのスキーマ形状の変更ではなく、field プロパティの変更について説明します。scalar field を追加したり、既存の collection から field を削除したりするには、[Collection Schema の変更](./add-fields-to-an-existing-collection)を参照してください。
 
 <Admonition type="info" icon="📘" title="注意">
 
-- 各 collection は primary field を 1 つだけ持ちます。collection 作成時に設定すると、primary field を変更したり、そのプロパティを変更したりすることはできません。
+- 各 collection は 1 つの primary field のみで構成されます。collection 作成時に設定すると、primary field を変更したり、そのプロパティを変更したりすることはできません。
 
-- 各 collection は partition key を 1 つだけ持つことができます。collection 作成時に設定すると、partition key を変更することはできません。
+- 各 collection には 1 つの partition key のみを設定できます。collection 作成時に設定すると、partition key を変更することはできません。
 
 </Admonition>
 
 ## VarChar field の変更\{#alter-varchar-field}
 
-VarChar field には `max_length` というプロパティがあり、field の値に含められる最大文字数を制限します。`max_length` プロパティは変更できます。
+VarChar field には `max_length` というプロパティがあり、field 値に含められる最大文字数を制限します。`max_length` プロパティは変更できます。
 
-以下の例では、collection に `varchar` という名前の VarChar field があることを前提とし、その `max_length` プロパティを設定します。
+次の例では、collection に `varchar` という名前の VarChar field があることを前提に、その `max_length` プロパティを設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -150,7 +150,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -172,13 +173,16 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## ARRAY field の変更\{#alter-array-field}
 
-array field には `element_type` と `max_capacity` という 2 つのプロパティがあります。前者は array 内の要素のデータ型を決定し、後者は array 内の要素数の上限を制限します。変更できるのは `max_capacity` プロパティのみです。
+array field には `element_type` と `max_capacity` の 2 つのプロパティがあります。前者は array 内の要素のデータ型を決定し、後者は array 内の要素数の上限を制限します。変更できるのは `max_capacity` プロパティのみです。
 
-以下の例では、collection に `array` という名前の array field があることを前提とし、その `max_capacity` プロパティを設定します。
+次の例では、collection に `array` という名前の array field があることを前提に、その `max_capacity` プロパティを設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -251,7 +255,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto status = client->AlterCollectionFieldProperties(milvus::AlterCollectionFieldPropertiesRequest()
@@ -263,13 +268,16 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## field レベルの mmap 設定の変更\{#alter-field-level-mmap-settings}
 
-メモリマッピング（Mmap）により、ディスク上の大きなファイルへ直接メモリアクセスできるようになり、Zilliz Cloud は index とデータをメモリおよびハードドライブの両方に保存できます。このアプローチは、アクセス頻度に基づいてデータ配置ポリシーを最適化するのに役立ち、検索パフォーマンスに影響を与えることなく collection のストレージ容量を拡張します。
+メモリマッピング（Mmap）により、ディスク上の大きなファイルへ直接メモリアクセスできるようになり、Zilliz Cloud は index とデータをメモリとハードドライブの両方に保存できます。このアプローチは、アクセス頻度に基づくデータ配置ポリシーの最適化に役立ち、検索パフォーマンスに影響を与えることなく collection のストレージ容量を拡張します。
 
-以下の例では、collection に `doc_chunk` という名前の field があることを前提とし、その `mmap_enabled` プロパティを設定します。
+次の例では、collection に `doc_chunk` という名前の field があることを前提に、その `mmap_enabled` プロパティを設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -340,7 +348,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto status = client->AlterCollectionFieldProperties(milvus::AlterCollectionFieldPropertiesRequest()
@@ -351,3 +360,6 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>

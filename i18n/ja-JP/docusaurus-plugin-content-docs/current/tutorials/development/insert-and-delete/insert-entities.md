@@ -1,5 +1,5 @@
 ---
-title: "Entity の挿入 | Cloud"
+title: "エンティティの挿入 | Cloud"
 slug: /insert-entities
 sidebar_label: "挿入"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "collection 内の Entity は、同じフィールドセットを共有するデータレコードです。各データレコード内のフィールド値が Entity を構成します。このページでは、collection に Entity を挿入する方法を紹介します。 | Cloud"
+description: "コレクション内のエンティティは、同じフィールドセットを共有するデータレコードです。各データレコードのフィールド値がエンティティを構成します。このページでは、コレクションにエンティティを挿入する方法を紹介します。 | Cloud"
 type: origin
 token: L5jawEj7FiBXWZkGhLgcQCWQnDd
 sidebar_position: 1
@@ -19,30 +19,31 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Entity の挿入
+# エンティティの挿入
 
-collection 内の Entity は、同じフィールドセットを共有するデータレコードです。各データレコード内のフィールド値が Entity を構成します。このページでは、collection に Entity を挿入する方法を紹介します。
+コレクション内のエンティティは、同じフィールドセットを共有するデータレコードです。各データレコードのフィールド値がエンティティを構成します。このページでは、コレクションにエンティティを挿入する方法を紹介します。
 
 注:
-- **collection 作成後に追加されたフィールド**: collection 作成後に新しいフィールドを追加し、挿入時に値を指定しない場合、MilvusZilliz Cloud は定義されたデフォルト値、またはデフォルトが設定されていない場合は `NULL` を自動的に入力します。詳細については、[Alter Collection Schema](./add-fields-to-an-existing-collection) を参照してください。
 
-- **重複の処理**: 標準の `insert` 操作では、重複する主キーはチェックされません。既存の主キーを持つデータを挿入すると、同じキーを持つ新しい Entity が作成され、データの重複やアプリケーション上の問題につながる可能性があります。既存の Entity を更新する、または重複を回避するには、代わりに **upsert** 操作を使用してください。詳細については、[Upsert Entities](./upsert-entities) を参照してください。
+- **コレクション作成後に追加されたフィールド**: コレクションの作成後に新しいフィールドを追加し、挿入時に値を指定しない場合、MilvusZilliz Cloud は定義されたデフォルト値、またはデフォルトが設定されていない場合は `NULL` を自動的に設定します。詳細については、[Alter Collection Schema](./add-fields-to-an-existing-collection) を参照してください。
+
+- **重複の処理**: 標準の `insert` 操作では、重複する主キーはチェックされません。既存の主キーを持つデータを挿入すると、同じキーを持つ新しいエンティティが作成され、データの重複やアプリケーション上の問題を引き起こす可能性があります。既存のエンティティを更新したり、重複を避けたりするには、代わりに **upsert** 操作を使用してください。詳細については、[Upsert Entities](./upsert-entities) を参照してください。
 
 ## 概要\{#overview}
 
-Zilliz Cloud cluster では、**Entity** は同じ **Schema** を共有する **Collection** 内のデータレコードを指し、行内の各フィールドのデータが Entity を構成します。したがって、同じ Collection 内の Entity は同じ属性（フィールド名、データ型、その他の制約など）を持ちます。
+Zilliz Cloud クラスターでは、**エンティティ** は同じ **スキーマ** を共有する **コレクション** 内のデータレコードを指し、行内の各フィールドのデータがエンティティを構成します。したがって、同じコレクション内のエンティティは同じ属性（フィールド名、データ型、その他の制約など）を持ちます。
 
-Collection に Entity を挿入する際、挿入対象の Entity は Schema で定義されたすべてのフィールドを含んでいる場合にのみ正常に追加されます。挿入された Entity は、挿入順に **_default** という名前の Partition に入ります。特定の Partition が存在する場合は、挿入リクエストで Partition 名を指定して、その Partition に Entity を挿入することもできます。
+コレクションにエンティティを挿入する際、挿入対象のエンティティはスキーマで定義されたすべてのフィールドを含んでいる場合にのみ正常に追加されます。挿入されたエンティティは、挿入順に **_default** という名前のパーティションに入ります。対象のパーティションが存在している場合は、挿入リクエストでパーティション名を指定して、そのパーティションにエンティティを挿入することもできます。
 
-Zilliz Cloud は、Collection の拡張性を維持するための動的フィールドもサポートしています。動的フィールドが有効になっている場合、Schema で定義されていないフィールドを Collection に挿入できます。これらのフィールドと値は、**&#36;meta** という予約フィールドにキーと値のペアとして保存されます。動的フィールドの詳細については、Dynamic Field を参照してください。
+Zilliz Cloud は、コレクションのスケーラビリティを維持するために動的フィールドもサポートしています。動的フィールドが有効な場合、スキーマで定義されていないフィールドをコレクションに挿入できます。これらのフィールドと値は、**&#36;meta** という予約フィールドにキーと値のペアとして保存されます。動的フィールドの詳細については、Dynamic Field を参照してください。
 
-## collection への Entity の挿入\{#insert-entities-into-a-collection}
+## コレクションへのエンティティの挿入\{#insert-entities-into-a-collection}
 
-データを挿入する前に、Schema に従ってデータを辞書のリストとして整理する必要があります。各辞書は 1 つの Entity を表し、Schema で定義されたすべてのフィールドを含みます。Collection で動的フィールドが有効になっている場合、各辞書には Schema で定義されていないフィールドを含めることもできます。
+データを挿入する前に、スキーマに従ってデータを辞書のリストとして整理する必要があります。各辞書は 1 つのエンティティを表し、スキーマで定義されたすべてのフィールドを含みます。コレクションで動的フィールドが有効になっている場合、各辞書にはスキーマで定義されていないフィールドを含めることもできます。
 
-このセクションでは、クイックセットアップ方式で作成された Collection に Entity を挿入します。この方法で作成された Collection には、**id** と **vector** という 2 つのフィールドしかありません。さらに、この Collection では動的フィールドが有効になっているため、サンプルコード内の Entity には Schema で定義されていない **color** というフィールドが含まれています。
+このセクションでは、クイックセットアップ方式で作成されたコレクションにエンティティを挿入します。この方法で作成されたコレクションには、**id** と **vector** という 2 つのフィールドしかありません。さらに、このコレクションでは動的フィールドが有効になっているため、サンプルコード内のエンティティにはスキーマで定義されていない **color** というフィールドが含まれています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -264,7 +265,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -300,11 +302,14 @@ if (!status.IsOk()) {
 }
 ```
 
-## Partition への Entity の挿入\{#insert-entities-into-a-partition}
+</TabItem>
+</Tabs>
 
-指定した partition に Entity を挿入することもできます。次のコードスニペットでは、collection 内に **PartitionA** という名前の partition が存在することを前提としています。
+## パーティションにエンティティを挿入する\{#insert-entities-into-a-partition}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+指定したパーティションにエンティティを挿入することもできます。以下のコードスニペットは、コレクション内に **PartitionA** という名前のパーティションがあることを前提としています。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -494,7 +499,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::EntityRows data = {
@@ -520,3 +526,6 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>

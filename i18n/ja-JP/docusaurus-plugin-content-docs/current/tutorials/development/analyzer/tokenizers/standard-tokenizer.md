@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の `standard` tokenizer は、スペースと句読点に基づいてテキストを分割するため、ほとんどの言語に適しています。| Cloud"
+description: "Zilliz Cloud の `standard` tokenizer は、スペースと句読点に基づいてテキストを分割するため、ほとんどの言語に適しています。 | Cloud"
 type: origin
 token: GAX8wkC1QiTZhXkLBocc1GoTnke
 sidebar_position: 1
@@ -23,11 +23,11 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud の `standard` tokenizer は、スペースと句読点に基づいてテキストを分割するため、ほとんどの言語に適しています。
 
-## 設定\{#configuration}
+## Configuration\{#configuration}
 
-`standard` tokenizer を使用する analyzer を設定するには、`analyzer_params` で `tokenizer` を `standard` に設定します。
+`standard` tokenizer を使用する analyzer を設定するには、`analyzer_params` 内の `tokenizer` を `standard` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -75,7 +75,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -83,9 +84,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`standard` tokenizer は、1 つ以上の filter と組み合わせて使用できます。たとえば、次のコードは `standard` tokenizer と `lowercase` filter を使用する analyzer を定義します。
+</TabItem>
+</Tabs>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+`standard` tokenizer は、1 つ以上の filter と組み合わせて動作させることができます。たとえば、次のコードは `standard` tokenizer と `lowercase` filter を使用する analyzer を定義しています。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -139,7 +143,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -148,21 +153,24 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+</TabItem>
+</Tabs>
 
-より簡単に設定するには、`standard` tokenizer と [`lowercase`](./lowercase-filter)[ filter](./lowercase-filter) を組み合わせた [`standard`](./standard-analyzer) [analyzer](./standard-analyzer) の使用を選択できます。
+<Admonition type="info" icon="📘" title="注意">
+
+より簡単に設定するには、`standard` tokenizer と [`lowercase`](./lowercase-filter)[ filter](./lowercase-filter) を組み合わせた [`standard`](./standard-analyzer) [analyzer](./standard-analyzer) を使用することもできます。
 
 </Admonition>
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、効率的なトークン化とフィルタリングのために指定された analyzer を使って処理できます。詳細については、[使用例](./analyzer-overview#example-use)を参照してください。
 
-## 例\{#examples}
+## Examples\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認します。
+analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer 設定\{#analyzer-configuration}
+### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -207,7 +215,8 @@ analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"lowerc
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -216,9 +225,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -316,7 +328,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -341,7 +354,10 @@ if (!status.IsOk()) {
 }
 ```
 
-### 期待される出力\{#expected-output}
+</TabItem>
+</Tabs>
+
+### Expected output\{#expected-output}
 
 ```plaintext
 ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale']

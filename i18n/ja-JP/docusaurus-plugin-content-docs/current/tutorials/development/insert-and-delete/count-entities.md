@@ -1,13 +1,13 @@
 ---
-title: "エンティティ数をカウントする | Cloud"
+title: "エンティティのカウント | Cloud"
 slug: /count-entities
-sidebar_label: "Count"
+sidebar_label: "カウント"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "この記事では、collection 内のエンティティ数をカウントする方法と、その数が実際の値と異なる可能性がある理由について説明します。 | Cloud"
+description: "この記事では、collection 内のエンティティをカウントする方法と、エンティティ数が実際の値と異なる可能性がある理由について説明します。 | Cloud"
 type: origin
 token: OfUIwNWVuimZgFk3gBVc61GnnKW
 sidebar_position: 3
@@ -19,49 +19,49 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# エンティティ数をカウントする
+# エンティティのカウント
 
-この記事では、collection 内のエンティティ数をカウントする方法と、その数が実際の値と異なる可能性がある理由について説明します。
+この記事では、collection 内のエンティティをカウントする方法と、エンティティ数が実際の値と異なる可能性がある理由について説明します。
 
 ## 概要\{#overview}
 
-Zilliz Cloud では、collection 内のエンティティ数をカウントするための 2 つの方法を提供しています。 
+Zilliz Cloud では、collection 内のエンティティをカウントするための方法が 2 つ提供されています。 
 
-- **count(&ast;) を output field として指定して query する**
+- **出力フィールドとして count(&ast;) を指定した Query**
 
     collection 内の正確なエンティティ数を取得するには、この方法を使用し、以下を満たしていることを確認してください。
 
-    - 対象の collection を load 済みであること。
+    - 対象の collection をロードしていること。
 
     - query リクエストで `consistency_level` を `Strong` に設定していること。
 
     - `output_field` を `['count(*)']` に設定していること。
 
-    このような query を受信すると、Zilliz Cloud は query node にリクエストを送信し、すでにメモリに load されているエンティティをカウントします。
+    このような query を受け取ると、Zilliz Cloud は query node にリクエストを送信し、すでにメモリにロードされているエンティティをカウントします。
 
-    query では複数の partition 名を指定して、それらの partition に対応するエンティティ数を取得できます。詳細については、[count(*) を output field として指定して query する](./count-entities) を参照してください。
+    query では複数の partition 名を指定して、それらの partition に対応するエンティティ数を取得できます。詳細は、[出力フィールドとして count(*) を指定した Query](./count-entities) を参照してください。
 
-- **get_collection_stats() を使用する**
+- **get_collection_stats() を使用**
 
-    上記の方法を使用すると collection の正確な件数を取得できますが、あらゆる場面でこれを使うことは推奨されません。この処理は基本的に query であり、頻繁に呼び出すとネットワークのジッターを引き起こしたり、業務に関わる search や query に影響を与えたりする可能性があります。 
+    上記の方法で collection の正確な件数を取得できますが、あらゆる場面での使用は推奨されません。この処理は基本的に query であり、頻繁に呼び出すとネットワークのジッターを引き起こしたり、業務に関連する検索や query に影響を与えたりする可能性があります。 
 
-    精度が最優先でない場合は、代わりに `get_collection_stats()` と `get_partition_stats()` を使用してください。この呼び出しで得られるエンティティ数は推定値ですが、実行のために対象の collection を load する必要はなく、内部トラッカーが記録している内容を返すだけなので、コストは無視できるほど小さいです。 
+    精度が最優先でない場合は、代わりに `get_collection_stats()` と `get_partition_stats()` を使用してください。この呼び出しでは推定エンティティ数が返されますが、実行のために対象の collection をロードする必要はなく、内部トラッカーに記録されている内容を報告するだけなので、コストは無視できるほど小さいです。 
 
-    参考までに、すべてのデータ操作は非同期であるため、内部トラッカーはエンティティ数をリアルタイムで反映できません。詳細については、[get_collection_stats() を使用する](./count-entities#use-getcollectionstats) を参照してください。
+    ご参考までに、すべてのデータ操作は非同期であるため、内部トラッカーはエンティティ数をリアルタイムに反映できません。詳細は、[get_collection_stats() を使用](./count-entities#use-getcollectionstats) を参照してください。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" icon="📘" title="注意">
 
-上記のどちらの方法でも、同じ primary key を持つエンティティは別々のエンティティとしてカウントされます。 
+上記の両方の方法では、同じ主キーを持つエンティティも別々のエンティティとしてカウントされます。 
 
 </Admonition>
 
-プログラムでエンティティ数を取得する代わりに、Zilliz Cloud コンソール上で cluster、collection、または partition の値を確認することもできます。詳細については、[Zilliz Cloud コンソール上のエンティティ数](./count-entities) を参照してください。
+プログラムからエンティティ数を取得する代わりに、Zilliz Cloud コンソール上で cluster、collection、または partition の値を確認することもできます。詳細は、[Zilliz Cloud コンソールでのエンティティ数](./count-entities) を参照してください。
 
-## `count(*)` を output field として指定して query する\{#query-with-count-as-the-output-field}
+## 出力フィールドとして `count(*)` を指定した Query\{#query-with-count-as-the-output-field}
 
-正確なエンティティ数を取得するには、collection を load し、`count(*)` を output field として指定して query を実行し、query の整合性レベルを `Strong` に設定します。
+正確なエンティティ数を取得するには、collection をロードし、出力フィールドとして `count(*)` を指定して query を実行し、その query の consistency level を `Strong` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -208,7 +208,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -253,13 +254,16 @@ if (!status.IsOk()) {
 std::cout << response.Results().GetRowCount() << std::endl;
 ```
 
-## `get_collection_stats()` を使用する\{#use-getcollectionstats}
+</TabItem>
+</Tabs>
 
-前述のとおり、`get_collection_stats()` は collection 内のエンティティ数の推定値を返すため、実際のエンティティ数とは異なる場合があります。collection を load せずに参照値として利用できます。 
+## `get_collection_stats()` を使用\{#use-getcollectionstats}
+
+前述のとおり、`get_collection_stats()` は collection 内の推定エンティティ数を返すため、実際のエンティティ数と異なる場合があります。collection をロードせずに参照値として利用できます。 
 
 以下の例では、`test_collection` という名前の collection が存在することを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -368,7 +372,8 @@ milvusClient.getCollectionStats({
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -399,45 +404,48 @@ if (!status.IsOk()) {
 std::cout << response.Stats().RowCount() << std::endl;
 ```
 
-## Zilliz Cloud コンソール上のエンティティ数\{#entity-counts-on-the-zilliz-cloud-console}
+</TabItem>
+</Tabs>
 
-プログラムでエンティティ数をカウントする代わりに、Zilliz Cloud コンソールにアクセスして、以下のページで cluster、collection、または partition のエンティティ数を確認することもできます。
+## Zilliz Cloud コンソールでのエンティティ数\{#entity-counts-on-the-zilliz-cloud-console}
+
+プログラムからエンティティをカウントする代わりに、Zilliz Cloud コンソールにアクセスして、以下のページで cluster、collection、または partition のエンティティ数を確認することもできます。
 
 ### Metrics\{#metrics}
 
-cluster の **Metrics** タブでは、**Entity Count** と **Loaded Entities (Approx.)** を確認できます。どちらの値も推定値です。グラフ上の値は、[`get_collection_stats()` を使用して](./count-entities#use-getcollectionstats)取得されています。以後データの insert や delete が行われなければ、**Entity Count** のグラフは最終的に現在の collection における実際のエンティティ数を反映します。
+cluster の **Metrics** タブでは、**Entity Count** と **Loaded Entities (Approx.)** を確認できます。どちらの値も推定値です。曲線上の値は、[`get_collection_stats()`](./count-entities#use-getcollectionstats)[ を使用して](./count-entities#use-getcollectionstats)取得されます。以後データの挿入や削除が行われなければ、**Entity Count** の曲線は最終的に現在の collection 内の実際のエンティティ数を反映します。
 
 ![ZVYcwdlqAhOUqDb4vC3c2Hf8n5e](https://zdoc-images.s3.us-west-2.amazonaws.com/ZVYcwdlqAhOUqDb4vC3c2Hf8n5e.png)
 
 ### Collection Details\{#collection-details}
 
-collection の詳細タブでは、その collection の実際のエンティティ数を確認できます。この値は、[`count(*)` を output field として指定した query](./count-entities)を使用して取得されています。
+collection の詳細タブでは、その collection の実際のエンティティ数を確認できます。この値は、[`count(*)`](./count-entities)[ を出力フィールドとする](./count-entities)[ query を使用して](./count-entities)取得されます。
 
 ![PfXfwGQoLhW0OBbVMMfccM0Qnaf](https://zdoc-images.s3.us-west-2.amazonaws.com/PfXfwGQoLhW0OBbVMMfccM0Qnaf.png)
 
 ### Partitions\{#partitions}
 
-collection の **Partitions** タブを使用して、子 partition に load されているエンティティ数の推定値を確認することもできます。この値は `get_partition_stats()` を使用して取得されます。
+collection の **Partitions** タブを使用して、その子 partition にロードされているエンティティの推定数を確認することもできます。この値は `get_partition_stats()` を使用して取得されます。
 
 ![LKThwnS2fhTj8vbFJpEcjAMunwf](https://zdoc-images.s3.us-west-2.amazonaws.com/LKThwnS2fhTj8vbFJpEcjAMunwf.png)
 
-## FAQs\{#faqs}
+## FAQ\{#faqs}
 
-- **エンティティを insert した後、get_collection_stats() または get_partition_stats() を使用して取得したエンティティ数が、なぜ対象の collection や partition の実際のエンティティ数を反映しないのですか？** 
+- **いくつかのエンティティを挿入した後でも、get_collection_stats() または get_partition_stats() を使用して取得したエンティティ数が、対象の collection または partition の実際のエンティティ数を反映しないのはなぜですか？** 
 
-    これらのメソッドは内部トラッカーが記録している内容を返すだけであり、すべてのデータ操作は非同期であるため、実際のエンティティ数と異なる場合があります。
+    これらのメソッドは内部トラッカーに記録されている内容のみを報告します。すべてのデータ操作は非同期であるため、実際のエンティティ数と異なる場合があります。
 
-- **エンティティを insert または delete した後、collection の Metrics タブにある Entity Count のグラフが変化しないのはなぜですか？**
+- **エンティティを挿入または削除しても、collection の Metrics タブにある Entity Count の曲線が変化しないのはなぜですか？**
 
-    **Entity Count** のグラフ内の値は、特定の時点における推定値です。すべてのデータ操作は非同期であるため、グラフに反映されるまでに遅延が生じる場合があります。
+    **Entity Count** の曲線上の値は、特定の時点における推定値です。すべてのデータ操作は非同期であるため、曲線に反映されるまでに遅延が生じる場合があります。
 
-- **エンティティを insert または delete した後、collection の Partitions タブにある Entity Count (Approx.) 列に表示される値が変化しないのはなぜですか？**
+- **エンティティを挿入または削除しても、collection の Partitions タブにある Entity Count (Approx.) 列に表示される値が変化しないのはなぜですか？**
 
-    一覧表示されている partition の値はすべて推定値です。すべてのデータ操作は非同期であるため、グラフに反映されるまでに遅延が生じる場合があります。
+    一覧表示される partition の値はすべて推定値です。すべてのデータ操作は非同期であるため、曲線に反映されるまでに遅延が生じる場合があります。
 
-- **collection の Overview タブに表示される Loaded Entities の値が、なぜ collection 内の実際のエンティティ数を反映しないのですか？**
+- **collection の Overview タブに表示される Loaded Entities の値が、collection 内の実際のエンティティ数を反映しないのはなぜですか？**
 
-    **Loaded Entities** に表示される値は正確です。この値と通常の query で取得したエンティティ数との間に差がある場合、その collection 内の一部のエンティティが同一の primary key を持っている可能性があります。 
+    **Loaded Entities** に表示される値は正確です。この値と通常の query で取得したエンティティ数の間に差がある場合、collection 内の一部のエンティティが同一の主キーを持っている可能性があります。 
 
-    `count(*)` を output field として指定した query は、同一の primary key を持つエンティティを別々のエンティティとして扱ってカウントします。一方、その他の query では、最終結果を返す前に同じ primary key を持つエンティティが除外されます。
+    `count(*)` を出力フィールドとする query は、同一の主キーを持つエンティティを別々のエンティティとして扱います。一方、その他の query では、最終結果を返す前に同じ主キーを持つエンティティが除外されます。
 

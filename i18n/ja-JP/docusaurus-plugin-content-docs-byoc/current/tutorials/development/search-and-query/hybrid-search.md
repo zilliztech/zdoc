@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "多くのアプリケーションでは、title や description のような豊富な情報セット、あるいはテキスト、画像、音声のような複数のモダリティによってオブジェクトを検索できます。たとえば、テキストと画像を含むツイートは、テキストまたは画像のいずれかが検索クエリの意味に一致すれば検索されるべきです。ハイブリッド検索は、これらの多様なフィールドを横断する検索を組み合わせることで検索体験を向上させます。Zilliz Cloud はこれをサポートしており、複数の vector フィールドに対する検索を可能にし、複数の Approximate Nearest Neighbor (ANN) 検索を同時に実行します。マルチベクトルハイブリッド検索は、テキストと画像の両方を検索したい場合、同じオブジェクトを説明する複数のテキストフィールドを検索したい場合、または dense ベクトルと sparse ベクトルを用いて検索品質を向上させたい場合に特に有効です。 | BYOC"
+description: "多くのアプリケーションでは、オブジェクトはタイトルや説明のような豊富な情報セット、あるいはテキスト、画像、音声のような複数のモダリティで検索できます。たとえば、テキストと画像を含むツイートは、テキストまたは画像のいずれかが検索クエリの意味に一致すれば検索対象となるべきです。ハイブリッド検索は、これらの多様なフィールドを横断した検索を組み合わせることで検索体験を向上させます。Zilliz Cloud は、複数の vector フィールドに対する検索を可能にし、複数の Approximate Nearest Neighbor (ANN) 検索を同時に実行することでこれをサポートします。マルチベクトルハイブリッド検索は、テキストと画像の両方を検索したい場合、同じオブジェクトを説明する複数のテキストフィールドを検索したい場合、または dense ベクトルと sparse ベクトルを用いて検索品質を改善したい場合に特に有用です。 | BYOC"
 type: origin
 token: WTsmwWdgOiKnwpkdZdScp093njh
 sidebar_position: 8
@@ -21,51 +21,51 @@ import TabItem from '@theme/TabItem';
 
 # マルチベクトルハイブリッド検索
 
-多くのアプリケーションでは、title や description のような豊富な情報セット、あるいはテキスト、画像、音声のような複数のモダリティによってオブジェクトを検索できます。たとえば、テキストと画像を含むツイートは、テキストまたは画像のいずれかが検索クエリの意味に一致すれば検索されるべきです。ハイブリッド検索は、これらの多様なフィールドを横断する検索を組み合わせることで検索体験を向上させます。Zilliz Cloud はこれをサポートしており、複数の vector フィールドに対する検索を可能にし、複数の Approximate Nearest Neighbor (ANN) 検索を同時に実行します。マルチベクトルハイブリッド検索は、テキストと画像の両方を検索したい場合、同じオブジェクトを説明する複数のテキストフィールドを検索したい場合、または dense ベクトルと sparse ベクトルを用いて検索品質を向上させたい場合に特に有効です。 
+多くのアプリケーションでは、オブジェクトはタイトルや説明のような豊富な情報セット、あるいはテキスト、画像、音声のような複数のモダリティで検索できます。たとえば、テキストと画像を含むツイートは、テキストまたは画像のいずれかが検索クエリの意味に一致すれば検索対象となるべきです。ハイブリッド検索は、これらの多様なフィールドを横断した検索を組み合わせることで検索体験を向上させます。Zilliz Cloud は、複数の vector フィールドに対する検索を可能にし、複数の Approximate Nearest Neighbor (ANN) 検索を同時に実行することでこれをサポートします。マルチベクトルハイブリッド検索は、テキストと画像の両方を検索したい場合、同じオブジェクトを説明する複数のテキストフィールドを検索したい場合、または dense ベクトルと sparse ベクトルを用いて検索品質を改善したい場合に特に有用です。 
 
 ![Qx7UwgI6jhrku8bAxZqcYxZMnSe](https://zdoc-images.s3.us-west-2.amazonaws.com/Qx7UwgI6jhrku8bAxZqcYxZMnSe.png)
 
-マルチベクトルハイブリッド検索は、さまざまなモダリティからの埋め込みをまたいで、異なる検索手法を統合します。
+マルチベクトルハイブリッド検索は、異なる検索手法を統合する、またはさまざまなモダリティの embedding をまたいで検索します。
 
-- **Sparse-Dense Vector Search**: [Dense Vector](./use-dense-vector) は意味的な関係を捉えるのに優れており、一方で [Sparse Vector](./use-sparse-vector) は正確なキーワードマッチングに非常に効果的です。ハイブリッド検索はこれらのアプローチを組み合わせることで、広い概念的理解と正確な用語の関連性の両方を提供し、検索結果を改善します。それぞれの手法の強みを活用することで、ハイブリッド検索は個別アプローチの限界を克服し、複雑なクエリに対してより優れた性能を提供します。セマンティック検索と全文検索を組み合わせたハイブリッド検索に関する、より詳細な[ガイド](https://milvus.io/docs/full_text_search_with_milvus.md)はこちらです。
+- **Sparse-Dense Vector Search**: [Dense Vector](./use-dense-vector) は意味的な関係を捉えるのに優れており、[Sparse Vector](./use-sparse-vector) は正確なキーワードマッチングに非常に効果的です。ハイブリッド検索はこれらのアプローチを組み合わせることで、広い概念理解と正確な用語関連性の両方を提供し、検索結果を改善します。各手法の強みを活用することで、ハイブリッド検索は個別アプローチの制限を克服し、複雑なクエリに対してより優れた性能を提供します。意味検索と全文検索を組み合わせたハイブリッド検索のより詳細な[ガイド](https://milvus.io/docs/full_text_search_with_milvus.md)はこちらです。
 
-- **Multimodal Vector Search**: マルチモーダル vector 検索は、テキスト、画像、音声など、さまざまなデータ型を横断して検索できる強力な技術です。このアプローチの主な利点は、異なるモダリティをシームレスで一貫した検索体験へと統合できることです。たとえば商品検索では、ユーザーはテキストと画像の両方で説明される商品を見つけるために、テキストクエリを入力することがあります。これらのモダリティをハイブリッド検索手法で組み合わせることで、検索精度を高めたり、検索結果をより豊かにしたりできます。
+- **Multimodal Vector Search**: マルチモーダル vector 検索は、テキスト、画像、音声など、さまざまなデータタイプをまたいで検索できる強力な手法です。このアプローチの主な利点は、異なるモダリティをシームレスで一貫した検索体験に統合できることです。たとえば商品検索では、ユーザーはテキストと画像の両方で説明された商品を見つけるためにテキストクエリを入力することがあります。これらのモダリティをハイブリッド検索手法で組み合わせることで、検索精度を高めたり、検索結果をより豊かにしたりできます。
 
-## 例\{#example}
+## Example\{#example}
 
-各商品にテキスト説明と画像が含まれている、実際のユースケースを考えてみましょう。利用可能なデータに基づいて、次の 3 種類の検索を実行できます。
+各商品にテキスト説明と画像が含まれている実世界のユースケースを考えてみましょう。利用可能なデータに基づき、次の 3 種類の検索を実行できます。
 
-- **Semantic Text Search:** これは、dense ベクトルを使用して商品のテキスト説明をクエリする方法です。テキスト埋め込みは、[BERT](https://zilliz.com/learn/explore-colbert-token-level-embedding-and-ranking-model-for-similarity-search?_gl=1*d243m9*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#A-Quick-Recap-of-BERT) や [Transformers](https://zilliz.com/learn/NLP-essentials-understanding-transformers-in-AI?_gl=1*d243m9*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.) のようなモデル、または [OpenAI](https://zilliz.com/learn/guide-to-using-openai-text-embedding-models) のようなサービスを使って生成できます。
+- **Semantic Text Search:** これは dense ベクトルを使用して商品のテキスト説明をクエリする方法です。テキスト embedding は、[BERT](https://zilliz.com/learn/explore-colbert-token-level-embedding-and-ranking-model-for-similarity-search?_gl=1*d243m9*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#A-Quick-Recap-of-BERT) や [Transformers](https://zilliz.com/learn/NLP-essentials-understanding-transformers-in-AI?_gl=1*d243m9*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.) のようなモデル、または [OpenAI](https://zilliz.com/learn/guide-to-using-openai-text-embedding-models) のようなサービスを使用して生成できます。
 
-- **Full-Text Search**: ここでは、sparse ベクトルを使ったキーワードマッチで商品のテキスト説明をクエリします。[BM25](https://zilliz.com/learn/mastering-bm25-a-deep-dive-into-the-algorithm-and-application-in-milvus) のようなアルゴリズムや、[BGE-M3](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings?_gl=1*1cde1oq*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#BGE-M3) や [SPLADE](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings?_gl=1*ov2die*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#SPLADE) のような sparse embedding モデルをこの目的に利用できます。
+- **Full-Text Search**: ここでは sparse ベクトルによるキーワードマッチを使用して商品のテキスト説明をクエリします。[BM25](https://zilliz.com/learn/mastering-bm25-a-deep-dive-into-the-algorithm-and-application-in-milvus) のようなアルゴリズムや、[BGE-M3](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings?_gl=1*1cde1oq*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#BGE-M3) や [SPLADE](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings?_gl=1*ov2die*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#SPLADE) のような sparse embedding モデルをこの目的に利用できます。
 
-- **Multimodal Image Search:** この方法では、dense ベクトルを使用して、テキストクエリで画像に対してクエリを実行します。画像埋め込みは、[CLIP](https://zilliz.com/learn/exploring-openai-clip-the-future-of-multimodal-ai-learning) のようなモデルで生成できます。
+- **Multimodal Image Search:** この方法では、dense ベクトルを使用してテキストクエリで画像をクエリします。画像 embedding は [CLIP](https://zilliz.com/learn/exploring-openai-clip-the-future-of-multimodal-ai-learning) のようなモデルで生成できます。
 
-このガイドでは、商品の生テキスト説明と画像埋め込みが与えられている前提で、上記の検索手法を組み合わせたマルチモーダルハイブリッド検索の例を説明します。マルチベクトルデータの保存方法と、再ランキング戦略を用いたハイブリッド検索の実行方法を紹介します。
+このガイドでは、商品テキストの生説明と画像 embedding が与えられた場合に、上記の検索手法を組み合わせたマルチモーダルハイブリッド検索の例を説明します。マルチベクトルデータの保存方法と、リランキング戦略を用いたハイブリッド検索の実行方法を示します。
 
-## 複数のベクトルフィールドを持つコレクションを作成する\{#create-a-collection-with-multiple-vector-fields}
+## 複数の vector フィールドを持つ collection を作成する\{#create-a-collection-with-multiple-vector-fields}
 
-collection を作成するプロセスには、主に 3 つのステップがあります。collection schema の定義、index パラメータの設定、そして collection の作成です。
+collection を作成するプロセスには、3 つの主要なステップがあります。collection schema の定義、index パラメータの設定、そして collection の作成です。
 
-### スキーマを定義する\{#define-schema}
+### schema を定義する\{#define-schema}
 
-マルチベクトルハイブリッド検索では、collection schema 内に複数の vector フィールドを定義する必要があります。collection に許可される vector フィールド数の制限の詳細については、[Zilliz Cloud Limits](./limits#fields) を参照してください。 
+マルチベクトルハイブリッド検索では、collection schema 内に複数の vector フィールドを定義する必要があります。collection に許可される vector フィールド数の制限についての詳細は、[Zilliz Cloud Limits](./limits#fields) を参照してください。 
 
-この例では、schema に次のフィールドを含めます。
+この例では、以下のフィールドを schema に組み込みます。
 
-- `id`: テキスト ID を保存するための主キーとして機能します。このフィールドのデータ型は `INT64` です。
+- `id`: テキスト ID を格納するための primary key として機能します。このフィールドのデータ型は `INT64` です。
 
-- `text`: テキストコンテンツを保存するために使用します。このフィールドのデータ型は `VARCHAR` で、最大長は 1000 バイトです。全文検索を容易にするため、`enable_analyzer` オプションは `True` に設定されています。
+- `text`: テキストコンテンツの格納に使用します。このフィールドのデータ型は `VARCHAR` で、最大長は 1000 バイトです。全文検索を容易にするため、`enable_analyzer` オプションは `True` に設定されています。
 
-- `text_dense`: テキストの dense ベクトルを保存するために使用します。このフィールドのデータ型は `FLOAT_VECTOR` で、vector 次元は 768 です。
+- `text_dense`: テキストの dense ベクトルを格納するために使用します。このフィールドのデータ型は `FLOAT_VECTOR` で、vector 次元は 768 です。
 
-- `text_sparse`: テキストの sparse ベクトルを保存するために使用します。このフィールドのデータ型は `SPARSE_FLOAT_VECTOR` です。
+- `text_sparse`: テキストの sparse ベクトルを格納するために使用します。このフィールドのデータ型は `SPARSE_FLOAT_VECTOR` です。
 
-- `image_dense`: 商品画像の dense ベクトルを保存するために使用します。このフィールドのデータ型は `FLOAT_VETOR` で、vector 次元は 512 です。
+- `image_dense`: 商品画像の dense ベクトルを格納するために使用します。このフィールドのデータ型は `FLOAT_VETOR` で、vector 次元は 512 です。
 
-テキストフィールドに対して組み込みの BM25 アルゴリズムを使用して全文検索を行うため、schema に Milvus の `Function` を追加する必要があります。詳細については、[Full Text Search](./full-text-search) を参照してください。
+組み込みの BM25 アルゴリズムを使用して text フィールドに対する全文検索を実行するため、schema に Milvus `Function` を追加する必要があります。詳細については、[Full Text Search](./full-text-search) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -325,7 +325,8 @@ export schema='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -351,17 +352,20 @@ schema->AddField({"text_sparse", milvus::DataType::SPARSE_FLOAT_VECTOR});
 schema->AddField(milvus::FieldSchema("image_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(512));
 ```
 
-### インデックスの作成\{#create-index}
+</TabItem>
+</Tabs>
 
-collection スキーマを定義したら、次のステップは vector index を設定し、類似度メトリクスを指定することです。以下の例では次のようになります。
+### index を作成する\{#create-index}
 
-- `text_dense_index`: `IP` metric type を持つ `AUTOINDEX` タイプの index が、テキスト dense vector フィールド用に作成されます。
+collection schema を定義した後の次のステップは、vector index を設定し、類似度メトリクスを指定することです。次の例では以下を使用します。
 
-- `text_sparse_index`: `BM25` metric type を持つ `SPARSE_INVERTED_INDEX` タイプの index が、テキスト sparse vector フィールド用に使用されます。
+- `text_dense_index`: タイプ `AUTOINDEX`、メトリクスタイプ `IP` の index を text dense vector フィールド用に作成します。
 
-- `image_dense_index`: `IP` metric type を持つ `AUTOINDEX` タイプの index が、画像 dense vector フィールド用に作成されます。
+- `text_sparse_index`: タイプ `SPARSE_INVERTED_INDEX`、メトリクスタイプ `BM25` の index を text sparse vector フィールド用に使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+- `image_dense_index`: タイプ `AUTOINDEX`、メトリクスタイプ `IP` の index を image dense vector フィールド用に作成します。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -500,7 +504,8 @@ export indexParams='[
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 std::vector<milvus::IndexDesc> indexes = {
@@ -510,11 +515,14 @@ std::vector<milvus::IndexDesc> indexes = {
 };
 ```
 
-### collection の作成\{#create-collection}
+</TabItem>
+</Tabs>
 
-前の 2 つのステップで設定した collection スキーマと indexes を使用して、`demo` という名前の collection を作成します。
+### コレクションの作成\{#create-collection}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+前の 2 つのステップで設定したコレクションスキーマとインデックスを使用して、`demo` という名前のコレクションを作成します。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -585,7 +593,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
@@ -597,23 +606,26 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## データの挿入\{#insert-data}
 
-このセクションでは、先ほど定義したスキーマに基づいて `my_collection` collection にデータを挿入します。挿入時には、自動生成される値を持つフィールドを除き、すべてのフィールドに正しい形式のデータを指定してください。この例では次のとおりです。
+このセクションでは、先ほど定義したスキーマに基づいて `my_collection` コレクションにデータを挿入します。挿入時には、自動生成される値を持つフィールドを除き、すべてのフィールドに対して正しい形式のデータを指定してください。この例では次のとおりです。
 
 - `id`: 製品 ID を表す整数
 
 - `text`: 製品説明を含む文字列
 
-- `text_dense`: テキスト説明の dense embedding を表す 768 個の浮動小数点値のリスト
+- `text_dense`: テキスト説明の密ベクトル埋め込みを表す 768 個の浮動小数点値のリスト
 
-- `image_dense`: 製品画像の dense embedding を表す 512 個の浮動小数点値のリスト
+- `image_dense`: 製品画像の密ベクトル埋め込みを表す 512 個の浮動小数点値のリスト
 
-各フィールドの dense embedding を生成するために、同じモデルを使用しても異なるモデルを使用してもかまいません。この例では 2 つの dense embedding の次元数が異なるため、異なるモデルによって生成されたことが示唆されます。後で各検索を定義する際には、対応するモデルを使用して適切なクエリ embedding を生成するようにしてください。
+各フィールドの密ベクトル埋め込みの生成には、同じモデルまたは異なるモデルを使用できます。この例では、2 つの密ベクトル埋め込みの次元数が異なっており、異なるモデルによって生成されたことを示しています。後で各検索を定義する際には、対応するモデルを使用して適切なクエリ埋め込みを生成してください。
 
-この例では、組み込みの BM25 関数を使用して text フィールドから sparse embedding を生成しているため、sparse vector を手動で指定する必要はありません。ただし、BM25 を使用しない場合は、事前に sparse embedding を計算して自分で指定する必要があります。
+この例では、組み込みの BM25 関数を使用して text フィールドから疎ベクトル埋め込みを生成しているため、疎ベクトルを手動で指定する必要はありません。ただし、BM25 を使用しない場合は、疎ベクトル埋め込みを事前計算して自分で指定する必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -755,7 +767,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include <random>
@@ -788,29 +801,32 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## ハイブリッド検索の実行\{#perform-hybrid-search}
 
 ### ステップ 1: 複数の AnnSearchRequest インスタンスを作成する\{#step-1-create-multiple-annsearchrequest-instances}
 
-ハイブリッド検索は `hybrid_search()` 関数内で複数の `AnnSearchRequest` を作成することで実装され、それぞれの `AnnSearchRequest` は特定の vector フィールドに対する基本的な ANN 検索リクエストを表します。そのため、ハイブリッド検索を実行する前に、各 vector フィールドに対する `AnnSearchRequest` を作成する必要があります。
+ハイブリッド検索は、`hybrid_search()` 関数内で複数の `AnnSearchRequest` を作成することで実装されます。各 `AnnSearchRequest` は、特定のベクトルフィールドに対する基本的な ANN 検索リクエストを表します。したがって、ハイブリッド検索を実行する前に、各ベクトルフィールドに対して `AnnSearchRequest` を作成する必要があります。
 
-さらに、`AnnSearchRequest` の `expr` パラメータを設定することで、ハイブリッド検索のフィルタリング条件を指定できます。詳しくは [フィルタ付き検索](./filtered-search) および [フィルタリングの説明](./filtering-overview) を参照してください。
+さらに、`AnnSearchRequest` で `expr` パラメータを設定することで、ハイブリッド検索のフィルタリング条件を設定できます。[Filtered Search](./filtered-search) および [Filtering Explained](./filtering-overview) を参照してください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
 ハイブリッド検索では、各 `AnnSearchRequest` は 1 つのクエリデータのみをサポートします。
 
 </Admonition>
 
-さまざまな検索 vector フィールドの機能を示すために、サンプルクエリを使って 3 つの `AnnSearchRequest` 検索リクエストを構築します。また、この処理では事前計算済みの dense vector も使用します。検索リクエストの対象となる vector フィールドは次のとおりです。
+さまざまな検索ベクトルフィールドの機能を示すために、サンプルクエリを使用して 3 つの `AnnSearchRequest` 検索リクエストを構築します。このプロセスでは、事前計算済みの密ベクトルも使用します。検索リクエストの対象となるベクトルフィールドは次のとおりです。
 
-- `text_dense` はセマンティックなテキスト検索用で、直接的なキーワード一致ではなく意味に基づく文脈理解と検索を可能にします。
+- `text_dense`: セマンティックテキスト検索用。直接的なキーワード一致ではなく、意味に基づいた文脈理解と取得を可能にします。
 
-- `text_sparse` は全文検索またはキーワード一致用で、テキスト内の単語やフレーズの正確な一致に重点を置きます。
+- `text_sparse`: 全文検索またはキーワード一致用。テキスト内の単語やフレーズの正確な一致に重点を置きます。
 
-- `image_dense` はマルチモーダルな text-to-image 検索用で、クエリの意味内容に基づいて関連する製品画像を取得します。
+- `image_dense`: マルチモーダルな text-to-image 検索用。クエリの意味内容に基づいて関連する製品画像を取得します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -957,7 +973,8 @@ export req='[
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto query_text = "white headphones, quiet and comfortable";
@@ -980,15 +997,18 @@ auto sub_req3 = milvus::SubSearchRequest()
                     .WithLimit(2);
 ```
 
+</TabItem>
+</Tabs>
+
 `limit` パラメータが 2 に設定されているため、各 `AnnSearchRequest` は 2 件の検索結果を返します。この例では 3 つの `AnnSearchRequest` インスタンスが作成されるため、合計 6 件の検索結果になります。
 
-### ステップ 2: 再ランキング戦略を設定する\{#step-2-configure-a-reranking-strategy}
+### ステップ 2: reranking 戦略を設定する\{#step-2-configure-a-reranking-strategy}
 
-ANN 検索結果の各セットをマージして再ランキングするには、適切な再ランキング戦略を選択することが重要です。Zilliz Cloud は複数種類の再ランキング戦略を提供しています。これらの再ランキングメカニズムの詳細については、[Weighted Ranker](./reranking-weighted-reranker) または [RRF Ranker](./reranking-rrf) を参照してください。 
+ANN 検索結果のセットをマージして rerank するには、適切な reranking 戦略を選択することが重要です。Zilliz Cloud では、いくつかの種類の reranking 戦略を提供しています。これらの reranking メカニズムの詳細については、[Weighted Ranker](./reranking-weighted-reranker) または [RRF Ranker](./reranking-rrf) を参照してください。 
 
-この例では、特定の検索クエリを特に重視していないため、RRFRanker 戦略を使用します。
+この例では、特定の検索クエリを特に重視しないため、RRFRanker 戦略を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1074,17 +1094,21 @@ export ranker='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto ranker = std::make_shared<milvus::RRFRerank>(100);
 ```
 
-### ステップ 3: ハイブリッド検索を実行する\{#step-3-perform-a-hybrid-search}
+</TabItem>
+</Tabs>
 
-ハイブリッド検索を開始する前に、collection がロードされていることを確認してください。collection 内のいずれかの vector フィールドに index がない、またはメモリにロードされていない場合、ハイブリッド検索メソッドの実行時にエラーが発生します。
+### ステップ 3: Hybrid Search を実行する\{#step-3-perform-a-hybrid-search}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+Hybrid Search を開始する前に、collection がロードされていることを確認してください。collection 内のいずれかの vector field に index がない、またはメモリにロードされていない場合、Hybrid Search メソッドの実行時にエラーが発生します。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1185,7 +1209,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto request = milvus::HybridSearchRequest()
@@ -1212,11 +1237,14 @@ for (auto& result : response.Results().Results()) {
 }
 ```
 
-出力は次のとおりです。
+</TabItem>
+</Tabs>
+
+以下は出力です。
 
 ```python
 ["['id: 1, distance: 0.006047376897186041, entity: {}', 'id: 2, distance: 0.006422005593776703, entity: {}']"]
 ```
 
-ハイブリッド検索に対して `limit=2` パラメータが指定されているため、Zilliz Cloud は 3 つの検索から得られた 6 件の結果を再ランキングします。最終的には、最も類似度の高い上位 2 件の結果だけが返されます。
+Hybrid Search に対して `limit=2` パラメータを指定すると、Zilliz Cloud は 3 回の検索で得られた 6 件の結果を rerank します。最終的に、最も類似度の高い上位 2 件の結果のみを返します。
 

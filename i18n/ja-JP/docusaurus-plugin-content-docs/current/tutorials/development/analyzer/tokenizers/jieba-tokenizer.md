@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`jieba` トークナイザーは、中国語テキストを構成単語に分割して処理します。 | Cloud"
+description: "`jieba` tokenizer は中国語テキストを構成する単語に分割して処理します。 | Cloud"
 type: origin
 token: JGURwBQNOijp2DkspFFctbAGnLh
 sidebar_position: 3
@@ -21,23 +21,23 @@ import TabItem from '@theme/TabItem';
 
 # Jieba
 
-`jieba` トークナイザーは、中国語テキストを構成単語に分割して処理します。
+`jieba` tokenizer は、中国語テキストを構成する単語に分割して処理します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注意">
 
-`jieba` トークナイザーは、出力内で句読点を個別のトークンとして保持します。たとえば、`"你好！世界。"` は `["你好", "！", "世界", "。"]` になります。これらの独立した句読点トークンを削除するには、[`removepunct`](./remove-punct-filter) フィルターを使用します。
+`jieba` tokenizer は、句読点を出力内で個別のトークンとして保持します。たとえば、`"你好！世界。"` は `["你好", "！", "世界", "。"]` になります。これらの独立した句読点トークンを削除するには、[`removepunct`](./remove-punct-filter) フィルターを使用してください。
 
 </Admonition>
 
-## 設定\{#configuration}
+## Configuration\{#configuration}
 
-Milvus は、`jieba` トークナイザーに対して 2 つの設定方法をサポートしています。シンプルな設定とカスタム設定です。
+Milvus は、`jieba` tokenizer に対して 2 つの設定方法をサポートしています。シンプル設定とカスタム設定です。
 
-### シンプルな設定\{#simple-configuration}
+### Simple configuration\{#simple-configuration}
 
-シンプルな設定では、トークナイザーを `"jieba"` に設定するだけで済みます。例:
+シンプル設定では、tokenizer を `"jieba"` に設定するだけで済みます。例:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -86,7 +86,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -94,9 +95,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-このシンプルな設定は、次のカスタム設定と同等です。
+</TabItem>
+</Tabs>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+このシンプル設定は、以下のカスタム設定と同等です。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -146,7 +150,8 @@ analyzerParams = map[string]any{"type": "jieba", "dict": []any{"_default_"}, "mo
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -157,13 +162,16 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-パラメーターの詳細については、[カスタム設定](./jieba-tokenizer#custom-configuration)を参照してください。
+</TabItem>
+</Tabs>
 
-### カスタム設定\{#custom-configuration}
+パラメーターの詳細については、[Custom configuration](./jieba-tokenizer#custom-configuration) を参照してください。
 
-より細かく制御するには、カスタム辞書の指定、分割モードの選択、Hidden Markov Model (HMM) の有効化または無効化を行えるカスタム設定を提供できます。例:
+### Custom configuration\{#custom-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+より細かく制御したい場合は、カスタム設定を指定できます。これにより、カスタム辞書の指定、分割モードの選択、Hidden Markov Model (HMM) の有効化または無効化が可能になります。例:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -224,7 +232,8 @@ analyzerParams := map[string]interface{}{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzerParams = {                                                                                              
@@ -237,6 +246,9 @@ nlohmann::json analyzerParams = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 <table>
    <tr>
      <th><p>パラメーター</p></th>
@@ -245,42 +257,42 @@ nlohmann::json analyzerParams = {
    </tr>
    <tr>
      <td><p><code>type</code></p></td>
-     <td><p>トークナイザーのタイプです。これは <code>"jieba"</code> に固定されています。</p></td>
+     <td><p>tokenizer のタイプです。これは <code>"jieba"</code> に固定されています。</p></td>
      <td><p><code>"jieba"</code></p></td>
    </tr>
    <tr>
      <td><p><code>dict</code></p></td>
-     <td><p>アナライザーが語彙ソースとしてロードする辞書のリストです。組み込みオプション:</p><ul><li><p><code>"_default_"</code>: エンジンの組み込み簡体字中国語辞書をロードします。詳細については、<a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a> を参照してください。</p></li><li><p><code>"_extend_default_"</code>: <code>"_default_"</code> のすべてに加えて、追加の繁体字中国語補助辞書をロードします。詳細については、<a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a> を参照してください。</p><p>組み込み辞書と任意の数のカスタム辞書を組み合わせることもできます。例: <code>["_default_", "结巴分词器"]</code>。</p></li></ul></td>
+     <td><p>analyzer が語彙ソースとして読み込む辞書のリストです。組み込みオプション:</p><ul><li><p><code>"_default_"</code>: エンジンに組み込まれている簡体字中国語辞書を読み込みます。詳細は <a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a> を参照してください。</p></li><li><p><code>"_extend_default_"</code>: <code>"_default_"</code> のすべてに加えて、繁体字中国語の追加辞書を読み込みます。詳細は <a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a> を参照してください。</p><p>また、組み込み辞書と任意個のカスタム辞書を混在させることもできます。例: <code>["_default_", "结巴分词器"]</code>。</p></li></ul></td>
      <td><p><code>["_default_"]</code></p></td>
    </tr>
    <tr>
      <td><p><code>mode</code></p></td>
-     <td><p>分割モードです。使用可能な値:</p><ul><li><p><code>"exact"</code>: 文を最も正確な方法で分割しようとするため、テキスト分析に最適です。</p></li><li><p><code>"search"</code>: exact モードを基に、長い単語をさらに分割して再現率を向上させるため、検索エンジンのトークン化に適しています。</p><p>詳細については、<a href="https://github.com/fxsjy/jieba">Jieba GitHub Project</a> を参照してください。</p></li></ul></td>
+     <td><p>分割モードです。指定可能な値:</p><ul><li><p><code>"exact"</code>: 文をできるだけ正確に分割しようとするため、テキスト分析に最適です。</p></li><li><p><code>"search"</code>: exact モードをベースに長い単語をさらに分割して再現率を向上させるため、検索エンジンの tokenization に適しています。</p><p>詳細は <a href="https://github.com/fxsjy/jieba">Jieba GitHub Project</a> を参照してください。</p></li></ul></td>
      <td><p><code>"search"</code></p></td>
    </tr>
    <tr>
      <td><p><code>hmm</code></p></td>
-     <td><p>辞書にない単語の確率的分割に Hidden Markov Model (HMM) を有効にするかどうかを示すブールフラグです。</p></td>
+     <td><p>辞書に存在しない単語を確率的に分割するために Hidden Markov Model (HMM) を有効にするかどうかを示すブールフラグです。</p></td>
      <td><p><code>true</code></p></td>
    </tr>
 </table>
 
-大規模なカスタム語彙を `dict` でインライン化する代わりに外部ファイルからロードするには、下記の[辞書ファイルを使用したカスタム設定](./jieba-tokenizer#custom-configuration-with-a-dictionary-file)を参照してください。
+大規模なカスタム語彙を `dict` でインライン指定する代わりに外部ファイルから読み込むには、以下の [Custom configuration with a dictionary file](./jieba-tokenizer#custom-configuration-with-a-dictionary-file) を参照してください。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は効率的なトークン化とフィルタリングのために、指定されたアナライザーを使用してそのフィールド内のテキストを処理できます。詳細については、[使用例](./analyzer-overview#example-use)を参照してください。
+`analyzer_params` を定義したら、collection schema の定義時にそれを `VARCHAR` フィールドへ適用できます。これにより Zilliz Cloud は、効率的な tokenization と filtering のために、指定された analyzer を使ってそのフィールド内のテキストを処理できます。詳細は [Example use](./analyzer-overview#example-use) を参照してください。
 
-### 辞書ファイルを使用したカスタム設定 | PRIVATE\{#custom-configuration-with-a-dictionary-file}
+### Custom configuration with a dictionary file | PRIVATE\{#custom-configuration-with-a-dictionary-file}
 
-大規模なカスタム語彙（ドメイン用語集、製品用語、固有名詞リストなど）の場合、単語をファイルに保存し、そのファイルをリモートファイルリソースとして登録してから、`extra_dict_file` パラメーターを介してトークナイザーから参照します。アナライザーは、組み込み辞書に加えて、これらの単語を語彙にロードします。
+大規模なカスタム語彙 — ドメイン用語集、製品用語、固有名詞リストなど — については、単語をファイルに保存し、そのファイルをリモートファイルリソースとして登録したうえで、tokenizer から `extra_dict_file` パラメーターを通じて参照します。analyzer は、これらの単語を組み込み辞書に加えて語彙へ読み込みます。
 
-ファイルは、1 行に 1 つの用語を含むプレーン UTF‑8 テキストです。例:
+ファイルは UTF‑8 のプレーンテキストで、1 行につき 1 つの用語を記述します。例:
 
 ```plaintext
 结巴分词器
 向量数据库
 ```
 
-Milvus クラスターが使用するように設定されているオブジェクトストアにファイルをアップロードし、それを登録します。
+ファイルを、Milvus cluster が使用するよう設定されているオブジェクトストアへアップロードし、その後登録します:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -340,7 +352,7 @@ client.add_file_resource(
 </TabItem>
 </Tabs>
 
-`extra_dict_file` を介して、登録済みリソースをトークナイザーで参照します。
+`extra_dict_file` を通じて、登録済みリソースを tokenizer で参照します:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -407,23 +419,23 @@ client.run_analyzer(["milvus结巴分词器中文测试"], analyzer_params)
 </TabItem>
 </Tabs>
 
-`extra_dict_file` パラメーターは、次のフィールドを持つオブジェクトを受け入れます。
+`extra_dict_file` パラメーターは、以下のフィールドを持つオブジェクトを受け付けます:
 
-| フィールド | 説明 |
+| Field | Description |
 | --- | --- |
-| `type` | リソースタイプです。`add_file_resource` を介して登録されたファイルには `"remote"` を使用します。セルフホストデプロイメントで使用される `"local"` バリアントについては、[ファイルリソースの管理](./manage-file-resources)を参照してください。 |
-| `resource_name` | ファイルが `add_file_resource` で登録されたときに使用された名前です。 |
-| `file_name` | 登録済みリソースのオブジェクトストアパスのファイル名部分です（たとえば、リソースが `path="file/zh_terms.txt"` で登録された場合は `"zh_terms.txt"`）。 |
+| `type` | リソースのタイプです。`add_file_resource` で登録したファイルには `"remote"` を使用します。セルフホスト環境で使用される `"local"` バリアントについては、[Manage File Resources](./manage-file-resources) を参照してください。 |
+| `resource_name` | ファイルを `add_file_resource` で登録したときに使用した名前です。 |
+| `file_name` | 登録済みリソースのオブジェクトストアパスにおけるファイル名部分です（たとえば、`path="file/zh_terms.txt"` でリソースを登録した場合は `"zh_terms.txt"`）。 |
 
-`extra_dict_file` を介して追加された単語は組み込み辞書とマージされるため、jieba の分割アルゴリズムは既存のエントリと並んでそれらを認識します。特定の用語がスタンドアロンのトークンとして表れるかどうかは、jieba の確率重み付き DAG 選択に依存します。`向量数据库` のような長いカスタム用語でも、組み込み辞書内でより短いエントリの頻度が高い場合、`向量` + `数据库` に分割されることがあります。
+`extra_dict_file` で追加された単語は組み込み辞書とマージされるため、jieba の分割アルゴリズムは既存エントリと並べてそれらを認識します。ただし、特定の用語が単独トークンとして現れるかどうかは、jieba の確率重み付き DAG 選択に依存します。`向量数据库` のような長いカスタム用語であっても、組み込み辞書内の短いエントリの頻度が高い場合は `向量` + `数据库` に分割されることがあります。
 
-## 例\{#examples}
+## Examples\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認します。
+analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使ってその動作を確認してください。
 
-### アナライザー設定\{#analyzer-configuration}
+### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -483,7 +495,8 @@ analyzerParams := map[string]interface{}{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzerParams = {
@@ -496,9 +509,12 @@ nlohmann::json analyzerParams = {
 };
 ```
 
-### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
+</TabItem>
+</Tabs>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -596,7 +612,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -620,6 +637,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ### 期待される出力\{#expected-output}
 

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`icu` tokenizer は、ソフトウェアの国際化に重要なツールを提供する Internationalization Components of Unicode オープンソースプロジェクトを基盤としています。ICU の単語分割アルゴリズムを使用することで、この tokenizer は世界中の大多数の言語のテキストを単語に正確に分割できます。 | Cloud"
+description: "`icu` tokenizer は、ソフトウェアの国際化のための重要なツールを提供する Internationalization Components of Unicode オープンソースプロジェクト上に構築されています。ICU の word-break アルゴリズムを使用することで、この tokenizer は世界の大半の言語においてテキストを単語へ正確に分割できます。 | Cloud"
 type: origin
 token: Q3gKwc5lkilAbKkalCWcW2AbnLe
 sidebar_position: 5
@@ -21,19 +21,19 @@ import TabItem from '@theme/TabItem';
 
 # ICU
 
-`icu` tokenizer は、ソフトウェアの国際化に重要なツールを提供する [Internationalization Components of Unicode](http://site.icu-project.org/) (ICU) オープンソースプロジェクトを基盤としています。ICU の単語分割アルゴリズムを使用することで、この tokenizer は世界中の大多数の言語のテキストを単語に正確に分割できます。
+`icu` tokenizer は、ソフトウェアの国際化のための重要なツールを提供する [Internationalization Components of Unicode](http://site.icu-project.org/)（ICU）オープンソースプロジェクト上に構築されています。ICU の word-break アルゴリズムを使用することで、この tokenizer は世界の大半の言語においてテキストを単語へ正確に分割できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注">
 
-`icu` tokenizer は、出力内で句読点記号とスペースを個別の token として保持します。たとえば、`"Привет! Как дела?"` は `["Привет", "!", " ", "Как", " ", "дела", "?"]` になります。これらの独立した句読点 token を削除するには、[`removepunct`](./remove-punct-filter) filter を使用します。
+`icu` tokenizer は、句読点や空白を出力内で個別の token として保持します。たとえば、`"Привет! Как дела?"` は `["Привет", "!", " ", "Как", " ", "дела", "?"]` になります。これらの独立した句読点 token を削除するには、[`removepunct`](./remove-punct-filter) filter を使用してください。
 
 </Admonition>
 
-## 設定\{#configuration}
+## Configuration\{#configuration}
 
 `icu` tokenizer を使用して analyzer を設定するには、`analyzer_params` で `tokenizer` を `icu` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -76,7 +76,8 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -84,9 +85,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`icu` tokenizer は、1 つ以上の filter と組み合わせて動作できます。たとえば、次のコードは `icu` tokenizer と [remove punct filter](./remove-punct-filter) を使用する analyzer を定義します。
+</TabItem>
+</Tabs>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+`icu` tokenizer は、1 つ以上の filter と組み合わせて使用できます。たとえば、次のコードは `icu` tokenizer と [remove punct filter](./remove-punct-filter) を使用する analyzer を定義しています。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -131,7 +135,8 @@ analyzerParams = map[string]any{"tokenizer": "icu", "filter": []string{"removepu
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -140,15 +145,18 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的な tokenization と filtering を実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+</TabItem>
+</Tabs>
 
-## 例\{#examples}
+`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` field に適用できます。これにより、Zilliz Cloud はその field 内のテキストを、指定された analyzer を使って効率的に tokenization および filtering できるようになります。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+## Examples\{#examples}
 
-### Analyzer 設定\{#analyzer-configuration}
+analyzer の設定を collection schema に適用する前に、`run_analyzer` method を使用してその動作を検証してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+### Analyzer configuration\{#analyzer-configuration}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -191,7 +199,8 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -199,9 +208,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -299,7 +311,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -324,7 +337,10 @@ if (!status.IsOk()) {
 }
 ```
 
-### 期待される出力\{#expected-output}
+</TabItem>
+</Tabs>
+
+### Expected output\{#expected-output}
 
 ```plaintext
 ['Привет', '!', ' ', 'Как', ' ', 'дела', '?']

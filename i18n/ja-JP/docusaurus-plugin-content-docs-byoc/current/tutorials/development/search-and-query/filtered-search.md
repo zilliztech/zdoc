@@ -1,13 +1,13 @@
 ---
-title: "Filtered Search | BYOC"
+title: "フィルタ付き検索 | BYOC"
 slug: /filtered-search
-sidebar_label: "Filtered Search"
+sidebar_label: "フィルタ付き検索"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ANN search は、指定された vector 埋め込みに最も類似する vector 埋め込みを見つけます。ただし、検索結果が常に正しいとは限りません。検索リクエストにフィルタリング条件を含めることで、Zilliz Cloud は ANN search を実行する前にメタデータフィルタリングを行い、検索範囲を collection 全体から、指定されたフィルタリング条件に一致する entity のみに絞り込めます。 | BYOC"
+description: "ANN 検索は、指定された vector 埋め込みに最も類似した vector 埋め込みを見つけます。ただし、検索結果が常に正しいとは限りません。検索リクエストにフィルタ条件を含めることで、Zilliz Cloud は ANN 検索を実行する前にメタデータのフィルタリングを行い、検索範囲を collection 全体から、指定されたフィルタ条件に一致する entity のみに絞り込むことができます。 | BYOC"
 type: origin
 token: CpBbwcJ87irHp0k9oCSc2RNIn3d
 sidebar_position: 4
@@ -19,43 +19,43 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Filtered Search
+# フィルタ付き検索
 
-ANN search は、指定された vector 埋め込みに最も類似する vector 埋め込みを見つけます。ただし、検索結果が常に正しいとは限りません。検索リクエストにフィルタリング条件を含めることで、Zilliz Cloud は ANN search を実行する前にメタデータフィルタリングを行い、検索範囲を collection 全体から、指定されたフィルタリング条件に一致する entity のみに絞り込めます。
+ANN 検索は、指定された vector 埋め込みに最も類似した vector 埋め込みを見つけます。ただし、検索結果が常に正しいとは限りません。検索リクエストにフィルタ条件を含めることで、Zilliz Cloud は ANN 検索を実行する前にメタデータのフィルタリングを行い、検索範囲を collection 全体から、指定されたフィルタ条件に一致する entity のみに絞り込むことができます。
 
 ## Overview\{#overview}
 
-Zilliz Cloud では、filtered search はフィルタリングが適用される段階に応じて、**standard filtering** と **iterative filtering** の 2 種類に分類されます。
+Zilliz Cloud では、フィルタが適用される段階に応じて、フィルタ付き検索は **standard filtering** と **iterative filtering** の 2 種類に分類されます。
 
 ### Standard filtering\{#standard-filtering}
 
-collection に vector 埋め込みとそのメタデータの両方が含まれている場合、ANN search の前にメタデータをフィルタリングして、検索結果の関連性を向上させることができます。Zilliz Cloud がフィルタリング条件を含む検索リクエストを受信すると、指定されたフィルタリング条件に一致する entity に検索範囲を限定します。
+collection に vector 埋め込みとそのメタデータの両方が含まれている場合、ANN 検索の前にメタデータをフィルタリングして検索結果の関連性を高めることができます。Zilliz Cloud がフィルタ条件を含む検索リクエストを受け取ると、指定されたフィルタ条件に一致する entity の範囲内に検索対象を制限します。
 
 ![QIeKwvDN1h7lTnb9iJ7cPubknrb](https://zdoc-images.s3.us-west-2.amazonaws.com/QIeKwvDN1h7lTnb9iJ7cPubknrb.png)
 
-上の図に示すように、検索リクエストにはフィルタリング条件として `chunk like "%red%"` が含まれており、これは Zilliz Cloud が `chunk` フィールドに `red` という単語を含むすべての entity の中で ANN search を実行することを示しています。具体的には、Zilliz Cloud は次の処理を行います。
+上の図に示すように、検索リクエストはフィルタ条件として `chunk like "%red%"` を含んでおり、これは Zilliz Cloud が `chunk` フィールドに `red` という単語を含むすべての entity を対象に ANN 検索を実行することを意味します。具体的には、Zilliz Cloud は次の処理を行います。
 
-- 検索リクエストに含まれるフィルタリング条件に一致する entity をフィルタリングします。
+- 検索リクエストに含まれるフィルタ条件に一致する entity をフィルタリングします。
 
-- フィルタリング後の entity 内で ANN search を実行します。
+- フィルタリングされた entity の範囲内で ANN 検索を実行します。
 
 - top-K の entity を返します。
 
 ### Iterative filtering\{#iterative-filtering}
 
-standard filtering のプロセスは、検索範囲を小さな範囲に効果的に絞り込みます。ただし、フィルタリング式が過度に複雑な場合、検索レイテンシが非常に高くなることがあります。このような場合、iterative filtering を代替手段として利用でき、scalar filtering の負荷軽減に役立ちます。
+standard filtering の処理は、検索範囲を小さな範囲に効果的に絞り込みます。ただし、フィルタ式が複雑すぎる場合、検索レイテンシが非常に高くなる可能性があります。そのような場合、iterative filtering を代替手段として利用することで、scalar filtering の負荷を軽減できます。
 
 ![AOJ0wZxInhw0z8bZJtWcHMpfnCh](https://zdoc-images.s3.us-west-2.amazonaws.com/AOJ0wZxInhw0z8bZJtWcHMpfnCh.png)
 
-上の図に示すように、iterative filtering を伴う検索では、vector search を反復的に実行します。iterator が返す各 entity に対して scalar filtering が行われ、このプロセスは指定された topK の結果が得られるまで継続されます。
+上の図のように、iterative filtering を用いた検索では、vector 検索を反復的に実行します。iterator によって返された各 entity は scalar filtering を受け、この処理は指定された topK の結果が得られるまで続きます。
 
-この方法では、scalar filtering の対象となる entity 数が大幅に減少するため、特に非常に複雑なフィルタリング式を扱う場合に有効です。
+この方法では、scalar filtering の対象となる entity の数を大幅に減らせるため、特に非常に複雑なフィルタ式を扱う場合に有効です。
 
-ただし、iterator は entity を 1 件ずつ処理する点に注意が必要です。この逐次的なアプローチにより、特に多数の entity が scalar filtering の対象となる場合、処理時間が長くなったり、パフォーマンス上の問題が発生したりする可能性があります。
+ただし、iterator は entity を 1 件ずつ処理する点に注意が必要です。この逐次的なアプローチは、特に多数の entity が scalar filtering の対象となる場合に、処理時間の増加やパフォーマンス上の問題につながる可能性があります。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-このセクションでは、filtered search の実行方法を示します。このセクションのコードスニペットでは、collection にすでに以下の entity が存在していることを前提としています。各 entity には **id**、**vector**、**color**、**likes** の 4 つのフィールドがあります。
+このセクションでは、フィルタ付き検索を実行する方法を示します。このセクションのコードスニペットでは、すでに collection に以下の entity が存在していることを前提としています。各 entity には、**id**、**vector**、**color**、**likes** の 4 つのフィールドがあります。
 
 ```json
 [
@@ -72,17 +72,17 @@ standard filtering のプロセスは、検索範囲を小さな範囲に効果�
 ]
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注意">
 
-クエリ vector がすでに対象の collection 内に存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
+クエリ vector がすでに対象の collection に存在する場合は、検索前に取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
 
 </Admonition>
 
-### Search with standard filtering\{#search-with-standard-filtering}
+### Standard filtering を使用した検索\{#search-with-standard-filtering}
 
-以下のコードスニペットは、standard filtering を伴う検索を示しています。次のコードスニペット内のリクエストには、フィルタリング条件と複数の出力フィールドが含まれています。
+以下のコードスニペットは、standard filtering を使用した検索を示しています。次のコードスニペットのリクエストには、フィルタ条件といくつかの出力フィールドが含まれています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -255,7 +255,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -294,7 +295,10 @@ for (auto& result : response.Results().Results()) {
 }
 ```
 
-検索リクエストに含まれるフィルタリング条件は `color like "red%" and likes > 50` です。これは and 演算子を使って 2 つの条件を含んでいます。1 つ目は `color` フィールドで `red` から始まる値を持つ entity を要求し、もう 1 つは `likes` フィールドで `50` より大きい値を持つ entity を要求します。これらの要件を満たす entity は 2 件しかありません。top-K が `3` に設定されている場合、Zilliz Cloud はこれら 2 件の entity とクエリ vector との距離を計算し、それらを検索結果として返します。
+</TabItem>
+</Tabs>
+
+検索リクエストに含まれるフィルタ条件は `color like "red%" and likes > 50` です。これは and 演算子を使って 2 つの条件を含んでいます。1 つ目は `color` フィールドで値が `red` で始まる entity を要求し、もう 1 つは `likes` フィールドで値が `50` より大きい entity を要求します。これらの要件を満たす entity は 2 つだけです。top-K が `3` に設定されている場合、Zilliz Cloud はこの 2 つの entity とクエリ vector との距離を計算し、それらを検索結果として返します。
 
 ```json
 [
@@ -321,11 +325,11 @@ for (auto& result : response.Results().Results()) {
 
 メタデータフィルタリングで使用できる演算子の詳細については、[Filtering Explained](./filtering-overview) を参照してください。
 
-### Search with iterative filtering\{#search-with-iterative-filtering}
+### Iterative filtering を使用した検索\{#search-with-iterative-filtering}
 
-iterative filtering を使用して filtered search を実行するには、次のようにします。
+iterative filtering を使用してフィルタ付き検索を実行するには、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -505,7 +509,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -544,3 +549,6 @@ for (auto& result : response.Results().Results()) {
     }
 }
 ```
+
+</TabItem>
+</Tabs>
