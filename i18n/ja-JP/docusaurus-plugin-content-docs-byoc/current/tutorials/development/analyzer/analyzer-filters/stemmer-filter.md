@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`stemmer` フィルターは、単語をその基本形または語幹（stemming と呼ばれる）に変換し、異なる活用形をまたいで類似した意味を持つ単語を一致させやすくします。`stemmer` フィルターは複数の言語をサポートしており、さまざまな言語コンテキストで効果的な検索とインデックス作成を可能にします。 | BYOC"
+description: "`stemmer` フィルターは単語を基本形または語幹の形（stemming と呼ばれる）に変換し、異なる活用形にまたがる類似した意味の単語を一致させやすくします。`stemmer` フィルターは複数の言語をサポートしており、さまざまな言語コンテキストで効果的な検索とインデックス作成を可能にします。 | BYOC"
 type: origin
 token: JksSwTwJPidjsnk18Olc2TjWnZe
-sidebar_position: 9
+sidebar_position: 10
 displayed_sidebar: default
 
 ---
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # Stemmer
 
-`stemmer` フィルターは、単語をその基本形または語幹（stemming と呼ばれる）に変換し、異なる活用形をまたいで類似した意味を持つ単語を一致させやすくします。`stemmer` フィルターは複数の言語をサポートしており、さまざまな言語コンテキストで効果的な検索とインデックス作成を可能にします。
+`stemmer` フィルターは単語を基本形または語幹の形（stemming と呼ばれる）に変換し、異なる活用形にまたがる類似した意味の単語を一致させやすくします。`stemmer` フィルターは複数の言語をサポートしており、さまざまな言語コンテキストで効果的な検索とインデックス作成を可能にします。
 
 ## Configuration\{#configuration}
 
-`stemmer` フィルターは Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター設定で `"type": "stemmer"` を指定し、さらに stemming に使用する言語を選択するための `language` パラメーターを指定します。
+`stemmer` フィルターは Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター設定で `"type": "stemmer"` を指定し、stemming に使用する言語を選択するための `language` パラメーターをあわせて指定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -101,7 +101,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -115,15 +116,18 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 `stemmer` フィルターは、以下の設定可能なパラメーターを受け入れます。
 
 | Parameter | Description |
 | --- | --- |
-| `language` | stemming プロセスに使用する言語を指定します。サポートされている言語は次のとおりです: `"arabic"`, `"danish"`, `"dutch"`, `"english"`, `"finnish"`, `"french"`, `"german"`, `"greek"`, `"hungarian"`, `"italian"`, `"norwegian"`, `"portuguese"`, `"romanian"`, `"russian"`, `"spanish"`, `"swedish"`, `"tamil"`, `"turkish"` |
+| `language` | stemming 処理に使用する言語を指定します。サポートされる言語には次が含まれます: `"arabic"`, `"danish"`, `"dutch"`, `"english"`, `"finnish"`, `"french"`, `"german"`, `"greek"`, `"hungarian"`, `"italian"`, `"norwegian"`, `"portuguese"`, `"romanian"`, `"russian"`, `"spanish"`, `"swedish"`, `"tamil"`, `"turkish"` |
 
 `stemmer` フィルターは tokenizer によって生成された terms に対して動作するため、tokenizer と組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的な tokenization と filtering を実現できます。詳細については、[使用例](./analyzer-overview#example-use)を参照してください。
+`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は効率的なトークン化とフィルタリングのために、そのフィールド内のテキストを指定された analyzer を使って処理できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## Examples\{#examples}
 
@@ -131,7 +135,7 @@ analyzer 設定を collection schema に適用する前に、`run_analyzer` メ�
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -199,7 +203,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -213,9 +218,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
+</TabItem>
+</Tabs>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -310,7 +318,8 @@ not support yet
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -334,6 +343,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ### Expected output\{#expected-output}
 

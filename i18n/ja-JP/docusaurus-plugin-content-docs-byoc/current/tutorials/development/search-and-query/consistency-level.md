@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "分散ベクトルデータベースとして、Zilliz Cloud は読み取りおよび書き込み操作の間に各ノードまたはレプリカが同じデータにアクセスできるように、複数の整合性レベルを提供しています。現在サポートされている整合性レベルには Strong、Bounded、Eventually、Session があり、デフォルトで使用される整合性レベルは Bounded です。 | BYOC"
+description: "分散ベクトルデータベースとして、Zilliz Cloud は読み取りおよび書き込み操作中に各ノードまたはレプリカが同じデータにアクセスできるようにするため、複数の整合性レベルを提供します。現在、サポートされている整合性レベルには Strong、Bounded、Eventually、Session があり、デフォルトで使用される整合性レベルは Bounded です。 | BYOC"
 type: origin
 token: Xx9EwWtekinLZfkWKqic37dDnFb
-sidebar_position: 21
+sidebar_position: 22
 displayed_sidebar: default
 
 ---
@@ -21,53 +21,53 @@ import TabItem from '@theme/TabItem';
 
 # 整合性レベル
 
-分散ベクトルデータベースとして、Zilliz Cloud は読み取りおよび書き込み操作の間に各ノードまたはレプリカが同じデータにアクセスできるように、複数の整合性レベルを提供しています。現在サポートされている整合性レベルには **Strong**、**Bounded**、**Eventually**、**Session** があり、デフォルトで使用される整合性レベルは **Bounded** です。
+分散ベクトルデータベースとして、Zilliz Cloud は読み取りおよび書き込み操作中に各ノードまたはレプリカが同じデータにアクセスできるようにするため、複数の整合性レベルを提供します。現在、サポートされている整合性レベルには **Strong**、**Bounded**、**Eventually**、**Session** があり、デフォルトで使用される整合性レベルは **Bounded** です。
 
 ## 概要\{#overview}
 
-Zilliz Cloud はストレージとコンピューティングを分離したシステムです。このシステムでは、**DataNodes** がデータの永続化を担当し、最終的に MinIO/S3 などの分散オブジェクトストレージに保存します。**QueryNodes** は Search のような計算タスクを処理します。これらのタスクでは、**バッチデータ** と **ストリーミングデータ** の両方を処理します。簡単に言えば、バッチデータはすでにオブジェクトストレージに保存されているデータであり、ストリーミングデータはまだオブジェクトストレージに保存されていないデータを指します。ネットワーク遅延のため、QueryNodes は最新のストリーミングデータを保持していないことがよくあります。追加の保護策なしでストリーミングデータに対して直接 Search を実行すると、多くの未コミットのデータポイントが失われ、検索結果の精度に影響する可能性があります。
+Zilliz Cloud は、ストレージと計算を分離したシステムです。このシステムでは、**DataNodes** がデータの永続化を担い、最終的に MinIO/S3 などの分散オブジェクトストレージに保存します。**QueryNodes** は Search などの計算タスクを処理します。これらのタスクでは、**バッチデータ** と **ストリーミングデータ** の両方を処理します。簡単に言うと、バッチデータはすでにオブジェクトストレージに保存されたデータであり、ストリーミングデータはまだオブジェクトストレージに保存されていないデータを指します。ネットワーク遅延のため、QueryNodes は多くの場合、最新のストリーミングデータを保持していません。追加の保護がない場合、ストリーミングデータに対して直接 Search を実行すると、未コミットの多数のデータポイントが失われ、検索結果の精度に影響する可能性があります。
 
 ![UlOJwpWuKhj5LAbGSp9cwMFznEb](https://zdoc-images.s3.us-west-2.amazonaws.com/UlOJwpWuKhj5LAbGSp9cwMFznEb.png)
 
-上図に示すように、QueryNodes は Search リクエストを受信した後、ストリーミングデータとバッチデータの両方を同時に受信できます。ただし、ネットワーク遅延のため、QueryNodes が取得するストリーミングデータは不完全である可能性があります。
+上図に示すように、Search リクエストを受信した後、QueryNodes はストリーミングデータとバッチデータの両方を同時に受け取ることができます。ただし、ネットワーク遅延のため、QueryNodes が取得するストリーミングデータは不完全な場合があります。
 
-この問題に対処するため、Zilliz Cloud はデータキュー内の各レコードにタイムスタンプを付与し、継続的に同期タイムスタンプをデータキューに挿入します。同期タイムスタンプ（syncTs）を受信するたびに、QueryNodes はそれを ServiceTime として設定します。これは、QueryNodes がその Service Time 以前のすべてのデータを参照できることを意味します。ServiceTime に基づいて、Zilliz Cloud は整合性と可用性に関するさまざまなユーザー要件を満たすために保証タイムスタンプ（GuaranteeTs）を提供できます。ユーザーは Search リクエストで GuaranteeTs を指定することで、特定の時点以前のデータを検索範囲に含める必要があることを QueryNodes に伝えることができます。
+この問題に対処するため、Zilliz Cloud はデータキュー内の各レコードにタイムスタンプを付与し、継続的に同期タイムスタンプをデータキューへ挿入します。同期タイムスタンプ（syncTs）を受信すると、QueryNodes はそれを ServiceTime として設定します。つまり、QueryNodes はその ServiceTime より前のすべてのデータを参照できます。Zilliz Cloud は、この ServiceTime に基づいて、整合性と可用性に関するさまざまなユーザー要件を満たすための保証タイムスタンプ（GuaranteeTs）を提供できます。ユーザーは Search リクエストで GuaranteeTs を指定することで、指定時点より前のデータを検索範囲に含める必要があることを QueryNodes に伝えることができます。
 
 ![Owddb7D3Fo8zyFxJgWWcZCxanIf](https://zdoc-images.s3.us-west-2.amazonaws.com/owddb7d3fo8zyfxjgwwczcxanif.png "Owddb7D3Fo8zyFxJgWWcZCxanIf")
 
-上図に示すように、GuaranteeTs が ServiceTime より小さい場合、指定された時点以前のすべてのデータが完全にディスクに書き込まれていることを意味し、QueryNodes は直ちに Search 操作を実行できます。GuaranteeTs が ServiceTime より大きい場合、QueryNodes は ServiceTime が GuaranteeTs を超えるまで待機してから Search 操作を実行する必要があります。
+上図に示すように、GuaranteeTs が ServiceTime より小さい場合、指定時点より前のすべてのデータが完全にディスクへ書き込まれていることを意味し、QueryNodes はただちに Search 操作を実行できます。GuaranteeTs が ServiceTime より大きい場合、QueryNodes は ServiceTime が GuaranteeTs を超えるまで待機してから Search 操作を実行する必要があります。
 
-ユーザーは、クエリ精度とクエリ遅延の間でトレードオフを行う必要があります。高い整合性が必要でクエリ遅延に敏感でない場合は、GuaranteeTs をできるだけ大きな値に設定できます。一方、検索結果をすばやく受け取りたく、クエリ精度に対してより寛容である場合は、GuaranteeTs をより小さな値に設定できます。
+ユーザーはクエリ精度とクエリ遅延の間でトレードオフを行う必要があります。高い整合性要件があり、クエリ遅延に敏感でない場合は、GuaranteeTs をできるだけ大きな値に設定できます。検索結果をすばやく受け取りたく、クエリ精度に対してより寛容である場合は、GuaranteeTs をより小さな値に設定できます。
 
 ![Y9YabwvmjoWMXhxt9kRc8Atmnid](https://zdoc-images.s3.us-west-2.amazonaws.com/y9yabwvmjowmxhxt9krc8atmnid.png "Y9YabwvmjoWMXhxt9kRc8Atmnid")
 
-Zilliz Cloud は、異なる GuaranteeTs を持つ 4 種類の整合性レベルを提供します。
+Zilliz Cloud は、GuaranteeTs が異なる 4 種類の整合性レベルを提供します。
 
 - **Strong**
 
-    最新のタイムスタンプが GuaranteeTs として使用され、QueryNodes は ServiceTime が GuaranteeTs を満たすまで待機してから Search リクエストを実行する必要があります。
+    最新のタイムスタンプが GuaranteeTs として使用され、QueryNodes は ServiceTime が GuaranteeTs を満たすまで待ってから Search リクエストを実行する必要があります。
 
 - **Eventual**
 
-    GuaranteeTs は 1 のような極めて小さい値に設定され、整合性チェックを回避することで、QueryNodes はすべてのバッチデータに対して直ちに Search リクエストを実行できます。
+    整合性チェックを回避するために、GuaranteeTs は 1 のような極めて小さい値に設定されるため、QueryNodes はすべてのバッチデータに対してただちに Search リクエストを実行できます。
 
 - **Bounded Staleness**
 
-    GuranteeTs は最新のタイムスタンプより前の時点に設定され、QueryNodes は一定のデータ損失を許容しながら検索を実行できます。
+    GuranteeTs は最新のタイムスタンプよりも前の時点に設定され、QueryNodes が一定のデータ損失を許容した検索を実行できるようにします。
 
 - **Session**
 
-    クライアントがデータを挿入した最新時点が GuaranteeTs として使用され、QueryNodes はそのクライアントによって挿入されたすべてのデータに対して検索を実行できます。
+    クライアントがデータを挿入した最新時点が GuaranteeTs として使用されるため、QueryNodes はそのクライアントによって挿入されたすべてのデータに対して検索を実行できます。
 
-Zilliz Cloud はデフォルトの整合性レベルとして Bounded Staleness を使用します。GuaranteeTs が指定されていない場合、最新の ServiceTime が GuaranteeTs として使用されます。
+Zilliz Cloud は、デフォルトの整合性レベルとして Bounded Staleness を使用します。GuaranteeTs が指定されていない場合、最新の ServiceTime が GuaranteeTs として使用されます。
 
 ## 整合性レベルの設定\{#set-consistency-level}
 
-コレクションを作成するとき、および検索やクエリを実行するときに、異なる整合性レベルを設定できます。検索またはクエリで整合性レベルが指定されていない場合は、コレクション作成時に指定された整合性レベルが適用されます。
+コレクションを作成するとき、および検索やクエリを実行するときに、異なる整合性レベルを設定できます。検索またはクエリで整合性レベルが指定されていない場合は、コレクション作成時に指定した整合性レベルが適用されます。
 
 ### コレクション作成時に整合性レベルを設定する\{#set-consistency-level-upon-creating-collection}
 
-コレクションを作成する際に、そのコレクション内の検索およびクエリに対する整合性レベルを設定できます。次のコード例では、整合性レベルを **Bounded** に設定しています。
+コレクションを作成するときに、そのコレクション内での検索およびクエリの整合性レベルを設定できます。以下のコード例では、整合性レベルを **Bounded** に設定しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -173,11 +173,11 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-`consistency_level` パラメータに指定できる値は `Strong`、`Bounded`、`Eventually`、`Session` です。
+`consistency_level` パラメータに指定可能な値は、`Strong`、`Bounded`、`Eventually`、`Session` です。
 
 ### Search で整合性レベルを設定する\{#set-consistency-level-in-search}
 
-特定の検索に対して整合性レベルはいつでも変更できます。次のコード例では、整合性レベルを **Bounded** に戻しています。この変更は現在の Search リクエストにのみ適用されます。
+特定の検索に対して整合性レベルはいつでも変更できます。以下のコード例では、整合性レベルを **Bounded** に戻しています。この変更は現在の Search リクエストにのみ適用されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -267,11 +267,11 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-このパラメータはハイブリッド検索と検索イテレータでも使用できます。`consistency_level` パラメータに指定できる値は `Strong`、`Bounded`、`Eventually`、`Session` です。
+このパラメータは、ハイブリッド検索および search iterator でも使用できます。`consistency_level` パラメータに指定可能な値は、`Strong`、`Bounded`、`Eventually`、`Session` です。
 
 ### Query で整合性レベルを設定する\{#set-consistency-level-in-query}
 
-特定の検索に対して整合性レベルはいつでも変更できます。次のコード例では、整合性レベルを **Eventually** に設定しています。この設定は現在の query リクエストにのみ適用されます。
+特定の検索に対して整合性レベルはいつでも変更できます。以下のコード例では、整合性レベルを **Eventually** に設定しています。この設定は現在のクエリリクエストにのみ適用されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -358,4 +358,4 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-このパラメータはクエリイテレータでも使用できます。`consistency_level` パラメータに指定できる値は `Strong`、`Bounded`、`Eventually`、`Session` です。
+このパラメータは query iterator でも使用できます。`consistency_level` パラメータに指定可能な値は、`Strong`、`Bounded`、`Eventually`、`Session` です。

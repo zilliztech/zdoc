@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "テキスト処理において、analyzer は生テキストを構造化され検索可能な形式に変換する重要なコンポーネントです。各 analyzer は通常、tokenizer と filter という 2 つの中核要素で構成されます。これらは連携して入力テキストを token に変換し、それらの token を洗練し、効率的なインデックス作成と検索のために準備します。 | BYOC"
+description: "テキスト処理において、analyzer は生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各 analyzer は通常、tokenizer と filter という 2 つのコア要素で構成されます。これらは連携して、入力テキストをトークンに変換し、それらのトークンを洗練し、効率的なインデックス作成と検索に向けて準備します。 | BYOC"
 type: origin
 token: H8MVwnjdgihp0hkRHHKcjBe9n5e
 sidebar_position: 1
@@ -23,31 +23,31 @@ import Supademo from '@site/src/components/Supademo';
 
 # Analyzer の概要
 
-テキスト処理において、**analyzer** は生テキストを構造化され検索可能な形式に変換する重要なコンポーネントです。各 analyzer は通常、**tokenizer** と **filter** という 2 つの中核要素で構成されます。これらは連携して入力テキストを token に変換し、それらの token を洗練し、効率的なインデックス作成と検索のために準備します。
+テキスト処理において、**analyzer** は生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各 analyzer は通常、2 つのコア要素で構成されます: **tokenizer** と **filter**。これらは連携して、入力テキストをトークンに変換し、それらのトークンを洗練し、効率的なインデックス作成と検索に向けて準備します。
 
-Zilliz Cloud では、collection スキーマに `VARCHAR` フィールドを追加する際の collection 作成時に analyzer を設定します。analyzer によって生成された token は、キーワードマッチング用の index を構築するために使用したり、全文検索用の疎埋め込みに変換したりできます。詳細については、[Full Text Search](./full-text-search) または [Text Match](./text-match) を参照してください。
+Zilliz Cloud では、analyzer は collection 作成時に collection schema に `VARCHAR` フィールドを追加する際に設定します。analyzer によって生成されたトークンは、キーワード一致のための index の構築に使用したり、全文検索のための sparse embeddings に変換したりできます。詳細については、[全文検索](./full-text-search) または [テキスト一致](./text-match) を参照してください。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-analyzer の使用はパフォーマンスに影響する場合があります。
+analyzer の使用はパフォーマンスに影響する可能性があります:
 
-- **全文検索:** 全文検索では、**DataNode** と **QueryNode** のチャネルは tokenization の完了を待つ必要があるため、データの消費速度が遅くなります。その結果、新しく取り込まれたデータが検索可能になるまでに時間がかかります。
+- **全文検索:** 全文検索では、**DataNode** と **QueryNode** のチャネルは、トークン化が完了するまで待機する必要があるため、データの消費が遅くなります。その結果、新しく取り込まれたデータが検索可能になるまでに時間がかかります。
 
-- **キーワードマッチ:** キーワードマッチングでは、index を構築する前に tokenization を完了する必要があるため、index 作成も遅くなります。
+- **キーワード一致:** キーワード一致では、トークン化が完了してからでないと index を構築できないため、index 作成も遅くなります。
 
 </Admonition>
 
-## Analyzer の構造\{#anatomy-of-an-analyzer}
+## Analyzer の構成\{#anatomy-of-an-analyzer}
 
-Zilliz Cloud の analyzer は、必ず 1 つの **tokenizer** と、**0 個以上**の filter で構成されます。
+Zilliz Cloud の analyzer は、正確に 1 つの **tokenizer** と **0 個以上**の filter で構成されます。
 
-- **Tokenizer**: tokenizer は入力テキストを token と呼ばれる離散単位に分割します。これらの token は、tokenizer の種類に応じて、単語またはフレーズになります。
+- **Tokenizer**: tokenizer は入力テキストを tokens と呼ばれる離散的な単位に分割します。これらの tokens は、tokenizer の種類に応じて、単語またはフレーズになります。
 
-- **Filters**: filter は token に適用してさらに洗練できます。たとえば、小文字化したり、一般的な単語を除去したりできます。
+- **Filters**: filter は tokens に適用してさらに洗練できます。たとえば、小文字化したり、一般的な単語を削除したりできます。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Tokenizer は UTF-8 形式のみをサポートします。その他の形式のサポートは将来のリリースで追加される予定です。
+Tokenizer は UTF-8 形式のみをサポートします。その他の形式のサポートは今後のリリースで追加される予定です。
 
 </Admonition>
 
@@ -57,25 +57,25 @@ Tokenizer は UTF-8 形式のみをサポートします。その他の形式の
 
 ## Analyzer の種類\{#analyzer-types}
 
-Zilliz Cloud は、さまざまなテキスト処理ニーズに対応するために 2 種類の analyzer を提供しています。
+Zilliz Cloud は、さまざまなテキスト処理ニーズに対応するために 2 種類の analyzer を提供しています:
 
-- **Built-in analyzer**: これらは、最小限のセットアップで一般的なテキスト処理タスクをカバーする事前定義済みの構成です。Built-in analyzer は複雑な構成を必要としないため、汎用的な検索に最適です。
+- **Built-in analyzer**: これらは、最小限の設定で一般的なテキスト処理タスクをカバーする事前定義済みの構成です。Built-in analyzer は複雑な設定を必要としないため、汎用検索に最適です。
 
-- **Custom analyzer**: より高度な要件に対しては、custom analyzer を使用すると、tokenizer と 0 個以上の filter を指定して独自の構成を定義できます。このレベルのカスタマイズは、テキスト処理を正確に制御する必要がある特殊なユースケースで特に有用です。
+- **Custom analyzer**: より高度な要件に対しては、custom analyzer を使用すると、tokenizer と 0 個以上の filter の両方を指定して独自の構成を定義できます。このレベルのカスタマイズは、テキスト処理を正確に制御する必要がある特殊なユースケースで特に有用です。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-- collection 作成時に analyzer 構成を省略すると、Zilliz Cloud はデフォルトで `standard` analyzer をすべてのテキスト処理に使用します。詳細は [Standard](./standard-analyzer) を参照してください。
+- collection 作成時に analyzer 構成を省略すると、Zilliz Cloud はデフォルトですべてのテキスト処理に `standard` analyzer を使用します。詳細については、[Standard](./standard-analyzer) を参照してください。
 
-- 最適な検索およびクエリパフォーマンスを得るには、テキストデータの言語に合った analyzer を選択してください。たとえば、`standard` analyzer は汎用性がありますが、中国語、日本語、韓国語のように独自の文法構造を持つ言語には最適ではない場合があります。そのような場合は、正確な tokenization とより良い検索結果を確保するために、[`chinese`](./chinese-analyzer) のような言語固有の analyzer や、特殊な tokenizer（[`lindera`](./lindera-tokenizer)、[`icu`](./icu-tokenizer) など）および filter を使用した custom analyzer の利用を強く推奨します。
+- 最適な検索およびクエリパフォーマンスを得るには、テキストデータの言語に一致する analyzer を選択してください。たとえば、`standard` analyzer は汎用性がありますが、中国語、日本語、韓国語のような固有の文法構造を持つ言語には最適な選択ではない場合があります。そのような場合は、[`chinese`](./chinese-analyzer) のような言語固有の analyzer や、特殊な tokenizer（[`lindera`](./lindera-tokenizer)、[`icu`](./icu-tokenizer) など）と filter を備えた custom analyzer を使用することを強く推奨します。これにより、正確なトークン化とより良い検索結果を確保できます。
 
 </Admonition>
 
 ### Built-in analyzer\{#built-in-analyzer}
 
-Zilliz Cloud cluster の built-in analyzer は、特定の tokenizer と filter で事前構成されているため、これらのコンポーネントを自分で定義する必要なく、すぐに使用できます。各 built-in analyzer は、あらかじめ設定された tokenizer と filter を含むテンプレートとして機能し、カスタマイズ用のオプションパラメータも利用できます。
+Zilliz Cloud cluster の built-in analyzer は、特定の tokenizer と filter で事前構成されており、これらのコンポーネントを自分で定義することなくすぐに使用できます。各 built-in analyzer は、事前設定された tokenizer と filter を含むテンプレートとして機能し、カスタマイズ用のオプションパラメータも備えています。
 
-たとえば、`standard` built-in analyzer を使用するには、単にその名前 `standard` を `type` として指定し、必要に応じて `stop_words` のようなこの analyzer タイプ固有の追加構成を含めます。
+たとえば、`standard` built-in analyzer を使用するには、その名前 `standard` を `type` として指定し、必要に応じて `stop_words` など、この analyzer type に固有の追加構成を含めるだけです:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -141,7 +141,7 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-analyzer の実行結果を確認するには、`run_analyzer` メソッドを使用します。
+analyzer の実行結果を確認するには、`run_analyzer` メソッドを使用します:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -253,15 +253,15 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-出力は次のようになります。
+出力は以下のようになります:
 
-```plaintext
+```sql
 ['efficient', 'system', 'relies', 'on', 'robust', 'analyzer', 'to', 'correctly', 'process', 'text', 'various', 'applications']
 ```
 
-これは、analyzer がストップワード `"a"`、`"an"`、`"for"` を除外しつつ、残りの意味のあるトークンを返すことで、入力テキストを適切にトークン化していることを示しています。
+これは、analyzer がストップワード `"a"`、`"an"`、`"for"` を除外しながら、残りの意味のある tokens を返すことで、入力テキストを適切にトークン化していることを示しています。
 
-上記の `standard` 組み込み analyzer の設定は、以下のパラメータで [custom analyzer](./analyzer-overview#custom-analyzer) を設定するのと同等です。この場合、`tokenizer` と `filter` のオプションを明示的に定義することで、同様の機能を実現しています。
+上記の `standard` built-in analyzer の構成は、以下のパラメータを使用して [custom analyzer](./analyzer-overview#custom-analyzer) を設定することと同等です。この場合、`tokenizer` と `filter` オプションを明示的に定義して、同様の機能を実現しています:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -354,29 +354,29 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-Zilliz Cloud には以下の組み込み analyzer が用意されており、それぞれ特定のテキスト処理ニーズ向けに設計されています。
+Zilliz Cloud は、特定のテキスト処理ニーズ向けに設計された以下の built-in analyzer を提供しています:
 
-- `standard`: 汎用的なテキスト処理に適しており、標準的な tokenization と lowercase filtering を適用します。
+- `standard`: 標準的なトークン化と小文字化 filter を適用する、汎用テキスト処理に適しています。
 
-- `english`: 英語テキスト向けに最適化されており、英語のストップワードをサポートします。
+- `english`: 英語テキスト向けに最適化されており、英語のストップワードをサポートしています。
 
-- `chinese`: 中国語テキストの処理に特化しており、中国語の言語構造に適応した tokenization を含みます。
+- `chinese`: 中国語テキストの処理に特化しており、中国語の言語構造に適したトークン化を含みます。
 
 ### Custom analyzer\{#custom-analyzer}
 
-より高度なテキスト処理のために、Zilliz Cloud の custom analyzer では、**tokenizer** と **filters** の両方を指定することで、用途に合わせたテキスト処理パイプラインを構築できます。この設定は、精密な制御が必要な特殊なユースケースに最適です。
+より高度なテキスト処理のために、Zilliz Cloud の custom analyzer では、**tokenizer** と **filters** の両方を指定して、用途に合わせたテキスト処理パイプラインを構築できます。この設定は、正確な制御が必要な特殊なユースケースに最適です。
 
 #### Tokenizer\{#tokenizer}
 
-**tokenizer** は custom analyzer の**必須**コンポーネントであり、入力テキストを個別の単位、すなわち **tokens** に分割することで analyzer パイプラインを開始します。tokenization は tokenizer の種類に応じて、空白や句読点で分割するなどの特定ルールに従います。この処理により、各単語やフレーズをより正確かつ独立して扱えるようになります。
+**tokenizer** は custom analyzer における**必須**コンポーネントであり、入力テキストを離散的な単位、すなわち **tokens** に分解することで analyzer パイプラインを開始します。トークン化は tokenizer type に応じて、空白や句読点で分割するなど、特定のルールに従います。このプロセスにより、各単語やフレーズをより正確かつ独立して扱えるようになります。
 
-たとえば、tokenizer はテキスト `"Vector Database Built for Scale"` を次のような個別の tokens に変換します。
+たとえば、tokenizer はテキスト `"Vector Database Built for Scale"` を以下のような個別の tokens に変換します:
 
 ```plaintext
 ["Vector", "Database", "Built", "for", "Scale"]
 ```
 
-**tokenizer を指定する例**:
+**tokenizer 指定の例**:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -439,29 +439,29 @@ nlohmann::json analyzer_params = {
 
 #### Filter\{#filter}
 
-**Filters** は tokenizer によって生成された tokens に対して動作する**任意**のコンポーネントで、必要に応じてそれらを変換または調整します。たとえば、tokenized terms `["Vector", "Database", "Built", "for", "Scale"]` に `lowercase` filter を適用すると、結果は次のようになります。
+**Filters** は、tokenizer によって生成された tokens に対して動作する**オプション**コンポーネントであり、必要に応じてそれらを変換または洗練します。たとえば、トークン化された語 `["Vector", "Database", "Built", "for", "Scale"]` に `lowercase` filter を適用すると、結果は以下のようになります:
 
 ```sql
 ["vector", "database", "built", "for", "scale"]
 ```
 
-custom analyzer の filters は、設定ニーズに応じて **built-in** または **custom** のいずれかにできます。
+custom analyzer の filters は、構成ニーズに応じて **built-in** または **custom** のいずれかにできます。
 
-- **Built-in filters**: Zilliz Cloud によって事前設定されており、最小限のセットアップで利用できます。これらの filters は、名前を指定するだけでそのまま使用できます。以下の filters は built-in として直接利用可能です。
+- **Built-in filters**: Zilliz Cloud によって事前構成されており、最小限のセットアップで利用できます。これらの filters は名前を指定するだけですぐに使用できます。以下の filters は直接使用できる built-in です:
 
-    - `lowercase`: テキストを小文字に変換し、大文字・小文字を区別しないマッチングを可能にします。詳細は [Lowercase](./lowercase-filter) を参照してください。
+    - `lowercase`: テキストを小文字に変換し、大文字小文字を区別しない一致を可能にします。詳細については、[Lowercase](./lowercase-filter) を参照してください。
 
-    - `asciifolding`: 非 ASCII 文字を ASCII 相当の文字に変換し、多言語テキストの処理を簡素化します。詳細は [ASCII folding](./ascii-folding-filter) を参照してください。
+    - `asciifolding`: 非 ASCII 文字を ASCII 相当の文字に変換し、多言語テキスト処理を簡素化します。詳細については、[ASCII folding](./ascii-folding-filter) を参照してください。
 
-    - `alphanumonly`: 英数字のみを保持し、それ以外を除去します。詳細は [Alphanumonly](./alphanumonly-filter) を参照してください。
+    - `alphanumonly`: 英数字以外の文字を削除して、英数字のみを保持します。詳細については、[Alphanumonly](./alphanumonly-filter) を参照してください。
 
-    - `cnalphanumonly`: 中国語文字、英字、数字以外の文字を含む token を除去します。詳細は [Cnalphanumonly](./cnalphanumonly-filter) を参照してください。
+    - `cnalphanumonly`: 中国語文字、英字、数字以外の文字を含む tokens を削除します。詳細については、[Cnalphanumonly](./cnalphanumonly-filter) を参照してください。
 
-    - `cncharonly`: 中国語以外の文字を含む token を除去します。詳細は [Cncharonly](./cncharonly-filter) を参照してください。
+    - `cncharonly`: 中国語以外の文字を含む tokens を削除します。詳細については、[Cncharonly](./cncharonly-filter) を参照してください。
 
-    - `pinyin`: 中国語 token に対してピンイン形式の token を追加し、中国語テキストのピンインベースのマッチングを可能にします。詳細は [Pinyin](./undefined) を参照してください。
+    - `pinyin`: 中国語 tokens に対してピンイントークン形式を追加し、中国語テキストのピンインベースの一致を可能にします。詳細については、[Pinyin](./pinyin-filter) を参照してください。
 
-    **Built-in filter の使用例:**
+    **built-in filter 使用例:**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -524,15 +524,15 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-- **Custom filters**: Custom filters では、より専門的な設定が可能です。有効な filter type（`filter.type`）を選択し、その filter type ごとの具体的な設定を追加することで、custom filter を定義できます。カスタマイズをサポートする filter type の例は次のとおりです。
+- **Custom filters**: custom filter では、より特殊な構成が可能です。有効な filter type（`filter.type`）を選択し、その filter type ごとの具体的な設定を追加することで、custom filter を定義できます。カスタマイズをサポートする filter type の例:
 
-    - `stop`: ストップワードのリストを設定することで、指定した一般的な単語を除去します（例: `"stop_words": ["of", "to"]`）。詳細は [Stop](./stop-filter) を参照してください。
+    - `stop`: ストップワードのリストを設定して、指定した一般的な単語を削除します（例: `"stop_words": ["of", "to"]`）。詳細については、[Stop](./stop-filter) を参照してください。
 
-    - `length`: 最大 token 長を設定するなど、長さの条件に基づいて token を除外します。詳細は [Length](./length-filter) を参照してください。
+    - `length`: 最大 token 長を設定するなど、長さの条件に基づいて tokens を除外します。詳細については、[Length](./length-filter) を参照してください。
 
-    - `stemmer`: より柔軟なマッチングのために、単語を語幹形に変換します。詳細は [Stemmer](./stemmer-filter) を参照してください。
+    - `stemmer`: より柔軟な一致のために、単語を語幹形に変換します。詳細については、[Stemmer](./stemmer-filter) を参照してください。
 
-    **Custom filter を設定する例:**
+    **custom filter 構成例:**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -619,17 +619,17 @@ nlohmann::json analyzer_params = {
 
 ## 使用例\{#example-use}
 
-この例では、次を含む collection schema を作成します。
+この例では、以下を含む collection schema を作成します。
 
 - embeddings 用の vector field。
 
-- テキスト処理用の 2 つの `VARCHAR` fields:
+- テキスト処理用の 2 つの `VARCHAR` field：
 
-    - 一方の field は組み込み analyzer を使用します。
+    - 1 つの field は組み込み analyzer を使用します。
 
-    - もう一方の field は custom analyzer を使用します。
+    - もう 1 つの field はカスタム analyzer を使用します。
 
-これらの設定を collection に組み込む前に、`run_analyzer` メソッドを使用して各 analyzer を検証します。
+これらの設定を collection に組み込む前に、`run_analyzer` メソッドを使って各 analyzer を検証します。
 
 ### ステップ 1: MilvusClient を初期化して schema を作成する\{#step-1-initialize-milvusclient-and-create-schema}
 
@@ -771,7 +771,7 @@ schema->SetEnableDynamicField(false);
 
     - **設定:** 組み込みの英語 analyzer 用の analyzer パラメータを定義します。
 
-    - **検証:** `run_analyzer` を使用して、この設定が期待どおりの tokenization を生成することを確認します。
+    - **検証:** `run_analyzer` を使用して、この設定によって期待どおりの tokenization が行われることを確認します。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -881,11 +881,11 @@ if (!status.IsOk()) {
 }
 ```
 
-1. **Custom analyzer を設定して検証する:**
+1. **カスタム analyzer を設定して検証する:**
 
-    - **設定:** 標準 tokenizer と、組み込みの lowercase filter、および token 長とストップワード用の custom filters を組み合わせた custom analyzer を定義します。
+    - **設定:** 標準 tokenizer に加え、組み込み lowercase filter と、token 長および stop words 用のカスタム filter を使用するカスタム analyzer を定義します。
 
-    - **検証:** `run_analyzer` を使用して、custom 設定が意図どおりにテキストを処理することを確認します。
+    - **検証:** `run_analyzer` を使用して、カスタム設定が意図したとおりにテキストを処理することを確認します。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -1050,7 +1050,7 @@ if (!status.IsOk()) {
 
 ### ステップ 3: schema field に analyzer を追加する\{#step-3-add-analyzer-to-schema-field}
 
-analyzer 設定を検証できたので、それらを schema fields に追加します。
+analyzer 設定を検証できたので、次にそれらを schema field に追加します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1253,7 +1253,7 @@ schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR
 </TabItem>
 </Tabs>
 
-### ステップ 4: index パラメータを準備して collection を作成する\{#step-4-prepare-index-parameters-and-create-the-collection}
+### ステップ 4: インデックスパラメータを準備して collection を作成する\{#step-4-prepare-index-parameters-and-create-the-collection}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1374,25 +1374,25 @@ if (!status.IsOk()) {
 
 ## Zilliz Cloud コンソールでの使用例\{#example-use-on-the-zilliz-cloud-console}
 
-上記の操作は Zilliz Cloud コンソールでも実行できます。詳細は以下のデモをご覧ください。
+上記の操作は Zilliz Cloud コンソールでも実行できます。詳細については、以下のデモを再生してください。
 
 <Supademo id="cmfxfue5c41ld10k86la66x1v" title=""  />
 
 <Admonition type="info" icon="📘" title="**注**">
 
-Analyzer 設定は collection 作成後に変更できません。analyzer 設定を変更するには、希望する設定で新しい collection を作成し、データを[移行](./migrate-between-clusters)してください。
+Analyzer の設定は、collection 作成後は変更できません。Analyzer の設定を変更するには、目的の設定で新しい collection を作成し、データを[移行](./migrate-between-clusters)してください。
 
 </Admonition>
 
 ## 次のステップ\{#whats-next}
 
-analyzer を設定する際は、ユースケースに最適な設定を判断するために、以下のベストプラクティス記事を読むことをお勧めします。
+Analyzer を設定する際は、ユースケースに最適な構成を判断するために、以下のベストプラクティス記事を読むことをおすすめします。
 
 - [ユースケースに適した Analyzer を選ぶ](./choose-the-right-analyzer-for-your-use-case)
 
-analyzer を設定した後は、Zilliz Cloud が提供するテキスト検索機能と統合できます。詳細については次を参照してください。
+Analyzer を設定した後は、Zilliz Cloud が提供するテキスト検索機能と統合できます。詳細については、以下を参照してください。
 
-- [Full Text Search](./full-text-search)
+- [全文検索](./full-text-search)
 
 - [Text Match](./text-match)
 

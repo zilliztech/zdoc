@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`chinese` analyzer は中国語テキストを処理するために特別に設計されており、効果的なセグメンテーションと tokenization を提供します。 | BYOC"
+description: "`chinese` analyzer は中国語テキストを処理するために特別に設計されており、効果的なセグメンテーションとトークン化を提供します。 | BYOC"
 type: origin
 token: Of8PwuunCihBfxksNJJcSCRYnsf
 sidebar_position: 3
@@ -21,25 +21,25 @@ import TabItem from '@theme/TabItem';
 
 # Chinese
 
-`chinese` analyzer は、中国語テキストを処理するために特別に設計されており、効果的なセグメンテーションと tokenization を提供します。
+`chinese` analyzer は、中国語テキストを処理するために特別に設計されており、効果的なセグメンテーションとトークン化を提供します。
 
 ### Definition\{#definition}
 
-`chinese` analyzer は以下で構成されています。
+`chinese` analyzer は以下で構成されます。
 
-- **Tokenizer**: `jieba` tokenizer を使用して、語彙と文脈に基づいて中国語テキストをトークンに分割します。詳細については、[Jieba](./jieba-tokenizer) を参照してください。
+- **Tokenizer**: `jieba` tokenizer を使用して、語彙とコンテキストに基づいて中国語テキストをトークンに分割します。詳細については、[Jieba](./jieba-tokenizer) を参照してください。
 
 - **Filter**: `cnalphanumonly` filter を使用して、中国語以外の文字を含むトークンを削除します。詳細については、[Cnalphanumonly](./cnalphanumonly-filter) を参照してください。
 
-`chinese` analyzer の機能は、次の custom analyzer 設定と同等です。
+`chinese` analyzer の機能は、次のカスタム analyzer 設定と同等です。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-組み込みの `chinese` analyzer は Pinyin トークンを出力しません。中国語テキストを Pinyin クエリ語と一致させるには、`jieba` tokenizer と [Pinyin filter](./undefined) を使用した custom analyzer を使用してください。
+組み込みの `chinese` analyzer は Pinyin トークンを出力しません。中国語テキストを Pinyin のクエリ語と一致させるには、`jieba` tokenizer と [Pinyin filter](./pinyin-filter) を使用したカスタム analyzer を使用してください。
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -93,7 +93,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -102,11 +103,14 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ### Configuration\{#configuration}
 
-フィールドに `chinese` analyzer を適用するには、`analyzer_params` の `type` を `chinese` に設定するだけです。
+フィールドに `chinese` analyzer を適用するには、`analyzer_params` で `type` を `chinese` に設定するだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -154,13 +158,17 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
     {"type", "chinese"}
 };
 ```
+
+</TabItem>
+</Tabs>
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -170,11 +178,11 @@ nlohmann::json analyzer_params = {
 
 ## Examples\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+analyzer 設定を collection スキーマに適用する前に、`run_analyzer` method を使用してその動作を確認してください。
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -220,7 +228,8 @@ analyzerParams='{"type": "chinese"}'
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -228,9 +237,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -346,7 +358,8 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -370,6 +383,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ### Expected output\{#expected-output}
 

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`standard` analyzer は Zilliz Cloud のデフォルト analyzer であり、analyzer が指定されていない場合はテキストフィールドに自動的に適用されます。文法ベースの tokenization を使用するため、ほとんどの言語で効果的です。 | BYOC"
+description: "`standard` analyzer は Zilliz Cloud のデフォルト analyzer であり、analyzer が指定されていない場合にテキストフィールドへ自動的に適用されます。文法ベースの tokenization を使用するため、ほとんどの言語で効果的です。 | BYOC"
 type: origin
 token: WMSvwXXz4iR7mZkGmUscF3Y1nxs
 sidebar_position: 1
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Standard Analyzer
 
-`standard` analyzer は Zilliz Cloud のデフォルト analyzer であり、analyzer が指定されていない場合はテキストフィールドに自動的に適用されます。文法ベースの tokenization を使用するため、ほとんどの言語で効果的です。
+`standard` analyzer は Zilliz Cloud のデフォルト analyzer であり、analyzer が指定されていない場合にテキストフィールドへ自動的に適用されます。文法ベースの tokenization を使用するため、ほとんどの言語で効果的です。
 
 <Admonition type="info" icon="📘" title="注意">
 
-`standard` analyzer は、単語境界に区切り文字（スペース、句読点など）を使用する言語に適しています。ただし、中国語、日本語、韓国語のような言語では辞書ベースの tokenization が必要です。そのような場合は、正確な tokenization とより良い検索結果を確保するために、[`chinese`](./chinese-analyzer) のような言語固有の analyzer や、特殊な tokenizer（[`lindera`](./lindera-tokenizer)、[`icu`](./icu-tokenizer) など）および filter を使用するカスタム analyzer の利用を強く推奨します。
+`standard` analyzer は、単語境界に区切り文字（スペースや句読点など）を用いる言語に適しています。ただし、中国語、日本語、韓国語のような言語では辞書ベースの tokenization が必要です。そのような場合は、正確な tokenization とより良い検索結果を実現するために、[`chinese`](./chinese-analyzer) のような言語固有の analyzer や、専用 tokenizer（[`lindera`](./lindera-tokenizer)、[`icu`](./icu-tokenizer) など）および filter を組み合わせたカスタム analyzer の使用を強く推奨します。
 
 </Admonition>
 
@@ -35,7 +35,7 @@ import TabItem from '@theme/TabItem';
 
 - **Tokenizer**: `standard` tokenizer を使用して、文法ルールに基づいてテキストを個別の単語単位に分割します。詳細については、[Standard Tokenizer](./standard-tokenizer) を参照してください。
 
-- **Filter**: `lowercase` filter を使用してすべての token を小文字に変換し、大文字・小文字を区別しない検索を可能にします。詳細については、[Lowercase](./lowercase-filter) を参照してください。
+- **Filter**: `lowercase` filter を使用して、すべての token を小文字に変換し、大文字・小文字を区別しない検索を可能にします。詳細については、[Lowercase](./lowercase-filter) を参照してください。
 
 `standard` analyzer の機能は、次のカスタム analyzer 設定と同等です。
 
@@ -108,7 +108,7 @@ nlohmann::json analyzer_params = {
 
 ## Configuration\{#configuration}
 
-`standard` analyzer をフィールドに適用するには、`analyzer_params` 内で `type` を `standard` に設定し、必要に応じてオプションのパラメータを含めるだけです。
+`standard` analyzer をフィールドに適用するには、`analyzer_params` の `type` を `standard` に設定し、必要に応じてオプションのパラメータを含めるだけです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -170,7 +170,7 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-`standard` analyzer は、以下のオプションパラメータを受け付けます。 
+`standard` analyzer は、次のオプションパラメータを受け付けます。 
 
 | Parameter | Description |
 | --- | --- |
@@ -245,7 +245,7 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、指定された analyzer を使用して効率的に tokenization および filtering できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は指定された analyzer を使用して、そのフィールド内のテキストを効率的に tokenization および filtering できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
 
 ## Examples\{#examples}
 
@@ -450,8 +450,8 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### Expected output\{#expected-output}
+### 期待される出力\{#expected-output}
 
-```plaintext
+```sql
 Standard analyzer output: ['the', 'milvus', 'vector', 'database', 'is', 'built', 'scale']
 ```

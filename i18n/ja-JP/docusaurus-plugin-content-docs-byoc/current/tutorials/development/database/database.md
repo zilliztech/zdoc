@@ -1,16 +1,16 @@
 ---
-title: "Serving Clusters のデータベース | BYOC"
+title: "Serving Cluster の Database | BYOC"
 slug: /database
-sidebar_label: "Serving Clusters のデータベース"
+sidebar_label: "Serving Cluster の Database"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "serving cluster のデータベースは、Dedicated serving cluster でホストされる collection の論理コンテナです。このページでは、serving cluster エンドポイントを通じてデータベースを作成、表示、設定、使用、削除する方法を説明します。 | BYOC"
+description: "Serving cluster の database は、Dedicated serving cluster でホストされる collection の論理コンテナです。このページでは、serving cluster エンドポイントを通じて database を作成、表示、設定、使用、削除する方法を説明します。 | BYOC"
 type: origin
 token: DtLVw8EUyi6MqMkXh3Cc3rfZnic
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Serving Clusters のデータベース
+# Serving Cluster の Database
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
@@ -27,31 +27,31 @@ import TabItem from '@theme/TabItem';
 
 </FeatureNote>
 
-serving cluster のデータベースは、Dedicated serving cluster でホストされる collection の論理コンテナです。このページでは、serving cluster エンドポイントを通じてデータベースを作成、表示、設定、使用、削除する方法を説明します。
+serving cluster の database は、Dedicated serving cluster でホストされる collection の論理コンテナです。このページでは、serving cluster エンドポイントを通じて database を作成、表示、設定、使用、削除する方法を説明します。
 
 <Admonition type="info" icon="📘" title="Note">
 
-このページは serving clusters 内のデータベースについて説明しています。オンデマンドコンピュートでクエリされるプロジェクトレベルのデータベースについては、[オンデマンド検索向けデータベース](./on-demand-database) を参照してください。データベースモデルの比較については、[データベースの説明](./database-concept) を参照してください。
+このページは serving cluster 内の database を対象としています。オンデマンドコンピュートでクエリするプロジェクトレベルの database については、[オンデマンド検索向け Database](./on-demand-database) を参照してください。database モデルの比較については、[Database Explained](./database-concept) を参照してください。
 
 </Admonition>
 
-## 開始前に\{#before-you-begin}
+## 始める前に\{#before-you-begin}
 
-以下を確認してください。
+次のことを確認してください。
 
 - Dedicated serving cluster を作成済みであること。
 
-- serving cluster エンドポイントを取得していること。例: `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`。
+- serving cluster のエンドポイントを取得していること。例: `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`。
 
-- 認証トークンを取得していること。これは、対象 cluster にアクセスできる API key、または `username:password` 形式の cluster 認証情報です。
+- 認証トークンを取得していること。これは、対象 cluster へのアクセス権を持つ API key、または `username:password` 形式の cluster 認証情報です。
 
-- データベースを管理するための **Organization Owner** または **Project Admin** 権限を持っていること。
+- database を管理するための **Organization Owner** または **Project Admin** 権限を持っていること。
 
-Dedicated cluster を作成すると、デフォルトのデータベースが自動的に作成されます。Dedicated cluster には最大 1,024 個のデータベースを作成できます。
+Dedicated cluster が作成されると、デフォルトの database が自動的に作成されます。Dedicated cluster には最大 1,024 個の database を作成できます。
 
-## データベースを作成する\{#create-database}
+## Database を作成する\{#create-database}
 
-Zilliz Cloud コンソールから、またはプログラムでデータベースを作成できます。
+Zilliz Cloud コンソールまたはプログラムから database を作成できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -145,9 +145,12 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-データベース作成時にプロパティを設定することもできます。次の例では replica 数を設定しています。
+database の作成時にプロパティを設定することもできます。次の例ではレプリカ数を設定しています。
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 client.create_database(
     db_name="my_database_2",
     properties={
@@ -155,6 +158,10 @@ client.create_database(
     },
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
 
 ```java
 import java.util.HashMap;
@@ -171,7 +178,11 @@ CreateDatabaseReq request = CreateDatabaseReq.builder()
 client.createDatabase(request);
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 err = client.CreateDatabase(
     ctx,
     milvusclient.NewCreateDatabaseOption("my_database_2").
@@ -182,7 +193,11 @@ if err != nil {
 }
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 await client.createDatabase({
   db_name: "my_database_2",
   properties: {
@@ -190,6 +205,10 @@ await client.createDatabase({
   },
 });
 ```
+
+</TabItem>
+
+<TabItem value='bash'>
 
 ```bash
 curl --request POST \
@@ -204,11 +223,14 @@ curl --request POST \
   }'
 ```
 
-## データベースを表示する\{#view-databases}
+</TabItem>
+</Tabs>
 
-データベースを一覧表示するか、特定のデータベースの詳細を表示します。
+## Database を表示する\{#view-databases}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+database の一覧表示、または特定の database の詳細表示ができます。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -240,9 +262,10 @@ DescribeDatabaseResp database = client.describeDatabase(
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='go'>
+
+```go
 databases, err := client.ListDatabase(ctx, milvusclient.NewListDatabaseOption())
 if err != nil {
     // handle error
@@ -256,7 +279,8 @@ if err != nil {
 log.Println(database)
 ```
 
-<Tabs groupId="code" defaultValue='javascript' values={[{"label":"JavaScript","value":"javascript"}]}>
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -286,22 +310,25 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## データベースプロパティを管理する\{#manage-database-properties}
+## Database プロパティを管理する\{#manage-database-properties}
 
-以下のデータベースプロパティは、serving clusters 内のデータベースに対して設定できます。
+次の database プロパティは、serving cluster 内の database に対して設定できます。
 
-| プロパティ | 説明 |
+| Property | Description |
 | --- | --- |
-| `database.replica.number` | データベースの replica 数。 |
-| `database.max.collections` | データベースで許可される collection の最大数。 |
-| `database.force.deny.writing` | データベースへの書き込み操作を拒否するかどうか。 |
-| `database.force.deny.reading` | データベースへの読み取り操作を拒否するかどうか。 |
+| `database.replica.number` | database のレプリカ数。 |
+| `database.max.collections` | database で許可される collection の最大数。 |
+| `database.force.deny.writing` | database に対する書き込み操作を拒否するかどうか。 |
+| `database.force.deny.reading` | database に対する読み取り操作を拒否するかどうか。 |
 
-### データベースプロパティを変更する\{#alter-database-properties}
+### Database プロパティを変更する\{#alter-database-properties}
 
-次の例では、データベース内に作成できる collection 数を制限しています。
+次の例では、database に作成できる collection の数を制限しています。
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 client.alter_database_properties(
     db_name="my_database_1",
     properties={
@@ -309,6 +336,10 @@ client.alter_database_properties(
     },
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
 
 ```java
 import io.milvus.v2.service.database.request.AlterDatabasePropertiesReq;
@@ -321,7 +352,11 @@ client.alterDatabaseProperties(
 );
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 err = client.AlterDatabaseProperties(
     ctx,
     milvusclient.NewAlterDatabasePropertiesOption("my_database_1").
@@ -332,7 +367,11 @@ if err != nil {
 }
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 await client.alterDatabaseProperties({
   db_name: "my_database_1",
   properties: {
@@ -340,6 +379,10 @@ await client.alterDatabaseProperties({
   },
 });
 ```
+
+</TabItem>
+
+<TabItem value='bash'>
 
 ```bash
 curl --request POST \
@@ -354,11 +397,17 @@ curl --request POST \
   }'
 ```
 
-### データベースプロパティを削除する\{#drop-database-properties}
+</TabItem>
+</Tabs>
 
-次の例では、データベースから collection 数の制限を削除しています。
+### Database プロパティを削除する\{#drop-database-properties}
 
-```plaintext
+次の例では、database から collection 数の制限を削除しています。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 client.drop_database_properties(
     db_name="my_database_1",
     property_keys=[
@@ -366,6 +415,10 @@ client.drop_database_properties(
     ],
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
 
 ```java
 import io.milvus.v2.service.database.request.DropDatabasePropertiesReq;
@@ -379,7 +432,11 @@ client.dropDatabaseProperties(
 );
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 err = client.DropDatabaseProperties(
     ctx,
     milvusclient.NewDropDatabasePropertiesOption("my_database_1", "database.max.collections"),
@@ -389,12 +446,20 @@ if err != nil {
 }
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 await client.dropDatabaseProperties({
   db_name: "my_database_1",
   property_keys: ["database.max.collections"],
 });
 ```
+
+</TabItem>
+
+<TabItem value='bash'>
 
 ```bash
 curl --request POST \
@@ -409,53 +474,85 @@ curl --request POST \
   }'
 ```
 
-## データベースを使用する\{#use-database}
+</TabItem>
+</Tabs>
 
-SDK を使用する場合、再接続せずにあるデータベースから別のデータベースへ切り替えることができます。
+## Database を使用する\{#use-database}
+
+SDK を使用する場合は、再接続せずに 1 つの database から別の database に切り替えることができます。
 
 <Admonition type="info" icon="📘" title="Note">
 
-RESTful API は永続接続上でのデータベース切り替えをサポートしていません。RESTful API リクエストでは、操作が `dbName` をサポートしている場合、各リクエストボディで対象データベースを指定してください。
+RESTful API は永続接続上での database 切り替えをサポートしていません。RESTful API リクエストでは、操作が `dbName` をサポートしている場合、各リクエストボディで対象の database を指定してください。
 
 </Admonition>
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 client.use_database(
     db_name="my_database_2",
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 client.useDatabase("my_database_2");
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 err = client.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database_2"))
 if err != nil {
     // handle error
 }
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 await client.useDatabase({
   db_name: "my_database_2",
 });
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # RESTful API does not provide a persistent connection to switch.
 # Specify "dbName" in the request body of each operation when supported.
 ```
 
-## データベースを削除する\{#drop-database}
+</TabItem>
+</Tabs>
 
-デフォルトデータベースは削除できません。データベースを削除する前に、まずそのデータベース内のすべての collection を削除してください。
+## Database を削除する\{#drop-database}
 
-```plaintext
+デフォルトの database は削除できません。database を削除する前に、まずその database 内のすべての collection を削除してください。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 client.drop_database(
     db_name="my_database_2",
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
 
 ```java
 import io.milvus.v2.service.database.request.DropDatabaseReq;
@@ -467,18 +564,30 @@ client.dropDatabase(
 );
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 err = client.DropDatabase(ctx, milvusclient.NewDropDatabaseOption("my_database_2"))
 if err != nil {
     // handle error
 }
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 await client.dropDatabase({
   db_name: "my_database_2",
 });
 ```
+
+</TabItem>
+
+<TabItem value='bash'>
 
 ```bash
 curl --request POST \
@@ -490,9 +599,12 @@ curl --request POST \
   }'
 ```
 
+</TabItem>
+</Tabs>
+
 ## 次のステップ\{#next-steps}
 
-- [データベースの説明](./database-concept)
+- [Database Explained](./database-concept)
 
-- [オンデマンド検索向けデータベース](./on-demand-database)
+- [オンデマンド検索向け Database](./on-demand-database)
 

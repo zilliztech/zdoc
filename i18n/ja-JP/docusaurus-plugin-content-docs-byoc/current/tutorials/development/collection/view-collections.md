@@ -1,5 +1,5 @@
 ---
-title: "コレクションを表示 | BYOC"
+title: "コレクションの表示 | BYOC"
 slug: /view-collections
 sidebar_label: "表示"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "現在接続されているデータベース内のすべてのコレクションの名前一覧を取得し、特定のコレクションの詳細を確認できます。 | BYOC"
+description: "現在接続されているデータベース内のすべてのコレクションの名前リストを取得し、特定のコレクションの詳細を確認できます。 | BYOC"
 type: origin
 token: VAirw0c7ZiKCSqkjtDscAsC4nAf
 sidebar_position: 4
@@ -19,13 +19,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# コレクションを表示
+# コレクションの表示
 
-現在接続されているデータベース内のすべてのコレクションの名前一覧を取得し、特定のコレクションの詳細を確認できます。
+現在接続されているデータベース内のすべてのコレクションの名前リストを取得し、特定のコレクションの詳細を確認できます。
 
-## コレクションを一覧表示する\{#list-collections}
+## コレクションの一覧表示\{#list-collections}
 
-次の例は、現在接続されているデータベース内のすべてのコレクションの名前一覧を取得する方法を示しています。
+次の例は、現在接続されているデータベース内のすべてのコレクションの名前リストを取得する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -159,9 +159,9 @@ for (auto& name : response.CollectionNames()) {
 ["quick_setup"]
 ```
 
-## コレクションの詳細を取得する\{#describe-collection}
+## コレクションの説明\{#describe-collection}
 
-特定のコレクションの詳細を取得することもできます。次の例では、すでに quick_setup という名前のコレクションを作成していることを前提としています。
+特定のコレクションの詳細を取得することもできます。次の例では、すでに `quick_setup` という名前のコレクションを作成していることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -252,7 +252,7 @@ std::cout << "Collection ID: " << response.Desc().ID() << std::endl;
 
 上記の例の結果は次のようになります。
 
-```plaintext
+```sql
 {
     'collection_name': 'quick_setup', 
     'auto_id': False, 
