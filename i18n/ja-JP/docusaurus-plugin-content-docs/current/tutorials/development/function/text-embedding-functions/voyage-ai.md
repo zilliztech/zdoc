@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このトピックでは、Milvus で Voyage AI の埋め込み関数を設定して使用する方法について説明します。 | Cloud"
+description: "このトピックでは、Milvus で Voyage AI embedding functions を設定して使用する方法について説明します。 | Cloud"
 type: origin
 token: P4KNwDdqaivEZFk7RpOcYeyhn2N
 sidebar_position: 2
@@ -21,64 +21,64 @@ import TabItem from '@theme/TabItem';
 
 # Voyage AI
 
-このトピックでは、Milvus で Voyage AI の埋め込み関数を設定して使用する方法について説明します。
+このトピックでは、Milvus で Voyage AI embedding functions を設定して使用する方法について説明します。
 
 ## Model choices\{#model-choices}
 
-Milvus は Voyage AI が提供する埋め込みモデルをサポートしています。以下は、現在利用可能な埋め込みモデルの一覧です。
+Milvus は Voyage AI が提供する embedding model をサポートしています。以下は、現在利用可能な embedding model の一覧です。
 
-| モデル名 | 次元数 | 最大トークン数 | 説明 |
+| Model Name | Dimensions | Max Tokens | Description |
 | --- | --- | --- | --- |
-| `voyage-4-large` | 1024 (default), 256, 512, 2048 | 32,000 | 汎用および多言語検索品質において最高性能を提供します。4 シリーズで作成されたすべての埋め込みは相互互換性があります。詳細は [blog post](https://blog.voyageai.com/2026/01/15/voyage-4/) を参照してください。 |
-| `voyage-4` | 1024 (default), 256, 512, 2048 | 32,000 | 汎用および多言語検索品質向けに最適化されています。4 シリーズで作成されたすべての埋め込みは相互互換性があります。詳細は [blog post](https://blog.voyageai.com/2026/01/15/voyage-4/) を参照してください。 |
-| `voyage-4-lite` | 1024 (default), 256, 512, 2048 | 32,000 | レイテンシとコスト向けに最適化されています。4 シリーズで作成されたすべての埋め込みは相互互換性があります。詳細は [blog post](https://blog.voyageai.com/2026/01/15/voyage-4/) を参照してください。 |
-| voyage-3-large | 1,024 (default), 256, 512, 2,048 | 32,000 | 汎用および多言語検索品質において最高性能を提供します。 |
+| `voyage-4-large` | 1024 (default), 256, 512, 2048 | 32,000 | 汎用および多言語検索において最高の品質を提供します。4 シリーズで作成されたすべての embedding は相互に互換性があります。詳細は [blog post](https://blog.voyageai.com/2026/01/15/voyage-4/) を参照してください。 |
+| `voyage-4` | 1024 (default), 256, 512, 2048 | 32,000 | 汎用および多言語検索品質向けに最適化されています。4 シリーズで作成されたすべての embedding は相互に互換性があります。詳細は [blog post](https://blog.voyageai.com/2026/01/15/voyage-4/) を参照してください。 |
+| `voyage-4-lite` | 1024 (default), 256, 512, 2048 | 32,000 | レイテンシとコスト向けに最適化されています。4 シリーズで作成されたすべての embedding は相互に互換性があります。詳細は [blog post](https://blog.voyageai.com/2026/01/15/voyage-4/) を参照してください。 |
+| voyage-3-large | 1,024 (default), 256, 512, 2,048 | 32,000 | 汎用および多言語検索において最高の品質を提供します。 |
 | voyage-3 | 1,024 | 32,000 | 汎用および多言語検索品質向けに最適化されています。詳細は [blog post](https://blog.voyageai.com/2024/09/18/voyage-3/) を参照してください。 |
 | voyage-3-lite | 512 | 32,000 | レイテンシとコスト向けに最適化されています。詳細は [blog post](https://blog.voyageai.com/2024/09/18/voyage-3/) を参照してください。 |
 | voyage-code-3 | 1,024 (default), 256, 512, 2,048 | 32,000 | コード検索向けに最適化されています。詳細は [blog post](https://blog.voyageai.com/2024/12/04/voyage-code-3/) を参照してください。 |
-| voyage-finance-2 | 1,024 | 32,000 | 金融分野の検索と RAG 向けに最適化されています。詳細は [blog post](https://blog.voyageai.com/2024/06/03/domain-specific-embeddings-finance-edition-voyage-finance-2/) を参照してください。 |
-| voyage-law-2 | 1,024 | 16,000 | 法務分野の検索と RAG 向けに最適化されています。さらに、すべての分野で性能が向上しています。詳細は [blog post](https://blog.voyageai.com/2024/04/15/domain-specific-embeddings-and-retrieval-legal-edition-voyage-law-2/) を参照してください。 |
-| voyage-code-2 | 1,536 | 16,000 | コード検索向けに最適化されています（代替手段より 17% 優れています） / コード埋め込みの前世代モデルです。詳細は [blog post](https://blog.voyageai.com/2024/01/23/voyage-code-2-elevate-your-code-retrieval/) を参照してください。 |
+| voyage-finance-2 | 1,024 | 32,000 | 金融検索および RAG 向けに最適化されています。詳細は [blog post](https://blog.voyageai.com/2024/06/03/domain-specific-embeddings-finance-edition-voyage-finance-2/) を参照してください。 |
+| voyage-law-2 | 1,024 | 16,000 | 法務検索および RAG 向けに最適化されています。また、すべてのドメインにわたって性能が向上しています。詳細は [blog post](https://blog.voyageai.com/2024/04/15/domain-specific-embeddings-and-retrieval-legal-edition-voyage-law-2/) を参照してください。 |
+| voyage-code-2 | 1,536 | 16,000 | コード検索向けに最適化されています（代替手段より 17% 優れています） / 以前の世代のコード embedding です。詳細は [blog post](https://blog.voyageai.com/2024/01/23/voyage-code-2-elevate-your-code-retrieval/) を参照してください。 |
 
-詳細については、[Text embedding models](https://docs.voyageai.com/reference/embeddings-api) を参照してください。
+詳細は [Text embedding models](https://docs.voyageai.com/reference/embeddings-api) を参照してください。
 
 ## Before you start\{#before-you-start}
 
-テキスト埋め込み関数を使用する前に、以下の前提条件を満たしていることを確認してください。
+テキスト embedding function を使用する前に、次の前提条件を満たしていることを確認してください。
 
-- **埋め込みモデルを選択する**
+- **embedding model を選択する**
 
-    使用する埋め込みモデルを決定してください。この選択によって、埋め込みの動作と出力形式が決まります。詳細は [埋め込みモデルを選択する](./voyage-ai#model-choices) を参照してください。
+    どの embedding model を使用するかを決定してください。この選択によって embedding の動作と出力形式が決まります。詳細は [Choose an embedding model](./voyage-ai#model-choices) を参照してください。
 
 - **Voyage AI と統合し、integration ID を取得する**
 
-    Voyage AI が提供する埋め込みモデルを使用する前に、Voyage AI とのモデルプロバイダー統合を作成し、integration ID を取得する必要があります。詳細は [Integrate with Model Providers](./integrate-with-model-providers) を参照してください。
+    Voyage AI が提供する embedding model を使用する前に、Voyage AI との model provider integration を作成し、integration ID を取得する必要があります。詳細は [Integrate with Model Providers](./integrate-with-model-providers) を参照してください。
 
-- **互換性のある collection スキーマを設計する**
+- **互換性のある collection schema を設計する**
 
-    collection スキーマには、以下を含めるように計画してください。
+    collection schema には、以下を含めるように計画してください。
 
-    - 生の入力テキスト用のテキストフィールド（`VARCHAR`）
+    - 生の入力テキスト用のテキスト field (`VARCHAR`)
 
-    - 選択した埋め込みモデルに一致するデータ型と次元数を持つ dense vector フィールド
+    - 選択した embedding model に対応するデータ型と次元を持つ dense vector field
 
 - **挿入時および検索時に生テキストを扱う準備をする**
 
-    テキスト埋め込み関数を有効にすると、生テキストを直接挿入およびクエリできます。埋め込みはシステムによって自動的に生成されます。
+    テキスト embedding function を有効にすると、生テキストを直接 insert および query できます。embedding はシステムによって自動生成されます。
 
 ## Step 1: Create a collection with a text embedding function\{#step-1-create-a-collection-with-a-text-embedding-function}
 
 ### Define schema fields\{#define-schema-fields}
 
-埋め込み関数を使用するには、特定のスキーマを持つ collection を作成します。このスキーマには、少なくとも次の 3 つの必須フィールドを含める必要があります。
+embedding function を使用するには、特定の schema を持つ collection を作成します。この schema には、少なくとも次の 3 つの必須 field を含める必要があります。
 
-- collection 内の各エンティティを一意に識別する primary フィールド。
+- collection 内の各 entity を一意に識別する primary field。
 
-- 埋め込み対象の生データを保存する `VARCHAR` フィールド。
+- embedding される生データを保存する `VARCHAR` field。
 
-- テキスト埋め込み関数が `VARCHAR` フィールドに対して生成する dense vector 埋め込みを保存するための vector フィールド。
+- テキスト embedding function が `VARCHAR` field に対して生成する dense vector embedding を保存するために予約された vector field。
 
-以下の例では、テキストデータを保存するための `VARCHAR` フィールド `"document"` と、テキスト埋め込み関数によって生成される dense 埋め込みを保存するための vector フィールド `"dense"` を含むスキーマを定義しています。vector の次元数（`dim`）は、選択した埋め込みモデルの出力に一致するように設定してください。
+次の例では、テキストデータを保存するための `VARCHAR` field `"document"` と、テキスト embedding function によって生成される dense embedding を保存するための vector field `"dense"` を含む schema を定義しています。vector dimension (`dim`) は、選択した embedding model の出力に一致するよう設定してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -199,11 +199,11 @@ schema->AddField(milvus::FieldSchema("dense", milvus::DataType::FLOAT_VECTOR).Wi
 
 ### Define the text embedding function\{#define-the-text-embedding-function}
 
-テキスト埋め込み関数は、`VARCHAR` フィールドに保存された生データを自動的に埋め込みへ変換し、明示的に定義された vector フィールドに保存します。
+テキスト embedding function は、`VARCHAR` field に保存された生データを自動的に embedding に変換し、明示的に定義された vector field に保存します。
 
-以下の例では、スカラー フィールド `"document"` を埋め込みへ変換し、その結果の vector を先ほど定義した `"dense"` vector フィールドに保存する Function モジュール（`voya`）を追加しています。
+以下の例では、scalar field `"document"` を embedding に変換し、その結果の vector を先ほど定義した `"dense"` vector field に保存する Function module (`voya`) を追加します。
 
-埋め込み関数を定義したら、それを collection スキーマに追加します。これにより、Milvus は指定された埋め込み関数を使用してテキストデータから埋め込みを処理し、保存するようになります。
+embedding function を定義したら、それを collection schema に追加します。これにより、Milvus は指定された embedding function を使用して、テキストデータから embedding を処理および保存するようになります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -218,9 +218,7 @@ text_embedding_function = Function(
     params={                                      # Provider-specific embedding parameters (function-level)
         "provider": "voyageai",                   # Must be set to "voyageai"
         "model_name": "voyage-3-large",                 # Specifies the embedding model to use
-
         "integration_id": "YOUR_INTEGRATION_ID",    # Integration ID generated in the Zilliz Cloud console for the selected model provider
-
         # "url": "https://api.voyageai.com/v1/embeddings",     # Defaults to the official endpoint if omitted
         # "dim": "1024"                           # Output dimension of the vector embeddings after truncation
         # "truncation": "true"                    # Whether to truncate the input texts to fit within the context length. Defaults to true.
@@ -245,9 +243,7 @@ Function function = Function.builder()
         .outputFieldNames(Collections.singletonList("dense"))
         .param("provider", "voyageai")
         .param("model_name", "voyage-3-large")
-
         .param("integration_id", "YOUR_INTEGRATION_ID")
-
         .build();
 schema.addFunction(function);
 ```
@@ -286,9 +282,7 @@ function->AddInputFieldName("document");
 function->AddOutputFieldName("dense");
 function->AddParam("provider", "voyageai");
 function->AddParam("model_name", "voyage-3-large");
-
 function->AddParam("integration_id", "YOUR_INTEGRATION_ID");
-
 collection_schema->AddFunction(function);
 ```
 
@@ -297,7 +291,7 @@ collection_schema->AddFunction(function);
 
 ### Configure the index\{#configure-the-index}
 
-必要なフィールドと組み込み関数を含むスキーマを定義したら、collection の index を設定します。このプロセスを簡素化するために、`index_type` として `AUTOINDEX` を使用してください。これは、データ構造に基づいて Zilliz Cloud が最適な index タイプを選択し、設定するオプションです。
+必要な field と組み込み function を含む schema を定義したら、collection の index を設定します。このプロセスを簡素化するために、`index_type` として `AUTOINDEX` を使用します。これは、Zilliz Cloud がデータ構造に基づいて最適な index type を選択し、設定するオプションです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -368,7 +362,7 @@ std::vector<milvus::IndexDesc> indexes = {
 
 ### Create the collection\{#create-the-collection}
 
-ここで、定義したスキーマと index パラメータを使って collection を作成します。
+ここで、定義した schema と index parameters を使用して collection を作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -440,7 +434,7 @@ if (!status.IsOk()) {
 
 ## Step 2: Insert data\{#step-2-insert-data}
 
-collection と index の設定が完了したら、生データを挿入する準備が整います。このプロセスでは、生テキストのみを提供すれば十分です。前に定義した Function モジュールが、各テキストエントリに対応する sparse vector を自動的に生成します。
+collection と index の設定が完了したら、生データを insert する準備が整います。このプロセスでは、生テキストのみを提供すれば十分です。先ほど定義した Function module が、各テキストエントリに対応する sparse vector を自動的に生成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -524,9 +518,9 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## Step 3: Search with text\{#step-3-search-with-text}
+## ステップ3: テキストによる検索\{#step-3-search-with-text}
 
-データの挿入後は、生のクエリテキストを使ってセマンティック検索を実行します。Milvus はクエリを自動的に埋め込み vector に変換し、類似度に基づいて関連ドキュメントを取得し、最も一致する結果を返します。
+データの挿入後、生のクエリテキストを使ってセマンティック検索を実行します。Milvus はクエリを自動的に embedding vector に変換し、類似性に基づいて関連ドキュメントを取得して、最も一致する上位の結果を返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

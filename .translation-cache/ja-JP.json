@@ -391,9 +391,9 @@
       "translatedAt": "2026-07-17T03:24:54.150Z"
     },
     "docs-byoc/tutorials/development/function/bm25-function.md": {
-      "sourceHash": "66baee9278dce3c36c3c5e9701b882b35613c8ff55099ad130c64a2be7b766c2",
+      "sourceHash": "90a9ad4f16d710d5fb457e6fff4af8d8351c285bfb02ce64825589d81a96f6d1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/function/bm25-function.md",
-      "translatedAt": "2026-07-13T19:46:55.183Z"
+      "translatedAt": "2026-07-22T11:12:45.433Z"
     },
     "docs-byoc/tutorials/development/function/function-and-model-inference-overview.md": {
       "sourceHash": "49e2eeac04855bc15d40eae0b0e4ded63551595634ad0544305deeff1e003951",
@@ -606,9 +606,9 @@
       "translatedAt": "2026-07-13T20:19:08.609Z"
     },
     "docs-byoc/tutorials/development/schema/use-sparse-vector.md": {
-      "sourceHash": "3639bb58e1ca8220affe2cbe3a0b28e535049e5e1cceaf912f7216d90b9ffff1",
+      "sourceHash": "b08201b59fd448ec2113be0123eb60b3bc9e165aefed3eef898e9b056189196d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-sparse-vector.md",
-      "translatedAt": "2026-07-13T20:18:57.423Z"
+      "translatedAt": "2026-07-22T11:11:04.011Z"
     },
     "docs-byoc/tutorials/development/schema/use-string-field.md": {
       "sourceHash": "818f408bf728e2438b26c5aef2f96f63dd5ab28e93a400affb028b2fd9147c4d",
@@ -686,9 +686,9 @@
       "translatedAt": "2026-07-13T20:27:00.218Z"
     },
     "docs-byoc/tutorials/development/search-and-query/full-text-search.md": {
-      "sourceHash": "fd7ed3e41e9e370a825676abf5f6fba4fb35b0c8c529b5fc6e967c014fca9580",
+      "sourceHash": "3088336f276aaaa40e22389b621b4fe19a9445ece5917aa568ef821b09d96ea7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/full-text-search.md",
-      "translatedAt": "2026-07-21T18:58:41.205Z"
+      "translatedAt": "2026-07-22T11:15:41.265Z"
     },
     "docs-byoc/tutorials/development/search-and-query/get-and-scalar-query.md": {
       "sourceHash": "b0fc40e87df59ca375fc152fc9f68d4902f39475c30f5106e272c6d63a0ea435",
@@ -1066,9 +1066,9 @@
       "translatedAt": "2026-07-17T03:28:18.621Z"
     },
     "docs-byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md": {
-      "sourceHash": "7bf31e41668e5678523e0c8669a9bbd385beb7eda8db8f65548c15e4552b171a",
+      "sourceHash": "2e8ea3cf7775d48c332b8d2eb115d06e9c81532c2dc793dfedfec9fd32687469",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md",
-      "translatedAt": "2026-07-17T03:20:42.773Z"
+      "translatedAt": "2026-07-22T11:10:56.143Z"
     },
     "docs-byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer.md": {
       "sourceHash": "59e75c714c50a90035456ef87b2b7cf451a9e30809c5e5eb09c3c195f208d08d",
@@ -1411,9 +1411,9 @@
       "translatedAt": "2026-07-11T11:42:17.427Z"
     },
     "docs/tutorials/ai-models/integrate-with-model-providers.md": {
-      "sourceHash": "d72bc4f541734c30426702dcf2cb1ee1d3851079dbaa909eaedbb1fe3367a4cc",
+      "sourceHash": "dca000d17a97764181bcaccb0957674d6a4e1552c692e432af6f217ed6d1dd70",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/ai-models/integrate-with-model-providers.md",
-      "translatedAt": "2026-07-22T03:31:36.156Z"
+      "translatedAt": "2026-07-22T11:11:49.504Z"
     },
     "docs/tutorials/architecture/best-practices/environment-isolation.md": {
       "sourceHash": "e63b2b79884b5fb0882076b6786e7db1d3e3989b95b558cbec7d1b5dc6b3819f",
@@ -1746,9 +1746,9 @@
       "translatedAt": "2026-07-13T16:18:36.948Z"
     },
     "docs/tutorials/development/function/bm25-function.md": {
-      "sourceHash": "155218dede5ed24381cb8316ca20dc8ea36c4530132be404ea158dd9b02a08d0",
+      "sourceHash": "fe757da9be0c2d59ed86fc89d1faa8ede8e4e90e65042ff3a811d0df913b9a0b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/bm25-function.md",
-      "translatedAt": "2026-07-13T16:20:16.483Z"
+      "translatedAt": "2026-07-22T11:15:23.647Z"
     },
     "docs/tutorials/development/function/function-and-model-inference-overview.md": {
       "sourceHash": "a4bd19f9919a2d3674c448cce536238045667593107a7f4c1a4feadcccfd682d",
@@ -1771,14 +1771,14 @@
       "translatedAt": "2026-07-13T16:21:58.711Z"
     },
     "docs/tutorials/development/function/reranking-functions/model-based-rerankers/cohere-model-ranker.md": {
-      "sourceHash": "046ba99911b849a144cd143174c34b0cd29a4ddcd1a3e1533e3d96c5227dcd40",
+      "sourceHash": "d164e13cc40741580036f95f28d25321293b4fbc63f8705ea2b77f0be815b9d5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/model-based-rerankers/cohere-model-ranker.md",
-      "translatedAt": "2026-07-13T16:20:57.750Z"
+      "translatedAt": "2026-07-22T11:13:16.793Z"
     },
     "docs/tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker.md": {
-      "sourceHash": "a8ec64401f1a33bc1f36020a10bacbdaa1f839147fb4149853d3c70cea401585",
+      "sourceHash": "e5f9329e16e67af5a1d99ccd5c89afd4db9d1a0b37671e27d3beea2637b71691",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker.md",
-      "translatedAt": "2026-07-13T16:22:36.298Z"
+      "translatedAt": "2026-07-22T11:15:14.085Z"
     },
     "docs/tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker.md": {
       "sourceHash": "529a0b9b867181f4aa81d53b0e8a4965105ab49c9a73d31487216a0ad1351647",
@@ -1811,19 +1811,19 @@
       "translatedAt": "2026-07-14T05:48:28.371Z"
     },
     "docs/tutorials/development/function/text-embedding-functions/cohere.md": {
-      "sourceHash": "28992d9b1dfa80eaf12435968a2369b3069f5bc53fd044f053e772217e7345a1",
+      "sourceHash": "4d1f1c4a415a7dd37e16610dff738ec27073a002f72f6d9656c124220636a742",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-functions/cohere.md",
-      "translatedAt": "2026-07-13T16:31:44.677Z"
+      "translatedAt": "2026-07-22T11:16:44.668Z"
     },
     "docs/tutorials/development/function/text-embedding-functions/openai.md": {
-      "sourceHash": "800a272095513f1d79d729033cf2bd71a7b3cad1c85c2e02610f70e64b2563d6",
+      "sourceHash": "59c8c7c60fdea4963edbae44a0e84c07fbd24a828127e2a7ee7542bc774cb313",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-functions/openai.md",
-      "translatedAt": "2026-07-13T16:33:28.424Z"
+      "translatedAt": "2026-07-22T11:18:34.276Z"
     },
     "docs/tutorials/development/function/text-embedding-functions/voyage-ai.md": {
-      "sourceHash": "9f0d020edbcb2c2fa41576cd329ac343271724bfd2b34f28adab285dd5b80fa6",
+      "sourceHash": "1020eeb76fe640ee91d7169b883dc741e01762bdc1d5418401ad5e5c8a1de914",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-functions/voyage-ai.md",
-      "translatedAt": "2026-07-13T16:31:58.736Z"
+      "translatedAt": "2026-07-22T11:17:16.813Z"
     },
     "docs/tutorials/development/insert-and-delete/count-entities.md": {
       "sourceHash": "55b6fe59e0d2b999544fb45a5532f6be3e467280ede9b11d0c30b25f454764f8",
@@ -1991,9 +1991,9 @@
       "translatedAt": "2026-07-14T03:12:29.017Z"
     },
     "docs/tutorials/development/schema/use-sparse-vector.md": {
-      "sourceHash": "0d3a3b128696682798ae13c585245d051a43616d73b2362c49d9544ba7733e6a",
+      "sourceHash": "692521485deb72f5e4203637ef9a326978b97b879100308a52592eb63ab6d76c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-sparse-vector.md",
-      "translatedAt": "2026-07-13T17:00:27.601Z"
+      "translatedAt": "2026-07-22T11:21:50.425Z"
     },
     "docs/tutorials/development/schema/use-string-field.md": {
       "sourceHash": "e62ae407ffc3a09f71664edf0f7c0770ff73b421556faa57afdb36af1a586c2b",
@@ -2076,9 +2076,9 @@
       "translatedAt": "2026-07-13T17:06:03.734Z"
     },
     "docs/tutorials/development/search-and-query/full-text-search.md": {
-      "sourceHash": "7bf38d4af154cc4c6b00e16f683196a7320ff2339a5f0ca7c8709bd9b755eaa6",
+      "sourceHash": "71ea89313541c2dd032c77ed4aa8b1151dd5626f9ef55a60aeac04e63fad096a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/full-text-search.md",
-      "translatedAt": "2026-07-21T18:59:31.495Z"
+      "translatedAt": "2026-07-22T11:19:45.413Z"
     },
     "docs/tutorials/development/search-and-query/get-and-scalar-query.md": {
       "sourceHash": "a95b3c26f74e095d1fb1ce696e4c3008dc0c06828e4154bc4ce4a95846808bcb",
@@ -2756,9 +2756,9 @@
       "translatedAt": "2026-07-17T03:21:06.396Z"
     },
     "docs/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md": {
-      "sourceHash": "043b60ee3f741b037dba8ebf7f77fd442c7df748e7695af8562cb22f14a77302",
+      "sourceHash": "4d0013d3386a3dab5778b0a84b22a7475160829e051b01e24b96044922a126db",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md",
-      "translatedAt": "2026-07-17T03:22:01.541Z"
+      "translatedAt": "2026-07-22T11:19:44.006Z"
     },
     "docs/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer.md": {
       "sourceHash": "e6a9b4c7e8c27105e86fa85c7ba7333a8476720edc3eec46b0574ca1263c1887",

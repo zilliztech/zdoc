@@ -21,57 +21,57 @@ import TabItem from '@theme/TabItem';
 
 # OpenAI
 
-埋め込みモデルを選択し、テキスト埋め込み関数を持つ collection を作成することで、Zilliz Cloud で OpenAI の埋め込みモデルを使用できます。
+埋め込みモデルを選択し、テキスト埋め込み関数を持つ collection を作成することで、Zilliz Cloud で OpenAI の埋め込みモデルを使用します。
 
 ## モデルの選択肢\{#model-choices}
 
-Zilliz Cloud は OpenAI が提供するすべての埋め込みモデルをサポートしています。以下は、すぐに参照できる OpenAI の埋め込みモデル一覧です。
+Zilliz Cloud は、OpenAI が提供するすべての埋め込みモデルをサポートしています。以下は、すぐに参照できる OpenAI の埋め込みモデル一覧です。
 
 | モデル名 | 次元数 | 最大トークン数 | 説明 |
 | --- | --- | --- | --- |
-| text-embedding-3-small | デフォルト: 1,536（1,536 未満の次元数に短縮可能） | 8,191 | コスト重視でスケーラブルなセマンティック検索に最適で、低価格で高い性能を提供します。 |
-| text-embedding-3-large | デフォルト: 3,072（3,072 未満の次元数に短縮可能） | 8,191 | より高い検索精度と豊かなセマンティック表現が求められるアプリケーションに最適です。 |
-| text-embedding-ada-002 | 固定: 1,536（短縮不可） | 8,191 | 旧世代のモデルで、レガシーなパイプラインや後方互換性が必要なシナリオに適しています。 |
+| text-embedding-3-small | デフォルト: 1,536（1,536 未満の次元数に短縮可能） | 8,191 | コスト重視かつスケーラブルなセマンティック検索に最適で、低価格ながら高い性能を提供します。 |
+| text-embedding-3-large | デフォルト: 3,072（3,072 未満の次元数に短縮可能） | 8,191 | より高い検索精度と、より豊かなセマンティック表現が求められるアプリケーションに最適です。 |
+| text-embedding-ada-002 | 固定: 1,536（短縮不可） | 8,191 | レガシーパイプラインや後方互換性が必要なシナリオに適した前世代モデルです。 |
 
 第3世代の埋め込みモデル（**text-embedding-3**）は、`dim` パラメータによって埋め込みサイズを縮小できます。一般に、埋め込みが大きいほど、計算、メモリ、ストレージの観点でコストが高くなります。次元数を調整できることで、全体的なコストと性能をより細かく制御できます。各モデルの詳細については、[Embedding models](https://platform.openai.com/docs/guides/embeddings#embedding-models) および [OpenAI announcement blog post](https://openai.com/blog/new-embedding-models-and-api-updates) を参照してください。
 
-## 始める前に\{#before-you-start}
+## 開始する前に\{#before-you-start}
 
 テキスト埋め込み関数を使用する前に、次の前提条件を満たしていることを確認してください。
 
 - **埋め込みモデルを選択する**
 
-    使用する埋め込みモデルを決定してください。この選択によって、埋め込みの動作と出力形式が決まります。詳細は [Choose an embedding model](./openai#model-choices) を参照してください。
+    使用する埋め込みモデルを決定してください。この選択によって、埋め込みの動作と出力形式が決まります。詳細は [埋め込みモデルを選択する](./openai#model-choices) を参照してください。
 
 - **OpenAI と統合し、integration ID を取得する**
 
-    OpenAI で提供される埋め込みモデルを使用する前に、OpenAI とのモデルプロバイダー統合を作成し、integration ID を取得する必要があります。詳細は [Integrate with Model Providers](./integrate-with-model-providers) を参照してください。
+    OpenAI のモデルプロバイダー統合を作成し、その integration ID を取得してからでないと、OpenAI が提供する埋め込みモデルは使用できません。詳細は [モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。
 
-- **互換性のある collection スキーマを設計する**
+- **互換性のある collection schema を設計する**
 
-    collection スキーマには、以下を含めるように計画してください。
+    collection schema には、次の項目を含めるように計画してください。
 
     - 生の入力テキスト用のテキストフィールド（`VARCHAR`）
 
     - 選択した埋め込みモデルに一致するデータ型と次元を持つ dense vector フィールド
 
-- **挿入時および検索時に生テキストを扱う準備をする**
+- **挿入時と検索時に生テキストを扱う準備をする**
 
-    テキスト埋め込み関数を有効にすると、生テキストを直接挿入およびクエリできます。埋め込みはシステムによって自動生成されます。
+    テキスト埋め込み関数を有効にすると、生テキストを直接挿入およびクエリできます。埋め込みはシステムによって自動的に生成されます。
 
 ## ステップ 1: テキスト埋め込み関数を持つ collection を作成する\{#step-1-create-a-collection-with-a-text-embedding-function}
 
-### スキーマフィールドを定義する\{#define-schema-fields}
+### schema フィールドを定義する\{#define-schema-fields}
 
-埋め込み関数を使用するには、特定のスキーマを持つ collection を作成します。このスキーマには、少なくとも次の3つの必須フィールドを含める必要があります。
+埋め込み関数を使用するには、特定の schema を持つ collection を作成します。この schema には、少なくとも次の 3 つの必須フィールドを含める必要があります。
 
-- collection 内の各エンティティを一意に識別する primary field。
+- collection 内の各 entity を一意に識別するプライマリフィールド。
 
-- 埋め込み対象の生データを格納する `VARCHAR` フィールド。
+- 埋め込み対象となる生データを保存する `VARCHAR` フィールド。
 
-- `VARCHAR` フィールドに対してテキスト埋め込み関数が生成する dense vector 埋め込みを格納するために確保された vector フィールド。
+- テキスト埋め込み関数が `VARCHAR` フィールドに対して生成する dense vector 埋め込みを保存するために確保された vector フィールド。
 
-次の例では、テキストデータを格納する `VARCHAR` フィールド `"document"` と、テキスト埋め込み関数によって生成される dense embedding を格納する vector フィールド `"dense"` を含むスキーマを定義しています。vector の次元（`dim`）は、選択した埋め込みモデルの出力に一致するように設定してください。
+次の例では、テキストデータを保存するための `VARCHAR` フィールド `"document"` と、テキスト埋め込み関数によって生成される dense 埋め込みを保存するための vector フィールド `"dense"` を 1 つずつ持つ schema を定義しています。vector の次元（`dim`）は、選択した埋め込みモデルの出力に一致するように設定してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -194,9 +194,9 @@ schema->AddField(milvus::FieldSchema("dense", milvus::DataType::FLOAT_VECTOR).Wi
 
 ### テキスト埋め込み関数を定義する\{#define-the-text-embedding-function}
 
-テキスト埋め込み関数は、`VARCHAR` フィールドに格納された生データを自動的に埋め込みへ変換し、明示的に定義された vector フィールドに格納します。
+テキスト埋め込み関数は、`VARCHAR` フィールドに保存された生データを自動的に埋め込みに変換し、明示的に定義された vector フィールドに格納します。
 
-以下の例では、scalar field `"document"` を埋め込みに変換し、その結果の vector を先ほど定義した `"dense"` vector フィールドに格納する Function モジュール（`openai_embedding`）を追加します。
+以下の例では、スカラー フィールド `"document"` を埋め込みに変換し、その結果の vector を先ほど定義した `"dense"` vector フィールドに保存する Function モジュール（`openai_embedding`）を追加しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -211,9 +211,7 @@ text_embedding_function = Function(
     params={                                  # Provider-specific configuration (highest priority)
         "provider": "openai",                 # Embedding model provider
         "model_name": "text-embedding-3-small",     # Embedding model
-
         "integration_id": "YOUR_INTEGRATION_ID",    # Integration ID generated in the Zilliz Cloud console for the selected model provider
-
         # "dim": "1536",       # Optional: shorten the vector dimension
         # "user": "user123"    # Optional: identifier for API tracking
     }
@@ -237,9 +235,7 @@ Function function = Function.builder()
         .outputFieldNames(Collections.singletonList("dense"))
         .param("provider", "openai")
         .param("model_name", "text-embedding-3-small")
-
         .param("integration_id", "YOUR_INTEGRATION_ID")
-
         .build();
 schema.addFunction(function);
 ```
@@ -278,18 +274,16 @@ function->AddInputFieldName("document");
 function->AddOutputFieldName("dense");
 function->AddParam("provider", "openai");
 function->AddParam("model_name", "text-embedding-3-small");
-
 function->AddParam("integration_id", "YOUR_INTEGRATION_ID");
-
 collection_schema->AddFunction(function);
 ```
 
 </TabItem>
 </Tabs>
 
-### インデックスを設定する\{#configure-the-index}
+### index を設定する\{#configure-the-index}
 
-必要なフィールドと組み込み関数を含むスキーマを定義したら、collection の index を設定します。このプロセスを簡単にするために、`index_type` として `AUTOINDEX` を使用します。これは、データ構造に基づいて Zilliz Cloud が最適な index タイプを選択し、設定するオプションです。
+必要なフィールドと組み込み関数を含む schema を定義したら、collection の index を設定します。このプロセスを簡素化するために、`index_type` として `AUTOINDEX` を使用してください。これは、データ構造に基づいて Zilliz Cloud が最適な index タイプを選択して設定するオプションです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -360,7 +354,7 @@ std::vector<milvus::IndexDesc> indexes = {
 
 ### collection を作成する\{#create-the-collection}
 
-次に、定義したスキーマと index パラメータを使用して collection を作成します。
+ここで、定義した schema と index パラメータを使用して collection を作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -432,7 +426,7 @@ if (!status.IsOk()) {
 
 ## ステップ 2: データを挿入する\{#step-2-insert-data}
 
-collection と index の設定が完了したら、生データを挿入する準備が整います。このプロセスでは、生テキストだけを指定すれば十分です。先ほど定義した Function モジュールが、各テキストエントリに対応する sparse vector を自動生成します。
+collection と index の設定が完了したら、生データを挿入する準備が整います。このプロセスでは、生テキストのみを指定すれば十分です。先ほど定義した Function モジュールが、各テキストエントリに対応する sparse vector を自動的に生成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -518,7 +512,7 @@ if (!status.IsOk()) {
 
 ## ステップ 3: テキストで検索する\{#step-3-search-with-text}
 
-データ挿入後は、生のクエリテキストを使用してセマンティック検索を実行します。Milvus はクエリを自動的に埋め込み vector に変換し、類似度に基づいて関連ドキュメントを取得し、最も一致する結果を返します。
+データ挿入後、生のクエリテキストを使ってセマンティック検索を実行します。Milvus はクエリを自動的に埋め込み vector に変換し、類似度に基づいて関連ドキュメントを取得し、最も一致する結果を返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

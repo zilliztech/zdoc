@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "疎ベクトルは、情報検索や自然言語処理において表層レベルの語句マッチングを捉えるための重要な手法です。密ベクトルは意味理解に優れていますが、疎ベクトルは特に特殊な用語やテキスト識別子を検索する際に、より予測しやすいマッチング結果を提供することがよくあります。 | Cloud"
+description: "疎ベクトルは、情報検索や自然言語処理において表層レベルの用語マッチングを捉えるための重要な手法です。密ベクトルは意味理解に優れていますが、疎ベクトルは、特に特殊な用語やテキスト識別子を検索する際に、より予測しやすいマッチング結果を提供することがよくあります。 | Cloud"
 type: origin
 token: JbPDwHqd0iZZSuk5tYicGqKbn9c
 sidebar_position: 5
@@ -21,33 +21,33 @@ import TabItem from '@theme/TabItem';
 
 # 疎ベクトル
 
-疎ベクトルは、情報検索や自然言語処理において、表層レベルの語句マッチングを捉えるための重要な手法です。密ベクトルは意味理解に優れていますが、疎ベクトルは特に特殊な用語やテキスト識別子を検索する際に、より予測しやすいマッチング結果を提供することがよくあります。
+疎ベクトルは、情報検索や自然言語処理において表層レベルの用語マッチングを捉えるための重要な手法です。密ベクトルは意味理解に優れていますが、疎ベクトルは、特に特殊な用語やテキスト識別子を検索する際に、より予測しやすいマッチング結果を提供することがよくあります。
 
 ## 概要\{#overview}
 
-疎ベクトルは特殊な高次元ベクトルであり、ほとんどの要素がゼロで、非ゼロの値を持つ次元はごく一部だけです。以下の図に示すように、密ベクトルは通常、各位置に値を持つ連続配列として表現されます（例: `[0.3, 0.8, 0.2, 0.3, 0.1]`）。一方、疎ベクトルは非ゼロ要素とその次元インデックスのみを保存し、一般的には `{ index: value}` のようなキーと値のペアで表現されます（例: `[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`）。 
+疎ベクトルは特別な高次元ベクトルであり、ほとんどの要素がゼロで、少数の次元だけが非ゼロ値を持ちます。以下の図に示すように、密ベクトルは通常、各位置に値を持つ連続配列として表されます（例: `[0.3, 0.8, 0.2, 0.3, 0.1]`）。一方、疎ベクトルは非ゼロ要素とその次元インデックスのみを保存し、しばしば `{ index: value}` のようなキーと値のペアで表されます（例: `[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`）。 
 
 ![VPhswBhHmhJrh3byaVnc3onYnPc](https://zdoc-images.s3.us-west-2.amazonaws.com/VPhswBhHmhJrh3byaVnc3onYnPc.png)
 
-トークン化とスコアリングにより、ドキュメントは bag-of-words ベクトルとして表現できます。各次元は語彙内の特定の単語に対応します。ドキュメント内に存在する単語だけが非ゼロ値を持つため、疎ベクトル表現が作られます。疎ベクトルは次の 2 つのアプローチで生成できます。
+トークン化とスコアリングによって、ドキュメントは bag-of-words ベクトルとして表現できます。ここでは各次元が語彙内の特定の単語に対応します。ドキュメント内に存在する単語だけが非ゼロ値を持つため、疎ベクトル表現が作られます。疎ベクトルは次の 2 つの方法で生成できます。
 
-- **従来の統計的手法**。たとえば [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)（Term Frequency-Inverse Document Frequency）や [BM25](https://en.wikipedia.org/wiki/Okapi_BM25)（Best Matching 25）は、コーパス全体における単語の頻度と重要性に基づいて重みを割り当てます。これらの手法は、トークンを表す各次元に対して単純な統計値をスコアとして計算します。Zilliz Cloud は BM25 メソッドによる組み込みの **全文検索** を提供しており、テキストを自動的に疎ベクトルへ変換するため、手動の前処理が不要です。このアプローチは、精度と完全一致が重要なキーワードベース検索に最適です。詳しくは [Full Text Search](./full-text-search) を参照してください。
+- **従来の統計的手法**。たとえば [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)（Term Frequency-Inverse Document Frequency）や [BM25](https://en.wikipedia.org/wiki/Okapi_BM25)（Best Matching 25）は、コーパス全体における頻度と重要度に基づいて単語に重みを割り当てます。これらの手法は、トークンを表す各次元に対するスコアとして単純な統計量を計算します。Zilliz Cloud は BM25 メソッドによる組み込みの **全文検索** を提供しており、テキストを自動的に疎ベクトルへ変換するため、手動の前処理は不要です。このアプローチは、精度と完全一致が重要なキーワードベース検索に最適です。詳細は [Full Text Search](./full-text-search) を参照してください。
 
-- **ニューラル疎埋め込みモデル** は、大規模データセットで学習して疎表現を生成する学習ベースの手法です。通常は Transformer アーキテクチャを持つ深層学習モデルであり、意味的コンテキストに基づいて語を拡張し重み付けできます。Zilliz Cloud は [SPLADE](https://arxiv.org/abs/2109.10086) のようなモデルによって外部生成された疎埋め込みもサポートしています。詳細は [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) を参照してください。
+- **ニューラル疎埋め込みモデル** は、大規模データセットで学習することにより疎表現を生成する学習ベースの手法です。通常は Transformer アーキテクチャを持つディープラーニングモデルであり、意味的な文脈に基づいて用語を拡張し重み付けできます。Zilliz Cloud は、[SPLADE](https://arxiv.org/abs/2109.10086) のようなモデルから外部生成された疎埋め込みもサポートしています。詳細は [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) を参照してください。
 
-疎ベクトルと元のテキストは、効率的な検索のために Zilliz Cloud に保存できます。以下の図は全体のプロセスを示しています。
+疎ベクトルと元のテキストは、効率的な検索のために Zilliz Cloud に保存できます。以下の図は全体的なプロセスを示しています。
 
 ![A7FvwnB5bhpBlKbgrzYcQijbnxg](https://zdoc-images.s3.us-west-2.amazonaws.com/A7FvwnB5bhpBlKbgrzYcQijbnxg.png)
 
 <Admonition type="info" icon="📘" title="注記">
 
-Zilliz Cloud は疎ベクトルに加えて、密ベクトルとバイナリベクトルもサポートしています。密ベクトルは深い意味関係を捉えるのに最適であり、バイナリベクトルは高速な類似度比較やコンテンツ重複排除のようなシナリオに優れています。詳しくは [Dense Vector](./use-dense-vector) および [Binary Vector](./use-binary-vector) を参照してください。
+疎ベクトルに加えて、Zilliz Cloud は密ベクトルとバイナリベクトルもサポートしています。密ベクトルは深い意味関係を捉えるのに理想的であり、バイナリベクトルは高速な類似性比較やコンテンツの重複排除のようなシナリオに優れています。詳細は [Dense Vector](./use-dense-vector) と [Binary Vector](./use-binary-vector) を参照してください。
 
 </Admonition>
 
 ## データ形式\{#data-formats}
 
-以下のセクションでは、SPLADE のような学習済み疎埋め込みモデルからのベクトルを保存する方法を示します。密ベクトルベースのセマンティック検索を補完するものを探している場合は、シンプルさの観点から SPLADE よりも BM25 を使った [Full Text Search](./full-text-search) を推奨します。品質評価を実施して SPLADE を使用すると決定した場合は、SPLADE で疎ベクトルを生成する方法について [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) を参照してください。
+以下のセクションでは、SPLADE のような学習済み疎埋め込みモデルからのベクトルを保存する方法を示します。密ベクトルベースの意味検索を補完するものを探している場合は、シンプルさの観点から、SPLADE よりも BM25 を使った [Full Text Search](./full-text-search) を推奨します。品質評価を行い、SPLADE を使用することに決めた場合は、SPLADE で疎ベクトルを生成する方法について [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) を参照してください。
 
 Zilliz Cloud は、以下の形式での疎ベクトル入力をサポートしています。
 
@@ -70,7 +70,7 @@ Zilliz Cloud は、以下の形式での疎ベクトル入力をサポートし�
     sparse_vectors = [csr_matrix((vals, ([0]*len(idx), idx)), shape=(1, 5369+1)) for idx, vals in zip(indices, values)]
     ```
 
-- **タプル iterable のリスト（例:** `[(dimension_index, value)]`**）**
+- **タプル反復可能オブジェクトのリスト（例:** `[(dimension_index, value)]`**）**
 
     ```python
     # Represent each sparse vector using a list of iterables (e.g. tuples)
@@ -82,15 +82,15 @@ Zilliz Cloud は、以下の形式での疎ベクトル入力をサポートし�
 
 ## コレクションスキーマの定義\{#define-collection-schema}
 
-コレクションを作成する前に、フィールドを定義し、必要に応じてテキストフィールドを対応する疎ベクトル表現へ変換する関数も定義するコレクションスキーマを指定する必要があります。
+コレクションを作成する前に、コレクションスキーマを指定する必要があります。これはフィールドを定義し、必要に応じてテキストフィールドを対応する疎ベクトル表現へ変換する関数も定義します。
 
 ### フィールドの追加\{#add-fields}
 
-Zilliz Cloud クラスターで疎ベクトルを使用するには、以下のフィールドを含むスキーマでコレクションを作成する必要があります。
+Zilliz Cloud クラスターで疎ベクトルを使用するには、次のフィールドを含むスキーマを持つコレクションを作成する必要があります。
 
-- `VARCHAR` フィールドから自動生成されるか、入力データで直接提供される疎ベクトルを保存するための `SPARSE_FLOAT_VECTOR` フィールド。
+- `SPARSE_FLOAT_VECTOR` フィールド。これは疎ベクトルを保存するために予約されており、`VARCHAR` フィールドから自動生成するか、入力データ内で直接指定します。
 
-- 通常、疎ベクトルが表す生テキストもコレクションに保存されます。生テキストの保存には `VARCHAR` フィールドを使用できます。
+- 通常、疎ベクトルが表す生テキストもコレクションに保存します。生テキストの保存には `VARCHAR` フィールドを使用できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -284,35 +284,33 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxL
 
 この例では、3 つのフィールドが追加されています。
 
-- `pk`: このフィールドは、`VARCHAR` データ型を使用して主キーを保存します。これは最大長 100 バイトで自動生成されます。
+- `pk`: このフィールドは、最大長 100 バイトで自動生成される `VARCHAR` データ型を使用して主キーを保存します。
 
 - `sparse_vector`: このフィールドは、`SPARSE_FLOAT_VECTOR` データ型を使用して疎ベクトルを保存します。
 
-- `text`: このフィールドは、`VARCHAR` データ型を使用してテキスト文字列を保存し、最大長は 65535 バイトです。
+- `text`: このフィールドは、最大長 65535 バイトの `VARCHAR` データ型を使用してテキスト文字列を保存します。
 
 <Admonition type="info" icon="📘" title="注記">
 
-指定したテキストフィールドからデータ挿入時に疎ベクトル埋め込みを生成する機能を Zilliz Cloud で有効にするには、関数を伴う追加の手順が必要です。詳しくは [Full Text Search](./full-text-search) を参照してください。
+データ挿入時に、指定したテキストフィールドから疎ベクトル埋め込みを生成できるようにするには、関数を含む追加の手順が必要です。詳細は [Full Text Search](./full-text-search) を参照してください。
 
 </Admonition>
 
-## インデックスパラメータの設定\{#set-index-parameters}
+## インデックスパラメーターの設定\{#set-index-parameters}
 
-疎ベクトルのインデックスを作成するプロセスは [密ベクトル](./use-dense-vector) の場合と似ていますが、指定するインデックスタイプ（`index_type`）、距離メトリック（`metric_type`）、およびインデックスパラメータ（`params`）に違いがあります。
+疎ベクトルのインデックスを作成するプロセスは [密ベクトル](./use-dense-vector) の場合と似ていますが、指定するインデックスタイプ（`index_type`）、距離メトリック（`metric_type`）、およびインデックスパラメーター（`params`）が異なります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 index_params = client.prepare_index_params()
-
 index_params.add_index(
     field_name="sparse_vector",
     index_name="sparse_auto_index",
     index_type="AUTOINDEX",
     metric_type="IP"
 )
-
 ```
 
 </TabItem>
@@ -324,14 +322,12 @@ import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 List<IndexParam> indexes = new ArrayList<>();
-
 indexes.add(IndexParam.builder()
         .fieldName("sparse_vector")
         .indexName("sparse_auto_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
         .build());
-
 ```
 
 </TabItem>
@@ -339,14 +335,12 @@ indexes.add(IndexParam.builder()
 <TabItem value='javascript'>
 
 ```javascript
-
 const indexParams = await client.createIndex({
     field_name: 'sparse_vector',
     metric_type: MetricType.IP,
     index_name: 'sparse_auto_index',
     index_type: IndexType.AUTOINDEX,
 });
-
 ```
 
 </TabItem>
@@ -363,7 +357,6 @@ indexOption := milvusclient.NewCreateIndexOption("my_collection", "sparse_vector
 <TabItem value='bash'>
 
 ```bash
-
 export indexParams='[
         {
             "fieldName": "sparse_vector",
@@ -372,23 +365,20 @@ export indexParams='[
             "indexType": "AUTOINDEX"
         }
     ]'
-
 ```
 
 </TabItem>
 </Tabs>
 
 ```c++
-
 milvus::IndexDesc sparse_index("sparse_vector", "sparse_auto_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP);
-
 ```
 
 この例では、`IP` をメトリックとして `SPARSE_INVERTED_INDEX` インデックスタイプを使用しています。詳細については、以下のリソースを参照してください。
 
 - [Metric Types](./search-metrics-explained): さまざまなフィールドタイプでサポートされるメトリックタイプ
 
-- [Full Text Search](./full-text-search): 全文検索の詳細なチュートリアル
+- [Full Text Search](./full-text-search): 全文検索に関する詳細なチュートリアル
 
 ## コレクションの作成\{#create-collection}
 
@@ -478,7 +468,7 @@ if (!status.IsOk()) {
 
 ## データの挿入\{#insert-data}
 
-コレクション作成時に定義したすべてのフィールドに対してデータを提供する必要があります。ただし、自動生成されるフィールド（`auto_id` が有効な主キーなど）は除きます。組み込みの BM25 関数を使用して疎ベクトルを自動生成する場合は、データ挿入時に疎ベクトルフィールドも省略する必要があります。
+collection の作成時に定義したすべてのフィールドに対してデータを指定する必要があります。ただし、自動生成されるフィールド（`auto_id` が有効な主キーなど）は除きます。組み込みの BM25 関数を使用して疎ベクトルを自動生成する場合は、データ挿入時に疎ベクトルフィールドも省略してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -642,9 +632,9 @@ if (!status.IsOk()) {
 }
 ```
 
-## 類似度検索の実行\{#perform-similarity-search}
+## 類似性検索の実行\{#perform-similarity-search}
 
-疎ベクトルを使用して類似度検索を実行するには、クエリデータと検索パラメータの両方を準備します。 
+疎ベクトルを使用して類似性検索を実行するには、クエリデータと検索パラメータの両方を準備します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -723,7 +713,7 @@ export queryData='[{1: 0.2, 50: 0.4, 1000: 0.7}]'
 nlohmann::json query_vector = {{"1", 0.2}, {"50", 0.4}, {"1000", 0.7}};
 ```
 
-次に、`search` メソッドを使用して類似度検索を実行します。
+次に、`search` メソッドを使用して類似性検索を実行します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -869,5 +859,5 @@ for (auto& result : search_results.Results()) {
 }
 ```
 
-類似度検索パラメータの詳細については、[Basic Vector Search](./single-vector-search) を参照してください。
+類似性検索パラメータの詳細については、[基本的なベクトル検索](./single-vector-search) を参照してください。
 
