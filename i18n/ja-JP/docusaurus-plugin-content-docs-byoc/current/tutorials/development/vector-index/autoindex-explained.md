@@ -26,17 +26,17 @@ Zilliz Cloud では、異なる構成で稼働するクラスターが提供さ�
 
 ## 機能とメリット\{#features-and-benefits}
 
-ベクトルフィールドに対して、**AUTOINDEX** はオープンソースの Milvus と比べて大きなパフォーマンス上の優位性を提供し、特定のデータセットでは最大 3 倍の QPS を実現します。AUTOINDEX を使用すると、Zilliz Cloud のクラスターがサポートするすべてのフィールドタイプに対してインデックスを作成できます。これには、[Dense Vector](./use-dense-vector)、[Binary Vector](./use-binary-vector)、および [Binary Vector](./use-binary-vector) が含まれます。
+ベクトルフィールドに対して、**AUTOINDEX** はオープンソースの Milvus と比べて大きなパフォーマンス上の優位性を提供し、特定のデータセットでは最大 3 倍の QPS を実現します。AUTOINDEX を使用すると、Zilliz Cloud のクラスターがサポートするすべてのフィールドタイプに対してインデックスを作成できます。これには、[Dense ベクトル](./use-dense-vector)、[Binary ベクトル](./use-binary-vector)、および [Binary ベクトル](./use-binary-vector) が含まれます。
 
 スカラーフィールドに対して、**AUTOINDEX** はフィールドタイプと最適なスカラーインデックスタイプの間に効率的なマッピングを提供します。
 
 | Field Type | AUTOINDEX Resolves to | Description |
 | --- | --- | --- |
-| `VARCHAR` | **BITMAP** (C* < 100) / **INVERTED** ( C ≥ 100) | 文字列データ型。詳細は [String Field](./use-string-field) を参照してください。 |
+| `VARCHAR` | **BITMAP** (C&ast; < 100) / **INVERTED** ( C ≥ 100) | 文字列データ型。詳細は [String Field](./use-string-field) を参照してください。 |
 | `INT8`, `INT16`, `INT32`, `INT64` | **BITMAP** (C < 100) / **STL_SORT** (C ≥ 100) | 整数。詳細は [Boolean & Number](./use-number-field) を参照してください。 |
-| `FLOAT`, `DOUBLE` | **BITMAP** (C* < 100) / **INVERTED** ( C ≥ 100) | 浮動小数点数。詳細は [Boolean & Number](./use-number-field) を参照してください。 |
+| `FLOAT`, `DOUBLE` | **BITMAP** (C&ast; < 100) / **INVERTED** ( C ≥ 100) | 浮動小数点数。詳細は [Boolean & Number](./use-number-field) を参照してください。 |
 | `BOOL` | **BITMAP** | ブール値。詳細は [Boolean & Number](./use-number-field) を参照してください。 |
-| `ARRAY` | **BITMAP** (C* < 100) / **INVERTED** ( C ≥ 100) | スカラー値の同種配列。詳細は [Array Field](./use-array-fields) を参照してください。 |
+| `ARRAY` | **BITMAP** (C&ast; < 100) / **INVERTED** ( C ≥ 100) | スカラー値の同種配列。詳細は [Array Field](./use-array-fields) を参照してください。 |
 | `GEOMETRY` | **RTREE** | 空間情報を格納する幾何データ。詳細は [Geometry Field](./use-geometry-field) を参照してください。 |
 | `TIMESTAMPTZ` | **STL_SORT** | タイムゾーンを認識する ISO 8601 入力で、タイムゾーンをまたいでも一貫したフィルタリングと順序付けを行うために UTC として保存されます。詳細は [TIMESTAMPTZ Field](./use-timestamptz-field) を参照してください。 |
 
@@ -84,7 +84,7 @@ Milvus のコードベースを Zilliz Cloud に移行する際、使用する�
 
 インデックスを構築するプロセスでは、コレクション内のエンティティを特定の順序で整理し、結果をより素早く取得できるようにします。
 
-Zilliz Cloud では、浮動小数点ベクトルへのインデックス作成は簡単です。単にインデックスタイプを **AUTOINDEX** に設定し、メトリックタイプを選ぶだけで、Zilliz Cloud がインデックス構築および検索プロセスに最も適した構成を判断します。メトリックタイプはベクトル間の距離をどのように測定するかを決定するものであり、これだけを考慮すれば十分です。
+Zilliz Cloud では、浮動小数点ベクトルへのインデックス作成は簡単です。単にインデックスタイプを **`AUTOINDEX`** に設定し、メトリックタイプを選ぶだけで、Zilliz Cloud がインデックス構築および検索プロセスに最も適した構成を判断します。メトリックタイプはベクトル間の距離をどのように測定するかを決定するものであり、これだけを考慮すれば十分です。
 
 Milvus と Zilliz Cloud におけるインデックス構築設定の違いを以下に示します。
 

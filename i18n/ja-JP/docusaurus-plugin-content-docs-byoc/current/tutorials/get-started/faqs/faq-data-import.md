@@ -20,7 +20,7 @@ displayed_sidebar: default
 
 - [オブジェクトストレージサービスからデータをインポートする際に短期認証情報を使用できますか？](#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service)
 - [Zilliz Cloud ベクトルデータベースにデータを一括挿入できますか？](#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases)
-- [Node.js SDK を使用して Zilliz Cloud クラスターにデータをインポートしたりクエリしたりする際に ECONNRESET エラーを受け取った場合はどうすればよいですか？](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
+- [Node.js SDK を使用して Zilliz Cloud クラスターにデータをインポートしたりクエリしたりする際に `ECONNRESET` エラーを受け取った場合はどうすればよいですか？](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
 
 ## FAQs
 
@@ -51,7 +51,7 @@ displayed_sidebar: default
 
 はい。詳細については、[Import](./zilliz-import-prompts) を参照してください。
 
-### Node.js SDK を使用して Zilliz Cloud クラスターにデータをインポートしたりクエリしたりする際に ECONNRESET エラーを受け取った場合はどうすればよいですか？\{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
+### Node.js SDK を使用して Zilliz Cloud クラスターにデータをインポートしたりクエリしたりする際に `ECONNRESET` エラーを受け取った場合はどうすればよいですか？\{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
 
 この問題を解決するには、以下の手順に従ってください。
 

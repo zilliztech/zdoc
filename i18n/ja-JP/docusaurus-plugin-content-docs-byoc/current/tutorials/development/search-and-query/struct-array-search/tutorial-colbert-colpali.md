@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このチュートリアルでは、Zilliz Cloud における StructArray vector サブフィールド上の EmbeddingList 検索を使用して、ColBERT スタイルおよび ColPali スタイルの検索システムを構築する方法を紹介します。クエリと保存データの両方が vector のリストとして表現され、`MAXSIM` メトリクスを使用した entity レベルの late-interaction 検索が必要な場合に利用してください。 | BYOC"
+description: "このチュートリアルでは、Zilliz Cloud の StructArray ベクトルサブフィールドに対する EmbeddingList 検索を使用して、ColBERT スタイルおよび ColPali スタイルの検索システムを構築する方法を説明します。クエリと保存データの両方がベクトルのリストとして表現されており、`MAXSIM` メトリクスを使用したエンティティレベルの late-interaction 検索が必要な場合に使用してください。 | BYOC"
 type: origin
 token: Mf7GwGwgQiLCcykOi69cvaD8ncz
 sidebar_position: 6
@@ -20,79 +20,79 @@ import Admonition from '@theme/Admonition';
 
 # EmbeddingLists で検索する: ColBERT と ColPali
 
-このチュートリアルでは、Zilliz Cloud における StructArray vector サブフィールド上の EmbeddingList 検索を使用して、ColBERT スタイルおよび ColPali スタイルの検索システムを構築する方法を紹介します。クエリと保存データの両方が vector のリストとして表現され、`MAX_SIM*` メトリクスを使用した entity レベルの late-interaction 検索が必要な場合に利用してください。
+このチュートリアルでは、Zilliz Cloud の StructArray ベクトルサブフィールドに対する EmbeddingList 検索を使用して、ColBERT スタイルおよび ColPali スタイルの検索システムを構築する方法を説明します。クエリと保存データの両方がベクトルのリストとして表現されており、`MAX_SIM*` メトリクスを使用したエンティティレベルの late-interaction 検索が必要な場合に使用してください。
 
-このチュートリアルの背景となる StructArray の基本については、[StructArray フィールドを作成する](./create-struct-array)、[StructArray フィールドにインデックスを作成する](./index-struct-array)、および [StructArray を使用した基本的なベクトル検索](./search-with-struct-array) を参照してください。このチュートリアルでは、一般的な StructArray 構文ではなく、ColBERT と ColPali のワークフローに焦点を当てます。
+このチュートリアルの背景となる StructArray の基本については、[StructArray フィールドを作成する](./create-struct-array)、[StructArray フィールドにインデックスを作成する](./index-struct-array)、および [StructArray を使用した基本的なベクトル検索](./search-with-struct-array) を参照してください。このチュートリアルでは、一般的な StructArray の構文ではなく、ColBERT と ColPali のワークフローに焦点を当てます。
 
-## Overview\{#overview}
+## 概要\{#overview}
 
-テキスト検索システムを構築するには、精度と正確性を確保するために、ドキュメントをチャンクに分割し、各チャンクをその embeddings とともに vector データベース内の entity として保存する必要がある場合があります。特に長いドキュメントでは、全文 embeddings によって意味的な特異性が薄れたり、モデルの入力制限を超えたりする可能性があるためです。 
+テキスト検索システムを構築するには、精度と正確性を確保するために、ドキュメントをチャンクに分割し、各チャンクをその embedding とともにベクトルデータベース内のエンティティとして保存する必要がある場合があります。特に長いドキュメントでは、全文の embedding が意味的な特異性を薄めたり、モデルの入力制限を超えたりする可能性があるためです。
 
-ただし、データをチャンク単位で保存すると、検索結果もチャンク単位になります。つまり、検索は最初にまとまりのある *documents* ではなく、関連する *segments* を特定します。これに対処するには、検索後に追加の後処理を行う必要があります。
+ただし、データをチャンク単位で保存すると、検索結果もチャンク単位になります。つまり、検索で最初に特定されるのは、まとまりのある *ドキュメント* ではなく、関連する *セグメント* です。これに対処するには、検索後に追加の処理を実行する必要があります。
 
-ColBERT（arXiv: [2004.12832](https://arxiv.org/abs/2004.12832)）は、BERT 上での文脈化された late interaction によって、効率的かつ効果的な passage 検索を提供する text-text 検索システムです。クエリと documents を token 単位で独立してエンコードし、それらの類似度を計算できます。
+ColBERT（arXiv: [2004.12832](https://arxiv.org/abs/2004.12832)）は、BERT 上での文脈を考慮した late interaction により、効率的で効果的な passage 検索を実現する text-text 検索システムです。クエリとドキュメントを独立して token 単位でエンコードし、それらの類似度を計算できます。
 
-### Token-wise encoding\{#token-wise-encoding}
+### token 単位のエンコーディング\{#token-wise-encoding}
 
-ColBERT におけるデータ取り込み時には、各 document は token に分割され、それらがベクトル化されて embedding list として保存されます。つまり、$d \rightarrow E_d = [e_\{d1\}, e_\{d2\}, \dots, e_\{dn\}] ∈ \R^\{n×d\}$ となります。クエリが到着すると、それも token 化され、ベクトル化され、embedding list として保存されます。つまり、$q \rightarrow E_q = [e_\{q1\}, e_\{q2\}, \dots, e_\{qm\}] ∈ \R^\{m×d\}$ となります。
+ColBERT におけるデータ取り込み時には、各ドキュメントが token に分割され、それらはベクトル化されて embedding list として保存されます。つまり、$d \rightarrow E_d = [e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^{n×d}$ です。クエリが到着すると、それも token 化され、ベクトル化されて embedding list として保存されます。つまり、$q \rightarrow E_q = [e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^{m×d}$ です。
 
-上記の式では、 
+上記の式では、
 
-- $d$: document
+- $d$: ドキュメント
 
 - $q$: クエリ
 
-- $E_d$: document を表す embedding list。
+- $E_d$: ドキュメントを表す embedding list。
 
 - $E_q$: クエリを表す embedding list。
 
-- $[e_\{d1\}, e_\{d2\}, \dots, e_\{dn\}] ∈ \R^\{n×d\}$: document を表す embedding list 内の vector embeddings の数は $\R^\{n×d\}$ の範囲内です。
+- $[e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^{n×d}$: ドキュメントを表す embedding list 内のベクトル embedding の数は $\R^{n×d}$ の範囲内です。
 
-- $[e_\{q1\}, e_\{q2\}, \dots, e_\{qm\}] ∈ \R^\{m×d\}$: クエリを表す embedding list 内の vector embeddings の数は $\R^\{m×d\}$ の範囲内です。
+- $[e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^{m×d}$: クエリを表す embedding list 内のベクトル embedding の数は $\R^{m×d}$ の範囲内です。
 
 ### Late interaction\{#late-interaction}
 
-ベクトル化が完了すると、最終的な類似度スコアを決定するために、クエリの embedding list が各 document の embedding list と token ごとに比較されます。
+ベクトル化が完了すると、最終的な類似度スコアを決定するために、クエリの embedding list が各ドキュメントの embedding list と token ごとに比較されます。
 
 ![BqBlwM4OOh6hM9bmNwbc2xUUnxc](https://zdoc-images.s3.us-west-2.amazonaws.com/BqBlwM4OOh6hM9bmNwbc2xUUnxc.png)
 
-上の図に示すように、クエリには `machine` と `learning` の 2 つの token が含まれ、ウィンドウ内の document には `neural`、`network`、`python`、`tutorial` の 4 つの token が含まれています。これらの token がベクトル化されると、各クエリ token の vector embeddings が document 内のそれらと比較され、類似度スコアのリストが取得されます。次に、各スコアリストから最も高いスコアを合計して最終スコアを生成します。document の最終スコアを決定するこのプロセスは、maximum similarity（**MAX_SIM**）として知られています。maximum similarity の詳細については、[Maximum similarity](./search-metrics-explained#maximum-similarity) を参照してください。
+上の図に示すように、クエリには `machine` と `learning` の 2つの token が含まれ、ウィンドウ内のドキュメントには `neural`、`network`、`python`、`tutorial` の 4つの token が含まれています。これらの token がベクトル化されると、各クエリ token のベクトル embedding がドキュメント内のベクトル embedding と比較され、類似度スコアのリストが得られます。次に、各スコアリストから最も高いスコアが合計され、最終スコアが生成されます。ドキュメントの最終スコアを決定するこのプロセスは、maximum similarity（**MAX_SIM**）として知られています。maximum similarity の詳細については、[Maximum similarity](./search-metrics-explained#maximum-similarity) を参照してください。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Milvus で ColBERT ライクなテキスト検索システムを実装する際、documents を token に分割することに限定されません。 
+Milvus で ColBERT のようなテキスト検索システムを実装する場合、ドキュメントを token に分割することに限定されません。
 
-代わりに、documents を適切な任意のサイズの segments に分割し、各 segment を埋め込んで embedding list を作成し、その埋め込まれた segments とともに document を entity に保存できます。
+代わりに、ドキュメントを適切な任意のサイズのセグメントに分割し、各セグメントを embedding して embedding list を作成し、その埋め込み済みセグメントとともにドキュメントをエンティティに保存できます。
 
 </Admonition>
 
-### ColPali extension\{#colpali-extension}
+### ColPali の拡張\{#colpali-extension}
 
-ColBERT をベースに、ColPali（arXiv: [2407.01449](https://arxiv.org/abs/2407.01449?spm=a2ty_o01.29997173.0.0.31c4c9217HFv28&file=2407.01449)）は、Vision-Language Models（VLMs）を活用した、視覚的に情報量の多い document 検索のための新しいアプローチを提案しています。データ取り込み時には、各 document page は token 化される代わりに高解像度画像としてレンダリングされ、その後 patch に分割されます。たとえば、448 x 448 ピクセルの document page 画像からは、14 x 14 ピクセルの patch を 1,024 個生成できます。
+ColBERT をベースに、ColPali（arXiv: [2407.01449](https://arxiv.org/abs/2407.01449?spm=a2ty_o01.29997173.0.0.31c4c9217HFv28&file=2407.01449)）は、Vision-Language Models（VLMs）を活用した、視覚情報の豊富なドキュメント検索に対する新しいアプローチを提案しています。データ取り込み時には、各ドキュメントページは token 化されるのではなく、高解像度の画像としてレンダリングされてから patch に分割されます。たとえば、448 x 448 ピクセルのドキュメントページ画像からは、それぞれ 14 x 14 ピクセルの 1,024 個の patch を生成できます。
 
-この方法では、テキストのみの検索システムでは失われる document レイアウト、画像、テーブル構造などの非テキスト情報を保持できます。
+この方法では、テキストのみの検索システムを使用した場合には失われる、ドキュメントのレイアウト、画像、表構造などの非テキスト情報が保持されます。
 
 ![SuHjwmWiDhLs79buw22cw9aAnqf](https://zdoc-images.s3.us-west-2.amazonaws.com/SuHjwmWiDhLs79buw22cw9aAnqf.png)
 
-ColPali で使用される VLM は PaliGemma（arXiv: [2407.07726](https://arxiv.org/html/2407.07726v2#S1)）と呼ばれ、画像エンコーダー（**SigLIP-400M**）、decoder-only 言語モデル（**Gemma2-2B**）、および画像エンコーダーの出力を言語モデルの vector space に投影する線形層で構成されます。これは上図のとおりです。
+ColPali で使用される VLM は PaliGemma（arXiv: [2407.07726](https://arxiv.org/html/2407.07726v2#S1)）と呼ばれ、画像エンコーダー（**SigLIP-400M**）、decoder-only の言語モデル（**Gemma2-2B**）、および画像エンコーダーの出力を言語モデルのベクトル空間に投影する線形層で構成されています。これは上の図に示すとおりです。
 
-データ取り込み時には、生画像として表現される document page が複数の visual patch に分割され、それぞれが埋め込まれて vector embeddings のリストを生成します。次に、それらが言語モデルの vector space に投影され、最終的な embedding list を取得します。つまり、$d \rightarrow E_d = [e_\{d1\}, e_\{d2\}, \dots, e_\{dn\}] ∈ \R^\{n×d\}$ です。クエリが到着すると、それは token 化され、各 token が埋め込まれて vector embeddings のリストが生成されます。つまり、$q \rightarrow E_q = [e_\{q1\}, e_\{q2\}, \dots, e_\{qm\}] ∈ \R^\{m×d\}$ です。その後、**MAX_SIM** が適用され、2 つの embedding list を比較して、クエリと document page の最終スコアを取得します。 
+データ取り込み時には、生の画像として表現されたドキュメントページが複数の visual patch に分割され、それぞれが embedding されてベクトル embedding のリストが生成されます。次に、それらは言語モデルのベクトル空間に投影され、最終的な embedding list が得られます。つまり、$d \rightarrow E_d = [e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^{n×d}$ です。クエリが到着すると、それは token 化され、各 token が embedding されてベクトル embedding のリストが生成されます。つまり、$q \rightarrow E_q = [e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^{m×d}$ です。その後、**MAX_SIM** が適用されて 2つの embedding list が比較され、クエリとドキュメントページの間の最終スコアが得られます。
 
-## ColBERT text retrieval system\{#colbert-text-retrieval-system}
+## ColBERT のテキスト検索システム\{#colbert-text-retrieval-system}
 
-このセクションでは、StructArray を使用して ColBERT のテキスト検索システムをセットアップします。その前に、Milvus v2.6.x と互換性のある Zilliz Cloud cluster をセットアップし、Cohere access token を取得してください。
+このセクションでは、StructArray を使用して ColBERT のテキスト検索システムをセットアップします。その前に、Milvus v2.6.x と互換性のある Zilliz Cloud クラスターをセットアップし、Cohere のアクセストークンを取得してください。
 
-### Step 1: Install the dependencies\{#step-1-install-the-dependencies}
+### ステップ 1: 依存関係をインストールする\{#step-1-install-the-dependencies}
 
-以下のコマンドを実行して dependencies をインストールします。
+以下のコマンドを実行して、依存関係をインストールします。
 
 ```shell
 pip install --upgrade huggingface-hub transformers datasets pymilvus cohere
 ```
 
-### Step 2: Load the Cohere dataset\{#step-2-load-the-cohere-dataset}
+### ステップ 2: Cohere データセットをロードする\{#step-2-load-the-cohere-dataset}
 
-この例では、Cohere の Wikipedia dataset を使用し、先頭 10,000 件のレコードを取得します。この dataset に関する情報は [このページ](https://huggingface.co/datasets/Cohere/wikipedia-2023-11-embed-multilingual-v3) で確認できます。
+この例では、Cohere の Wikipedia データセットを使用し、先頭の 10,000 件のレコードを取得します。このデータセットの情報は [このページ](https://huggingface.co/datasets/Cohere/wikipedia-2023-11-embed-multilingual-v3) で確認できます。
 
 ```python
 from datasets import load_dataset
@@ -105,19 +105,19 @@ docs = load_dataset(
 )
 ```
 
-上記のスクリプトを実行すると、dataset がローカルで利用できない場合にダウンロードされます。dataset 内の各レコードは Wikipedia page の 1 つの paragraph です。次の表は、この dataset の構造を示しています。
+上記のスクリプトを実行すると、データセットがローカルに存在しない場合はダウンロードされます。データセット内の各レコードは、Wikipedia ページの 1つの段落です。次の表に、このデータセットの構造を示します。
 
-| Column Name | Description |
+| カラム名 | 説明 |
 | --- | --- |
 | `_id` | レコード ID |
 | `url` | 現在のレコードの URL。 |
-| `title` | ソース document のタイトル。 |
-| `text` | ソース document の 1 つの paragraph。 |
-| `emb` | ソース document のテキストの embeddings。 |
+| `title` | ソースドキュメントのタイトル。 |
+| `text` | ソースドキュメントの 1つの段落。 |
+| `emb` | ソースドキュメントのテキストの embedding。 |
 
-### Step 3: Group paragraphs by title\{#step-3-group-paragraphs-by-title}
+### ステップ 3: 段落をタイトルごとにグループ化する\{#step-3-group-paragraphs-by-title}
 
-paragraph ではなく documents を検索するために、paragraphs を title ごとにグループ化する必要があります。
+段落ではなくドキュメントを検索するには、段落をタイトルごとにグループ化する必要があります。
 
 ```python
 df = docs.to_pandas()
@@ -135,11 +135,11 @@ for title, group in groups:
   })
 ```
 
-このコードでは、グループ化された paragraphs を documents として保存し、それらを `data` リストに含めています。各 document には `paragraphs` キーがあり、これは paragraphs のリストです。各 paragraph オブジェクトには `text` キーと `emb` キーが含まれます。
+このコードでは、グループ化された段落をドキュメントとして保存し、それらを `data` リストに含めています。各ドキュメントには `paragraphs` キーがあり、これは段落のリストです。各段落オブジェクトには `text` キーと `emb` キーが含まれます。
 
-### Step 4: Create a collection for the Cohere dataset\{#step-4-create-a-collection-for-the-cohere-dataset}
+### ステップ 4: Cohere データセット用のコレクションを作成する\{#step-4-create-a-collection-for-the-cohere-dataset}
 
-データの準備ができたら、collection を作成します。この collection では、`paragraphs` は StructArray フィールドです。StructArray スキーマの一般的な説明については、[StructArray フィールドを作成する](./create-struct-array) を参照してください。
+データの準備ができたら、コレクションを作成します。このコレクションでは、`paragraphs` は StructArray フィールドです。StructArray スキーマの一般的な説明については、[StructArray フィールドを作成する](./create-struct-array) を参照してください。
 
 ```python
 from pymilvus import MilvusClient, DataType
@@ -180,9 +180,9 @@ client.create_collection(
 )
 ```
 
-### Step 5: Insert Cohere dataset into the collection\{#step-5-insert-cohere-dataset-into-the-collection}
+### ステップ 5: Cohere データセットをコレクションに挿入する\{#step-5-insert-cohere-dataset-into-the-collection}
 
-これで、上で作成した collection に準備済みデータを挿入できます。
+これで、上記で作成したコレクションに、準備したデータを挿入できます。
 
 ```python
 client.insert(
@@ -191,9 +191,9 @@ client.insert(
 )
 ```
 
-### Step 6: Search within the Cohere dataset\{#step-6-search-within-the-cohere-dataset}
+### ステップ 6: Cohere データセット内を検索する\{#step-6-search-within-the-cohere-dataset}
 
-ColBERT の設計によれば、クエリテキストは token 化され、その後 EmbeddingList に埋め込まれる必要があります。このステップでは、Wikipedia dataset 内の paragraphs の embeddings を生成するために Cohere が使用したのと同じモデルを使用します。
+ColBERT の設計では、クエリテキストは token 化してから EmbeddingList に埋め込む必要があります。このステップでは、Wikipedia データセット内の段落の embedding を生成するために Cohere が使用したのと同じモデルを使用します。
 
 ```python
 import cohere
@@ -221,7 +221,7 @@ embeddings = co.embed(
 )
 ```
 
-このコードでは、クエリテキストは `query_inputs` 内で token として整理され、float vectors のリストに埋め込まれます。その後、以下のように Milvus の EmbeddingList を使用して類似度検索を実行できます。
+このコードでは、クエリテキストは `query_inputs` 内で token として整理され、float ベクトルのリストに埋め込まれます。その後、次のように Milvus の EmbeddingList を使用して類似度検索を実行できます。
 
 ```python
 from pymilvus.client.embedding_list import EmbeddingList
@@ -243,7 +243,7 @@ for hit in results[0]:
   print(f"Document {hit['entity']['title']}: {hit['distance']:.4f}")
 ```
 
-上記コードの出力は、次のようになります。
+上記のコードの出力は、次のとおりです。
 
 ```python
 # Document Software: 2.3035
@@ -258,21 +258,21 @@ for hit in results[0]:
 # Document Computer science: 1.9460
 ```
 
-各ペアごとの cosine similarity スコアは `-1` から `1` の範囲です。最終的な `MAX_SIM_COSINE` スコアは、複数の token レベルの maximum similarity スコアを集約するため、`1` を超える場合があります。
+各ペアごとの cosine similarity スコアは `-1` から `1` の範囲です。最終的な `MAX_SIM_COSINE` スコアは、複数の token レベルの maximum similarity スコアを集約するため、`1` より大きくなる場合があります。
 
-## ColPali document retrieval system\{#colpali-document-retrieval-system}
+## ColPali のドキュメント検索システム\{#colpali-document-retrieval-system}
 
-このセクションでは、StructArray を使用して ColPali ベースの document 検索システムをセットアップします。その前に、Milvus v2.6.x と互換性のある Zilliz Cloud cluster をセットアップしてください。
+このセクションでは、StructArray を使用して ColPali ベースのドキュメント検索システムをセットアップします。その前に、Milvus v2.6.x と互換性のある Zilliz Cloud クラスターをセットアップしてください。
 
-### Step 1: Install the dependencies\{#step-1-install-the-dependencies}
+### ステップ 1: 依存関係をインストールする\{#step-1-install-the-dependencies}
 
 ```shell
 pip install --upgrade huggingface-hub transformers datasets pymilvus 'colpali-engine>=0.3.0,<0.4.0'
 ```
 
-### Step 2: Load the Vidore dataset\{#step-2-load-the-vidore-dataset}
+### ステップ 2: Vidore データセットをロードする\{#step-2-load-the-vidore-dataset}
 
-このセクションでは、**vidore_v2_finance_en** という Vidore dataset を使用します。この dataset は、長文 document 理解タスクを目的とした、銀行業界の年次報告書のコーパスです。これは ViDoRe v3 Benchmark を構成する 10 個のコーパスの 1 つです。この dataset の詳細は [このページ](https://huggingface.co/datasets/vidore/vidore_v3_finance_en) で確認できます。 
+このセクションでは、**vidore_v2_finance_en** という名前の Vidore データセットを使用します。このデータセットは、長文ドキュメント理解タスクを目的とした、銀行セクターの年次報告書のコーパスです。これは、ViDoRe v3 Benchmark を構成する 10 個のコーパスの 1つです。このデータセットの詳細は [このページ](https://huggingface.co/datasets/vidore/vidore_v3_finance_en) で確認できます。
 
 ```python
 from datasets import load_dataset
@@ -281,18 +281,18 @@ ds = load_dataset("vidore/vidore_v3_finance_en", "corpus")
 df = ds['test'].to_pandas()
 ```
 
-上記のスクリプトを実行すると、dataset がローカルで利用できない場合にダウンロードされます。dataset 内の各レコードは、財務報告書の 1 ページです。次の表は、この dataset の構造を示しています。
+上記のスクリプトを実行すると、データセットがローカルに存在しない場合はダウンロードされます。データセット内の各レコードは、財務報告書の 1 ページです。次の表に、このデータセットの構造を示します。
 
-| Column Name | Description |
+| カラム名 | 説明 |
 | --- | --- |
-| `corpus_id` | corpus 内のレコード |
-| `image` | bytes 形式の page image。 |
-| `doc_id` | 説明用の document ID。 |
-| `page_number_in_doc` | doc 内の現在の page のページ番号。 |
+| `corpus_id` | コーパス内のレコード |
+| `image` | バイト形式のページ画像。 |
+| `doc_id` | 説明的なドキュメント ID。 |
+| `page_number_in_doc` | ドキュメント内の現在のページのページ番号。 |
 
-### Step 3: Generate embeddings for the page images\{#step-3-generate-embeddings-for-the-page-images}
+### ステップ 3: ページ画像の embedding を生成する\{#step-3-generate-embeddings-for-the-page-images}
 
-[Overview](./tutorial-colbert-colpali#colpali-extension) セクションで説明したように、ColPali モデルは画像をテキストモデルの vector space に投影する VLM です。このステップでは、最新の ColPali モデル **vidore/colpali-v1.3** を使用します。このモデルの詳細は [このページ](https://huggingface.co/vidore/colpali-v1.3) で確認できます。 
+[Overview](./tutorial-colbert-colpali#colpali-extension) セクションで説明したように、ColPali モデルは画像をテキストモデルのベクトル空間に投影する VLM です。このステップでは、最新の ColPali モデル **vidore/colpali-v1.3**. を使用します。このモデルの詳細は [このページ](https://huggingface.co/vidore/colpali-v1.3) で確認できます。
 
 ```python
 import torch
@@ -310,7 +310,7 @@ model = ColPali.from_pretrained(
 processor = ColPaliProcessor.from_pretrained(model_name)
 ```
 
-モデルの準備ができたら、以下のように特定の画像に対して patch を生成してみることができます。
+モデルの準備ができたら、次のように特定の画像の patch を生成してみることができます。
 
 ```python
 from PIL import Image
@@ -332,9 +332,9 @@ print(patches_embeddings.shape)
 # [1031, 128]
 ```
 
-上記のコードでは、ColPali モデルは画像を 448 x 448 ピクセルにリサイズし、その後、14 x 14 ピクセルの patch に分割します。最後に、これらの patch はそれぞれ 128 次元の 1,031 個の embeddings に埋め込まれます。
+上記のコードでは、ColPali モデルは画像を 448 x 448 ピクセルにリサイズしてから、それぞれ 14 x 14 ピクセルの patch に分割します。最後に、これらの patch は、それぞれ 128 次元を持つ 1,031 個の embedding に埋め込まれます。
 
-以下のようにループを使用して、すべての画像の embeddings を生成できます。
+次のようにループを使用して、すべての画像の embedding を生成できます。
 
 ```python
 data = []
@@ -363,13 +363,13 @@ for _, row in df.iterrows():
 
 <Admonition type="info" icon="📘" title="Notes">
 
-このステップは、埋め込む必要のあるデータ量が多いため、比較的時間がかかります。
+このステップは、embedding する必要があるデータ量が多いため、比較的時間がかかります。
 
 </Admonition>
 
-### ステップ 4: 財務レポートデータセット用の collection を作成する\{#step-4-create-a-collection-for-the-financial-reports-dataset}
+### ステップ 4: 財務レポートデータセット用のコレクションを作成する\{#step-4-create-a-collection-for-the-financial-reports-dataset}
 
-データの準備ができたら、collection を作成します。この collection では、`patches` は StructArray フィールドです。各 Struct 要素には 1 つの patch embedding が格納されます。StructArray の vector サブフィールドに対する index 要件については、[StructArray フィールドのインデックス作成](./index-struct-array) を参照してください。
+データの準備ができたら、コレクションを作成します。このコレクションでは、`patches` は StructArray フィールドです。各 Struct 要素には 1つの patch の embedding が格納されます。StructArray のベクトルサブフィールドに対するインデックスの要件については、[StructArray フィールドにインデックスを作成する](./index-struct-array) を参照してください。
 
 ```python
 from pymilvus import MilvusClient, DataType
@@ -429,9 +429,9 @@ client.create_collection(
 )
 ```
 
-### ステップ 5: 財務レポートを collection に挿入する\{#step-5-insert-the-financial-reports-into-the-collection}
+### ステップ 5: 財務レポートをコレクションに挿入する\{#step-5-insert-the-financial-reports-into-the-collection}
 
-これで、準備した財務レポートを collection に挿入できます。
+これで、準備した財務レポートをコレクションに挿入できます。
 
 ```python
 client.insert(
@@ -440,9 +440,9 @@ client.insert(
 )
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-財務レポートの挿入には長い時間がかかる場合があります。各ページには 1,000 を超える patch vector が含まれる可能性があり、各 vector は `patches` StructArray フィールド内に保存されます。より大きなデータセットでは、`data` をより小さなバッチに分割し、1 回に 1 バッチずつ挿入してください。
+財務レポートの挿入には長い時間がかかる場合があります。各ページには 1,000 を超える patch ベクトルが含まれることがあり、各ベクトルは `patches` StructArray フィールド内に保存されます。データセットが大きい場合は、`data` を小さなバッチに分割し、1 回に 1 バッチずつ挿入してください。
 
 </Admonition>
 
@@ -450,7 +450,7 @@ client.insert(
 
 ### ステップ 6: 財務レポート内を検索する\{#step-6-search-within-the-financial-reports}
 
-データの準備ができたら、次のように collection 内のデータに対して検索を実行できます。
+データの準備ができたら、次のようにコレクション内のデータに対して検索を実行できます。
 
 ```python
 from pymilvus.client.embedding_list import EmbeddingList

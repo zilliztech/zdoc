@@ -1,5 +1,5 @@
 ---
-title: "AWS S3 との連携 | BYOC"
+title: "Amazon S3 との連携 | BYOC"
 slug: /integrate-with-aws-s3
 sidebar_label: "AWS S3"
 beta: FALSE
@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud を Amazon Simple Storage Service (Amazon S3) と連携させ、監査ログを指定した S3 バケットにエクスポートできます。 | BYOC"
+description: "このページでは、Zilliz Cloud の AWS BYOC または BYOC-I プロジェクトに、外部の Amazon S3 バケットへのアクセスを承認する方法について説明します。バケットを所有する AWS アカウントでカスタマー管理の IAM ポリシーとロールを作成し、そのロールを Zilliz Cloud に登録します。 | BYOC"
 type: origin
-token: PAViwMSb3iVMzuk56z3c1zfRnwh
-sidebar_position: 1
+token: FuX7w7cfZisGBmk8chnco3msnud
+sidebar_position: 4
 displayed_sidebar: default
 
 ---
@@ -18,329 +18,271 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-import Supademo from '@site/src/components/Supademo';
-
 import Procedures from '@site/src/components/Procedures';
 
-# AWS S3 との連携
+# Amazon S3 との連携
 
-Zilliz Cloud を Amazon Simple Storage Service (Amazon S3) と連携させ、監査ログを指定した S3 バケットにエクスポートできます。
+このページでは、Zilliz Cloud の AWS BYOC または BYOC-I プロジェクトが外部の Amazon S3 バケットにアクセスするための承認方法について説明します。バケットを所有する AWS アカウントでカスタマー管理の IAM ポリシーとロールを作成し、そのロールを Zilliz Cloud に登録します。
 
-![BUEcwkZiChJrTlbziBMc3V49nFe](https://zdoc-images.s3.us-west-2.amazonaws.com/BUEcwkZiChJrTlbziBMc3V49nFe.png)
+<Admonition type="info" icon="📘" title="Notes">
+
+このページのポリシーと信頼ポリシーの例にはプレースホルダーが含まれています。AWS で構成するときは、Zilliz Cloud コンソールで生成された JSON をコピーしてください。この JSON には、正しいバケット名、信頼された AWS プリンシパル、および BYOC プロジェクト固有の外部 ID が含まれています。
+
+</Admonition>
+
+## アクセスフロー\{#access-flow}
+
+![JzmcwFXZ6hdb3IbEoAEc6lFYnRd](https://zdoc-images.s3.us-west-2.amazonaws.com/JzmcwFXZ6hdb3IbEoAEc6lFYnRd.png)
 
 ## 事前準備\{#before-you-start}
 
-- Zilliz Cloud と AWS S3 を連携させるには、プロジェクトに対する **Organization Owner** または **Project Admin** の権限が必要です。必要な権限がない場合は、Zilliz Cloud の Organization Owner にお問い合わせください。
+以下を満たしていることを確認してください。
 
-- AWS Management Console への管理者アクセス権を持っていること。
+- AWS BYOC または BYOC-I のデータプレーンが実行中であること。
 
-## ステップ 1: Zilliz Cloud コンソールで連携を開始する\{#step-1-start-integration-in-zilliz-cloud-console}
+- Zilliz Cloud プロジェクトに対する **Organization Owner** または **Project Admin** のアクセス権を持っていること。
 
-<Supademo id="cmeibltu49co2h3pytvtdthb2" title=""  />
+- 外部 S3 バケットを所有する AWS アカウントで IAM ポリシーとロールを作成できること。
+
+- 選択した BYOC データプレーンのストレージロールにアタッチされている IAM 権限ポリシーを更新できること。
+
+- S3 バケットが、連携を使用する BYOC データプレーンと同じ AWS リージョンにあること。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+バケット連携はリージョン単位です。プロジェクトのデータプレーンが複数のリージョンにある場合は、リージョンごとに個別のバケットと連携を作成してください。
+
+</Admonition>
+
+## ステップ 1: Zilliz Cloud で連携を開始する\{#step-1-start-the-integration-in-zilliz-cloud}
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインします。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com) にログインします。
 
-1. プロジェクト ページの左側ナビゲーション パネルから **Integrations** を選択します。
+1. BYOC プロジェクトを開き、左側のナビゲーションで **Integrations** を選択します。
 
 1. **Amazon S3** セクションで **+ Integration** をクリックします。
 
-1. 表示されるダイアログ ボックスで **Basic Settings** を設定します。
+1. 一意の **Integration Name** を入力し、必要に応じて **Integration Description** も入力します。
 
-    - **Integration Name**: この連携の一意な名前（例: `integration_0819`）。
+1. 連携の使用方法に合ったバケット権限を選択します。
 
-    - **Integration Description** *(任意)*: この連携の説明（例: `for export backupfile`）。
-
-    - **Bucket Permission**: Zilliz Cloud が S3 バケットに対して持つアクセス レベルを選択します。各オプションの詳細は以下の表を参照してください。
-
-        | **Permission** | **Description** |
-        | --- | --- |
-        | Read only | Zilliz Cloud はバケットからのファイル読み取りのみ可能です。外部コレクションの基盤となる [external volumes](./external-volume) に使用します。 |
-        | Read write | Zilliz Cloud はバケットの読み取りと書き込みの両方が可能です。[audit log forwarding](./audit-logs) や [access log forwarding](./configure-access-logs) に使用します。 |
-
-1. **Next** をクリックすると、**Create Amazon S3 Bucket** ステップに移動します。
-
-    1. **Zilliz Cloud クラスター** の **Region** フィールドで、Zilliz Cloud クラスターまたは外部ボリュームが存在するクラウド リージョンを選択します。後で作成するバケットは、Zilliz Cloud クラスターまたはボリュームと同じリージョンである必要があります。
-
-    1. [S3 console](https://us-west-2.console.aws.amazon.com/s3/buckets) を開き、[step 2](./integrate-with-aws-s3) に進みます。
+    | バケット権限 | 用途 | 付与されるアクセス権 |
+    | --- | --- | --- |
+    | **Read only** | 外部ボリュームと外部コレクション | `s3:GetObject`、`s3:ListBucket`、および `s3:GetBucketLocation` |
+    | **Read write** | バックアップのエクスポート、監査ログの転送、アクセスログの転送 | 読み取り専用のアクションに加えて `s3:PutObject` |
 
 </Procedures>
 
-## ステップ 2: AWS コンソールで S3 バケットを作成する\{#step-2-create-s3-bucket-in-aws-console}
-
-<Supademo id="cmeibt2wt9cx1h3pyrojdocrn" title="Step 2: Create S3 bucket (1)" />
+## ステップ 2: 外部 S3 バケットを指定する\{#step-2-specify-the-external-s3-bucket}
 
 <Procedures>
 
-1. [Amazon S3 console](https://console.aws.amazon.com/s3/) の右上隅で、Zilliz Cloud クラスターまたは外部ボリュームと同じ AWS リージョンを選択します。
+1. **Region** で、バケットにアクセスする BYOC データプレーンのリージョンを選択します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+1. [Amazon S3 コンソール](https://s3.console.aws.amazon.com/s3/home) で、外部バケットが同じリージョンにあることを確認します。
 
-    - バケットを作成する AWS リージョンは、Zilliz Cloud クラスターまたは外部ボリュームが存在するリージョンと一致している必要があります。Zilliz Cloud でサポートされているリージョンについては、[Cloud Providers & Regions](./cloud-providers-and-regions) を参照してください。
+1. **Bucket Name** には、バケット名のみを入力します。`s3://`、オブジェクトプレフィックス、末尾のスラッシュは含めないでください。
 
-    - 異なるリージョンで稼働するクラスターがある場合は、監査ログが正しくエクスポートされるよう、リージョンごとに個別の連携設定を作成してください。
-
-    </Admonition>
-
-1. 左側のナビゲーション パネルで **General purpose buckets** を選択し、**Create bucket** をクリックします。
-
-1. バケットの設定を行います。
-
-    1. **Bucket type** で **General purpose** を選択します。
-
-    1. **Bucket name** にバケット名を入力します（例: `zilliz-bucket-for-integration-0819`）。このバケット名は後の手順で必要になりますので、控えておいてください。
-
-    1. その他の設定はデフォルトのままにし、**Create bucket** をクリックします。
-
-    詳細については、[Creating a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) を参照してください。
+1. **Next** をクリックします。Zilliz Cloud がバケットスコープの IAM ポリシーを生成します。
 
 </Procedures>
 
-バケットの作成後、[Zilliz Cloud console](https://cloud.zilliz.com/login) に戻り、以下の操作を行います。
-
-<Supademo id="cmeibwrd19d3xh3pyx4h7r3d4" title="Step 2: Create S3 bucket (2)" />
+## ステップ 3: IAM 権限ポリシーを作成する\{#step-3-create-the-iam-permission-policy}
 
 <Procedures>
 
-1. **Bucket Name** フィールドに、先ほど作成したバケットの名前を入力します（この例では `zilliz-bucket-for-integration-0819`）。その後、**Next** をクリックします。
+1. Zilliz Cloud の **Create IAM Policy** ステップで、生成された JSON をコピーします。
 
-1. **Create IAM Policy** ステップで JSON ポリシーをコピーします。これは [step 3](./integrate-with-aws-s3) で必要になります。
+1. バケットを所有する AWS アカウントで [IAM > Policies](https://us-east-1.console.aws.amazon.com/iam/home#/policies) を開きます。
 
-1. 完了したら、[IAM console](https://console.aws.amazon.com/iam/) を開き、[step 3](./integrate-with-aws-s3) に進みます。
+1. **Create policy** をクリックし、**JSON** エディターを選択して、生成されたポリシーを貼り付けます。
+
+1. **Next** をクリックし、`ZillizBucketIntegration-my-bucket` のような識別しやすい名前をポリシーに付けて作成します。
 
 </Procedures>
 
-## ステップ 3: AWS コンソールで IAM ポリシーを作成する\{#step-3-create-iam-policy-in-aws-console}
+以下の例は、権限レベルごとに生成されるポリシーを示しています。
 
-Zilliz Cloud に AWS S3 へのアクセスを許可するには、IAM ポリシーを作成します。このポリシーには、Zilliz Cloud と S3 バケット間のデータ転送を可能にするための特定のアクションとリソースを含める必要があります。
+### 読み書きポリシー\{#read-write-policy}
 
-<Supademo id="cmeibzhk09d4rh3pyaipwhqi7" title="Step 3: Create IAM policy (1)" />
-
-ここでは簡便のため、JSON エディターを使用してポリシーを作成します。
-
-<Procedures>
-
-1. [IAM コンソール](https://console.aws.amazon.com/iam/) で、**Policies** > **Create policy** の順に選択します。
-
-1. **Policy editor** セクションで、**JSON** オプションを選択します。
-
-1. Zilliz Cloud から提供された JSON ポリシードキュメントをコピーし、ポリシーエディターに貼り付けます。その後、**Next** をクリックします。
-
-    以下は JSON ポリシードキュメントのサンプルです。連携内容に合わせた正確なポリシーについては、Zilliz Cloud コンソールの **Create IAM Policy** ステップを参照してください。
-
-    ```json
+```plaintext
+{
+  "Version": "2012-10-17",
+  "Statement": [
     {
-        "Version": "2012-10-17",
-        "Statement": [
-            {
-                "Sid": "Statement1",
-                "Effect": "Allow",
-                "Action": [
-                    "s3:GetObject",
-                    "s3:PutObject",
-                    "s3:ListBucket",
-                    "s3:GetBucketLocation"
-                ],
-                "Resource": [
-                    "arn:aws:s3:::<bucket>",
-                    "arn:aws:s3:::<bucket>/*"
-                ]
+      "Sid": "Statement1",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": [
+        "arn:aws:s3:::<BUCKET_NAME>",
+        "arn:aws:s3:::<BUCKET_NAME>/*"
+      ]
+    }
+  ]
+}
+```
+
+### 読み取り専用ポリシー\{#read-only-policy}
+
+```plaintext
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Statement1",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": [
+        "arn:aws:s3:::<BUCKET_NAME>",
+        "arn:aws:s3:::<BUCKET_NAME>/*"
+      ]
+    }
+  ]
+}
+```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+バケットでカスタマー管理の AWS KMS キーによるサーバー側の暗号化を使用している場合は、ロールに必要な KMS 権限も付与し、KMS キーポリシーでそのロールを許可してください。書き込みワークフローでは、現在のコンソールで生成されるポリシーに、そのキーに対する `kms:GenerateDataKey` 権限を追加する必要がある場合があります。
+
+</Admonition>
+
+## ステップ 4: IAM ロールと信頼ポリシーを作成する\{#step-4-create-the-iam-role-and-trust-policy}
+
+<Procedures>
+
+1. Zilliz Cloud に戻り、**Next** をクリックして **Create IAM Role** を開きます。
+
+1. 生成されたカスタム信頼ポリシーをコピーします。これには、選択した BYOC データプレーンの AWS プリンシパルと一意の外部 ID が含まれています。
+
+1. バケット所有者の AWS アカウントで [IAM > Roles](https://us-east-1.console.aws.amazon.com/iam/home#/roles) を開き、**Create role** をクリックします。
+
+1. **Custom trust policy** を選択し、生成された JSON を貼り付けて、**Next** をクリックします。
+
+1. ステップ 3 で作成した権限ポリシーをアタッチします。
+
+1. `ZillizBucketIntegrationRole` などのロール名を入力し、構成を確認してロールを作成します。
+
+    ```plaintext
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": "sts:AssumeRole",
+          "Principal": {
+            "AWS": "<ZILLIZ_BYOC_AWS_PRINCIPAL>"
+          },
+          "Condition": {
+            "StringEquals": {
+              "sts:ExternalId": "<ZILLIZ_GENERATED_EXTERNAL_ID>"
             }
-        ]
+          }
+        }
+      ]
     }
     ```
 
-    ただし、AWS KMS を使用してバケットのサーバー側暗号化を有効にしている場合は、`kms:GenerateDataKey` アクションを許可する追加の IAM ポリシーが必要です。この場合、以下の JSON ポリシーを使用してください。
+</Procedures>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+外部 ID は、ロールをこの連携にバインドし、クロスアカウントの信頼関係を保護します。プリンシパルと外部 ID の両方を、Zilliz Cloud に表示されるとおりに正確にコピーしてください。
+
+</Admonition>
+
+## ステップ 5: BYOC ストレージロールにカスタマーロールの引き受けを許可する\{#step-5-allow-the-byoc-storage-role-to-assume-the-customer-role}
+
+カスタマーロールの信頼ポリシーは、承認の一方の側にすぎません。選択したデータプレーンのストレージロールにも、新しいカスタマーロールに対する `sts:AssumeRole` を許可する ID ベースのポリシーが必要です。
+
+ロール名は通常 `-storage-role` で終わります。Zilliz Cloud で正確なロール ARN を確認してください。
+
+<Procedures>
+
+1. プロジェクトを開き、左側のナビゲーションで **Data Planes** をクリックします。
+
+1. バケット連携を使用するデータプレーンをクリックして、**View Data Plane Details** を開きます。
+
+    ![外部バケットを使用するデータプレーンを開きます。](https://zdoc-images.s3.us-west-2.amazonaws.com/open-the-data-plane-that-will-use-the-external-bucket.png "外部バケットを使用するデータプレーンを開きます。")
+
+1. **Credential Settings > Storage** までスクロールします。
+
+1. 完全な **IAM Role ARN** をコピーします。ロール名が `-storage-role` で終わっていない場合でも、この ARN を使用してください。
+
+    ![Credential Settings > Storage の IAM Role ARN がデータプレーンのストレージロールです。](https://zdoc-images.s3.us-west-2.amazonaws.com/the-iam-role-arn-under-credential-settings-greater-storage-is-the-data-plane-storage-role.png "Credential Settings > Storage の IAM Role ARN がデータプレーンのストレージロールです。")
+
+1. BYOC データプレーンを含む AWS アカウントで、その ARN で識別される IAM ロールを開きます。
+
+1. そのストレージロールにアタッチされているカスタマー管理の権限ポリシーを作成または更新します。
+
+1. `Resource` に、ステップ 4 で作成した正確なロール ARN を設定します。`*` は使用しないでください。
 
     ```json
     {
-        "Version": "2012-10-17",
-        "Statement": [
-            {
-                "Sid": "Statement1",
-                "Effect": "Allow",
-                "Action": [
-                    "s3:GetObject",
-                    "s3:PutObject",
-                    "s3:ListBucket",
-                    "s3:GetBucketLocation"
-                ],
-                "Resource": [
-                    "arn:aws:s3:::<bucket>",
-                    "arn:aws:s3:::<bucket>/*"
-                ]
-            },
-            {
-                "Sid": "AllowKMSGenerateDataKey",
-                "Effect": "Allow",
-                "Action": [
-                    "kms:GenerateDataKey"
-                ],
-                "Resource": "arn:aws:kms:<region>:<account_id>:key/<key_id>"
-            }
-        ]
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Sid": "AllowAssumeExternalBucketRole",
+          "Effect": "Allow",
+          "Action": "sts:AssumeRole",
+          "Resource": "<CUSTOMER_BUCKET_ROLE_ARN>"
+        }
+      ]
     }
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="Both policies are required">
 
-    - `<bucket>` は、実際の S3 バケット名に置き換えてください。
-
-    - `<region>`、`<account_id>`、および `<key_id>` は、それぞれの実際の値に置き換えてください。詳細については、AWS ドキュメントの [Key identifiers](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id) を参照してください。
-
-    </Admonition>
-
-1. **Review and create** ページで、作成するポリシーの **Policy Name**（例: `zilliz-policy-for-integration-0819`）と **Description**（任意）を入力し、**Permissions defined in this policy** を確認します。ポリシー名は後のステップで必要になるため、控えておいてください。
-
-1. **Create policy** を選択して新しいポリシーを保存します。完了したら、[ステップ 4](./integrate-with-aws-s3) に進みます。
-
-</Procedures>
-
-## ステップ 4: IAM ロールを作成する\{#step-4-create-iam-role}
-
-AWS コンソールで IAM ロールを作成する前に、Zilliz Cloud コンソールで以下の操作を行ってください。
-
-<Supademo id="cmeic3fab9dajh3pyzp50jnck" title="Step 4: Create IAM role (1)" />
-
-<Procedures>
-
-1. Zilliz Cloud コンソールで **Next** をクリックし、**Create IAM Role** ステップに進みます。
-
-1. **Select trusted entity** で JSON コンテンツをコピーし、[IAM コンソール](https://console.aws.amazon.com/iam/) に移動します。
-
-</Procedures>
-
-上記の準備ができたら、以下の手順で IAM ロールを作成します。
-
-<Supademo id="cmeic6bis9dgth3pybfmk8143" title="Step 4: Create IAM role (2)" />
-
-<Procedures>
-
-1. [IAM コンソール](https://console.aws.amazon.com/iam/) で、**Roles** > **Create role** の順に選択します。
-
-1. ロールタイプとして **Custom trust policy** を選択します。
-
-1. **Custom trust policy** セクションに、ロール用のカスタム信頼ポリシーをコピーして貼り付けます。その後、**Next** をクリックします。
-
-    以下は JSON 信頼ポリシーのサンプルです。連携内容に合わせた正確な信頼ポリシーについては、Zilliz Cloud コンソールの **Create IAM Role** ステップを参照してください。
-
-    ```json
-    {
-        "Version": "2012-10-17",
-        "Statement": [
-            {
-                "Effect": "Allow",
-                "Action": "sts:AssumeRole",
-                "Principal": {
-                    "AWS": "965570967084"
-                },
-                "Condition": {
-                    "StringEquals": {
-                        "sts:ExternalId": "my-external-id"
-                    }
-                }
-            }
-        ]
-    }
-    ```
-
-    <Admonition type="info" icon="📘" title="Notes">
-
-    `965570967084` および `my-external-id` は、Zilliz Cloud コンソールの **Create IAM Role** ステップに表示される実際の AWS アカウント ID および外部 ID に置き換えてください。
-
-    </Admonition>
-
-1. **Add permissions** ステップの **Permissions policies** で、[ステップ 3](./integrate-with-aws-s3) で作成したポリシーを検索して選択し、権限を追加します。その後、**Next** をクリックします。
-
-1. **Name, review, and create** ステップで、ロール名（例: `zilliz-integration-role-0819`）を入力し、設定を確認してから **Create role** をクリックします。
-
-1. 作成したロールの詳細ページに移動し、そのロールに対応する **ARN** をコピーします。この ARN は、[ステップ 5](./integrate-with-aws-s3#step-5-validate-and-add-integration) で Zilliz Cloud コンソールに入力する必要があります。
-
-</Procedures>
-
-## ステップ 5: 統合の検証と追加\{#step-5-validate-and-add-integration}
-
-<Supademo id="cmeicbdyz9dprh3py2wwbguvn" title="Step 5: Validate and add integration" />
-
-<Procedures>
-
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) の **Create IAM Role** ステップで、前のステップで IAM コンソールからコピーした **ARN** を貼り付けます。
-
-1. 次に、**Validate Integration** をクリックして、S3 バケットと IAM ロールの設定を検証します。
-
-1. ステータスが **Successful** に変われば、統合は正常に機能しています。**Add** をクリックしてください。
-
-    <Admonition type="info" icon="📘" title="Notes">
-
-    IAM の変更が反映されるまでには時間がかかる場合があります。設定直後に検証が失敗した場合は、しばらく待ってから再試行してください。
+    ストレージロールの権限ポリシーで呼び出しを許可し、カスタマーロールの信頼ポリシーで、正しい外部 ID を持つ呼び出し元を信頼する必要があります。どちらか一方が欠けていると、ロールの引き受けが失敗します。
 
     </Admonition>
 
 </Procedures>
 
-これで、この統合を使用して監査ログを Amazon S3 バケットに転送できるようになりました。詳細については、[Audit Logging](./audit-logs) を参照してください。
+## ステップ 6: 連携を検証して追加する\{#step-6-validate-and-add-the-integration}
+
+<Procedures>
+
+1. AWS のロール詳細ページで、ロール ARN をコピーします。形式は次のとおりです：`arn:aws:iam::<BUCKET_ACCOUNT_ID>:role/<ROLE_NAME>`。
+
+1. Zilliz Cloud に戻り、ARN を **Role ARN** に貼り付けます。
+
+1. **Validate Integration** をクリックします。
+
+1. ステータスが **Successful** に変わったら、**Add** をクリックします。これで、同じ Zilliz Cloud プロジェクトおよびリージョン内のサポート対象のワークフローで Amazon S3 連携を利用できるようになります。
+
+</Procedures>
+
+## セキュリティに関する推奨事項\{#security-recommendations}
+
+- バケット連携ごとに専用の IAM ロールを作成します。
+
+- BYOC ストレージロールでは、正確なカスタマーロール ARN に対してのみ `sts:AssumeRole` を許可します。
+
+- ポリシーのスコープを正確なバケットに限定し、ワークフローでオブジェクトを書き込む必要がない限り **Read only** を選択します。
+
+- S3 Block Public Access を有効にしておきます。バケット連携にバケットへのパブリックアクセスは必要ありません。
+
+- Zilliz Cloud に長期間有効な AWS アクセスキーを追加しないでください。アクセスは、一時的な STS 認証情報を使用してカスタマーロールを引き受けることで取得します。
+
+- 組織レベルのサービスコントロールポリシー、アクセス許可の境界、S3 バケットポリシー、または KMS キーポリシーが適用される場合は、このロールに付与されたアクションが拒否されないことを確認します。
 
 ## トラブルシューティング\{#troubleshooting}
 
-統合作業中に問題が発生した場合は、以下の一般的なエラーメッセージと解決策を参照してください。
-
-### バケットリージョンの不一致\{#bucket-region-mismatch}
-
-**説明**: S3 バケットのリージョンが Zilliz Cloud クラスターのリージョンと一致しない場合に、以下の例のようなエラーが発生します。
-
-```plaintext
-"bucket region not match, want[us-west-1] got[us-west-2]"
-```
-
-**解決策**:
-
-- S3 バケットが存在する AWS リージョンが、Zilliz Cloud クラスターのリージョンと一致していることを確認してください。
-
-- 必要に応じて、正しいリージョンに新しいバケットを作成するか、クラスターのリージョンをバケットのリージョンに合わせて変更してください。
-
-### バケットが見つからない\{#bucket-not-found}
-
-**説明**: 指定された S3 バケットが存在しないか、バケット名が誤っている場合にこのエラーが発生します。
-
-```plaintext
-check bucket failed: get bucket location: operation error S3: GetBucketLocation, https response error StatusCode: 404, RequestID: ..., HostID: ..., api error NoSuchBucket: The specified bucket does not exis
-```
-
-**解決策**:
-
-- Zilliz Cloud コンソールと AWS S3 コンソールの両方で、バケット名を再確認してください。
-
-- バケットが実際に存在し、Zilliz Cloud の設定に名前が正しく入力されていることを確認してください。
-
-### バケットの場所へのアクセス拒否\{#access-denied-for-bucket-location}
-
-**説明**: IAM ロールに S3 バケットの場所へアクセスするために必要な権限が付与されていない場合に、このエラーが発生します。
-
-```plaintext
-check bucket failed: get bucket location: operation error S3: GetBucketLocation, https response error StatusCode: 403 ...
-```
-
-**解決策**:
-
-- Zilliz Cloud が使用しているロールにアタッチされた IAM ポリシーを確認してください。
-
-- ポリシーに `s3:GetBucketLocation` 権限が含まれていること、および `s3:GetObject`、`s3:PutObject`、`s3:ListBucket` などその他の必要な権限も含まれていることを確認してください。
-
-### ロールの引き受け失敗\{#role-assumption-failure}
-
-**説明**: ロール ARN、外部 ID、または信頼ポリシーの不備により IAM ロールの引き受けに問題がある場合に、このエラーが発生します。
-
-```sql
-try assume role from[zilliz-role] to [arn:aws:iam::041623484421:role/testoss121703] with externalId[zilliz-external-1umVCIK7q96kzDE] failed
-```
-
-**解決策**:
-
-- Zilliz Cloud コンソール上のロール ARN と外部 ID が、IAM 信頼ポリシー内の対応する値と一致していることを確認してください。
-
-- IAM ロールの信頼ポリシーにおいて、Zilliz Cloud がロールを引き受けることが許可されていることを確認してください。
-
-### 権限反映の遅延\{#permission-propagation-delay}
-
-IAM ロールまたはポリシーの作成・更新直後に **AccessDenied** エラーが表示された場合は、しばらく待ってから再試行してください。AWS IAM の変更は結果整合性モデルに従うため、反映までの最大時間は保証されていません。
+| 検証結果 | 考えられる原因 | 確認する項目 |
+| --- | --- | --- |
+| `bucket region not match` | バケットと選択した BYOC データプレーンが異なるリージョンにあります。 | 一致するリージョンを選択するか、データプレーンのリージョンにあるバケットを使用してください。 |
+| `NoSuchBucket` | バケット名が正しくないか、バケットが存在しません。 | `s3://` やパスを含めず、正確なバケット名のみを入力してください。 |
+| `GetBucketLocation` に対する `AccessDenied` | IAM 権限ポリシーが存在しない、アタッチされていない、または別の AWS ポリシーによってブロックされています。 | ロールがバケットに対して `s3:GetBucketLocation` を持っていることを確認し、アクセス許可の境界、バケットポリシー、サービスコントロールポリシーを確認してください。 |
+| ロールの引き受けに失敗しました | ストレージロールに `sts:AssumeRole` がないか、ロール ARN、信頼されたプリンシパル、または外部 ID が一致していません。 | 両方の側を確認してください。ストレージロールの ID ポリシーがカスタマーロール ARN を許可し、カスタマーロールの信頼ポリシーに生成されたプリンシパルと外部 ID が含まれている必要があります。 |
