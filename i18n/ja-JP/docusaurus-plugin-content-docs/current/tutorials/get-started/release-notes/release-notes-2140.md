@@ -10,7 +10,7 @@ notebook: FALSE
 description: "このリリースでは、PRIVATE PREVIEW の2つの新機能として、BYOC-I と呼ばれる新しい BYOC デプロイオプションと、データプレーン監査ログ機能が導入されます。前者はクロスアカウント IAM 認可なしで完全なデータ主権を確保するよう設計されており、後者はデータプレーン上で実行されたアクションの詳細なログを提供することでデータセキュリティの強化を目的としています。これらの機能の提供開始に加えて、Zilliz Cloud はクレジット戦略も改定しました。 | Cloud"
 type: origin
 token: FSUqwEEIii9k2sklkcLcIFJJnbf
-sidebar_position: 15
+sidebar_position: 16
 displayed_sidebar: releasesSidebar
 
 ---
@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 このリリースは **Milvus v2.4.x** と互換性があります。
 
-クラスターを **Public Preview** にアップグレードしたい場合は、アップグレード後に **Milvus 2.5.x** の機能を利用できます。詳細については、Zilliz Cloud コンソールの **Cluster Details** ページで **Try Preview Features** をクリックすると、**Public Preview** の機能を確認できます。
+クラスターを **Public Preview** にアップグレードしたい場合は、アップグレード後に **Milvus 2.5.x** の機能を利用できます。詳細については、Zilliz Cloud コンソールの **クラスター Details** ページで **Try Preview Features** をクリックすると、**Public Preview** の機能を確認できます。
 
 ![Koy0bfMhuoaJ2ZxtVJfcUSl9n6d](https://zdoc-images.s3.us-west-2.amazonaws.com/koy0bfmhuoaj2zxtvjfcusl9n6d.png "Koy0bfMhuoaJ2ZxtVJfcUSl9n6d")
 
@@ -54,7 +54,7 @@ Zilliz BYOC のデプロイオプションの詳細については、[BYOC Overv
 
 クラスターで監査ログを有効にする手順の詳細については、[Audit Logging](./audit-logs) を参照してください。Snowflake などのサードパーティのデータウェアハウスサービスを使用して収集された監査ログへの理解をさらに深めるには、[Automating Snowpipe for Amazon S3](https://docs.snowflake.com/en/user-guide/data-load-snowpipe-auto-s3) を参照してください。 
 
-Zilliz Cloud は現在、Collections、Databases、Entities（Search、HybridSearch、Insert、Upsert、Delete）、Indexes、Partitions、Aliases に関連する70種類を超えるアクションおよびイベントのログ取得をサポートしています。今後のリリースでは、さらに多くのイベントが追加される予定です。適用可能なアクションおよびイベントの詳細については、[Audit Log Reference](./audit-logs-ref) を参照してください。
+Zilliz Cloud は現在、コレクション、データベース、エンティティ（Search、HybridSearch、Insert、Upsert、Delete）、インデックス、パーティション、エイリアスに関連する 70 種類を超えるアクションおよびイベントのログ取得をサポートしています。今後のリリースでは、さらに多くのイベントが追加される予定です。適用可能なアクションおよびイベントの詳細については、[Audit Log Reference](./audit-logs-ref) を参照してください。
 
 ## その他の機能強化\{#other-enhancements}
 

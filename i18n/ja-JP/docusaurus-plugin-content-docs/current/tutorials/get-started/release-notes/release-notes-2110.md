@@ -10,7 +10,7 @@ notebook: FALSE
 description: "このリリースには、新しい Web コンソールのユーザーインターフェース、Qdrant、Pinecone Serverless、Tencent VectorDB からのデータ移行のサポート、よりスムーズな支払いプロセス、詳細な支払い情報を備えた刷新された Invoice ページが含まれます。 | Cloud"
 type: origin
 token: HwWfwN9SViqU0Ukcv68cufBAnBe
-sidebar_position: 18
+sidebar_position: 19
 displayed_sidebar: releasesSidebar
 
 ---
@@ -58,5 +58,4 @@ import Admonition from '@theme/Admonition';
 
 ### 機能強化\{#enhancements}
 
-- replica 構成プロセスを最適化しました。この新しいバージョンでは、すべての collection を事前にリリースする必要なく、ユーザーは replica 数を直接調整できるようになりました。
-
+- replica 構成プロセスを最適化しました。この新しいバージョンでは、すべての コレクション を事前にリリースする必要なく、ユーザーは replica 数を直接調整できるようになりました。

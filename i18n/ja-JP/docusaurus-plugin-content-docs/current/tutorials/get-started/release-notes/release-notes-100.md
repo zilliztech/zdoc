@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud の大規模アップデートの一般提供開始をお知らせします。このリリースでは、使いやすさ、セキュリティ、パフォーマンス、機能性におけるベクトルデータベースサービスの基準を新たな段階へ引き上げ、すべての人のために構築された最先端のベクトルデータベース体験を提供します。 | Cloud"
 type: origin
 token: XmUYwRgNDitesQkl9QDc3IslnOh
-sidebar_position: 34
+sidebar_position: 35
 displayed_sidebar: releasesSidebar
 
 ---
@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud の大規模アップデートの一般提供開始をお知らせします。このリリースでは、使いやすさ、セキュリティ、パフォーマンス、機能性におけるベクトルデータベースサービスの基準を新たな段階へ引き上げ、すべての人のために構築された最先端のベクトルデータベース体験を提供します。
 
-- 10億規模のベクトルコレクションサポート
+- 10 億規模のベクトルコレクションサポート
 
     このリリースにより、Zilliz Cloud はベクトルデータベースの容量上限を 10 億規模へと引き上げました。これにより、エンタープライズユーザーは Zilliz Cloud の Web インターフェースから [32 CU データベースインスタンス](https://zilliz.com/pricing)（performance-optimized CU と capacity-optimized CU の両方）を作成できるようになりました。
 
@@ -30,15 +30,15 @@ Zilliz Cloud の大規模アップデートの一般提供開始をお知らせ�
 
 - パフォーマンスの向上
 
-    この更新版の Zilliz Cloud は Milvus 2.2.3 をベースに構築されています。Milvus 2.2.3 により、検索レイテンシは初期の Milvus 2.0.0 リリースと比較して 2.5 倍削減されました。レイテンシの低下はすべてのユーザーにメリットがありますが、特にレコメンデーションシステム、画像/動画/テキスト検索、質問応答などのリアルタイム情報検索システムでは重要です。
+    この更新版の Zilliz Cloud は Milvus 2.2.3 をベースに構築されています。Milvus 2.2.3 により、検索レイテンシは初期の Milvus 2.0.0 リリースと比較して 2.5 倍削減されました。レイテンシの低下はすべてのユーザーにメリットがありますが、特にレコメンデーションシステム、image/video/text search、質問応答などのリアルタイム情報検索システムでは重要です。
 
     同一環境下での当社テストでは、Milvus 2.2.3 は 2.0.0 と比較して QPS が 4.5 倍向上しました。この向上により、Milvus はさらにハードウェア効率およびコスト効率に優れるようになり、大規模なベクトル検索プラットフォームの構築において極めて重要です。
 
-    詳細については、[ホワイトペーパー](https://zilliz.com/resources/milvus-performance-benchmark)をご覧ください。
+    詳細については、[ホワイトペーパー](https://zilliz.com/resources/milvus-performance-benchmark) をご覧ください。
 
 - GCP 上の Zilliz Cloud
 
-    Zilliz Cloud が Google Cloud Platform (GCP) でも利用可能になったことをお知らせします。Zilliz Cloud は、スタートアップから大企業まで、さまざまなユーザーの多様な要件を満たし、最良の体験を提供します。GCP 上でマネージドベクトルデータベースインスタンスを数クリックでデプロイできます。
+    Zilliz Cloud が Google Cloud Platform（GCP）でも利用可能になったことをお知らせします。Zilliz Cloud は、スタートアップから大企業まで、さまざまなユーザーの多様な要件を満たし、最良の体験を提供します。GCP 上でマネージドベクトルデータベースインスタンスを数クリックでデプロイできます。
 
     現在、us-west1 リージョン（オレゴン州 The Dalles）が利用可能です。GCP 上の当社サービスの CU あたりの料金は、performance-optimized と capacity-optimized の両タイプとも 1 時間あたり &#36;0.215、ストレージ料金は 1 か月あたり &#36;0.02/GB です。
 
@@ -68,7 +68,7 @@ Zilliz Cloud の大規模アップデートの一般提供開始をお知らせ�
 
 - Recycler Bin
 
-    データセキュリティは常に当社の最優先事項です。このリリースでは、Zilliz Cloud に Recycler Bin を導入し、データをさらに安全にしました。たとえば、ユーザーがデータベースを削除した場合や、無料トライアル中の長期間の非アクティブ状態、または未払い料金によるサービス停止によって自動削除された場合、Zilliz Cloud は自動的にデータベース/コレクションを Recycler Bin に移動し、その後 30 日間はいつでもデータを復元できます。
+    データセキュリティは常に当社の最優先事項です。このリリースでは、Zilliz Cloud に Recycler Bin を導入し、データをさらに安全にしました。たとえば、ユーザーがデータベースを削除した場合や、無料トライアル中の長期間の非アクティブ状態、または未払い料金によるサービス停止によって自動削除された場合、Zilliz Cloud は自動的にデータベース/collection を Recycler Bin に移動し、その後 30 日間はいつでもデータを復元できます。
 
     詳細については、[Recycle Bin を使用する](./use-recycle-bin) を参照してください。
 

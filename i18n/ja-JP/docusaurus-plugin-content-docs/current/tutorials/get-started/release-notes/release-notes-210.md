@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud のローンチを発表できることを嬉しく思います。今回のリリースには、リージョンサポートの拡張や、移行と Serverless インスタンス管理などの使いやすさを向上させる機能を含む、さまざまな機能強化と新機能が含まれています。さらに、Bulk-insert と Dedicated クラスターのサポートにより、RESTful API も強化されました。 | Cloud"
 type: origin
 token: Ti5uwysf0iZhuyk4xvjcFmsSnhG
-sidebar_position: 31
+sidebar_position: 32
 displayed_sidebar: releasesSidebar
 
 ---
@@ -44,7 +44,7 @@ Zilliz Cloud は、シンガポールのパブリッククラウドリージョ�
 
     スケーリングと運用の柔軟性をさらに高めるため、Serverless インスタンスから Dedicated クラスターへのコレクションのシームレスな移行もサポートするようになりました。
 
-詳細については、[Manage Cluster](./manage-cluster) を参照してください。
+詳細については、[Manage クラスター](./manage-cluster) を参照してください。
 
 ## RESTful API の強化\{#restful-api-enhancements}
 
@@ -55,4 +55,3 @@ Zilliz Cloud は、シンガポールのパブリッククラウドリージョ�
 - Dedicated クラスターアクセス
 
     ユーザーにより広い制御性と柔軟性を提供するため、Dedicated クラスターに RESTful API 経由でアクセスおよび管理できるようになり、統合や自動化がより簡単になりました。詳細については、[API reference](/reference/restful/cloud-meta) を参照してください。
-
