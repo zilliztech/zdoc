@@ -169,7 +169,7 @@ nlohmann::json analyzer_params = {
 
 ### カスタム設定\{#custom-configuration}
 
-より詳細な制御が必要な場合は、カスタム辞書の指定、セグメンテーションモードの選択、Hidden Markov Model (HMM) の有効化・無効化を行えるカスタム設定を利用できます。例:
+より詳細な制御が必要な場合は、カスタム辞書の指定、セグメンテーションモードの選択、Hidden Markov Model（HMM）の有効化・無効化を行えるカスタム設定を利用できます。例:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -272,12 +272,12 @@ nlohmann::json analyzerParams = {
    </tr>
    <tr>
      <td><p><code>hmm</code></p></td>
-     <td><p>辞書に登録されていない単語に対して Hidden Markov Model (HMM) による確率的なセグメンテーションを有効にするかどうかを示すブール値フラグです。</p></td>
+     <td><p>辞書に登録されていない単語に対して Hidden Markov Model（HMM）による確率的なセグメンテーションを有効にするかどうかを示すブール値フラグです。</p></td>
      <td><p><code>true</code></p></td>
    </tr>
 </table>
 
-`dict` でインライン指定する代わりに、外部ファイルから大規模なカスタム語彙を読み込む場合は、後述の [辞書ファイルを使用したカスタム設定](./jieba-tokenizer#custom-configuration-with-a-dictionary-file) を参照してください。
+`dict` でインライン指定する代わりに、外部ファイルから大規模なカスタム語彙を読み込む場合は、後述の [辞書ファイルによるカスタム設定](./jieba-tokenizer#custom-configuration-with-a-dictionary-file) を参照してください。
 
 `analyzer_params` を定義した後、コレクションスキーマの定義時にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud が指定されたアナライザーを使用して該当フィールドのテキストを処理し、効率的なトークン化とフィルタリングを実行できるようになります。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
@@ -285,7 +285,7 @@ nlohmann::json analyzerParams = {
 
 ドメイン用語集、製品用語、固有名詞リストなど大規模なカスタム語彙がある場合は、単語をファイルに保存してリモートファイルリソースとして登録し、トークナイザーから `extra_dict_file` パラメーターで参照します。アナライザーは組み込み辞書に加えて、これらの単語を語彙として読み込みます。
 
-ファイルは1行に1つの用語を記述したプレーンテキスト（UTF-8）です。例:
+ファイルは UTF-8 のプレーンテキストで、1 行に 1 つの用語を記述します。例:
 
 ```plaintext
 结巴分词器
@@ -423,11 +423,11 @@ client.run_analyzer(["milvus结巴分词器中文测试"], analyzer_params)
 
 | フィールド | 説明 |
 | --- | --- |
-| `type` | リソースの種類です。`add_file_resource` で登録したファイルの場合は `"remote"` を指定します。セルフホスト環境で使用する `"local"` バリアントについては、「[ファイルリソースの管理](./manage-file-resources)」を参照してください。 |
+| `type` | リソースの種類です。`add_file_resource` で登録したファイルの場合は `"remote"` を指定します。 |
 | `resource_name` | `add_file_resource` でファイルを登録する際に指定した名前です。 |
 | `file_name` | 登録済みリソースのオブジェクトストアパスのうち、ファイル名部分です（例: リソースを `path="file/zh_terms.txt"` で登録した場合の `"zh_terms.txt"`）。 |
 
-`extra_dict_file` で追加された単語は組み込み辞書とマージされ、jieba のセグメンテーションアルゴリズムによって既存のエントリと同様に処理されます。特定の用語が単独のトークンとして抽出されるかどうかは、jieba の確率重み付き DAG 選択に依存します。例えば `向量数据库` のような長いカスタム用語でも、組み込み辞書内の短いエントリの頻度が高い場合には、`向量` + `数据库` に分割される可能性があります。
+`extra_dict_file` で追加された単語は組み込み辞書とマージされるため、jieba のセグメンテーションアルゴリズムはこれらの単語を既存のエントリと同列に認識します。特定の用語が単独のトークンとして扱われるかどうかは、jieba の確率重み付き DAG 選択に依存します。例えば `向量数据库` のような長いカスタム用語でも、組み込み辞書内の短いエントリの頻度が高い場合には、`向量` + `数据库` に分割される可能性があります。
 
 ## 例\{#examples}
 

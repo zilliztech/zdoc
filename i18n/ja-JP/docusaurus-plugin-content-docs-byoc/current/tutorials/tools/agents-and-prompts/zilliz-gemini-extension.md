@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Gemini CLI 向け Zilliz Cloud 拡張機能は、Zilliz Cloud の操作を IDE に直接持ち込む自然言語インターフェースです。CLI コマンドを暗記したり Web コンソールに切り替えたりする代わりに、やりたいことを平易な言葉で説明するだけで、プラグインがそれを処理します。 | BYOC"
 type: origin
 token: FDwgwyDbMi98nckzPxkc2qWynW4
-sidebar_position: 3
+sidebar_position: 4
 displayed_sidebar: default
 
 ---
@@ -29,15 +29,15 @@ Gemini CLI 向け Zilliz Cloud 拡張機能は、Zilliz Cloud の操作を IDE �
 
 - 自然言語のリクエストを `zilliz-cli` コマンドに変換します
 
-- クラスター、データベース、コレクション、パーティション、インデックス、ベクトル、インポート、バックアップ、ユーザー/ロール、モニタリング、プロジェクト、請求など、主要な Zilliz Cloud 操作をすべてカバーします
+- クラスター、データベース、コレクション、パーティション、インデックス、ベクトル、インポート、バックアップ、users/roles, モニタリング、プロジェクト、請求など、主要な Zilliz Cloud 操作をすべてカバーします
 
 - 呼び出し時に最新の `--help` 出力を埋め込むため、アシスタントは常に最新のフラグ情報を利用できます
 
 - 破壊的な操作を実行する前に、必ずユーザーによる明示的な確認を要求します
 
-## 前提条件\{#prerequisites}
+## 事前準備\{#prerequisites}
 
-- Gemini CLI をインストール済みであること。
+- Gemini CLI がインストールされていること。
 
 ## セットアップ手順\{#setup-procedure}
 
@@ -105,13 +105,13 @@ gemini extensions link /path/to/gemini-cli-extension
 
 1. クラスターに接続します。
 
-    デフォルトのクラスター接続を設定します。
+    デフォルトのクラスター接続を構成します。
 
     ```bash
     zilliz context set --cluster-id <your-cluster-id>
     ```
 
-    または、プラグインの案内に従って利用可能なクラスターから選択することもできます。
+    または、プラグインに利用可能なクラスターの中から選択させることもできます。
 
 </Procedures>
 
@@ -123,13 +123,13 @@ gemini extensions link /path/to/gemini-cli-extension
 You: "List my clusters"
 ```
 
-プラグインは、あなたの Zilliz Cloud クラスターを表示するはずです。
+プラグインに Zilliz Cloud クラスターが表示されるはずです。
 
 ## トラブルシューティング\{#troubleshooting}
 
 - **プラグインに "CLI not found" と表示される**
 
-    **解決方法**: Zilliz CLI をインストールします。
+    **解決策**: Zilliz CLI をインストールします。
 
     <Tabs groupId="cli-install" defaultValue='linux' values={[{"label":"macOS / Linux","value":"linux"},{"label":"Windows","value":"windows"}]}>
 
@@ -153,22 +153,22 @@ You: "List my clusters"
 
 - **認証に失敗する**
 
-    **解決方法**:
+    **解決策**:
 
     1. インターネット接続を確認します
 
     1. Zilliz Cloud アカウントが有効であることを確認します
 
-    1. ログアウトして再度ログインしてみます。
+    1. ログアウトしてから再度ログインしてみます。
 
     ```bash
     zilliz logout
     zilliz login
     ```
 
-1. **"No cluster configured"**
+1. **"No クラスター configured"**
 
-    **解決方法**: デフォルトのクラスターを設定します。
+    **解決策**: デフォルトのクラスターを設定します。
 
     ```bash
     zilliz context set --cluster-id <cluster-id>

@@ -1,13 +1,13 @@
 ---
-title: "External Collection の制限 | Cloud"
+title: "外部コレクションの制限 | Cloud"
 slug: /external-collection-limits
-sidebar_label: "External Collection の制限"
+sidebar_label: "外部コレクションの制限"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は external collection の raw data を保存せず、外部データソースへの metadata と mapping のみを維持するため、external collection は読み取り専用です。そのため、Zilliz Cloud 側から `insert`、`upsert`、`delete`、`import`、`flush`、`compact` などの書き込み操作やメンテナンス操作を実行することはできません。 | Cloud"
+description: "Zilliz Cloud は外部コレクションの生データを保存せず、外部データソースへのメタデータとマッピングのみを維持するため、外部コレクションは読み取り専用です。そのため、Zilliz Cloud 側から `insert`、`upsert`、`delete`、`import`、`flush`、`compact` などの書き込み操作やメンテナンス操作を実行することはできません。 | Cloud"
 type: origin
 token: P9HuwHZyXilwRTkVoDBcjAMlnrb
 sidebar_position: 14
@@ -18,39 +18,37 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# External Collection の制限
+# 外部コレクションの制限
 
-Zilliz Cloud は external collection の raw data を保存せず、外部データソースへの metadata と mapping のみを維持するため、external collection は読み取り専用です。そのため、Zilliz Cloud 側から `insert`、`upsert`、`delete`、`import`、`flush`、`compact` などの書き込み操作やメンテナンス操作を実行することはできません。
+Zilliz Cloud は外部コレクションの生データを保存せず、外部データソースへのメタデータとマッピングのみを維持するため、外部コレクションは読み取り専用です。そのため、Zilliz Cloud 側から `insert`、`upsert`、`delete`、`import`、`flush`、`compact` などの書き込み操作やメンテナンス操作を実行することはできません。
 
-managed collection と比較すると、external collection には次の制限があります。
+マネージドコレクションと比較すると、外部コレクションには次の制限があります。
 
-- external collection にアクセスするには API key を使用する必要があります。
+- 外部コレクションにアクセスするには API キーを使用する必要があります。
 
-- Zilliz Cloud は primary key の一意性を強制せず、primary key または `AutoID` を設定することはできません。
+- Zilliz Cloud はプライマリキーの一意性を強制せず、プライマリキーまたは `AutoID` を設定することはできません。
 
 - dynamic field を有効にすることはできません。
 
-- partition を使用することはできません。そのため、partition key と  はサポートされていません。
+- パーティションを使用することはできません。そのため、パーティションキーと はサポートされていません。
 
-- schema で functions を定義することはできません。
+- 外部データをクエリ可能にするには、まずインデックスを作成し、その後 `RefreshExternalCollection` を手動でトリガーして、Zilliz Cloud がそのデータのメタデータとインデックスを構築できるようにする必要があります。
 
-- BM25 を使用した text match は使用できません。
+- 外部コレクションでは、バックアップ、復元、移行は現在サポートされていません。
 
-- 外部データをクエリ可能にするには、まず index を作成し、その後 `RefreshExternalCollection` を手動でトリガーして、Zilliz Cloud がデータの metadata と index を構築できるようにする必要があります。
+- 外部コレクションを作成できるのは、オンデマンドコンピューティング用データベースに限られます。サービング Dedicated クラスターでの外部コレクション作成サポートは、近日公開予定です。
 
-- external collection では、backup、restore、migration は現在サポートされていません。
-
-次の表は、external collection と managed collection でサポートされる操作を詳細に比較したものです。
+次の表は、外部コレクションとマネージドコレクションでサポートされる操作を詳細に比較したものです。
 
 <table>
    <tr>
      <th colspan="2"></th>
-     <th><p><strong>マネージド Collection</strong></p><p>(Serving Cluster)</p></th>
-     <th><p><strong>External Collection</strong></p><p>(Serving Cluster または Databases for On-Demand Compute)</p></th>
-     <th><p><strong>マネージド Collection</strong></p><p>(On-Demand Compute Database)</p></th>
+     <th><p><strong>マネージドコレクション</strong></p><p>（サービングクラスター）</p></th>
+     <th><p><strong>外部コレクション</strong></p><p>（オンデマンドコンピューティング用データベース）</p></th>
+     <th><p><strong>マネージドコレクション</strong></p><p>（オンデマンドコンピューティング用データベース）</p></th>
    </tr>
    <tr>
-     <td rowspan="13"><p><strong>Collection 管理</strong></p></td>
+     <td rowspan="13"><p><strong>コレクション管理</strong></p></td>
      <td><p><strong>CreateCollection</strong></p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
@@ -129,7 +127,7 @@ managed collection と比較すると、external collection には次の制限�
      <td><p>✅</p></td>
    </tr>
    <tr>
-     <td rowspan="2"><p><strong>Schema</strong></p></td>
+     <td rowspan="2"><p><strong>スキーマ</strong></p></td>
      <td><p><strong>AddField</strong></p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
@@ -142,7 +140,7 @@ managed collection と比較すると、external collection には次の制限�
      <td><p>✅</p></td>
    </tr>
    <tr>
-     <td rowspan="3"><p><strong>Partition</strong></p></td>
+     <td rowspan="3"><p><strong>パーティション</strong></p></td>
      <td><p><strong>CreatePartition</strong></p></td>
      <td><p>✅</p></td>
      <td><p>❌</p></td>
@@ -223,7 +221,7 @@ managed collection と比較すると、external collection には次の制限�
      <td><p>—</p></td>
    </tr>
    <tr>
-     <td rowspan="3"><p><strong>Index</strong></p></td>
+     <td rowspan="3"><p><strong>インデックス</strong></p></td>
      <td><p><strong>CreateIndex</strong></p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
@@ -276,13 +274,13 @@ managed collection と比較すると、external collection には次の制限�
    <tr>
      <td><p><strong>Functions</strong></p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p><strong>Full-text Search/Text Match</strong></p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>

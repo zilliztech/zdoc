@@ -32,13 +32,13 @@ import Admonition from '@theme/Admonition';
 
 1. **入力:** ワークフローは、入力としてテキスト文字列から始まります。
 
-1. **言語検出:** この文字列はまず言語検出エンジンに渡され、言語の識別が試みられます。Zilliz Cloud は 2 つのエンジン、**whatlang** と **lingua** をサポートしています。
+1. **言語検出:** この文字列はまず言語検出エンジンに渡され、言語の識別が試みられます。Zilliz Cloud は 2 つのエンジン、**`whatlang`** と **`lingua`** をサポートしています。
 
 1. **analyzer の選択:**
 
     - **成功:** 言語が正常に検出された場合、システムは検出された言語名に対応する analyzer が `analyzers` 辞書内に設定されているかを確認します。一致が見つかると、システムは指定された analyzer を入力テキストに適用します。たとえば、"Mandarin" と検出されたテキストは `jieba` tokenizer にルーティングされます。
 
-    - **フォールバック:** 検出に失敗した場合、または言語は正常に検出されたもののその言語用の特定の analyzer を提供していない場合、システムは事前設定された **default analyzer** を使用します。これは重要なポイントです。`default` analyzer は、検出失敗時と一致する analyzer が存在しない場合の両方に対するフォールバックです。
+    - **フォールバック:** 検出に失敗した場合、または言語は正常に検出されたもののその言語用の特定の analyzer を提供していない場合、システムは事前設定された **`default` analyzer** を使用します。これは重要なポイントです。`default` analyzer は、検出失敗時と一致する analyzer が存在しない場合の両方に対するフォールバックです。
 
 適切な analyzer が選択されると、テキストは tokenization および処理され、ワークフローが完了します。
 
@@ -80,7 +80,7 @@ Zilliz Cloud では、2 つの言語検出エンジンから選択できます�
 
 - **一致が重要:** analyzer の名前は、検出エンジンの言語出力と**完全に一致**している必要があります。たとえば、`whatlang` を使用している場合、中国語テキスト用のキーは `Mandarin` でなければなりません。
 
-- **ベストプラクティス:** 上の表は、いくつかの一般的な言語向けの推奨設定を示していますが、網羅的な一覧ではありません。analyzer の選択に関するより包括的なガイドについては、[ユースケースに適した Analyzer の選び方](./choose-the-right-analyzer-for-your-use-case) を参照してください。
+- **ベストプラクティス:** 上の表は、いくつかの一般的な言語向けの推奨設定を示していますが、網羅的な一覧ではありません。analyzer の選択に関するより包括的なガイドについては、[ユースケースに適した analyzer を選ぶ](./choose-the-right-analyzer-for-your-use-case) を参照してください。
 
 - **Detector output**: 検出エンジンが返す言語名の完全な一覧については、[Whatlang supported languages table](https://github.com/greyblake/whatlang-rs) および [Lingua supported languages list](https://github.com/pemistahl/lingua-rs) を参照してください。
 
@@ -100,7 +100,7 @@ Zilliz Cloud で `language_identifier` tokenizer を使用するには、以下�
 
         - `analyzer_name` は、選択した検出エンジンの出力（例: `"English"`、`"Japanese"`）と一致します
 
-        - `analyzer_config` は、標準的な analyzer パラメータ形式に従います（[Analyzer Overview](./analyzer-overview#analyzer-types) を参照）
+        - `analyzer_config` は、標準的な analyzer パラメータ形式に従います（[Analyzer の概要](./analyzer-overview#analyzer-types) を参照）
 
 **オプションコンポーネント:**
 
@@ -168,7 +168,7 @@ analyzer_params = {
 }
 ```
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより Zilliz Cloud は、そのフィールド内のテキストを指定された analyzer で処理し、効率的な tokenization と filtering を実現できます。詳細は、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより Zilliz Cloud は、そのフィールド内のテキストを指定された analyzer で処理し、効率的な tokenization と filtering を実現できます。詳細は、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 

@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Claude Code 向け Zilliz Cloud プラグインは、Zilliz Cloud の操作を IDE に直接持ち込む自然言語インターフェースです。CLI コマンドを覚えたり Web コンソールに切り替えたりする代わりに、やりたいことを平易な言葉で記述すれば、プラグインがそれを処理します。 | BYOC"
+description: "Claude Code 向けの Zilliz Cloud プラグインは、Zilliz Cloud の操作を IDE に直接もたらす自然言語インターフェースです。CLI コマンドを覚えたり Web コンソールに切り替えたりする代わりに、実行したい内容を平易な言葉で記述すれば、プラグインがそれを処理します。 | BYOC"
 type: origin
 token: LFepwAKeGiURJUksNA4cqYPYnIb
-sidebar_position: 2
+sidebar_position: 3
 displayed_sidebar: default
 
 ---
@@ -20,25 +20,25 @@ import Admonition from '@theme/Admonition';
 
 # Zilliz Claude Code Plugin
 
-Claude Code 向け Zilliz Cloud プラグインは、Zilliz Cloud の操作を IDE に直接持ち込む自然言語インターフェースです。CLI コマンドを覚えたり Web コンソールに切り替えたりする代わりに、やりたいことを平易な言葉で記述すれば、プラグインがそれを処理します。
+Claude Code 向けの Zilliz Cloud プラグインは、Zilliz Cloud の操作を IDE に直接もたらす自然言語インターフェースです。CLI コマンドを覚えたり Web コンソールに切り替えたりする代わりに、実行したい内容を平易な言葉で記述すると、プラグインがそれを処理します。
 
 ## Zilliz Plugin とは？\{#what-is-the-zilliz-plugin}
 
-Zilliz CLI を自然言語機能でラップした Claude Code プラグインであり、会話形式のコマンドを通じて Zilliz Cloud リソースを管理できます。
+Zilliz CLI を自然言語機能でラップした Claude Code プラグインで、会話形式のコマンドを通じて Zilliz Cloud リソースを管理できます。
 
 ## 主な機能\{#key-features}
 
 ### 14 の機能領域\{#14-capability-areas}
 
-- **Clusters**: クラスターの作成、削除、一時停止、再開、変更
+- **クラスター**: クラスターの作成、削除、一時停止、再開、変更
 
-- **Collections**: カスタムスキーマでの作成、ロード、リリース、名前変更、削除
+- **コレクション**: カスタムスキーマでの作成、ロード、リリース、名前変更、削除
 
-- **Vectors**: ベクトルの検索、クエリ、挿入、アップサート、削除
+- **ベクトル**: ベクトルの検索、クエリ、挿入、アップサート、削除
 
-- **Indexes**: インデックスの作成、一覧表示、詳細表示、削除
+- **インデックス**: インデックスの作成、一覧表示、詳細表示、削除
 
-- **Databases**: データベースの作成、一覧表示、詳細表示、削除
+- **データベース**: データベースの作成、一覧表示、詳細表示、削除
 
 - **Users & Roles**: RBAC の設定、権限管理
 
@@ -68,7 +68,7 @@ You: "Search for similar items in my product collection with filter age > 20"
 Plugin: Executes vector search with filters
 ```
 
-## 前提条件\{#prerequisites}
+## 事前準備\{#prerequisites}
 
 - Python 3.10 以降
 
@@ -76,21 +76,21 @@ Plugin: Executes vector search with filters
 
 - Claude Code IDE
 
-## クイック例\{#quick-example}
+## 簡単な例\{#quick-example}
 
-インストール後、クイックスタートを実行します:
+インストール後、クイックスタートを実行します：
 
 ```plaintext
 /zilliz:quickstart
 ```
 
-このクイックスタートでは、次の手順を案内します:
+このクイックスタートでは、次の内容を順に案内します：
 
 1. CLI のインストール
 
-1. 認証設定
+1. 認証の設定
 
-1. クラスター接続
+1. クラスターへの接続
 
 1. 最初の操作
 

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、同一プロジェクト内のすべての履歴および非同期データタスクを一元管理できる直感的な Jobs ページを提供します。 | BYOC"
+description: "Zilliz Cloud は、同一プロジェクト内のすべての履歴データタスクと非同期データタスクを統合する直感的な Jobs ページを提供します。 | BYOC"
 type: origin
 token: RY8ww0NDQi8yU9kNpjicHP7Gn4b
 sidebar_position: 2
@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 # プロジェクトジョブの管理
 
-Zilliz Cloud は、同一プロジェクト内のすべての履歴および非同期データタスクを一元管理できる直感的な Jobs ページを提供します。
+Zilliz Cloud は、同一プロジェクト内のすべての履歴データタスクと非同期データタスクを統合する直感的な Jobs ページを提供します。
 
 ## プロジェクトジョブの確認\{#view-project-jobs}
 
@@ -28,7 +28,7 @@ Zilliz Cloud は、同一プロジェクト内のすべての履歴および非�
 
 以下のジョブ情報が表示されます。
 
-- タイプと説明: ジョブの目的や内容を示します。このページには複数の種類のジョブが表示されます。
+- タイプと説明: ジョブの目的と情報です。このページには特定の種類のジョブがあります。
 
     <table>
        <tr>
@@ -37,82 +37,82 @@ Zilliz Cloud は、同一プロジェクト内のすべての履歴および非�
        </tr>
        <tr>
          <td rowspan="3"><p><a href="./create-backup">バックアップ</a></p></td>
-         <td><p>クラスターのバックアップファイルを作成する</p></td>
+         <td><p>クラスターのバックアップファイルを作成します</p></td>
        </tr>
        <tr>
-         <td><p>コレクションまたは指定したコレクションのバックアップファイルを作成する</p></td>
+         <td><p>コレクションまたは指定したコレクションのバックアップファイルを作成します</p></td>
        </tr>
        <tr>
-         <td><p>指定したクラウドリージョンにバックアップをコピーする</p></td>
+         <td><p>指定したクラウドリージョンにバックアップをコピーします</p></td>
        </tr>
        <tr>
          <td rowspan="2"><p><a href="./restore-from-backup-files">復元</a></p></td>
-         <td><p>バックアップファイルからクラスターを復元する</p></td>
+         <td><p>バックアップファイルからクラスターを復元します</p></td>
        </tr>
        <tr>
-         <td><p>バックアップファイルからコレクションまたは複数のコレクションを復元する</p></td>
+         <td><p>バックアップファイルからコレクションまたは複数のコレクションを復元します</p></td>
        </tr>
        <tr>
          <td><p><a href="./export-backup-files">バックアップファイルのエクスポート</a></p></td>
-         <td><p>指定したオブジェクトストレージサービスにバックアップファイルをエクスポートする</p></td>
+         <td><p>指定したオブジェクトストレージサービスにバックアップファイルをエクスポートします</p></td>
        </tr>
        <tr>
          <td><p><a href="./zilliz-migration-prompts">マイグレーション</a></p></td>
-         <td><p>クラスターへデータを移行します。</p><ul><li><p>Zilliz Cloud クラスター間マイグレーション:</p><ul><li><p>同一組織内でのクラスター間マイグレーション</p></li><li><p>異なる組織間のクラスターにおけるマイグレーション</p></li></ul></li></ul></td>
+         <td><p>クラスターへデータを移行します。</p><ul><li><p>Zilliz Cloud クラスター間マイグレーション:</p><ul><li><p>同一組織内でのクラスター間マイグレーション</p></li><li><p>組織をまたぐクラスター間のマイグレーション</p></li></ul></li></ul></td>
        </tr>
        <tr>
          <td><p><a href="./zilliz-import-prompts">インポート</a></p></td>
-         <td><p>コレクションにデータをインポートする</p></td>
+         <td><p>コレクションにデータをインポートします</p></td>
        </tr>
        <tr>
          <td><p><a href="./manage-collections-console#create-a-collection">コレクションのクローン</a></p></td>
-         <td><p>スキーマとデータを含むコレクションの完全なコピーを作成する</p></td>
+         <td><p>スキーマとデータの両方を含むコレクションの完全なコピーを作成します</p></td>
        </tr>
        <tr>
          <td><p><a href="./manage-collections-console#create-a-collection">サンプルコレクションの作成</a></p></td>
-         <td><p>サンプルデータセットを読み込んだコレクションを作成する</p></td>
+         <td><p>サンプルデータセットを読み込んだコレクションを作成します</p></td>
        </tr>
        <tr>
          <td><p><a href="./manage-cluster#suspend">クラスターの一時停止</a></p></td>
-         <td><p>クラスターを手動で一時停止する</p></td>
+         <td><p>クラスターを手動で一時停止します</p></td>
        </tr>
        <tr>
          <td><p><a href="./manage-cluster#resume">クラスターの再開</a></p></td>
-         <td><p>クラスターを手動で再開する</p></td>
+         <td><p>クラスターを手動で再開します</p></td>
        </tr>
        <tr>
          <td><p><a href="./plan-cluster-scaling">Query CU のスケール</a></p></td>
-         <td><p>クラスターの Query CU 数を増減する</p></td>
+         <td><p>クラスターのクエリ CU 数を増減します</p></td>
        </tr>
        <tr>
          <td><p><a href="./plan-cluster-scaling">レプリカのスケール</a></p></td>
-         <td><p>クラスターのレプリカ数を増減する</p></td>
+         <td><p>クラスターのレプリカ数を増減します</p></td>
        </tr>
     </table>
 
-- ステータス: ジョブの実行状態です。Successful、In Progress、Pending、Failed、Canceled のいずれかが表示されます。
+- ステータス: ジョブのステータスです。Successful、In Progress、Pending、Failed、Canceled のいずれかになります。
 
 - ID: データジョブの ID です。データジョブに関して問題が発生した場合は、[サポートチケットを作成](http://support.zilliz.com) し、該当するジョブ ID をお知らせください。
 
-- 開始日時と終了日時
+- 開始時刻と終了時刻
 
-- 作成者: データジョブを実行したユーザーです。
+- 作成者: データジョブを開始したユーザーです。
 
 ## ジョブ詳細の確認\{#view-job-details}
 
-ジョブの詳細を確認するには、**Actions** 列の **...** をクリックして **View Details** を選択します。あるいは、[Describe Job](/reference/restful/describe-job-v2) API を使用してプログラムから詳細を取得することも可能です。
+ジョブの詳細を確認するには、**Actions** 列の **...** をクリックし、**View Details** を選択します。または、[Describe Job](/reference/restful/describe-job-v2) API を使用して、プログラムから詳細を取得することもできます。
 
 ![view_job_details](https://zdoc-images.s3.us-west-2.amazonaws.com/viewjobdetails.png "view_job_details")
 
 ## ジョブのキャンセル\{#cancel-job}
 
-現在、ステータスが **Pending** または **In Progress** の以下のジョブのみキャンセルできます。
+現在、ステータスが **Pending** または **In Progress** である以下の種類のジョブのみキャンセルできます。
 
-- バックアップ作成ジョブ（他のクラウドリージョンへのバックアップコピーを除く）
+- バックアップ作成ジョブ（他のクラウドリージョンへのバックアップのコピーを除く）
 
 - マイグレーションジョブ（ゼロダウンタイムマイグレーションを除く）
 
-- バックアップファイルエクスポートジョブ
+- バックアップファイルのエクスポートジョブ
 
 <Admonition type="info" icon="📘" title="📘 Notes">
 
@@ -126,14 +126,14 @@ Zilliz Cloud は、同一プロジェクト内のすべての履歴および非�
 
 <Admonition type="info" icon="📘" title="📘 Notes">
 
-現在、再試行が可能なのは失敗したインポートジョブのみです。
+現在、再試行できるのは失敗したインポートジョブのみです。
 
 失敗したジョブを再試行するには、**Organization Owner** または **Project Admin** の権限が必要です。
 
 </Admonition>
 
-インポートジョブが失敗した場合、ステータスの横にある情報アイコンをクリックすると、失敗の原因を確認できます。
+インポートに失敗したジョブについては、ステータスの横にある情報アイコンをクリックすると、失敗の理由を確認できます。
 
-インポートに失敗したファイルを修正後、ジョブを再試行できます。
+インポートに失敗したファイルに修正を加えた場合は、そのジョブを再試行できます。
 
 ![retry_failed_job](https://zdoc-images.s3.us-west-2.amazonaws.com/retryfailedjob.png "retry_failed_job")
