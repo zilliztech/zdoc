@@ -1,13 +1,13 @@
 ---
-title: "StructArray フィールドにインデックスを作成する | BYOC"
+title: "StructArray フィールドのインデックス | BYOC"
 slug: /index-struct-array
-sidebar_label: "StructArray フィールドにインデックスを作成する"
+sidebar_label: "StructArray フィールドのインデックス"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "vector search を実行する前、または scalar filtering を高速化するために、StructArray のサブフィールドにインデックスを作成します。StructArray フィールドの場合、インデックスの対象は `chunks[emblistvector]`、`chunks[emb]`、`chunks[section]` などのサブフィールドパスです。 | BYOC"
+description: "vector search を実行する前、または scalar filtering を高速化するために、StructArray のサブフィールドにインデックスを作成します。StructArray フィールドでは、インデックス対象は `chunks[emblistvector]`、`chunks[emb]`、`chunks[section]` のようなサブフィールドパスです。 | BYOC"
 type: origin
 token: VvkEwug9ciPZYVk6hM1chLydnib
 sidebar_position: 4
@@ -18,17 +18,17 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# StructArray フィールドにインデックスを作成する
+# StructArray フィールドのインデックス
 
-vector search を実行する前、または scalar filtering を高速化するために、StructArray のサブフィールドにインデックスを作成します。StructArray フィールドの場合、インデックスの対象は `chunks[emb_list_vector]`、`chunks[emb]`、`chunks[section]` などのサブフィールドパスです。
+vector search を実行する前、または scalar filtering を高速化するために、StructArray のサブフィールドにインデックスを作成します。StructArray フィールドでは、インデックス対象は `chunks[emb_list_vector]`、`chunks[emb]`、`chunks[section]` のようなサブフィールドパスです。
 
-このページでは、[StructArray フィールドを作成する](./create-struct-array) の `tech_articles` collection を使用します。`chunks` StructArray フィールドには、フィルタリング用の scalar サブフィールドと検索用の vector サブフィールドが含まれています。
+このページでは、[StructArray フィールドの作成](./create-struct-array) の `tech_articles` collection を使用します。`chunks` StructArray フィールドには、フィルタリング用の scalar サブフィールドと検索用の vector サブフィールドが含まれています。
 
-## 開始する前に\{#before-you-begin}
+## 始める前に\{#before-you-begin}
 
-collection schema にすでに `chunks` StructArray フィールドが含まれており、データが挿入されていることを確認してください。
+collection schema にすでに `chunks` StructArray フィールドが含まれており、データが挿入済みであることを確認してください。
 
-| サブフィールドパス | 型 | インデックスの目的 |
+| サブフィールドパス | タイプ | インデックスの目的 |
 | --- | --- | --- |
 | `chunks[emb_list_vector]` | `FLOAT_VECTOR` | `MAX_SIM*` メトリクスによる EmbeddingList 検索。 |
 | `chunks[emb]` | `FLOAT_VECTOR` | 通常の vector メトリクスによる要素レベル検索。 |
@@ -38,31 +38,31 @@ collection schema にすでに `chunks` StructArray フィールドが含まれ�
 
 <Admonition type="info" icon="📘" title="注意">
 
-vector フィールドまたは vector サブフィールドは、1 つのインデックスしか受け付けません。EmbeddingList 検索と要素レベル検索の両方が必要な場合は、2 つの別々の vector サブフィールドを作成し、それぞれに個別にインデックスを作成してください。このページでは、`chunks[emb_list_vector]` は EmbeddingList 検索用にインデックスが作成され、`chunks[emb]` は要素レベル検索用にインデックスが作成されています。
+vector フィールドまたは vector サブフィールドは、1 つのインデックスしか受け付けません。EmbeddingList 検索と要素レベル検索の両方が必要な場合は、2 つの別々の vector サブフィールドを作成し、それぞれに個別にインデックスを作成してください。このページでは、`chunks[emb_list_vector]` は EmbeddingList 検索用にインデックス化され、`chunks[emb]` は要素レベル検索用にインデックス化されています。
 
 </Admonition>
 
-## インデックスを選択する\{#choose-indexes}
+## インデックスの選択\{#choose-indexes}
 
-検索モードを使って vector メトリクスファミリーを選択します。
+vector のメトリクスファミリーを選ぶには、検索モードを使用します。
 
-| 検索またはフィルタの目的 | 対象パス | 選択するもの |
+| 検索またはフィルタリングの目的 | 対象パス | 選択するもの |
 | --- | --- | --- |
 | EmbeddingList 検索 | `chunks[emb_list_vector]` | `MAX_SIM*` メトリクスファミリー。 |
-| 要素レベルの vector search | `chunks[emb]` | `COSINE`、`IP`、`L2` などの通常の vector メトリクスファミリー。 |
+| 要素レベル vector 検索 | `chunks[emb]` | `COSINE`、`IP`、`L2` などの通常の vector メトリクスファミリー。 |
 | 文字列またはカテゴリでフィルタリング | `chunks[section]` | 対象でサポートされる scalar インデックス。 |
 | 数値範囲でフィルタリング | `chunks[quality_score]`, `chunks[page]` | 対象でサポートされる scalar インデックス。 |
 | ブール値でフィルタリング | `chunks[has_code]` | 対象でサポートされる scalar インデックス。 |
 
-EmbeddingList 検索では、StructArray vector サブフィールド内の vector を embedding list として扱い、エンティティレベルの結果を返します。要素レベル検索では、各 Struct 要素を個別に検索し、一致した要素のオフセットを返すことができます。
+EmbeddingList 検索では、StructArray vector サブフィールド内の vector を embedding list として扱い、エンティティレベルの結果を返します。要素レベル検索では、各 Struct 要素を独立して検索し、一致した要素オフセットを返すことができます。
 
-## vector インデックスを作成する\{#create-vector-indexes}
+## vector インデックスの作成\{#create-vector-indexes}
 
-次の例では、2 つの vector インデックスを作成します。最初のインデックスは EmbeddingList 検索に `MAX_SIM*` メトリクスを使用します。2 番目のインデックスは要素レベル検索に通常の vector メトリクスを使用します。
+次の例では、2 つの vector インデックスを作成します。最初のインデックスは EmbeddingList 検索用に `MAX_SIM*` メトリクスを使用します。2 つ目のインデックスは、要素レベル検索用に通常の vector メトリクスを使用します。
 
-StructArray vector サブフィールドには `AUTOINDEX` を使用してください。
+StructArray vector サブフィールドには `AUTOINDEX` を使用します。
 
-```plaintext
+```python
 index_params = client.prepare_index_params()
 
 index_params.add_index(
@@ -87,17 +87,17 @@ client.create_index(
 
 <Admonition type="warning" icon="🚧" title="警告">
 
-同じ vector サブフィールドに `MAX_SIM*` インデックスと通常の vector メトリクスインデックスを作成しないでください。両方の検索モードが必要な場合は、vector を 2 つの別々の vector サブフィールドに書き込み、各サブフィールドに 1 つのインデックスを作成してください。
+同じ vector サブフィールドに `MAX_SIM*` インデックスと通常の vector-metric インデックスを作成しないでください。両方の検索モードが必要な場合は、vector を 2 つの別々の vector サブフィールドに書き込み、それぞれのサブフィールドに 1 つずつインデックスを作成してください。
 
 </Admonition>
 
-## scalar インデックスを作成する\{#create-scalar-indexes}
+## scalar インデックスの作成\{#create-scalar-indexes}
 
-StructArray scalar サブフィールドをフィルタで使用する場合は、それらに scalar インデックスを作成します。同じ `structArray[subfield]` パス構文を使用してください。適用可能なインデックスタイプは `INVERTED`、`BITMAP`、`STL_SORT` です。
+フィルタで使用する StructArray scalar サブフィールドには scalar インデックスを作成します。同じ `structArray[subfield]` パス構文を使用します。適用可能なインデックスタイプは `INVERTED`、`BITMAP`、`STL_SORT` です。
 
-StructArray scalar サブフィールドには `AUTOINDEX` を使用してください。
+StructArray scalar サブフィールドには `AUTOINDEX` を使用します。
 
-```plaintext
+```python
 index_params = client.prepare_index_params()
 
 index_params.add_index(
@@ -132,11 +132,31 @@ client.create_index(
 
 scalar インデックスは必須ではありませんが、`element_filter(chunks, $[quality_score] > 0.9)` や `MATCH_ANY(chunks, $[section] == "index")` のように、StructArray scalar サブフィールドがフィルタで頻繁に使われる場合に有用です。
 
+## 適用可能なメトリクスタイプ\{#applicable-metric-types}
+
+次の表は、StructArray フィールドに適用可能なメトリクスタイプを理解するためのものです。
+
+| メトリクスタイプ | 説明 |
+| --- | --- |
+| `MAX_SIM_COSINE` (`MAX_SIM`) | 2 つの vector 間の類似度を Cosine に基づいて測定し、その後 MaxSim を使用して 2 つの vector リスト間の類似度を計算します。 |
+| `MAX_SIM_L2` | 2 つの vector 間の類似度を L2 に基づいて測定し、その後 MaxSim を使用して 2 つの vector リスト間の類似度を計算します。 |
+| `MAX_SIM_IP` | 2 つの vector 間の類似度を IP に基づいて測定し、その後 MaxSim を使用して 2 つの vector リスト間の類似度を計算します。 |
+| `MAX_SIM_HAMMING` | 2 つの vector 間の類似度を Hamming に基づいて測定し、その後 MaxSim を使用して 2 つの vector リスト間の類似度を計算します。 |
+| `MAX_SIM_JACCARD` | 2 つの vector 間の類似度を Jaccard に基づいて測定し、その後 MaxSim を使用して 2 つの vector リスト間の類似度を計算します。 |
+
+query embedding list と StructArray フィールド内の vector サブフィールドとの距離を計算する場合、次の式が適用されます。
+
+$$
+Distance(\{q\}, \{v\})=\Sigma_\{i=1\}^\{n\}(Max_\{j=1\}^\{m\}Distance(q_i,v_j))
+$$
+
+上記の式では、$q$ は $n$ 個の要素を持つ embedding list を表し、$v$ は $m$ 個の要素を含む StrctArray サブフィールドを表します。
+
 ## インデックスとメトリクスの互換性\{#index-metric-compatibility}
 
-次の表を使って、StructArray vector サブフィールドに対するインデックスタイプとメトリクスタイプを選択します。まず対象から始め、その後に検索モードごとにメトリクスファミリーを選択します。
+次の表を使用して、StructArray vector サブフィールドに対するインデックスタイプとメトリクスタイプを選択してください。対象から始めて、次に検索モードに応じてメトリクスファミリーを選択します。
 
-StructArray vector サブフィールドには `AUTOINDEX` を使用してください。検索モードで必要なメトリクスファミリーからメトリクスタイプを選択します。
+StructArray vector サブフィールドには `AUTOINDEX` を使用します。検索モードで必要なメトリクスファミリーからメトリクスタイプを選択してください。
 
 | 検索モード | vector サブフィールドのデータ型 | インデックスタイプ | メトリクスタイプ |
 | --- | --- | --- | --- |
@@ -147,9 +167,9 @@ StructArray vector サブフィールドには `AUTOINDEX` を使用してくだ
 
 バージョン固有のサポートやその他の制限については、[StructArray の制限](./struct-array-limits) を参照してください。
 
-## インデックスを確認する\{#verify-indexes}
+## インデックスの確認\{#verify-indexes}
 
-インデックスを作成した後、collection を describe するかインデックスを一覧表示して、想定したサブフィールドパスにインデックスが作成されていることを確認します。
+インデックスを作成した後、collection を describe するかインデックスを一覧表示して、期待するサブフィールドパスがインデックス化されていることを確認します。
 
 ```python
 indexes = client.list_indexes(
@@ -159,7 +179,7 @@ indexes = client.list_indexes(
 print(indexes)
 ```
 
-SDK のバージョンがインデックス記述 API を提供している場合は、特定のインデックスを describe することもできます。
+SDK のバージョンで index-description API が提供されている場合は、特定のインデックスを describe することもできます。
 
 ```python
 index = client.describe_index(
@@ -174,32 +194,32 @@ print(index)
 
 | ルール | 説明 |
 | --- | --- |
-| サブフィールドインデックスにはパス構文を使用する。 | `emb` や `chunks.emb` ではなく、`chunks[emb]` にインデックスを作成します。 |
-| 1 つの vector サブフィールドは 1 つのインデックスを受け付ける。 | 異なるメトリクスファミリーが必要な場合は、別々の vector サブフィールドを使用します。 |
-| EmbeddingList 検索には `MAX_SIM*` メトリクスを使用する。 | EmbeddingList クエリデータには、`MAX_SIM*` メトリクスで構築されたインデックスが必要です。 |
-| 要素レベル検索には通常の vector メトリクスを使用する。 | 要素レベル検索では通常の vector クエリデータと、`COSINE`、`IP`、`L2` などのメトリクスを使用します。 |
+| サブフィールドのインデックスにはパス構文を使用する。 | `emb` や `chunks.emb` ではなく、`chunks[emb]` にインデックスを作成します。 |
+| 1 つの vector サブフィールドが受け付けるインデックスは 1 つ。 | 異なるメトリクスファミリーが必要な場合は、別々の vector サブフィールドを使用します。 |
+| EmbeddingList 検索には `MAX_SIM*` メトリクスを使用する。 | EmbeddingList query データには、`MAX_SIM*` メトリクスで構築されたインデックスが必要です。 |
+| 要素レベル検索には通常の vector メトリクスを使用する。 | 要素レベル検索では通常の vector query データと、`COSINE`、`IP`、`L2` などのメトリクスを使用します。 |
 | フィルタに現れる scalar サブフィールドにインデックスを作成する。 | 対象でサポートされる scalar インデックスタイプを使用します。 |
-| vector フィールドの制限を意識する。 | vector フィールドと vector サブフィールドの総数には制限があります。多くの vector サブフィールドを追加する前に StructArray の制限を確認してください。 |
+| vector フィールドの制限を意識する。 | vector フィールドおよび vector サブフィールドの総数には制限があります。多数の vector サブフィールドを追加する前に StructArray Limits を参照してください。 |
 
 ## よくある間違い\{#common-mistakes}
 
 - `chunks[emb]` ではなく `chunks.emb` にインデックスを作成する。
 
-- `MAX_SIM*` インデックスだけを作成し、その後で同じサブフィールドに対して要素レベル検索を実行しようとする。
+- `MAX_SIM*` インデックスだけを作成し、その後同じサブフィールドで要素レベル検索を実行しようとする。
 
-- 通常の vector インデックスだけを作成し、その後で同じサブフィールドに対して EmbeddingList 検索を実行しようとする。
+- 通常の vector インデックスだけを作成し、その後同じサブフィールドで EmbeddingList 検索を実行しようとする。
 
 - `MAX_SIM*` と通常の vector メトリクスの両方に 1 つの vector サブフィールドを使い回す。
 
-- 頻繁に使われる StructArray フィルタに対する scalar インデックスを忘れる。
+- よく使う StructArray フィルタ用の scalar インデックスを忘れる。
 
-- Struct schema に存在しない StructArray サブフィールドにインデックスを作成する。
+- Struct schema に存在しない StructArray サブフィールドをインデックス化する。
 
 ## 次のステップ\{#next-steps}
 
-1. エンティティレベルの EmbeddingList 検索または要素レベルの vector search を実行するには、[StructArray を使った基本的な vector search](./search-with-struct-array) を参照してください。
+1. エンティティレベルの EmbeddingList 検索または要素レベルの vector 検索を実行するには、[StructArray を使った基本的な Vector Search](./search-with-struct-array) を参照してください。
 
-1. 検索中に StructArray scalar サブフィールドをフィルタリングするには、[StructArray を使ったフィルタ付き検索](./filtered-search-with-struct-arrays) を参照してください。
+1. 検索中に StructArray scalar サブフィールドでフィルタリングするには、[StructArray を使ったフィルタ付き検索](./filtered-search-with-struct-arrays) を参照してください。
 
 1. インデックスとメトリクスの制限を確認するには、[StructArray の制限](./struct-array-limits) を参照してください。
 

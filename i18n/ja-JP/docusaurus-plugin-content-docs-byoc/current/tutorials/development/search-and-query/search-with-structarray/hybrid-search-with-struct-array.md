@@ -1,13 +1,13 @@
 ---
-title: "StructArray を使った Hybrid Search | BYOC"
+title: "StructArray を使ったハイブリッド検索 | BYOC"
 slug: /hybrid-search-with-struct-array
-sidebar_label: "Hybrid Search"
+sidebar_label: "ハイブリッド検索"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このページでは、StructArray ベクトル検索を他のベクトル検索と組み合わせて、1 つの hybrid search リクエストで実行する方法を説明します。StructArray hybrid search は、組み合わせる `AnnSearchRequest` オブジェクトに応じて、entity レベルの結果または element レベルの結果を生成できます。 | BYOC"
+description: "このページでは、StructArray ベクトル検索を他のベクトル検索と組み合わせて、1 つのハイブリッド検索リクエストで実行する方法を説明します。StructArray のハイブリッド検索は、組み合わせる `AnnSearchRequest` オブジェクトに応じて、エンティティレベルの結果または要素レベルの結果を生成できます。 | BYOC"
 type: origin
 token: EqSpwh9BaiEISgkG5YVcDbCUnpe
 sidebar_position: 5
@@ -18,43 +18,43 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# StructArray を使った Hybrid Search
+# StructArray を使ったハイブリッド検索
 
-このページでは、StructArray ベクトル検索を他のベクトル検索と組み合わせて、1 つの hybrid search リクエストで実行する方法を説明します。StructArray hybrid search は、組み合わせる `AnnSearchRequest` オブジェクトに応じて、entity レベルの結果または element レベルの結果を生成できます。
+このページでは、StructArray ベクトル検索を他のベクトル検索と組み合わせて、1 つのハイブリッド検索リクエストで実行する方法を説明します。StructArray のハイブリッド検索は、組み合わせる `AnnSearchRequest` オブジェクトに応じて、エンティティレベルの結果または要素レベルの結果を生成できます。
 
-このページでは、[Create a StructArray Field](./create-struct-array) の `tech_articles` collection を使用します。この collection には、`title_vector` という名前のトップレベル vector field と、`chunks` という StructArray field があります。`chunks[emb_list_vector]` subfield には EmbeddingList 検索用の index が作成され、`chunks[emb]` には element レベル検索用の index が作成されています。
+このページでは、[StructArray フィールドを作成する](./create-struct-array) の `tech_articles` collection を使用します。この collection には、`title_vector` という名前のトップレベル vector フィールドと、`chunks` という StructArray フィールドがあります。`chunks[emb_list_vector]` サブフィールドには EmbeddingList 検索用の index が作成されており、`chunks[emb]` には要素レベル検索用の index が作成されています。
 
-## StructArray に hybrid search がどのように適用されるか\{#how-hybrid-search-applies-to-structarray}
+## StructArray に対するハイブリッド検索の適用方法\{#how-hybrid-search-applies-to-structarray}
 
-| `AnnSearchRequest` の組み合わせ | 最終候補スコープ | 結果の動作 | `element_scope` |
+| `AnnSearchRequest` の組み合わせ | 最終候補のスコープ | 結果の挙動 | `element_scope` |
 | --- | --- | --- | --- |
-| collection レベル vector field + StructArray EmbeddingList subfield | entity レベル | 最終候補は primary key によって識別されます。 | 使用しないでください。 |
-| collection レベル vector field + StructArray element レベル subfield | entity レベル | element レベルのヒットは、hybrid reranking の前に entity レベル候補へと collapse されます。 | StructArray element レベル `AnnSearchRequest` での任意の collapse 設定。 |
-| 同じ StructArray field 配下の複数の element レベル subfield | element レベル | 最終候補は primary key と Struct element offset の組み合わせによって識別されます。 | 使用しないでください。 |
-| 異なる StructArray field 配下の element レベル subfield | entity レベル | element offset は同一性を共有しないため、それぞれの StructArray element レベル `AnnSearchRequest` は reranking の前に collapse されます。 | 各 StructArray element レベル `AnnSearchRequest` での任意の collapse 設定。 |
+| collection レベル vector フィールド + StructArray EmbeddingList サブフィールド | エンティティレベル | 最終候補は主キーで識別されます。 | 使用しないでください。 |
+| collection レベル vector フィールド + StructArray 要素レベル サブフィールド | エンティティレベル | 要素レベルのヒットは、ハイブリッド再ランキングの前にエンティティレベル候補へ集約されます。 | StructArray 要素レベル `AnnSearchRequest` に対する任意の集約設定。 |
+| 同じ StructArray フィールド配下の複数の要素レベル サブフィールド | 要素レベル | 最終候補は主キーに Struct 要素オフセットを加えた形で識別されます。 | 使用しないでください。 |
+| 異なる StructArray フィールド配下の要素レベル サブフィールド | エンティティレベル | 要素オフセットは同一性を共有しないため、各 StructArray 要素レベル `AnnSearchRequest` は再ランキング前に集約されます。 | 各 StructArray 要素レベル `AnnSearchRequest` に対する任意の集約設定。 |
 
 <Admonition type="warning" icon="🚧" title="警告">
 
-`element_scope` は、same-struct ではない element レベル hybrid search において、StructArray element レベル `AnnSearchRequest` オブジェクトの collapse を設定する場合にのみ使用してください。EmbeddingList リクエスト、collection レベル vector リクエスト、または same-StructArray element レベル hybrid search では使用しないでください。
+`element_scope` は、同一 Struct ではない要素レベルのハイブリッド検索において、StructArray 要素レベル `AnnSearchRequest` オブジェクトの集約を設定する場合にのみ使用してください。EmbeddingList リクエスト、collection レベル vector リクエスト、または同一 StructArray の要素レベル ハイブリッド検索には使用しないでください。
 
 </Admonition>
 
-## 始める前に\{#before-you-begin}
+## 開始前に\{#before-you-begin}
 
-hybrid search を実行する前に、collection、データ、index を準備してください。
+ハイブリッド検索を実行する前に、collection、データ、および index を準備してください。
 
 | 要件 | 詳細 |
 | --- | --- |
-| StructArray field | collection に `chunks` のような StructArray field が含まれていること。 |
-| vector subfield | EmbeddingList 検索用と element レベル検索用に、別々の vector subfield を使用すること。 |
+| StructArray フィールド | collection に `chunks` のような StructArray フィールドが含まれていること。 |
+| vector サブフィールド | EmbeddingList 検索用と要素レベル検索用に別々の vector サブフィールドを使用すること。 |
 | index | `chunks[emb_list_vector]` は `MAX_SIM*` metric を使用します。`chunks[emb]` は `COSINE`、`IP`、`L2` などの通常の vector metric を使用します。 |
-| reranker | `RRFRanker` や、アプリケーションでサポートされる他の reranker などの hybrid reranker を選択してください。 |
+| 再ランキング器 | `RRFRanker` またはアプリケーションでサポートされている別の再ランキング器など、ハイブリッド再ランキング器を選択すること。 |
 
-index の設定については、[Index StructArray Fields](./index-struct-array) を参照してください。
+index の設定については、[StructArray フィールドに index を作成する](./index-struct-array) を参照してください。
 
-## EmbeddingList リクエストで hybrid search を実行する\{#run-hybrid-search-with-an-embeddinglist-request}
+## EmbeddingList リクエストでハイブリッド検索を実行する\{#run-hybrid-search-with-an-embeddinglist-request}
 
-StructArray vector subfield に対する EmbeddingList 検索は、hybrid search では entity レベルです。これは entity レベル vector search リクエストのように動作し、一致した Struct element offset を 1 つ返すことはありません。
+StructArray vector サブフィールドに対する EmbeddingList 検索は、ハイブリッド検索ではエンティティレベルです。これはエンティティレベル vector 検索リクエストのように動作し、一致した Struct 要素オフセットを 1 つ返すことはありません。
 
 ```python
 from pymilvus import AnnSearchRequest, MilvusClient, RRFRanker
@@ -98,15 +98,15 @@ results = client.hybrid_search(
 )
 ```
 
-この例では、両方の `AnnSearchRequest` オブジェクトが entity レベル候補を生成します。最終結果は親 entity の primary key によって識別されます。EmbeddingList リクエストに `element_scope` を追加しないでください。
+この例では、両方の `AnnSearchRequest` オブジェクトがエンティティレベルの候補を生成します。最終結果は親エンティティの主キーで識別されます。EmbeddingList リクエストに `element_scope` を追加しないでください。
 
-## same-StructArray element レベル hybrid search を実行する\{#run-same-structarray-element-level-hybrid-search}
+## 同一 StructArray の要素レベル ハイブリッド検索を実行する\{#run-same-structarray-element-level-hybrid-search}
 
-すべての `AnnSearchRequest` オブジェクトが同じ StructArray field 配下の element レベル vector subfield を対象とする場合、hybrid search は reranking を通して element レベル候補を保持できます。これは、最終結果が element レベルのまま維持される唯一の StructArray hybrid モードです。
+すべての `AnnSearchRequest` オブジェクトが同じ StructArray フィールド配下の要素レベル vector サブフィールドを対象としている場合、ハイブリッド検索は再ランキングの間も要素レベル候補を維持できます。これは、最終結果が要素レベルのままになる唯一の StructArray ハイブリッドモードです。
 
-次の例では、`chunks` StructArray field に 2 つの element レベル vector subfield、`chunks[emb]` と `chunks[code_emb]` があり、どちらも通常の vector metric を使用していることを前提としています。
+次の例では、`chunks` StructArray フィールドに 2 つの要素レベル vector サブフィールド `chunks[emb]` と `chunks[code_emb]` があり、どちらも通常の vector metric を使用していると仮定しています。
 
-```plaintext
+```python
 index_chunk_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="chunks[emb]",
@@ -145,15 +145,15 @@ for hits in results:
         )
 ```
 
-どちらの `AnnSearchRequest` オブジェクトも、`chunks` 配下の vector subfield を検索します。同じ 0 ベースの offset は同じ Struct element を指すため、hybrid reranker は element 候補を直接ランク付けできます。entity レベルの collapse は実行されないため、このモードでは `element_scope` を設定しないでください。
+両方の `AnnSearchRequest` オブジェクトは `chunks` 配下の vector サブフィールドを検索します。同じ 0 始まりのオフセットは同じ Struct 要素を指すため、ハイブリッド再ランキング器は要素候補を直接ランク付けできます。このモードではエンティティレベルの集約は行われないため、`element_scope` を設定しないでください。
 
-## entity レベル hybrid search のために element レベルヒットを collapse する\{#collapse-element-level-hits-for-entity-level-hybrid-search}
+## エンティティレベルのハイブリッド検索のために要素レベルのヒットを集約する\{#collapse-element-level-hits-for-entity-level-hybrid-search}
 
-hybrid search が StructArray element レベル `AnnSearchRequest` を、collection レベル vector リクエスト、EmbeddingList リクエスト、または別の StructArray field 配下の element レベルリクエストと混在させる場合、最終候補スコープは entity レベルになります。この場合、各 StructArray element レベル `AnnSearchRequest` は、hybrid reranking の前に entity レベル候補へ collapse されます。
+ハイブリッド検索が StructArray 要素レベル `AnnSearchRequest` と collection レベル vector リクエスト、EmbeddingList リクエスト、または別の StructArray フィールド配下の要素レベル リクエストを混在させる場合、最終候補のスコープはエンティティレベルになります。この場合、各 StructArray 要素レベル `AnnSearchRequest` は、ハイブリッド再ランキングの前にエンティティレベル候補へ集約されます。
 
-同じ entity 内の複数の一致 element をどのように collapse するかを制御したい場合は、StructArray element レベル `AnnSearchRequest` の `params` 内で `element_scope` を使用してください。
+同じエンティティ内で複数の一致要素をどのように集約するかを制御したい場合は、StructArray 要素レベル `AnnSearchRequest` の `params` 内で `element_scope` を使用します。
 
-```plaintext
+```python
 title_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="title_vector",
@@ -193,72 +193,72 @@ results = client.hybrid_search(
 )
 ```
 
-この例では、`title_req` は entity レベルであるため、最終的な hybrid 結果も entity レベルです。`chunk_req` リクエストはまず `chunks[emb]` から element ヒットを返し、その後、同じ entity に属する返却済み element を、最良の 3 つの element スコアを合計することで collapse します。entity レベルの collapse が必要な場合に `element_scope` を省略すると、collapse strategy のデフォルトは `max` になります。
+この例では、`title_req` はエンティティレベルであるため、最終的なハイブリッド結果もエンティティレベルになります。`chunk_req` リクエストはまず `chunks[emb]` から要素ヒットを返し、その後、同じエンティティから返された要素を、最も良い 3 つの要素スコアの合計によって集約します。エンティティレベルの集約が必要な場合に `element_scope` を省略すると、集約戦略のデフォルトは `max` になります。
 
-## collapse strategy を選択する\{#choose-a-collapse-strategy}
+## 集約戦略を選ぶ\{#choose-a-collapse-strategy}
 
-| Strategy | 動作 | `topk` | metric 要件 |
+| 戦略 | 挙動 | `topk` | metric 要件 |
 | --- | --- | --- | --- |
-| `max` | entity に対して返された最良の element スコアを保持します。 | 使用できません。 | サポートされている任意の通常の vector metric。 |
-| `sum` | entity に対して返されたすべての element スコアを合計します。 | 使用できません。 | `IP` や `COSINE` など、正の相関を持つ metrics のみ。 |
-| `avg` | entity に対して返されたすべての element スコアの平均を取ります。 | 使用できません。 | サポートされている任意の通常の vector metric。 |
-| `topk_sum` | entity に対して返された最良の `K` 個の element スコアを合計します。 | 必須であり、正の値である必要があります。 | `IP` や `COSINE` など、正の相関を持つ metrics のみ。 |
-| `topk_avg` | entity に対して返された最良の `K` 個の element スコアの平均を取ります。 | 必須であり、正の値である必要があります。 | サポートされている任意の通常の vector metric。 |
+| `max` | エンティティについて最も良い返却要素スコアを保持します。 | 使用できません。 | サポートされる任意の通常の vector metric。 |
+| `sum` | エンティティについて返却されたすべての要素スコアを合計します。 | 使用できません。 | `IP` や `COSINE` など、正の相関を持つ metric のみ。 |
+| `avg` | エンティティについて返却されたすべての要素スコアを平均します。 | 使用できません。 | サポートされる任意の通常の vector metric。 |
+| `topk_sum` | エンティティについて最も良い `K` 個の返却要素スコアを合計します。 | 必須であり、正の値でなければなりません。 | `IP` や `COSINE` など、正の相関を持つ metric のみ。 |
+| `topk_avg` | エンティティについて最も良い `K` 個の返却要素スコアを平均します。 | 必須であり、正の値でなければなりません。 | サポートされる任意の通常の vector metric。 |
 
-collapse では、その StructArray element レベル `AnnSearchRequest` によって返された element ヒットのみを使用します。ANN search の後に entity 内のすべての Struct element を走査することはありません。collapse に利用したい element を十分に確保できるよう、リクエストの `limit` を十分高く設定してください。
+集約で使用されるのは、その StructArray 要素レベル `AnnSearchRequest` によって返された要素ヒットだけです。ANN 検索後にエンティティ内のすべての Struct 要素を走査することはありません。集約で使用したい要素が返されるように、リクエストの `limit` を十分高く設定してください。
 
-## フィルター、range search、grouping を追加する\{#add-filters-range-search-and-grouping}
+## フィルター、範囲検索、グループ化を追加する\{#add-filters-range-search-and-grouping}
 
-vector search に参加する同じ Struct element に scalar 条件を適用したい場合は、StructArray element レベル `AnnSearchRequest` に `element_filter` を追加できます。親 entity の条件には、`hybrid_search()` にトップレベルの `filter` を使用することもできます。
+スカラー条件を vector 検索に参加する同じ Struct 要素に適用したい場合、StructArray 要素レベル `AnnSearchRequest` に `element_filter` を付加できます。親エンティティ条件には、`hybrid_search()` に対するトップレベルの `filter` も使用できます。
 
-StructArray element レベル vector fields は、hybrid search における range search をサポートします。element レベル `AnnSearchRequest` に `radius` と、必要に応じて `range_filter` を追加してください。EmbeddingList レベル StructArray リクエストは range search をサポートしません。
+StructArray 要素レベル vector フィールドは、ハイブリッド検索で範囲検索をサポートします。要素レベル `AnnSearchRequest` に `radius` と、必要に応じて `range_filter` を追加してください。EmbeddingList レベルの StructArray リクエストは範囲検索をサポートしません。
 
-element レベル hybrid grouping は、すべての `AnnSearchRequest` オブジェクトが同じ StructArray field 配下の element レベル vector fields を対象としている場合にのみサポートされ、`group_by_field` は primary key でなければなりません。collection レベル vector fields、異なる StructArray fields、または EmbeddingList レベルリクエストが混在する場合、hybrid grouping はサポートされません。range search と grouping を組み合わせないでください。
+要素レベルのハイブリッド グループ化は、すべての `AnnSearchRequest` オブジェクトが同じ StructArray フィールド配下の要素レベル vector フィールドを対象とする場合にのみサポートされ、`group_by_field` は主キーでなければなりません。リクエストが collection レベル vector フィールド、異なる StructArray フィールド、または EmbeddingList レベルのリクエストを混在させる場合、ハイブリッド グループ化はサポートされません。範囲検索とグループ化を組み合わせないでください。
 
-## hybrid 結果を解釈する\{#interpret-hybrid-results}
+## ハイブリッド結果を解釈する\{#interpret-hybrid-results}
 
-| 最終候補スコープ | 結果キー | offset の動作 | 発生するタイミング |
+| 最終候補のスコープ | 結果キー | オフセットの挙動 | 発生する条件 |
 | --- | --- | --- | --- |
-| Entity レベル | Primary key。 | 最終結果に element offset は含まれません。 | hybrid リクエストに、collection レベル vector field、EmbeddingList リクエスト、または異なる StructArray field 配下の element レベルリクエストが含まれる場合。 |
-| Element レベル | Primary key に加え、親 StructArray field と element offset。 | API または SDK が公開している場合、選択された element offset が返されることがあります。 | すべての `AnnSearchRequest` オブジェクトが element レベルであり、かつ同じ StructArray field 配下にある場合。 |
+| エンティティレベル | 主キー。 | 最終結果に要素オフセットは含まれません。 | ハイブリッド リクエストに、collection レベル vector フィールド、EmbeddingList リクエスト、または異なる StructArray フィールド配下の要素レベル リクエストが含まれる場合。 |
+| 要素レベル | 主キー + 親 StructArray フィールド + 要素オフセット。 | API または SDK が公開している場合、選択された要素オフセットが返されることがあります。 | すべての `AnnSearchRequest` オブジェクトが要素レベルであり、同じ StructArray フィールド配下にある場合。 |
 
 ## 制限事項\{#limitations}
 
-- `element_scope` は、hybrid search において entity レベル候補へ collapse する必要がある StructArray element レベル `AnnSearchRequest` オブジェクトに対してのみ使用してください。
+- `element_scope` は、ハイブリッド検索でエンティティレベル候補へ集約する必要がある StructArray 要素レベル `AnnSearchRequest` オブジェクトに対してのみ使用してください。
 
-- EmbeddingList リクエスト、collection レベル vector リクエスト、または same-StructArray element レベル hybrid search では `element_scope` を使用しないでください。
+- `element_scope` を EmbeddingList リクエスト、collection レベル vector リクエスト、または同一 StructArray の要素レベル ハイブリッド検索に使用しないでください。
 
-- `sum` および `topk_sum` collapse strategy には、`IP` や `COSINE` などの正の相関を持つ metrics が必要です。`L2` では使用しないでください。
+- `sum` および `topk_sum` の集約戦略には、`IP` や `COSINE` などの正の相関を持つ metric が必要です。`L2` には使用しないでください。
 
-- `topk_sum` と `topk_avg` には正の `topk` 値が必要です。その他の collapse strategy には `topk` を含めてはいけません。
+- `topk_sum` および `topk_avg` には正の `topk` 値が必要です。その他の集約戦略には `topk` を含めてはいけません。
 
-- EmbeddingList レベル StructArray リクエストは range search や group-by をサポートしません。
+- EmbeddingList レベルの StructArray リクエストは、範囲検索または group-by をサポートしません。
 
-- Hybrid group-by は same-StructArray element レベル hybrid search に対してのみ、かつ primary key のみでサポートされます。
+- ハイブリッド group-by は、同一 StructArray の要素レベル ハイブリッド検索でのみ、かつ主キーに対してのみサポートされます。
 
-- range search と group-by を組み合わせないでください。
+- 範囲検索と group-by を組み合わせないでください。
 
 ## よくある間違い\{#common-mistakes}
 
-- same-StructArray element レベル hybrid リクエストに `element_scope` を追加すること。そのリクエストは element レベルのままであり、entity レベルの collapse は実行しません。
+- `element_scope` を同一 StructArray の要素レベル ハイブリッド リクエストに追加すること。そのリクエストは要素レベルのままであり、エンティティレベルの集約は行いません。
 
-- `chunks[emb_list_vector]` に `element_scope` を追加すること。EmbeddingList 検索はすでに entity レベルです。
+- `element_scope` を `chunks[emb_list_vector]` に追加すること。EmbeddingList 検索はすでにエンティティレベルです。
 
-- 2 つの StructArray fields が element offset を共有していると想定すること。`chunks` の offset `3` と別の StructArray field の offset `3` は異なる element であるため、hybrid リクエストは entity レベルになります。
+- 2 つの StructArray フィールドが要素オフセットを共有していると考えること。`chunks` のオフセット `3` と別の StructArray フィールドのオフセット `3` は異なる要素であるため、ハイブリッド リクエストはエンティティレベルになります。
 
-- `L2` で `topk_sum` を使用すること。負の distance metric には `max`、`avg`、または `topk_avg` を使用してください。
+- `topk_sum` を `L2` で使用すること。負の距離 metric には `max`、`avg`、または `topk_avg` を使用してください。
 
-- collapse 後の entity レベル hybrid 結果に、選択された Struct element offset が含まれると期待すること。
+- 集約後のエンティティレベル ハイブリッド結果に、選択された Struct 要素オフセットが含まれると期待すること。
 
 ## 次のステップ\{#next-steps}
 
-1. StructArray vector search の 2 つの基本モードについて学ぶには、[Basic Vector Search with StructArray](./search-with-struct-array) を参照してください。
+1. 2 つの基本的な StructArray vector 検索モードを学ぶには、[StructArray を使った基本ベクトル検索](./search-with-struct-array) を参照してください。
 
-1. hybrid search に scalar filter を追加するには、[Filtered Search with StructArray](./filtered-search-with-struct-arrays) を参照してください。
+1. ハイブリッド検索にスカラー フィルターを追加するには、[StructArray を使ったフィルタ付き検索](./filtered-search-with-struct-arrays) を参照してください。
 
-1. hybrid search で score または distance の境界を使用するには、[Range Search with StructArray](./range-search-with-struct-arrays) を参照してください。
+1. ハイブリッド検索でスコアまたは距離の境界を使用するには、[StructArray を使った範囲検索](./range-search-with-struct-arrays) を参照してください。
 
-1. 親 entity ごとに element レベル hybrid 結果をグループ化するには、[Grouping Search with StructArray](./grouping-search-with-struct-array) を参照してください。
+1. 要素レベルのハイブリッド結果を親エンティティごとにグループ化するには、[StructArray を使ったグループ化検索](./grouping-search-with-struct-array) を参照してください。
 
-1. StructArray 検索の制限を確認するには、[StructArray Limits](./struct-array-limits) を参照してください。
+1. StructArray 検索の制限を確認するには、[StructArray の制限](./struct-array-limits) を参照してください。
 
