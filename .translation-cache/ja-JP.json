@@ -1230,6 +1230,81 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2511.md",
       "translatedAt": "2026-08-04T05:17:16.504Z"
     },
+    "content/en/guides/tutorials/get-started/release-notes/release-notes-2512.md": {
+      "sourceHash": "d17640c16600014df943cda09695aade8055ba992dbc1b6963f81365588eadf9",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2512.md",
+      "translatedAt": "2026-08-04T05:04:23.833Z"
+    },
+    "content/en/guides/tutorials/get-started/release-notes/release-notes-2601.md": {
+      "sourceHash": "050b0c83b10bd82fb37fa1b1cc2c69db5072c3d87dac818fe778e01bd6a51005",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2601.md",
+      "translatedAt": "2026-08-04T05:05:15.299Z"
+    },
+    "content/en/guides/tutorials/get-started/release-notes/release-notes-2604.md": {
+      "sourceHash": "24c57a02c73088a7dee3698cfaa16b0ac824ce1d0f0b6ea5a28e64d106d066ef",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2604.md",
+      "translatedAt": "2026-08-04T05:04:24.741Z"
+    },
+    "content/en/guides/tutorials/get-started/release-notes/release-notes-2605.md": {
+      "sourceHash": "e9e5124555c0e3690ee603ccafabe28b26730732933946d9f4f6932fee0d30cf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2605.md",
+      "translatedAt": "2026-08-04T05:05:44.414Z"
+    },
+    "content/en/guides/tutorials/get-started/release-notes/release-notes-2607.md": {
+      "sourceHash": "6d871f0d25df34faeadd3dd97e4a1ac607c8f8231f60c215f5158c2a3e2c7fee",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2607.md",
+      "translatedAt": "2026-08-04T05:08:49.436Z"
+    },
+    "content/en/guides/tutorials/get-started/release-notes/release-notes-270.md": {
+      "sourceHash": "100aad50526abebf110cf0c0e410fc106cd9c6b94e4f5ba3ad5042f5ff46272c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-270.md",
+      "translatedAt": "2026-08-04T05:04:58.616Z"
+    },
+    "content/en/guides/tutorials/get-started/release-notes/release-notes-290.md": {
+      "sourceHash": "8eaedf039ce02f27004c34620165412de7fcb30295cf4db8b5cfca94f4979c9e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-290.md",
+      "translatedAt": "2026-08-04T05:06:04.095Z"
+    },
+    "content/en/guides/tutorials/get-started/select-zilliz-cloud-service-plans.md": {
+      "sourceHash": "f0507b90123def7af834fc3fc4ee6c5bb03123042134682079d9ab5aed621dad",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/select-zilliz-cloud-service-plans.md",
+      "translatedAt": "2026-08-04T05:07:30.302Z"
+    },
+    "content/en/guides/tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace.md": {
+      "sourceHash": "22006827af586a88aadff93ac9734784165217b5e836d8e11a2400f242fefdf2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace.md",
+      "translatedAt": "2026-08-04T05:08:23.712Z"
+    },
+    "content/en/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md": {
+      "sourceHash": "c8c64437eb1c218f51a3322730a7f2637b5c8c7587620d92df2e8eacc11aeee9",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/backup-to-other-regions.md",
+      "translatedAt": "2026-08-04T05:06:51.198Z"
+    },
+    "content/en/guides/tutorials/management/backup-and-restore/create-backup.md": {
+      "sourceHash": "60c419bbe38ca04818b5dbc3a00a855111e046a22e2a9732da3518340b67dace",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/create-backup.md",
+      "translatedAt": "2026-08-04T05:08:37.705Z"
+    },
+    "content/en/guides/tutorials/management/backup-and-restore/schedule-automatic-backups.md": {
+      "sourceHash": "5f18f79a21c90b317a39e2b0fb1ce952beb4f2bb7db3118265f1a8f424ea9116",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/schedule-automatic-backups.md",
+      "translatedAt": "2026-08-04T05:10:21.082Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/failed-payments-organization-recovery.md": {
+      "sourceHash": "6f3c6e832b5926ab8d9795d68b96acda87f7308dd024a92b755cda8163164089",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/failed-payments-organization-recovery.md",
+      "translatedAt": "2026-08-04T05:10:21.354Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/monitor-billing-alerts.md": {
+      "sourceHash": "03e9d57486246f1e13e9fb23d56a203bb1dc0a42ab4ebde742cb3eeecfb657e8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/monitor-billing-alerts.md",
+      "translatedAt": "2026-08-04T05:09:11.430Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/payment-billing.md": {
+      "sourceHash": "4d5d3314bd833020587d32e518c6029c58ae692742511064938dc9adb1e189bd",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/payment-billing.md",
+      "translatedAt": "2026-08-04T05:10:55.859Z"
+    },
     "content/en/guides/tutorials/management/billing-management/separate-billing/separate-zilliz-cloud-billing-on-aws-marketplace.md": {
       "sourceHash": "168ecbd403f8dd4e925c248426cb9b52388285dc26fbc45d6c8f070eb3c1c7f8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/separate-billing/separate-zilliz-cloud-billing-on-aws-marketplace.md",
@@ -1245,6 +1320,61 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md",
       "translatedAt": "2026-08-04T05:19:25.952Z"
     },
+    "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md": {
+      "sourceHash": "123b75c8e9c02d3cb5bb97c8fff5d4752f86a19605aedef343385cfa23b85081",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md",
+      "translatedAt": "2026-08-04T05:14:26.920Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md": {
+      "sourceHash": "1f860628aefabb24c746a937ba871979e5daa682c99a2d38290617ef0bd98c42",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md",
+      "translatedAt": "2026-08-04T05:11:16.444Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md": {
+      "sourceHash": "df3189c1a5b89c02502925866bcad214c7fbb24f4f0a9f6b7e6bb1dabe6e95fc",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md",
+      "translatedAt": "2026-08-04T05:11:35.620Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md": {
+      "sourceHash": "0da20d115c25418ff8788dbc2718abbb4058911aad9820a0b11800d69d842ae5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md",
+      "translatedAt": "2026-08-04T05:12:37.984Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card.md": {
+      "sourceHash": "7658e82411e844bc9c3e61293c3c8db064a0f03078efbd7452c2dda89c2e2b58",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card.md",
+      "translatedAt": "2026-08-04T05:11:47.030Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/update-billing-profile.md": {
+      "sourceHash": "f93c37a052919b0d0aa6f77921c6f364ef1f6c2b583e11f7df2f96cb70edb5da",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/update-billing-profile.md",
+      "translatedAt": "2026-08-04T05:11:51.295Z"
+    },
+    "content/en/guides/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md": {
+      "sourceHash": "e7209b51b8165357e74bc2adbcf881fd782be8ee0191c957d1ca526a2ea022b7",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md",
+      "translatedAt": "2026-08-04T05:12:19.178Z"
+    },
+    "content/en/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
+      "sourceHash": "4349d40429918ef1f6e0e76399b66d36b3b5ab1715c6db27709f6903ce044601",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
+      "translatedAt": "2026-08-04T05:12:43.662Z"
+    },
+    "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md": {
+      "sourceHash": "1ea217b6cdc3abe0016b21b1a5dbfd03735f98b1b415788931ec5161f550b15f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
+      "translatedAt": "2026-08-04T05:13:42.493Z"
+    },
+    "content/en/guides/tutorials/management/clusters/global-cluster/global-cluster-explained.md": {
+      "sourceHash": "8defd2eee260584116613be8fcc1f9ffea4e87e9543357c1e229fa370877d980",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/global-cluster-explained.md",
+      "translatedAt": "2026-08-04T05:13:29.163Z"
+    },
+    "content/en/guides/tutorials/management/clusters/global-cluster/manage-global-cluster.md": {
+      "sourceHash": "25662e43c6c11e4344c623d5c3f06ae2f8a33b94c36842972389a49b1beae433",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/manage-global-cluster.md",
+      "translatedAt": "2026-08-04T05:14:11.784Z"
+    },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
       "sourceHash": "b56fef0d65b35969ab228daff606ea881c0d8ba6ae19f4b40b3c9d14477dd2e1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
@@ -1254,6 +1384,26 @@
       "sourceHash": "b87f13ce55d6fdc65674ba4400ae1df0d3d208be1ff6a36ec3e51d34bc1d10ad",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
       "translatedAt": "2026-08-04T05:05:43.890Z"
+    },
+    "content/en/guides/tutorials/management/cost-management/analyze-cost.md": {
+      "sourceHash": "66b4ccec764622d268e3e72fe97f37b7279381b227cb7e0b584790a8ba5418b6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/analyze-cost.md",
+      "translatedAt": "2026-08-04T05:15:18.060Z"
+    },
+    "content/en/guides/tutorials/management/cost-management/cost-optimization.md": {
+      "sourceHash": "e276021a001ddd80c600fb3dd08bb1322fc725a4595a5d9704e334c0d43d4923",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/cost-optimization.md",
+      "translatedAt": "2026-08-04T05:17:33.047Z"
+    },
+    "content/en/guides/tutorials/management/cost-management/understand-cost/data-transfer-cost.md": {
+      "sourceHash": "008c75efcfc47ec3d92da68aed7adf6f2712da6c596adf76001cb74e6cd96b6f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/data-transfer-cost.md",
+      "translatedAt": "2026-08-04T05:16:59.112Z"
+    },
+    "content/en/guides/tutorials/management/cost-management/understand-cost/dedicated-cluster-cost.md": {
+      "sourceHash": "07160e95c43f773dd130bd4d3544d29fd5762d48d5768da8beb6fe0776a9d59f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/dedicated-cluster-cost.md",
+      "translatedAt": "2026-08-04T05:15:58.024Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/manage-notification-channels.md": {
       "sourceHash": "78663d619ef93a525fcd89b738a4a0504b192b9d1f7273ae35007d20876f1c24",

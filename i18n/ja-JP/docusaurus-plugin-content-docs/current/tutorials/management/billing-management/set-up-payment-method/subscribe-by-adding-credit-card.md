@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud で組織の支払い用クレジットカードを追加する方法について包括的に説明します。 | Cloud"
+description: "このガイドでは、Zilliz Cloud で組織に支払い用クレジットカードを追加する方法について包括的に説明します。 | Cloud"
 type: origin
 token: TVnkwXupUiX3zDkzYPWcxKP3nvg
 sidebar_position: 2
@@ -24,11 +24,11 @@ import Procedures from '@site/src/components/Procedures';
 
 # クレジットカード
 
-このガイドでは、Zilliz Cloud で組織の支払い用クレジットカードを追加する方法について包括的に説明します。
+このガイドでは、Zilliz Cloud で組織に支払い用クレジットカードを追加する方法について包括的に説明します。
 
 <Admonition type="info" icon="📘" title="📘 Note">
 
-- **課税:** 請求書に対する税額は、提供された請求先住所に基づいて計算されます。VAT または GST ID の入力が必要な企業は、[お問い合わせ](http://support.zilliz.com)ください。
+- **課税:** 請求書上の税金は、提供された請求先住所に基づいて計算されます。VAT または GST ID の入力が必要な企業は、[お問い合わせください](http://support.zilliz.com)。
 
 - **アクセス制御**: 支払い方法を管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 
@@ -46,9 +46,9 @@ import Procedures from '@site/src/components/Procedures';
 
 1. **Credit Card** を選択します。
 
-1. カード情報と請求情報を入力します。
+1. カード情報と請求先情報を入力します。
 
-    - クレジットカード情報:
+    - Credit Card Information:
 
         - **Card number**
 
@@ -56,7 +56,7 @@ import Procedures from '@site/src/components/Procedures';
 
         - **CVC**
 
-    - 請求情報:
+    - Billing Information:
 
         - **First Name**
 
@@ -68,7 +68,7 @@ import Procedures from '@site/src/components/Procedures';
 
         - **Street Address**
 
-            会社の住所を使用することを推奨します。この住所は税額の計算に使用され、発行されるすべての請求書に表示されます。
+            会社の住所を使用することをおすすめします。この住所は税金の計算に使用され、発行されるすべての請求書に表示されます。
 
         - **Country / Region**
 
@@ -82,11 +82,11 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-## クレジットカードを置き換える\{#replace-a-credit-card}
+## クレジットカードを差し替える\{#replace-a-credit-card}
 
-クレジットカードの有効期限が近づいた場合、既存のカードを置き換えるか、[Marketplace subscription](./undefined) に切り替えることができます。
+クレジットカードの有効期限が近づいた場合、既存のカードを差し替えるか、[Marketplace subscription](./marketplace-subscription) に切り替えることができます。
 
-次のデモでは、既存のクレジットカードを新しいカードに置き換える方法を示しています。
+以下のデモでは、既存のクレジットカードを新しいカードに差し替える方法を示しています。
 
 <Supademo id="cmpf3fm4q2ehaqm8q8j5jx188" title=""  />
 
@@ -110,9 +110,9 @@ import Procedures from '@site/src/components/Procedures';
 
 ## Marketplace subscription に切り替える\{#switch-to-marketplace-subscription}
 
-クレジットカードによる支払い方法から Marketplace subscription に移行したい場合は、対応する Marketplace で直接購読してください。 
+クレジットカードによる支払い方法から Marketplace subscription に移行したい場合は、該当する Marketplace で直接サブスクライブしてください。 
 
-購読が正常に完了すると、既存のクレジットカード情報は自動的に置き換えられます。更新内容は、**Billing Overview** ページの **Payment Method** セクションで確認できます。
+サブスクリプションが正常に完了すると、既存のクレジットカード情報は自動的に置き換えられます。更新内容は、**Billing Overview** ページの **Payment Method** セクションで確認できます。
 
 <Admonition type="info" icon="📘" title="📘 Note">
 
@@ -120,14 +120,14 @@ import Procedures from '@site/src/components/Procedures';
 
 </Admonition>
 
-Marketplace subscription の詳細については、[Marketplace Subscription](./undefined) を参照してください。
+Marketplace subscription の詳細については、[Marketplace Subscription](./marketplace-subscription) を参照してください。
 
-支払い方法の更新の詳細については、[Update Payment Method](./update-payment-method) を参照してください。
+支払い方法の更新について詳しくは、[Update Payment Method](./update-payment-method) を参照してください。
 
-## クレジットカードの有効期限監視を設定する\{#set-monitor-for-credit-card-expiration}
+## クレジットカードの有効期限モニタリングを設定する\{#set-monitor-for-credit-card-expiration}
 
-デフォルトでは、クレジットカードの有効期限の監視は無効になっています。ただし、有効にすると、クレジットカードの有効期限が 7 日後または 30 日後に切れる場合に通知を受け取ることができます。詳細については、[Manage Organization Alerts](./manage-organization-alerts) を参照してください。 
+デフォルトでは、クレジットカードの有効期限のモニタリングは無効になっています。ただし、有効にすると、クレジットカードの有効期限が 7 日後または 30 日後に切れる場合に通知を受け取ることができます。詳細については、[Manage Organization Alerts](./manage-organization-alerts) を参照してください。 
 
 ## クレジットカードを削除する\{#remove-credit-card}
 
-現在、Zilliz Cloud は Web コンソールでの支払い用クレジットカードの削除をサポートしていません。連携済みのクレジットカードを削除する必要がある場合は、Zilliz Cloud の[サポートポータル](https://support.zilliz.com/hc/en-us)でお問い合わせのうえ、チケットを送信してください。
+現在、Zilliz Cloud は Web コンソール上で支払い用クレジットカードの削除をサポートしていません。リンク済みのクレジットカードを削除する必要がある場合は、Zilliz Cloud の[サポートポータル](https://support.zilliz.com/hc/en-us)からお問い合わせのうえ、チケットを送信してください。

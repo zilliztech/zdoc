@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "アプリケーションで、スキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全な Collection API が必要な場合は、Dedicated cluster endpoint を使用します。 | Cloud"
+description: "アプリケーションでスキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全な Collection API が必要な場合は、Dedicated cluster endpoint を使用します。 | Cloud"
 type: origin
 token: ZWwJwKjeDi7SJGkzUQ0c7XfBnqh
 sidebar_position: 2
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Cluster への接続
 
-アプリケーションで、スキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全な Collection API が必要な場合は、Dedicated cluster endpoint を使用します。
+アプリケーションでスキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全な Collection API が必要な場合は、Dedicated cluster endpoint を使用します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Note">
 
-このページでは、Dedicated serving cluster に接続する方法を説明します。Free または Serverless cluster に接続するには、[Free & Serverless Clusters](./free-and-serverless-clusters) を参照してください。project endpoint を介したオンデマンドコンピュートについては、[Connect for On-Demand Search](./connect-for-on-demand-search) を参照してください。
+このページでは、Dedicated serving cluster への接続方法を示します。Free または Serverless cluster に接続するには、[Free & Serverless Clusters](./free-and-serverless-clusters) を参照してください。project endpoint を介したオンデマンド compute については、[Connect for On-Demand Search](./connect-for-on-demand-search) を参照してください。
 
 </Admonition>
 
@@ -37,39 +37,39 @@ import TabItem from '@theme/TabItem';
 
 ## 始める前に\{#before-you-begin}
 
-Dedicated cluster に接続する前に、次のことを確認してください。
+Dedicated cluster に接続する前に、以下を確認してください。
 
-- Zilliz Cloud にアカウント登録していること。詳細は、[Zilliz Cloud への登録](./register-with-zilliz-cloud) を参照してください。
+- Zilliz Cloud にアカウント登録していること。詳細は、[Register with Zilliz Cloud](./register-with-zilliz-cloud) を参照してください。
 
 - Dedicated cluster を作成していること。
 
-- ユースケースに対応する Milvus SDK をインストールしていること。詳細は、[SDK のインストール](./install-sdks) を参照してください。
+- ユースケースに対応する Milvus SDK をインストールしていること。詳細は、[Install SDKs](./install-sdks) を参照してください。
 
-- cluster public endpoint を取得していること。
+- cluster の public endpoint を取得していること。
 
-- 認証トークンを取得していること。これは、対象の cluster にアクセスできる API key、または `username:password` 形式の cluster credential です。
+- 認証 token を取得していること。これは、対象 cluster へアクセスできる API key、または `username:password` 形式の cluster credential を使用できます。
 
-cluster public endpoint は Zilliz Cloud コンソールから取得できます。対象 cluster の **Cluster Details** ページに移動します。**Connect** カードで、cluster public endpoint をコピーします。
+cluster の public endpoint は Zilliz Cloud コンソールから取得できます。対象 cluster の **Cluster Details** ページに移動し、**Connect** カードで cluster の public endpoint をコピーします。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Note">
 
-SDK ではなく RESTful API を使用する場合、HTTP はリクエスト・レスポンスの通信モデルに従うため、継続的な接続は確立されません。
+SDK ではなく RESTful API を使用する場合、HTTP はリクエスト・レスポンス通信モデルに従うため、継続的な接続は確立されません。
 
 </Admonition>
 
 ## SDK のインストール\{#install-sdks}
 
-アプリケーション言語用の SDK をインストールします。
+アプリケーション言語向けの SDK をインストールします。
 
-```plaintext
+```bash
 pip install pymilvus
 ```
 
-Java、Node.js、Go プロジェクトでは、以下の例を使用する前に、対応する Milvus SDK をプロジェクトにインストールしてください。
+Java、Node.js、Go のプロジェクトでは、以下の例を使用する前に、対応する Milvus SDK をプロジェクトにインストールしてください。
 
 ## Dedicated cluster への接続\{#connect-to-a-dedicated-cluster}
 
-cluster endpoint と token は、すべての SDK で一貫して使用してください。`YOUR_CLUSTER_ENDPOINT` は cluster の **Connect** カードからコピーした public endpoint で、`YOUR_CLUSTER_TOKEN` は、対象 cluster にアクセスできる API key、または `username:password` 形式の cluster credential です。
+cluster endpoint と token は、各 SDK で一貫して使用してください。`YOUR_CLUSTER_ENDPOINT` は cluster の **Connect** カードからコピーした public endpoint、`YOUR_CLUSTER_TOKEN` は対象 cluster へアクセスできる API key、または `username:password` 形式の cluster credential です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -148,7 +148,7 @@ curl --request POST \
 
 ## 接続の確認\{#verify-the-connection}
 
-SDK で接続した後、collection の一覧表示などの軽量な操作を実行します。
+SDK で接続した後、collection の一覧取得などの軽量な操作を実行します。
 
 ```python
 collections = client.list_collections()
@@ -157,6 +157,6 @@ print(collections)
 
 ## 次のステップ\{#next-steps}
 
-接続したら、同じ client インスタンスを使用して collection を作成し、データをロードし、Dedicated cluster に対してリアルタイムの search または query 操作を実行します。
+接続後は、同じ client インスタンスを使用して collection を作成し、データをロードし、Dedicated cluster に対してリアルタイムの search または query 操作を実行できます。
 
-Free または Serverless serving cluster については、[Free & Serverless Clusters](./free-and-serverless-clusters) を参照してください。project endpoint を介したオンデマンドコンピュートについては、[Connect for On-Demand Search](./connect-for-on-demand-search) を参照してください。
+Free または Serverless serving cluster については、[Free & Serverless Clusters](./free-and-serverless-clusters) を参照してください。project endpoint を介したオンデマンド compute については、[Connect for On-Demand Search](./connect-for-on-demand-search) を参照してください。
