@@ -120,10 +120,160 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md",
       "translatedAt": "2026-08-04T05:15:58.793Z"
     },
+    "content/en/byoc/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md": {
+      "sourceHash": "b3cd48ebaf9a07f868a2e295c0653bc1bb1a722a04c25822c9d4661ddd447db0",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md",
+      "translatedAt": "2026-08-04T05:04:49.065Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array.md": {
+      "sourceHash": "5de84a52143e74876dcc0d59a509d53e115cbab24c276a013b1c406ba5881f50",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array.md",
+      "translatedAt": "2026-08-04T05:05:14.913Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays.md": {
+      "sourceHash": "3c7fd5a9cb4f049a632dd9820c29e1be8d7926123166bccc0e81846b14d2dccf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays.md",
+      "translatedAt": "2026-08-04T05:04:49.616Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/struct-array-search/search-with-struct-array.md": {
+      "sourceHash": "9e816d9bcd04c4d82f2ad2e01f052aa9644f3cb926bf149a7212b1d83e1cc4e5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/search-with-struct-array.md",
+      "translatedAt": "2026-08-04T05:04:42.813Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali.md": {
+      "sourceHash": "cf939bb2a04fbfc072ad29815a2de3d1aa56f534627cc33a0c367124c9f5861a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali.md",
+      "translatedAt": "2026-08-04T05:07:07.590Z"
+    },
+    "content/en/byoc/tutorials/development/volume/external-volume.md": {
+      "sourceHash": "5cfa20b0ed821269a773a028ecaffa62cf2f2ec4a438ff3f6ebbb2a149922976",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/volume/external-volume.md",
+      "translatedAt": "2026-08-04T05:10:51.056Z"
+    },
+    "content/en/byoc/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md": {
+      "sourceHash": "44682b5f97c07f6bcd6837f15e3132cb339dfaa541590beb202d8caf6c5627f9",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md",
+      "translatedAt": "2026-08-04T05:07:48.251Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md": {
+      "sourceHash": "c3b6fb10b2bbb8f04ed08eb00e4dac5dd6c2cf779a2dcd5e01de685545d69611",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md",
+      "translatedAt": "2026-08-04T05:06:21.543Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
+      "sourceHash": "3c63ee0d6c962db7acb89e1ea81f371c836cac9fed0d8e30d570bffc85fdacbd",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
+      "translatedAt": "2026-08-04T05:07:31.690Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
+      "sourceHash": "00974039b72e4cfaf71afb6a7d03bd201daffe5ba7b6461e2626ea6a6a2cbc44",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/create-global-cluster.md",
+      "translatedAt": "2026-08-04T05:08:14.720Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/global-cluster/global-cluster-explained.md": {
+      "sourceHash": "572e25fcfd79ab708594892c3fc28cc03cf3a9a548b89be4f40aa74428d377df",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/global-cluster-explained.md",
+      "translatedAt": "2026-08-04T05:08:27.358Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/global-cluster/manage-global-cluster.md": {
+      "sourceHash": "0a6159d842eabbb7afdddf4d47d8ee2cfb8894fdda0e96757798fd931a341190",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/manage-global-cluster.md",
+      "translatedAt": "2026-08-04T05:09:27.540Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/global-cluster/monitor-global-cluster.md": {
+      "sourceHash": "03bab39523a98fc1dfdceafa786b79bf4781a4604986bbcccadc6938493b39ee",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/monitor-global-cluster.md",
+      "translatedAt": "2026-08-04T05:09:26.811Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/global-cluster/scale-global-cluster.md": {
+      "sourceHash": "b1bfe2a4d8dd8558b51aa9266ca328756c5688d7f0a0ba452272efa59e73f312",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/scale-global-cluster.md",
+      "translatedAt": "2026-08-04T05:09:08.772Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/global-cluster/switchover-and-failover.md": {
+      "sourceHash": "6c1b214fe7b04ba498a85e17779a0a080cdc5b2137f87e36568ad0caf9d30f80",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/switchover-and-failover.md",
+      "translatedAt": "2026-08-04T05:12:32.329Z"
+    },
+    "content/en/byoc/tutorials/management/metrics-alerts/manage-notification-channels.md": {
+      "sourceHash": "64242356dc5e4c403eb0d577e9b76494641251aad81a51b67a46a93aade37f3d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/manage-notification-channels.md",
+      "translatedAt": "2026-08-04T05:12:38.156Z"
+    },
+    "content/en/byoc/tutorials/management/metrics-alerts/manage-organization-alerts.md": {
+      "sourceHash": "1ae7df3ef131cbbccdb5541e4d7b3c8db518c2fdca5aae2e6cf185a1c1cc7c8f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/manage-organization-alerts.md",
+      "translatedAt": "2026-08-04T05:10:11.682Z"
+    },
+    "content/en/byoc/tutorials/management/metrics-alerts/manage-project-alerts.md": {
+      "sourceHash": "5cc7fb8dfb511ca73cfcbb822917285ef0e022d04d4e7ef9dacaa1cd4586d716",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/manage-project-alerts.md",
+      "translatedAt": "2026-08-04T05:12:27.360Z"
+    },
+    "content/en/byoc/tutorials/management/metrics-alerts/metrics-alerts-reference.md": {
+      "sourceHash": "84703899a41da73af9fb1d285763ea5999785ece1493c3e449c24de35db6a0b0",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
+      "translatedAt": "2026-08-04T05:14:57.505Z"
+    },
+    "content/en/byoc/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md": {
+      "sourceHash": "bee020db5d5a74a6e23000fa2a7368c85e160cd04998dd85f0c504c1f2cc1256",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md",
+      "translatedAt": "2026-08-04T05:14:49.627Z"
+    },
+    "content/en/byoc/tutorials/management/metrics-alerts/view-cluster-metric-charts.md": {
+      "sourceHash": "977bb62baa194c94fef617b9c57506004b9fc85b98427bb9885dd80a8d47316a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/view-cluster-metric-charts.md",
+      "translatedAt": "2026-08-04T05:14:18.171Z"
+    },
     "content/en/byoc/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
       "sourceHash": "e17e01ace7b871d0faecb0f8f3af709e3d8a4b76d2a677f7a1db3b0e7704ef77",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
       "translatedAt": "2026-08-04T05:04:51.236Z"
+    },
+    "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md": {
+      "sourceHash": "2cffd41903b9413ae341519eaa6509f92a61f2c7c91a78bf67d4414a7da370c1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md",
+      "translatedAt": "2026-08-04T05:13:25.903Z"
+    },
+    "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer.md": {
+      "sourceHash": "59518de9ea679275bf55fc96b3b230fceeedf00395236b2df4696863764d1f4a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer.md",
+      "translatedAt": "2026-08-04T05:15:25.255Z"
+    },
+    "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md": {
+      "sourceHash": "13c7954c39dc91ff50bee790ed1b73a6ddeee3f992ca82ef8f7df87cfe471900",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md",
+      "translatedAt": "2026-08-04T05:15:39.327Z"
+    },
+    "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer.md": {
+      "sourceHash": "f20aaac1736d69c977d1af01bac90907c6bbca6916469f5e4bb515c5388a763f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer.md",
+      "translatedAt": "2026-08-04T05:16:22.147Z"
+    },
+    "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer.md": {
+      "sourceHash": "b427bcadec19a4e083bc568d37669fb83bd4235335b94c741daf127d101c6493",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer.md",
+      "translatedAt": "2026-08-04T05:15:43.581Z"
+    },
+    "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md": {
+      "sourceHash": "e52d5fc27a459f70255f41ce4f24f4fbfd32139902edb79d6f442c971305d73b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md",
+      "translatedAt": "2026-08-04T05:16:10.307Z"
+    },
+    "content/en/guides/tutorials/development/collection/collection-on-console/manage-collections-console.md": {
+      "sourceHash": "bac74d481e9857aff0b7460711924f49d4d394aa4dd099b18425266dd58236a6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/collection-on-console/manage-collections-console.md",
+      "translatedAt": "2026-08-04T05:17:42.163Z"
+    },
+    "content/en/guides/tutorials/development/collection/collection-on-console/manage-external-collections-console.md": {
+      "sourceHash": "4305e9745c46715397d96f93d0c073eb1f4980121bdf08bbea1161f5a9d12496",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/collection-on-console/manage-external-collections-console.md",
+      "translatedAt": "2026-08-04T05:16:17.849Z"
+    },
+    "content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-format-options.md": {
+      "sourceHash": "9e5a9387a82e8c299a975b8237865a3a59230f91aa006d348005f30fd4767d3b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-format-options.md",
+      "translatedAt": "2026-08-04T05:16:18.746Z"
     },
     "content/en/guides/tutorials/get-started/cloud-providers-and-regions.md": {
       "sourceHash": "111c1ca88e79137e909dbaea8bd6a9e59336ca5fe48cdb7944c0ca82c0c1c508",
