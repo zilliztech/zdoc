@@ -29,7 +29,7 @@ import TabItem from '@theme/TabItem';
 
 - **LocalBulkWriter**: 指定されたデータセットを読み取り、使いやすい形式に変換します。
 
-- **RemoteBulkWriter**: **LocalBulkWriter** と同じ処理を行いますが、変換後のデータファイルを指定したリモート object storage bucket に転送する点が異なります。
+- **RemoteBulkWriter**: **LocalBulkWriter** と同じ処理を行いますが、変換後のデータファイルを指定したリモートオブジェクトストレージバケットに転送する点が異なります。
 
 ## 手順\{#procedure}
 
@@ -59,7 +59,7 @@ Apache Maven の場合は、以下を **pom.xml** の dependencies に追加し�
 </dependency>
 ```
 
-- Gradle/Grails の場合は、以下を実行します
+- Gradle/Grails, の場合は、以下を実行します。
 
 ```shell
 compile 'io.milvus:milvus-sdk-java:2.4.8'
@@ -69,11 +69,11 @@ compile 'io.milvus:milvus-sdk-java:2.4.8'
 
 </Tabs>
 
-### collection schema をセットアップする\{#set-up-a-collection-schema}
+### コレクションスキーマをセットアップする\{#set-up-a-collection-schema}
 
-データセットをインポートしたい collection の schema を決定します。これには、データセットからどの field を含めるかを選択する作業が含まれます。
+データセットをインポートするコレクションのスキーマを決定します。これには、データセットからどのフィールドを含めるかを選択する作業が含まれます。
 
-以下のコードは、使用可能なすべてのデータ型を含む collection schema を作成します。さらに、この schema では primary field の自動増分を無効にし、dynamic field を有効にしています。
+以下のコードは、使用可能なすべてのデータ型を含むコレクションスキーマを作成します。さらに、このスキーマではプライマリフィールドの自動インクリメントを無効にし、動的フィールドを有効にしています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -243,7 +243,7 @@ private static byte[] genBinaryVector() {
 
     **LocalBulkWriter** を作成する際は、以下を行ってください。
 
-    - **schema** で作成した schema を参照します。
+    - 作成したスキーマを **schema** に指定します。
 
     - **local_path** に出力ディレクトリを設定します。
 
@@ -253,11 +253,11 @@ private static byte[] genBinaryVector() {
 
     パラメータ設定の詳細については、SDK リファレンスの **LocalBulkWriter** を参照してください。
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" icon="📘" title="Notes">
 
     **LocalBulkWriter** を使用して生成した JSON ファイルおよび Parquet ファイルは、Zilliz Cloud コンソール上で直接 Zilliz Cloud にインポートできます。
     
-    その他の形式のファイルについては、インポート前にいずれかの bucket へアップロードしてください。ファイルは、対象の cluster と同じ cloud region にある bucket へアップロードすることを推奨します。
+    その他の形式のファイルは、インポートする前にいずれかのバケットにアップロードしてください。ファイルは、ターゲットクラスターと同じクラウドリージョンにあるバケットにアップロードすることを推奨します。
 
     </Admonition>
 
@@ -282,7 +282,7 @@ private static byte[] genBinaryVector() {
 
     **LocalBulkWriter** を作成する際は、以下を行ってください。 
 
-    - **withCollectionSchema()** で作成した schema を参照します。
+    - **withCollectionSchema()** に作成したスキーマを指定します。
 
     - **withLocalPath()** で出力ディレクトリを設定します。
 
@@ -290,7 +290,7 @@ private static byte[] genBinaryVector() {
 
     - データセットに多数のレコードが含まれている場合は、**withChunkSize()** に適切な値を設定してデータを分割することを推奨します。
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" icon="📘" title="Notes">
 
     Java SDK の BulkWriter は、現在 Apache Parquet のみを有効な出力ファイル形式として使用します。
 
@@ -302,7 +302,7 @@ private static byte[] genBinaryVector() {
 
 - **RemoteBulkWriter**
 
-    **RemoteBulkWriter** は、追加されたデータをローカルファイルにコミットする代わりに、リモート bucket にコミットします。そのため、**RemoteBulkWriter** を作成する前に **ConnectParam** オブジェクトをセットアップする必要があります。
+    **RemoteBulkWriter** は、追加したデータをローカルファイルにコミットする代わりに、リモートバケットにコミットします。そのため、**RemoteBulkWriter** を作成する前に **ConnectParam** オブジェクトをセットアップする必要があります。
 
     <Tabs groupId="provider" defaultValue='aws' values={[{"label":"AWS S3/GCS","value":"aws"},{"label":"Microsoft Azure","value":"azure"}]}>
 
@@ -483,7 +483,7 @@ private static byte[] genBinaryVector() {
 
 <TabItem value='python'>
 
-**BulkWriter** には 2 つのメソッドがあります。**append_row()** はソースデータセットから 1 行を追加し、**commit()** は追加された行をローカルファイルまたはリモート bucket にコミットします。
+**BulkWriter** には 2 つのメソッドがあります。**append_row()** はソースデータセットから 1 行を追加し、**commit()** は追加した行をローカルファイルまたはリモートバケットにコミットします。
 
 デモ用として、以下のコードではランダムに生成したデータを追加します。
 
@@ -578,7 +578,7 @@ for i in range(10000):
 
 <TabItem value='java'>
 
-**BulkWriter** には 2 つのメソッドがあります。**appendRow()** はソースデータセットから 1 行を追加し、**commit()** は追加された行をローカルファイルまたはリモート bucket にコミットします。
+**BulkWriter** には 2 つのメソッドがあります。**appendRow()** はソースデータセットから 1 行を追加し、**commit()** は追加した行をローカルファイルまたはリモートバケットにコミットします。
 
 デモ用として、以下のコードではランダムに生成したデータを追加します。
 
@@ -693,9 +693,9 @@ private static List<Long> genIntArray(int length) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-上記のコードブロックでは、`vector` フィールドと `scalar_1` フィールドの値は、それぞれ `generateFloatVectors()` と `generateString()` という 2 つの private 関数によって生成されます。詳細については、**Random data generator** タブ内のコードを参照してください。
+上記のコードブロックでは、`vector` フィールドと `scalar_1` フィールドの値は、それぞれ `generateFloatVectors()` と `generateString()` という 2 つのプライベート関数によって生成されます。詳細については、**Random data generator** タブのコードを参照してください。
 
 </Admonition>
 
@@ -703,9 +703,9 @@ private static List<Long> genIntArray(int length) {
 
 </Tabs>
 
-## Dynamic schema のサポート\{#dynamic-schema-support}
+## 動的スキーマのサポート\{#dynamic-schema-support}
 
-[前のセクション](./use-bulkwriter#set-up-a-collection-schema)では、writer 内で dynamic field を許可する schema を参照しました。これにより、行を追加する際に未定義の field を含めることができます。
+[前のセクション](./use-bulkwriter#set-up-a-collection-schema)では、writer で動的フィールドを許可するスキーマを参照しました。このスキーマにより、行を追加する際に未定義のフィールドを含めることができます。
 
 デモ用として、以下のコードではランダムに生成したデータを追加します。
 
@@ -816,11 +816,11 @@ System.out.println(batchFiles);
 </TabItem>
 </Tabs>
 
-BulkWriter は UUID を生成し、指定された出力ディレクトリ内にその UUID を使ったサブフォルダを作成して、生成されたすべてのファイルをそのサブフォルダに配置します。[準備済みのサンプルデータのダウンロードはこちら](https://assets.zilliz.com/bulk_writer.zip)。
+BulkWriter は UUID を生成し、指定された出力ディレクトリ内にその UUID を使用したサブフォルダを作成して、生成されたすべてのファイルをそのサブフォルダに配置します。[準備済みのサンプルデータはこちらからダウンロードできます](https://assets.zilliz.com/bulk_writer.zip)。
 
 考えられるフォルダ構成は以下のとおりです。
 
-- 生成されたファイルが指定された segment size を超えない場合
+- 生成されたファイルが指定されたセグメントサイズを超えない場合
 
     ```python
     # JSON
@@ -843,13 +843,13 @@ BulkWriter は UUID を生成し、指定された出力ディレクトリ内に
     │       └── $meta.npy 
     ```
 
-    | **File Type** | **Valid Import Paths** |
+    | **ファイルタイプ** | **有効なインポートパス** |
     | --- | --- |
-    | **JSON** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/>*s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json* |
-    | **Parquet** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/>*s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet* |
-    | **NumPy** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/>*s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/&ast;.npy* |
+    | **JSON** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`*<br/>*`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json`* |
+    | **Parquet** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`*<br/>*`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet`* |
+    | **NumPy** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`*<br/>*`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy`* |
 
-- 生成されたファイルが指定された segment size を超える場合
+- 生成されたファイルが指定されたセグメントサイズを超える場合
 
     ```python
     # The following assumes that two segments are generated.
@@ -883,17 +883,17 @@ BulkWriter は UUID を生成し、指定された出力ディレクトリ内に
     │           └── $meta.npy  
     ```
 
-    | **File Type** | **Valid Import Paths** |
+    | **ファイルタイプ** | **有効なインポートパス** |
     | --- | --- |
-    | **JSON** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/* |
-    | **Parquet** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/* |
-    | **NumPy** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/>*s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/&ast;.npy* |
+    | **JSON** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`* |
+    | **Parquet** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`* |
+    | **NumPy** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`*<br/>*`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy`* |
 
 ## 関連トピック\{#related-topics}
 
-- [Web UI でデータをインポートする](./import-data-on-web-ui)
+- [データのインポート（コンソール）](./import-data-on-web-ui)
 
-- [RESTful API 経由でデータをインポートする](./import-data-via-restful-api)
+- [データのインポート（RESTful API）](./import-data-via-restful-api)
 
-- [SDK 経由でデータをインポートする](./import-data-via-sdks)
+- [データのインポート（SDK）](./import-data-via-sdks)
 

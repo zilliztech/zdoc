@@ -244,13 +244,13 @@ rerank->SetRandomScoreSeed(126);
      <th><p>パラメータ</p></th>
      <th><p>必須?</p></th>
      <th><p>説明</p></th>
-     <th><p>値/例</p></th>
+     <th><p>値/Example</p></th>
    </tr>
    <tr>
      <td><p><code>name</code></p></td>
      <td><p>はい</p></td>
      <td><p>この Function の一意の識別子</p></td>
-     <td><p><code>"boost"</code></p></td>
+     <td><p><code>&quot;boost&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>input_field_names</code></p></td>
@@ -268,31 +268,31 @@ rerank->SetRandomScoreSeed(126);
      <td><p><code>params.reranker</code></p></td>
      <td><p>はい</p></td>
      <td><p>reranker の種類を指定します。</p><p>Boost Ranker を使用するには <code>boost</code> に設定する必要があります。</p></td>
-     <td><p><code>"boost"</code></p></td>
+     <td><p><code>&quot;boost&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.weight</code></p></td>
      <td><p>はい</p></td>
-     <td><p>生の検索結果内の一致したエンティティのスコアに掛けられる重みを指定します。</p><p>値は浮動小数点数である必要があります。 </p><ul><li><p>一致したエンティティの重要度を強調するには、スコアをブーストする値に設定します。</p></li><li><p>一致したエンティティを降格させるには、このパラメータにスコアを下げる値を割り当てます。</p></li></ul></td>
+     <td><p>生の検索結果内の一致したエンティティのスコアに掛けられる重みを指定します。</p><p>値は浮動小数点数である必要があります。</p><ul><li><p>一致したエンティティの重要度を強調するには、スコアをブーストする値に設定します。</p></li><li><p>一致したエンティティを降格させるには、このパラメータにスコアを下げる値を割り当てます。</p></li></ul></td>
      <td><p><code>1</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.filter</code></p></td>
      <td><p>いいえ</p></td>
      <td><p>検索結果エンティティの中からエンティティを照合するために使用されるフィルタ式を指定します。<a href="./filtering-overview">Filtering Explained</a> で説明されている任意の有効な基本フィルタ式を使用できます。</p><p><strong>Note</strong>: <code>==</code>、<code>&gt;</code>、<code>&lt;</code> などの基本演算子のみを使用してください。<code>text_match</code> や <code>phrase_match</code> などの高度な演算子を使用すると、検索パフォーマンスが低下します。</p></td>
-     <td><p><code>"doctype == 'abstract'"</code></p></td>
+     <td><p><code>&quot;doctype == 'abstract'&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.random_score</code></p></td>
      <td><p>いいえ</p></td>
-     <td><p><code>0</code> から <code>1</code> までの値をランダムに生成する random 関数を指定します。これには次の 2 つのオプション引数があります。</p><ul><li><p><code>seed</code> (number) 疑似乱数生成器（PRNG）を開始するために使用される初期値を指定します。</p></li><li><p><code>field</code> (string) 乱数生成時のランダム要因として使用されるフィールドの名前を指定します。一意の値を持つフィールドであれば十分です。</p><p>同じ seed と field の値を使用して生成間の一貫性を確保するため、<code>seed</code> と <code>field</code> の両方を設定することを推奨します。</p></li></ul></td>
-     <td><p><code>\{"seed": 126, "field": "id"\}</code></p></td>
+     <td><p><code>0</code> から <code>1</code> までの値をランダムに生成する random 関数を指定します。これには次の 2 つのオプション引数があります。</p><ul><li><p><code>seed</code> (number) 疑似乱数生成器（PRNG）を開始するために使用される初期値を指定します。</p></li><li><p><code>field</code> (string) 乱数生成時のランダム要因として使用されるフィールドの名前を指定します。一意の値を持つフィールドであれば十分です。</p></li></ul><p>同じ seed と field の値を使用して生成間の一貫性を確保するため、<code>seed</code> と <code>field</code> の両方を設定することを推奨します。</p></td>
+     <td><p><code>\{&quot;seed&quot;: 126, &quot;field&quot;: &quot;id&quot;\}</code></p></td>
    </tr>
 </table>
 
 ### 単一の Boost Ranker で検索する\{#search-with-a-single-boost-ranker}
 
-Boost Ranker 関数の準備ができたら、検索リクエストでそれを参照できます。次の例では、**id**、**vector**、**doctype** の各フィールドを持つ collection をすでに作成済みであると仮定しています。
+Boost Ranker 関数の準備ができたら、検索リクエストでそれを参照できます。次の例では、**id**、**ベクトル**、**doctype** の各フィールドを持つコレクションをすでに作成済みであると仮定しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -636,25 +636,25 @@ if (!status.IsOk()) {
      <th><p>パラメータ</p></th>
      <th><p>必須?</p></th>
      <th><p>説明</p></th>
-     <th><p>値/例</p></th>
+     <th><p>値/Example</p></th>
    </tr>
    <tr>
      <td><p><code>functions</code></p></td>
      <td><p>はい</p></td>
      <td><p>対象の ranker の名前をリストで指定します。</p></td>
-     <td><p><code>["fix_weight_ranker", "random_weight_ranker"]</code></p></td>
+     <td><p><code>[&quot;fix_weight_ranker&quot;, &quot;random_weight_ranker&quot;]</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.boost_mode</code></p></td>
      <td><p>いいえ</p></td>
-     <td><p>指定された重みが一致したエンティティのスコアにどのように影響するかを指定します。</p><p>指定可能な値は次のとおりです。</p><ul><li><p><code>Multiply</code></p><p>重み付け後の値が、一致したエンティティの元のスコアに指定された重みを掛けた値に等しいことを示します。 </p><p>これがデフォルト値です。</p></li><li><p><code>Sum</code></p><p>重み付け後の値が、一致したエンティティの元のスコアと指定された重みの合計に等しいことを示します</p></li></ul></td>
-     <td><p><code>"Sum"</code></p></td>
+     <td><p>指定された重みが一致したエンティティのスコアにどのように影響するかを指定します。</p><p>指定可能な値は次のとおりです。</p><ul><li><p><code>Multiply</code></p><p>重み付け後の値が、一致したエンティティの元のスコアに指定された重みを掛けた値に等しいことを示します。</p><p>これがデフォルト値です。</p></li><li><p><code>Sum</code></p><p>重み付け後の値が、一致したエンティティの元のスコアと指定された重みの合計に等しいことを示します</p></li></ul></td>
+     <td><p><code>&quot;Sum&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.function_mode</code></p></td>
      <td><p>いいえ</p></td>
      <td><p>さまざまな Boost Ranker からの重み付け後の値をどのように処理するかを指定します。</p><p>指定可能な値は次のとおりです。</p><ul><li><p><code>Multiply</code></p><p>一致したエンティティの最終スコアが、すべての Boost Ranker からの重み付け後の値の積に等しいことを示します。</p><p>これがデフォルト値です。</p></li><li><p><code>Sum</code></p><p>一致したエンティティの最終スコアが、すべての Boost Ranker からの重み付け後の値の合計に等しいことを示します。</p></li></ul></td>
-     <td><p><code>"Sum"</code></p></td>
+     <td><p><code>&quot;Sum&quot;</code></p></td>
    </tr>
 </table>
 

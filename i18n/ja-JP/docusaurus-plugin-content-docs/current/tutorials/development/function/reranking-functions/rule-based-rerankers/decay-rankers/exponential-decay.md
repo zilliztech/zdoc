@@ -81,18 +81,18 @@ import TabItem from '@theme/TabItem';
 指数減衰スコアを計算する数式は次のとおりです:
 
 $$
-S(doc) = \exp\left( \lambda \cdot \max\left(0, \left|fieldvalue_\{doc\} - origin\right| - offset \right) \right)
+S(doc) = \exp\left( \lambda \cdot \max\left(0, \left|fieldvalue_{doc} - origin\right| - offset \right) \right)
 $$
 
 ここで:
 
 $$
-\lambda = \frac\{\ln(decay)\}\{scale\}
+\lambda = \frac{\ln(decay)}{scale}
 $$
 
 これを平易な言葉で分解すると:
 
-1. フィールド値が origin からどれだけ離れているかを計算します: $|fieldvalue_\{doc\} - origin|$。
+1. フィールド値が origin からどれだけ離れているかを計算します: $|fieldvalue_{doc} - origin|$。
 
 1. offset（存在する場合）を差し引きますが、ゼロ未満にはしません: $\max(0, distance - offset)$。
 

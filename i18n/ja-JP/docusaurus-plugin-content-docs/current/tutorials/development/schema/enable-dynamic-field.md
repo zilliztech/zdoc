@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、dynamic field と呼ばれる特別な機能により、柔軟で進化する構造を持つエンティティを挿入できます。このフィールドは `$meta` という名前の非表示の JSON フィールドとして実装されており、collection schema で明示的に定義されていないデータ内のフィールドを自動的に保存します。 | Cloud"
+description: "Zilliz Cloud では、dynamic field と呼ばれる特別な機能を使用して、柔軟で進化する構造を持つエンティティを挿入できます。このフィールドは `$meta` という名前の非表示の JSON フィールドとして実装されており、コレクションスキーマで明示的に定義されていないデータ内のフィールドを自動的に保存します。 | Cloud"
 type: origin
 token: OVxRwZWxNi4pYrkdKxCcOuY2nf1
 sidebar_position: 14
@@ -21,17 +21,17 @@ import TabItem from '@theme/TabItem';
 
 # Dynamic Field
 
-Zilliz Cloud では、**dynamic field** と呼ばれる特別な機能により、柔軟で進化する構造を持つエンティティを挿入できます。このフィールドは `$meta` という名前の非表示の JSON フィールドとして実装されており、collection schema で**明示的に定義されていない**データ内のフィールドを自動的に保存します。
+Zilliz Cloud では、**dynamic field** と呼ばれる特別な機能を使用して、柔軟で進化する構造を持つエンティティを挿入できます。このフィールドは `$meta` という名前の非表示の JSON フィールドとして実装されており、コレクションスキーマで**明示的に定義されていない**データ内のフィールドを自動的に保存します。
 
 ## 仕組み\{#how-it-works}
 
-dynamic field が有効になると、Zilliz Cloud は各エンティティに非表示の `$meta` フィールドを追加します。このフィールドは JSON 型であるため、JSON と互換性のある任意のデータ構造を保存でき、JSON path 構文を使用して index を作成できます。
+dynamic field が有効になると、Zilliz Cloud は各エンティティに非表示の `$meta` フィールドを追加します。このフィールドは JSON 型であるため、JSON と互換性のある任意のデータ構造を保存でき、JSON path 構文を使用してインデックスを作成できます。
 
-データ挿入時には、schema で宣言されていないフィールドはすべて、この dynamic field 内にキーと値のペアとして自動的に保存されます。
+データ挿入時には、スキーマで宣言されていないフィールドはすべて、この dynamic field 内にキーと値のペアとして自動的に保存されます。
 
 `$meta` を手動で管理する必要はありません。Zilliz Cloud が透過的に処理します。
 
-たとえば、collection schema で `id` と `vector` のみが定義されていて、次のエンティティを挿入したとします。
+たとえば、コレクションスキーマで `id` と `vector` のみを定義していて、次のエンティティを挿入するとします。
 
 ```json
 {
@@ -57,33 +57,33 @@ dynamic field 機能を有効にすると、Zilliz Cloud は内部的に次の�
 }
 ```
 
-これにより、schema を変更することなくデータ構造を進化させることができます。
+これにより、スキーマを変更することなくデータ構造を進化させることができます。
 
-一般的なユースケースには次のようなものがあります。
+一般的なユースケースは次のとおりです。
 
-- オプションのフィールドや、あまり頻繁に取得しないフィールドの保存
+- オプションのフィールドや取得頻度の低いフィールドの保存
 
-- エンティティごとに異なる metadata の取り込み
+- エンティティごとに異なるメタデータの取り込み
 
-- 特定の dynamic field キーに対する index を通じた柔軟なフィルタリングのサポート
+- 特定の dynamic field キーに対するインデックスによる柔軟なフィルタリングのサポート
 
 ## サポートされるデータ型\{#supported-data-types}
 
-dynamic field は、単純な値と複雑な値の両方を含む、Zilliz Cloud が提供するすべての scalar データ型をサポートします。これらのデータ型は、**&#36;meta に保存されるキーの値**に適用されます。
+dynamic field は、単純な値と複雑な値の両方を含め、Zilliz Cloud が提供するすべてのスカラーデータ型をサポートします。これらのデータ型は、**`$meta` に保存されるキーの値**に適用されます。
 
-**サポートされる型は次のとおりです。**
+**サポートされる型は次のとおりです:**
 
-- String (`VARCHAR`)
+- 文字列（`VARCHAR`）
 
-- Integer (`INT8`, `INT32`, `INT64`)
+- 整数（`INT8`、`INT32`、`INT64`）
 
-- Floating point (`FLOAT`, `DOUBLE`)
+- 浮動小数点（`FLOAT`、`DOUBLE`）
 
-- Boolean (`BOOL`)
+- ブール値（`BOOL`）
 
-- scalar 値の配列 (`ARRAY`)
+- スカラー値の配列（`ARRAY`）
 
-- JSON オブジェクト (`JSON`)
+- JSON オブジェクト（`JSON`）
 
 **例:**
 
@@ -100,11 +100,11 @@ dynamic field は、単純な値と複雑な値の両方を含む、Zilliz Cloud
 }
 ```
 
-上記の各キーと値は `$meta` フィールド内に保存されます。
+上記の各キーと値は、`$meta` フィールド内に保存されます。
 
 ## dynamic field を有効にする\{#enable-dynamic-field}
 
-dynamic field 機能を使用するには、collection schema の作成時に `enable_dynamic_field=True` を設定します。
+dynamic field 機能を使用するには、コレクションスキーマの作成時に `enable_dynamic_field=True` を設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -313,9 +313,9 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## collection に entity を挿入する\{#insert-entities-to-the-collection}
+## コレクションにエンティティを挿入する\{#insert-entities-to-the-collection}
 
-dynamic field を使用すると、schema で定義されていない追加フィールドを挿入できます。これらのフィールドは自動的に `$meta` に保存されます。
+dynamic field を使用すると、スキーマで定義されていない追加のフィールドをコレクションに挿入できます。これらのフィールドは自動的に `$meta` に保存されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -490,41 +490,41 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## dynamic field 内のキーに index を作成する\{#index-keys-in-the-dynamic-field}
+## dynamic field 内のキーにインデックスを作成する\{#index-keys-in-the-dynamic-field}
 
-Zilliz Cloud では、**JSON path indexing** を使用して dynamic field 内の特定のキーに index を作成できます。これらは scalar 値にも、JSON オブジェクト内のネストされた値にも対応します。
+Zilliz Cloud では、**JSON path indexing** を使用して、dynamic field 内の特定のキーにインデックスを作成できます。対象となるのは、スカラー値または JSON オブジェクト内のネストされた値です。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-dynamic field のキーへの index 作成は**任意**です。index がなくても dynamic field のキーで query や filter を実行できますが、総当たり検索になるためパフォーマンスが低下する可能性があります。
+dynamic field のキーに対するインデックス作成は**任意**です。インデックスがなくても dynamic field のキーでクエリやフィルターを実行できますが、総当たり検索になるためパフォーマンスが低下する可能性があります。
 
 </Admonition>
 
-### JSON path indexing の構文\{#json-path-indexing-syntax}
+### JSON path インデックス構文\{#json-path-indexing-syntax}
 
-JSON path index を作成するには、以下を指定します。
+JSON path インデックスを作成するには、次の項目を指定します。
 
-- **JSON path** (`json_path`): index を作成したい JSON オブジェクト内のキーまたはネストされたフィールドへのパス。
+- **JSON path**（`json_path`）: インデックスを作成する対象の、JSON オブジェクト内のキーまたはネストされたフィールドへのパス。
 
     - 例: `metadata["category"]`
 
-        これは、indexing engine が JSON 構造内のどこを参照するかを定義します。
+        これは、インデックス作成エンジンが JSON 構造内のどこを参照すべきかを定義します。
 
-- **JSON cast type** (`json_cast_type`): 指定されたパスの値を解釈して index 化する際に、Zilliz Cloud が使用するデータ型。
+- **JSON cast type**（`json_cast_type`）: 指定されたパスの値を解釈してインデックスを作成する際に Zilliz Cloud が使用するデータ型。
 
-    - この型は、index 対象フィールドの実際のデータ型と一致している必要があります。
+    - この型は、インデックスを作成するフィールドの実際のデータ型と一致している必要があります。
 
-    - 完全な一覧については、[Supported JSON cast types](./json-field-overview) を参照してください。
+    - 完全なリストについては、[サポートされている JSON cast type](./json-field-overview) を参照してください。
 
-### JSON path を使用して dynamic field のキーに index を作成する\{#use-json-path-to-index-dynamic-field-keys}
+### JSON path を使用して dynamic field のキーにインデックスを作成する\{#use-json-path-to-index-dynamic-field-keys}
 
-dynamic field は JSON field であるため、JSON path 構文を使ってその中の任意のキーに index を作成できます。これは単純な scalar 値にも、複雑にネストされた構造にも有効です。
+dynamic field は JSON フィールドであるため、JSON path 構文を使用してその内部の任意のキーにインデックスを作成できます。これは、単純なスカラー値と複雑なネスト構造の両方で機能します。
 
 **JSON path の例:**
 
-- 単純なキー: `overview`, `words`
+- 単純なキーの場合: `overview`、`words`
 
-- ネストされたキー: `dynamic_json['varchar']`, `dynamic_json['nested']['value']`
+- ネストされたキーの場合: `dynamic_json['varchar']`、`dynamic_json['nested']['value']`
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -793,9 +793,9 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### 型変換に JSON cast function を使用する\{#use-json-cast-functions-for-type-conversion}
+### JSON cast 関数を使用して型を変換する\{#use-json-cast-functions-for-type-conversion}
 
-dynamic field のキーに不正な形式の値が含まれている場合（例: 文字列として保存された数値）、cast function を使って変換できます。
+dynamic field のキーに正しくない形式の値（たとえば、文字列として保存された数値）が含まれている場合は、cast 関数を使用して変換できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -894,17 +894,17 @@ string_price_index.AddExtraParam("json_cast_function", "STRING_TO_DOUBLE");
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-- 型変換に失敗した場合（例: 値 `"not_a_number"` を数値に変換できない場合）、その値はスキップされ、index 化されません。
+- 型変換に失敗した場合（たとえば、値 `"not_a_number"` を数値に変換できない場合）、その値はスキップされ、インデックスに登録されません。
 
-- cast function パラメータの詳細については、[JSON Field Overview](./json-field-overview) を参照してください。
+- cast 関数のパラメーターの詳細については、[JSON フィールドの概要](./json-field-overview) を参照してください。
 
 </Admonition>
 
-### collection に index を適用する\{#apply-indexes-to-the-collection}
+### インデックスをコレクションに適用する\{#apply-indexes-to-the-collection}
 
-index パラメータを定義した後、`create_index()` を使用して collection に適用できます。
+インデックスパラメーターを定義したら、`create_index()` を使用してそれらをコレクションに適用できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1008,15 +1008,15 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## dynamic field のキーで filter する\{#filter-by-dynamic-field-keys}
+## dynamic field のキーでフィルターする\{#filter-by-dynamic-field-keys}
 
-dynamic field のキーを持つ entity を挿入した後は、標準の filter expression を使って filter できます。
+dynamic field のキーを持つエンティティを挿入した後は、標準のフィルター式を使用してそれらをフィルタリングできます。
 
-- 非 JSON キー（例: 文字列、数値、ブール値）の場合は、キー名を直接参照できます。
+- JSON 以外のキー（文字列、数値、ブール値など）の場合は、キー名で直接参照できます。
 
-- JSON オブジェクトを格納しているキーの場合は、JSON path 構文を使用してネストされた値にアクセスします。
+- JSON オブジェクトを保存するキーの場合は、JSON path 構文を使用してネストされた値にアクセスします。
 
-前のセクションの [example entity](./enable-dynamic-field#insert-entities-to-the-collection) に基づくと、有効な filter expression の例は次のとおりです。
+前のセクションの[例](./enable-dynamic-field#insert-entities-to-the-collection)の[エンティティ](./enable-dynamic-field#insert-entities-to-the-collection)に基づくと、有効なフィルター式には次のものがあります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1081,7 +1081,7 @@ std::string filter = R"(dynamic_json["nested"]["value"] < 50)";
 </TabItem>
 </Tabs>
 
-**dynamic field キーの取得**: 検索または query 結果で dynamic field のキーを返すには、filter と同じ JSON path 構文を使用して `output_fields` パラメータに明示的に指定する必要があります。
+**dynamic field のキーの取得**: 検索またはクエリの結果で dynamic field のキーを返すには、フィルタリングと同じ JSON path 構文を使用して、`output_fields` パラメーターで明示的に指定する必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1257,64 +1257,64 @@ for (auto& result : search_results.Results()) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
 dynamic field のキーはデフォルトでは結果に含まれないため、明示的に要求する必要があります。
 
 </Admonition>
 
-サポートされている演算子と filter expression の完全な一覧については、[Filtered Search](./filtered-search) を参照してください。
+サポートされている演算子とフィルター式の完全なリストについては、[フィルタ付き検索](./filtered-search) を参照してください。
 
 ## まとめ\{#put-it-all-together}
 
-ここまでで、schema で定義されていないキーを柔軟に保存し、index 化するために dynamic field を使う方法を学びました。dynamic field のキーが一度挿入されると、filter expression 内で他の field と同じように使用できます。特別な構文は必要ありません。
+ここまでで、dynamic field を使用して、スキーマで定義されていないキーを柔軟に保存し、インデックスを作成する方法を学びました。dynamic field のキーを挿入した後は、特別な構文を使用することなく、フィルター式内で他のフィールドと同じように使用できます。
 
-実際のアプリケーションでワークフローを完了するには、さらに次のことも必要です。
+実際のアプリケーションでワークフローを完成させるには、次のことも必要です。
 
-- **vector field に index を作成する**（各 collection で必須）  
+- **ベクトルフィールドにインデックスを作成する**（各コレクションで必須）  
 
-    [AUTOINDEX Explained](./autoindex-explained) と関連ページを参照してください
+    詳細は、[AUTOINDEX の解説](./autoindex-explained) およびその関連ページを参照してください。
 
-- **collection を load する**
+- **コレクションをロードする**
 
-    [Load & Release](./load-release-collections) を参照してください
+    詳細は、[ロードと解放](./load-release-collections) を参照してください。
 
-- **JSON path filter を使って search または query を実行する**  
+- **JSON path フィルターを使用して検索またはクエリする**  
 
-    [Filtered Search](./filtered-search) と [JSON Operators](./json-filtering-operators) を参照してください
+    詳細は、[フィルタ付き検索](./filtered-search) および [JSON 演算子](./json-filtering-operators) を参照してください。
 
 ## FAQ\{#faq}
 
-### dynamic field キーを使う代わりに、いつ field を schema で明示的に定義すべきですか？\{#when-should-i-define-a-field-explicitly-in-the-schema-instead-of-using-a-dynamic-field-key}
+### dynamic field のキーを使用するのではなく、スキーマでフィールドを明示的に定義するのはどのような場合ですか？\{#when-should-i-define-a-field-explicitly-in-the-schema-instead-of-using-a-dynamic-field-key}
 
-次のような場合は、dynamic field キーを使う代わりに field を schema で明示的に定義するべきです。
+次のような場合は、dynamic field のキーを使用するのではなく、スキーマでフィールドを明示的に定義する必要があります。
 
-- **field が頻繁に output_fields に含まれる場合**: `output_fields` を通じて効率的に取得できることが保証されるのは、明示的に定義された field のみです。dynamic field のキーは高頻度の取得向けには最適化されておらず、パフォーマンスオーバーヘッドが発生する可能性があります。
+- **フィールドを output_fields に頻繁に含める場合**: `output_fields` を通じて効率的に取得できることが保証されるのは、明示的に定義されたフィールドだけです。dynamic field のキーは高頻度の取得向けに最適化されていないため、パフォーマンスのオーバーヘッドが発生する可能性があります。
 
-- **field へのアクセスや filter が頻繁な場合**: dynamic field キーに index を作成すれば、固定 schema の field と同等の filter パフォーマンスを得られる場合がありますが、明示的な field の方が構造が明確で、保守性も高くなります。
+- **フィールドへのアクセスやフィルタリングが頻繁に行われる場合**: dynamic field のキーにインデックスを作成すると、固定スキーマのフィールドと同様のフィルタリングパフォーマンスが得られますが、明示的に定義されたフィールドの方が構造が明確で保守性に優れています。
 
-- **field の動作を完全に制御する必要がある場合**: 明示的な field は、schema レベルの制約、検証、より明確な型指定をサポートしており、データの整合性や一貫性の管理に役立ちます。
+- **フィールドの動作を完全に制御する必要がある場合**: 明示的なフィールドは、スキーマレベルの制約、検証、より明確な型指定をサポートしているため、データの整合性と一貫性の管理に役立ちます。
 
-- **index の不整合を避けたい場合**: dynamic field キー内のデータは、型や構造の不整合が起きやすくなります。固定 schema を使用することで、特に index や cast を使用する予定がある場合に、データ品質を確保しやすくなります。
+- **インデックス作成の不整合を避けたい場合**: dynamic field のキー内のデータは、型や構造が不整合になりがちです。固定スキーマを使用すると、特にインデックス作成やキャストを使用する予定がある場合に、データ品質を確保しやすくなります。
 
-dynamic field キーを既存 collection 内の明示的な scalar field にすることを決めた場合は、[Alter Collection Schema](./add-fields-to-an-existing-collection) を参照してください。既存 collection レベルの dynamic field 設定は collection properties を通じて管理されます。詳細は [Modify Collection](./modify-collections) を参照してください。
+dynamic field のキーを既存のコレクションの明示的なスカラーフィールドにする場合は、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。既存のコレクションレベルの dynamic field 設定はコレクションプロパティで管理されます。詳細は、[コレクションの変更](./modify-collections) を参照してください。
 
-### 同じ dynamic field キーに対して、異なるデータ型で複数の index を作成できますか？\{#can-i-create-multiple-indexes-on-the-same-dynamic-field-key-with-different-data-types}
+### 同じ dynamic field のキーに、異なるデータ型で複数のインデックスを作成できますか？\{#can-i-create-multiple-indexes-on-the-same-dynamic-field-key-with-different-data-types}
 
-いいえ、**1 つの JSON path につき作成できる index は 1 つだけ**です。dynamic field キーに混在する型の値（例: 一部が文字列で一部が数値）が含まれていても、そのパスを index 化する際には単一の `json_cast_type` を選択する必要があります。同じキーに対して異なる型で複数の index を作成することは、現時点ではサポートされていません。
+いいえ、作成できるのは **JSON path ごとに 1 つのインデックス**のみです。dynamic field のキーに混在した型の値（文字列と数値が混在している場合など）が含まれていても、そのパスにインデックスを作成する際には単一の `json_cast_type` を選択する必要があります。現時点では、同じキーに異なる型で複数のインデックスを作成することはサポートされていません。
 
-### dynamic field キーを index 化する際、データの cast に失敗した場合はどうなりますか？\{#when-indexing-a-dynamic-field-key-what-if-the-data-casting-fails}
+### dynamic field のキーにインデックスを作成するときにデータのキャストが失敗した場合はどうなりますか？\{#when-indexing-a-dynamic-field-key-what-if-the-data-casting-fails}
 
-dynamic field キーに index を作成していて、データの cast に失敗した場合、たとえば `double` に cast されるべき値が `"abc"` のような数値でない文字列だった場合、その値は **index 作成時に黙ってスキップされます**。それらは index に含まれないため、index に依存する **filter ベースの search や query 結果には返されません**。
+dynamic field のキーにインデックスを作成していて、データのキャストが失敗した場合、たとえば `double` にキャストされるはずの値が `"abc"` のような数値以外の文字列である場合、それらの値は**インデックスの作成中に通知されることなくスキップされます**。これらの値はインデックスに含まれないため、インデックスに依存する**フィルターベースの検索やクエリの結果では返されません**。
 
-この挙動には、いくつか重要な意味があります。
+これにはいくつかの重要な影響があります。
 
-- **フルスキャンへのフォールバックなし**: entity の大半が正常に index 化されている場合、filter query は完全に index に依存します。cast に失敗した entity は、論理的には filter 条件に一致していても、結果セットから除外されます。
+- **フルスキャンへのフォールバックはなし**: ほとんどのエンティティが正常にインデックス化されると、フィルタリングクエリはインデックスに完全に依存します。キャストに失敗したエンティティは、フィルター条件に論理的に一致していても、結果セットから除外されます。
 
-- **検索精度へのリスク**: 大規模データセットでデータ品質に一貫性がない場合（特に dynamic field キー内）、この挙動により予期しない欠落結果が発生することがあります。index 化の前に、一貫した有効なデータ形式を確保することが重要です。
+- **検索精度のリスク**: データ品質が一貫していない大規模なデータセット（特に dynamic field のキー）では、この動作によって予期しない結果の欠落が発生する可能性があります。インデックスを作成する前に、一貫性のある有効なデータ形式を確保することが重要です。
 
-- **cast function は慎重に使用する**: index 作成時に `json_cast_function` を使用して文字列を数値に変換する場合、その文字列値が確実に変換可能であることを確認してください。`json_cast_type` と実際に変換された型が一致しないと、エラーやエントリのスキップが発生します。
+- **キャスト関数は慎重に使用する**: インデックス作成時に `json_cast_function` を使用して文字列を数値に変換する場合は、文字列の値を確実に変換できるようにしてください。`json_cast_type` と実際に変換された型が一致しないと、エラーが発生したり、エントリがスキップされたりします。
 
-### query で index 作成時の cast type と異なるデータ型を使用すると、どうなりますか？\{#what-happens-if-my-query-uses-a-different-data-type-than-the-indexed-cast-type}
+### クエリでインデックス作成時の cast type とは異なるデータ型を使用するとどうなりますか？\{#what-happens-if-my-query-uses-a-different-data-type-than-the-indexed-cast-type}
 
-query が、index で使用された型とは**異なるデータ型**で dynamic field キーを比較した場合（例: index が `double` に cast されているのに、文字列比較で query する場合）、システムは **index を使用しません**。また、可能な場合に限りフルスキャンにフォールバックすることがあります。最適なパフォーマンスと精度を得るには、query の型を index 作成時に使用した `json_cast_type` に一致させてください。
+クエリで dynamic field のキーを比較する際に、インデックスで使用された型とは**異なるデータ型**を使用すると（たとえば、インデックスが `double` にキャストされているのに文字列比較でクエリする場合）、システムは**インデックスを使用しません**。また、*可能な場合に限り*フルスキャンにフォールバックすることがあります。最高のパフォーマンスと精度を得るには、クエリの型をインデックス作成時に使用した `json_cast_type` と一致させてください。

@@ -30,19 +30,19 @@ import Procedures from '@site/src/components/Procedures';
 
 オンデマンド検索用データベースは、Zilliz Cloud によって管理されるプロジェクトレベルのデータベースです。サービングクラスターには紐付けられません。このページでは、プロジェクトエンドポイントを通じてデータベースを作成、表示、削除する方法を説明します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-このページは、オンデマンド検索で使用されるプロジェクトレベルのデータベースを対象としています。サービングクラスターでホストされるデータベースについては、[サービングクラスター内のデータベース](./database) を参照してください。データベースモデルの比較については、[Database Explained](./database-concept) を参照してください。
+このページは、オンデマンド検索で使用されるプロジェクトレベルのデータベースを対象としています。サービングクラスターでホストされるデータベースについては、[サービングクラスター内のデータベース](./database) を参照してください。データベースモデルの比較については、[データベースの説明](./database-concept) を参照してください。
 
 </Admonition>
 
-## 始める前に\{#before-you-begin}
+## 事前準備\{#before-you-begin}
 
 以下を確認してください。
 
-- **Project Admin** アクセス権を持っていること。ロールと権限の詳細については、[プロジェクトユーザーを管理する](./project-users#project-role-and-access-comparison) を参照してください。
+- **Project Admin** アクセス権を持っていること。ロールと権限の詳細については、[プラットフォームユーザーの管理](./manage-platform-users#project-users) を参照してください。
 
-- プロジェクトエンドポイントを持っていること。たとえば `https://{project-id}.{region}.api.zillizcloud.com` です。
+- プロジェクトエンドポイントを取得していること。たとえば `https://{project-id}.{region}.api.zillizcloud.com` です。
 
 - プロジェクトにアクセスできる API キーを持っていること。
 
@@ -52,14 +52,14 @@ import Procedures from '@site/src/components/Procedures';
 
 | 操作 | サポート |
 | --- | --- |
-| データベースの作成/削除 | はい |
-| コレクションの作成/削除 | はい |
-| コレクションのロード/リリース | 不要 |
-| 検索/クエリ | はい |
+| データベースの作成/drop | はい |
+| コレクションの作成/drop | はい |
+| コレクションのロード/release | 不要 |
+| 検索/query | はい |
 | インポート | はい |
-| 挿入/upsert/削除 | いいえ |
+| 挿入/upsert/delete | いいえ |
 
-オンデマンドデータベース内のすべてのコレクション（管理対象コレクションおよび外部コレクションを含む）は、インデックスの削除をサポートしていません。
+オンデマンドデータベース内のすべてのコレクション（マネージドコレクションおよび外部コレクションを含む）は、インデックスの削除をサポートしていません。
 
 ## データベースを作成する\{#create-database}
 
@@ -83,9 +83,9 @@ Zilliz Cloud コンソールからデータベースを作成することもで�
 
 1. **On-demand** をクリックします。
 
-1. **Databases** をクリックします。
+1. **データベース** をクリックします。
 
-1. **Create Database** をクリックします。
+1. **Create データベース** をクリックします。
 
 1. データベース名を入力します。
 
@@ -103,11 +103,11 @@ curl --request POST \
   --data '{}'
 ```
 
-Zilliz Cloud コンソールでデータベースを表示するには、プロジェクトに移動し、**On-demand** をクリックしてから **Databases** をクリックします。
+Zilliz Cloud コンソールでデータベースを表示するには、プロジェクトに移動し、**On-demand** をクリックしてから **データベース** をクリックします。
 
 ## データベースを削除する\{#drop-database}
 
-<Admonition type="danger" icon="🚧" title="危険">
+<Admonition type="danger" icon="🚧" title="Danger">
 
 データベースを削除すると、即座に削除され、復元できません。この操作は元に戻せません。
 
@@ -125,11 +125,11 @@ curl --request POST \
   }'
 ```
 
-Zilliz Cloud コンソールからデータベースを削除するには、プロジェクトに移動し、**On-demand** をクリックし、**Databases** をクリックして、対象のデータベースを削除します。
+Zilliz Cloud コンソールからデータベースを削除するには、プロジェクトに移動し、**On-demand** をクリックし、**データベース** をクリックして、対象のデータベースを削除します。
 
 ## 次のステップ\{#next-steps}
 
-- [Database Explained](./database-concept)
+- [データベースの説明](./database-concept)
 
 - [サービングクラスター内のデータベース](./database)
 

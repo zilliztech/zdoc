@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Gaussian decay（正規減衰とも呼ばれます）は、検索結果に対して最も自然に感じられる調整を行います。距離が離れるにつれて徐々にぼやける人間の視覚のように、Gaussian decay は滑らかなベル型の曲線を作り、アイテムが理想的なポイントから離れるにつれて関連性をやさしく低下させます。このアプローチは、好ましい範囲を少し外れたアイテムに対して厳しくペナルティを与えず、それでいて遠く離れたアイテムの関連性はしっかり下げたい場合に最適です。 | Cloud"
+description: "Gaussian decay（正規減衰とも呼ばれます）は、検索結果に対して最も自然に感じられる調整を行います。距離が離れるにつれて徐々にぼやける人間の視覚のように、Gaussian decay は、アイテムが理想的なポイントから離れるにつれて関連性をやさしく低下させる、滑らかなベル型の曲線を作り出します。このアプローチは、好ましい範囲をわずかに外れたアイテムに厳しくペナルティを与えることなく、それでいて遠く離れたアイテムの関連性はしっかり下げたい場合に最適です。 | Cloud"
 type: origin
 token: G39mw621Yi3iICkv69JcQ0J5nHf
 sidebar_position: 2
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Gaussian Decay
 
-Gaussian decay（正規減衰とも呼ばれます）は、検索結果に対して最も自然に感じられる調整を行います。距離が離れるにつれて徐々にぼやける人間の視覚のように、Gaussian decay は滑らかなベル型の曲線を作り、アイテムが理想的なポイントから離れるにつれて関連性をやさしく低下させます。このアプローチは、好ましい範囲を少し外れたアイテムに対して厳しくペナルティを与えず、それでいて遠く離れたアイテムの関連性はしっかり下げたい場合に最適です。
+Gaussian decay（正規減衰とも呼ばれます）は、検索結果に対して最も自然に感じられる調整を行います。距離が離れるにつれて徐々にぼやける人間の視覚のように、Gaussian decay は、アイテムが理想的なポイントから離れるにつれて関連性をやさしく低下させる、滑らかなベル型の曲線を作り出します。このアプローチは、好ましい範囲をわずかに外れたアイテムに厳しくペナルティを与えることなく、それでいて遠く離れたアイテムの関連性はしっかり下げたい場合に最適です。
 
 他の decay ranker とは異なり、以下の特徴があります。
 
-- Exponential decay は最初に急激に低下し、より強い初期ペナルティを生みます
+- Exponential decay は最初に急激に低下し、より強い初期ペナルティを生み出します
 
 - Linear decay はゼロに達するまで一定の割合で減少し、明確なカットオフを作ります
 
@@ -35,76 +35,76 @@ Gaussian decay は、ユーザーにとって自然に感じられる、より�
 
 Gaussian decay は特に次のようなケースで効果的です。
 
-| Use Case | Example | Why Gaussian Works Well |
+| ユースケース | 例 | Gaussian が適している理由 |
 | --- | --- | --- |
-| 位置ベース検索 | レストラン検索、店舗検索 | 距離の関連性に対する自然な人間の知覚を模倣できる |
+| 位置ベースの検索 | レストラン検索、店舗検索 | 距離と関連性に対する人間の自然な知覚を再現できる |
 | コンテンツ推薦 | 公開日に基づく記事の提案 | コンテンツが古くなるにつれて関連性が徐々に低下する |
 | 商品一覧 | 目標価格に近いアイテム | 価格が目標から外れるにつれて関連性が滑らかに低下する |
-| 専門性マッチング | 関連する経験を持つ専門家の検索 | 経験の関連性をバランスよく評価できる |
+| 専門性のマッチング | 関連する経験を持つ専門家の検索 | 経験の関連性をバランスよく評価できる |
 
-アプリケーションで、厳しいペナルティや明確なカットオフなしに、自然な関連性低下の感覚が必要な場合は、Gaussian decay が最適な選択となる可能性が高いです。
+厳しいペナルティや明確なカットオフなしに、自然な関連性の低下を必要とするアプリケーションでは、Gaussian decay が最適な選択肢となる可能性が高いです。
 
 ## ベルカーブの原理\{#bell-curve-principle}
 
-Gaussian decay は、理想的なポイントからの距離が大きくなるにつれて関連性を徐々に下げる、滑らかなベル型の曲線を作ります。この分布は数学者 Carl Friedrich Gauss にちなんで名付けられ、自然界や統計で頻繁に現れるため、人間の感覚にとって非常に直感的に感じられます。
+Gaussian decay は、理想的なポイントからの距離が大きくなるにつれて関連性を徐々に低下させる、滑らかなベル型の曲線を作り出します。この分布は数学者 Carl Friedrich Gauss にちなんで名付けられ、自然界や統計に頻繁に現れるため、人間の知覚にとって非常に直感的に感じられます。
 
 ![DP1AbcqZPoyfqhxpJ2icptjQnfc](https://zdoc-images.s3.us-west-2.amazonaws.com/dp1abcqzpoyfqhxpj2icptjqnfc.png "DP1AbcqZPoyfqhxpJ2icptjQnfc")
 
-上のグラフは、Gaussian decay がモバイル検索アプリにおけるレストランのランキングにどのように影響するかを示しています。
+上のグラフは、モバイル検索アプリにおけるレストランのランキングに Gaussian decay がどのように影響するかを示しています。
 
-- `origin` (0 km): 現在地であり、関連性が最大値 (1.0) となる場所です。
+- `origin`（0 km）: 現在地であり、関連性が最大値（1.0）になる場所です。
 
-- `offset` (±300 m): あなたの周囲にある「満点ゾーン」です。300 メートル以内のすべてのレストランは完全な関連性スコア (1.0) を維持し、非常に近い候補がわずかな距離差のために不必要にペナルティを受けないようにします。
+- `offset`（±300 m）: 現在地の周囲にある「満点ゾーン」です。300 メートル以内にあるすべてのレストランが完全な関連性スコア（1.0）を維持することで、非常に近い候補がわずかな距離差によって不必要にペナルティを受けないようにします。
 
-- `scale` (±2 km): 関連性が decay 値まで低下する距離です。ちょうど 2 キロメートル離れたレストランの関連性スコアは半分 (0.5) になります。
+- `scale`（±2 km）: 関連性が decay 値まで低下する距離です。ちょうど 2 キロメートル離れたレストランの関連性スコアは半分（0.5）になります。
 
-- `decay` (0.5): scale 距離におけるスコアです。このパラメーターは本質的に、距離に応じてスコアがどれだけ速く低下するかを制御します。
+- `decay`（0.5）: scale 距離におけるスコアです。このパラメーターは本質的に、距離に応じてスコアがどれだけ速く低下するかを制御します。
 
-カーブからわかるように、2 km を超えたレストランは関連性が引き続き低下しますが、完全にゼロになることはありません。4～5 キロメートル離れたレストランであっても最小限の関連性は維持されるため、優れたが遠方のレストランも検索結果に表示され続けます（ただし順位は低くなります）。
+曲線からわかるように、2 km を超えたレストランは関連性が引き続き低下しますが、完全にゼロになることはありません。4～5 キロメートル離れたレストランであっても最小限の関連性は維持されるため、優れていても遠いレストランも検索結果に表示され続けます（ただし順位は低くなります）。
 
-この挙動は、人々が距離の関連性を自然に捉える感覚を模倣しています。近くの場所が好まれる一方で、特に優れた選択肢であれば、より遠くまで移動することもいとわないという考え方です。
+この挙動は、距離と関連性について人が自然に考える方法を模倣しています。近くの場所が好まれる一方で、優れた選択肢のためなら遠くまで移動することも厭いません。
 
 ## 数式\{#formula}
 
-Gaussian decay スコアを計算する数学的な式は次のとおりです。
+Gaussian decay スコアを計算する数式は次のとおりです。
 
 $$
-S(doc) = \exp\left( -\frac\{\left( \max\left(0, \left|fieldvalue_\{doc\} - origin\right| - offset \right) \right)^2\}\{2\sigma^2\} \right)
+S(doc) = \exp\left( -\frac{\left( \max\left(0, \left|fieldvalue_{doc} - origin\right| - offset \right) \right)^2}{2\sigma^2} \right)
 $$
 
 ここで、
 
 $$
-\sigma^2 = -\frac\{scale^2\}\{2 \cdot \ln(decay)\}
+\sigma^2 = -\frac{scale^2}{2 \cdot \ln(decay)}
 $$
 
-これを平易に分解すると、次のようになります。
+これを平易な言葉で分解すると、次のようになります。
 
-1. field value が origin からどれだけ離れているかを計算します:  $|fieldvalue_\{doc\} - origin|$
+1. フィールド値が origin からどれだけ離れているかを計算します:  $|fieldvalue_{doc} - origin|$
 
-1. offset（ある場合）を差し引きますが、ゼロ未満にはしません: $\max(0, distance - offset)$
+1. offset（存在する場合）を差し引きますが、ゼロを下回ることはありません: $\max(0, distance - offset)$
 
 1. この調整後の距離を二乗します: $(adjusted\_distance)^2$
 
-1. これを &#36;2\sigma^2$ で割ります。これは scale と decay パラメーターから計算されます
+1. これを &#36;2\sigma^2$ で割ります。これは scale と decay のパラメーターから計算されます
 
-1. 負の指数を取ることで、0 から 1 の間の値を得ます: $\exp(-value)$
+1. 負の指数を取ると、0 から 1 の間の値が得られます: $\exp(-value)$
 
-$\sigma^2$ の計算では、scale と decay パラメーターを Gaussian 分布の分散（標準偏差の二乗）に変換します。これにより、この関数特有のベル型の形状が得られます。
+$\sigma^2$ の計算は、scale と decay のパラメーターをガウス分布の分散（標準偏差の二乗）に変換します。これにより、この関数に特徴的なベル型の形状が得られます。
 
 ## Gaussian decay を使用する\{#use-gaussian-decay}
 
-Gaussian decay は、Zilliz Cloud の標準 vector search と hybrid search の両方に適用できます。以下に、この機能を実装するための主要なコードスニペットを示します。
+Gaussian decay は、Zilliz Cloud における標準ベクトル検索とハイブリッド検索の両方に適用できます。以下に、この機能を実装するための主要なコードスニペットを示します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-decay function を使用する前に、まず decay の計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を持つ collection を作成する必要があります。collection のセットアップ、schema 定義、データ挿入を含む完全に動作する例については、[チュートリアル: Milvus で時間ベースランキングを実装する](./tutorial-implement-time-based-ranking) を参照してください。
+decay 関数を使用する前に、まず decay 計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を持つコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データ挿入を含む完全な動作例については、[チュートリアル: Milvus で時間ベースのランキングを実装する](./tutorial-implement-time-based-ranking) を参照してください。
 
 </Admonition>
 
 ### decay ranker を作成する\{#create-a-decay-ranker}
 
-collection に数値フィールド（この例では、ユーザーからの距離をメートル単位で表す `distance`）を設定したら、Gaussian decay ranker を作成します。
+コレクションに数値フィールド（この例では、ユーザーからの距離をメートル単位で表す `distance`）を設定したら、Gaussian decay ranker を作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -201,9 +201,9 @@ rerank->SetDecay(0.5);
 </TabItem>
 </Tabs>
 
-### 標準 vector search に適用する\{#apply-to-standard-vector-search}
+### 標準ベクトル検索に適用する\{#apply-to-standard-vector-search}
 
-decay ranker を定義した後は、`ranker` パラメーターに渡すことで search 操作中に適用できます。
+decay ranker を定義した後は、検索操作時に `ranker` パラメーターへ渡すことで適用できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
