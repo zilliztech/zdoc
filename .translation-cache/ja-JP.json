@@ -275,10 +275,160 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-format-options.md",
       "translatedAt": "2026-08-04T05:16:18.746Z"
     },
+    "content/en/guides/tutorials/development/data-import/import-data/import-data.md": {
+      "sourceHash": "9933a105105b091b87086357445a9082b3cf10b9276821113828b31caf6ca70c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/import-data/import-data.md",
+      "translatedAt": "2026-08-04T05:03:51.485Z"
+    },
+    "content/en/guides/tutorials/development/data-import/prepare-data-import/prepare-data-import.md": {
+      "sourceHash": "c2466c2566cd220fc48e222e7de3bf40616672881b879aff40cadcacdf2e3414",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/prepare-data-import/prepare-data-import.md",
+      "translatedAt": "2026-08-04T05:03:50.791Z"
+    },
+    "content/en/guides/tutorials/development/function/reranking-functions/model-based-rerankers/hugging-face-ranker.md": {
+      "sourceHash": "113421ef760d4b618317fcb5fa4562568f95f391ffad769df461fda966d85173",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/model-based-rerankers/hugging-face-ranker.md",
+      "translatedAt": "2026-08-04T05:04:56.634Z"
+    },
+    "content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md": {
+      "sourceHash": "e5c9c5d7c1d4d9ce7f7e4aaec38ae8ef3e613ac0a7df1b696ec8eab0f1079baf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md",
+      "translatedAt": "2026-08-04T05:06:42.054Z"
+    },
+    "content/en/guides/tutorials/development/function/text-embedding-funcs/cohere.md": {
+      "sourceHash": "4d1f1c4a415a7dd37e16610dff738ec27073a002f72f6d9656c124220636a742",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-funcs/cohere.md",
+      "translatedAt": "2026-08-04T05:05:27.442Z"
+    },
+    "content/en/guides/tutorials/development/function/text-embedding-funcs/hugging-face.md": {
+      "sourceHash": "067c720a3b78336a92f7df75db8ad78f5a621e8b0265ac18cf671c855b27dbca",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-funcs/hugging-face.md",
+      "translatedAt": "2026-08-04T05:07:52.983Z"
+    },
+    "content/en/guides/tutorials/development/function/text-embedding-funcs/openai.md": {
+      "sourceHash": "59c8c7c60fdea4963edbae44a0e84c07fbd24a828127e2a7ee7542bc774cb313",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-funcs/openai.md",
+      "translatedAt": "2026-08-04T05:06:30.395Z"
+    },
+    "content/en/guides/tutorials/development/function/text-embedding-funcs/voyage-ai.md": {
+      "sourceHash": "1020eeb76fe640ee91d7169b883dc741e01762bdc1d5418401ad5e5c8a1de914",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-funcs/voyage-ai.md",
+      "translatedAt": "2026-08-04T05:07:48.754Z"
+    },
+    "content/en/guides/tutorials/development/schema/json-fields/json-field-overview.md": {
+      "sourceHash": "e2d237d3a90c748da4f89056c2086b87431f7960a8b511889fea10dbd2a09bda",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/json-fields/json-field-overview.md",
+      "translatedAt": "2026-08-04T05:10:02.225Z"
+    },
+    "content/en/guides/tutorials/development/schema/json-fields/json-indexing.md": {
+      "sourceHash": "1cb92b175beae0258e672f72218d97c20eb54424a20b32472f5521348b5c3ee6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/json-fields/json-indexing.md",
+      "translatedAt": "2026-08-04T05:09:28.647Z"
+    },
+    "content/en/guides/tutorials/development/schema/json-fields/json-shredding.md": {
+      "sourceHash": "b865db63411ab6cdedfff2342e86904e685997213dadb887bd3b030c67f3da76",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/json-fields/json-shredding.md",
+      "translatedAt": "2026-08-04T05:08:42.113Z"
+    },
+    "content/en/guides/tutorials/development/schema/schema-best-practices/schema-best-practices.md": {
+      "sourceHash": "bce6ec0e151cbf76cb5487fa2886f0d8960d34d6ae2f2bf7b988ce972b810dd1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/schema-best-practices/schema-best-practices.md",
+      "translatedAt": "2026-08-04T05:07:59.067Z"
+    },
+    "content/en/guides/tutorials/development/schema/struct-array/create-struct-array.md": {
+      "sourceHash": "a09b8606d8056ae54e24fd30323e6c0048aad8652c2bfcb7656eb5fa3929f640",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/create-struct-array.md",
+      "translatedAt": "2026-08-04T05:11:14.326Z"
+    },
+    "content/en/guides/tutorials/development/schema/struct-array/index-struct-array.md": {
+      "sourceHash": "05307f220ffa759dce8979752995822a24d0421a5a52b13ad215dd716ca134e1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/index-struct-array.md",
+      "translatedAt": "2026-08-04T05:09:54.628Z"
+    },
+    "content/en/guides/tutorials/development/schema/struct-array/insert-struct-array.md": {
+      "sourceHash": "630935857cc0757797c355e9f94ab29aec27aefc6078cd525279800329d368ac",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/insert-struct-array.md",
+      "translatedAt": "2026-08-04T05:10:41.318Z"
+    },
+    "content/en/guides/tutorials/development/schema/struct-array/struct-array-limits.md": {
+      "sourceHash": "fc6717ff4ef77acfb44ef3e8f97d3d2d58d79ed168763d99ca5a37b07dba5f37",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/struct-array-limits.md",
+      "translatedAt": "2026-08-04T05:11:10.112Z"
+    },
+    "content/en/guides/tutorials/development/schema/struct-array/use-array-of-structs.md": {
+      "sourceHash": "9e75c1683543fa19f1b984c3bc64cad46827f6fb29c5d4eb62c03fc1b281acf5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/use-array-of-structs.md",
+      "translatedAt": "2026-08-04T05:11:11.124Z"
+    },
+    "content/en/guides/tutorials/development/schema/use-number-field.md": {
+      "sourceHash": "1d4d3b1add03ef8306389cf99f7b994065783c834d905f9b56fc38bb4acc4772",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-number-field.md",
+      "translatedAt": "2026-08-04T05:15:57.334Z"
+    },
+    "content/en/guides/tutorials/development/search-and-query/search-aggregation.md": {
+      "sourceHash": "2e93dae44f0d48b52011db7fa25032913be716aed0907db691223d846f39ab9f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/search-aggregation.md",
+      "translatedAt": "2026-08-04T05:14:43.316Z"
+    },
+    "content/en/guides/tutorials/development/search-and-query/single-vector-search.md": {
+      "sourceHash": "4072facb1cacfb632c5b0591529dd78b3c6afe70d19086f1022cf62ceef8ebc6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/single-vector-search.md",
+      "translatedAt": "2026-08-04T05:20:23.948Z"
+    },
+    "content/en/guides/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md": {
+      "sourceHash": "ca4a6d87117f0bc8594b50a4b6ebb1d9f4988d425766d8fe3e91729ee169d2d0",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md",
+      "translatedAt": "2026-08-04T05:12:18.977Z"
+    },
+    "content/en/guides/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md": {
+      "sourceHash": "220f07f419258a8c4d12015149029aa3be0d63a46d1265971e35e277a5b4d4c6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md",
+      "translatedAt": "2026-08-04T05:13:32.085Z"
+    },
+    "content/en/guides/tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array.md": {
+      "sourceHash": "0814eed8413aa0dc8fb9ed4715e07d268f2f228361cc852fb03a46b0583635bb",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array.md",
+      "translatedAt": "2026-08-04T05:15:00.910Z"
+    },
+    "content/en/guides/tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays.md": {
+      "sourceHash": "2b1b453d2cbb1e672d64fbd32810578da8a8e2f6a44675af35ccb48481e11f2c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays.md",
+      "translatedAt": "2026-08-04T05:15:49.321Z"
+    },
+    "content/en/guides/tutorials/development/search-and-query/struct-array-search/search-with-struct-array.md": {
+      "sourceHash": "77c9daa8fe994ff9c687deb0ddde2b11015ee92ffb9311e3a51b87dfbc69022a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/struct-array-search/search-with-struct-array.md",
+      "translatedAt": "2026-08-04T05:16:52.100Z"
+    },
+    "content/en/guides/tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali.md": {
+      "sourceHash": "64216493091d334b8bb5ebcd0abf5102d0b42307ba30e11c362c7cc793dc0676",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali.md",
+      "translatedAt": "2026-08-04T05:17:49.612Z"
+    },
     "content/en/guides/tutorials/get-started/cloud-providers-and-regions.md": {
       "sourceHash": "111c1ca88e79137e909dbaea8bd6a9e59336ca5fe48cdb7944c0ca82c0c1c508",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/cloud-providers-and-regions.md",
       "translatedAt": "2026-08-04T05:06:09.661Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/separate-billing/separate-zilliz-cloud-billing-on-aws-marketplace.md": {
+      "sourceHash": "168ecbd403f8dd4e925c248426cb9b52388285dc26fbc45d6c8f070eb3c1c7f8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/separate-billing/separate-zilliz-cloud-billing-on-aws-marketplace.md",
+      "translatedAt": "2026-08-04T05:19:39.720Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/separate-billing/separate-zilliz-cloud-billing-on-azure-marketplace.md": {
+      "sourceHash": "eafb73ccc0d2b9bd16f45ac03a61ab910a26299d84a9b4c95d688f0b835c21e4",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/separate-billing/separate-zilliz-cloud-billing-on-azure-marketplace.md",
+      "translatedAt": "2026-08-04T05:19:55.292Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md": {
+      "sourceHash": "f21c64f8d02f4146ac662697b38e22386400931e7b7d44299479442ec475bd99",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md",
+      "translatedAt": "2026-08-04T05:19:25.952Z"
+    },
+    "content/en/guides/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
+      "sourceHash": "b56fef0d65b35969ab228daff606ea881c0d8ba6ae19f4b40b3c9d14477dd2e1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
+      "translatedAt": "2026-08-04T05:20:44.345Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
       "sourceHash": "ce34b466ab773028c71b9180bb36440b1246c57f86bdc85f5d90ecafa81442da",
