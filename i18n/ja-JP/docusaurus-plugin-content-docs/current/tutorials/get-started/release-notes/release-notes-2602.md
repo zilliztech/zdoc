@@ -1,5 +1,5 @@
 ---
-title: " 2026年2月 リリースノート | Cloud"
+title: "2026年2月 リリースノート | Cloud"
 slug: /release-notes-2602
 sidebar_label: "2026年2月"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "(プレースホルダー) | Cloud"
+description: "(placeholder) | Cloud"
 type: origin
 token: KtAgwMSa6iEoFkkEqzAcEJgRnjc
 sidebar_position: 6
@@ -32,23 +32,23 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        ## SSO の強制適用\{#sso-enforcement}
+        ## SSO の強制\{#sso-enforcement}
 
-        Organization オーナーがすべてのメンバーに対して SSO を必須化できる機能を追加しました。これを強制適用すると、SSO 以外のすべての認証方法が制限されます。この更新により、ID 管理の一元化が可能になり、企業のセキュリティポリシーへの準拠を確保できます。 
+        Organization のオーナーがすべてのメンバーに SSO を必須化できる機能を追加しました。強制を有効にすると、SSO 以外の認証方法はすべて制限されます。この更新により、ID 管理を一元化し、企業のセキュリティポリシーへの準拠を確保できます。
 
-        詳細については、[Organization で SSO を強制適用する](./enforce-sso-in-your-organization) を参照してください。
+        詳細については、[組織で SSO を強制する](./enforce-sso-in-your-organization) を参照してください。
 
-        ## Cluster アクセス制御\{#cluster-access-control}
+        ## クラスターのアクセス制御\{#cluster-access-control}
 
-        Zilliz Cloud は cluster レベルのアクセス制御をサポートするようになり、project 内でよりきめ細かな権限管理が可能になりました。管理者は個々の cluster や volume に異なるロールを割り当てることができ、project を分割することなく厳格なリソース分離を実現できます。
+        Zilliz Cloud がクラスターレベルのアクセス制御に対応し、プロジェクト内でよりきめ細かな権限管理が可能になりました。管理者は個々のクラスターやボリュームに異なるロールを割り当てられ、プロジェクトを分割することなく厳密なリソース分離を実現できます。
 
-        - **Cluster ごとのロール割り当て:** 同じ project 内の個々の cluster と volume に対して独立したロール（ReadOnly / ReadWrite）を付与できるため、環境やワークロードごとに職務をきめ細かく分離できます。
+        - **クラスターごとのロール割り当て:** 同じプロジェクト内の個々のクラスターやボリュームに独立したロール（ReadOnly / ReadWrite）を付与でき、環境やワークロードに応じて職務をきめ細かく分離できます。
 
-        - **厳格なアクセス強制:** 権限のないリソースへの API リクエストは拒否され、制限されたリソースは Console に表示されません。すべてのアクセスは、ユーザーに付与された権限の範囲内に厳密に制限されます。
+        - **厳格なアクセス制御:** 権限のないリソースへの API リクエストは拒否され、制限されたリソースはコンソールに表示されません。すべてのアクセスは、ユーザーに付与された権限の範囲に厳密に限定されます。
 
-        - **シームレスな移行:** 既存ユーザーは現在の project ロールを維持したまま、自動的に「All Resources」アクセスへ移行されます。手動での対応は不要です。
+        - **シームレスな移行:** 既存のユーザーは「すべてのリソース」へのアクセス権を持った状態で自動的に移行され、現在のプロジェクトロールも維持されます。手動での対応は不要です。
 
-        詳細については、[Organization ユーザーを管理する](./organization-users#organization-role) および [Project ユーザーを管理する](./project-users#project-access) を参照してください。
+        詳細については、[プラットフォームユーザーの管理](./manage-platform-users) を参照してください。
 
     </div>
 
@@ -64,7 +64,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        ## 新しいリージョン: 🇮🇪 AWS Ireland\{#new-region-aws-ireland}
+        ## 新リージョン: 🇮🇪 AWS アイルランド\{#new-region-aws-ireland}
 
     </div>
 

@@ -30,17 +30,17 @@ import Procedures from '@site/src/components/Procedures';
 
 <Admonition type="info" icon="📘" title="📘 Note">
 
-- サブスクライブ後は、Azure Marketplace を通じて Azure クラスターの利用料金を支払うことができます。他のクラウドプロバイダーにデプロイされたクラスターがある場合も、Azure Marketplace を支払いに利用できます。
+- サブスクライブ後は、Azure Marketplace を通じて Azure クラスターの利用料金を支払えます。他のクラウドプロバイダーにデプロイされたクラスターがある場合も、Azure Marketplace を支払いに利用できます。
 
 - Azure Marketplace の請求をチームや事業部門ごとに分ける必要がある場合は、[Azure Marketplace での Zilliz Cloud 請求の分離](./separate-zilliz-cloud-billing-on-azure-marketplace)を参照してください。
 
 </Admonition>
 
-## 事前準備\{#before-you-start}
+## 開始する前に\{#before-you-start}
 
 Azure Marketplace でサブスクライブするには、[Azure Marketplace](https://learn.microsoft.com/en-us/marketplace/azure-marketplace-overview) アカウントと Azure の[請求先アカウント](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/view-all-accounts)が必要です。
 
-また、請求先の国または地域がサポート対象市場に含まれていることを確認してください。Zilliz Cloud は、税務およびコンプライアンス上の理由から、Azure Marketplace の一部の市場をサポートしていません。サポート対象外の市場からサブスクライブしようとすると、`"No plans are available for market '<market_code>'."` というエラーメッセージが表示される場合があります。この場合は、[サポートにお問い合わせ](http://support.zilliz.com/)のうえ、エラーメッセージのスクリーンショットと市場コードをご提供ください。解決策についてご案内いたします。
+また、請求先の国または地域がサポート対象市場に含まれていることを確認してください。Zilliz Cloud は、税務およびコンプライアンス上の理由から、Azure Marketplace の一部の市場をサポートしていません。サポート対象外の市場からサブスクライブしようとすると、`"No plans are available for market '<market_code>'."` というエラーメッセージが表示される場合があります。この場合は、[サポートにお問い合わせ](http://support.zilliz.com/)のうえ、エラーメッセージのスクリーンショットと市場コードをご提供ください。可能な解決策についてご案内いたします。
 
 ![YaPcbHnQXovDLIxks0xcItOJnpf](https://zdoc-images.s3.us-west-2.amazonaws.com/yapcbhnqxovdlixks0xcitojnpf.png "YaPcbHnQXovDLIxks0xcItOJnpf")
 
@@ -230,7 +230,7 @@ Azure Marketplace でサブスクライブするには、[Azure Marketplace](htt
 
 1. **Zilliz Cloud** をクリックします。
 
-    サービス内容と料金を確認します。
+    サービス内容と料金をご確認ください。
 
 1. **Plans + Pricing** タブに切り替え、**Get it now** をクリックします。
 
@@ -246,7 +246,7 @@ Azure Marketplace でサブスクライブするには、[Azure Marketplace](htt
 
     1. **SaaS Details** を設定します。
 
-        1. 後で識別しやすいように、サブスクリプションに名前を付けます。
+        1. 後から識別しやすいように、サブスクリプションに名前を付けます。
 
         1. 契約期間（1 か月または 1 年）を選択します。
 
@@ -254,7 +254,7 @@ Azure Marketplace でサブスクライブするには、[Azure Marketplace](htt
 
             <Admonition type="info" icon="📘" title="📘 Note">
 
-            自動更新がオンの場合、契約期間の終了時に Azure 上の Zilliz Cloud サブスクリプションが自動的に更新されます。オフの場合、契約期間の終了とともにサブスクリプションが終了し、Zilliz Cloud の組織とアカウントはこの Azure Marketplace サブスクリプションから自動的にリンク解除されます。
+            自動更新がオンの場合、契約期間の終了時に Azure 上の Zilliz Cloud サブスクリプションが自動的に更新されます。オフの場合、契約期間の終了とともにサブスクリプションが終了し、Zilliz Cloud の組織とアカウントがこの Azure Marketplace サブスクリプションから自動的にリンク解除されます。
 
             </Admonition>
 
@@ -262,7 +262,7 @@ Azure Marketplace でサブスクライブするには、[Azure Marketplace](htt
 
     ![configure_subscription_on_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/configuresubscriptiononazure.png "configure_subscription_on_azure")
 
-1. 次のページで **Configure account now** をクリックし、Azure Marketplace サブスクリプションを Zilliz Cloud にリンクします。
+1. 次のページで、**Configure account now** をクリックして Azure Marketplace サブスクリプションを Zilliz Cloud にリンクします。
 
     ![configure_account_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/configureaccountazure.png "configure_account_azure")
 
@@ -304,7 +304,7 @@ Marketplace からのサブスクリプション完了後は、必要に応じ�
 
     ![azure_all_resources](https://zdoc-images.s3.us-west-2.amazonaws.com/azureallresources.png "azure_all_resources")
 
-1. キャンセルしたいサブスクリプションに移動し、**Cancel subscription** をクリックします。Azure Marketplace で処理が完了するまで数分間お待ちください。
+1. キャンセルしたいサブスクリプションに移動し、**Cancel subscription** をクリックします。Azure Marketplace で処理が完了するまで数分お待ちください。
 
     ![cancel_azure_subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/cancelazuresubscription.png "cancel_azure_subscription")
 
@@ -314,43 +314,43 @@ Azure Marketplace でのサブスクリプションのキャンセル方法の�
 
 ## トラブルシューティング\{#troubleshooting}
 
-**Azure Marketplace 経由でサブスクライブする際に「No plans are available for market '&lt;country_code&gt;'」と表示されるのはなぜですか？**
+**Azure Marketplace からのサブスクリプション時に「No plans are available for market '&lt;country_code&gt;'」と表示されるのはなぜですか？**
 
-このメッセージは、請求先の国または地域で Zilliz Cloud が Azure Marketplace にまだ提供されていない場合に表示されます。詳細については、[対応市場](./subscribe-on-azure-marketplace#before-you-start)をご確認ください。[サポートにお問い合わせ](http://support.zilliz.com)のうえ、エラーメッセージのスクリーンショットと市場コードをお送りください。代替手段のご提案や、提供地域の更新を行える場合があります。
+このメッセージは、請求先の国または地域において Azure Marketplace で Zilliz Cloud がまだ提供されていない場合に表示されます。詳細については、[対応市場](./subscribe-on-azure-marketplace#before-you-start)をご確認ください。[サポートにお問い合わせ](http://support.zilliz.com)のうえ、エラーメッセージのスクリーンショットと市場コードをお送りください。代替手段のご提案や、提供地域の更新を行える場合があります。
 
-**マーケットプレイスサブスクリプションを Zilliz Cloud にリンクする際に、利用可能な組織がない場合はどうすればよいですか？**
+**マーケットプレイスのサブスクリプションを Zilliz Cloud にリンクする際に、利用可能な組織がない場合はどうすればよいですか？**
 
 いくつかの理由が考えられます。
 
-- **権限が不十分** 
+- **権限不足** 
 
     十分な権限がない場合に発生します。利用できない組織の横に **"Insufficient Permissions"** タグが表示されます。
 
     ![insufficient-permission-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
 
-    組織をマーケットプレイスサブスクリプションにリンクするには、**Organization Owner** または **Organization Billing Admin** である必要があります。Organization Member のみの場合は必要な権限がないため、組織のオーナーにお問い合わせください。
+    組織をマーケットプレイスのサブスクリプションにリンクするには、**Organization Owner** または **Organization Billing Admin** の権限が必要です。Organization Member のみでは必要な権限がありませんので、組織のオーナーにお問い合わせください。
 
 - **すべての組織がすでに Marketplace サブスクリプションにリンクされている**
 
-    すべての組織がすでに Marketplace サブスクリプションにリンクされている場合に発生します。利用できない組織の横に **"Marketplace Linked"** タグが表示されます。
+    所有するすべての組織がすでに Marketplace サブスクリプションにリンクされている場合に発生します。利用できない組織の横に **"Marketplace Linked"** タグが表示されます。
 
     ![marketplace-already-linked-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
 
-    この場合、
+    この場合、以下の対応が可能です。
 
     - 既存のマーケットプレイスサブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションのリンクを解除してから、新しいサブスクリプションを設定してください。
 
     - 異なる Marketplace サブスクリプション用に複数の組織が必要な場合は、[組織を作成](./organization-settings#create-an-organization)できます。
 
-- **リストに組織がない**
+- **リストに組織が表示されない**
 
-    - アカウントが閉鎖された場合や、すべての組織から退会した場合に発生します。UI は次のようになります。
+    - アカウントが閉鎖された場合や、すべての組織から脱退した場合に発生します。UI は次のように表示されます。
 
     ![no-organization-during-subcription](https://zdoc-images.s3.us-west-2.amazonaws.com/no-organization-during-subcription.png "no-organization-during-subcription")
 
-    この場合、次の操作が可能です。
+    この場合、次のいずれかの操作を行えます。
 
     - [新しい組織を作成](./organization-settings#create-an-organization)する。
 
-    - 他のユーザーに自分の組織へ[招待](./organization-users#invite-a-user-to-your-organization)してもらい、Organization Owner ロールを付与してもらう。
+    - 他のユーザーに、自身の組織への[招待](./manage-platform-users#invite-organization-users)と Organization Owner ロールの付与を依頼する。
 

@@ -975,6 +975,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/manage-collections-sdks.md",
       "translatedAt": "2026-08-04T05:14:57.261Z"
     },
+    "content/en/guides/tutorials/development/collection/modify-collections.md": {
+      "sourceHash": "fc2af206becb3f534848efbd6c71757f7b3ad0f4634a928d40c1bf2c25f4f159",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/modify-collections.md",
+      "translatedAt": "2026-08-25T17:31:27.496Z"
+    },
     "content/en/guides/tutorials/development/collection/view-collections.md": {
       "sourceHash": "8ec41883d3baff5489f7ac0537c0cac7f5242390efd644fc96b315579e5d0db9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/view-collections.md",
@@ -1390,6 +1395,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/faqs/faq-resource-planning.md",
       "translatedAt": "2026-08-04T05:08:43.513Z"
     },
+    "content/en/guides/tutorials/get-started/faqs/faq-users-and-roles.md": {
+      "sourceHash": "9d8bd1a682986edec8d4db63cf667ee24c982e7387526abd7f9474780da8c2b5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/faqs/faq-users-and-roles.md",
+      "translatedAt": "2026-08-25T17:44:56.620Z"
+    },
     "content/en/guides/tutorials/get-started/feature-availability.md": {
       "sourceHash": "590d8be74957f5081678073ed41e551aaa764998e6176287c8f8613267b8ef12",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/feature-availability.md",
@@ -1505,6 +1515,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2601.md",
       "translatedAt": "2026-08-04T05:05:15.299Z"
     },
+    "content/en/guides/tutorials/get-started/release-notes/release-notes-2602.md": {
+      "sourceHash": "26a22d5c41d9b0b22b53e9d7b83d428f4ff7571916a50fc06de48ce1fe7b876a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2602.md",
+      "translatedAt": "2026-08-25T17:54:35.898Z"
+    },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2604.md": {
       "sourceHash": "24c57a02c73088a7dee3698cfaa16b0ac824ce1d0f0b6ea5a28e64d106d066ef",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2604.md",
@@ -1575,6 +1590,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/failed-payments-organization-recovery.md",
       "translatedAt": "2026-08-25T08:46:34.128Z"
     },
+    "content/en/guides/tutorials/management/billing-management/manage-invoice.md": {
+      "sourceHash": "c683f637a3b18b1338948b7cbeb94f1e77dc38e9412240a3d84f2cb289dc9b55",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/manage-invoice.md",
+      "translatedAt": "2026-08-25T18:00:58.295Z"
+    },
     "content/en/guides/tutorials/management/billing-management/monitor-billing-alerts.md": {
       "sourceHash": "03e9d57486246f1e13e9fb23d56a203bb1dc0a42ab4ebde742cb3eeecfb657e8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/monitor-billing-alerts.md",
@@ -1600,25 +1620,35 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md",
       "translatedAt": "2026-08-25T08:49:38.924Z"
     },
+    "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-free-trial.md": {
+      "sourceHash": "2b6320233bcea9b6cf66c1e32475da33abac706020b568b1c23c23db1cbdfe5d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-free-trial.md",
+      "translatedAt": "2026-08-25T18:04:32.880Z"
+    },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md": {
-      "sourceHash": "123b75c8e9c02d3cb5bb97c8fff5d4752f86a19605aedef343385cfa23b85081",
+      "sourceHash": "c3693202c4aecb77190c5f8022ea10a599d0c8cfef67dacebfb22a57614a25c4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md",
-      "translatedAt": "2026-08-04T05:14:26.920Z"
+      "translatedAt": "2026-08-25T18:06:47.422Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md": {
-      "sourceHash": "1f860628aefabb24c746a937ba871979e5daa682c99a2d38290617ef0bd98c42",
+      "sourceHash": "7bfcca0de6477df724bc8a4491ed222ac9372a341d28b79e5228aba503796d91",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md",
-      "translatedAt": "2026-08-04T05:11:16.444Z"
+      "translatedAt": "2026-08-25T18:07:57.002Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md": {
-      "sourceHash": "c3a97a9cbff76041398e77f464e0b2c956f5a41f7e16988b6fe8666ea8b0764e",
+      "sourceHash": "6e9097c6a8b38a1949b57d28fde9c21cb36388200f8f12dfbdf7de2f7a424ff8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md",
-      "translatedAt": "2026-08-25T08:52:09.362Z"
+      "translatedAt": "2026-08-25T18:10:11.729Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer.md": {
+      "sourceHash": "2891380f7eaba549ac8f2842f8abc1b7059959b8e49417f64cb601a702701f9a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer.md",
+      "translatedAt": "2026-08-25T18:12:23.626Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md": {
-      "sourceHash": "2c814257218999e42ef9a07632cf95ece44b1b9dc5244abf5e8ef8c5a1d6c820",
+      "sourceHash": "9647b35d9c1237ae75e0ea71855ca1a4c031a57c5c68ecf00b958909394a0861",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md",
-      "translatedAt": "2026-08-25T08:53:24.126Z"
+      "translatedAt": "2026-08-25T18:13:30.946Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card.md": {
       "sourceHash": "7658e82411e844bc9c3e61293c3c8db064a0f03078efbd7452c2dda89c2e2b58",
@@ -1676,9 +1706,9 @@
       "translatedAt": "2026-08-04T05:20:44.345Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
-      "sourceHash": "b87f13ce55d6fdc65674ba4400ae1df0d3d208be1ff6a36ec3e51d34bc1d10ad",
+      "sourceHash": "879e3b79563d1c8aa82f8d1a729189fcf07d9fbae83d4d7b51fffc53c7691515",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
-      "translatedAt": "2026-08-04T05:05:43.890Z"
+      "translatedAt": "2026-08-25T18:21:07.555Z"
     },
     "content/en/guides/tutorials/management/cmek/cmek.md": {
       "sourceHash": "1378fc0bc8f407ddfe31dd0426e6a7625fb243e9594168536a6663ec26386c90",
