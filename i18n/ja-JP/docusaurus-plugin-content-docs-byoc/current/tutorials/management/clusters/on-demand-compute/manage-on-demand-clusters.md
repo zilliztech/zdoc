@@ -30,7 +30,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-現在、この機能は AWS us-west-2 および Azure East US リージョンでのみ利用可能です。他のリージョンでオンデマンドクラスターをご利用の場合は、[お問い合わせ](http://zilliz.com/contact-sales)ください。
+この機能は現在、AWS us-west-2 および Azure East US リージョンでのみ利用できます。他のリージョンでオンデマンドクラスターを使用するには、[お問い合わせ](http://zilliz.com/contact-sales)ください。
 
 </FeatureNote>
 
@@ -38,7 +38,7 @@ import Procedures from '@site/src/components/Procedures';
 
 オンデマンドクラスターは、オンデマンド検索ワークロード向けにコンピューティングリソースを提供します。リクエストの受信時に起動し、アイドル状態になると、クラスター作成時に設定された自動サスペンドタイムアウトに基づいてゼロまでスケールダウンします。
 
-オンデマンドクラスターを管理するには、対象プロジェクトの Project Admin である必要があります。ロールと権限の詳細については、「[プラットフォームユーザーの管理](./manage-platform-users#project-users)」を参照してください。
+オンデマンドクラスターを管理するには、対象プロジェクトの Project Admin である必要があります。ロールと権限の詳細については、[プラットフォームユーザーの管理](./manage-platform-users#project-users) を参照してください。
 
 ## すべてのオンデマンドクラスターを表示する\{#view-all-on-demand-clusters}
 
@@ -100,7 +100,7 @@ curl --request GET \
 
 <Procedures>
 
-1. Zilliz Cloud コンソールで、対象のプロジェクトを開きます。
+1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
 
 1. **On-Demand Compute > クラスター** に移動します。
 
@@ -140,7 +140,7 @@ curl --request GET \
 
 <Procedures>
 
-1. Zilliz Cloud コンソールで、対象のプロジェクトを開きます。
+1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
 
 1. **On-Demand Compute > クラスター** に移動します。
 
@@ -164,7 +164,7 @@ curl --request GET \
 
 - **RESTful API を使用する場合**
 
-    以下の例ではクラスター名を変更しています。詳細については、「[Update On-Demand クラスター Info](/reference/restful/update-on-demand-cluster-info-v2)」を参照してください。
+    次の例では、クラスター名を変更します。詳細については、[Update On-Demand クラスター](/reference/restful/update-on-demand-cluster-v2) を参照してください。
 
     ```bash
     curl --request PATCH \
@@ -209,7 +209,7 @@ curl --request GET \
 
 - **RESTful API を使用する場合**
 
-    以下の例ではクラスターの説明を変更しています。詳細については、「[Update On-Demand クラスター](/reference/restful/update-on-demand-cluster-v2)」を参照してください。
+    次の例では、クラスターの説明を変更します。詳細については、[Update On-Demand クラスター](/reference/restful/update-on-demand-cluster-v2) を参照してください。
 
     ```bash
     curl --request PATCH \
@@ -240,7 +240,7 @@ curl --request GET \
 
     1. 対象のオンデマンドクラスターに移動します。
 
-    1. 説明欄にカーソルを合わせ、**Edit description** アイコンをクリックします。
+    1. 説明にカーソルを合わせ、**Edit description** アイコンをクリックします。
 
         ![AbaibGQY5oI7hMx81F9cOBOlnAd](https://zdoc-images.s3.us-west-2.amazonaws.com/abaibgqy5oi7hmx81f9cobolnad.png "AbaibGQY5oI7hMx81F9cOBOlnAd")
 
@@ -252,16 +252,16 @@ curl --request GET \
 
 ## オンデマンドクラスターの変更\{#modify-an-on-demand-cluster}
 
-オンデマンドクラスターの名前、説明、自動サスペンド設定などの各種設定を変更できます。
+オンデマンドクラスターの名前、説明、自動サスペンド設定など、各種設定を変更できます。
 
 - **RESTful API を使用する場合**
 
-    既存のオンデマンドクラスターについて、名前、説明、自動サスペンド時間、クエリ CU 数を変更できます。詳細は「[Update On-Demand クラスター](/reference/restful/update-on-demand-cluster-v2)」を参照してください。
+    既存のオンデマンドクラスターについて、名前、説明、自動サスペンド時間、クエリ CU 数を変更できます。詳細については、[Update On-Demand クラスター](/reference/restful/update-on-demand-cluster-v2) を参照してください。
 
     ```bash
     export TOKEN="YOUR_API_KEY"
     export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
-
+    
     curl --request PATCH \
          --url "https://${BASE_URL}/v2/clusters/onDemandClusters/in07-7d6ac8697204a6a" \
          --header "Authorization: Bearer ${API_KEY}" \
@@ -275,7 +275,7 @@ curl --request GET \
           }'
     ```
 
-    以下に出力例を示します。
+    以下は出力例です。
 
     ```bash
     {
@@ -293,11 +293,133 @@ curl --request GET \
 
     ![M2XMwoWoih17BRbqhGhcb6i9njg](https://zdoc-images.s3.us-west-2.amazonaws.com/M2XMwoWoih17BRbqhGhcb6i9njg.png)
 
+## keep-warm スケジュールの構成\{#configure-a-keep-warm-schedule}
+
+keep-warm スケジュールは、毎週繰り返される一定の時間帯にオンデマンドクラスターを稼働させ続けます。keep-warm ウィンドウが開始されると、Zilliz Cloud はオンデマンドクラスターがサスペンド状態であれば再開します。ウィンドウ中は `Auto Suspend` が抑制されます。ウィンドウが終了すると、オンデマンドクラスターは既存の自動サスペンドポリシーに再び従います。
+
+keep-warm スケジュールは `Auto Suspend` を永続的に無効化するものではなく、keep-warm ウィンドウが終了したときにオンデマンドクラスターを能動的にサスペンドするものでもありません。
+
+<Admonition type="info" icon="📘" title="Note">
+
+keep-warm ウィンドウ中にオンデマンドクラスターをサスペンドするには、先に keep-warm スケジュールを無効化または削除してください。
+
+</Admonition>
+
+各オンデマンドクラスターが持てる keep-warm スケジュールは 1 つです。スケジュールには週次ルールを 1 ～ 5 件含めることができます。各ルールは組織のシステムタイムゾーンを使用し、曜日、開始時刻、終了時刻を含みます。
+
+### RESTful API を使用する場合\{#via-restful-api}
+
+オンデマンドクラスターの keep-warm スケジュールは、作成、更新、表示、有効化、無効化、削除できます。
+
+#### keep-warm スケジュールの作成または更新\{#create-or-update-a-keep-warm-schedule}
+
+keep-warm スケジュールを作成または更新する場合は、ルールの完全なリストを送信します。Zilliz Cloud は、送信されたルールで既存のルールを 1 回の操作で置き換えます。
+
+次の例では、平日の `09:00` から `18:00` までの keep-warm スケジュールを作成します。
+
+```bash
+
+```
+
+レスポンス例:
+
+```bash
+
+```
+
+#### keep-warm スケジュールの表示\{#view-a-keep-warm-schedule}
+
+次の例では、オンデマンドクラスターの keep-warm スケジュールを確認します。
+
+```bash
+
+```
+
+レスポンス例:
+
+```json
+
+```
+
+スケジュールが構成されていない場合、リクエストは成功し、`configured` として `false` を返します。
+
+#### keep-warm スケジュールの有効化または無効化\{#enable-or-disable-a-keep-warm-schedule}
+
+keep-warm スケジュールを有効化または無効化するには、ルールセット全体と目的の `enabled` 値を指定して PUT リクエストを送信します。
+
+<Admonition type="info" icon="📘" title="Note">
+
+スケジュールを無効化しても、構成済みのルールはすべて保持されます。オンデマンドクラスターが keep-warm ウィンドウ内にある場合、Zilliz Cloud は直ちに keep-warm モードを終了します。スケジュールによってオンデマンドクラスターがサスペンドされることはありません。
+
+</Admonition>
+
+次の例では、既存の keep-warm スケジュールを無効化します。
+
+```bash
+
+```
+
+レスポンス例:
+
+```bash
+
+```
+
+#### keep-warm スケジュールの削除\{#delete-a-keep-warm-schedule}
+
+keep-warm スケジュールを削除すると、スケジュールとすべてのルールが削除されます。オンデマンドクラスター、データ、イベント、監査レコードは削除されません。
+
+```bash
+
+```
+
+レスポンス例:
+
+```json
+
+```
+
+### Web コンソールを使用する場合\{#via-web-console}
+
+![EnHUwxZCUhT8hlbvMJRchiAQnfY](https://zdoc-images.s3.us-west-2.amazonaws.com/EnHUwxZCUhT8hlbvMJRchiAQnfY.png)
+
+<Procedures>
+
+1. 対象のオンデマンドクラスターに移動します。
+
+1. **Actions** メニューを開き、**Manage Keep-warm Schedule** をクリックします。
+
+1. **Enable Keep-warm Schedule** をオンにします。
+
+1. **Schedule Rules** で週次ルールを 1 つ以上追加します。
+
+1. 各ルールについて、繰り返す曜日、開始時刻、終了時刻を構成します。
+
+1. 次回の切り替え時刻を確認します。
+
+1. **Save** をクリックします。
+
+</Procedures>
+
+クラスターの詳細ページには、keep-warm スケジュールのステータスが **On**、**Off**、**Not configured**、**Schedule unavailable** のいずれかで表示されます。スケジュールが構成されている場合は、ルール数、システムタイムゾーン、次回の切り替え時刻も表示されます。
+
+オンデマンドクラスターが現在 keep-warm ウィンドウ内にある場合、ページにはプライマリのクラスターステータスの隣に、セカンダリの **Keep-warm** タグが表示されます。
+
+![IF04w32RNhEbr7b8OBUcM8n3nnc](https://zdoc-images.s3.us-west-2.amazonaws.com/IF04w32RNhEbr7b8OBUcM8n3nnc.png)
+
+スケジュールを無効化しても、構成済みのルールはすべて保持されます。オンデマンドクラスターが keep-warm ウィンドウ内にある場合、Zilliz Cloud は直ちに keep-warm モードを終了します。スケジュールによってオンデマンドクラスターがサスペンドされることはありません。keep-warm スケジュールを無効化するには、以下に示すように **Enable Keep-warm Schedule** をオフにして **Save** をクリックします。
+
+![OzydwQkLjhVsoBbckHzciUAbnmc](https://zdoc-images.s3.us-west-2.amazonaws.com/OzydwQkLjhVsoBbckHzciUAbnmc.png)
+
+スケジュールを削除すると、すべてのルールが完全に削除されます。keep-warm スケジュールを削除するには、以下に示すように **Delete Schedule** をクリックし、操作を確定します。
+
+![SBkEwV2bihQXhDbdTlIcnnYknSd](https://zdoc-images.s3.us-west-2.amazonaws.com/SBkEwV2bihQXhDbdTlIcnnYknSd.png)
+
 ## オンデマンドクラスターの削除\{#drop-an-on-demand-cluster}
 
 <Admonition type="danger" icon="🚧" title="Danger">
 
-オンデマンドクラスターを削除すると即座に除去され、復元することはできません。この操作は取り消せません。
+オンデマンドクラスターを削除すると、即座に除去され、復元することはできません。この操作は取り消せません。
 
 </Admonition>
 
@@ -328,7 +450,7 @@ curl --request DELETE \
 
 <Procedures>
 
-1. Zilliz Cloud コンソールで、対象のプロジェクトを開きます。
+1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
 
 1. **On-Demand Compute > クラスター** に移動します。
 
@@ -340,6 +462,6 @@ curl --request DELETE \
 
 ## 関連トピック\{#related-topics}
 
-- オンデマンドクラスターを作成するには、「[Create On-Demand クラスター](./on-demand-cluster)」を参照してください。
+- オンデマンドクラスターを作成するには、[オンデマンドクラスターの作成](./on-demand-cluster) を参照してください。
 
-- プロジェクトエンドポイント経由で接続するには、「[Connect for On-Demand Search](./connect-for-on-demand-search)」を参照してください。
+- プロジェクトエンドポイント経由で接続するには、[オンデマンド検索への接続](./connect-for-on-demand-search) を参照してください。

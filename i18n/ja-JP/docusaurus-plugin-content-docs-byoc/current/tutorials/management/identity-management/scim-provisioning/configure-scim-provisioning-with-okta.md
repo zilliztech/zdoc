@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このガイドでは、Okta から Zilliz Cloud への SCIM プロビジョニングの設定方法について説明します。SCIM プロビジョニングを使用すると、Okta から Zilliz Cloud 組織へユーザー、グループ、およびグループメンバーシップをプッシュできます。
 
-組織で既に Okta を SSO に使用している場合は、ユーザーサインイン用に既存の Okta SSO アプリを引き続き使用してください。プロビジョニング用には、別途 Okta SCIM アプリを作成します。SSO、SCIM、同期グループ、Access Control の連携についての概要は、「[SCIM Provisioning](/docs/scim-provisioning)」を参照してください。
+組織で既に Okta を SSO に使用している場合は、ユーザーサインイン用に既存の Okta SSO アプリを引き続き使用してください。プロビジョニング用には、別途 Okta SCIM アプリを作成します。SSO、SCIM、同期グループ、Access Control が連携する仕組みの概要については、[SCIM Provisioning の概要](./scim-provisioning-overview) を参照してください。
 
 次の図に、Zilliz Cloud と Okta 間の設定フローを示します。
 
@@ -42,7 +42,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## ステップ 1: Zilliz Cloud で SCIM Base URL と API トークンを取得する\{#step-1-get-the-scim-base-url-and-api-token-in-zilliz-cloud}
 
-Zilliz Cloud の SCIM プロビジョニング設定には、Okta が Zilliz Cloud SCIM API を呼び出すために必要な接続情報が含まれています。
+Zilliz Cloud の SCIM プロビジョニング設定では、Okta が Zilliz Cloud SCIM API を呼び出すために必要な接続情報を提供します。
 
 次のスクリーンショットは、Zilliz Cloud の SCIM プロビジョニング設定画面です。
 
@@ -94,9 +94,9 @@ Zilliz Cloud で取得した SCIM Base URL と SCIM API Token を使用して、
 
 1. **Enable API integration** を選択します。
 
-1. **SCIM 2.0 Base Url** と **OAuth Bearer Token** に、Zilliz Cloud からコピーした **SCIM Base URL** と **SCIM API Token** をそれぞれ貼り付けます。
+1. **SCIM 2.0 Base Url** と **OAuth Bearer Token** に、Zilliz Cloud からコピーした **SCIM Base URL** と **SCIM API Token** を貼り付けます。
 
-1. **Import Groups** のチェックを外します。**Disable Import Groups** ダイアログが表示されたら、**Continue** をクリックします。
+1. **Import Groups** のチェックを外します。**Disable Import Groups** ダイアログで **Continue** をクリックします。
 
 1. **Save** をクリックします。
 
@@ -108,7 +108,7 @@ Zilliz Cloud で取得した SCIM Base URL と SCIM API Token を使用して、
 
 </Procedures>
 
-**Import Groups** は有効にしないでください。Zilliz Cloud はグループ定義のソースではありません。グループは Okta で管理し、Push Groups を使用して Zilliz Cloud へプロビジョニングしてください。
+**Import Groups** を有効にしないでください。Zilliz Cloud はグループ定義のソースではありません。グループは Okta で管理し、Push Groups を使用して Zilliz Cloud へプロビジョニングしてください。
 
 ## ステップ 4: Okta からユーザーとグループをプロビジョニングする\{#step-4-provision-users-and-groups-from-okta}
 
@@ -160,13 +160,13 @@ Push Groups により、SCIM `/Groups` エンドポイントを通じてグル�
 
 ## ステップ 5: Zilliz Cloud でプロビジョニングを確認する\{#step-5-verify-provisioning-in-zilliz-cloud}
 
-Okta によるグループのプロビジョニング後、それらが Zilliz Cloud に正しく表示されるか確認します。
+Okta がグループをプロビジョニングした後、それらが Zilliz Cloud に表示されることを確認します。
 
 <Supademo id="cmrylxo0y53gyqmblv1m72a7d" title=""  />
 
 <Procedures>
 
-1. Zilliz Cloud 組織の画面で **Access Control** をクリックします。
+1. Zilliz Cloud 組織で **Access Control** をクリックします。
 
 1. **Groups** タブを開きます。
 

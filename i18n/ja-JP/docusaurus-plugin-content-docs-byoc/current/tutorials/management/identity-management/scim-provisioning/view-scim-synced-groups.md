@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "SCIM プロビジョニングの設定後、ID プロバイダー (IdP) からプロビジョニングされたグループは、Zilliz Cloud に同期済みグループとして表示されます。これらのグループは Access Control で確認できます。 | BYOC"
+description: "SCIM プロビジョニングを設定すると、ID プロバイダー（IdP）からプロビジョニングされたグループが同期グループとして Zilliz Cloud に表示されます。これらのグループは Access Control で確認できます。 | BYOC"
 type: origin
 token: Er7Yw6Qnuiy8CBkDkH3cetOHnDf
 sidebar_position: 4
@@ -24,19 +24,19 @@ import Procedures from '@site/src/components/Procedures';
 
 # SCIM 同期グループの表示
 
-SCIM プロビジョニングの設定後、ID プロバイダー (IdP) からプロビジョニングされたグループは、Zilliz Cloud に同期済みグループとして表示されます。これらのグループは Access Control で確認できます。
+SCIM プロビジョニングを設定すると、ID プロバイダー（IdP）からプロビジョニングされたグループが、同期グループとして Zilliz Cloud に表示されます。これらのグループは Access Control で確認できます。
 
-SCIM 同期グループは、Zilliz Cloud では読み取り専用です。Zilliz Cloud で SCIM 同期グループを直接作成したり、ユーザーを追加・招待したり、メンバーシップを変更したりすることはできません。グループ名、メンバーシップ、ライフサイクルは IdP 側で管理してください。変更内容は、SCIM を通じて IdP から Zilliz Cloud へ同期されます。
+SCIM 同期グループは、Zilliz Cloud では読み取り専用です。Zilliz Cloud で SCIM 同期グループを直接作成したり、そのグループにユーザーを追加・招待したり、メンバーシップを変更したりすることはできません。グループ名、メンバーシップ、ライフサイクルは IdP で管理してください。IdP は、それらの変更を SCIM を通じて Zilliz Cloud に同期します。
 
 ## 事前準備\{#before-you-start}
 
-- [SCIM プロビジョニングの概要](/docs/scim-provisioning) を確認し、Zilliz Cloud 組織で SCIM プロビジョニングの設定が完了していること。
+- [SCIM Provisioning の概要](./scim-provisioning-overview) を確認し、Zilliz Cloud 組織に対して SCIM プロビジョニングを設定済みであること。
 
 - IdP から Zilliz Cloud に少なくとも 1 つのグループがプロビジョニングされていること。
 
-## 同期済みグループの確認\{#view-synced-groups}
+## 同期グループの表示\{#view-synced-groups}
 
-以下のインタラクティブデモでは、Zilliz Cloud で SCIM 同期グループの一覧を開く手順を紹介しています。
+以下のインタラクティブデモでは、Zilliz Cloud で SCIM 同期グループの一覧を開く方法を説明します。
 
 <Supademo id="cmseasko70twvqm25bstzowox" title=""  />
 
@@ -46,6 +46,6 @@ SCIM 同期グループは、Zilliz Cloud では読み取り専用です。Zilli
 
 1. **Groups** タブを開きます。
 
-1. IdP からプロビジョニングされたグループがグループリストに表示されていることを確認します。
+1. IdP からプロビジョニングされたグループがグループ一覧に表示されていることを確認します。
 
 </Procedures>

@@ -74,7 +74,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-招待されたユーザーにはメールが届きます。組織に参加するには、48時間以内にその招待を承諾する必要があります。または、Webコンソールから招待リンクをコピーして招待者に共有することもできます。
+招待されたユーザーにはメールが届きます。組織に参加するには、48時間以内にその招待を承諾する必要があります。または、Web コンソールから招待リンクをコピーして、招待されたユーザーに共有することもできます。
 
 ### 招待の取り消しまたは再送信\{#revoke-or-resend-an-invitation}
 
@@ -90,7 +90,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. **Members** タブに切り替えます。
 
-1. 保留中の招待を見つけ、**Actions** の **...** をクリックします。
+1. 保留中の招待を探し、**Actions** の **...** をクリックします。
 
 1. **Resend Invitation** または **Revoke Invitation** をクリックします。
 
@@ -110,7 +110,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. **Members** タブに切り替えます。
 
-1. 対象のメンバーを見つけ、**Actions** のペンアイコン（**Edit Role**）をクリックします。
+1. 対象のメンバーを探し、**Actions** のペンアイコン（**Edit Role**）をクリックします。
 
 1. 組織ロールとプロジェクトアクセスを更新します。
 
@@ -144,7 +144,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. **Members** タブに切り替えます。
 
-1. 対象のユーザーを見つけ、**Actions** の **...** をクリックします。
+1. 対象のユーザーを探し、**Actions** の **...** をクリックします。
 
 1. **Remove** をクリックします。
 
@@ -188,7 +188,7 @@ import Procedures from '@site/src/components/Procedures';
 
     1. **Members** タブに切り替えます。
 
-    1. 自分自身を見つけ、**Actions** の **...** をクリックします。
+    1. 自分自身を探し、**Actions** の **...** をクリックします。
 
     1. **Leave** をクリックします。
 
@@ -216,11 +216,11 @@ import Procedures from '@site/src/components/Procedures';
 | グループ割り当て | グループに割り当てられたロール。グループ内のユーザーはそのロールの権限を継承します。 |
 | 実効アクセス | 直接割り当てられたプロジェクトロールとグループベースのプロジェクトロールの和集合。 |
 
-### プロジェクトメンバーを招待する\{#invite-project-members}
+### プロジェクトメンバーの招待\{#invite-project-members}
 
 プロジェクトへのアクセスを付与するには、ユーザーまたはグループをプロジェクトメンバーとして招待し、1つ以上のプロジェクトロールを割り当てます。
 
-次の画像は、プロジェクトユーザーを招待する手順を示しています。
+次の図は、プロジェクトユーザーを招待する手順を示しています。
 
 ![WCxgw9gEqhFvxMb1vw5cEAIGnce](https://zdoc-images.s3.us-west-2.amazonaws.com/WCxgw9gEqhFvxMb1vw5cEAIGnce.png)
 
@@ -256,11 +256,11 @@ import Procedures from '@site/src/components/Procedures';
 
 </Admonition>
 
-### プロジェクトメンバーのロールを編集する\{#edit-the-roles-of-project-members}
+### プロジェクトメンバーのロール編集\{#edit-the-roles-of-project-members}
 
 メンバーの担当業務が変更になった場合は、プロジェクトへのアクセス権限を編集します。たとえば、ユーザーのロールを Data Viewer から Data Operator に変更できます。
 
-次の画像は、プロジェクトユーザーのロールを編集する手順を示しています。
+次の図は、プロジェクトユーザーのロールを編集する手順を示しています。
 
 ![BpgTwmFtVhskOXbg0mxcwrqPn4f](https://zdoc-images.s3.us-west-2.amazonaws.com/BpgTwmFtVhskOXbg0mxcwrqPn4f.png)
 
@@ -270,7 +270,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. **Members** タブに切り替えます。
 
-1. 対象のメンバーを探し、**Actions** 列のペンアイコン（**Edit Role**）をクリックします。
+1. 対象のメンバーを探し、**Actions** のペンアイコン（**Edit Role**）をクリックします。
 
 1. 割り当てられているプロジェクトロールを更新します。
 
@@ -278,11 +278,11 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-### プロジェクトメンバーを削除する\{#remove-project-members}
+### プロジェクトメンバーの削除\{#remove-project-members}
 
 プロジェクトへのアクセスが不要になったユーザーまたはグループは削除します。プロジェクトから削除しても、そのユーザーが組織から削除されることはありません。
 
-次の画像は、プロジェクトユーザーを削除する手順を示しています。
+次の図は、プロジェクトユーザーを削除する手順を示しています。
 
 ![Y05Lw38LohlzEBbDIKZcNLwUnfh](https://zdoc-images.s3.us-west-2.amazonaws.com/Y05Lw38LohlzEBbDIKZcNLwUnfh.png)
 
@@ -292,7 +292,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. **Members** タブに切り替えます。
 
-1. 対象のユーザーを探し、**Actions** 列の **...** をクリックします。
+1. 対象のユーザーを探し、**Actions** の **...** をクリックします。
 
 1. **Remove** をクリックします。
 
@@ -300,17 +300,17 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-### プロジェクトから退出する\{#leave-a-project}
+### プロジェクトからの脱退\{#leave-a-project}
 
-アクセスが不要になったユーザーは、プロジェクトから退出できます。各プロジェクトには少なくとも1人の Project Admin が必要です。自分が唯一の Project Admin である場合は、退出前に別のユーザーを Project Admin に指定してください。
+アクセスが不要になったユーザーは、プロジェクトから脱退できます。各プロジェクトには少なくとも1人の Project Admin が必要です。自分が唯一の Project Admin である場合は、脱退前に別のユーザーを Project Admin に指定してください。
 
 <Admonition type="info" icon="📘" title="Note">
 
-プロジェクトから退出すると、他の管理者から再度招待されない限り、そのプロジェクトやリソースにアクセスできなくなります。
+プロジェクトから脱退すると、他の管理者から再度招待されない限り、そのプロジェクトやリソースにアクセスできなくなります。
 
 </Admonition>
 
-次の画像は、プロジェクトから退出する手順を示しています。
+次の図は、プロジェクトから脱退する手順を示しています。
 
 ![HdwPw8fTxhaPCHbNzK0cHrhsnB8](https://zdoc-images.s3.us-west-2.amazonaws.com/HdwPw8fTxhaPCHbNzK0cHrhsnB8.png)
 
@@ -320,7 +320,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. **Members** タブに切り替えます。
 
-1. 自分のアカウントを探し、**Actions** 列の **...** をクリックします。
+1. 自分自身を探し、**Actions** の **...** をクリックします。
 
 1. **Leave** をクリックします。
 
