@@ -1,5 +1,10 @@
 {
   "files": {
+    "content/en/byoc/tutorials/architecture/best-practices/environment-isolation.md": {
+      "sourceHash": "286a86b0d9771695aac5802b4e697f4eee30abc18680f5b3e2e4b08b2d44c145",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/architecture/best-practices/environment-isolation.md",
+      "translatedAt": "2026-08-25T16:02:32.157Z"
+    },
     "content/en/byoc/tutorials/deployment/deploy-byoc-aws/deploy-byoc-aws.md": {
       "sourceHash": "51f9f9ed9e85a164aa9e4eb3b2c8a6f5b2574228c59382b2b67425c44868addb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-aws/deploy-byoc-aws.md",
@@ -1309,6 +1314,11 @@
       "sourceHash": "b10c810f1c1e978a17f8d66925541a3be32376b9286aa371ed2d99b976af6955",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/snapshots/snapshots.md",
       "translatedAt": "2026-08-25T08:25:57.060Z"
+    },
+    "content/en/guides/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md": {
+      "sourceHash": "4df07cfef886c7cbbcfc6f829c0daf94fe7b2bae5fb1309f2380bd5db736236a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md",
+      "translatedAt": "2026-08-25T15:31:42.980Z"
     },
     "content/en/guides/tutorials/development/vector-index/tune-index-build-level.md": {
       "sourceHash": "fbde9a4857c2b060b105df1b97435615549ed5525bfb1cbe6023f05d0e848d1b",
