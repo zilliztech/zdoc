@@ -1,13 +1,13 @@
 ---
-title: "Serving Cluster の Database | BYOC"
+title: "サービングクラスター内のデータベース | BYOC"
 slug: /database
-sidebar_label: "Serving Cluster の Database"
+sidebar_label: "サービングクラスター内のデータベース"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Serving cluster の database は、Dedicated serving cluster でホストされる collection の論理コンテナです。このページでは、serving cluster エンドポイントを通じて database を作成、表示、設定、使用、削除する方法を説明します。 | BYOC"
+description: "サービングクラスター内のデータベースは、Dedicated サービングクラスターでホストされるコレクションの論理コンテナです。このページでは、サービングクラスターのエンドポイント経由でデータベースの作成、参照、設定、使用、削除を行う方法について説明します。 | BYOC"
 type: origin
 token: DtLVw8EUyi6MqMkXh3Cc3rfZnic
 sidebar_position: 2
@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Serving Cluster の Database
+# サービングクラスター内のデータベース
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
@@ -27,31 +27,31 @@ import TabItem from '@theme/TabItem';
 
 </FeatureNote>
 
-serving cluster の database は、Dedicated serving cluster でホストされる collection の論理コンテナです。このページでは、serving cluster エンドポイントを通じて database を作成、表示、設定、使用、削除する方法を説明します。
+サービングクラスター内のデータベースは、Dedicated サービングクラスターでホストされるコレクションの論理コンテナです。このページでは、サービングクラスターのエンドポイント経由でデータベースの作成、参照、設定、使用、削除を行う方法について説明します。
 
 <Admonition type="info" icon="📘" title="Note">
 
-このページは serving cluster 内の database を対象としています。オンデマンドコンピュートでクエリするプロジェクトレベルの database については、[オンデマンド検索向け Database](./on-demand-database) を参照してください。database モデルの比較については、[Database Explained](./database-concept) を参照してください。
+このページでは、サービングクラスター内のデータベースについて説明します。オンデマンドコンピュートでクエリするプロジェクトレベルのデータベースについては、[オンデマンド検索用データベース](./on-demand-database) を参照してください。データベースモデルの比較については、[データベースの概要](./database-concept) を参照してください。
 
 </Admonition>
 
-## 始める前に\{#before-you-begin}
+## 事前準備\{#before-you-begin}
 
-次のことを確認してください。
+以下の条件を満たしていることを確認してください。
 
-- Dedicated serving cluster を作成済みであること。
+- Dedicated サービングクラスターを作成済みであること。
 
-- serving cluster のエンドポイントを取得していること。例: `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`。
+- サービングクラスターのエンドポイントを取得していること（例: `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`）。
 
-- 認証トークンを取得していること。これは、対象 cluster へのアクセス権を持つ API key、または `username:password` 形式の cluster 認証情報です。
+- 認証トークンを取得していること。これは、対象クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報です。
 
-- database を管理するための **Organization Owner** または **Project Admin** 権限を持っていること。
+- データベースを管理するための **Organization Owner** または **Project Admin** 権限を持っていること。
 
-Dedicated cluster が作成されると、デフォルトの database が自動的に作成されます。Dedicated cluster には最大 1,024 個の database を作成できます。
+Dedicated クラスターを作成すると、デフォルトのデータベースが自動的に作成されます。Dedicated クラスターには最大 1,024 個のデータベースを作成できます。
 
-## Database を作成する\{#create-database}
+## データベースの作成\{#create-database}
 
-Zilliz Cloud コンソールまたはプログラムから database を作成できます。
+Zilliz Cloud コンソールから、またはプログラムからデータベースを作成できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -145,7 +145,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-database の作成時にプロパティを設定することもできます。次の例ではレプリカ数を設定しています。
+データベースの作成時にプロパティを設定することもできます。次の例では、レプリカ数を設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -226,9 +226,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Database を表示する\{#view-databases}
+## データベースの参照\{#view-databases}
 
-database の一覧表示、または特定の database の詳細表示ができます。
+データベースを一覧表示するか、特定のデータベースの詳細を取得します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -310,20 +310,20 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Database プロパティを管理する\{#manage-database-properties}
+## データベースプロパティの管理\{#manage-database-properties}
 
-次の database プロパティは、serving cluster 内の database に対して設定できます。
+サービングクラスター内のデータベースでは、以下のデータベースプロパティを設定できます。
 
-| Property | Description |
+| プロパティ | 説明 |
 | --- | --- |
-| `database.replica.number` | database のレプリカ数。 |
-| `database.max.collections` | database で許可される collection の最大数。 |
-| `database.force.deny.writing` | database に対する書き込み操作を拒否するかどうか。 |
-| `database.force.deny.reading` | database に対する読み取り操作を拒否するかどうか。 |
+| `database.replica.number` | データベースのレプリカ数。 |
+| `database.max.collections` | データベース内で許可されるコレクションの最大数。 |
+| `database.force.deny.writing` | データベースの書き込み操作を拒否するかどうか。 |
+| `database.force.deny.reading` | データベースの読み取り操作を拒否するかどうか。 |
 
-### Database プロパティを変更する\{#alter-database-properties}
+### データベースプロパティの変更\{#alter-database-properties}
 
-次の例では、database に作成できる collection の数を制限しています。
+次の例では、データベース内に作成できるコレクション数を制限します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -400,9 +400,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Database プロパティを削除する\{#drop-database-properties}
+### データベースプロパティの削除\{#drop-database-properties}
 
-次の例では、database から collection 数の制限を削除しています。
+次の例では、データベースからコレクション数の上限を削除します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -477,13 +477,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Database を使用する\{#use-database}
+## データベースの使用\{#use-database}
 
-SDK を使用する場合は、再接続せずに 1 つの database から別の database に切り替えることができます。
+SDK を使用する場合は、再接続することなく、あるデータベースから別のデータベースに切り替えることができます。
 
 <Admonition type="info" icon="📘" title="Note">
 
-RESTful API は永続接続上での database 切り替えをサポートしていません。RESTful API リクエストでは、操作が `dbName` をサポートしている場合、各リクエストボディで対象の database を指定してください。
+RESTful API では、持続接続上でのデータベースの切り替えはサポートされていません。RESTful API リクエストでは、操作が dbName をサポートしている場合、各リクエストボディで対象のデータベースを指定してください。
 
 </Admonition>
 
@@ -537,9 +537,9 @@ await client.useDatabase({
 </TabItem>
 </Tabs>
 
-## Database を削除する\{#drop-database}
+## データベースの削除\{#drop-database}
 
-デフォルトの database は削除できません。database を削除する前に、まずその database 内のすべての collection を削除してください。
+デフォルトのデータベースは削除できません。データベースを削除する前に、まずそのデータベース内のすべてのコレクションを削除してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -604,7 +604,7 @@ curl --request POST \
 
 ## 次のステップ\{#next-steps}
 
-- [Database Explained](./database-concept)
+- [データベースの概要](./database-concept)
 
-- [オンデマンド検索向け Database](./on-demand-database)
+- [オンデマンド検索用データベース](./on-demand-database)
 

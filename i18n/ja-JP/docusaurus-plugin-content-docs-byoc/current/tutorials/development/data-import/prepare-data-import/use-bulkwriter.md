@@ -23,15 +23,15 @@ import TabItem from '@theme/TabItem';
 
 データ形式が要件を満たしていない場合は、pymilvus および Milvus の Java SDK に含まれるデータ処理ツール **BulkWriter** を使用してデータを準備できます。
 
-## Overview\{#overview}
+## 概要\{#overview}
 
-**BulkWriter** は、生データセットを、Zilliz Cloud コンソール、Milvus SDK の **BulkInsert** API、または RESTful 形式の **Import** API など、さまざまな方法でインポートするのに適した形式へ変換するためのスクリプトです。次の 2 種類の writer を提供します。
+**BulkWriter** は、生のデータセットを、Zilliz Cloud コンソール、Milvus SDK の **BulkInsert** API、RESTful 形式の **Import** API など、さまざまな方法でインポートするのに適した形式へ変換するためのスクリプトです。次の 2 種類の writer を提供します。
 
-- **LocalBulkWriter**: 指定されたデータセットを読み取り、使いやすい形式に変換します。
+- **LocalBulkWriter**: 指定されたデータセットを読み取り、扱いやすい形式に変換します。
 
-- **RemoteBulkWriter**: **LocalBulkWriter** と同じ処理を行いますが、さらに変換済みデータファイルを指定したリモート object storage bucket に転送します。
+- **RemoteBulkWriter**: **LocalBulkWriter** と同じ処理を実行しますが、さらに変換後のデータファイルを指定されたリモートのオブジェクトストレージバケットに転送します。
 
-## Procedure\{#procedure}
+## 手順\{#procedure}
 
 ### 依存関係をセットアップする\{#set-up-dependencies}
 
@@ -49,7 +49,7 @@ pip install --upgrade pymilvus
 
 <TabItem value='java'>
 
-Apache Maven の場合は、**pom.xml** の dependencies に次を追加します。
+Apache Maven の場合は、**pom.xml** の dependencies に次の内容を追加します。
 
 ```java
 <dependency>
@@ -59,7 +59,7 @@ Apache Maven の場合は、**pom.xml** の dependencies に次を追加しま�
 </dependency>
 ```
 
-- Gradle/Grails の場合は、次を実行します
+- Gradle/Grails, の場合は、次を実行します。
 
 ```shell
 compile 'io.milvus:milvus-sdk-java:2.4.8'
@@ -69,11 +69,11 @@ compile 'io.milvus:milvus-sdk-java:2.4.8'
 
 </Tabs>
 
-### collection schema をセットアップする\{#set-up-a-collection-schema}
+### コレクションスキーマをセットアップする\{#set-up-a-collection-schema}
 
-データセットをインポートしたい collection の schema を決定します。これには、データセットからどのフィールドを含めるかを選択する作業が含まれます。
+データセットをインポートするコレクションのスキーマを決定します。これには、データセットからどのフィールドを含めるかを選択する作業が含まれます。
 
-次のコードは、利用可能なすべてのデータ型を含む collection schema を作成します。さらに、この schema では primary field の自動インクリメントを無効にし、dynamic field を有効にしています。
+次のコードは、考えられるすべてのデータ型を含むコレクションスキーマを作成します。さらに、このスキーマではプライマリフィールドの自動インクリメントを無効にし、動的フィールドを有効にします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -218,7 +218,7 @@ private static byte[] genBinaryVector() {
 
 ### BulkWriter を作成する\{#create-a-bulkwriter}
 
-使用可能な **BulkWriter** には 2 種類あります。
+使用できる **BulkWriter** には 2 種類あります。
 
 - **LocalBulkWriter**
 
@@ -241,23 +241,23 @@ private static byte[] genBinaryVector() {
     )
     ```
 
-    **LocalBulkWriter** を作成する際は、以下を行う必要があります。
+    **LocalBulkWriter** を作成する際は、次の点に注意してください。
 
-    - **schema** で作成済みの schema を参照します。
+    - 作成したスキーマを **スキーマ** で参照します。
 
-    - **local_path** を出力ディレクトリに設定します。
+    - **local_path** に出力ディレクトリを設定します。
 
-    - **file_type** を出力ファイル形式に設定します。
+    - **file_type** に出力ファイル形式を設定します。
 
-    - データセットに多数のレコードが含まれる場合は、**segment_size** を適切な値に設定してデータを分割することを推奨します。
+    - データセットに大量のレコードが含まれる場合は、**segment_size** に適切な値を設定してデータを分割することを推奨します。
 
     パラメータ設定の詳細については、SDK リファレンスの **LocalBulkWriter** を参照してください。
 
-    <Admonition type="info" icon="📘" title="注">
+    <Admonition type="info" icon="📘" title="Notes">
 
-    **LocalBulkWriter** で生成した JSON ファイルおよび Parquet ファイルは、Zilliz Cloud コンソール上で Zilliz Cloud に直接インポートできます。
+    **LocalBulkWriter** を使用して生成した JSON ファイルと Parquet ファイルは、Zilliz Cloud コンソールで Zilliz Cloud に直接インポートできます。
     
-    その他の種類のファイルについては、インポート前にいずれかの bucket にアップロードしてください。ファイルは、ターゲット cluster と同じ cloud region にある bucket にアップロードすることを推奨します。
+    その他の形式のファイルは、インポートする前にいずれかのバケットにアップロードしてください。ファイルは、ターゲットクラスターと同じクラウドリージョンにあるバケットにアップロードすることを推奨します。
 
     </Admonition>
 
@@ -280,19 +280,19 @@ private static byte[] genBinaryVector() {
     LocalBulkWriter localBulkWriter = new LocalBulkWriter(localBulkWriterParam);
     ```
 
-    **LocalBulkWriter** を作成する際は、以下を行う必要があります。 
+    **LocalBulkWriter** を作成する際は、次の点に注意してください。
 
-    - **withCollectionSchema()** で作成済みの schema を参照します。
+    - 作成したスキーマを **withCollectionSchema()** で参照します。
 
-    - **withLocalPath()** で出力ディレクトリを設定します。
+    - **withLocalPath()** に出力ディレクトリを設定します。
 
-    - **withFileType()** で出力ファイル形式を **BulkFileType.PARQUET** に設定します。
+    - **withFileType()** に出力ファイル形式として **BulkFileType.PARQUET** を設定します。
 
-    - データセットに多数のレコードが含まれる場合は、**withChunkSize()** に適切な値を設定してデータを分割することを推奨します。
+    - データセットに大量のレコードが含まれる場合は、**withChunkSize()** に適切な値を設定してデータを分割することを推奨します。
 
-    <Admonition type="info" icon="📘" title="注">
+    <Admonition type="info" icon="📘" title="Notes">
 
-    Java SDK の BulkWriter は現在、唯一有効な出力ファイル形式として Apache Parquet を使用します。
+    Java SDK の BulkWriter は現在、有効な出力ファイル形式として Apache Parquet のみを使用します。
 
     </Admonition>
 
@@ -302,7 +302,7 @@ private static byte[] genBinaryVector() {
 
 - **RemoteBulkWriter**
 
-    **RemoteBulkWriter** は、追加したデータをローカルファイルにコミットする代わりに、リモート bucket にコミットします。そのため、**RemoteBulkWriter** を作成する前に **ConnectParam** オブジェクトをセットアップする必要があります。
+    **RemoteBulkWriter** は、追加したデータをローカルファイルにコミットする代わりに、リモートバケットにコミットします。したがって、**RemoteBulkWriter** を作成する前に **ConnectParam** オブジェクトをセットアップする必要があります。
 
     <Tabs groupId="provider" defaultValue='aws' values={[{"label":"AWS S3/GCS","value":"aws"},{"label":"Microsoft Azure","value":"azure"}]}>
 
@@ -483,9 +483,9 @@ private static byte[] genBinaryVector() {
 
 <TabItem value='python'>
 
-**BulkWriter** には 2 つのメソッドがあります。**append_row()** はソースデータセットから 1 行を追加し、**commit()** は追加した行をローカルファイルまたはリモート bucket にコミットします。
+**BulkWriter** には 2 つのメソッドがあります。**append_row()** はソースデータセットから 1 行を追加し、**commit()** は追加した行をローカルファイルまたはリモートバケットにコミットします。
 
-デモ用として、次のコードはランダムに生成したデータを追加します。
+デモ用に、次のコードではランダムに生成したデータを追加します。
 
 ```python
 import random, string, json
@@ -578,9 +578,9 @@ for i in range(10000):
 
 <TabItem value='java'>
 
-**BulkWriter** には 2 つのメソッドがあります。**appendRow()** はソースデータセットから 1 行を追加し、**commit()** は追加した行をローカルファイルまたはリモート bucket にコミットします。
+**BulkWriter** には 2 つのメソッドがあります。**appendRow()** はソースデータセットから 1 行を追加し、**commit()** は追加した行をローカルファイルまたはリモートバケットにコミットします。
 
-デモ用として、次のコードはランダムに生成したデータを追加します。
+デモ用に、次のコードではランダムに生成したデータを追加します。
 
 <Tabs groupId="java" defaultValue='java' values={[{"label":"Main","value":"java"},{"label":"Random data generators","value":"java_1"}]}>
 <TabItem value='java'>
@@ -693,9 +693,9 @@ private static List<Long> genIntArray(int length) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" icon="📘" title="Notes">
 
-上記のコードブロックでは、`vector` フィールドと `scalar_1` フィールドの値は、それぞれ `generateFloatVectors()` と `generateString()` という 2 つの private 関数によって生成されます。詳細については、**Random data generator** タブのコードを参照してください。
+上記のコードブロックでは、`vector` フィールドと `scalar_1` フィールドの値は、それぞれ `generateFloatVectors()` と `generateString()` という 2 つのプライベート関数によって生成されます。詳細については、**Random data generator** タブのコードを参照してください。
 
 </Admonition>
 
@@ -703,11 +703,11 @@ private static List<Long> genIntArray(int length) {
 
 </Tabs>
 
-## Dynamic schema のサポート\{#dynamic-schema-support}
+## 動的スキーマのサポート\{#dynamic-schema-support}
 
-[前のセクション](./use-bulkwriter#set-up-a-collection-schema)では、writer で dynamic field を許可する schema を参照しました。これにより、行を追加する際に未定義のフィールドを含めることができます。
+[前のセクション](./use-bulkwriter#set-up-a-collection-schema)では、writer で動的フィールドを許可するスキーマを参照しました。これにより、行を追加する際に未定義のフィールドを含めることができます。
 
-デモ用として、次のコードはランダムに生成したデータを追加します。
+デモ用に、次のコードではランダムに生成したデータを追加します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -789,7 +789,7 @@ private static String generateString(length) {
 
 ## 結果を確認する\{#verify-the-result}
 
-結果を確認するには、writer の **data_path** プロパティを出力して実際の出力パスを取得できます。
+結果を確認するには、writer の **data_path** プロパティを出力すると、実際の出力パスを取得できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -816,11 +816,11 @@ System.out.println(batchFiles);
 </TabItem>
 </Tabs>
 
-BulkWriter は UUID を生成し、指定された出力ディレクトリ内にその UUID を使用したサブフォルダを作成し、生成されたすべてのファイルをそのサブフォルダに配置します。[準備済みのサンプルデータをダウンロードするにはここをクリックしてください](https://assets.zilliz.com/bulk_writer.zip)。
+BulkWriter は UUID を生成し、指定された出力ディレクトリ内にその UUID を使用したサブフォルダを作成して、生成されたすべてのファイルをそのサブフォルダに配置します。[準備済みのサンプルデータはこちらからダウンロードできます](https://assets.zilliz.com/bulk_writer.zip)。
 
 想定されるフォルダ構造は次のとおりです。
 
-- 生成されたファイルが指定された segment size を超えない場合
+- 生成されたファイルが指定されたセグメントサイズを超えない場合
 
     ```python
     # JSON
@@ -843,13 +843,13 @@ BulkWriter は UUID を生成し、指定された出力ディレクトリ内に
     │       └── $meta.npy 
     ```
 
-    | **File Type** | **Valid Import Paths** |
+    | **ファイル形式** | **有効なインポートパス** |
     | --- | --- |
-    | **JSON** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/>*s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json* |
-    | **Parquet** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/>*s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet* |
-    | **NumPy** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/>*s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/&ast;.npy* |
+    | **JSON** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`*<br/>*`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json`* |
+    | **Parquet** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`*<br/>*`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet`* |
+    | **NumPy** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`*<br/>*`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy`* |
 
-- 生成されたファイルが指定された segment size を超える場合
+- 生成されたファイルが指定されたセグメントサイズを超える場合
 
     ```python
     # The following assumes that two segments are generated.
@@ -883,11 +883,11 @@ BulkWriter は UUID を生成し、指定された出力ディレクトリ内に
     │           └── $meta.npy  
     ```
 
-    | **File Type** | **Valid Import Paths** |
+    | **ファイル形式** | **有効なインポートパス** |
     | --- | --- |
-    | **JSON** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/* |
-    | **Parquet** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/* |
-    | **NumPy** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/>*s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/&ast;.npy* |
+    | **JSON** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`* |
+    | **Parquet** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`* |
+    | **NumPy** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`*<br/>*`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy`* |
 
 ## 関連トピック\{#related-topics}
 

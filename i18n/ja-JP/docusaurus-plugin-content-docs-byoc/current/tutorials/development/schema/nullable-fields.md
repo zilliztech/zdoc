@@ -1,13 +1,13 @@
 ---
-title: "Nullable Fields | BYOC"
+title: "Nullable フィールド | BYOC"
 slug: /nullable-fields
-sidebar_label: "Nullable Fields"
+sidebar_label: "Nullable フィールド"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は nullable fields をサポートしており、これによりフィールド値を欠損させたり、明示的に NULL に設定したりできます。Nullability はスキーマレベルで定義され、データ取り込み、インデックス作成、検索、およびクエリ操作全体に一貫して適用されます。 | BYOC"
+description: "Zilliz Cloud は nullable フィールドをサポートしており、フィールド値を欠損させるか、明示的に NULL に設定できます。nullability はスキーマレベルで定義され、データの取り込み、インデックス作成、検索、クエリ操作に一貫して適用されます。 | BYOC"
 type: origin
 token: DjROwgK6ziCf7Rkoji6ccyEUnsg
 sidebar_position: 15
@@ -19,57 +19,57 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Nullable Fields
+# Nullable フィールド
 
-Zilliz Cloud は nullable fields をサポートしており、これによりフィールド値を欠損させたり、明示的に NULL に設定したりできます。Nullability はスキーマレベルで定義され、データ取り込み、インデックス作成、検索、およびクエリ操作全体に一貫して適用されます。
+Zilliz Cloud は nullable フィールドをサポートしており、フィールド値を欠損させるか、明示的に NULL に設定できます。nullability はスキーマレベルで定義され、データの取り込み、インデックス作成、検索、クエリ操作に一貫して適用されます。
 
-nullable fields を使用するのは、次のような場合です。
+nullable フィールドは次の場合に使用します。
 
-- 欠損値を許容する外部システムからデータを取り込む場合
+- 欠損値を許可する外部システムからデータを取り込む場合
 
-- 一部のメタデータがオプションである、またはデータセットの一部に対してのみ利用可能な場合
+- 一部のメタデータが任意であるか、データセットの一部でのみ利用可能な場合
 
-- vector embeddings が非同期に生成され、後から挿入される場合
+- ベクトル埋め込みが非同期に生成され、後から挿入される場合
 
-## Limits\{#limits}
+## 制限\{#limits}
 
-- NULL 値を許可する vector fields は、`IS NULL` または `IS NOT NULL` フィルター式をサポートしません。vector field の値が NULL かどうかに基づいて entity を明示的にフィルタリングすることはできません。
+- NULL 値を許可するベクトルフィールドは、`IS NULL` または `IS NOT NULL` のフィルター式をサポートしていません。ベクトルフィールドの値が NULL かどうかに基づいてエンティティを明示的にフィルタリングすることはできません。
 
-- Array of Structs fields は NULL 値をサポートしません。Array of Structs field 自体、またはその内部にネストされた任意の field を nullable としてマークすることはできません。
+- Zilliz Cloud では、nullable な StructArray フィールドは、3.0.x 系の Milvus 3.0.0 以降を実行するオンデマンドクラスターでサポートされています。Serving クラスターは nullable な StructArray フィールドをサポートしていません。`nullable=True` は個々のサブフィールドではなく、親の StructArray フィールドに設定してください。NULL は個々の Struct 要素ではなく、StructArray フィールド全体に適用され、親の設定は内部的にサブフィールドへ伝播されます。既存のコレクションに追加する StructArray フィールドは、既存のエンティティが新しいフィールドに対して NULL を返せるように nullable である必要があります。詳細については、[StructArray の制限](./struct-array-limits) を参照してください。
 
-- `nullable` 属性は field 作成時に定義され、その後で変更することはできません。既存の field に対して nullability を有効化または無効化することはできません。
+- `nullable` 属性はフィールドの作成時に定義され、後から変更することはできません。既存のフィールドに対して nullability を有効化または無効化することはできません。
 
-- nullable としてマークされた fields は partition keys として使用できません。partition key fields には常に有効な非 NULL 値が含まれている必要があります。
+- nullable としてマークされたフィールドは、パーティションキーとして使用できません。パーティションキーフィールドには常に有効な非 NULL 値を含める必要があります。
 
-## What is a nullable field?\{#what-is-a-nullable-field}
+## nullable フィールドとは\{#what-is-a-nullable-field}
 
-Zilliz Cloud では、field が NULL 値を格納できるかどうかは、`nullable` というスキーマレベルの field 属性によって制御されます。
+Zilliz Cloud では、フィールドが NULL 値を保存できるかどうかは、`nullable` というスキーマレベルのフィールド属性によって制御されます。
 
-field が `nullable=True` で定義されている場合、Zilliz Cloud はデータ取り込み中にその field の値が欠けていても許可します。実際には、Zilliz Cloud は次の 2 つの入力を同等として扱い、field の値を NULL として保存します。
+フィールドが `nullable=True` で定義されている場合、Zilliz Cloud はデータ取り込み時にフィールド値が欠損していることを許可します。実際には、Zilliz Cloud は次の 2 つの入力を同等として扱い、フィールド値を NULL として保存します。
 
-- field が入力 entity から省略されている
+- 入力エンティティからフィールドが省略されている
 
-- field が明示的に NULL に設定されている（たとえば Python での `None`）
+- フィールドが明示的に NULL に設定されている（たとえば、Python の `None`）
 
-field が nullable として定義されていない場合（デフォルトの動作）、すべての entity はその field に対して有効な値を提供する必要があります。field を省略するか、明示的に NULL 値を割り当てると、insert または import 操作は失敗します。
+フィールドが nullable として定義されていない場合（デフォルトの動作）、すべてのエンティティはそのフィールドに有効な値を指定する必要があります。フィールドを省略するか、明示的に NULL 値を割り当てると、挿入またはインポート操作は失敗します。
 
-nullable 属性は collection schema 内の **scalar fields と vector fields の両方** でサポートされています。ただし、Array of Structs fields は nullable 属性をサポートしません。
+nullable 属性は、コレクションスキーマ内の **スカラーフィールドとベクトルフィールド** の両方でサポートされています。サポート対象のオンデマンドクラスターでは、親の StructArray フィールドでもサポートされます。Struct サブフィールドを個別に nullable として設定しないでください。nullability は StructArray の親で定義し、その設定は内部的にサブフィールドへ伝播されます。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Nullability は field 値が欠けていてよいかどうかを決定するものであり、field が欠けているときにどの値が使用されるかを定義するものではありません。
+nullability はフィールド値が欠損していてもよいかどうかを決定するものであり、フィールドが欠損しているときにどの値が使用されるかを定義するものではありません。
 
-- nullable field がデフォルト値なしで設定されている場合、field を省略すると NULL 値として保存されます。
+- nullable フィールドがデフォルト値なしで設定されている場合、フィールドを省略すると NULL 値として保存されます。
 
-- デフォルト値が設定されている場合、Zilliz Cloud は代わりにデフォルト値を保存することがあります。詳細については、[Default Values](./default-fields) を参照してください。
+- デフォルト値が設定されている場合、Zilliz Cloud は代わりにデフォルト値を保存することがあります。詳細については、[デフォルト値](./default-fields) を参照してください。
 
 </Admonition>
 
-## Define a nullable field in the collection schema\{#define-a-nullable-field-in-the-collection-schema}
+## コレクションスキーマで nullable フィールドを定義する\{#define-a-nullable-field-in-the-collection-schema}
 
-nullable fields を使用するには、collection schema を定義するときに `nullable` 属性を有効にする必要があります。
+nullable フィールドを使用するには、コレクションスキーマを定義するときに `nullable` 属性を有効にする必要があります。
 
-この例では、collection schema は `embedding` という名前の vector field を `nullable=True` で定義しています。これにより、collection 内の entity はデータ取り込み中に vector 値を省略するか、明示的に NULL に設定できます。
+この例では、コレクションスキーマで `embedding` という名前のベクトルフィールドを `nullable=True` で定義します。これにより、コレクション内のエンティティは、データ取り込み時にベクトル値を省略したり、明示的に NULL に設定したりできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -250,21 +250,21 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この schema では、次のようになります。
+このスキーマでは、次のとおりです。
 
-- `embedding` field は明示的に nullable としてマークされています。
+- `embedding` フィールドは明示的に nullable としてマークされています。
 
-- entity は挿入時に `embedding` field を省略するか、NULL 値を割り当てることができます。
+- エンティティは、挿入時に `embedding` フィールドを省略したり、NULL 値を割り当てたりできます。
 
-- NULL 値を許可するかどうかの決定は、collection 作成時に固定されます。
+- NULL 値を許可するかどうかは、コレクションの作成時に固定されます。
 
-わかりやすくするために、以下の例では nullable vector field（`embedding`）に焦点を当てます。nullable scalar fields の定義はオプションであり、このガイドの残りを理解するために必須ではありません。
+以降の例では、わかりやすくするために nullable なベクトルフィールド（`embedding`）に焦点を当てます。nullable なスカラーフィールドの定義は任意であり、このガイドの残りの内容に従ううえで必須ではありません。
 
 <details>
 
-<summary>**オプション: nullable scalar field を定義する**</summary>
+<summary>**オプション: nullable なスカラーフィールドを定義する**</summary>
 
-scalar fields も同じ `nullable` 属性を使用して nullable として定義でき、取り込み時にも同じルールに従います。たとえば次のようになります。
+スカラーフィールドも、同じ `nullable` 属性を使用して nullable として定義でき、取り込み時には同じルールに従います。たとえば、次のとおりです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -334,11 +334,11 @@ schema.WithField(entity.NewField().
 
 </details>
 
-## Insert behavior with missing or NULL values\{#insert-behavior-with-missing-or-null-values}
+## 値が欠損している場合または NULL の場合の挿入動作\{#insert-behavior-with-missing-or-null-values}
 
-field が collection schema で nullable として定義されると、Zilliz Cloud はデータ取り込み中にその field の値が欠けていたり、明示的に NULL に設定されていたりすることを許可します。
+コレクションスキーマでフィールドが nullable として定義されると、Zilliz Cloud はデータ取り込み時にフィールド値が欠損していること、または明示的に NULL に設定されていることを許可します。
 
-以下の例では、[Step 1](./nullable-fields#define-a-nullable-field-in-the-collection-schema) で作成した collection に 3 つの entity を挿入し、これらの異なるケースを示しています。
+次の例では、[ステップ 1](./nullable-fields#define-a-nullable-field-in-the-collection-schema) で作成したコレクションに 3 つのエンティティを挿入し、これらの異なるケースを示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -487,23 +487,23 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この例では、次のようになります。
+この例では、次のとおりです。
 
-- Entity **id = 1** は有効な vector 値を提供しています。
+- エンティティ **id = 1** は、有効なベクトル値を指定しています。
 
-- Entity **id = 2** は embedding field に明示的に NULL 値を割り当てています。
+- エンティティ **id = 2** は、embedding フィールドに明示的に NULL 値を割り当てています。
 
-- Entity **id = 3** は embedding field を完全に省略しており、Zilliz Cloud はそれを NULL として保存します。
+- エンティティ **id = 3** は embedding フィールドを完全に省略しており、Zilliz Cloud はそれを NULL として保存します。
 
-## Index behavior on nullable fields\{#index-behavior-on-nullable-fields}
+## nullable フィールドに対するインデックスの動作\{#index-behavior-on-nullable-fields}
 
-データを挿入した後は、通常どおり nullable field に対して index を構築できます。主な違いは、index 構築時に Zilliz Cloud が NULL 値をどのように扱うかです。
+データを挿入した後は、通常どおり nullable フィールドにインデックスを作成できます。主な違いは、インデックスの構築時に Zilliz Cloud が NULL 値をどのように処理するかです。
 
-- 非 NULL 値を持つ entity のみが index に追加されます。
+- インデックスに追加されるのは、非 NULL 値を持つエンティティのみです。
 
-- NULL 値を持つ entity はスキップされ、index 構築には参加しません。
+- NULL 値を持つエンティティはスキップされ、インデックスの構築には参加しません。
 
-nullable vector field の場合、これは有効な vectors を持つ entity のみが vector similarity によって検索可能になることを意味します。
+nullable なベクトルフィールドの場合、これは有効なベクトルを持つエンティティのみがベクトル類似度による検索の対象になることを意味します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -647,25 +647,25 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この時点で、次のようになります。
+この時点では、次のとおりです。
 
-- 有効な `embedding` 値を持つ entity は index 化され、検索可能な状態になります。
+- 有効な `embedding` 値を持つエンティティはインデックスに登録され、検索可能な状態になります。
 
-- `embedding` が NULL の entity は collection 内に残りますが、vector index には含まれません。
+- `embedding` が NULL のエンティティはコレクションに残りますが、ベクトルインデックスには含まれません。
 
-## Search behavior with nullable fields\{#search-behavior-with-nullable-fields}
+## nullable フィールドに対する検索の動作\{#search-behavior-with-nullable-fields}
 
-nullable field に対して search 操作を実行すると、Zilliz Cloud は検索に使用された field に対して非 NULL 値を持つ entity のみを評価します。vector field が NULL の entity は自動的にスキップされます。
+nullable フィールドに対して検索操作を実行すると、Zilliz Cloud は検索に使用するフィールドについて、非 NULL 値を持つエンティティのみを評価します。ベクトルフィールドが NULL のエンティティは自動的にスキップされます。
 
-この例の `embedding` のような nullable vector field では、次のようになります。
+この例の `embedding` のような nullable なベクトルフィールドの場合、次のとおりです。
 
-- 有効な vector 値を持つ entity のみが評価およびランク付けされます。
+- 有効なベクトル値を持つエンティティのみが評価され、ランク付けされます。
 
-- NULL vector を持つ entity はエラーを引き起こしません。
+- NULL のベクトルを持つエンティティがエラーを引き起こすことはありません。
 
-- 有効な vectors の数が要求された topK（`limit`）より少ない場合、Zilliz Cloud は `limit` より少ない結果を返すことがあります。
+- 有効なベクトルの数が要求された topK（`limit`）より少ない場合、Zilliz Cloud は `limit` より少ない結果を返すことがあります。
 
-次の例では、nullable vector field `embedding` に対して vector search を実行します。
+次の例では、nullable なベクトルフィールド `embedding` に対してベクトル検索を実行します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -769,21 +769,21 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この検索では、次のようになります。
+この検索では、次のとおりです。
 
-- 非 NULL の `embedding` 値を持つ entity のみが候補として考慮されます。
+- 非 NULL の `embedding` 値を持つエンティティのみが候補として考慮されます。
 
-- `embedding` に NULL 値を持つ entity は評価対象から除外されます。
+- `embedding` に NULL 値を持つエンティティは評価から除外されます。
 
-- 返される結果数は、collection 内に存在する有効な vectors の数に依存します。
+- 返される結果の数は、コレクション内に存在する有効なベクトルの数によって決まります。
 
-## Query & filtering implications\{#query-and-filtering-implications}
+## クエリとフィルタリングへの影響\{#query-and-filtering-implications}
 
-前の例では vector fields に焦点を当てました。このセクションでは、**scalar filter expressions** において NULL 値がどのように振る舞うかを説明します。
+これまでの例ではベクトルフィールドに焦点を当ててきました。このセクションでは、**スカラーフィルター式** で NULL 値がどのように動作するかについて説明します。
 
-scalar fields は `nullable=True` で定義でき、vector fields と同じ取り込みルールに従います。ただし、**NULL scalar values は filter expressions では常に false と評価されます**。
+スカラーフィールドは `nullable=True` で定義でき、ベクトルフィールドと同じ取り込みルールに従います。ただし、**NULL のスカラー値はフィルター式では常に false と評価されます**。
 
-たとえば、nullable scalar field `age` がある場合、次の filter は `age` が 18 より大きい entity を選択します。
+たとえば、nullable なスカラーフィールド `age` がある場合、次のフィルターは `age` が 18 より大きいエンティティを選択します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -827,9 +827,9 @@ filter := "age > 18"
 </TabItem>
 </Tabs>
 
-`age` が NULL の entity は、NULL 値が filter 条件を満たさないため結果から除外されます。
+`age` が NULL のエンティティは、NULL 値がフィルター条件を満たさないため、結果から除外されます。
 
-同様に、等価比較も NULL 値には一致しません。たとえば次のようになります。
+同様に、等価比較は NULL 値には一致しません。たとえば、次のとおりです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -873,27 +873,27 @@ filter := `status == "active"`
 </TabItem>
 </Tabs>
 
-`status` が NULL の entity は結果から除外されます。
+`status` が NULL のエンティティは結果から除外されます。
 
-## Applicable rules\{#applicable-rules}
+## 適用されるルール\{#applicable-rules}
 
-field に対して `nullable` と `default_value` の両方が設定されている場合、挿入時に NULL 入力または欠損した field 値を Zilliz Cloud がどのように処理するかは、次のルールによって決まります。
+フィールドに `nullable` と `default_value` の両方が設定されている場合、挿入時に NULL の入力またはフィールド値の欠損を Zilliz Cloud がどのように処理するかは、次のルールによって決まります。
 
-| Nullable | Default Value | User Input | Result |
+| Nullable | デフォルト値 | ユーザー入力 | 結果 |
 | --- | --- | --- | --- |
-| ✅ | ✅ (non-NULL) | NULL or omitted | デフォルト値を使用 |
-| ✅ | ❌ | NULL or omitted | NULL として保存 |
-| ❌ | ✅ (non-NULL) | NULL or omitted | デフォルト値を使用 |
-| ❌ | ❌ | NULL or omitted | エラーをスロー |
-| ❌ | ✅ (NULL) | NULL or omitted | エラーをスロー |
+| ✅ | ✅（非 NULL） | NULL または省略 | デフォルト値が使用されます。 |
+| ✅ | ❌ | NULL または省略 | NULL として保存されます。 |
+| ❌ | ✅（非 NULL） | NULL または省略 | デフォルト値が使用されます。 |
+| ❌ | ❌ | NULL または省略 | エラーが発生します。 |
+| ❌ | ✅（NULL） | NULL または省略 | エラーが発生します。 |
 
 **重要なポイント:**
 
-- field に非 NULL のデフォルト値がある場合、`nullable` が有効かどうかにかかわらず、その値が使用されます。
+- フィールドに非 NULL のデフォルト値がある場合、`nullable` が有効かどうかにかかわらず、その値が使用されます。
 
-- `nullable=True` でデフォルト値が設定されていない場合、field は NULL を保存します。
+- `nullable=True` でデフォルト値が設定されていない場合、フィールドには NULL が保存されます。
 
 - `nullable=False` でデフォルト値が設定されていない場合、挿入はエラーで失敗します。
 
-- non-nullable field に NULL のデフォルト値を設定するのは無効であり、エラーの原因になります。
+- non-nullable なフィールドに NULL のデフォルト値を設定することは無効であり、エラーの原因になります。
 
