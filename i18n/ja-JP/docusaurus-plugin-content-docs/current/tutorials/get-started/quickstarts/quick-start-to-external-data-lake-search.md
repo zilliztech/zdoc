@@ -1,13 +1,13 @@
 ---
-title: "External Data Lake Search クイックスタート | Cloud"
+title: "Quickstart to External Data Lake Search | Cloud"
 slug: /quick-start-to-external-data-lake-search
-sidebar_label: "External Data Lake Search クイックスタート"
+sidebar_label: "Quickstart to External Data Lake Search"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "External data lake search を使用すると、外部ストレージ上または Zilliz Cloud にインポートされたデータにゼロコピーでアクセスして大規模データセットを検索でき、コンピュートリソースを継続的に稼働させておく必要がありません。外部 volume またはインポート済みファイルから collection を作成し、プロジェクトのデータプレーンエンドポイント経由で index の構築やメタデータの更新を行い、検索またはクエリワークロードを実行する必要があるときだけオンデマンド cluster を起動できます。 | Cloud"
+description: "External data lake search を使用すると、外部ストレージまたは Zilliz Cloud にインポートされたデータへゼロコピーでアクセスし、コンピューティングリソースを常時稼働させることなく大規模なデータセットを検索できます。外部ボリュームやインポート済みファイルからコレクションを作成し、プロジェクトデータプレーンエンドポイント経由でインデックスの構築とメタデータの更新を行い、検索やクエリを実行する際にのみオンデマンドクラスターを起動できます。 | Cloud"
 type: origin
 token: KdwFwQnDNisT4skHH6Hc16uInji
 sidebar_position: 4
@@ -19,29 +19,29 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# External Data Lake Search クイックスタート
+# Quickstart to External Data Lake Search
 
-External data lake search を使用すると、外部ストレージ上または Zilliz Cloud にインポートされたデータにゼロコピーでアクセスして大規模データセットを検索でき、コンピュートリソースを継続的に稼働させておく必要がありません。外部 volume またはインポート済みファイルから collection を作成し、プロジェクトのデータプレーンエンドポイント経由で index の構築やメタデータの更新を行い、検索またはクエリワークロードを実行する必要があるときだけオンデマンド cluster を起動できます。
+External data lake search を使用すると、外部ストレージまたは Zilliz Cloud にインポートされたデータへゼロコピーでアクセスし、コンピューティングリソースを常時稼働させることなく大規模なデータセットを検索できます。外部ボリュームやインポート済みファイルからコレクションを作成し、プロジェクトデータプレーンエンドポイント経由でインデックスの構築とメタデータの更新を行い、検索やクエリを実行する際にのみオンデマンドクラスターを起動できます。
 
-これを行うには、手順は次のとおりです。
+手順は以下のとおりです。
 
 ## 始める前に\{#before-you-start}
 
 - **ストレージ統合を作成します。**
 
-    ストレージ統合は、アクセス認証情報とともにデータの場所を記録するプロファイルです。ストレージ統合を設定するには、[AWS S3](./integrate-with-aws-s3)、[Google GCS](./integrate-with-gcp)、または [Azure](./integrate-with-azure-blob-storage) のストレージ統合を作成する手順に従い、ストレージ統合 ID を取得します。
+    ストレージ統合は、アクセス認証情報とともにデータの保存場所を登録するプロファイルです。ストレージ統合を設定するには、[AWS S3](./integrate-with-aws-s3)、[Google GCS](./integrate-with-gcp)、または [Azure](./integrate-with-azure-blob-storage) のストレージ統合を作成する手順に従い、ストレージ統合 ID を取得してください。
 
-- **外部 volume を作成します。**
+- **外部ボリュームを作成します。**
 
-    外部 volume は、ストレージ統合内のパスです。未加工データがそのパス上にあることを確認してください。同じストレージ統合から複数の外部 volume を作成できます。外部 volume を作成するには、[External Volumes](./external-volume#create-an-external-volume) を参照してください。
+    外部ボリュームは、ストレージ統合内のパスです。生データがそのパスに配置されていることを確認してください。同じストレージ統合から複数の外部ボリュームを作成できます。外部ボリュームの作成については、[External Volumes](./external-volume#create-an-external-volume) を参照してください。
 
 ## ステップ 1: プロジェクトエンドポイントに接続する\{#step-1-connect-to-a-project-endpoint}
 
-データベースで作業する前に、プロジェクトエンドポイントに接続します。Zilliz Cloud コンソールでオンデマンドコンピュートを有効化すると、クイックスタートページでプロジェクトエンドポイントを取得できます。
+データベースを操作する前に、プロジェクトエンドポイントに接続します。プロジェクトエンドポイントは、Zilliz Cloud コンソールでオンデマンドコンピューティングを有効にした後、クイックスタートページで取得できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-外部 collection の操作では、認証に **API key** が必要です。このフローでは `username:password` 認証はサポートされていません。
+外部コレクションの操作には、認証に **API key** が必要です。このフローでは `username:password` 認証はサポートされていません。
 
 </Admonition>
 
@@ -68,9 +68,9 @@ export PROJECT_ENDPOINT="https://{project-id}.{region}.api.zillizcloud.com"
 </TabItem>
 </Tabs>
 
-## ステップ 2: （任意）データベースを作成する\{#step-2-optional-create-a-database}
+## ステップ 2: (オプション) データベースを作成する\{#step-2-optional-create-a-database}
 
-Zilliz Cloud にはデフォルトのデータベースが用意されています。それを使用する場合は、このステップをスキップしてください。次のようにデータベースを作成することもできます。
+Zilliz Cloud にはデフォルトのデータベースが用意されています。デフォルトのデータベースを使用する場合は、このステップをスキップしてください。以下のように新しいデータベースを作成することもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -98,13 +98,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 3: 外部 collection を作成する\{#step-3-create-an-external-collection}
+## ステップ 3: 外部コレクションを作成する\{#step-3-create-an-external-collection}
 
-データベースの準備ができたら、その中に外部 collection を作成できます。外部 collection は、その collection での検索のために、指定したデータファイルに列をマッピングし、オンデマンドのコンピュートリソースを関連付けます。
+データベースの準備ができたら、外部コレクションを作成できます。外部コレクションは、指定したデータファイルにカラムをマッピングし、そのコレクションでの検索用にオンデマンドのコンピューティングリソースを割り当てます。
 
-未加工データを collection にインポートする必要がある managed collection とは異なり、外部 collection はサブ秒の更新操作によって未加工データからメタデータを生成します。
+生データをコレクションにインポートする必要があるマネージドコレクションとは異なり、外部コレクションはサブ秒級の更新操作によって生データからメタデータを生成します。
 
-次の例は、collection フィールドとデータファイルの間のマッピング関係を設定する方法を示しています。スキーマを初期化するときに、データの volume パスとファイル形式を渡します。
+次の例は、コレクションフィールドとデータファイルのマッピング関係を設定する方法を示しています。スキーマ作成時に、ボリュームパスとデータ形式を指定します。このクイックスタートでは Iceberg テーブルを使用します。サポートされているデータソースと形式の完全なリストについては、[Supported data sources and formats](./create-external-collection#support-data-sources) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -249,7 +249,7 @@ export schema='{
 </TabItem>
 </Tabs>
 
-次に、上記のスキーマを使用して collection を作成できます。デフォルトのデータベースを使用する場合は、`db_name` パラメータを安全に省略できます。
+次に、上記のスキーマを使用してコレクションを作成できます。デフォルトのデータベースを使用する場合は、`db_name` パラメーターを省略しても問題ありません。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -285,9 +285,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 4: index を作成して collection を更新する\{#step-4-create-indexes-and-refresh-the-collection}
+## ステップ 4: インデックスの作成とコレクションのリフレッシュ\{#step-4-create-indexes-and-refresh-the-collection}
 
-managed collection と同様に、外部データベースでも index を作成できます。すべての vector フィールドには index を作成する必要があり、高速なメタデータフィルタリングのために一部の scalar フィールドに index を作成することもできます。ただし、index を構築するには refresh を呼び出す必要があります。
+外部データベースでも、マネージドコレクションと同様にインデックスを作成できます。すべてのベクトルフィールドにはインデックスを作成する必要があり、高速なメタデータフィルタリングのために一部のスカラーフィールドにもインデックスを作成できます。ただし、インデックスを構築するには refresh を呼び出す必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -347,7 +347,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-次に、外部 collection を更新します。`externalSource` と `externalSpec` を省略して collection スキーマを再利用することも、新しいソースから collection スキーマを更新するために両方を指定することもできます。
+次に、外部コレクションをリフレッシュします。`externalSource` と `externalSpec` を省略してコレクションスキーマを再利用するか、両方を指定して新しいソースからコレクションスキーマを更新できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -380,7 +380,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-次に、進行状況監視の呼び出しをラップするループを作成して、更新処理の進行状況を追跡できます。
+続いて、進捗監視の呼び出しをラップするループを作成し、リフレッシュ操作の進捗状況を追跡できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -406,9 +406,9 @@ curl -s --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 5: オンデマンド cluster を作成する\{#step-5-create-an-on-demand-cluster}
+## ステップ 5: オンデマンドクラスターの作成\{#step-5-create-an-on-demand-cluster}
 
-外部 collection の準備ができたら、オンデマンド検索のためにそれをオンデマンド cluster に関連付ける必要があります。次のコマンドは cluster を作成し、その ID を返します。
+外部コレクションの準備ができたら、オンデマンド検索を行うためにオンデマンドクラスターにアタッチする必要があります。次のコマンドはクラスターを作成し、その ID を返します。
 
 ```bash
 export CONTROL_PLANE_ENDPOINT="https://api.cloud.zilliz.com"
@@ -428,11 +428,11 @@ curl --request POST \
 # inxx-xxxxxxxxxxxxx
 ```
 
-デフォルトでは、cluster は最後のリクエストから 60 秒後に自動的にサスペンドされます。ユースケースに合わせてこの値を設定できます。 
+デフォルトでは、クラスターは最後のリクエストから 60 秒後に自動的にサスペンドされますが、ユースケースに合わせてこの値を設定できます。
 
-## ステップ 6: 検索を実行する\{#step-6-conduct-searches}
+## ステップ 6: 検索の実行\{#step-6-conduct-searches}
 
-検索、クエリ、またはハイブリッド検索を実行する必要がある場合は、セッションを通じて前のステップで作成したオンデマンド cluster に接続できます。
+検索、クエリ、またはハイブリッド検索を実行する際は、セッションを通じて前のステップで作成したオンデマンドクラスターに接続できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -493,4 +493,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-その後、データを探索して、最も価値の高いサブセットを見つけることができます。次に、serving cluster に接続してデータをそこにインポートし、本番環境向けに提供できます。
+データを探索して最も価値のあるサブセットを見つけたら、サービングクラスターに接続してデータをインポートし、本番環境で提供できるようになります。

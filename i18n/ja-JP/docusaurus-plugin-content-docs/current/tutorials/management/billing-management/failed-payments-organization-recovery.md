@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "支払いに失敗すると、組織の請求ステータスや有料の Zilliz Cloud 機能へのアクセスに影響する可能性があります。このガイドでは、支払い失敗の一般的な原因、支払いを完了できない場合に何が起こるか、そして組織を復旧する方法について説明します。 | Cloud"
+description: "支払いの失敗は、組織の請求ステータスや有料 Zilliz Cloud 機能へのアクセスに影響を及ぼす可能性があります。このガイドでは、支払い失敗の一般的な原因、支払いが完了しない場合の挙動、および組織を復旧する手順について説明します。 | Cloud"
 type: origin
 token: JYXswRlj9i5KE5kJ2U0cdaM5nBh
 sidebar_position: 8
@@ -22,141 +22,143 @@ import Procedures from '@site/src/components/Procedures';
 
 # 支払いの失敗と組織の復旧
 
-支払いに失敗すると、組織の請求ステータスや有料の Zilliz Cloud 機能へのアクセスに影響する可能性があります。このガイドでは、支払い失敗の一般的な原因、支払いを完了できない場合に何が起こるか、そして組織を復旧する方法について説明します。
+支払いの失敗は、組織の請求ステータスや有料 Zilliz Cloud 機能へのアクセスに影響を及ぼす可能性があります。このガイドでは、支払い失敗の一般的な原因、支払いが完了しない場合の挙動、および組織を復旧する手順について説明します。
 
-<Admonition type="info" icon="📘" title="**注**">
+<Admonition type="info" icon="📘" title="**Note**">
 
-支払いおよび請求設定を管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
+支払いと請求の設定を管理するには、**Organization Owner** または **Organization Billing Admin** の権限が必要です。
 
 </Admonition>
 
 ## 支払い失敗の一般的な原因\{#common-causes-for-failed-payments}
 
-支払いが失敗する理由はいくつかあります。
+支払いは、主に以下の理由で失敗する可能性があります。
 
-- 保存されているクレジットカードの有効期限が切れている。
+- 登録済みのクレジットカードの有効期限が切れている。
 
-- カード発行会社によってクレジットカードが拒否されている。
+- カード発行会社によってクレジットカードの利用が拒否された。
 
 - Advance Pay の残高が不足している。
 
-- クレジットを使い切った、または有効期限が切れている。
+- クレジットを使い果たした、または有効期限が切れた。
 
-- Marketplace の public offer サブスクリプションの有効期限が切れた、キャンセルされた、または Zilliz Cloud 組織にリンクされなくなっている。
+- Marketplace パブリックオファーのサブスクリプションが失効、キャンセルされた、あるいは Zilliz Cloud 組織とのリンクが解除されている。
 
-- Marketplace の private offer サブスクリプションの有効期限が切れ、更新されていない。
+- Marketplace プライベートオファーのサブスクリプションが失効し、更新されていない。
 
-- Marketplace の free trial サブスクリプションの有効期限が切れ、Zilliz Cloud で他の支払い方法が提供されていない。
+- Marketplace 無料トライアルのサブスクリプションが失効し、Zilliz Cloud に他の支払い方法が登録されていない。
 
 ## クレジットカードの中間請求\{#credit-card-interim-charges}
 
-Zilliz Cloud SaaS の請求書は毎月発行されます。ただし、新しい組織が初めて支払い方法としてクレジットカードを追加する場合、Zilliz Cloud は月次請求書が発行される前に中間請求を行うことがあります。
+Zilliz Cloud SaaS の請求書は毎月発行されます。ただし、初めて支払い方法としてクレジットカードを追加した新規組織の場合、Zilliz Cloud は月次請求書の発行前に中間請求を行うことがあります。
 
-中間請求は、累積使用量が初めて特定の請求しきい値（&#36;100 や &#36;1,000 など）に達したときに発生します。これらのしきい値での中間請求が正常に完了すると、その後の請求は通常の月次請求サイクルに従います。
+中間請求は、累積使用量が &#36;100 や &#36;1,000 などの特定の請求閾値に初めて達した際に発生します。これらの閾値での中間請求が正常に完了すると、その後の請求は通常の月次請求サイクルに戻ります。
 
-これらの中間請求は、新しいアカウントの請求信頼性を確立し、請求サイクル中に組織を正常な状態に保つのに役立ちます。
+この中間請求は、新規アカウントの請求信頼性を確立し、請求サイクル中に組織のステータスを良好に保つために役立ちます。
 
-中間請求に失敗した場合、月次請求サイクルが終了していなくても、組織が直ちに凍結される可能性があります。サービス中断を避けるため、クレジットカードが有効であり、利用可能残高が十分にあることを確認してください。
+中間請求が失敗した場合、月次請求サイクルの終了前であっても組織が即座に凍結される可能性があります。サービスの中断を避けるため、クレジットカードが有効であり、十分な利用可能枠があることを確認してください。
 
 ## サービスへの影響\{#service-impact}
 
-Zilliz Cloud が支払いを回収できず、有効なクレジットまたは利用可能な Advance Pay 残高もない場合、組織には未払い請求書が発生し、凍結状態になります。
+Zilliz Cloud が支払いを回収できず、有効なクレジットや Advance Pay 残高もない場合、組織には未払いの請求書が発生し、凍結状態となります。
 
-組織が凍結されると、次のようになります。
+組織が凍結されると、以下の状態になります。
 
-- Zilliz Cloud はメール通知を送信し、未払い請求書を支払うための 15 日間の猶予期間を提供します。猶予期間後も請求書が未払いのままの場合、データとリソースはごみ箱に移動されます。
+- Zilliz Cloud からメール通知が送信され、未払い請求書の支払いのために 15 日間の猶予期間が設けられます。猶予期間後も支払いが行われない場合、データとリソースはごみ箱へ移動されます。
 
-- 実行中のサービスおよび高度な機能が制限される場合があります。
+- 実行中のサービスや高度な機能が制限される場合があります。
 
 - 新しい有料リソースを作成できなくなります。
 
-- 影響を受ける Zilliz Cloud リソースに依存するアプリケーションが中断する可能性があります。
+- 影響を受けた Zilliz Cloud リソースに依存するアプリケーションが停止する可能性があります。
 
-## 組織を復旧する\{#recover-your-organization}
+- バックアップは、組織の凍結から 60 日後に自動的に削除されます。
 
-アクセスを復元するには、請求の問題を解決し、組織に有効な支払い方法または利用可能残高があることを確認してください。
+## 組織の復旧\{#recover-your-organization}
 
-### クレジットの有効期限が切れた、または使い切った場合\{#if-credits-expired-or-ran-out}
+アクセスを復元するには、請求に関する問題を解決し、組織に有効な支払い方法または利用可能な残高があることを確認してください。
+
+### クレジットの有効期限切れまたは残高不足の場合\{#if-credits-expired-or-ran-out}
 
 <Procedures>
 
-1. [クレジットカード](./subscribe-by-adding-credit-card) や [Marketplace サブスクリプション](./marketplace-subscription) などの有効な支払い方法を追加します。
+1. [クレジットカード](./subscribe-by-adding-credit-card) や [Marketplace サブスクリプション](./marketplace-subscription) など、有効な支払い方法を追加します。
 
-1. [Advance Pay](./advance-pay) を使用している場合は、残高に入金します。
+1. [Advance Pay](./advance-pay) をご利用の場合は、残高に入金します。
 
-1. クレジットについてサポートが必要な場合は、Zilliz [s](http://zilliz.com/contact-sales)[ales](http://zilliz.com/contact-sales) または担当アカウントチームにお問い合わせください。
+1. クレジットについてサポートが必要な場合は、Zilliz [s](http://zilliz.com/contact-sales)[ales](http://zilliz.com/contact-sales) または担当チームにお問い合わせください。
 
 </Procedures>
 
-### クレジットカードの支払いに失敗した場合\{#if-your-credit-card-payment-failed}
+### クレジットカードの支払いが失敗した場合\{#if-your-credit-card-payment-failed}
 
 <Procedures>
 
 1. Zilliz Cloud コンソールに移動します。
 
-1. 組織を開きます。
+1. 対象の組織を開きます。
 
 1. **Billing** に移動します。
 
-1. クレジットカードを[置き換え](./subscribe-by-adding-credit-card#replace-a-credit-card)ます。
+1. クレジットカードを[変更](./subscribe-by-adding-credit-card#replace-a-credit-card)します。
 
-1. 支払いを[再試行](./manage-invoice#pay-invoice)します。それでも未払い請求書を支払えない場合は、[Zilliz Support](http://support.zilliz.com) にお問い合わせください。
+1. 支払いを[再試行](./manage-invoice#pay-invoice)します。それでも未払いの請求書を支払えない場合は、[Zilliz Support](http://support.zilliz.com) にお問い合わせください。
 
 </Procedures>
 
-### Advance Pay 残高が不足している場合\{#if-your-advance-pay-balance-is-insufficient}
+### Advance Pay の残高が不足している場合\{#if-your-advance-pay-balance-is-insufficient}
 
 <Procedures>
 
-1. [Advance Pay](./advance-pay) 残高に入金します。
+1. [Advance Pay](./advance-pay) の残高に入金します。
 
-1. 更新後の残高が Billing ページに表示されることを確認します。
+1. 更新された残高が Billing ページに反映されていることを確認します。
 
-1. 残高更新後も組織が凍結されたままの場合は、[Zilliz Support](http://support.zilliz.com) にお問い合わせください。
+1. 残高の更新後も組織が凍結されたままの場合は、[Zilliz Support](http://support.zilliz.com) にお問い合わせください。
 
 </Procedures>
 
-### Marketplace サブスクリプションの有効期限が切れた、またはキャンセルされた場合\{#if-your-marketplace-subscription-expired-or-was-canceled}
+### Marketplace サブスクリプションが失効またはキャンセルされた場合\{#if-your-marketplace-subscription-expired-or-was-canceled}
 
 <Procedures>
 
-1. Marketplace サブスクリプションを確認します。
+1. Marketplace のサブスクリプション状況を確認します。
 
-    1. Marketplace の **free trial** サブスクリプションの有効期限が切れている場合は、有料サブスクリプションに[アップグレード](./subscribe-on-aws-marketplace-free-trial#upgrade-to-paid-subscription)します。
+    1. Marketplace の **無料トライアル** サブスクリプションが失効した場合は、有料サブスクリプションへ[アップグレード](./subscribe-on-aws-marketplace-free-trial#upgrade-to-paid-subscription)します。
 
-    1. Marketplace の **public offer** サブスクリプションがキャンセルされている場合は、再度[サブスクライブ](./subscribe-on-aws-marketplace)するか、[他の支払い方法に切り替え](./update-payment-method)ます。
+    1. Marketplace の **パブリックオファー** サブスクリプションがキャンセルされた場合は、再度[サブスクライブ](./subscribe-on-aws-marketplace)するか、[別の支払い方法に切り替え](./update-payment-method)ます。
 
-    1. Marketplace の **private offer** サブスクリプションの有効期限が切れている場合は、private offer を[更新](./subscribe-on-aws-marketplace-private-offer#renew-your-private-offer)するか、担当アカウントエグゼクティブに連絡してください。
+    1. Marketplace の **プライベートオファー** サブスクリプションが失効した場合は、プライベートオファーを[更新](./subscribe-on-aws-marketplace-private-offer#renew-your-private-offer)するか、アカウントエグゼクティブにお問い合わせください。
 
-1. Billing ページの **Payment Method** セクションで更新後のサブスクリプションを確認します。
+1. Billing ページの **Payment Method** セクションで、サブスクリプションが更新されていることを確認します。
 
-1. 支払いを[再試行](./manage-invoice#pay-invoice)します。それでも未払い請求書を支払えない場合は、[Zilliz Support](http://support.zilliz.com) にお問い合わせください。
+1. 支払いを[再試行](./manage-invoice#pay-invoice)します。それでも未払いの請求書を支払えない場合は、[Zilliz Support](http://support.zilliz.com) にお問い合わせください。
 
 </Procedures>
 
-## 組織を復旧した後\{#after-recovering-your-organization}
+## 組織の復旧後\{#after-recovering-your-organization}
 
-組織の凍結が解除された後も、ごみ箱に移動されたデータとリソースは自動的には復元されません。
+組織の凍結が解除されても、ごみ箱に移動されたデータとリソースは自動的には復元されません。
 
-復旧するには、[ごみ箱](./use-recycle-bin) に移動し、必要なデータとリソースを手動で復元してください。 
+これらを復旧するには、[ごみ箱](./use-recycle-bin) に移動し、必要なデータとリソースを手動で復元してください。
 
-復元後、アプリケーションが復旧したリソースに想定どおりアクセスできることを確認してください。
+復元後は、アプリケーションが復旧したリソースに正常にアクセスできることを確認してください。
 
-## 支払いの問題を回避する\{#avoid-payment-issues}
+## 支払いの問題を防ぐ\{#avoid-payment-issues}
 
-サービス中断のリスクを減らすには、次の対応を行ってください。
+サービスの中断リスクを軽減するには、以下の対応を推奨します。
 
-- 残りのクレジットとクレジットの有効期限を[監視](./monitor-billing-alerts)する。
+- クレジットの残高と有効期限を[監視](./monitor-billing-alerts)します。
 
-- [クレジットカード](./subscribe-by-adding-credit-card) を最新の状態に保つ。
+- [クレジットカード](./subscribe-by-adding-credit-card) の情報を最新の状態に保ちます。
 
-- 残高がなくなる前に [Advance Pay](./advance-pay) を補充する。
+- 残高がなくなる前に [Advance Pay](./advance-pay) を補充します。
 
-- 有効期限が切れる前に Marketplace の [private offer](./subscribe-on-aws-marketplace-private-offer) を更新する。
+- Marketplace の[プライベートオファー](./subscribe-on-aws-marketplace-private-offer)は有効期限が切れる前に更新します。
 
-- 使用量、クレジット、カードの有効性、Advance Pay 残高に対する[請求アラートを設定](./monitor-billing-alerts)する。
+- 使用量、クレジット、カードの有効性、Advance Pay 残高について[請求アラートを設定](./monitor-billing-alerts)します。
 
-- [Marketplace サブスクリプション](./marketplace-subscription) が正しい Zilliz Cloud 組織にリンクされていることを確認する。
+- [Marketplace サブスクリプション](./marketplace-subscription)が正しい Zilliz Cloud 組織にリンクされていることを確認します。
 
-- 組織が最近初めてクレジットカードを追加した場合は、累積使用量が初めて請求しきい値に達した際の中間請求に対応できるよう、カードに十分な利用可能残高があることを確認する。
+- 組織で最近初めてクレジットカードを追加した場合は、累積使用量が請求閾値に達した際の中間請求に備え、カードに十分な利用可能枠があることを確認してください。
 

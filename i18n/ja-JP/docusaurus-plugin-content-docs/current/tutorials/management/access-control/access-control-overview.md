@@ -1,15 +1,15 @@
 ---
-title: "Access Control の解説 | Cloud"
+title: "Access Control Explained | Cloud"
 slug: /access-control-overview
-sidebar_label: "Access Control の解説"
+sidebar_label: "Access Control Explained"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、Zilliz Cloud 内のリソースへのアクセスをきめ細かく制御するために Role-Based Access Control (RBAC) を実装しています。RBAC (Role-Based Access Control) は、ユーザーに直接ではなくロールに権限を付与するセキュリティ対策です。リソースに対する特定の権限を含むこれらのロールがその後ユーザーに付与されることで、ユーザーアクセス制御を効率的に管理できます。 | Cloud"
+description: "Zilliz Cloud は、Zilliz Cloud 内のリソースへのアクセスをきめ細かく制御するために、ロールベースアクセス制御（RBAC）を実装しています。RBAC は、ユーザーに直接ではなくロールに対して権限を付与するセキュリティ対策です。リソースに対する特定の権限を持つロールをユーザーに付与することで、アクセス制御を効率的に管理できます。 | Cloud"
 type: origin
-token: UDjcwWISuixYjqkQy3GcmBpsnmV
+token: NmFBwTRj9iFuC8kXno6cqRbmnfh
 sidebar_position: 1
 displayed_sidebar: default
 
@@ -18,71 +18,163 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# Access Control の解説
+import Procedures from '@site/src/components/Procedures';
 
-Zilliz Cloud は、Zilliz Cloud 内のリソースへのアクセスをきめ細かく制御するために Role-Based Access Control (RBAC) を実装しています。RBAC (Role-Based Access Control) は、ユーザーに直接ではなくロールに権限を付与するセキュリティ対策です。リソースに対する特定の権限を含むこれらのロールがその後ユーザーに付与されることで、ユーザーアクセス制御を効率的に管理できます。
+# Access Control Explained
 
-![L1WGwjF2NhxLRXbcyl6cSroNnoc](https://zdoc-images.s3.us-west-2.amazonaws.com/L1WGwjF2NhxLRXbcyl6cSroNnoc.png)
+Zilliz Cloud は、Zilliz Cloud 内のリソースへのアクセスをきめ細かく制御するために、ロールベースアクセス制御（RBAC）を実装しています。RBAC は、ユーザーに直接ではなくロールに対して権限を付与するセキュリティ対策です。リソースに対する特定の権限を持つロールをユーザーに付与することで、アクセス制御を効率的に管理できます。
 
-## Zilliz Cloud RBAC アーキテクチャ\{#zilliz-cloud-rbac-architecture}
+Zilliz Cloud のアクセス制御モデルは、以下の 3 つのレベルで構成されます。
 
-![WVIgwWtMYhhTBIbgAdAcegDRnle](https://zdoc-images.s3.us-west-2.amazonaws.com/WVIgwWtMYhhTBIbgAdAcegDRnle.png)
+- **組織レベル**: 組織のメンバーシップ、組織ロール、請求関連のアクセス、および SCIM 同期グループを管理します。
 
-Zilliz Cloud は、そのリソースを 2 つのプレーン内で構成し、両方にわたって RBAC を実装しています。
+- **プロジェクトレベル**: プロジェクトのメンバーシップ、プロジェクトロール、およびクラスターなどのプロジェクトリソースへのアクセスを管理します。
 
-- **Control plane:** このプレーンには、organization、project、および cluster 管理が含まれます。[アカウントユーザー](./email-accounts) には特定の organization ロールおよび project ロールが付与され、control plane 上のリソースを操作する際には [API key](./manage-api-keys) で認証します。
+- **クラスターレベル**: データベースユーザー、クラスターロール、およびデータベースやコレクションなどのクラスターリソースに対するデータプレーンの権限を管理します。
 
-- **Data plane:** このプレーンには、cluster、database、および collection が含まれ、データアクセス管理に重点を置いています。[cluster ユーザー](./cluster-users) には適切な cluster ロールが付与され、data plane のリソースを操作する際には [API key](./manage-api-keys) または [ユーザー名とパスワードの組み合わせ](./cluster-credentials) を使用して認証します。
+これらのレベルは連携して機能しますが、互いに代替するものではありません。たとえば、ユーザーはプロジェクトへのアクセス権がなくても組織にサインインできる場合があります。また、プロジェクトメンバーはクラスター内のすべてのデータベース権限を自動的に持つことなく、プロジェクトリソースを管理できる場合があります。さらに、クラスターユーザーは組織管理者でなくてもデータの検索や挿入を行える場合があります。
 
-通常、各アカウントユーザーは 1 人の cluster ユーザーに対応します。ただし、すべてのユーザーが両方のプレーンへのアクセスを必要とするわけではありません。場合によっては、Billing Admin のような control plane のアカウントユーザーは、課金管理の目的で control plane のみにアクセスできれば十分で、data plane へのアクセスは不要です。逆に、一時的な cluster ユーザーを作成し、カスタマイズされた API key を通じて data plane リソースへのアクセスを付与することで、登録済みアカウントがなくてもデータアクセスを可能にできます。カスタマイズされた API key の管理の詳細については、[API Keys](./manage-api-keys) を参照してください。
+## アクセス制御の仕組み\{#how-access-control-is-organized}
 
-## ロールと権限\{#roles-and-privileges}
+Zilliz Cloud では、アクセス制御を**プラットフォームアクセス**（コントロールプレーン）と**データアクセス**（データプレーン）に分離しています。
 
-アカウントユーザーには organization ロールと project ロールが付与され、cluster ユーザーには cluster、database、および collection へのアクセスを制御する cluster ロールが付与されます。次の図は、Zilliz Cloud におけるロールの階層を示しています。
+![ZPr7w2ieThqUHtbmrwFcK2n1nDB](https://zdoc-images.s3.us-west-2.amazonaws.com/ZPr7w2ieThqUHtbmrwFcK2n1nDB.png)
 
-![TnkCwHx6jhk7UmbvYT7cVGlIn7b](https://zdoc-images.s3.us-west-2.amazonaws.com/TnkCwHx6jhk7UmbvYT7cVGlIn7b.png)
+- **プラットフォームアクセス**は、Zilliz Cloud コンソールやコントロールプレーン API における組織およびプロジェクトレベルの操作を制御します。これには、メンバーの招待、請求の管理、プロジェクトの作成、クラスターの設定、プロジェクトレベルの権限管理などが含まれます。
 
-- **organization レベル**
+- **データアクセス**は、クラスター内での操作を制御します。具体的には、クラスターユーザーやクラスターロールの作成、権限の付与、コレクションの作成、インデックスの構築、データの挿入・検索・クエリ・削除などです。
 
-    - Organization Owner ロールは、すべての project と cluster にわたる包括的な権限を持ちます。
+この分離により、チームは各担当者の責任に応じて必要最小限のアクセス権を付与できます。たとえば、財務担当者は請求関連のアクセスのみが必要で、クラスターデータへのアクセスは不要な場合があります。また、開発者は特定のプロジェクトとクラスターへのアクセスがあればよく、組織全体の管理権限までは必要ない場合があります。
 
-    すべての organization ロールの詳細については、[Organization roles](./organization-users) を参照してください。
+## 組織レベルのアクセス\{#organization-level-access}
 
-- **project レベル**
+組織は、Zilliz Cloud アカウントにおけるアクセス制御の最上位の境界です。
 
-    - Project Admin ロールには、特定の project のすべての権限と、その project 内のすべてのリソースに対する権限が含まれます。
+Zilliz Cloud で組織レベルの RBAC を実装するワークフローは以下の通りです。
 
-    - Project Read-Write ロールには、project を表示し、そのリソースを管理する権限があります。
+<Procedures>
 
-    - Project Read-Only ロールには、project とそのリソースを表示する権限があります。
+1. [組織メンバーを招待する](./manage-platform-users#invite-organization-users)、または [SCIM からグループを同期する](./view-scim-synced-groups)。
 
-    project ロールの詳細については、[Project roles](./project-users) を参照してください。
+1. メンバーまたはグループに[事前定義された組織ロールを割り当てる](./manage-platform-roles#manage-organization-roles)。
 
-- **cluster レベル**
+    各組織ロールには事前定義された権限セットが含まれており、割り当てられたメンバーやグループが組織レベルで実行できる操作を決定します。
 
-    - Cluster Admin ロールには、特定の cluster のすべての権限が含まれます。
+    組織メンバーは、割り当てられたロールに含まれる権限を自動的に継承します。
 
-    - Cluster Read-Write ロールには、cluster を表示し、そのすべてのリソースを管理する権限があります。
+</Procedures>
 
-    - Cluster Read-Only ロールには、cluster とそのリソースを表示する権限があります。
+## プロジェクトレベルのアクセス\{#project-level-access}
 
-    - さらに、このレベルでは、database や collection などの cluster リソースに対する [権限](./cluster-privileges) を正確に管理するために、[カスタムロール](./cluster-roles#custom-cluster-roles) を作成できます。
+プロジェクトは、クラスターやプロジェクト固有のアクセスポリシーといったクラウドリソースを整理するための主要な単位です。プロジェクトレベルのアクセス制御は、誰がプロジェクトに参加でき、プロジェクトリソースに対してどのような操作が可能かを管理します。
 
-    cluster ロールの詳細については、[Manage Cluster Roles (Console)](./cluster-roles) を参照してください。
+Zilliz Cloud でプロジェクトレベルの RBAC を実装するワークフローは以下の通りです。
 
-## Zilliz Cloud で RBAC を実装する\{#implement-rbac-in-zilliz-cloud}
+<Procedures>
 
-次の図は、Zilliz Cloud で RBAC を実装するための完全なワークフローを示しています。
+1. [カスタムプロジェクトロールを作成する](./manage-platform-roles#custom-project-roles)、または[事前定義されたプロジェクトロールを使用する](./manage-platform-roles#predefined-project-roles)。
 
-![B8sbwgywghYn1tbMTOwcjg65nne](https://zdoc-images.s3.us-west-2.amazonaws.com/B8sbwgywghYn1tbMTOwcjg65nne.png)
+    各プロジェクトロールには事前定義された権限セットが含まれており、割り当てられたメンバーがプロジェクトレベルで実行できる操作を決定します。
 
-1. **ユーザーを作成する:** Zilliz Cloud のデフォルトユーザー `db_admin` に加えて、[web console](./cluster-users) または [SDK](./cluster-users-sdk) を使用して、新しいユーザーを作成し、データセキュリティを保護するためのパスワードを設定できます。
+1. プロジェクト[メンバー](./manage-platform-users#invite-project-users)を招待し、ユーザーにプロジェクトロールを割り当てます。
 
-1. **ロールを作成する:** [web console](./cluster-roles) または [SDK](./cluster-roles-sdk) を使用して、カスタマイズされたロールを作成できます。ロールの具体的な機能は、その権限によって決まります。
+    プロジェクトメンバーは、割り当てられたロールに含まれる権限を自動的に継承します。
 
-1. **（任意）権限グループを作成し、権限を権限グループに追加する:** 複数の [権限](./cluster-privileges) を 1 つの権限グループにまとめることで、ロールに権限を付与するプロセスを簡素化できます。Zilliz Cloud が提供する組み込みの権限グループに加えて、[SDK](./cluster-privileges#custom-privilege-groups) を使用して独自のカスタマイズされた権限グループを作成することもできます。
+</Procedures>
 
-1. **ロールに権限または権限グループを付与する:** このロールに権限または権限グループを付与することで、ロールの機能を定義します。現在、[web console](./cluster-roles#create-a-custom-cluster-role) ではロールに組み込みの権限グループのみ付与できます。特定の権限またはカスタマイズされた権限グループをロールに付与するには、[support ticket を作成](http://support.zilliz.com) してから、代わりに [SDK](./cluster-roles-sdk#grant-a-privilege-group-to-a-role) を使用してください。
+## クラスターレベルのアクセス\{#cluster-level-access}
 
-1. **ユーザーにロールを付与する:** 特定の権限を持つロールをユーザーに付与することで、ユーザーがそのロールの権限を持てるようにします。1 つのロールを複数のユーザーに付与できます。この手順は、[web console](./cluster-users#edit-the-role-or-desrciption-of-a-cluster-user) または [SDK](./cluster-users-sdk#grant-a-role-to-a-user) を使用して実行できます。
+クラスターレベルのアクセス制御は、クラスター内のデータプレーンに関する権限を管理します。ここではクラスターユーザー、クラスターロール、権限、および権限グループを使用します。
+
+プロジェクトアクセスとクラスターデータアクセスはそれぞれ異なる問いに対する答えを提供するため、このレベルの分離は重要です。
+
+- プロジェクトアクセスの問い: 「このアカウントユーザーは、当該プロジェクトとそのクラウドリソースを利用できるか？」
+
+- クラスターアクセスの問い: 「このクラスターユーザーは、当該データベース、コレクション、またはクラスターリソースに対して特定の操作を実行できるか？」
+
+次の図は、Zilliz Cloud における RBAC 実装の全体的なワークフローを示しています。
+
+![HMUjwspQzh8MUHbC5k2cP5epnCe](https://zdoc-images.s3.us-west-2.amazonaws.com/HMUjwspQzh8MUHbC5k2cP5epnCe.png)
+
+<Procedures>
+
+1. **ユーザーの作成:** Zilliz Cloud にはデフォルトユーザー `db_admin` が存在しますが、[Web コンソール](./cluster-users)や [SDK](./cluster-users-sdk) を使用して新しいユーザーを作成し、パスワードを設定することでデータセキュリティを強化できます。
+
+1. **ロールの作成:** [Web コンソール](./cluster-roles)や [SDK](./cluster-roles-sdk) を使用してカスタムロールを作成できます。ロールが持つ具体的な機能は、そのロールに付与された権限によって決まります。
+
+1. **（オプション）権限グループの作成と権限の追加:** 複数の[権限](./cluster-privileges)を 1 つの権限グループにまとめることで、ロールへの権限付与プロセスを効率化できます。Zilliz Cloud が提供する組み込みの権限グループに加え、[SDK](./cluster-privileges#custom-privilege-groups) を使用して独自のカスタム権限グループを作成することも可能です。
+
+1. **ロールへの権限または権限グループの付与:** ロールに権限や権限グループを付与することで、そのロールの機能を定義します。現在、[Web コンソール](./cluster-roles#create-a-custom-cluster-role) でロールに付与できるのは組み込みの権限グループのみです。特定の権限やカスタム権限グループを付与する場合は、[サポートチケットを作成](http://support.zilliz.com)した上で [SDK](./cluster-roles-sdk#grant-a-privilege-group-to-a-role) をご利用ください。
+
+1. **ユーザーへのロールの付与:** ユーザーにロールを付与することで、そのロールに含まれる権限を利用できるようになります。1 つのロールを複数のユーザーに付与することも可能です。この手順は [Web コンソール](./cluster-users#edit-the-role-or-desrciption-of-a-cluster-user) または [SDK](./cluster-users-sdk#grant-a-role-to-a-user) を使用して実行できます。
+
+</Procedures>
+
+## 有効なアクセス権の決定ロジック\{#how-effective-access-is-determined}
+
+ユーザーの有効なアクセス権とは、適用されるすべての割り当てに基づいて最終的に付与される権限の集合です。
+
+具体的には以下のようになります。
+
+- 組織ロールは、ユーザーが組織レベルで実行できる操作を決定します。
+
+- プロジェクトロールは、ユーザーが特定のプロジェクト内で実行できる操作を決定します。
+
+- クラスターロールは、クラスターユーザーが特定のクラスター内で実行できる操作を決定します。
+
+- グループベースの割り当てにより、同期されたグループに所属するユーザーに追加の権限が付与される場合があります。
+
+- ユーザーへの直接割り当てとグループ経由の割り当ては統合されます。
+
+ユーザーが複数のソースからアクセス権を付与されている場合、Zilliz Cloud はそれらの権限を組み合わせて評価します。たとえば、あるユーザーがプロジェクトに対して Data Viewer アクセス権を直接付与されており、かつ同じプロジェクトに対して Data Operator アクセス権を持つ SCIM グループにも所属している場合、そのユーザーの有効なアクセス権には両方の割り当てによる権限が含まれます。
+
+## アクセスパターンの例\{#example-access-patterns}
+
+- **Finance User**
+
+    財務チームのメンバーは請求書の管理が必要ですが、プロジェクトリソースやクラスターデータへのアクセスは不要です。
+
+    - ユーザーを組織に招待します。
+
+    - **Billing Admin** を割り当てます。
+
+    - プロジェクトへのアクセスも必要ない限り、プロジェクトロールは割り当てないでください。
+
+    - データプレーンへのアクセスも必要ない限り、クラスターユーザーは作成しないでください。
+
+- **Project Owner**
+
+    チームリーダーは1つのプロジェクトを所有し、ユーザー、ロール、クラスター、およびプロジェクトリソースを管理する必要があります。
+
+    - ユーザーが組織のメンバーであることを確認します。
+
+    - 対象のプロジェクトにユーザーを招待します。
+
+    - 該当プロジェクトに対して **Project Admin** を割り当てます。
+
+    - クラスターへの接続やデータプレーン操作が必要な場合にのみ、クラスターレベルのアクセスを付与してください。
+
+**Application Writer**
+
+**Read-Only Analyst**
+
+## ベストプラクティス\{#best-practices}
+
+- **Org Owner** は少数の管理者にのみ付与してください。
+
+- 組織へのサインインのみが必要なユーザーには、デフォルトのベースラインとして **Public** を使用します。
+
+- ID プロバイダーのメンバーシップに連動するチーム単位のアクセスには、SCIM グループの使用を推奨します。
+
+- プロジェクトロールを活用して、チーム間でプロジェクトの責務を分離します。
+
+- 組み込みロールが実際の職務範囲よりも広い場合は、カスタムプロジェクトロールを作成してください。
+
+- データプレーンの権限管理にはクラスターロールを使用します。特に、特定のデータベースやコレクションへのアクセス制限が必要な場合に有効です。
+
+- 直接割り当てとグループベースの割り当ての両方がある場合は、実効アクセスを確認してください。
+
+- 可能な限り、人によるアクセスとアプリケーションによるアクセスを分離してください。
+
+- 定期的なアクセスレビューの一環として、未使用のユーザー、グループ、クラスターユーザーを削除してください。
 

@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud はデフォルトで、保存データをディスク/オブジェクトストレージ上で 256-bit Advanced Encryption Standard (AES-256) アルゴリズムを使用して暗号化します。最高レベルのセキュリティ要件を持つお客様向けに、Zilliz Cloud はお客様のクラウドプロバイダーの Key Management Service (KMS) と Zilliz Cloud の Customer-Managed Encryption Key (CMEK) 機能を組み合わせることで、追加のセキュリティレイヤーを提供します。 | Cloud"
+description: "Zilliz Cloud は、デフォルトで 256 ビット Advanced Encryption Standard (AES-256) アルゴリズムを使用して、ディスク/objectストレージ上の保存データを暗号化します。最高レベルのセキュリティ要件を持つお客様向けに、Zilliz Cloud はクラウドプロバイダーの Key Management Service (KMS) と Zilliz Cloud の Customer-Managed Encryption Key (CMEK) 機能を組み合わせることで、さらなるセキュリティ層を提供します。 | Cloud"
 type: origin
 token: GLxhwO5vWiWkTBkoNCPcg4ahnbe
-sidebar_position: 12
+sidebar_position: 13
 displayed_sidebar: default
 
 ---
@@ -22,63 +22,63 @@ import Admonition from '@theme/Admonition';
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
-この機能は Business Critical (SaaS) および BYOC デプロイメントでのみ利用できます。
+この機能は、Business Critical (SaaS) および BYOC デプロイメントでのみ利用できます。
 
 </FeatureNote>
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は AWS で利用できます。Google Cloud および Microsoft Azure では利用できません。
+この機能は AWS で利用可能です。Google Cloud および Microsoft Azure では利用できません。
 
 </FeatureNote>
 
-Zilliz Cloud はデフォルトで、保存データをディスク/オブジェクトストレージ上で 256-bit Advanced Encryption Standard (AES-256) アルゴリズムを使用して暗号化します。最高レベルのセキュリティ要件を持つお客様向けに、Zilliz Cloud はお客様のクラウドプロバイダーの Key Management Service (KMS) と Zilliz Cloud の Customer-Managed Encryption Key (CMEK) 機能を組み合わせることで、追加のセキュリティレイヤーを提供します。 
+Zilliz Cloud は、デフォルトで 256 ビット Advanced Encryption Standard (AES-256) アルゴリズムを使用して、ディスク/objectストレージ上の保存データを暗号化します。最高レベルのセキュリティ要件を持つお客様向けに、Zilliz Cloud はクラウドプロバイダーの Key Management Service (KMS) と Zilliz Cloud の Customer-Managed Encryption Key (CMEK) 機能を組み合わせることで、さらなるセキュリティ層を提供します。
 
 ## 暗号化の仕組み\{#how-encryption-works}
 
-Zilliz Cloud では、カスタマー管理暗号化キーはクラウドプロバイダーの KMS によって作成される暗号鍵であり、クラスター内のデータ保護に使用されます。Zilliz Cloud Business Critical プロジェクトに KMS キーを追加すると、それを使用してディスク、オブジェクトストレージ、およびメッセージキューに保存されるデータを暗号化できます。
+Zilliz Cloud におけるカスタマーマネージド暗号化キーとは、クラウドプロバイダーの KMS によって作成され、クラスター内のデータを保護するために使用される暗号鍵です。KMS キーを Zilliz Cloud Business Critical プロジェクトに追加すると、ディスク、オブジェクトストレージ、およびメッセージキューに保存されたデータを暗号化できます。
 
 ![Ehcyw7EZphWQO0bTJMDchzTYnIf](https://zdoc-images.s3.us-west-2.amazonaws.com/Ehcyw7EZphWQO0bTJMDchzTYnIf.png)
 
-上の図に示すように、Zilliz Cloud はユーザーが提供した KMS キーを**ルートキー**として使用し、階層的に暗号鍵を管理します。 
+上図のように、Zilliz Cloud はユーザーが提供した KMS キーを**ルートキー**として、暗号鍵を階層的に管理します。
 
-クラスター内では、各データベースは **Encryption Zone (EZ)** に関連付けられており、Zilliz Cloud は各ゾーンごとに **Encryption Zone Key (EZK)** と呼ばれる暗号鍵を作成します。EZK を保護するために、Zilliz Cloud はそれらをルートキーで暗号化し、暗号化された EZK を保存します。
+クラスター内では、各データベースが**暗号化ゾーン (EZ)** に関連付けられており、Zilliz Cloud はゾーンごとに**暗号化ゾーンキー (EZK)** と呼ばれる暗号鍵を作成します。EZK を保護するため、Zilliz Cloud はルートキーを使って EZK を暗号化し、その結果を保存します。
 
-各データベースファイルに対して、Zilliz Cloud は **Data Encryption Key (DEK)** を生成し、それを使用してファイルを暗号化します。DEK を保護するために、Zilliz Cloud はそれを EZK で暗号化し、暗号化された DEK と暗号化されたファイルの両方を保存します。
+各データベースファイルに対して、Zilliz Cloud は**データ暗号化キー (DEK)** を生成してファイルを暗号化します。DEK を保護するため、Zilliz Cloud は EZK で DEK を暗号化し、暗号化された DEK とファイルをともに保存します。
 
-ファイルにアクセスする際、Zilliz Cloud は暗号化された EZK を KMS に送信して復号し、復号された EZK を使用して暗号化された DEK を復号し、さらに復号された DEK を使用してファイルを復号します。
+ファイルへのアクセス時、Zilliz Cloud は暗号化された EZK を KMS に送信して復号し、復号した EZK で暗号化された DEK を復号し、さらに復号した DEK でファイルを復号します。
 
-## 暗号化の対象範囲\{#encryption-scope}
+## 暗号化の範囲\{#encryption-scope}
 
-以下の場所に保存されるすべてのデータ関連ファイルは暗号化されます。
+以下の場所に保存されているすべてのデータ関連ファイルが暗号化されます。
 
-- binlog およびインデックスファイルを含むオブジェクトストレージ
+- binlog やインデックスファイルを含むオブジェクトストレージ
 
 - ローカルディスク
 
-- メッセージキュー内の insert/delete メッセージ
+- メッセージキュー内の Insert/delete メッセージ
 
 ## 制限事項\{#limitations}
 
-- カスタマー管理暗号化キーはプロジェクトレベルで管理されます。
+- カスタマーマネージド暗号化キーはプロジェクト単位で管理されます。
 
-- 各プロジェクトには最大 20 個の一意なキーを追加できます。重複したキーを追加すると失敗します。
+- 各プロジェクトには最大 20 個の一意なキーを追加できます。重複するキーを追加するとエラーになります。
 
-- クラスターが一度暗号化されると、データベース間でのコレクションの移行は禁止されます。
+- クラスターを暗号化すると、データベース間でのコレクション移行はできなくなります。
 
-- KMS キーのクラウドプロバイダーとリージョンが、そのキーを使用する Zilliz Cloud クラスターのものと常に一致していることを確認してください。
+- KMS キーのクラウドプロバイダーとリージョンは、そのキーを使用する Zilliz Cloud クラスターのものと一致させる必要があります。
 
-- Milvus v2.5.x と互換性のある既存のクラスターで CMEK を有効にするには、データをバックアップし、Milvus v2.6.x と互換性のある新しいクラスターに復元してください。クラスターをアップグレードしても、アップグレード前のデータは暗号化されません。
+- Milvus v2.5.x 対応の既存クラスターで CMEK を有効にするには、データをバックアップし、Milvus v2.6.x 対応の新クラスターにリストアしてください。クラスターのアップグレードだけでは、アップグレード前のデータは暗号化されません。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-現在、CMEK は AWS リージョンでのみ利用可能です。その他のリージョンについては、[お問い合わせください](https://support.zilliz.com/hc/en-us)。
+現在、CMEK は AWS リージョンでのみ利用可能です。その他のリージョンについては[お問い合わせください](https://support.zilliz.com/hc/en-us)。
 
 </Admonition>
 
 ## サポートされている KMS プロバイダー\{#supported-kms-providers}
 
-利用可能な key management service (KMS) プロバイダーは次のとおりです。
+以下の Key Management Service (KMS) プロバイダーを利用できます。
 
 
 

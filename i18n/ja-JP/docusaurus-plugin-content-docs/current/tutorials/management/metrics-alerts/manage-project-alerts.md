@@ -1,13 +1,13 @@
 ---
-title: "Project Alerts の管理 | Cloud"
+title: "プロジェクトアラートの管理 | Cloud"
 slug: /manage-project-alerts
-sidebar_label: "Project Alerts の管理"
+sidebar_label: "プロジェクトアラートの管理"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Project alerts を使用すると、指定した条件が満たされたときに通知を送信して、Zilliz Cloud cluster をプロアクティブに監視できます。CU capacity や query performance などの cluster metrics を監視するように project alerts を設定できるため、注意が必要な潜在的な問題を即座に把握できます。 | Cloud"
+description: "プロジェクトアラートを使用すると、指定した条件を満たした際に通知を送信し、Zilliz Cloud クラスターをプロアクティブに監視できます。CU 容量やクエリパフォーマンスなどのクラスターメトリクスを監視するよう設定することで、対応が必要な潜在的な問題をいち早く検知できます。 | Cloud"
 type: origin
 token: NvDLw4kFji0xeWkc4Hpc9wUfnRh
 sidebar_position: 4
@@ -21,31 +21,31 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
-# Project Alerts の管理
+# プロジェクトアラートの管理
 
-Project alerts を使用すると、指定した条件が満たされたときに通知を送信して、Zilliz Cloud clusters をプロアクティブに監視できます。CU capacity や query performance などの cluster metrics を監視するように project alerts を設定できるため、注意が必要な潜在的な問題を即座に把握できます。
+プロジェクトアラートを使用すると、指定した条件を満たした際に通知を送信し、Zilliz Cloud クラスターをプロアクティブに監視できます。CU 容量やクエリパフォーマンスなどのクラスターメトリクスを監視するよう設定することで、対応が必要な潜在的な問題をいち早く検知できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-この機能は **Dedicated** clusters でのみ利用できます。
+この機能は **Dedicated** クラスターでのみ利用可能です。
 
 </Admonition>
 
-## 始める前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
-project alerts を作成または管理する前に、以下を確認してください。
+プロジェクトアラートを作成または管理する前に、以下の条件を満たしていることを確認してください。
 
-- **Organization Owner** または **Project Admin** ロールのアクセス権
+- **Organization Owner** または **Project Admin** ロールの権限があること
 
-## project alerts を表示する\{#view-project-alerts}
+## プロジェクトアラートの表示\{#view-project-alerts}
 
-左側のサイドバーで **Project Alerts** に移動すると、project alert ダッシュボードにアクセスできます。
+左サイドバーの **Project Alerts** をクリックして、プロジェクトアラートダッシュボードを開きます。
 
 <Supademo id="cmb5xa9pg39f6ppkpjwalrmro" title="Zilliz Cloud - View Project Alerts Demo" />
 
 ### アラート履歴\{#alert-history}
 
-過去のイベントを調査したい場合、アラートの傾向を把握したい場合、またはシステムの信頼性を示したい場合は、**History** タブを使用します。
+過去のイベントの調査、アラートパターンの分析、システムの信頼性の確認などを行う場合は、**History** タブを使用します。
 
 ### アラート設定\{#alert-settings}
 
@@ -53,53 +53,53 @@ project alerts を作成または管理する前に、以下を確認してく�
 
 <TabItem value="Cloud Console">
 
-**Settings** タブを使用すると、設定済みのすべてのアラートと現在のステータスを確認できます。これにより、監視範囲を一元的に把握できます。
+**Settings** タブでは、設定済みのすべてのアラートとその現在のステータスを確認できます。これにより、監視対象の範囲を一元的に把握できます。
 
-アラートを表示すると、次の設定項目が表示されます。
+アラート一覧には、以下の設定項目が表示されます。
 
 <table>
    <tr>
-     <th><p>項目</p></th>
-     <th><p>説明</p></th>
+     <th><p>Field</p></th>
+     <th><p>Description</p></th>
    </tr>
    <tr>
      <td><p>Name</p></td>
-     <td><p>アラートの説明的な識別子（例: "High CU Usage - Dedicated Clusters"、"P99 Query Latency"）</p></td>
+     <td><p>アラートの説明的な識別子 (例: &quot;High CU Usage - Dedicated クラスター&quot;、&quot;P99 Query Latency&quot;)</p></td>
    </tr>
    <tr>
      <td><p>Status</p></td>
-     <td><p>現在のアラート状態を示すトグルスイッチ: Enabled（監視が有効）または Disabled（通知なし）</p></td>
+     <td><p>アラートの現在の状態を示すトグルスイッチ: Enabled (監視中) または Disabled (通知停止)</p></td>
    </tr>
    <tr>
      <td><p>Target Cluster</p></td>
-     <td><p>監視対象の clusters - 特定の clusters（例: "Dedicated-02, Dedicated-01"）またはすべての Dedicated clusters（今後作成されるものを含む）</p></td>
+     <td><p>監視対象のクラスター - 特定のクラスター (例: &quot;Dedicated-02, Dedicated-01&quot;) またはすべての Dedicated クラスター (今後作成されるクラスターも含む)</p></td>
    </tr>
    <tr>
      <td><p>Metric & Condition</p></td>
-     <td><p>監視対象パラメータとトリガー設定の組み合わせ表示（例: "CU Capacity &gt; 80%, Duration &gt;= 10 min"、"Query Latency (P99) &gt; 1000 ms, Duration &gt;= 10 min"）</p></td>
+     <td><p>監視対象のメトリクスとトリガー条件の組み合わせ表示 (例: &quot;CU Capacity &gt; 80%, Duration &gt;= 10 min&quot;, &quot;Query Latency (P99) &gt; 1000 ms, Duration &gt;= 10 min&quot;)</p></td>
    </tr>
    <tr>
      <td><p>Severity Level</p></td>
-     <td><p>影響度の分類</p><ul><li><p><strong>Warning:</strong> 制限に近づいている状態</p></li><li><p><strong>Critical:</strong> すぐに対応が必要</p></li></ul></td>
+     <td><p>影響度の分類</p><ul><li><p><strong>Warning:</strong> 制限に接近しています</p></li><li><p><strong>Critical:</strong> 即時対応が必要です</p></li></ul></td>
    </tr>
    <tr>
      <td><p>Receiver</p></td>
-     <td><p>設定済みのメールアドレスおよび通知チャネルを含む通知受信者。</p><p>利用可能な通知チャネルの一覧については、<a href="./manage-notification-channels">通知チャネルの管理</a>を参照してください。</p></td>
+     <td><p>通知の送信先です。設定済みのメールアドレスや通知チャネルが含まれます。</p><p>利用可能な通知チャネルの一覧については、<a href="./manage-notification-channels">Manage Notification Channels</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p>Alert Interval</p></td>
-     <td><p>各アラート送信後、一定時間、繰り返し通知を抑制します。</p><ul><li><p>アラートが継続している場合、その間隔内では通知は再送されません。次の間隔に入る前に通知が再送されます。</p></li><li><p>アラートが解消された場合、alert interval はリセットされ、アラート評価が再開されます。</p></li></ul></td>
+     <td><p>アラート送信後、指定された時間だけ繰り返し通知を抑制します。</p><ul><li><p>アラートが継続している場合でも、この間隔中は再送信されず、次の間隔に入る前に通知が再送されます。</p></li><li><p>アラートが解消されると、アラート間隔はリセットされ、評価が再開されます。</p></li></ul></td>
    </tr>
    <tr>
      <td><p>Actions</p></td>
-     <td><p>利用可能な管理オプション: Edit、Clone、Delete</p></td>
+     <td><p>利用可能な操作: Edit、Clone、Delete</p></td>
    </tr>
 </table>
 
 </TabItem>
 <TabItem value="Bash">
 
-特定の project に対して作成されたアラート一覧を表示できます。パラメータの詳細については、[List Alert Rules](/reference/restful/list-alert-rules-v2) を参照してください。
+特定のプロジェクト用に作成されたアラートの一覧を表示できます。各パラメータの詳細については、[List Alert Rules](/reference/restful/list-alert-rules-v2) を参照してください。
 
 ```bash
 export BASE_URL=https://api.cloud.zilliz.com
@@ -116,20 +116,20 @@ curl --request GET \
 </TabItem>
 </Tabs>
 
-## project alert を作成する\{#create-a-project-alert}
+## プロジェクトアラートの作成\{#create-a-project-alert}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-さまざまな観点から cluster のパフォーマンスと健全性を監視するために、新しいアラートを設定します。
+クラスターのパフォーマンスや健全性を多角的に監視するための新しいアラートを設定します。
 
 <Supademo id="cmb5w29ip399appkp45y9k3u2" title="Zilliz Cloud - Create Project Alerts Demo" />
 
 </TabItem>
 <TabItem value="Bash">
 
-特定の Dedicated clusters またはすべての Dedicated clusters に対してアラートを作成できます。パラメータの詳細については、[Create Alert Rule](/reference/restful/create-alert-rule-v2) を参照してください。
+特定のクラスター、またはすべての Dedicated クラスターを対象にアラートを作成できます。パラメータの詳細については、[Create Alert Rule](/reference/restful/create-alert-rule-v2) を参照してください。
 
 ```bash
 export BASE_URL=https://api.cloud.zilliz.com
@@ -171,89 +171,89 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## project alerts を管理する\{#manage-project-alerts}
+## プロジェクトアラートの管理\{#manage-project-alerts}
 
-既存のアラートを変更、整理、保守して、監視を適切かつ効果的に保ちます。
+既存のアラートを変更・整理・保守し、効果的な監視体制を維持します。
 
 <Supademo id="cmb5ywkim01nozo0iqfsmhy3q" title="Manage Project Alerts" isShowcase="true" />
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-RESTful APIs を使用して project alerts を管理することもできます。詳細については、[Update Alert Rule](/reference/restful/update-alert-rule-v2) および [Delete Alert Rule](/reference/restful/delete-alert-rule-v2) を参照してください。
+RESTful API を使用してプロジェクトアラートを管理することも可能です。詳細については、[Update Alert Rule](/reference/restful/update-alert-rule-v2) および [Delete Alert Rule](/reference/restful/delete-alert-rule-v2) を参照してください。
 
 </Admonition>
 
-### アラートを無効化または有効化する\{#disable-or-enable-an-alert}
+### アラートの無効化と有効化\{#disable-or-enable-an-alert}
 
-設定を失うことなく、アクティブな監視を制御します。
+設定を保持したまま、監視の有効・無効を切り替えることができます。
 
-- **Disabled alerts:** 通知の送信を停止しますが、すべての設定は保持されます
+- **無効化されたアラート:** 通知の送信は停止しますが、すべての設定は保持されます
 
-- **Enabled alerts:** clusters をアクティブに監視し、しきい値を超えた場合に通知を送信します
+- **有効化されたアラート:** クラスターを継続的に監視し、しきい値を超えた場合に通知を送信します
 
-### アラートを編集する\{#edit-an-alert}
+### アラートの編集\{#edit-an-alert}
 
-監視要件が変更された場合に、アラート設定を更新します。
+監視要件の変更に合わせてアラート設定を更新します。
 
-次を含む任意のアラートパラメータを変更できます。
+以下を含む任意のアラートパラメータを変更できます。
 
 - しきい値と比較演算子
 
-- 対象 clusters と metric の種類
+- 対象クラスターとメトリクスの種類
 
-- 通知チャネル、受信者、alert interval
+- 通知チャネル、受信者、アラート間隔
 
-- 重要度レベルと期間設定
+- 重大度レベルと期間の設定
 
-### アラートを複製する\{#clone-an-alert}
+### アラートの複製\{#clone-an-alert}
 
-最小限の設定作業で類似したアラートを作成します。複製では既存のすべての設定がコピーされるため、次のことが可能です。
+最小限の手間で同様のアラートを作成できます。複製すると既存の設定がすべてコピーされるため、次のような調整が可能です。
 
-- 異なる cluster 環境向けのバリエーションを作成する
+- 異なるクラスター環境向けにバリエーションを作成する
 
-- 他のパラメータを維持したまましきい値を調整する
+- 他のパラメータはそのままでしきい値のみを調整する
 
-- 複数の project に監視を拡張する
+- 複数のプロジェクトにわたって監視を展開する
 
-### アラートを削除する\{#delete-an-alert}
+### アラートの削除\{#delete-an-alert}
 
-古くなった、または冗長な監視ルールを削除します。
+不要になった監視ルールや重複する監視ルールを削除します。
 
-<Admonition type="danger" icon="🚧" title="危険">
+<Admonition type="danger" icon="🚧" title="Danger">
 
-アラートの削除は永続的で、元に戻すことはできません。実行前に、そのアラートが本当に不要であることを確認してください。
+アラートの削除は永続的であり、元に戻すことはできません。操作を実行する前に、そのアラートが不要であることを確認してください。
 
 </Admonition>
 
-## アラート受信者設定を構成する\{#configure-alert-receiver-settings}
+## アラート受信設定の構成\{#configure-alert-receiver-settings}
 
-project 全体のデフォルト通知設定を行い、チーム全体で一貫した監視運用を実現します。
+プロジェクト全体のデフォルト通知設定を行い、チーム全体で一貫した監視運用を確保します。
 
 <Supademo id="cmb5zptc03acdppkpy0vk18f9" title="Zilliz Cloud - Configure Alert Receiver Settings Demo" />
 
-設定時には、次の概念が表示されます。
+設定を行う際は、以下の項目を確認します。
 
-- **Send to**: 新しいアラートに対して自動的に選択されるデフォルトの通知チャネル（email、Slack、webhooks）。最もよく使うチャネルを設定して、アラート作成を効率化できます。
+- **送信先**: 新しいアラート作成時に自動的に選択されるデフォルトの通知チャネル（メール、Slack、Webhook）です。よく使用するチャネルを設定しておくことで、アラート作成を効率化できます。
 
-- **Alert Resolution Notification**: 有効にすると、アラートが解消されたときに通知を受け取ります。
+- **アラート解決通知**: 有効にすると、アラートが解決した際に通知を受け取れます。
 
-- **Apply Settings to Existing Alerts**: 新しいデフォルト設定で既存のすべてのアラートを更新するかどうかを選択します。
+- **既存のアラートに設定を適用**: 新しいデフォルト設定を既存のすべてのアラートに反映するかどうかを選択します。
 
 ## FAQ\{#faq}
 
-### アラートがトリガーされたとき、通知はどのくらいの頻度で届きますか？\{#how-often-will-i-receive-alert-notifications-when-an-alert-is-triggered}
+### アラート発生時、通知はどのくらいの頻度で届きますか？\{#how-often-will-i-receive-alert-notifications-when-an-alert-is-triggered}
 
-アラート通知は自動的に次の頻度パターンに従います。
+アラート通知は、以下の自動頻度パターンに従って送信されます。
 
-- **最初の通知**: アラートのしきい値を超えた時点ですぐに送信されます
+- **最初の通知**: アラートのしきい値を超えた時点で即座に送信されます
 
-- **2回目の通知**: 条件が継続している場合、1時間後に送信されます
+- **2 回目の通知**: 条件が継続している場合、1 時間後に送信されます
 
-- **以降の通知**: アラート条件が有効なままである間、1日1回送信されます
+- **以降の通知**: アラート条件が継続している間、1 日 1 回送信されます
 
-通知頻度が高すぎると感じる場合は、次の対応が可能です。
+通知が頻繁すぎると感じる場合は、以下の対応が可能です。
 
-- [アラートを編集](./manage-project-alerts#edit-an-alert) して、条件のしきい値または継続時間の要件を調整する
+- [アラートを編集](./manage-project-alerts#edit-an-alert)して、条件のしきい値や継続時間の要件を調整する
 
-- [アラートを無効化](./manage-project-alerts#disable-or-enable-an-alert) して、設定を保持したまま一時的にすべての通知を停止する
+- [アラートを無効化](./manage-project-alerts#disable-or-enable-an-alert)して、設定を保持したまま一時的にすべての通知を停止する
 
