@@ -1,13 +1,13 @@
 ---
-title: "Range Search | Cloud"
+title: "範囲検索 | Cloud"
 slug: /range-search
-sidebar_label: "Range Search"
+sidebar_label: "範囲検索"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Range Search は、返されるエンティティの distance または score を特定の範囲内に制限することで、検索結果の関連性を向上させます。このページでは、Range Search とは何か、および Range Search を実行する手順について説明します。 | Cloud"
+description: "範囲検索は、返されるエンティティの distance または score を特定の範囲内に制限することで、検索結果の関連性を向上させます。このページでは、範囲検索とは何か、および範囲検索を実行する手順について説明します。 | Cloud"
 type: origin
 token: GnvtwMeQWi8iRCk7dGccCBQZnOh
 sidebar_position: 5
@@ -19,41 +19,41 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Range Search
+# 範囲検索
 
-Range Search は、返されるエンティティの distance または score を特定の範囲内に制限することで、検索結果の関連性を向上させます。このページでは、Range Search とは何か、および Range Search を実行する手順について説明します。
+範囲検索は、返されるエンティティの distance または score を特定の範囲内に制限することで、検索結果の関連性を向上させます。このページでは、範囲検索とは何か、および範囲検索を実行する手順について説明します。
 
-## Overview\{#overview}
+## 概要\{#overview}
 
-Range Search リクエストを実行すると、Zilliz Cloud は ANN Search の結果からクエリベクトルに最も類似した vectors を中心として使用し、Search リクエストで指定された **radius** を外側の円の半径、**range_filter** を内側の円の半径として、2 つの同心円を描きます。これら 2 つの同心円によって形成される環状領域内に similarity score が収まるすべての vectors が返されます。ここで、**range_filter** は **0** に設定でき、これは指定された similarity score（radius）内のすべてのエンティティが返されることを意味します。
+範囲検索リクエストを実行するとき、Zilliz Cloud は ANN Search の結果からクエリ vector に最も類似した vectors を中心として使用し、Search リクエストで指定された **radius** を外側の円の半径、**range_filter** を内側の円の半径として、2 つの同心円を描きます。これら 2 つの同心円によって形成される環状領域内に similarity score が収まるすべての vectors が返されます。ここで、**range_filter** は **0** に設定することもでき、その場合は指定された similarity score（radius）内のすべてのエンティティが返されます。
 
 ![Sewjwp5DShFgKAbC1Mwcrr7enOD](https://zdoc-images.s3.us-west-2.amazonaws.com/Sewjwp5DShFgKAbC1Mwcrr7enOD.png)
 
-上の図は、Range Search リクエストが 2 つのパラメータ、**radius** と **range_filter** を持つことを示しています。Range Search リクエストを受け取ると、Zilliz Cloud は次の処理を行います。
+上の図が示すように、範囲検索リクエストには 2 つのパラメータ **radius** と **range_filter** が含まれます。範囲検索リクエストを受け取ると、Zilliz Cloud は次の処理を行います。
 
-- 指定された metric type（**COSINE**）を使用して、クエリベクトルに最も類似したすべての vector embeddings を見つけます。
+- 指定された metric type（**COSINE**）を使用して、クエリ vector に最も類似したすべての vector embeddings を見つけます。
 
-- クエリベクトルに対する **distances** または **scores** が **radius** および **range_filter** パラメータで指定された範囲内にある vector embeddings をフィルタリングします。
+- クエリ vector に対する **distances** または **scores** が、**radius** および **range_filter** パラメータで指定された範囲内に収まる vector embeddings をフィルタリングします。
 
 - フィルタリングされたものの中から **top-K** エンティティを返します。
 
-**radius** と **range_filter** の設定方法は、検索の metric type によって異なります。次の表は、異なる metric type におけるこれら 2 つのパラメータの設定要件を示しています。
+**radius** と **range_filter** の設定方法は、検索の metric type によって異なります。次の表は、異なる metric types でこれら 2 つのパラメータを設定する際の要件を示しています。
 
-| Metric Type | Denotations | Requirements for Setting radius and range_filter |
+| Metric Type | 表記 | radius と range_filter の設定要件 |
 | --- | --- | --- |
-| `L2` | より小さい L2 distance は、より高い類似度を示します。 | 最も類似した vector embeddings を除外するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
-| `IP` | より大きい IP distance は、より高い類似度を示します。 | 最も類似した vector embeddings を除外するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
-| `COSINE` | より大きい COSINE distance は、より高い類似度を示します。 | 最も類似した vector embeddings を除外するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
-| `JACCARD` | より小さい Jaccard distance は、より高い類似度を示します。 | 最も類似した vector embeddings を除外するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
-| `HAMMING` | より小さい Hamming distance は、より高い類似度を示します。 | 最も類似した vector embeddings を除外するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
+| `L2` | L2 distance が小さいほど similarity が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
+| `IP` | IP distance が大きいほど similarity が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
+| `COSINE` | COSINE distance が大きいほど similarity が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
+| `JACCARD` | Jaccard distance が小さいほど similarity が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
+| `HAMMING` | Hamming distance が小さいほど similarity が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
 
-## Examples\{#examples}
+## 例\{#examples}
 
-このセクションでは、Range Search の実行方法を示します。以下のコードスニペット内の検索リクエストには metric type が含まれていないため、デフォルトの metric type **COSINE** が適用されます。この場合、**radius** の値が **range_filter** の値より小さくなるようにしてください。
+このセクションでは、範囲検索の実行方法を示します。以下のコードスニペット内の検索リクエストには metric type が含まれていないため、デフォルトの metric type である **COSINE** が適用されます。この場合、**radius** の値が **range_filter** の値より小さくなるようにしてください。
 
-以下のコードスニペットでは、`radius` を `0.4`、`range_filter` を `0.6` に設定しているため、Zilliz Cloud はクエリベクトルに対する distance または score が **0.4** から **0.6** の範囲にあるすべてのエンティティを返します。
+次のコードスニペットでは、`radius` を `0.4`、`range_filter` を `0.6` に設定しているため、Zilliz Cloud はクエリ vector に対する distances または scores が **0.4** から **0.6** の範囲に収まるすべてのエンティティを返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -236,7 +236,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -274,8 +275,11 @@ for (auto& result : response.Results().Results()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 <Admonition type="info" icon="📘" title="注意">
 
-クエリベクトルがすでに対象の collection に存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
+クエリ vectors がすでに対象の collection に存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
 
 </Admonition>

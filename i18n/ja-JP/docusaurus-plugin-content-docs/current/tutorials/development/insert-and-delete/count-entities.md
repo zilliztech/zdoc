@@ -1,13 +1,13 @@
 ---
-title: "エンティティ数をカウントする | Cloud"
+title: "エンティティをカウントする | Cloud"
 slug: /count-entities
-sidebar_label: "Count"
+sidebar_label: "カウント"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "この記事では、collection 内のエンティティ数をカウントする方法と、その数が実際の値と異なる可能性がある理由について説明します。 | Cloud"
+description: "この記事では、collection 内のエンティティをカウントする方法と、エンティティ数が実際の値と異なる可能性がある理由について説明します。 | Cloud"
 type: origin
 token: OfUIwNWVuimZgFk3gBVc61GnnKW
 sidebar_position: 3
@@ -19,60 +19,60 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# エンティティ数をカウントする
+# エンティティをカウントする
 
-この記事では、collection 内のエンティティ数をカウントする方法と、その数が実際の値と異なる可能性がある理由について説明します。
+この記事では、collection 内のエンティティをカウントする方法と、エンティティ数が実際の値と異なる可能性がある理由について説明します。
 
 ## 概要\{#overview}
 
-Zilliz Cloud では、collection 内のエンティティ数をカウントするための 2 つの方法を提供しています。 
+Zilliz Cloud では、collection 内のエンティティをカウントするための 2 つの方法を提供しています。 
 
-- **count(&ast;) を output field として指定して query する**
+- **出力フィールドとして count(&ast;) を指定したクエリ**
 
-    collection 内の正確なエンティティ数を取得するには、この方法を使用し、以下を満たしていることを確認してください。
+    collection 内の正確なエンティティ数を取得するには、この方法を使用し、次の点を確実に満たしてください。
 
-    - 対象の collection を load 済みであること。
+    - 対象の collection をロードしていること。
 
-    - query リクエストで `consistency_level` を `Strong` に設定していること。
+    - クエリリクエストで `consistency_level` を `Strong` に設定していること。
 
     - `output_field` を `['count(*)']` に設定していること。
 
-    このような query を受信すると、Zilliz Cloud は query node にリクエストを送信し、すでにメモリに load されているエンティティをカウントします。
+    このようなクエリを受け取ると、Zilliz Cloud は query node にリクエストを送り、すでにメモリにロードされているエンティティをカウントします。
 
-    query では複数の partition 名を指定して、それらの partition に対応するエンティティ数を取得できます。詳細については、[count(*) を output field として指定して query する](./count-entities) を参照してください。
+    クエリ内で複数の partition 名を指定して、それらの partition に対応するエンティティ数を取得できます。詳細については、[出力フィールドとして count(*) を指定したクエリ](./count-entities) を参照してください。
 
 - **get_collection_stats() を使用する**
 
-    上記の方法を使用すると collection の正確な件数を取得できますが、あらゆる場面でこれを使うことは推奨されません。この処理は基本的に query であり、頻繁に呼び出すとネットワークのジッターを引き起こしたり、業務に関わる search や query に影響を与えたりする可能性があります。 
+    上記の方法を使えば collection の正確な件数を取得できますが、あらゆる場面での使用は推奨されません。この処理は基本的にクエリであり、頻繁に呼び出すとネットワークの揺らぎを引き起こしたり、業務に関連する検索やクエリに影響を与えたりする可能性があります。 
 
-    精度が最優先でない場合は、代わりに `get_collection_stats()` と `get_partition_stats()` を使用してください。この呼び出しで得られるエンティティ数は推定値ですが、実行のために対象の collection を load する必要はなく、内部トラッカーが記録している内容を返すだけなので、コストは無視できるほど小さいです。 
+    精度が最優先でない場合は、代わりに `get_collection_stats()` と `get_partition_stats()` を使用してください。この呼び出しで得られるのは推定エンティティ数ですが、実行のために対象 collection をロードする必要はなく、内部トラッカーが記録している内容を報告するだけなので、コストは無視できるほど小さくなっています。 
 
-    参考までに、すべてのデータ操作は非同期であるため、内部トラッカーはエンティティ数をリアルタイムで反映できません。詳細については、[get_collection_stats() を使用する](./count-entities#use-getcollectionstats) を参照してください。
+    参考として、すべてのデータ操作は非同期であるため、内部トラッカーはエンティティ数をリアルタイムで反映できません。詳細については、[get_collection_stats() を使用する](./count-entities#use-getcollectionstats) を参照してください。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" icon="📘" title="注意">
 
-上記のどちらの方法でも、同じ primary key を持つエンティティは別々のエンティティとしてカウントされます。 
+上記の 2 つの方法はいずれも、同じ primary key を持つエンティティを別々のエンティティとしてカウントします。 
 
 </Admonition>
 
-プログラムでエンティティ数を取得する代わりに、Zilliz Cloud コンソール上で cluster、collection、または partition の値を確認することもできます。詳細については、[Zilliz Cloud コンソール上のエンティティ数](./count-entities) を参照してください。
+プログラムでエンティティ数を取得する代わりに、Zilliz Cloud コンソール上で cluster、collection、または partition の数値を確認することもできます。詳細については、[Zilliz Cloud コンソール上のエンティティ数](./count-entities) を参照してください。
 
-## `count(*)` を output field として指定して query する\{#query-with-count-as-the-output-field}
+## 出力フィールドとして `count(*)` を指定したクエリ\{#query-with-count-as-the-output-field}
 
-正確なエンティティ数を取得するには、collection を load し、`count(*)` を output field として指定して query を実行し、query の整合性レベルを `Strong` に設定します。
+正確なエンティティ数を取得するには、collection をロードし、出力フィールドとして `count(*)` を指定したクエリを実行し、クエリの整合性レベルを `Strong` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
-# Count without the entities in growing segments
+# growing segment 内のエンティティを含めずにカウント
 res = client.query(
     collection_name="test_collection",
     # highlight-next-line
     output_fields=['count(*)']
 )
 
-# Count with the entities in growing segments
+# growing segment 内のエンティティを含めてカウント
 res = client.query(
     collection_name="test_collection",
     # highlight-start
@@ -81,7 +81,7 @@ res = client.query(
     # highlight-end
 )
 
-# Count the entities in a specific partition
+# 特定の partition 内のエンティティをカウント
 res = client.query(
     collection_name="test_collection",
     # highlight-start
@@ -90,7 +90,7 @@ res = client.query(
     # highlight-end
 )
 
-# Get the entity count
+# エンティティ数を取得
 print(res[0]['count(*)'])
 # Output
 # 20
@@ -104,7 +104,7 @@ print(res[0]['count(*)'])
 import io.milvus.v2.service.vector.request.QueryReq
 import io.milvus.v2.service.vector.request.QueryResp
 
-// Count without the entities in growing segments
+// growing segment 内のエンティティを含めずにカウント
 QueryResp count = client.query(QueryReq.builder()
         .collectionName("test_collection")
         .filter("")
@@ -112,7 +112,7 @@ QueryResp count = client.query(QueryReq.builder()
         .outputFields(Collections.singletonList("count(*)"))
         .build());
 
-// Count with the entities in growing segments
+// growing segment 内のエンティティを含めてカウント
 count = client.query(QueryReq.builder()
         .collectionName("test_collection")
         .filter("")
@@ -122,7 +122,7 @@ count = client.query(QueryReq.builder()
         // highlight-end
         .build());
 
-// Count the entities in a specific partition
+// 特定の partition 内のエンティティをカウント
 countR = client.query(QueryReq.builder()
         .collectionName("test_collection")
         .filter("")
@@ -166,21 +166,21 @@ const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-// Count with the entities in growing segments
+// growing segment 内のエンティティを含めてカウント
 let res = await client.query({
     collection_name: "test_collection",
     output_fields: ["count(*)"],
     consistency_level: 'Strong'
 });
 
-// Count the entities in a specific partition
+// 特定の partition 内のエンティティをカウント
 res = await client.query({
     collection_name: "test_collection",
     output_fields: ["count(*)"],
     partition_names: ['_default']
 });
 
-// Get the entity count
+// エンティティ数を取得
 console.log(res.data[0]['count(*)'])
 // Output
 // 20
@@ -208,7 +208,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -253,25 +254,28 @@ if (!status.IsOk()) {
 std::cout << response.Results().GetRowCount() << std::endl;
 ```
 
+</TabItem>
+</Tabs>
+
 ## `get_collection_stats()` を使用する\{#use-getcollectionstats}
 
-前述のとおり、`get_collection_stats()` は collection 内のエンティティ数の推定値を返すため、実際のエンティティ数とは異なる場合があります。collection を load せずに参照値として利用できます。 
+前述のとおり、`get_collection_stats()` は collection 内の推定エンティティ数を返すため、実際のエンティティ数とは異なる場合があります。これは collection をロードせずに参照値として利用できます。 
 
-以下の例では、`test_collection` という名前の collection が存在することを前提としています。
+次の例では、`test_collection` という名前の collection が存在すると仮定しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
 
-# 1. Set up a milvus client
+# 1. milvus client を設定
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
     token="YOUR_CLUSTER_TOKEN"
 )
 
-# 2. Get the entity count of a collection
+# 2. collection のエンティティ数を取得
 client.get_collection_stats(collection_name="test_collection") 
 
 # Output
@@ -280,7 +284,7 @@ client.get_collection_stats(collection_name="test_collection")
 #     'row_count': 1000
 # }
 
-# 3. Get the entity count of a partition
+# 3. partition のエンティティ数を取得
 client.get_partition_stats(
     collection_name="test_collection",
     partition_name="_default"
@@ -305,19 +309,19 @@ import io.milvus.v2.service.collection.response.GetCollectionStatsResp;
 import io.milvus.v2.service.partition.request.GetPartitionStatsReq;
 import io.milvus.v2.service.partition.response.GetPartitionStatsResp;
 
-// 1. Set up a milvus client
+// 1. milvus client を設定
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build());
 
-// 2. Get the entity count of a collection
+// 2. collection のエンティティ数を取得
 GetCollectionStatsResp stats = client.getCollectionStats(GetCollectionStatsReq.builder()
         .collectionName("test_collection")
         .build());
 System.out.print(stats.getNumOfEntities());
 
-// 3. Get the entity count of a partition
+// 3. partition のエンティティ数を取得
 GetPartitionStatsResp partitionStats = client.getPartitionStats(GetPartitionStatsReq.builder()
         .collectionName("test_collection")
         .partitionName("_default")
@@ -340,13 +344,13 @@ System.out.print(partitionStats.getNumOfEntities());
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-// 1. Set up a milvus client
+// 1. milvus client を設定
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN'
 });
 
-// 2. Get the entity count
+// 2. エンティティ数を取得
 milvusClient.getCollectionStats({
  collection_name: 'test_collection',
  partition_name: '_default'
@@ -368,7 +372,8 @@ milvusClient.getCollectionStats({
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -399,45 +404,48 @@ if (!status.IsOk()) {
 std::cout << response.Stats().RowCount() << std::endl;
 ```
 
+</TabItem>
+</Tabs>
+
 ## Zilliz Cloud コンソール上のエンティティ数\{#entity-counts-on-the-zilliz-cloud-console}
 
-プログラムでエンティティ数をカウントする代わりに、Zilliz Cloud コンソールにアクセスして、以下のページで cluster、collection、または partition のエンティティ数を確認することもできます。
+プログラムでエンティティをカウントする代わりに、Zilliz Cloud コンソールにアクセスして、以下のページで cluster、collection、または partition のエンティティ数を確認することもできます。
 
 ### Metrics\{#metrics}
 
-cluster の **Metrics** タブでは、**Entity Count** と **Loaded Entities (Approx.)** を確認できます。どちらの値も推定値です。グラフ上の値は、[`get_collection_stats()` を使用して](./count-entities#use-getcollectionstats)取得されています。以後データの insert や delete が行われなければ、**Entity Count** のグラフは最終的に現在の collection における実際のエンティティ数を反映します。
+cluster の **Metrics** タブでは、**Entity Count** と **Loaded Entities (Approx.)** を確認できます。どちらの値も推定値です。曲線上の値は、[`get_collection_stats()` を使用して](./count-entities#use-getcollectionstats) 取得されます。追加のデータ挿入や削除が行われなければ、**Entity Count** 曲線は最終的に現在の collection における実際のエンティティ数を反映します。
 
 ![ZVYcwdlqAhOUqDb4vC3c2Hf8n5e](https://zdoc-images.s3.us-west-2.amazonaws.com/ZVYcwdlqAhOUqDb4vC3c2Hf8n5e.png)
 
 ### Collection Details\{#collection-details}
 
-collection の詳細タブでは、その collection の実際のエンティティ数を確認できます。この値は、[`count(*)` を output field として指定した query](./count-entities)を使用して取得されています。
+collection の詳細タブでは、その collection の実際のエンティティ数を確認できます。この値は、[出力フィールドとして ](./count-entities)[`count(*)`](./count-entities)[ を指定したクエリ](./count-entities)を使用して取得されます。
 
 ![PfXfwGQoLhW0OBbVMMfccM0Qnaf](https://zdoc-images.s3.us-west-2.amazonaws.com/PfXfwGQoLhW0OBbVMMfccM0Qnaf.png)
 
 ### Partitions\{#partitions}
 
-collection の **Partitions** タブを使用して、子 partition に load されているエンティティ数の推定値を確認することもできます。この値は `get_partition_stats()` を使用して取得されます。
+collection の **Partitions** タブを使用して、その子 partition にロードされているエンティティの推定数を確認することもできます。この値は `get_partition_stats()` を使用して取得されます。
 
 ![LKThwnS2fhTj8vbFJpEcjAMunwf](https://zdoc-images.s3.us-west-2.amazonaws.com/LKThwnS2fhTj8vbFJpEcjAMunwf.png)
 
-## FAQs\{#faqs}
+## FAQ\{#faqs}
 
-- **エンティティを insert した後、get_collection_stats() または get_partition_stats() を使用して取得したエンティティ数が、なぜ対象の collection や partition の実際のエンティティ数を反映しないのですか？** 
+- **いくつかのエンティティを挿入した後、get_collection_stats() または get_partition_stats() を使用して取得したエンティティ数が、対象の collection または partition の実際のエンティティ数を反映しないのはなぜですか？** 
 
-    これらのメソッドは内部トラッカーが記録している内容を返すだけであり、すべてのデータ操作は非同期であるため、実際のエンティティ数と異なる場合があります。
+    これらのメソッドは内部トラッカーが記録している内容のみを報告するため、すべてのデータ操作が非同期であることから、実際のエンティティ数と異なる場合があります。
 
-- **エンティティを insert または delete した後、collection の Metrics タブにある Entity Count のグラフが変化しないのはなぜですか？**
+- **いくつかのエンティティを挿入または削除した後、collection の Metrics タブにある Entity Count 曲線が変化しないのはなぜですか？**
 
-    **Entity Count** のグラフ内の値は、特定の時点における推定値です。すべてのデータ操作は非同期であるため、グラフに反映されるまでに遅延が生じる場合があります。
+    **Entity Count** 曲線の値は、特定の時点における推定値です。すべてのデータ操作は非同期であるため、曲線に反映されるまで遅延が生じる場合があります。
 
-- **エンティティを insert または delete した後、collection の Partitions タブにある Entity Count (Approx.) 列に表示される値が変化しないのはなぜですか？**
+- **いくつかのエンティティを挿入または削除した後、collection の Partitions タブにある Entity Count (Approx.) 列に表示される値が変化しないのはなぜですか？**
 
-    一覧表示されている partition の値はすべて推定値です。すべてのデータ操作は非同期であるため、グラフに反映されるまでに遅延が生じる場合があります。
+    一覧表示される partition の値はすべて推定値です。すべてのデータ操作は非同期であるため、曲線に反映されるまで遅延が生じる場合があります。
 
-- **collection の Overview タブに表示される Loaded Entities の値が、なぜ collection 内の実際のエンティティ数を反映しないのですか？**
+- **collection の Overview タブに表示される Loaded Entities の値が、collection 内の実際のエンティティ数を反映しないのはなぜですか？**
 
-    **Loaded Entities** に表示される値は正確です。この値と通常の query で取得したエンティティ数との間に差がある場合、その collection 内の一部のエンティティが同一の primary key を持っている可能性があります。 
+    **Loaded Entities** に表示される値は正確です。この値と通常のクエリで取得したエンティティ数の間に差がある場合、collection 内の一部のエンティティが同一の primary key を持っている可能性があります。 
 
-    `count(*)` を output field として指定した query は、同一の primary key を持つエンティティを別々のエンティティとして扱ってカウントします。一方、その他の query では、最終結果を返す前に同じ primary key を持つエンティティが除外されます。
+    `count(*)` を出力フィールドとして指定したクエリは、同一の primary key を持つエンティティを別々のエンティティとして扱います。一方、その他のクエリでは、最終結果を返す前に同一の primary key を持つエンティティが省かれます。
 

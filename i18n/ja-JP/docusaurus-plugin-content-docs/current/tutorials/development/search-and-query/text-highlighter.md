@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の Highlighter は、text フィールド内で一致した用語をカスタマイズ可能なタグで囲んで注釈を付けます。ハイライトは、ドキュメントが一致した理由の説明、結果の可読性向上、検索および RAG アプリケーションでのリッチなレンダリングをサポートします。 | Cloud"
+description: "Zilliz Cloud の Highlighter は、テキストフィールド内の一致した用語をカスタマイズ可能なタグで囲んで注釈を付けます。ハイライトは、ドキュメントが一致した理由の説明、結果の可読性向上、検索および RAG アプリケーションでのリッチなレンダリングのサポートに役立ちます。 | Cloud"
 type: origin
 token: BJCjwpj8JizP0nkI11uci1pPndh
-sidebar_position: 13
+sidebar_position: 14
 displayed_sidebar: default
 
 ---
@@ -20,33 +20,33 @@ import Admonition from '@theme/Admonition';
 
 # Lexical Highlighter
 
-Zilliz Cloud の Highlighter は、text フィールド内で一致した用語をカスタマイズ可能なタグで囲んで注釈を付けます。ハイライトは、ドキュメントが一致した理由の説明、結果の可読性向上、検索および RAG アプリケーションでのリッチなレンダリングをサポートします。
+Zilliz Cloud の Highlighter は、テキストフィールド内の一致した用語をカスタマイズ可能なタグで囲んで注釈を付けます。ハイライトは、ドキュメントがクエリに一致した理由の説明、結果の可読性向上、検索および RAG アプリケーションでのリッチなレンダリングのサポートに役立ちます。
 
-ハイライトは最終的な検索結果セットに対する後処理ステップとして実行されます。candidate の取得、フィルタリングロジック、ranking、scoring には影響しません。
+ハイライトは、最終的な検索結果セットに対する後処理ステップとして実行されます。候補の取得、フィルタリングロジック、ランキング、スコアリングには影響しません。
 
-Highlighter は、3 つの独立した制御次元を提供します。
+Highlighter は、独立した 3 つの制御軸を提供します。
 
 - **どの用語をハイライトするか**
 
-    ハイライトされる用語の取得元を選択できます。たとえば、**BM25 full text search** で使用された検索語や、**テキストベースのフィルタリング式**（`TEXT_MATCH` 条件など）で指定されたクエリ用語をハイライトできます。
+    ハイライト対象の用語をどこから取得するかを選択できます。たとえば、**BM25 full text search** で使用される検索語や、**テキストベースのフィルタリング式**（`TEXT_MATCH` 条件など）で指定されたクエリ用語をハイライトできます。
 
 - **ハイライトされた用語をどのようにレンダリングするか**
 
-    各一致箇所の前後に挿入するタグを設定することで、ハイライト出力内で一致した用語をどのように表示するかを制御できます。たとえば、`{}` のようなシンプルなマーカーや、リッチレンダリングのための `<em></em>` のような HTML タグを使用できます。
+    各一致の前後に挿入するタグを設定することで、ハイライト出力内で一致した用語をどのように表示するかを制御できます。たとえば、`{}` のような単純なマーカーや、リッチレンダリング用の `<em></em>` のような HTML タグを使用できます。
 
 - **ハイライトされたテキストをどのように返すか**
 
-    フラグメントとして返されるハイライト結果を制御できます。これには、フラグメントの開始位置、長さ、返されるフラグメント数が含まれます。
+    フラグメントの開始位置、長さ、返すフラグメント数などを含め、ハイライト結果をフラグメントとしてどのように返すかを制御できます。
 
-以下のセクションでは、これらのシナリオを順に説明します。
+以降のセクションで、これらのシナリオを順に説明します。
 
 ## BM25 full text search における検索語のハイライト\{#search-term-highlighting-in-bm25-full-text-search}
 
-BM25 full text search を実行するとき、返される結果内の**検索語**をハイライトして、ドキュメントがクエリに一致した理由を示すことができます。BM25 full text search の詳細については、[Full Text Search](./full-text-search) を参照してください。
+BM25 full text search を実行すると、返される結果内で **検索語** をハイライトして、ドキュメントがクエリに一致した理由を説明しやすくできます。BM25 full text search の詳細については、[Full Text Search](./full-text-search) を参照してください。
 
-このシナリオでは、ハイライトされる用語は BM25 full text search で使用された検索語から直接取得されます。Highlighter はこれらの用語を使用して、最終結果内の一致テキストに注釈を付けます。
+このシナリオでは、ハイライト対象の用語は BM25 full text search で使用された検索語から直接取得されます。Highlighter はこれらの用語を使って、最終結果内の一致したテキストに注釈を付けます。
 
-次の内容が text フィールドに保存されているとします。
+次の内容がテキストフィールドに保存されているとします。
 
 ```plaintext
 Milvus supports full text search. Use BM25 for keyword relevance. Filters can narrow results.
@@ -54,40 +54,40 @@ Milvus supports full text search. Use BM25 for keyword relevance. Filters can na
 
 **Highlighter の設定**
 
-BM25 full text search で検索語をハイライトするには、`LexicalHighlighter` を作成し、BM25 full text search の検索語ハイライトを有効にします。
+BM25 full text search で検索語をハイライトするには、`LexicalHighlighter` を作成し、BM25 full text search 用の検索語ハイライトを有効にします。
 
 ```python
 from pymilvus import LexicalHighlighter
 
 highlighter = LexicalHighlighter(
-    pre_tags=["{"],              # 各ハイライト語の前に挿入されるタグ
-    post_tags=["}"],             # 各ハイライト語の後に挿入されるタグ
+    pre_tags=["{"],              # 各ハイライト用語の前に挿入するタグ
+    post_tags=["}"],             # 各ハイライト用語の後に挿入するタグ
     highlight_search_text=True   # BM25 full text search の検索語ハイライトを有効化
 )
 ```
 
-この例では次のとおりです。
+この例では、次のようになっています。
 
-- `pre_tags` と `post_tags` は、ハイライトされたテキストが出力内でどのように見えるかを制御します。この場合、一致した用語は `{}` で囲まれます（たとえば `{term}`）。複数のタグをリストとして指定することもできます（たとえば `["<b>", "<i>"]`）。複数の用語がハイライトされる場合、タグは順番に適用され、一致順にローテーションされます。
+- `pre_tags` と `post_tags` は、出力内でハイライトされたテキストをどのように表示するかを制御します。この場合、一致した用語は `{}` で囲まれます（例: `{term}`）。複数のタグをリストとして指定することもできます（例: `["<b>", "<i>"]`）。複数の用語がハイライトされる場合、タグは順番に適用され、一致順に応じてローテーションされます。
 
-- `highlight_search_text=True` は、BM25 full text search の検索語をハイライト対象語のソースとして使用するよう Zilliz Cloud に指示します。
+- `highlight_search_text=True` は、BM25 full text search の検索語をハイライト対象用語のソースとして使用するよう Zilliz Cloud に指示します。
 
 Highlighter オブジェクトを作成したら、その設定を BM25 full text search リクエストに適用します。
 
 ```python
 results = client.search(
     ...,
-    data=["BM25"],      # BM25 full text search で使用される検索語
+    data=["BM25"],      # BM25 full text search で使用する検索語
     # highlight-next-line
-    highlighter=highlighter # highlighter 設定をここで渡す
+    highlighter=highlighter # ここで highlighter 設定を渡す
 )
 ```
 
 **ハイライト出力**
 
-ハイライトを有効にすると、Zilliz Cloud は専用の `highlight` フィールドにハイライトされたテキストを返します。デフォルトでは、ハイライト出力は最初に一致した用語から始まるフラグメントとして返されます。
+ハイライトを有効にすると、Zilliz Cloud は専用の `highlight` フィールドにハイライト済みテキストを返します。デフォルトでは、ハイライト出力は最初に一致した用語から始まるフラグメントとして返されます。
 
-この例では検索語が `"BM25"` なので、返される結果ではそれがハイライトされます。
+この例では、検索語は `"BM25"` なので、返される結果内でこれがハイライトされます。
 
 ```json
 {
@@ -104,17 +104,17 @@ results = client.search(
 
 ## フィルタリングにおけるクエリ用語のハイライト\{#query-term-highlighting-in-filtering}
 
-検索語のハイライトに加えて、テキストベースのフィルタリング式で使われる用語もハイライトできます。
+検索語のハイライトに加えて、テキストベースのフィルタリング式で使用される用語をハイライトすることもできます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注">
 
-現在、クエリ用語ハイライトでサポートされているフィルタリング条件は `TEXT_MATCH` のみです。詳細については、[Text Match](./text-match) を参照してください。
+現在、クエリ用語のハイライトでサポートされているフィルタリング条件は `TEXT_MATCH` のみです。詳細については、[Text Match](./text-match) を参照してください。
 
 </Admonition>
 
-このシナリオでは、ハイライトされる用語はテキストベースのフィルタリング式から取得されます。フィルタリングはどのドキュメントが一致するかを決定し、Highlighter は一致したテキスト範囲に注釈を付けます。
+このシナリオでは、ハイライト対象の用語はテキストベースのフィルタリング式から取得されます。フィルタリングはどのドキュメントが一致するかを決定し、Highlighter は一致したテキスト範囲に注釈を付けます。
 
-次の内容が text フィールドに保存されているとします。
+次の内容がテキストフィールドに保存されているとします。
 
 ```python
 This document explains how text filtering works in Milvus.
@@ -128,19 +128,19 @@ This document explains how text filtering works in Milvus.
 from pymilvus import LexicalHighlighter
 
 highlighter = LexicalHighlighter(
-    pre_tags=["{"],              # 各ハイライト語の前に挿入されるタグ
-    post_tags=["}"],             # 各ハイライト語の後に挿入されるタグ
+    pre_tags=["{"],              # 各ハイライト用語の前に挿入するタグ
+    post_tags=["}"],             # 各ハイライト用語の後に挿入するタグ
     highlight_query=[{
-        "type": "TextMatch",     # テキストフィルタリングのタイプ
-        "field": "text",         # 対象の text フィールド
+        "type": "TextMatch",     # テキストフィルタリングの種類
+        "field": "text",         # 対象のテキストフィールド
         "text": "text filtering" # ハイライトする用語
     }]
 )
 ```
 
-この設定では次のとおりです。
+この設定では、次のようになっています。
 
-- `pre_tags` と `post_tags` は、ハイライトされたテキストが出力内でどのように見えるかを制御します。この場合、一致した用語は `{}` で囲まれます（たとえば `{term}`）。複数のタグをリストとして指定することもできます（たとえば `["<b>", "<i>"]`）。複数の用語がハイライトされる場合、タグは順番に適用され、一致順にローテーションされます。
+- `pre_tags` と `post_tags` は、出力内でハイライトされたテキストをどのように表示するかを制御します。この場合、一致した用語は `{}` で囲まれます（例: `{term}`）。複数のタグをリストとして指定することもできます（例: `["<b>", "<i>"]`）。複数の用語がハイライトされる場合、タグは順番に適用され、一致順に応じてローテーションされます。
 
 - `highlight_query` は、どのフィルタリング用語をハイライトするかを定義します。
 
@@ -151,15 +151,15 @@ results = client.search(
     ...,
     filter='TEXT_MATCH(text, "text filtering")',
     # highlight-next-line
-    highlighter=highlighter # highlighter 設定をここで渡す
+    highlighter=highlighter # ここで highlighter 設定を渡す
 )
 ```
 
 **ハイライト出力**
 
-フィルタリングに対してクエリ用語ハイライトを有効にすると、Zilliz Cloud は専用の `highlight` フィールドにハイライトされたテキストを返します。デフォルトでは、ハイライト出力は最初に一致した用語から始まるフラグメントとして返されます。
+フィルタリング向けのクエリ用語ハイライトを有効にすると、Zilliz Cloud は専用の `highlight` フィールドにハイライト済みテキストを返します。デフォルトでは、ハイライト出力は最初に一致した用語から始まるフラグメントとして返されます。
 
-この例では、最初に一致した用語は `"text"` なので、返されるハイライトテキストはその位置から始まります。
+この例では、最初に一致した用語は `"text"` なので、返されるハイライト済みテキストはその位置から始まります。
 
 ```json
 {
@@ -176,9 +176,9 @@ results = client.search(
 
 ## フラグメントベースのハイライト出力\{#fragment-based-highlighting-output}
 
-デフォルトでは、Zilliz Cloud は最初に一致した用語から始まるフラグメントとしてハイライトされたテキストを返します。フラグメント関連の設定を使用すると、どの用語をハイライトするかを変更せずに、フラグメントの返し方をさらに細かく制御できます。
+デフォルトでは、Zilliz Cloud は最初に一致した用語から始まるフラグメントとしてハイライト済みテキストを返します。フラグメント関連の設定を使うことで、どの用語をハイライトするかを変更せずに、フラグメントの返し方をさらに細かく制御できます。
 
-次の内容が text フィールドに保存されているとします。
+次の内容がテキストフィールドに保存されているとします。
 
 ```plaintext
 Milvus supports full text search. Use BM25 for keyword relevance. Filters can narrow results.
@@ -195,19 +195,19 @@ highlighter = LexicalHighlighter(
     pre_tags=["{"],
     post_tags=["}"],
     highlight_search_text=True,
-    fragment_offset=5,     # 最初の一致語の前に確保する文字数
+    fragment_offset=5,     # 最初に一致した用語の前に確保する文字数
     fragment_size=60,      # 返す各フラグメントの最大長
-    num_of_fragments=1     # 返すフラグメントの最大数
+    num_of_fragments=1     # 返すフラグメント数の上限
 )
 ```
 
-この設定では次のとおりです。
+この設定では、次のようになっています。
 
-- `fragment_offset` は、最初にハイライトされる用語の前に先頭コンテキストを確保します。
+- `fragment_offset` は、最初にハイライトされた用語の前に先行コンテキストを確保します。
 
 - `fragment_size` は、各フラグメントに含めるテキスト量を制限します。
 
-- `num_of_fragments` は、返されるフラグメント数を制御します。
+- `num_of_fragments` は、返すフラグメント数を制御します。
 
 Highlighter オブジェクトを作成したら、highlighter 設定を検索リクエストに適用します。
 
@@ -216,13 +216,13 @@ results = client.search(
     ...,
     data=["BM25"],
     # highlight-next-line
-    highlighter=highlighter # highlighter 設定をここで渡す
+    highlighter=highlighter # ここで highlighter 設定を渡す
 )
 ```
 
 **ハイライト出力**
 
-フラグメントベースのハイライトを有効にすると、Zilliz Cloud は `highlight` フィールド内にフラグメントとしてハイライトされたテキストを返します。
+フラグメントベースのハイライトを有効にすると、Zilliz Cloud は `highlight` フィールド内にフラグメントとしてハイライト済みテキストを返します。
 
 ```json
 {
@@ -235,13 +235,13 @@ results = client.search(
 }
 ```
 
-この出力では次のとおりです。
+この出力では、次のようになります。
 
-- `fragment_offset` が設定されているため、フラグメントは `{BM25}` ちょうどからは始まりません。
+- `fragment_offset` が設定されているため、フラグメントは `{BM25}` からぴったり始まりません。
 
 - `num_of_fragments` が 1 のため、返されるフラグメントは 1 つだけです。
 
-- フラグメントの長さは `fragment_size` によって上限が設定されます。
+- フラグメントの長さは `fragment_size` によって制限されます。
 
 ## 例\{#examples}
 
@@ -267,23 +267,23 @@ from pymilvus import (
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 COLLECTION_NAME = "highlighter_demo"
 
-# Clean up existing collection
+# 既存の collection をクリーンアップ
 if client.has_collection(COLLECTION_NAME):
     client.drop_collection(COLLECTION_NAME)
 
-# Define schema
+# スキーマを定義
 schema = client.create_schema(enable_dynamic_field=False)
 schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True, auto_id=True)
 schema.add_field(
     field_name="text",
     datatype=DataType.VARCHAR,
     max_length=2000,
-    enable_analyzer=True,  # Required for BM25
-    enable_match=True,     # Required for TEXT_MATCH
+    enable_analyzer=True,  # BM25 に必須
+    enable_match=True,     # TEXT_MATCH に必須
 )
 schema.add_field(field_name="sparse_vector", datatype=DataType.SPARSE_FLOAT_VECTOR)
 
-# Add BM25 function
+# BM25 関数を追加
 schema.add_function(Function(
     name="text_bm25",
     function_type=FunctionType.BM25,
@@ -291,7 +291,7 @@ schema.add_function(Function(
     output_field_names=["sparse_vector"],
 ))
 
-# Create index
+# インデックスを作成
 index_params = client.prepare_index_params()
 index_params.add_index(
     field_name="sparse_vector",
@@ -302,7 +302,7 @@ index_params.add_index(
 
 client.create_collection(collection_name=COLLECTION_NAME, schema=schema, index_params=index_params)
 
-# Insert sample documents
+# サンプルドキュメントを挿入
 docs = [
     "my first test doc",
     "my second test doc",
@@ -313,10 +313,10 @@ docs = [
 client.insert(collection_name=COLLECTION_NAME, data=[{"text": t} for t in docs])
 print(f"✓ Collection created with {len(docs)} documents\n")
 
-# Helper for search params
+# search params 用ヘルパー
 SEARCH_PARAMS = {"params": {"drop_ratio_search": 0.0}}
 
-# Expected output:
+# 期待される出力:
 # ✓ Collection created with 4 documents
 ```
 
@@ -326,7 +326,7 @@ SEARCH_PARAMS = {"params": {"drop_ratio_search": 0.0}}
 
 この例では、BM25 full text search で検索語をハイライトする方法を示します。
 
-- BM25 full text search は `"test"` を検索語として使用します
+- BM25 full text search では `"test"` を検索語として使用します
 
 - highlighter は "test" のすべての出現箇所を `{` と `}` タグで囲みます
 
@@ -372,9 +372,9 @@ print()
 
 この例では、`TEXT_MATCH` フィルタに一致した用語をハイライトする方法を示します。
 
-- BM25 full text search は `"test"` をクエリ用語として使用します
+- BM25 full text search では `"test"` をクエリ用語として使用します
 
-- `queries` パラメータは `"my doc"` をハイライト対象リストに追加します
+- `queries` パラメータで `"my doc"` をハイライト対象リストに追加します
 
 - highlighter は一致したすべての用語（`"my"`、`"test"`、`"doc"`）を `{` と `}` で囲みます
 
@@ -383,8 +383,8 @@ print()
 highlighter = LexicalHighlighter(
     pre_tags=["{"],
     post_tags=["}"],
-    highlight_search_text=True,   # Also highlight BM25 term
-    highlight_query=[                     # Additional TEXT_MATCH terms to highlight
+    highlight_search_text=True,   # BM25 用語もハイライト
+    highlight_query=[                     # 追加でハイライトする TEXT_MATCH 用語
         {"type": "TextMatch", "field": "text", "text": "my doc"},
     ],
 )
@@ -421,13 +421,13 @@ print()
 
 ### 例 3: ハイライトをフラグメントとして返す\{#example-3-return-highlights-as-fragments}
 
-この例では、クエリは `"Milvus"` を検索し、次の設定でハイライトフラグメントを返します。
+この例では、クエリは `"Milvus"` を検索し、以下の設定でハイライトフラグメントを返します。
 
-- `fragment_offset` は、最初のハイライト範囲の前に最大 20 文字を先頭コンテキストとして保持します（デフォルトは 0）。
+- `fragment_offset` は、最初にハイライトされた範囲の前に最大 20 文字の先行コンテキストを保持します（デフォルトは 0）。
 
-- `fragment_size` は、各フラグメントをおよそ 60 文字に制限します（デフォルトは 100）。
+- `fragment_size` は、各フラグメントを約 60 文字に制限します（デフォルトは 100）。
 
-- `num_of_fragments` は、text 値ごとに返されるフラグメント数を制限します（デフォルトは 5）。
+- `num_of_fragments` は、各テキスト値ごとに返されるフラグメント数を制限します（デフォルトは 5）。
 
 ```python
 # highlight-start
@@ -435,8 +435,8 @@ highlighter = LexicalHighlighter(
     pre_tags=["{"],
     post_tags=["}"],
     highlight_search_text=True,
-    fragment_offset=20,  # Keep 20 chars before match
-    fragment_size=60,    # Max ~60 chars per fragment
+    fragment_offset=20,  # 一致前の 20 文字を保持
+    fragment_size=60,    # 各フラグメントは最大約 60 文字
 )
 # highlight-end
 
@@ -470,13 +470,13 @@ Doc 2: ['my second test doc. {Milvus} is an open-source vector database']
 
 ### 例 4: 複数クエリのハイライト\{#example-4-multi-query-highlighting}
 
-BM25 full text search で複数のクエリを使って検索する場合、各クエリの結果はそれぞれ独立してハイライトされます。最初のクエリの結果にはその検索語のハイライトが含まれ、2 番目のクエリの結果にはその検索語のハイライトが含まれます。各クエリは同じ `highlighter` 設定を使用しますが、独立して適用されます。
+BM25 full text search で複数のクエリを使用して検索する場合、各クエリの結果はそれぞれ独立してハイライトされます。1 つ目のクエリの結果にはその検索語に対するハイライトが含まれ、2 つ目のクエリの結果にはその検索語に対するハイライトが含まれます。以降も同様です。各クエリは同じ `highlighter` 設定を使用しますが、独立して適用されます。
 
-以下の例では次のとおりです。
+以下の例では、次のようになります。
 
-- 1 つ目のクエリは結果セット内で `"test"` をハイライトします
+- 1 つ目のクエリは、その結果セットで `"test"` をハイライトします
 
-- 2 つ目のクエリは結果セット内で `"Milvus"` をハイライトします
+- 2 つ目のクエリは、その結果セットで `"Milvus"` をハイライトします
 
 ```python
 # highlight-start
@@ -489,7 +489,7 @@ highlighter = LexicalHighlighter(
 
 results = client.search(
     collection_name=COLLECTION_NAME,
-    data=["test", "Milvus"],  # Two queries
+    data=["test", "Milvus"],  # 2 つのクエリ
     anns_field="sparse_vector",
     limit=2,
     search_params=SEARCH_PARAMS,
@@ -523,7 +523,7 @@ Query 'Milvus':
 
 ### 例 5: カスタム HTML タグ\{#example-5-custom-html-tags}
 
-Web UI 向けの HTML-safe タグなど、任意のタグをハイライトに使用できます。これは、ブラウザで検索結果をレンダリングするときに便利です。
+ハイライトには任意のタグを使用できます。たとえば、Web UI 向けの HTML セーフなタグを使用できます。これは、ブラウザで検索結果をレンダリングする際に便利です。
 
 ```python
 # highlight-start

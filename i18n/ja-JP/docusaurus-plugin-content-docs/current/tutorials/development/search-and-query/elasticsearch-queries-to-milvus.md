@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Apache Lucene を基盤とする Elasticsearch は、主要なオープンソース検索エンジンです。しかし、更新コストの高さ、リアルタイム性能の低さ、非効率な shard 管理、クラウドネイティブでない設計、過剰なリソース要求など、現代の AI アプリケーションでは課題に直面します。クラウドネイティブな vector database である Milvus は、ストレージとコンピューティングの分離、高次元データ向けの効率的な index、現代的なインフラとのシームレスな統合により、これらの問題を解決します。AI ワークロードに対して、優れた性能とスケーラビリティを提供します。 | Cloud"
+description: "Apache Lucene 上に構築された Elasticsearch は、主要なオープンソース検索エンジンです。しかし、更新コストの高さ、リアルタイム性能の低さ、非効率なシャード管理、クラウドネイティブでない設計、過剰なリソース要求など、現代の AI アプリケーションでは課題に直面します。クラウドネイティブなベクトルデータベースである Milvus は、ストレージとコンピューティングの分離、高次元データ向けの効率的なインデックス作成、最新インフラストラクチャとのシームレスな統合によって、これらの問題を克服します。AI ワークロードに対して優れたパフォーマンスとスケーラビリティを提供します。 | Cloud"
 type: origin
 token: OFl9wHXpriM8aEkoONScpU1lnIf
-sidebar_position: 17
+sidebar_position: 18
 displayed_sidebar: default
 
 ---
@@ -20,15 +20,15 @@ import Admonition from '@theme/Admonition';
 
 # Elasticsearch クエリから Milvus へ
 
-Apache Lucene を基盤とする Elasticsearch は、主要なオープンソース検索エンジンです。しかし、更新コストの高さ、リアルタイム性能の低さ、非効率な shard 管理、クラウドネイティブでない設計、過剰なリソース要求など、現代の AI アプリケーションでは課題に直面します。クラウドネイティブな vector database である Milvus は、ストレージとコンピューティングの分離、高次元データ向けの効率的な index、現代的なインフラとのシームレスな統合により、これらの問題を解決します。AI ワークロードに対して、優れた性能とスケーラビリティを提供します。
+Apache Lucene 上に構築された Elasticsearch は、主要なオープンソース検索エンジンです。しかし、更新コストの高さ、リアルタイム性能の低さ、非効率なシャード管理、クラウドネイティブでない設計、過剰なリソース要求など、現代の AI アプリケーションでは課題に直面します。クラウドネイティブなベクトルデータベースである Milvus は、ストレージとコンピューティングの分離、高次元データ向けの効率的なインデックス作成、最新インフラストラクチャとのシームレスな統合によって、これらの問題を克服します。AI ワークロードに対して優れたパフォーマンスとスケーラビリティを提供します。
 
-この記事は、Elasticsearch から Milvus へのコードベース移行を容易にすることを目的としており、両者の間でクエリを変換するさまざまな例を紹介します。
+この記事は、Elasticsearch から Milvus へのコードベース移行を容易にすることを目的としており、両者の間でクエリを変換するさまざまな例を示します。
 
-## 概要\{#overview}
+## Overview\{#overview}
 
-Elasticsearch では、query context での操作は関連性スコアを生成し、filter context での操作は生成しません。同様に、Milvus の search は類似度スコアを生成しますが、filter に近い query は生成しません。Elasticsearch から Milvus へコードベースを移行する際の重要な原則は、Elasticsearch の query context で使用される field を vector field に変換し、類似度スコアを生成できるようにすることです。 
+Elasticsearch では、query コンテキストでの操作は関連度スコアを生成しますが、filter コンテキストでの操作は生成しません。同様に、Milvus の search は類似度スコアを生成しますが、filter に似た query は生成しません。Elasticsearch から Milvus にコードベースを移行する際の重要な原則は、Elasticsearch の query コンテキストで使用されるフィールドを vector フィールドに変換し、類似度スコアを生成できるようにすることです。 
 
-以下の表は、いくつかの Elasticsearch クエリパターンと、それに対応する Milvus の等価表現を示しています。
+以下の表は、いくつかの Elasticsearch クエリパターンと、それに対応する Milvus での等価表現を示しています。
 
 <table>
    <tr>
@@ -45,12 +45,12 @@ Elasticsearch では、query context での操作は関連性スコアを生成�
      <td><p>どちらも同様の機能セットを提供します。</p></td>
    </tr>
    <tr>
-     <td colspan="3"><p><strong>Term レベルのクエリ</strong></p></td>
+     <td colspan="3"><p><strong>Term-level クエリ</strong></p></td>
    </tr>
    <tr>
      <td><p><a href="./elasticsearch-queries-to-milvus#ids">IDs</a></p></td>
      <td><p><code>in</code> 演算子</p></td>
-     <td rowspan="6"><p>これらの Elasticsearch クエリが filter context で使用される場合、どちらも同じまたは類似した機能セットを提供します。</p></td>
+     <td rowspan="6"><p>これらの Elasticsearch クエリが filter コンテキストで使用される場合、どちらも同じまたは類似の機能セットを提供します。</p></td>
    </tr>
    <tr>
      <td><p><a href="./elasticsearch-queries-to-milvus#prefix-query">Prefix query</a></p></td>
@@ -75,15 +75,15 @@ Elasticsearch では、query context での操作は関連性スコアを生成�
    <tr>
      <td><p><a href="./elasticsearch-queries-to-milvus#boolean-query">Boolean query</a></p></td>
      <td><p><code>AND</code> などの論理演算子</p></td>
-     <td><p>filter context で使用される場合、どちらも同様の機能セットを提供します。</p></td>
+     <td><p>filter コンテキストで使用される場合、どちらも同様の機能セットを提供します。</p></td>
    </tr>
    <tr>
-     <td colspan="3"><p><strong>Vector クエリ</strong></p></td>
+     <td colspan="3"><p><strong>ベクトルクエリ</strong></p></td>
    </tr>
    <tr>
      <td><p><a href="./elasticsearch-queries-to-milvus#knn-query">kNN query</a></p></td>
      <td><p>Search</p></td>
-     <td><p>Milvus はより高度な vector search 機能を提供します。</p></td>
+     <td><p>Milvus はより高度なベクトル検索機能を提供します。</p></td>
    </tr>
    <tr>
      <td><p><a href="./elasticsearch-queries-to-milvus#reciprocal-rank-fusion">Reciprocal rank fusion</a></p></td>
@@ -92,15 +92,15 @@ Elasticsearch では、query context での操作は関連性スコアを生成�
    </tr>
 </table>
 
-## 全文検索クエリ\{#full-text-queries}
+## Full-text queries\{#full-text-queries}
 
-Elasticsearch では、full text query を使用すると、email の本文のような解析済みテキスト field を検索できます。query string は、index 作成時にその field に適用されたものと同じ analyzer を使用して処理されます。
+Elasticsearch では、full text queries により、メール本文のような分析済みテキストフィールドを検索できます。クエリ文字列は、インデックス作成時にそのフィールドへ適用されたのと同じ analyzer を使用して処理されます。
 
 ### Match query\{#match-query}
 
-Elasticsearch では、match query は、指定されたテキスト、数値、日付、または boolean 値に一致する document を返します。指定されたテキストは、一致処理の前に解析されます。 
+Elasticsearch では、match query は、指定されたテキスト、数値、日付、またはブール値に一致するドキュメントを返します。指定されたテキストは、一致処理の前に分析されます。 
 
-以下は、match query を使った Elasticsearch の search request の例です。
+以下は、match query を含む Elasticsearch の search リクエスト例です。
 
 ```bash
 resp = client.search(
@@ -114,7 +114,7 @@ resp = client.search(
 )
 ```
 
-Milvus は、full-text search 機能を通じて同じ機能を提供します。上記の Elasticsearch クエリは、以下のように Milvus に変換できます。
+Milvus では、full-text search 機能を通じて同じ機能を提供します。上記の Elasticsearch クエリは、次のように Milvus へ変換できます。
 
 ```python
 res = client.search(
@@ -125,17 +125,17 @@ res = client.search(
 )
 ```
 
-上記の例では、`message_sparse` は `message` という名前の VarChar field から導出された sparse vector field です。Milvus は BM25 embedding model を使用して `message` field の値を sparse vector embedding に変換し、それらを `message_sparse` field に保存します。search request を受信すると、Milvus は同じ BM25 model を使用してプレーンテキストの query payload を embedding し、sparse vector search を実行して、対応する類似度スコアとともに `output_fields` パラメータで指定された `id` および `message` field を返します。
+上記の例では、`message_sparse` は `message` という名前の VarChar フィールドから派生した疎ベクトルフィールドです。Milvus は BM25 embedding model を使用して `message` フィールドの値を疎ベクトル埋め込みに変換し、それらを `message_sparse` フィールドに保存します。search リクエストを受け取ると、Milvus は同じ BM25 model を使用してプレーンテキストのクエリペイロードを埋め込み、疎ベクトル検索を実行し、対応する類似度スコアとともに `output_fields` パラメータで指定された `id` および `message` フィールドを返します。
 
-この機能を使用するには、`message` field で analyzer を有効にし、そこから `message_sparse` field を導出する関数を定義する必要があります。Milvus で analyzer を有効にし、導出関数を作成するための詳細な手順については、[Full Text Search](./full-text-search) を参照してください。
+この機能を使用するには、`message` フィールドで analyzer を有効にし、そこから `message_sparse` フィールドを導出する function を定義する必要があります。Milvus で analyzer を有効化し、派生 function を作成するための詳細な手順については、[Full Text Search](./full-text-search) を参照してください。
 
-## Term レベルのクエリ\{#term-level-queries}
+## Term-level queries\{#term-level-queries}
 
-Elasticsearch では、term-level query は、日付範囲、IP アドレス、価格、商品 ID などの構造化データ内の正確な値に基づいて document を見つけるために使用されます。このセクションでは、Elasticsearch のいくつかの term-level query に対する Milvus での等価表現を説明します。このセクションのすべての例は、Milvus の機能に合わせるため、filter context 内で動作するよう調整されています。
+Elasticsearch では、term-level queries は、日付範囲、IP アドレス、価格、商品 ID などの構造化データ内の正確な値に基づいてドキュメントを見つけるために使用されます。このセクションでは、いくつかの Elasticsearch term-level queries に対する Milvus での可能な等価表現を示します。このセクションのすべての例は、Milvus の機能に合わせるため、filter コンテキスト内で動作するよう調整されています。
 
 ### IDs\{#ids}
 
-Elasticsearch では、以下のように filter context で ID に基づいて document を検索できます。
+Elasticsearch では、filter コンテキストで ID に基づいて次のようにドキュメントを検索できます。
 
 ```python
 resp = client.search(
@@ -155,7 +155,7 @@ resp = client.search(
 )
 ```
 
-Milvus でも、以下のように ID に基づいて entity を検索できます。
+Milvus でも、次のように ID に基づいて entity を検索できます。
 
 ```python
 # Use the filter parameter
@@ -173,11 +173,11 @@ res = client.query(
 )
 ```
 
-この Elasticsearch の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-ids-query.html) で確認できます。Milvus の query および get request、ならびに filter expression の詳細については、[Query](./get-and-scalar-query) および [Filtering Explained](./filtering-overview) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-ids-query.html) にあります。Milvus における query および get リクエスト、ならびに filter 式の詳細については、[Query](./get-and-scalar-query) および [Filtering Explained](./filtering-overview) を参照してください。
 
 ### Prefix query\{#prefix-query}
 
-Elasticsearch では、以下のように filter context で、指定した field に特定の prefix を含む document を検索できます。
+Elasticsearch では、filter コンテキストで、指定したフィールドに特定の接頭辞を含むドキュメントを次のように検索できます。
 
 ```python
 resp = client.search(
@@ -195,7 +195,7 @@ resp = client.search(
 )
 ```
 
-Milvus では、以下のように値が指定した prefix で始まる entity を検索できます。
+Milvus では、値が指定された接頭辞で始まる entity を次のように検索できます。
 
 ```python
 res = client.query(
@@ -205,11 +205,11 @@ res = client.query(
 )
 ```
 
-この Elasticsearch の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html) で確認できます。Milvus の `like` 演算子の詳細については、[Using ](./basic-filtering-operators)[`LIKE`](./basic-filtering-operators)[ for Pattern Matching](./basic-filtering-operators) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html) にあります。Milvus の `like` 演算子の詳細については、[Using ](./basic-filtering-operators)[`LIKE`](./basic-filtering-operators)[ for Pattern Matching](./basic-filtering-operators) を参照してください。
 
 ### Range query\{#range-query}
 
-Elasticsearch では、以下のように指定した範囲内の term を含む document を検索できます。
+Elasticsearch では、指定された範囲内の terms を含むドキュメントを次のように検索できます。
 
 ```python
 resp = client.search(
@@ -228,7 +228,7 @@ resp = client.search(
 )
 ```
 
-Milvus では、以下のように特定の field 内の値が指定範囲内にある entity を検索できます。
+Milvus では、特定のフィールド内の値が指定範囲内にある entity を次のように検索できます。
 
 ```python
 res = client.query(
@@ -238,11 +238,11 @@ res = client.query(
 )
 ```
 
-この Elasticsearch の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html) で確認できます。Milvus の比較演算子の詳細については、[Comparison operators](./basic-filtering-operators#comparison-operators) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html) にあります。Milvus の比較演算子の詳細については、[Comparison operators](./basic-filtering-operators#comparison-operators) を参照してください。
 
 ### Term query\{#term-query}
 
-Elasticsearch では、以下のように指定した field に **完全に一致する** term を含む document を検索できます。
+Elasticsearch では、指定したフィールド内に **完全に一致する** term を含むドキュメントを次のように検索できます。
 
 ```python
 resp = client.search(
@@ -260,7 +260,7 @@ resp = client.search(
 )
 ```
 
-Milvus では、以下のように指定した field の値が、指定した term と完全に一致する entity を検索できます。
+Milvus では、指定したフィールドの値が指定された term と完全に一致する entity を次のように検索できます。
 
 ```python
 # use ==
@@ -278,11 +278,11 @@ res = client.query(
 )
 ```
 
-この Elasticsearch の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html) で確認できます。Milvus の比較演算子の詳細については、[Comparison operators](./basic-filtering-operators#comparison-operators) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html) にあります。Milvus の比較演算子の詳細については、[Comparison operators](./basic-filtering-operators#comparison-operators) を参照してください。
 
 ### Terms query\{#terms-query}
 
-Elasticsearch では、以下のように指定した field に 1 つ以上の **完全一致する** term を含む document を検索できます。
+Elasticsearch では、指定したフィールド内に 1 つ以上の **完全一致する** terms を含むドキュメントを次のように検索できます。
 
 ```python
 resp = client.search(
@@ -301,7 +301,7 @@ resp = client.search(
 )
 ```
 
-Milvus には、これに完全に対応する機能はありません。ただし、以下のように、指定した field の値が指定した term のいずれかである entity を検索できます。
+Milvus にはこれと完全に等価なものはありません。ただし、指定したフィールドの値が、指定した terms のいずれかである entity を次のように検索できます。
 
 ```python
 # use in
@@ -319,11 +319,11 @@ res = client.query(
 )
 ```
 
-この Elasticsearch の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html) で確認できます。Milvus の range operator の詳細については、[Range operators](./basic-filtering-operators) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html) にあります。Milvus の range operators の詳細については、[Range operators](./basic-filtering-operators) を参照してください。
 
 ### Wildcard query\{#wildcard-query}
 
-Elasticsearch では、以下のように wildcard pattern に一致する term を含む document を検索できます。
+Elasticsearch では、ワイルドカードパターンに一致する terms を含むドキュメントを次のように検索できます。
 
 ```python
 resp = client.search(
@@ -341,7 +341,7 @@ resp = client.search(
 )
 ```
 
-Milvus は filtering condition で wildcard をサポートしていません。ただし、以下のように `like` 演算子を使用して類似の効果を実現できます。
+Milvus は filtering conditions で wildcard をサポートしていません。ただし、`like` 演算子を使うことで、次のように類似の効果を得られます。
 
 ```python
 res = client.query(
@@ -351,13 +351,13 @@ res = client.query(
 )
 ```
 
-この Elasticsearch の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html) で確認できます。Milvus の range operator の詳細については、[Range operators](./basic-filtering-operators) を参照してください。 
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html) にあります。Milvus の range operators の詳細については、[Range operators](./basic-filtering-operators) を参照してください。 
 
 ## Boolean query\{#boolean-query}
 
-Elasticsearch では、boolean query は、他の query の boolean 組み合わせに一致する document にマッチする query です。 
+Elasticsearch では、boolean query は、他のクエリのブール組み合わせに一致するドキュメントに一致するクエリです。 
 
-以下の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-bool-query.html) にある Elasticsearch ドキュメントの例をもとに調整したものです。この query は、名前に `kimchy` を含み、`production` タグを持つ user を返します。
+以下の例は、Elasticsearch ドキュメントの [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-bool-query.html) にある例を元に調整したものです。このクエリは、名前に `kimchy` を含み、`production` タグを持つユーザーを返します。
 
 ```python
 resp = client.search(
@@ -378,7 +378,7 @@ resp = client.search(
 )
 ```
 
-Milvus では、以下のように同様のことができます。
+Milvus では、次のように同様のことができます。
 
 ```python
 filter = 
@@ -390,15 +390,15 @@ res = client.query(
 )
 ```
 
-上記の例では、対象の collection に **VarChar** 型の `user` field と **Array** 型の `tags` field があることを前提としています。この query は、名前に `kimchy` を含み、`production` タグを持つ user を返します。
+上記の例は、対象の collection に **VarChar** 型の `user` フィールドと、**Array** 型の `tags` フィールドがあることを前提としています。このクエリは、名前に `kimchy` を含み、`production` タグを持つユーザーを返します。
 
-## Vector クエリ\{#vector-queries}
+## Vector queries\{#vector-queries}
 
-Elasticsearch では、vector query は、vector field に対して動作し、semantic search を効率的に実行するための特化した query です。
+Elasticsearch では、vector queries は、vector フィールドに対して動作し、セマンティック検索を効率的に実行するための特殊なクエリです。
 
 ### Knn query\{#knn-query}
 
-Elasticsearch は、近似 kNN query と厳密な総当たり方式の kNN query の両方をサポートしています。どちらの方法でも、類似度 metric に基づいて、query vector に最も近い *k* 個の vector を次のように見つけることができます。
+Elasticsearch は、近似 kNN クエリと厳密な総当たりの kNN クエリの両方をサポートしています。類似度指標によって測定された、クエリベクトルに最も近い *k* 個のベクトルを、いずれの方法でも次のように見つけることができます。
 
 ```python
 resp = client.search(
@@ -418,9 +418,9 @@ resp = client.search(
 )
 ```
 
-特化型 vector database である Milvus は、vector search を最適化するために index type を使用します。通常、高次元 vector データに対しては approximate nearest neighbor (ANN) search を優先します。FLAT index type による総当たり方式の kNN search は正確な結果を返しますが、時間とリソースを多く消費します。一方、AUTOINDEX やその他の index type を用いた ANN search は、速度と精度のバランスを取り、kNN よりも大幅に高速で、リソース効率にも優れた性能を提供します。index type と AUTOINDEX の詳細については、[Indexes](./indexes) および [AUTOINDEX Explained](./autoindex-explained) を参照してください。
+専用のベクトルデータベースである Milvus は、vector 検索を最適化するために index types を使用します。通常、高次元 vector データに対しては近似最近傍（ANN）検索を優先します。FLAT index type による総当たりの kNN 検索は正確な結果を提供しますが、時間がかかり、リソース消費も大きくなります。これに対して、AUTOINDEX やその他の index types を使用した ANN 検索は、速度と精度のバランスを取りつつ、kNN よりも大幅に高速でリソース効率の高いパフォーマンスを提供します。index types と AUTOINDEX の詳細については、[Indexes](./indexes) および [AUTOINDEX Explained](./autoindex-explained) を参照してください。
 
-上記の vector query に類似する Milvus での等価表現は、次のようになります。
+上記の vector query に対する Milvus での類似の等価表現は次のようになります。
 
 ```python
 res = client.search(
@@ -431,13 +431,13 @@ res = client.search(
 )
 ```
 
-この Elasticsearch の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-knn-query.html) で確認できます。Milvus の ANN search の詳細については、[Basic ANN Search](./single-vector-search) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-knn-query.html) にあります。Milvus の ANN searches の詳細については、[Basic ANN Search](./single-vector-search) を参照してください。
 
 ### Reciprocal Rank Fusion\{#reciprocal-rank-fusion}
 
-Elasticsearch は、異なる関連性指標を持つ複数の結果セットを 1 つのランク付けされた結果セットに統合するために Reciprocal Rank Fusion (RRF) を提供しています。
+Elasticsearch は、異なる関連性指標を持つ複数の結果セットを 1 つのランク付き結果セットに結合するために、Reciprocal Rank Fusion（RRF）を提供しています。
 
-以下の例は、従来の term ベース検索と k-nearest neighbors (kNN) vector search を組み合わせて検索関連性を向上させる方法を示しています。
+以下の例は、従来の用語ベース検索と k-nearest neighbors（kNN）ベクトル検索を組み合わせて、検索の関連性を向上させる方法を示しています。
 
 ```python
 client.search(
@@ -473,17 +473,17 @@ client.search(
 )
 ```
 
-この例では、RRF は 2 つの retriever からの結果を組み合わせています。
+この例では、RRF は 2 つの retriever からの結果を組み合わせます。
 
-- `text` field に `"shoes"` という term を含む document を対象とした標準的な term ベース検索。
+- `text` フィールド内に `"shoes"` という用語を含むドキュメントに対する標準的な用語ベース検索。
 
-- 指定された query vector を使用した `vector` field に対する kNN search。
+- 指定されたクエリベクトルを使用した、`vector` フィールドに対する kNN 検索。
 
-各 retriever は最大 50 件の上位一致結果を提供し、それらは RRF によって rerank され、最終的に上位 10 件の結果が返されます。
+各 retriever は最大 50 件の上位一致結果を提供し、それらは RRF によって再ランク付けされ、最終的な上位 10 件の結果が返されます。
 
-Milvus では、複数の vector field にまたがる search を組み合わせ、reranking 戦略を適用し、結合されたリストから top-K の結果を取得することで、同様の hybrid search を実現できます。Milvus は RRF と weighted reranker の両方の戦略をサポートしています。詳細については、[Weighted Ranker](./reranking-weighted-reranker) とその関連ページを参照してください。
+Milvus では、複数のベクトルフィールドに対する検索を組み合わせ、再ランク付け戦略を適用し、結合されたリストから top-K の結果を取得することで、同様のハイブリッド検索を実現できます。Milvus は RRF と weighted reranker の両方の戦略をサポートしています。詳細については、[Weighted Ranker](./reranking-weighted-reranker) および関連ページを参照してください。
 
-以下は、上記の Elasticsearch の例に対する、Milvus での厳密ではない等価表現です。
+以下は、上記の Elasticsearch の例におおむね対応する Milvus の例です。
 
 ```python
 search_params_dense = {
@@ -509,16 +509,16 @@ res = client.hybrid_search(
 )
 ```
 
-この例は、Milvus における以下を組み合わせた hybrid search を示しています。
+この例は、Milvus における次の組み合わせによるハイブリッド検索を示しています。
 
-1. **Dense vector search**: `vector` field に対する approximate nearest neighbor (ANN) search に inner product (IP) metric を使用。
+1. **Dense vector search**: `vector` フィールドに対する近似最近傍（ANN）検索に inner product（IP）メトリックを使用します。
 
-1. **Sparse vector search**: `text_sparse` field に対して BM25 類似度 metric を使用。
+1. **Sparse vector search**: `text_sparse` フィールドに対して BM25 類似度メトリックを使用します。
 
-これらの search の結果は個別に実行され、結合され、Reciprocal Rank Fusion (RRF) ranker を使用して rerank されます。hybrid search は、rerank 後のリストから上位 10 件の entity を返します。
+これらの検索は個別に実行され、結果が結合された後、Reciprocal Rank Fusion（RRF）ranker を使って再ランク付けされます。このハイブリッド検索は、再ランク付けされたリストから上位 10 件の entity を返します。
 
-標準的なテキストベース query と kNN search の結果をマージする Elasticsearch の RRF ranking とは異なり、Milvus は sparse vector search と dense vector search の結果を組み合わせることで、マルチモーダルデータ向けに最適化された独自の hybrid search 機能を提供します。
+Elasticsearch の RRF ランキングが標準的なテキストベースクエリと kNN 検索の結果をマージするのに対し、Milvus は sparse ベクトル検索と dense ベクトル検索の結果を組み合わせることで、マルチモーダルデータ向けに最適化された独自のハイブリッド検索機能を提供します。
 
 ## まとめ\{#recap}
 
-この記事では、term-level query、boolean query、全文検索 query、vector query など、典型的な Elasticsearch クエリを Milvus の等価表現へ変換する方法を紹介しました。その他の Elasticsearch クエリの変換についてさらに質問がある場合は、ぜひお気軽にお問い合わせください。
+この記事では、term-level queries、boolean queries、full-text queries、vector queries を含む、典型的な Elasticsearch クエリを対応する Milvus のクエリへ変換する方法を説明しました。その他の Elasticsearch クエリの変換についてさらに質問がある場合は、お気軽にお問い合わせください。

@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "類似検索を実行する際は、クエリ vector がすでに対象の collection に存在している場合でも、常に1つ以上のクエリ vector を指定する必要があります。検索前に vector を取得する手間を省くために、代わりに primary key を使用できます。 | Cloud"
+description: "類似検索を行う際は、クエリ vector がすでに対象 collection 内に存在している場合でも、常に 1 つ以上のクエリ vector を指定する必要があります。検索前に vector を取得する手間を避けるには、代わりに primary key を使用できます。 | Cloud"
 type: origin
 token: U7OvwHP3AiUWlckzIEKclLQQnPr
-sidebar_position: 7
+sidebar_position: 8
 displayed_sidebar: default
 
 ---
@@ -21,43 +21,43 @@ import TabItem from '@theme/TabItem';
 
 # Primary-Key Search
 
-類似検索を実行する際は、クエリ vector がすでに対象の collection に存在している場合でも、常に1つ以上のクエリ vector を指定する必要があります。検索前に vector を取得する手間を省くために、代わりに primary key を使用できます。
+類似検索を行う際は、クエリ vector がすでに対象 collection 内に存在している場合でも、常に 1 つ以上のクエリ vector を指定する必要があります。検索前に vector を取得する手間を避けるには、代わりに primary key を使用できます。
 
-## Overview\{#overview}
+## 概要\{#overview}
 
-Eコマースプラットフォームでは、ユーザーはキーワードを入力して、それに一致する商品を検索できます。ユーザーが商品詳細ページを閲覧すると、比較したいユーザー向けに、プラットフォームはページ下部に類似商品のリストも表示します。
+e コマースプラットフォームでは、ユーザーがキーワードを入力して、それに一致する商品を取得できます。ユーザーが商品詳細ページを閲覧すると、その下部には、比較したいユーザー向けに類似商品の一覧も表示されます。
 
-レコメンデーションは、キーワードまたは現在の商品との類似度に基づいて並べ替えられます。これを実現するには、プラットフォーム開発者は実際の類似検索の前に、キーワードまたは現在の商品の vector 表現を Milvus から取得する必要があります。これにより、プラットフォームと Milvus 間のラウンドトリップが増え、多数の高次元 float 値がネットワーク経由で送信されることになります。
+これらの推薦結果は、キーワードまたは現在の商品との類似度に基づいて並べ替えられます。これを実現するには、プラットフォーム開発者は実際の類似検索の前に、キーワードまたは現在の商品の vector 表現を Milvus から取得する必要があります。これにより、プラットフォームと Milvus 間の往復回数が増え、多数の高次元 float 値がネットワーク越しに送信されることになります。
 
-アプリケーションと Milvus の間のインタラクションロジックを簡素化し、ラウンドトリップ数を減らし、大量の高次元浮動小数点値をネットワーク経由で送信するのを避けるには、primary key search の使用を検討してください。
+アプリケーションと Milvus の間のやり取りのロジックを簡素化し、往復回数を減らし、大量の高次元浮動小数点値をネットワーク越しに送信することを避けるために、primary key search の使用を検討してください。
 
-primary key search では、クエリ vector を指定する必要はありません。代わりに、クエリ vector を含む entity の primary key (`ids`) を指定します。 
+primary key search では、クエリ vector を指定する必要はありません。代わりに、クエリ vector を含む entity の primary key（`ids`）を指定します。
 
-## Limits & restrictions\{#limits-and-restrictions}
+## 制限事項\{#limits-and-restrictions}
 
-- primary key を使用する検索は、BM25 関数のように VarChar field から派生した sparse vector field を除き、すべての vector データ型に適用されます。
+- primary key を使用した検索は、BM25 関数のように VarChar フィールドから派生した sparse vector フィールドを除き、すべての vector データ型に適用されます。
 
-- フィルタ付き検索、範囲検索、グループ化検索では、必要に応じてページネーションを有効にしたうえで、クエリ vector の代わりに primary key を使用できます。ただし、この機能は hybrid search と search iterator には適用されません。
+- フィルタ付き検索、範囲検索、グループ化検索では、必要に応じて pagination を有効にしたうえで、クエリ vector の代わりに primary key を使用できます。ただし、この機能は hybrid search と search iterator には適用されません。
 
-- embedding list を含む類似検索では、引き続きクエリ vector を取得し、それらを embedding list にまとめて、検索を実行する必要があります。
+- embedding list を含む類似検索では、引き続きクエリ vector を取得し、それらを embedding list にまとめて検索を実行する必要があります。
 
-- 存在しない primary key、または形式が不正な primary key に対しては、Milvus はエラーを返します。
+- 存在しない primary key、または形式が正しくない primary key に対しては、Milvus がエラーを返します。
 
 - primary key とクエリ vector は相互排他的です。両方を指定した場合もエラーになります。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-以下の例では、指定されたすべての Int64 ID が対象の collection に存在することを前提としています。
+以下の例では、指定されたすべての Int64 ID が対象 collection 内に存在することを前提としています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注意">
 
-primary key はフィルタリングには使用されず、vector の取得にのみ使用されます。
+primary key はフィルタリングには使用されません。vector の取得にのみ使用されます。
 
 </Admonition>
 
-### Example 1: Basic primary-key search\{#example-1-basic-primary-key-search}
+### 例 1: 基本的な primary-key search\{#example-1-basic-primary-key-search}
 
-基本的な primary-key search を実行するには、クエリ vector を primary key に置き換えるだけです。
+基本的な primary-key search を行うには、クエリ vector を primary key に置き換えるだけです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -152,9 +152,9 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 </TabItem>
 </Tabs>
 
-### Example 2: Filtered search using primary keys\{#example-2-filtered-search-using-primary-keys}
+### 例 2: primary key を使用したフィルタ付き検索\{#example-2-filtered-search-using-primary-keys}
 
-以下の例では、`color` と `likes` が対象の collection で schema 定義された2つの field であることを前提としています。 
+次の例では、`color` と `likes` が対象 collection 内でスキーマ定義された 2 つのフィールドであることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -232,7 +232,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 </TabItem>
 </Tabs>
 
-### Example 3: Range search using primary keys\{#example-3-range-search-using-primary-keys}
+### 例 3: primary key を使用した範囲検索\{#example-3-range-search-using-primary-keys}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -323,9 +323,9 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 </TabItem>
 </Tabs>
 
-### Example 4: Grouping search using primary keys\{#example-4-grouping-search-using-primary-keys}
+### 例 4: primary key を使用したグループ化検索\{#example-4-grouping-search-using-primary-keys}
 
-以下の例では、`docId` が対象の collection で schema 定義された field であることを前提としています。
+次の例では、`docId` が対象 collection 内でスキーマ定義されたフィールドであることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

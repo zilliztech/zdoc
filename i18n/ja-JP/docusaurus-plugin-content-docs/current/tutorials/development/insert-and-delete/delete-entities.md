@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "不要になったエンティティは、フィルタリング条件またはその主キーによって削除できます。 | Cloud"
+description: "不要になったエンティティを、フィルタリング条件または主キーによって削除できます。 | Cloud"
 type: origin
 token: RhKcwNACpi3WihkTzo8cr4BCnee
 sidebar_position: 4
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # エンティティの削除
 
-不要になったエンティティは、フィルタリング条件またはその主キーによって削除できます。
+不要になったエンティティを、フィルタリング条件または主キーによって削除できます。
 
 ## フィルタリング条件によるエンティティの削除\{#delete-entities-by-filtering-conditions}
 
-いくつかの属性を共有する複数のエンティティを一括で削除する場合は、フィルター式を使用できます。以下のコード例では、**in** 演算子を使用して、**color** フィールドが **red** および **purple** の値に設定されているすべてのエンティティを一括削除しています。要件に応じたフィルター式を構築するために、他の演算子を使用することもできます。フィルター式の詳細については、[Filtering Explained](./filtering-overview) を参照してください。
+複数のエンティティがいくつかの属性を共有しており、それらを一括で削除する場合は、フィルタ式を使用できます。以下のコード例では、**in** 演算子を使用して、**color** フィールドが **red** と **purple** の値に設定されているすべてのエンティティを一括削除しています。要件に応じたフィルタ式を構築するために、他の演算子を使用することもできます。フィルタ式の詳細については、[Filtering Explained](./filtering-overview) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -151,7 +151,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -174,11 +175,14 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## 主キーによるエンティティの削除\{#delete-entities-by-primary-keys}
 
-ほとんどの場合、主キーはエンティティを一意に識別します。削除リクエストで主キーを指定することで、エンティティを削除できます。以下のコード例は、主キー **18** と **19** を持つ 2 つのエンティティを削除する方法を示しています。
+ほとんどの場合、主キーはエンティティを一意に識別します。削除リクエストで主キーを設定することで、エンティティを削除できます。以下のコード例は、主キー **18** と **19** を持つ 2 つのエンティティを削除する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -264,7 +268,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::DeleteResponse response;
@@ -277,11 +282,14 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## パーティションからのエンティティの削除\{#delete-entities-from-partitions}
 
-特定のパーティションに保存されているエンティティを削除することもできます。以下のコードスニペットは、コレクションに **PartitionA** という名前のパーティションがあることを前提としています。 
+特定のパーティションに保存されているエンティティを削除することもできます。以下のコードスニペットでは、コレクション内に **PartitionA** という名前のパーティションがあることを前提としています。 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -376,7 +384,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::DeleteResponse response;
@@ -389,3 +398,6 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
