@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ベクトル埋め込みのソート順を記録したインデックスファイルに基づき、Approximate Nearest Neighbor（ANN）検索は、受信した検索リクエストに含まれるクエリベクトルに基づいてベクトル埋め込みのサブセットを特定し、そのサブグループ内のベクトルとクエリベクトルを比較して、最も類似した結果を返します。ANN検索により、Zilliz Cloud は効率的な検索体験を提供します。このページでは、基本的な ANN 検索の実行方法を学べます。 | Cloud"
+description: "ベクトル埋め込みのソート順を記録したインデックスファイルに基づき、Approximate Nearest Neighbor（ANN）検索は、受信した検索リクエストに含まれるクエリベクトルに基づいてベクトル埋め込みのサブセットを特定し、そのサブグループ内のベクトルとクエリベクトルを比較して、最も類似した結果を返します。ANN 検索により、Zilliz Cloud は効率的な検索体験を提供します。このページでは、基本的な ANN 検索の実行方法を学べます。 | Cloud"
 type: origin
 token: BaGlwzDmyiyVvVk6NurcFclInCd
 sidebar_position: 1
@@ -21,49 +21,49 @@ import TabItem from '@theme/TabItem';
 
 # 基本的なベクトル検索
 
-ベクトル埋め込みのソート順を記録したインデックスファイルに基づき、Approximate Nearest Neighbor (ANN) 検索は、受信した検索リクエストに含まれるクエリベクトルに基づいてベクトル埋め込みのサブセットを特定し、そのサブグループ内のベクトルとクエリベクトルを比較して、最も類似した結果を返します。ANN 検索により、Zilliz Cloud は効率的な検索体験を提供します。このページでは、基本的な ANN 検索の実行方法を学べます。
+ベクトル埋め込みのソート順を記録したインデックスファイルに基づき、Approximate Nearest Neighbor（ANN）検索は、受信した検索リクエストに含まれるクエリベクトルに基づいてベクトル埋め込みのサブセットを特定し、そのサブグループ内のベクトルとクエリベクトルを比較して、最も類似した結果を返します。ANN 検索により、Zilliz Cloud は効率的な検索体験を提供します。このページでは、基本的な ANN 検索の実行方法を学べます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-collection の作成後に新しいフィールドを追加した場合、それらのフィールドを含む検索では、値が明示的に設定されていない entity に対して、定義されたデフォルト値または `NULL` が返されます。詳細については、[Alter Collection Schema](./add-fields-to-an-existing-collection) を参照してください。
+コレクションの作成後に新しいフィールドを追加した場合、それらのフィールドを含む検索では、値を明示的に設定していないエンティティに対して、定義されたデフォルト値または `NULL` が返されます。詳細については、[コレクション スキーマの変更](./add-fields-to-an-existing-collection) を参照してください。
 
 </Admonition>
 
 ## 概要\{#overview}
 
-ANN 検索と k-Nearest Neighbors（kNN）検索は、ベクトル類似性検索で一般的に使用される方法です。kNN 検索では、最も類似したベクトルを見つける前に、ベクトル空間内のすべてのベクトルを検索リクエストに含まれるクエリベクトルと比較する必要があるため、時間とリソースを多く消費します。
+ANN 検索と k-Nearest Neighbors（kNN）検索は、ベクトル類似検索で一般的に使用される手法です。kNN 検索では、最も類似したベクトルを特定する前に、ベクトル空間内のすべてのベクトルを検索リクエストに含まれるクエリベクトルと比較する必要があるため、時間とリソースを多く消費します。
 
-kNN 検索とは異なり、ANN 検索アルゴリズムでは、ベクトル埋め込みのソート順を記録した **index** ファイルが必要です。検索リクエストが届くと、この index ファイルを参照して、クエリベクトルに最も類似している可能性が高いベクトル埋め込みを含むサブグループをすばやく特定できます。次に、指定された **metric type** を使用してクエリベクトルとサブグループ内のベクトルとの類似度を測定し、クエリベクトルとの類似度に基づいてグループメンバーを並べ替え、**top-K** のグループメンバーを特定できます。
+kNN 検索とは異なり、ANN 検索アルゴリズムでは、ベクトル埋め込みのソート順を記録した **インデックス** ファイルが必要です。検索リクエストを受信すると、このインデックスファイルを参照して、クエリベクトルに最も類似したベクトル埋め込みを含む可能性が高いサブグループをすばやく特定できます。その後、指定した **メトリクスタイプ** を使用してクエリベクトルとサブグループ内のベクトルとの類似度を測定し、クエリベクトルとの類似度に基づいてグループのメンバーを並べ替え、**top-K** のグループメンバーを特定できます。
 
-ANN 検索は事前に構築された index に依存しており、選択する index type によって検索スループット、メモリ使用量、検索の正確性が異なる場合があります。検索パフォーマンスと正確性のバランスを取る必要があります。 
+ANN 検索は事前に構築されたインデックスに依存しており、選択するインデックスタイプによって検索スループット、メモリ使用量、検索の正確性が変化する場合があります。検索パフォーマンスと正確性のバランスを取る必要があります。
 
-学習コストを下げるために、Zilliz Cloud は **AUTOINDEX** を提供しています。**AUTOINDEX** を使用すると、Zilliz Cloud は index の構築中に collection 内のデータ分布を分析し、その分析に基づいて最適化された index パラメータを設定し、検索パフォーマンスと正確性のバランスを取ることができます。 
+学習コストを下げるために、Zilliz Cloud は **AUTOINDEX** を提供しています。**AUTOINDEX** を使用すると、Zilliz Cloud はインデックスの構築中にコレクション内のデータ分布を分析し、その分析に基づいて最適化されたインデックスパラメータを設定し、検索パフォーマンスと正確性のバランスを取ることができます。
 
-AUTOINDEX と適用可能な metric type の詳細については、[AUTOINDEX Explained](./autoindex-explained) および [Metric Types](./search-metrics-explained) を参照してください。このセクションでは、次のトピックに関する詳細情報を確認できます。
+AUTOINDEX と適用可能なメトリクスタイプの詳細については、[AUTOINDEX の解説](./autoindex-explained) および [メトリクスタイプ](./search-metrics-explained) を参照してください。このセクションでは、次のトピックに関する詳細情報を確認できます。
 
-- [Single-vector search](./single-vector-search#single-vector-search)
+- [単一ベクトル検索](./single-vector-search#single-vector-search)
 
-- [Bulk-vector search](./single-vector-search#bulk-vector-search)
+- [バルクベクトル検索](./single-vector-search#bulk-vector-search)
 
-- [ANN search in partitions](./single-vector-search#ann-search-in-partition)
+- [パーティション内の ANN 検索](./single-vector-search#ann-search-in-partition)
 
-- [Use output fields](./single-vector-search#use-output-fields)
+- [出力フィールドの使用](./single-vector-search#use-output-fields)
 
-- [Use limit and offset](./single-vector-search#use-limit-and-offset)
+- [limit と offset の使用](./single-vector-search#use-limit-and-offset)
 
-- [Use level](./single-vector-search#use-level)
+- [level の使用](./single-vector-search#use-level)
 
-- [Get Recall Rate](./single-vector-search#get-recall-rate)
+- [再現率の取得](./single-vector-search#get-recall-rate)
 
-- [Enhancing ANN search](./single-vector-search#enhancing-ann-search)
+- [ANN 検索の強化](./single-vector-search#enhancing-ann-search)
 
 ## 単一ベクトル検索\{#single-vector-search}
 
-ANN 検索において、単一ベクトル検索とは 1 つのクエリベクトルのみを含む検索を指します。事前に構築された index と、検索リクエストに含まれる metric type に基づいて、Zilliz Cloud はクエリベクトルに最も類似した top-K ベクトルを見つけます。
+ANN 検索において、単一ベクトル検索とは、クエリベクトルを 1 つだけ使用する検索を指します。事前に構築されたインデックスと検索リクエストに含まれるメトリクスタイプに基づいて、Zilliz Cloud はクエリベクトルに最も類似した top-K のベクトルを検索します。
 
-このセクションでは、単一ベクトル検索の実行方法を学びます。検索リクエストには 1 つのクエリベクトルが含まれ、Zilliz Cloud に対して Inner Product (IP) を使用してクエリベクトルと collection 内のベクトルとの類似度を計算し、最も類似した 3 件を返すよう要求します。
+このセクションでは、単一ベクトル検索の実行方法について説明します。検索リクエストには 1 つのクエリベクトルが含まれ、Zilliz Cloud は Inner Product（IP）を使用してクエリベクトルとコレクション内のベクトルとの類似度を計算し、最も類似した 3 件を返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -273,59 +273,87 @@ curl --request POST \
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <vector>
+
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Failed to connect: " << status.Message() << std::endl;
+    return;
 }
 
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("quick_setup")
-                   .WithLimit(3)
-                   .WithAnnsField("vector")
-                   .AddFloatVector(query_vector);
+std::vector<float> queryVector = {
+    0.35803764F, -0.60234958F, 0.18414013F, -0.26286206F, 0.90294385F
+};
 
-milvus::SearchResponse response;
-status = client->Search(request, response);
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         .WithMetricType(milvus::MetricType::IP)
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
 }
 
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
     }
 }
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "limit": 3
+}' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
-Milvus は、検索結果をクエリベクトルとの類似度スコアの降順でランク付けします。類似度スコアはクエリベクトルへの距離とも呼ばれ、その値の範囲は使用する metric type によって異なります。
+Milvus は、検索結果をクエリベクトルとの類似度スコアの降順で並べ替えます。類似度スコアはクエリベクトルとの距離とも呼ばれ、その値の範囲は使用するメトリクスタイプによって異なります。
 
-次の表は、適用可能な metric type と対応する距離の範囲を示しています。
+次の表に、適用可能なメトリクスタイプと対応する距離の範囲を示します。
 
-| Metric Type | Characteristics | Distance Range |
+| メトリクスタイプ | 特性 | 距離の範囲 |
 | --- | --- | --- |
-| `L2` | 値が小さいほど類似度が高いことを示します。 | [0, ∞) |
-| `IP` | 値が大きいほど類似度が高いことを示します。 | [-1, 1] |
-| `COSINE` | 値が大きいほど類似度が高いことを示します。 | [-1, 1] |
-| `JACCARD` | 値が小さいほど類似度が高いことを示します。 | [0, 1] |
-| `HAMMING` | 値が小さいほど類似度が高いことを示します。 | [0, dim(vector)] |
+| `L2` | 値が小さいほど類似度が高くなります。 | [0, ∞) |
+| `IP` | 値が大きいほど類似度が高くなります。 | [-1, 1] |
+| `COSINE` | 値が大きいほど類似度が高くなります。 | [-1, 1] |
+| `JACCARD` | 値が小さいほど類似度が高くなります。 | [0, 1] |
+| `HAMMING` | 値が小さいほど類似度が高くなります。 | [0, dim(vector)] |
 
 ## バルクベクトル検索\{#bulk-vector-search}
 
-同様に、複数のクエリベクトルを検索リクエストに含めることもできます。Zilliz Cloud はクエリベクトルに対して並列に ANN 検索を実行し、2 組の結果を返します。
+同様に、検索リクエストに複数のクエリベクトルを含めることができます。Zilliz Cloud はこれらのクエリベクトルに対して ANN 検索を並列に実行し、2 組の結果を返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -555,30 +583,61 @@ curl --request POST \
 <TabItem value='c++'>
 
 ```c++
-std::vector<std::vector<float>> query_vectors = {
-    {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592},
-    {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104}
+std::vector<std::vector<float>> queryVectors = {
+    {0.041732933F, 0.013779674F, -0.027564144F, -0.013061441F, 0.009748648F},
+    {0.0039737443F, 0.003020432F, -0.0006188639F, 0.03913546F, -0.00089768134F},
 };
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("quick_setup")
-                   .WithLimit(3)
-                   .WithAnnsField("vector")
-                   .WithFloatVector(std::move(query_vectors));
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         .WithFloatVectors(std::move(queryVectors));
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
 }
 
-for (auto& result : response.Results().Results()) {
+for (const auto& result : searchResponse.Results().Results()) {
     std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.041732933,
+      0.013779674,
+      -0.027564144,
+      -0.013061441,
+      0.009748648
+    ],
+    [
+      0.0039737443,
+      0.003020432,
+      -0.0006188639,
+      0.03913546,
+      -0.00089768134
+    ]
+  ],
+  "annsField": "vector",
+  "limit": 3
+}' \
+  --output json
 ```
 
 </TabItem>
@@ -586,9 +645,9 @@ for (auto& result : response.Results().Results()) {
 
 ## 主キー検索\{#primary-key-search}
 
-クエリベクトルを設定する代わりに、クエリベクトルが対象の collection にすでに存在している場合は、主キーを使用できます。
+クエリベクトルを設定する代わりに、クエリベクトルが対象のコレクションにすでに存在する場合は、主キーを使用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -611,7 +670,23 @@ for hits in res:
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("quick_setup")
+        .annsField("vector")
+        // highlight-start
+        .ids(Arrays.<Object>asList(551L, 296L, 43L))
+        // highlight-end
+        .limit(3)
+        .metricType(IndexParam.MetricType.IP)
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+System.out.println(searchResp.getSearchResults());
 ```
 
 </TabItem>
@@ -619,7 +694,17 @@ for hits in res:
 <TabItem value='javascript'>
 
 ```javascript
-// node.js
+const res = await client.search({
+    collection_name: "quick_setup",
+    anns_field: "vector",
+    // highlight-start
+    ids: [551, 296, 43],
+    // highlight-end
+    limit: 3,
+    metric_type: "IP",
+})
+
+console.log(res.results)
 ```
 
 </TabItem>
@@ -627,7 +712,29 @@ for hits in res:
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+queryIDs := column.NewColumnInt64("id", []int64{551, 296, 43})
+resultSets, err := client.Search(ctx, milvusclient.NewSearchByIDsOption(
+    "quick_setup", // collectionName
+    3,             // limit
+    queryIDs,
+).WithANNSField("vector").
+    WithSearchParam("metric_type", "IP"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+}
 ```
 
 </TabItem>
@@ -649,15 +756,64 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         // highlight-start
+                         .WithIDs({551, 296, 43})
+                         // highlight-end
+                         .WithLimit(3)
+                         .WithMetricType(milvus::MetricType::IP);
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector search \
+  --collection quick_setup \
+  --data '[]' \
+  --body '{
+  "ids": [
+    1,
+    2,
+    3
+  ],
+  "annsField": "vector",
+  "limit": 3
+}' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
 ## パーティション内の ANN 検索\{#ann-search-in-partition}
 
-collection に複数の partition を作成している場合、検索範囲を特定の数の partition に絞り込めます。その場合、検索リクエストに対象の partition 名を含めることで、指定した partition 内に検索範囲を制限できます。検索に関与する partition の数を減らすことで、検索パフォーマンスが向上します。
+コレクション内に複数のパーティションを作成済みで、検索範囲を特定の数のパーティションに絞り込めるものとします。その場合は、検索リクエストに対象のパーティション名を含めることで、検索範囲を指定したパーティション内に制限できます。検索に関与するパーティションの数を減らすと、検索パフォーマンスが向上します。
 
-以下のコードスニペットでは、collection に **PartitionA** という名前の partition があることを前提としています。
+次のコードスニペットは、コレクション内に **PartitionA** という名前のパーティションが存在することを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -829,28 +985,53 @@ curl --request POST \
 <TabItem value='c++'>
 
 ```c++
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("quick_setup")
-                   .AddPartitionName("partitionA")
-                   .WithLimit(3)
-                   .WithAnnsField("vector")
-                   .AddFloatVector(query_vector);
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         // highlight-next-line
+                         .AddPartitionName("partitionA")
+                         .WithLimit(3)
+                         .AddFloatVector(queryVector);
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
 }
 
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "partitionNames": [
+    "partitionA"
+  ],
+  "limit": 3
+}' \
+  --output json
 ```
 
 </TabItem>
@@ -858,9 +1039,9 @@ for (auto& result : response.Results().Results()) {
 
 ## 出力フィールドの使用\{#use-output-fields}
 
-検索結果では、Zilliz Cloud はデフォルトで、上位 K 件の vector embedding を含む entity の主フィールド値と類似度 distance/score を返します。これらの entity にある他のフィールドの値も検索結果に含めたい場合は、検索リクエストの output fields として、vector フィールドと scalar フィールドの両方を含む対象フィールド名を指定できます。
+検索結果には、デフォルトで、Zilliz Cloud は top-K のベクトル埋め込みを含むエンティティのプライマリフィールド値と類似度距離（distance/scores）を含めます。対象フィールド（ベクトルフィールドとスカラーフィールドの両方）の名前を検索リクエストに出力フィールドとして含めると、検索結果にこれらのエンティティの他のフィールドの値を含めることができます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1040,42 +1221,70 @@ curl --request POST \
 <TabItem value='c++'>
 
 ```c++
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("quick_setup")
-                   .WithLimit(3)
-                   .WithAnnsField("vector")
-                   .AddOutputField("color")
-                   .AddFloatVector(query_vector);
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         .WithMetricType(milvus::MetricType::IP)
+                         // highlight-next-line
+                         .AddOutputField("color")
+                         .AddFloatVector(queryVector);
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
 }
 
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    const auto colors = result.OutputField<milvus::VarCharFieldData>("color");
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i]
+                  << ", color=" << colors->Data()[i] << std::endl;
     }
 }
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "outputFields": [
+    "color"
+  ],
+  "limit": 3
+}' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
-## スカラー フィールドによる検索結果の並べ替え | ONDEMAND\{#sort-search-results-by-scalar-fields}
+## スカラーフィールドによる検索結果の並べ替え | ONDEMAND\{#sort-search-results-by-scalar-fields}
 
-デフォルトでは、Zilliz Cloud は検索結果をクエリベクトルに対する類似度スコアで並べます。返される entity を scalar フィールドの順序に従わせたい場合は、検索リクエストに `order_by_fields` を追加します。
+デフォルトでは、Zilliz Cloud は検索結果をクエリベクトルとの類似度スコア順に並べ替えます。返されるエンティティをスカラーフィールドの順序に従わせる場合は、検索リクエストに `order_by_fields` を追加します。
 
-`order_by_fields` の各項目では、scalar フィールドと並べ替え方向を指定します。昇順には `"asc"`、降順には `"desc"` を使用します。`order` を省略した場合、Zilliz Cloud はそのフィールドを昇順で並べ替えます。
+`order_by_fields` の各項目は、スカラーフィールドと並べ替え方向を指定します。昇順には `"asc"`、降順には `"desc"` を使用します。`order` を省略した場合、Zilliz Cloud はそのフィールドを昇順で並べ替えます。
 
-以下の例では、検索結果を `price` の低い順に並べ替えます。レスポンス内でフィールド値を確認したい場合は、並べ替え対象フィールドを `output_fields` に含めてください。
+次の例では、検索結果を `price` の値が低い順から高い順に並べ替えます。レスポンスでフィールドの値を確認する場合は、並べ替えフィールドを `output_fields` に含めてください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1098,7 +1307,33 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.aggregation.AggDirection;
+import io.milvus.v2.service.vector.request.aggregation.OrderByField;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
+FloatVec queryVector = new FloatVec(new float[]{0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f});
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("product_catalog")
+        .data(Collections.singletonList(queryVector))
+        .annsField("embedding")
+        .limit(20)
+        .outputFields(Arrays.asList("id", "price", "rating", "category"))
+        // highlight-start
+        .orderByFields(Collections.singletonList(
+                OrderByField.builder()
+                        .fieldName("price")
+                        .direction(AggDirection.ASC)
+                        .build()
+        ))
+        // highlight-end
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+System.out.println(searchResp.getSearchResults());
 ```
 
 </TabItem>
@@ -1106,7 +1341,20 @@ res = client.search(
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+const res = await client.search({
+    collection_name: "product_catalog",
+    data: query_vector,
+    anns_field: "embedding",
+    limit: 20,
+    output_fields: ["id", "price", "rating", "category"],
+    // highlight-start
+    order_by_fields: [
+        { field: "price", order: "asc" }
+    ],
+    // highlight-end
+})
+
+console.log(res.results)
 ```
 
 </TabItem>
@@ -1114,7 +1362,30 @@ res = client.search(
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385}
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "product_catalog", // collectionName
+    20,                // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("embedding").
+    WithOutputFields("id", "price", "rating", "category").
+    WithSearchParam("order_by_fields", "price:asc"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Prices: ", resultSet.GetColumn("price").FieldData().GetScalars())
+}
 ```
 
 </TabItem>
@@ -1130,15 +1401,68 @@ res = client.search(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("product_catalog")
+                         .WithAnnsField("embedding")
+                         .WithLimit(20)
+                         .WithOutputFields({"id", "price", "rating", "category"})
+                         // highlight-start
+                         .AddOrderByField(milvus::OrderByField(
+                             "price", milvus::AggregationDirection::ASC))
+                         // highlight-end
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    const auto prices = result.OutputField<milvus::Int64FieldData>("price");
+    for (size_t i = 0; i < result.GetRowCount(); ++i) {
+        std::cout << "id=" << ids[i] << ", price=" << prices->Data()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "outputFields": [
+    "price"
+  ],
+  "orderByFields": [
+    "price:asc"
+  ],
+  "limit": 3
+}' \
+  --output json
 ```
 
 </TabItem>
 </Tabs>
 
-複数の scalar フィールドで並べ替えることもできます。Zilliz Cloud は、指定した順序でフィールドを適用します。以下の例では、まず `price` を昇順で並べ替えます。`price` が同じ entity については、次に `rating` を降順で並べ替えます。
+複数のスカラーフィールドで並べ替えることもできます。Zilliz Cloud は指定した順序でフィールドを適用します。次の例では、Zilliz Cloud は結果を `price` の昇順で並べ替えます。`price` が同じエンティティについては、続いて Zilliz Cloud は `rating` の降順で並べ替えます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1162,7 +1486,37 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.aggregation.AggDirection;
+import io.milvus.v2.service.vector.request.aggregation.OrderByField;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
+FloatVec queryVector = new FloatVec(new float[]{0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f});
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("product_catalog")
+        .data(Collections.singletonList(queryVector))
+        .annsField("embedding")
+        .limit(20)
+        .outputFields(Arrays.asList("id", "price", "rating", "category"))
+        // highlight-start
+        .orderByFields(Arrays.asList(
+                OrderByField.builder()
+                        .fieldName("price")
+                        .direction(AggDirection.ASC)
+                        .build(),
+                OrderByField.builder()
+                        .fieldName("rating")
+                        .direction(AggDirection.DESC)
+                        .build()
+        ))
+        // highlight-end
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+System.out.println(searchResp.getSearchResults());
 ```
 
 </TabItem>
@@ -1170,7 +1524,21 @@ res = client.search(
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+const res = await client.search({
+    collection_name: "product_catalog",
+    data: query_vector,
+    anns_field: "embedding",
+    limit: 20,
+    output_fields: ["id", "price", "rating", "category"],
+    // highlight-start
+    order_by_fields: [
+        { field: "price", order: "asc" },
+        { field: "rating", order: "desc" },
+    ],
+    // highlight-end
+})
+
+console.log(res.results)
 ```
 
 </TabItem>
@@ -1178,7 +1546,31 @@ res = client.search(
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385}
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "product_catalog", // collectionName
+    20,                // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("embedding").
+    WithOutputFields("id", "price", "rating", "category").
+    WithSearchParam("order_by_fields", "price:asc,rating:desc"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Prices: ", resultSet.GetColumn("price").FieldData().GetScalars())
+    fmt.Println("Ratings: ", resultSet.GetColumn("rating").FieldData().GetScalars())
+}
 ```
 
 </TabItem>
@@ -1194,32 +1586,91 @@ res = client.search(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("product_catalog")
+                         .WithAnnsField("embedding")
+                         .WithLimit(20)
+                         .WithOutputFields({"id", "price", "rating", "category"})
+                         // highlight-start
+                         .WithOrderByFields({
+                             milvus::OrderByField("price", milvus::AggregationDirection::ASC),
+                             milvus::OrderByField("rating", milvus::AggregationDirection::DESC),
+                         })
+                         // highlight-end
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    const auto prices = result.OutputField<milvus::Int64FieldData>("price");
+    const auto ratings = result.OutputField<milvus::DoubleFieldData>("rating");
+    for (size_t i = 0; i < result.GetRowCount(); ++i) {
+        std::cout << "id=" << ids[i] << ", price=" << prices->Data()[i]
+                  << ", rating=" << ratings->Data()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "outputFields": [
+    "price",
+    "rating"
+  ],
+  "orderByFields": [
+    "price:asc",
+    "rating:desc"
+  ],
+  "limit": 3
+}' \
+  --output json
 ```
 
 </TabItem>
 </Tabs>
 
-指定したすべての order-by フィールドの値が同じ entity については、Zilliz Cloud は元の類似度スコア順を維持します。
+指定したすべての並べ替え対象フィールドで値が同じエンティティについては、Zilliz Cloud は元の類似度スコアの順序を維持します。
 
-## Limit と Offset を使用する\{#use-limit-and-offset}
+## limit と offset の使用\{#use-limit-and-offset}
 
-検索リクエストに含まれるパラメータ `limit` が、検索結果に含める entity の数を決定していることに気付くかもしれません。このパラメータは、1 回の検索で返す entity の最大数を指定するもので、通常は **top-K** と呼ばれます。
+検索リクエストに含まれる `limit` パラメータが、検索結果に含めるエンティティの数を決定していることにお気づきかもしれません。このパラメータは、1 回の検索で返すエンティティの最大数を指定するもので、通常 **top-K** と呼ばれます。
 
-ページネーション付きクエリを実行したい場合は、ループを使って複数の Search リクエストを送信し、各クエリリクエストに **Limit** と **Offset** パラメータを含めることができます。具体的には、**Limit** パラメータを現在のクエリ結果に含めたい Entities の数に設定し、**Offset** を、すでに返された Entities の総数に設定します。
+ページ分割されたクエリを実行する場合は、ループを使用して複数の検索リクエストを送信し、各クエリリクエストに **Limit** パラメータと **Offset** パラメータを含めます。具体的には、**Limit** パラメータには現在のクエリ結果に含めるエンティティ数を設定し、**Offset** にはすでに返されたエンティティの合計数を設定します。
 
-以下の表は、1 回あたり 100 Entities を返す場合に、ページネーション付きクエリで **Limit** と **Offset** パラメータをどのように設定するかを示しています。
+次の表は、一度に 100 エンティティを返す場合に、ページ分割されたクエリで **Limit** パラメータと **Offset** パラメータをどのように設定するかを示しています。
 
-| クエリ | クエリごとに返す Entities | すでに返された Entities の総数 |
+| クエリ | クエリごとに返すエンティティ数 | すでに返されたエンティティの合計数 |
 | --- | --- | --- |
-| **1 回目** のクエリ | 100 | 0 |
-| **2 回目** のクエリ | 100 | 100 |
-| **3 回目** のクエリ | 100 | 200 |
-| **n 回目** のクエリ | 100 | 100 x (n-1) |
+| **1 回目**のクエリ | 100 | 0 |
+| **2 回目**のクエリ | 100 | 100 |
+| **3 回目**のクエリ | 100 | 200 |
+| **n 回目**のクエリ | 100 | 100 x (n-1) |
 
-なお、1 回の ANN 検索における `limit` と `offset` の合計は 16,384 未満である必要があります。
+1 回の ANN 検索における `limit` と `offset` の合計は、16,384 未満にする必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1342,46 +1793,69 @@ curl --request POST \
 <TabItem value='c++'>
 
 ```c++
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("quick_setup")
-                   .WithLimit(3)
-                   .WithAnnsField("vector")
-                   .WithOffset(10)
-                   .AddFloatVector(query_vector);
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         // highlight-next-line
+                         .WithOffset(10)
+                         .AddFloatVector(queryVector);
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
 }
 
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
     }
 }
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "limit": 3,
+  "offset": 3
+}' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
-## Level を使用する\{#use-level}
+## level の使用\{#use-level}
 
-ANN 検索を最適化するために、Zilliz Cloud では `level` というパラメータを提供しており、簡易的な検索最適化によって検索精度を制御できます。
+ANN 検索を最適化するために、Zilliz Cloud は、簡素化された検索最適化によって検索精度を制御する `level` という名前のパラメータを提供しています。
 
-このパラメータの範囲は `1` から `10` で、デフォルトは `1` です。値を大きくすると検索の再現率は向上しますが、その代わりに検索パフォーマンスは低下します。一般的なケースでは、デフォルト値で最大 90% の再現率が得られます。必要に応じて値を上げてください。
+このパラメータの範囲は `1` から `10` で、デフォルトは `1` です。値を大きくすると検索の再現率が向上しますが、検索パフォーマンスは低下します。一般的なケースでは、デフォルト値で最大 90% の再現率が得られます。必要に応じて値を大きくしてください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-`level` パラメータは現在も **Public Preview** です。`5` より大きい値に設定できない場合は、使用中の cluster がこの機能を完全にはサポートしていない可能性があります。回避策としては、`1` から `5` の範囲の値を設定するか、[Zilliz Cloud support](https://zilliz.com/contact-sales) にお問い合わせください。
+`level` パラメータは現在も **Public Preview** です。`5` より大きい値を設定できない場合、お使いのクラスターがこの機能に完全には対応していない可能性があります。回避策として、代わりに `1` から `5` の範囲内の値を設定するか、[Zilliz Cloud support](https://zilliz.com/contact-sales) にお問い合わせください。
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1542,19 +2016,45 @@ for (auto& result : response.Results().Results()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "searchParams": {
+    "level": 10
+  },
+  "limit": 3
+}' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
-## Recall Rate を取得する\{#get-recall-rate}
+## 再現率の取得\{#get-recall-rate}
 
-`level` パラメータを調整するときに `enable_recall_calculation` を `true` に設定すると、異なる `level` 値での検索精度を評価できます。
+`level` パラメータを調整する際に `enable_recall_calculation` を `true` に設定すると、異なる `level` 値での検索精度を評価できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-`enable_recall_calculation` パラメータは現在も **Public Preview** であり、互換性の問題により使用できない場合があります。サポートが必要な場合は、[Zilliz Cloud support](https://zilliz.com/contact-sales) までお問い合わせください。
+`enable_recall_calculation` パラメータは現在も **Public Preview** であり、互換性の問題により使用できない場合があります。支援が必要な場合は、[Zilliz Cloud support](https://zilliz.com/contact-sales) までお問い合わせください。
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1720,17 +2220,26 @@ for (auto& result : response.Results().Results()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Recall-rate metadata is not currently exposed by the CLI.
+```
+
+</TabItem>
 </Tabs>
 
-## 検索に対して一時的にタイムゾーンを設定する\{#temporarily-set-a-timezone-for-a-search}
+## 検索のタイムゾーンを一時的に設定する\{#temporarily-set-a-timezone-for-a-search}
 
-collection に `TIMESTAMPTZ` フィールドがある場合、検索呼び出しで `timezone` パラメータを設定することで、単一の操作に対して database または collection のデフォルトタイムゾーンを一時的に上書きできます。これにより、その操作中に `TIMESTAMPTZ` の値がどのように表示および比較されるかを制御できます。
+コレクションに `TIMESTAMPTZ` フィールドがある場合、検索呼び出しで `timezone` パラメータを設定することで、単一の操作に限り、データベースまたはコレクションのデフォルトのタイムゾーンを一時的に上書きできます。これは、操作中に `TIMESTAMPTZ` の値がどのように表示され、比較されるかを制御します。
 
-`timezone` の値は、有効な [IANA time zone identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) である必要があります（例: **Asia/Shanghai**、**America/Chicago**、**UTC**）。`TIMESTAMPTZ` フィールドの使用方法の詳細については、[TIMESTAMPTZ Field](./use-timestamptz-field) を参照してください。
+`timezone` の値は、有効な [IANA time zone identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例：**Asia/Shanghai**, **America/Chicago**, **UTC** など）である必要があります。`TIMESTAMPTZ` フィールドの使用方法の詳細については、[TIMESTAMPTZ フィールド](./use-timestamptz-field) を参照してください。
 
-以下の例は、検索操作に対して一時的にタイムゾーンを設定する方法を示しています。
+次の例では、検索操作のタイムゾーンを一時的に設定する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1749,7 +2258,25 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+
+FloatVec queryVector = new FloatVec(new float[]{0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f});
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("quick_setup")
+        .annsField("vector")
+        .data(Collections.singletonList(queryVector))
+        .limit(3)
+        .metricType(IndexParam.MetricType.IP)
+        // highlight-next-line
+        .timezone("America/Havana")
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+System.out.println(searchResp.getSearchResults());
 ```
 
 </TabItem>
@@ -1757,7 +2284,17 @@ res = client.search(
 <TabItem value='javascript'>
 
 ```javascript
-// js
+const res = await client.search({
+    collection_name: "quick_setup",
+    anns_field: "vector",
+    data: query_vector,
+    limit: 3,
+    metric_type: "IP",
+    // highlight-next-line
+    params: { timezone: "America/Havana" },
+})
+
+console.log(res.results)
 ```
 
 </TabItem>
@@ -1765,7 +2302,31 @@ res = client.search(
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385}
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "quick_setup", // collectionName
+    3,             // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("vector").
+    WithSearchParam("metric_type", "IP").
+    WithOutputFields("event_time").
+    WithSearchParam("timezone", "America/Havana"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Event times: ", resultSet.GetColumn("event_time").FieldData().GetScalars())
+}
 ```
 
 </TabItem>
@@ -1795,80 +2356,116 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 <TabItem value='c++'>
 
 ```c++
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("quick_setup")
-                   .WithLimit(3)
-                   .WithAnnsField("vector")
-                   .AddFloatVector(query_vector)
-                   .WithMetricType(milvus::MetricType::IP)
-                   .WithTimezone("America/Havana");
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         .WithMetricType(milvus::MetricType::IP)
+                         .AddOutputField("event_time")
+                         // highlight-next-line
+                         .WithTimezone("America/Havana")
+                         .AddFloatVector(queryVector);
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
 }
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    const auto eventTimes = result.OutputField<milvus::TimestamptzFieldData>("event_time");
+    for (size_t i = 0; i < result.GetRowCount(); ++i) {
+        std::cout << "id=" << ids[i] << ", event_time=" << eventTimes->Data()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "outputFields": [
+    "event_time"
+  ],
+  "timezone": "America/Havana",
+  "limit": 3
+}' \
+  --output json
 ```
 
 </TabItem>
 </Tabs>
 
-## ANN Search の強化\{#enhancing-ann-search}
+## ANN 検索の強化\{#enhancing-ann-search}
 
-AUTOINDEX は ANN Search の学習ハードルを大幅に下げます。しかし、top-K が増加すると、検索結果が常に正しいとは限りません。検索範囲を狭め、検索結果の関連性を高め、検索結果を多様化することで、Zilliz Cloud は以下の検索強化機能を提供します。
+AUTOINDEX は ANN 検索の学習コストを大幅に軽減します。ただし、top-K が大きくなるにつれて、検索結果が常に正確であるとは限りません。検索範囲の縮小、検索結果の関連性の向上、検索結果の多様化により、Zilliz Cloud は次の検索強化機能を実現しています。
 
-- Filtered Search
+- フィルタ付き検索
 
-    検索リクエストにフィルタリング条件を含めることで、Zilliz Cloud は ANN Search を実行する前に metadata filtering を実施し、検索範囲を collection 全体から、指定されたフィルタリング条件に一致する entities のみに絞り込めます。
+    検索リクエストにフィルタリング条件を含めると、Zilliz Cloud は ANN 検索を実行する前にメタデータフィルタリングを実施し、検索範囲をコレクション全体から、指定したフィルタリング条件に一致するエンティティのみに絞り込むことができます。
 
-    metadata filtering とフィルタリング条件の詳細については、[Filtered Search](./filtered-search) および [Filtering Explained](./filtering-overview) を参照してください。
+    メタデータフィルタリングとフィルタリング条件の詳細については、[フィルタ付き検索](./filtered-search) および [Filtering Explained](./filtering-overview) を参照してください。
 
-- Range Search
+- 範囲検索
 
-    返される entities の距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を向上させることができます。Zilliz Cloud では、range search は、クエリ vector に最も類似した vector embedding を中心として 2 つの同心円を描く形で行われます。検索リクエストでは両方の円の半径を指定し、Zilliz Cloud は外側の円の内側かつ内側の円の外側にあるすべての vector embeddings を返します。
+    返されるエンティティの距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を向上させることができます。Zilliz Cloud の範囲検索では、クエリベクトルに最も類似したベクトル埋め込みを中心として 2 つの同心円を描きます。検索リクエストで両方の円の半径を指定すると、Zilliz Cloud は外側の円の内側で内側の円の外側にあるすべてのベクトル埋め込みを返します。
 
-    range search の詳細については、[Range Search](./range-search) を参照してください。
+    範囲検索の詳細については、[範囲検索](./range-search) を参照してください。
 
-- Grouping Search
+- グループ化検索
 
-    返された entities が特定のフィールドで同じ値を持つ場合、検索結果は vector space 内のすべての vector embeddings の分布を表していない可能性があります。検索結果を多様化するには、grouping search の使用を検討してください。
+    返されるエンティティが特定のフィールドで同じ値を持つ場合、検索結果はベクトル空間内のすべてのベクトル埋め込みの分布を表していない可能性があります。検索結果を多様化するには、グループ化検索の使用を検討してください。
 
-    grouping search の詳細については、[Grouping Search](./grouping-search) を参照してください。
+    グループ化検索の詳細については、[Grouping Search](./grouping-search) を参照してください。
 
-- Hybrid Search
+- ハイブリッド検索
 
-    collection には、異なる embedding model を使用して生成された vector embeddings を保存するために、複数の vector fields を含めることができます。これにより、hybrid search を使用してこれらの vector fields からの検索結果を rerank し、recall rate を向上させることができます。
+    コレクションには、異なる埋め込みモデルを使用して生成されたベクトル埋め込みを保存するために、複数のベクトルフィールドを含めることができます。これにより、ハイブリッド検索を使用してこれらのベクトルフィールドからの検索結果を再ランク付けし、再現率を向上させることができます。
 
-    hybrid search の詳細については、[Hybrid Search](./hybrid-search) を参照してください。
+    ハイブリッド検索の詳細については、[ハイブリッド検索](./hybrid-search) を参照してください。
 
-    collection で許可される vector fields の数の制限の詳細については、[Zilliz Cloud Limits](./limits#fields) を参照してください。
+    コレクションで許可されるベクトルフィールドの数の制限については、[Zilliz Cloud の制限事項](./limits#fields) を参照してください。
 
-- Search Iterator
+- 検索イテレーター
 
-    1 回の ANN Search で返される entities の最大数は 16,384 です。1 回の検索でさらに多くの entities を返す必要がある場合は、search iterators の使用を検討してください。
+    1 回の ANN 検索で返されるエンティティは最大 16,384 件です。1 回の検索でさらに多くのエンティティを返す必要がある場合は、検索イテレーターの使用を検討してください。
 
-    search iterators の詳細については、[Search Iterator](./with-iterators) を参照してください。
+    検索イテレーターの詳細については、[Search Iterator](./with-iterators) を参照してください。
 
-- Full-Text Search
+- フルテキスト検索
 
-    full text search は、テキストデータセット内で特定の用語やフレーズを含むドキュメントを取得し、その後関連性に基づいて結果をランク付けする機能です。この機能は semantic search の制限を補い、正確な用語が見落とされる可能性を回避して、より正確で文脈に即した結果を得られるようにします。さらに、生のテキスト入力を受け付け、テキストデータを自動的に sparse embeddings に変換することで、手動で vector embeddings を生成する必要をなくし、vector search を簡素化します。
+    フルテキスト検索は、テキストデータセット内の特定の用語やフレーズを含むドキュメントを取得し、関連性に基づいて結果をランク付けする機能です。この機能は、正確な用語を見落とす可能性があるセマンティック検索の制限を克服し、最も正確で文脈に関連した結果を得られるようにします。さらに、生のテキスト入力を受け付け、テキストデータを自動的にスパース埋め込みに変換するため、ベクトル埋め込みを手動で生成する必要がなくなり、ベクトル検索を簡素化します。
 
-    full-text search の詳細については、[Full Text Search](./full-text-search) を参照してください。
+    フルテキスト検索の詳細については、[フルテキスト検索](./full-text-search) を参照してください。
 
-- Text Match
+- テキストマッチ
 
-    Zilliz Cloud の keyword match は、特定の用語に基づいて正確なドキュメント取得を可能にします。この機能は主に filtered search で特定の条件を満たすために使用され、scalar filtering を組み合わせてクエリ結果を絞り込み、scalar 条件を満たす vectors に対する類似検索を可能にします。
+    Zilliz Cloud のキーワードマッチを使用すると、特定の用語に基づいてドキュメントを正確に取得できます。この機能は主に、特定の条件を満たすためのフィルタ付き検索に使用され、スカラーフィルタリングを組み込んでクエリ結果を絞り込み、スカラー条件を満たすベクトル内での類似検索を可能にします。
 
-    keyword match の詳細については、[Keyword Match](./text-match) を参照してください。
+    キーワードマッチの詳細については、[テキストマッチ](./text-match) を参照してください。
 
-- Use Partition Key
+- パーティションキーの使用
 
-    metadata filtering に複数の scalar fields を含め、かなり複雑なフィルタリング条件を使用すると、検索効率に影響する可能性があります。scalar field を partition key として設定し、検索リクエストで partition key を含むフィルタリング条件を使用すると、指定した partition key の値に対応する partitions 内に検索範囲を制限するのに役立ちます。 
+    メタデータフィルタリングに複数のスカラーフィールドを含め、かなり複雑なフィルタリング条件を使用すると、検索効率に影響する可能性があります。スカラーフィールドをパーティションキーとして設定し、検索リクエストでパーティションキーを含むフィルタリング条件を使用すると、指定したパーティションキーの値に対応するパーティション内に検索範囲を制限するのに役立ちます。
 
-    partition key の詳細については、[Use Partition Key](./use-partition-key) を参照してください。
+    パーティションキーの詳細については、[パーティションキーの使用](./use-partition-key) を参照してください。
 
-- Use mmap
+- mmap の使用
 
-    mmap-settings の詳細については、[Use mmap](./use-mmap) を参照してください。
-
+    mmap 設定の詳細については、[mmap の使用](./use-mmap) を参照してください。

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "類似検索を行う際は、クエリ vector がすでに対象 collection 内に存在している場合でも、常に 1 つ以上のクエリ vector を指定する必要があります。検索前に vector を取得する手間を避けるには、代わりに primary key を使用できます。 | Cloud"
+description: "類似検索を実行する際は、クエリベクトルがすでに対象のコレクション内に存在している場合でも、常に 1つ以上のクエリベクトルを指定する必要があります。検索前にベクトルを取得することを避けるには、代わりに主キーを使用できます。 | Cloud"
 type: origin
 token: U7OvwHP3AiUWlckzIEKclLQQnPr
 sidebar_position: 8
@@ -21,45 +21,45 @@ import TabItem from '@theme/TabItem';
 
 # Primary-Key Search
 
-類似検索を行う際は、クエリ vector がすでに対象 collection 内に存在している場合でも、常に 1 つ以上のクエリ vector を指定する必要があります。検索前に vector を取得する手間を避けるには、代わりに primary key を使用できます。
+類似検索を実行する際は、クエリベクトルがすでに対象のコレクション内に存在している場合でも、常に 1つ以上のクエリベクトルを指定する必要があります。検索前にベクトルを取得することを避けるには、代わりに主キーを使用できます。
 
 ## 概要\{#overview}
 
-e コマースプラットフォームでは、ユーザーがキーワードを入力して、それに一致する商品を取得できます。ユーザーが商品詳細ページを閲覧すると、その下部には、比較したいユーザー向けに類似商品の一覧も表示されます。
+e コマースプラットフォームでは、ユーザーがキーワードを入力すると、それに一致する商品を取得できます。ユーザーが商品詳細ページを表示すると、プラットフォームは、比較したいユーザー向けに、ページ下部に類似商品の一覧も表示します。
 
-これらの推薦結果は、キーワードまたは現在の商品との類似度に基づいて並べ替えられます。これを実現するには、プラットフォーム開発者は実際の類似検索の前に、キーワードまたは現在の商品の vector 表現を Milvus から取得する必要があります。これにより、プラットフォームと Milvus 間の往復回数が増え、多数の高次元 float 値がネットワーク越しに送信されることになります。
+レコメンデーションは、キーワードまたは現在の商品との類似度に基づいて並べ替えられます。これを実現するには、プラットフォームの開発者が、実際の類似検索の前に、キーワードまたは現在の商品のベクトル表現を Milvus から取得する必要があります。これにより、プラットフォームと Milvus の間の往復回数が増え、その結果、多数の高次元 float 値がネットワーク越しに送信されることになります。
 
-アプリケーションと Milvus の間のやり取りのロジックを簡素化し、往復回数を減らし、大量の高次元浮動小数点値をネットワーク越しに送信することを避けるために、primary key search の使用を検討してください。
+アプリケーションと Milvus の間のやり取りのロジックを簡素化し、往復回数を減らし、大量の高次元浮動小数点値がネットワーク越しに送信されるのを避けるには、主キー検索の使用を検討してください。
 
-primary key search では、クエリ vector を指定する必要はありません。代わりに、クエリ vector を含む entity の primary key（`ids`）を指定します。
+主キー検索では、クエリベクトルを指定する必要はありません。代わりに、クエリベクトルを含むエンティティの主キー（`ids`）を指定します。
 
 ## 制限事項\{#limits-and-restrictions}
 
-- primary key を使用した検索は、BM25 関数のように VarChar フィールドから派生した sparse vector フィールドを除き、すべての vector データ型に適用されます。
+- 主キーを使用した検索は、BM25 関数のように VarChar フィールドから派生した疎ベクトルフィールドを除き、すべてのベクトルデータ型に適用されます。
 
-- フィルタ付き検索、範囲検索、グループ化検索では、必要に応じて pagination を有効にしたうえで、クエリ vector の代わりに primary key を使用できます。ただし、この機能は hybrid search と search iterator には適用されません。
+- フィルタ付き検索、範囲検索、グループ化検索では、必要に応じてページネーションを有効にしたうえで、クエリベクトルの代わりに主キーを使用できます。ただし、この機能はハイブリッド検索と検索イテレータには適用されません。
 
-- embedding list を含む類似検索では、引き続きクエリ vector を取得し、それらを embedding list にまとめて検索を実行する必要があります。
+- 埋め込みリストを使用する類似検索では、引き続きクエリベクトルを取得して埋め込みリストにまとめ、検索を実行する必要があります。
 
-- 存在しない primary key、または形式が正しくない primary key に対しては、Milvus がエラーを返します。
+- 存在しない主キーや形式が正しくない主キーに対しては、Milvus がエラーを返します。
 
-- primary key とクエリ vector は相互排他的です。両方を指定した場合もエラーになります。
+- 主キーとクエリベクトルは相互排他的です。両方を指定した場合もエラーになります。
 
 ## 例\{#examples}
 
-以下の例では、指定されたすべての Int64 ID が対象 collection 内に存在することを前提としています。
+以下の例では、指定したすべての Int64 ID が対象のコレクション内に存在することを前提としています。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-primary key はフィルタリングには使用されません。vector の取得にのみ使用されます。
+主キーはフィルタリングには使用されません。ベクトルの取得にのみ使用されます。
 
 </Admonition>
 
-### 例 1: 基本的な primary-key search\{#example-1-basic-primary-key-search}
+### 例 1: 基本的な主キー検索\{#example-1-basic-primary-key-search}
 
-基本的な primary-key search を行うには、クエリ vector を primary key に置き換えるだけです。
+基本的な主キー検索を実行するには、クエリベクトルを主キーに置き換えるだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -120,7 +120,23 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='javascript'>
 
 ```javascript
-// node.js
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN",
+});
+
+const res = await client.search({
+    collection_name: "my_collection",
+    anns_field: "vector",
+    // highlight-start
+    ids: [551, 296, 43], // a list of primary keys
+    // highlight-end
+    limit: 3,
+});
+
+console.log(res.results);
 ```
 
 </TabItem>
@@ -128,7 +144,43 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+// highlight-start
+ids := column.NewColumnInt64("id", []int64{551, 296, 43}) // a list of primary keys
+// highlight-end
+resultSets, err := client.Search(ctx, milvusclient.NewSearchByIDsOption(
+    "my_collection", // collectionName
+    3,             // limit
+    ids,
+).WithANNSField("vector"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs)
+    fmt.Println("Scores: ", resultSet.Scores)
+}
 ```
 
 </TabItem>
@@ -150,13 +202,60 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("my_collection")
+                         .WithAnnsField("vector")
+                         // highlight-start
+                         .WithIDs({551, 296, 43})
+                         // highlight-end
+                         .WithLimit(3);
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+zilliz vector search \
+  --collection my_collection \
+  --data "[]" \
+  --body '{
+    "annsField": "vector",
+    "ids": [551, 296, 43],
+    "limit": 3
+  }' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
-### 例 2: primary key を使用したフィルタ付き検索\{#example-2-filtered-search-using-primary-keys}
+### 例 2: 主キーを使用したフィルタ付き検索\{#example-2-filtered-search-using-primary-keys}
 
-次の例では、`color` と `likes` が対象 collection 内でスキーマ定義された 2 つのフィールドであることを前提としています。
+以下の例では、`color` と `likes` が対象のコレクション内でスキーマ定義された2つのフィールドであることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -198,7 +297,17 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='javascript'>
 
 ```javascript
-// node.js
+const res = await client.search({
+    collection_name: "my_collection",
+    // highlight-start
+    ids: [551, 296, 43],
+    filter: 'color like "red%" and likes > 50',
+    output_fields: ["id", "color", "likes"],
+    // highlight-end
+    limit: 3,
+});
+
+console.log(res.results);
 ```
 
 </TabItem>
@@ -206,7 +315,26 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-// go
+// highlight-start
+ids := column.NewColumnInt64("id", []int64{551, 296, 43})
+// highlight-end
+resultSets, err := client.Search(ctx, milvusclient.NewSearchByIDsOption(
+    "my_collection", // collectionName
+    3,               // limit
+    ids,
+).WithFilter(`color like "red%" and likes > 50`).
+    WithOutputFields("color", "likes"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs)
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("color: ", resultSet.GetColumn("color"))
+    fmt.Println("likes: ", resultSet.GetColumn("likes"))
+}
 ```
 
 </TabItem>
@@ -230,11 +358,66 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("my_collection")
+                         // highlight-start
+                         .WithIDs({551, 296, 43})
+                         .WithFilter(R"(color like "red%" and likes > 50)")
+                         .WithOutputFields({"color", "likes"})
+                         // highlight-end
+                         .WithLimit(3);
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    const auto colors = result.OutputField<milvus::VarCharFieldData>("color");
+    const auto likes = result.OutputField<milvus::Int64FieldData>("likes");
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i]
+                  << ", score=" << result.Scores()[i]
+                  << ", color=" << colors->Data()[i]
+                  << ", likes=" << likes->Data()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+zilliz vector search \
+  --collection my_collection \
+  --data "[]" \
+  --body '{
+    "annsField": "vector",
+    "ids": [551, 296, 43],
+    "filter": "color like \\"red%\\" and likes > 50",
+    "outputFields": ["color", "likes"],
+    "limit": 3
+  }' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
-### 例 3: primary key を使用した範囲検索\{#example-3-range-search-using-primary-keys}
+### 例 3: 主キーを使用した範囲検索\{#example-3-range-search-using-primary-keys}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -285,7 +468,21 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='javascript'>
 
 ```javascript
-// node.js
+const res = await client.search({
+    collection_name: "my_collection",
+    // highlight-start
+    ids: [551, 296, 43],
+    // highlight-end
+    limit: 3,
+    params: {
+        // highlight-start
+        radius: 0.4,
+        range_filter: 0.6,
+        // highlight-end
+    },
+});
+
+console.log(res.results);
 ```
 
 </TabItem>
@@ -293,7 +490,30 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-// go
+annParam := index.NewCustomAnnParam()
+// highlight-start
+annParam.WithRadius(0.4)
+annParam.WithRangeFilter(0.6)
+// highlight-end
+
+// highlight-start
+ids := column.NewColumnInt64("id", []int64{551, 296, 43})
+// highlight-end
+resultSets, err := client.Search(ctx, milvusclient.NewSearchByIDsOption(
+    "my_collection", // collectionName
+    3,               // limit
+    ids,
+).WithANNSField("vector").
+    WithAnnParam(annParam))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs)
+    fmt.Println("Scores: ", resultSet.Scores)
+}
 ```
 
 </TabItem>
@@ -321,13 +541,68 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("my_collection")
+                         .WithAnnsField("vector")
+                         // highlight-start
+                         .WithIDs({551, 296, 43})
+                         .WithRadius(0.4)
+                         .WithRangeFilter(0.6)
+                         // highlight-end
+                         .WithLimit(3);
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+zilliz vector search \
+  --collection my_collection \
+  --data "[]" \
+  --body '{
+    "annsField": "vector",
+    "ids": [551, 296, 43],
+    "limit": 3,
+    "searchParams": {
+      "params": {
+        "radius": 0.4,
+        "range_filter": 0.6
+      }
+    }
+  }' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
-### 例 4: primary key を使用したグループ化検索\{#example-4-grouping-search-using-primary-keys}
+### 例 4: 主キーを使用したグループ化検索\{#example-4-grouping-search-using-primary-keys}
 
-次の例では、`docId` が対象 collection 内でスキーマ定義されたフィールドであることを前提としています。
+以下の例では、`docId` が対象のコレクション内でスキーマ定義されたフィールドであることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -369,7 +644,17 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='javascript'>
 
 ```javascript
-// node.js
+const res = await client.search({
+    collection_name: "my_collection",
+    // highlight-start
+    ids: [551, 296, 43],
+    // highlight-end
+    limit: 3,
+    group_by_field: "docId",
+    output_fields: ["id", "docId"],
+});
+
+console.log(res.results);
 ```
 
 </TabItem>
@@ -377,7 +662,25 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-// go
+// highlight-start
+ids := column.NewColumnInt64("id", []int64{551, 296, 43})
+// highlight-end
+resultSets, err := client.Search(ctx, milvusclient.NewSearchByIDsOption(
+    "my_collection", // collectionName
+    3,               // limit
+    ids,
+).WithGroupByField("docId").
+    WithOutputFields("docId"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs)
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("docId: ", resultSet.GetColumn("docId"))
+}
 ```
 
 </TabItem>
@@ -398,6 +701,60 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
     "groupingField": "docId",
     "outputFields": ["docId"]
   }'
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("my_collection")
+                         .WithAnnsField("vector")
+                         // highlight-start
+                         .WithIDs({551, 296, 43})
+                         .WithGroupByField("docId")
+                         .WithOutputFields({"docId"})
+                         // highlight-end
+                         .WithLimit(3);
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    const auto docIds = result.OutputField<milvus::Int64FieldData>("docId");
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i]
+                  << ", score=" << result.Scores()[i]
+                  << ", docId=" << docIds->Data()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+zilliz vector search \
+  --collection my_collection \
+  --data "[]" \
+  --body '{
+    "annsField": "vector",
+    "ids": [551, 296, 43],
+    "limit": 3,
+    "groupingField": "docId",
+    "outputFields": ["docId"]
+  }' \
+  --output json
 ```
 
 </TabItem>

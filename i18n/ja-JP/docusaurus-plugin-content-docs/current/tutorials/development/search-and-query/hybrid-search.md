@@ -65,7 +65,7 @@ import TabItem from '@theme/TabItem';
 
 組み込みの BM25 アルゴリズムを使用して text フィールドに対する全文検索を実行するため、スキーマに Milvus `Function` を追加する必要があります。詳細については、[Full Text Search](./full-text-search) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -353,6 +353,14 @@ schema->AddField(milvus::FieldSchema("image_dense", milvus::DataType::FLOAT_VECT
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 ### インデックスを作成する\{#create-index}
@@ -365,7 +373,7 @@ schema->AddField(milvus::FieldSchema("image_dense", milvus::DataType::FLOAT_VECT
 
 - `image_dense_index`: 画像密ベクトルフィールドに対して、`IP` メトリックタイプを持つ `AUTOINDEX` 型のインデックスを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -516,13 +524,21 @@ std::vector<milvus::IndexDesc> indexes = {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
-### collection の作成\{#create-collection}
+### コレクションを作成する\{#create-collection}
 
-前の 2 つのステップで設定した collection schema と index を使用して、`demo` という名前の collection を作成します。
+前の 2 つのステップで設定したコレクションスキーマとインデックスを使用して、`demo` という名前のコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -607,25 +623,33 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
-## データの挿入\{#insert-data}
+## データを挿入する\{#insert-data}
 
-このセクションでは、先ほど定義した schema に基づいて `my_collection` collection にデータを挿入します。挿入時には、自動生成される値を持つフィールドを除き、すべてのフィールドに対して正しい形式のデータを指定してください。この例では以下のとおりです。
+このセクションでは、先ほど定義したスキーマに基づいて `my_collection` コレクションにデータを挿入します。挿入時には、自動生成される値を持つフィールドを除き、すべてのフィールドに対して正しい形式のデータを指定してください。この例では以下のとおりです。
 
 - `id`: 製品 ID を表す整数
 
 - `text`: 製品説明を含む文字列
 
-- `text_dense`: テキスト説明の dense embedding を表す 768 個の浮動小数点値のリスト
+- `text_dense`: テキスト説明の密埋め込みを表す 768 個の浮動小数点値のリスト
 
-- `image_dense`: 製品画像の dense embedding を表す 512 個の浮動小数点値のリスト
+- `image_dense`: 商品画像の密埋め込みを表す 512 個の浮動小数点値のリスト
 
-各フィールドの dense embedding の生成には、同じモデルを使用しても異なるモデルを使用してもかまいません。この例では、2 つの dense embedding は次元数が異なっており、異なるモデルで生成されたことを示しています。後で各検索を定義する際には、対応するモデルを使用して適切なクエリ embedding を生成するようにしてください。
+各フィールドの密埋め込みの生成には、同じモデルを使用しても異なるモデルを使用してもかまいません。この例では、2 つの密埋め込みは次元数が異なっており、異なるモデルで生成されたことを示しています。後で各検索を定義する際には、必ず対応するモデルを使用して適切なクエリ埋め込みを生成してください。
 
-この例では、テキストフィールドから sparse embedding を生成するために組み込みの BM25 関数を使用しているため、sparse vector を手動で指定する必要はありません。ただし、BM25 を使用しない場合は、自分で sparse embedding を事前計算して指定する必要があります。
+この例では、組み込みの BM25 関数を使用してテキストフィールドから疎埋め込みを生成するため、疎ベクトルを手動で指定する必要はありません。ただし、BM25 を使用しない場合は、疎埋め込みを自分で事前計算して指定する必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -802,9 +826,17 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
-## ハイブリッド検索の実行\{#perform-hybrid-search}
+## ハイブリッド検索を実行する\{#perform-hybrid-search}
 
 ### ステップ 1: 複数の AnnSearchRequest インスタンスを作成する\{#step-1-create-multiple-annsearchrequest-instances}
 
@@ -812,21 +844,21 @@ if (!status.IsOk()) {
 
 さらに、`AnnSearchRequest` で `expr` パラメータを設定することで、ハイブリッド検索のフィルタリング条件を指定できます。詳細については、[Filtered Search](./filtered-search) および [Filtering Explained](./filtering-overview) を参照してください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
 ハイブリッド検索では、各 `AnnSearchRequest` は 1 つのクエリデータのみをサポートします。
 
 </Admonition>
 
-さまざまな検索ベクトルフィールドの機能を示すために、サンプルクエリを使用して 3 つの `AnnSearchRequest` 検索リクエストを作成します。また、このプロセスでは事前計算済みの dense vector も使用します。検索リクエストの対象となるベクトルフィールドは次のとおりです。
+さまざまな検索ベクトルフィールドの機能を示すために、サンプルクエリを使用して 3 つの `AnnSearchRequest` 検索リクエストを作成します。また、このプロセスではその事前計算済みの密ベクトルを使用します。検索リクエストの対象となるベクトルフィールドは以下のとおりです。
 
-- `text_dense`: 意味に基づいて文脈を理解し、直接的なキーワード一致ではなく意味ベースで検索・取得を行うセマンティックテキスト検索用
+- `text_dense`: 直接的なキーワード一致ではなく、意味に基づく文脈理解と取得を可能にするセマンティックテキスト検索用。
 
-- `text_sparse`: テキスト内の単語やフレーズの正確な一致に焦点を当てる全文検索またはキーワード一致用
+- `text_sparse`: テキスト内の単語やフレーズの完全一致に焦点を当てた、全文検索またはキーワード一致用。
 
-- `image_dense`: クエリの意味内容に基づいて関連する製品画像を取得する、マルチモーダルな text-to-image 検索用
+- `image_dense`: クエリの意味内容に基づいて関連する商品画像を取得する、マルチモーダルな text-to-image 検索用。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -998,17 +1030,25 @@ auto sub_req3 = milvus::SubSearchRequest()
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 `limit` パラメータが 2 に設定されているため、各 `AnnSearchRequest` は 2 件の検索結果を返します。この例では 3 つの `AnnSearchRequest` インスタンスが作成されるため、合計 6 件の検索結果になります。
 
-### ステップ 2: reranking 戦略を設定する\{#step-2-configure-a-reranking-strategy}
+### ステップ 2: 再ランキング戦略を設定する\{#step-2-configure-a-reranking-strategy}
 
-ANN 検索結果のセットをマージして rerank するには、適切な reranking 戦略を選択することが重要です。Zilliz Cloud は複数種類の reranking 戦略を提供しています。これらの reranking メカニズムの詳細については、[Weighted Ranker](./reranking-weighted-reranker) または [RRF Ranker](./reranking-rrf) を参照してください。 
+ANN 検索結果のセットをマージして再ランキングするには、適切な再ランキング戦略を選択することが重要です。Zilliz Cloud はいくつかの種類の再ランキング戦略を提供しています。これらの再ランキングメカニズムの詳細については、[Weighted Ranker](./reranking-weighted-reranker) または [RRF Ranker](./reranking-rrf) を参照してください。 
 
 この例では、特定の検索クエリを特に重視しないため、RRFRanker 戦略を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1102,13 +1142,21 @@ auto ranker = std::make_shared<milvus::RRFRerank>(100);
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
-### ステップ 3: Hybrid Search を実行する\{#step-3-perform-a-hybrid-search}
+### ステップ 3: ハイブリッド検索を実行する\{#step-3-perform-a-hybrid-search}
 
-Hybrid Search を開始する前に、collection がロードされていることを確認してください。collection 内のいずれかの vector field に index がない場合、またはメモリにロードされていない場合は、Hybrid Search メソッドの実行時にエラーが発生します。
+ハイブリッド検索を開始する前に、コレクションがロードされていることを確認してください。コレクション内のいずれかのベクトルフィールドにインデックスがない場合、またはメモリにロードされていない場合は、ハイブリッド検索メソッドの実行時にエラーが発生します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1238,13 +1286,21 @@ for (auto& result : response.Results().Results()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
-以下は出力例です。
+出力は以下の通りです。
 
-```python
+```plaintext
 ["['id: 1, distance: 0.006047376897186041, entity: {}', 'id: 2, distance: 0.006422005593776703, entity: {}']"]
 ```
 
-Hybrid Search で `limit=2` パラメータを指定すると、Zilliz Cloud は 3 回の検索で得られた 6 件の結果を rerank します。最終的に、最も類似度の高い上位 2 件の結果のみが返されます。
+ハイブリッド検索で `limit=2` パラメータを指定すると、Zilliz Cloud は 3 回の検索で得られた 6 件の結果を再ランキングします。最終的に、最も類似度の高い上位 2 件の結果のみが返されます。
 

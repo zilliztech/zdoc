@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "範囲検索は、返されるエンティティの distance または score を特定の範囲内に制限することで、検索結果の関連性を向上させます。このページでは、範囲検索とは何か、および範囲検索を実行する手順について説明します。 | Cloud"
+description: "範囲検索は、返されるエンティティの距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を向上させます。このページでは、範囲検索とは何か、および範囲検索を実行する手順について説明します。 | Cloud"
 type: origin
 token: GnvtwMeQWi8iRCk7dGccCBQZnOh
 sidebar_position: 5
@@ -21,39 +21,39 @@ import TabItem from '@theme/TabItem';
 
 # 範囲検索
 
-範囲検索は、返されるエンティティの distance または score を特定の範囲内に制限することで、検索結果の関連性を向上させます。このページでは、範囲検索とは何か、および範囲検索を実行する手順について説明します。
+範囲検索は、返されるエンティティの距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を向上させます。このページでは、範囲検索とは何か、および範囲検索を実行する手順について説明します。
 
 ## 概要\{#overview}
 
-範囲検索リクエストを実行するとき、Zilliz Cloud は ANN Search の結果からクエリ vector に最も類似した vectors を中心として使用し、Search リクエストで指定された **radius** を外側の円の半径、**range_filter** を内側の円の半径として、2 つの同心円を描きます。これら 2 つの同心円によって形成される環状領域内に similarity score が収まるすべての vectors が返されます。ここで、**range_filter** は **0** に設定することもでき、その場合は指定された similarity score（radius）内のすべてのエンティティが返されます。
+範囲検索リクエストを実行するとき、Zilliz Cloud は ANN 検索の結果からクエリベクトルに最も類似したベクトルを中心とし、検索リクエストで指定された **radius** を外側の円の半径、**range_filter** を内側の円の半径として、2 つの同心円を描きます。これら 2 つの同心円によって形成される環状領域内に類似度スコアが収まるすべてのベクトルが返されます。ここで、**range_filter** は **0** に設定することもでき、指定された類似度スコア（radius）内のすべてのエンティティが返されることを示します。
 
 ![Sewjwp5DShFgKAbC1Mwcrr7enOD](https://zdoc-images.s3.us-west-2.amazonaws.com/Sewjwp5DShFgKAbC1Mwcrr7enOD.png)
 
-上の図が示すように、範囲検索リクエストには 2 つのパラメータ **radius** と **range_filter** が含まれます。範囲検索リクエストを受け取ると、Zilliz Cloud は次の処理を行います。
+上の図が示すように、範囲検索リクエストには **radius** と **range_filter** の 2 つのパラメータが含まれます。範囲検索リクエストを受信すると、Zilliz Cloud は次の処理を行います。
 
-- 指定された metric type（**COSINE**）を使用して、クエリ vector に最も類似したすべての vector embeddings を見つけます。
+- 指定されたメトリックタイプ（**COSINE**）を使用して、クエリベクトルに最も類似したすべてのベクトル埋め込みを見つけます。
 
-- クエリ vector に対する **distances** または **scores** が、**radius** および **range_filter** パラメータで指定された範囲内に収まる vector embeddings をフィルタリングします。
+- クエリベクトルに対する **距離** または **スコア** が、**radius** および **range_filter** パラメータで指定された範囲内に収まるベクトル埋め込みをフィルタリングします。
 
-- フィルタリングされたものの中から **top-K** エンティティを返します。
+- フィルタリングされたものの中から **top-K** のエンティティを返します。
 
-**radius** と **range_filter** の設定方法は、検索の metric type によって異なります。次の表は、異なる metric types でこれら 2 つのパラメータを設定する際の要件を示しています。
+**radius** と **range_filter** の設定方法は、検索のメトリックタイプによって異なります。次の表は、異なるメトリックタイプでこれら 2 つのパラメータを設定する際の要件をまとめたものです。
 
-| Metric Type | 表記 | radius と range_filter の設定要件 |
+| メトリックタイプ | 意味 | radius と range_filter の設定要件 |
 | --- | --- | --- |
-| `L2` | L2 distance が小さいほど similarity が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
-| `IP` | IP distance が大きいほど similarity が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
-| `COSINE` | COSINE distance が大きいほど similarity が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
-| `JACCARD` | Jaccard distance が小さいほど similarity が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
-| `HAMMING` | Hamming distance が小さいほど similarity が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
+| `L2` | L2 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
+| `IP` | IP 距離が大きいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
+| `COSINE` | COSINE 距離が大きいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
+| `JACCARD` | Jaccard 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
+| `HAMMING` | Hamming 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
 
 ## 例\{#examples}
 
-このセクションでは、範囲検索の実行方法を示します。以下のコードスニペット内の検索リクエストには metric type が含まれていないため、デフォルトの metric type である **COSINE** が適用されます。この場合、**radius** の値が **range_filter** の値より小さくなるようにしてください。
+このセクションでは、範囲検索を実行する方法を説明します。以下のコードスニペットの検索リクエストにはメトリックタイプが指定されていないため、デフォルトのメトリックタイプである **COSINE** が適用されます。この場合、**radius** の値が **range_filter** の値より小さくなるようにしてください。
 
-次のコードスニペットでは、`radius` を `0.4`、`range_filter` を `0.6` に設定しているため、Zilliz Cloud はクエリ vector に対する distances または scores が **0.4** から **0.6** の範囲に収まるすべてのエンティティを返します。
+以下のコードスニペットでは、クエリベクトルに対する距離またはスコアが **0.4** から **0.6** の範囲に収まるすべてのエンティティを Zilliz Cloud が返すように、`radius` を `0.4`、`range_filter` を `0.6` に設定しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -276,10 +276,42 @@ for (auto& result : response.Results().Results()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+zilliz vector search \
+  --collection my_collection \
+  --body '{
+    "data": [
+        [
+            0.3580376395471989,
+            -0.6023495712049978,
+            0.18414012509913835,
+            -0.26286205330961354,
+            0.9029438446296592
+        ]
+    ],
+    "annsField": "vector",
+    "limit": 3,
+    "searchParams": {
+        "params": {
+            "radius": 0.4,
+            "range_filter": 0.6
+        }
+    }
+}' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-クエリ vectors がすでに対象の collection に存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
+クエリベクトルがすでに対象のコレクションに存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
 
 </Admonition>

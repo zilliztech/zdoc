@@ -10,7 +10,7 @@ notebook: FALSE
 description: "フレーズ一致を使用すると、クエリ語を完全なフレーズとして含むドキュメントを検索できます。デフォルトでは、単語は同じ順序で、互いに隣接して出現する必要があります。たとえば、\"robotics machine learning\" というクエリは、\"…typical robotics machine learning models…\" のようなテキストに一致します。これは、\"robotics\"、\"machine\"、\"learning\" という単語が、間に他の単語を挟まずに連続して出現しているためです。 | Cloud"
 type: origin
 token: O2YiwLai5iSjT1k1WEsc06E8nEe
-sidebar_position: 16
+sidebar_position: 15
 displayed_sidebar: default
 
 ---
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # フレーズ一致
 
-フレーズ一致を使用すると、クエリ語を完全なフレーズとして含むドキュメントを検索できます。デフォルトでは、単語は同じ順序で、互いに隣接して出現する必要があります。たとえば、**"robotics machine learning"** というクエリは、*"…typical robotics machine learning models…"* のようなテキストに一致します。これは、**"robotics"**、**"machine"**、**"learning"** という単語が、間に他の単語を挟まずに連続して出現しているためです。
+フレーズ一致を使用すると、クエリ語を完全なフレーズとして含むドキュメントを検索できます。デフォルトでは、単語は同じ順序で、互いに隣接して出現する必要があります。たとえば、**"robotics machine learning"** というクエリは、*"…typical **robotics** **machine** **learning** models…"* のようなテキストに一致します。これは、**"robotics"**、**"machine"**、**"learning"** という単語が、間に他の単語を挟まずに連続して出現しているためです。
 
-ただし、実際のシナリオでは、厳密なフレーズ一致は硬直的すぎることがあります。たとえば、*"…machine learning models widely adopted in robotics…"* のようなテキストにも一致させたい場合があります。この場合、同じキーワードは存在しますが、隣接しておらず、元の順序でもありません。これに対応するため、フレーズ一致は `slop` パラメーターをサポートしており、柔軟性を導入できます。`slop` の値は、フレーズ内の語の間で許可される位置のずれの数を定義します。たとえば、`slop` が 1 の場合、**"machine learning"** というクエリは *"...machine deep learning..."* のようなテキストにも一致できます。これは、元の語の間に 1 語（**"deep"**）が入っているためです。
+ただし、実際のシナリオでは、厳密なフレーズ一致は硬直的すぎることがあります。たとえば、*"…**machine learning** models widely adopted in **robotics**…"* のようなテキストにも一致させたい場合があります。この場合、同じキーワードは存在しますが、隣接しておらず、元の順序でもありません。これに対応するため、フレーズ一致は `slop` パラメーターをサポートしており、柔軟性を導入できます。`slop` の値は、フレーズ内の語の間で許可される位置のずれの数を定義します。たとえば、`slop` が 1 の場合、**"machine learning"** というクエリは *"...**machine** deep **learning**..."* のようなテキストにも一致できます。これは、元の語の間に 1 語（**"deep"**）が入っているためです。
 
-## Overview\{#overview}
+## 概要\{#overview}
 
 [Tantivy](https://github.com/quickwit-oss/tantivy) 検索エンジンライブラリを基盤として、フレーズ一致はドキュメント内の単語の位置情報を解析して機能します。以下の図はこのプロセスを示しています。
 
@@ -51,7 +51,7 @@ import TabItem from '@theme/TabItem';
 
 フレーズ一致は、Zilliz Cloud の文字列データ型である `VARCHAR` フィールド型で機能します。
 
-フレーズ一致を有効にするには、collection スキーマで `enable_analyzer` と `enable_match` の両方のパラメーターを `True` に設定します。この設定により、テキストがトークン化され、位置情報を含む転置インデックスが構築されるため、効率的なフレーズ検索が可能になります。
+フレーズ一致を有効にするには、コレクションスキーマで `enable_analyzer` と `enable_match` の両方のパラメーターを `True` に設定します。この設定により、テキストがトークン化され、位置情報を含む転置インデックスが構築されるため、効率的なフレーズ検索が可能になります。
 
 ### スキーマフィールドを定義する\{#define-schema-fields}
 
@@ -278,9 +278,9 @@ schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VEC
 
 詳細については、[Analyzer Overview](./analyzer-overview) を参照してください。
 
-### collection を作成する\{#create-the-collection}
+### コレクションを作成する\{#create-the-collection}
 
-必要なフィールドを定義したら、次のコードを使用して collection を作成します。
+必要なフィールドを定義したら、次のコードを使用してコレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -409,13 +409,13 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-collection を作成した後、[フレーズ一致を使用する](./phrase-match#use-phrase-match) 前に、以下の必要な手順が実行されていることを確認してください。
+コレクションを作成した後、[フレーズ一致を使用する](./phrase-match#use-phrase-match) 前に、以下の必要な手順が実行されていることを確認してください。
 
-- エンティティが collection に挿入されていること。
+- エンティティがコレクションに挿入されていること。
 
-- 各 vector フィールドに対して index が作成されていること。
+- 各ベクトルフィールドに対してインデックスが作成されていること。
 
-- collection がメモリにロードされていること。
+- コレクションがメモリにロードされていること。
 
 <details>
 
@@ -670,7 +670,7 @@ if (!status.IsOk()) {
 
 コレクションスキーマで `VARCHAR` フィールドに対してマッチを有効にすると、`PHRASE_MATCH` 式を使用してフレーズ一致を実行できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
 `PHRASE_MATCH` 式は大文字と小文字を区別しません。`PHRASE_MATCH` と `phrase_match` のどちらも使用できます。
 
@@ -1237,11 +1237,11 @@ if (!status.IsOk()) {
 
 ## 考慮事項\{#considerations}
 
-- フィールドに対してフレーズ一致を有効にすると、inverted index が作成され、ストレージリソースを消費します。この機能を有効にするかどうかを判断する際は、ストレージへの影響を考慮してください。影響は、テキストサイズ、一意のトークン数、使用する analyzer によって異なります。
+- フィールドに対してフレーズ一致を有効にすると、転置インデックスが作成され、ストレージリソースを消費します。この機能を有効にするかどうかを判断する際は、ストレージへの影響を考慮してください。影響は、テキストサイズ、一意のトークン数、使用する analyzer によって異なります。
 
-- スキーマで analyzer を定義すると、その設定はその collection に対して永続的になります。別の analyzer の方が要件に適していると判断した場合は、既存の collection を削除し、必要な analyzer 設定で新しい collection を作成することを検討してください。
+- スキーマで analyzer を定義すると、その設定はそのコレクションに対して永続的になります。別の analyzer の方が要件に適していると判断した場合は、既存のコレクションを削除し、必要な analyzer 設定で新しいコレクションを作成することを検討してください。
 
-- フレーズ一致のパフォーマンスは、テキストがどのようにトークン化されるかに依存します。analyzer を collection 全体に適用する前に、`run_analyzer` メソッドを使用してトークン化の出力を確認してください。詳細については、[Analyzer の概要](./analyzer-overview) を参照してください。
+- フレーズ一致のパフォーマンスは、テキストがどのようにトークン化されるかに依存します。analyzer をコレクション全体に適用する前に、`run_analyzer` メソッドを使用してトークン化の出力を確認してください。詳細については、[Analyzer Overview](./analyzer-overview) を参照してください。
 
 - `filter` 式におけるエスケープ規則:
 
