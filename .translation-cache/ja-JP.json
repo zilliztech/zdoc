@@ -150,6 +150,16 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/collection-on-console/manage-collections-console.md",
       "translatedAt": "2026-08-04T05:10:18.486Z"
     },
+    "content/en/byoc/tutorials/development/collection/collection-on-console/manage-external-collections-console.md": {
+      "sourceHash": "6e7c1f1f666e4b0c5ceb31184414b5bd689838becf1b23268ed05cb236e5f335",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/collection-on-console/manage-external-collections-console.md",
+      "translatedAt": "2026-08-25T04:25:09.789Z"
+    },
+    "content/en/byoc/tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source.md": {
+      "sourceHash": "516983f318caa65c62a58655bdae0c8d9946da3d206dfe1541e7dfe831e47e3f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source.md",
+      "translatedAt": "2026-08-25T04:26:35.547Z"
+    },
     "content/en/byoc/tutorials/development/collection/manage-collections-sdks.md": {
       "sourceHash": "62f5830865dfd9d351e5db433975f4067414ad1624f30322d51b6d837c9bb705",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/manage-collections-sdks.md",
@@ -159,6 +169,11 @@
       "sourceHash": "07d46cbd5904c8642f9f5bae89d28218ee9eb361ba6e854115964ad563f50aa4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/view-collections.md",
       "translatedAt": "2026-08-04T05:09:21.606Z"
+    },
+    "content/en/byoc/tutorials/development/connect-for-on-demand-search.md": {
+      "sourceHash": "0d5f43ac0058c01e21327287bdc247b5a9dd67086f3ff40581dda67dfa0e643e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/connect-for-on-demand-search.md",
+      "translatedAt": "2026-08-25T04:29:50.877Z"
     },
     "content/en/byoc/tutorials/development/data-import/data-import-format-options/data-import-format-options.md": {
       "sourceHash": "cdf87f5843d3b025245195c3dddcc10719b969809c9e3fbdebe3bf47bd733244",
@@ -174,6 +189,11 @@
       "sourceHash": "aef090e3b0d89ad3260ef7cfd9c1783db19caab62458acd1aebcaafa459e77ce",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/prepare-data-import/prepare-data-import.md",
       "translatedAt": "2026-08-04T05:09:21.576Z"
+    },
+    "content/en/byoc/tutorials/development/database/database-concept.md": {
+      "sourceHash": "4f39b5f72cc1f76e782eff782352ab108739ebe57f30bcd6cfaeba8f997008ff",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/database/database-concept.md",
+      "translatedAt": "2026-08-25T04:30:34.136Z"
     },
     "content/en/byoc/tutorials/development/database/database.md": {
       "sourceHash": "e39c1dc6ce95e1de0ac5bb06e762e1a3fb9f0a69f7d16baf537c729b04151993",
@@ -214,6 +234,11 @@
       "sourceHash": "0811bf783dbec0af34f0adef4a2a4b6bd2ad9098e732e8d6d9cd3ebf654b8319",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/alter-collection-field.md",
       "translatedAt": "2026-08-04T05:12:43.907Z"
+    },
+    "content/en/byoc/tutorials/development/schema/alter-external-collection-schema.md": {
+      "sourceHash": "6d97cdca1219cc8941c9eea7fda4e05bca03f48200a6d9805191564f87ab52b0",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/alter-external-collection-schema.md",
+      "translatedAt": "2026-08-25T04:33:04.309Z"
     },
     "content/en/byoc/tutorials/development/schema/json-fields/json-field-overview.md": {
       "sourceHash": "69407e869e058d094a775370d1fe5157a602adc4a9f61948d3a7311329961791",
@@ -304,6 +329,11 @@
       "sourceHash": "5fd64e9d4bd30799a2358cc694999911310a7087ccab325408c501f5607c9b22",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/consistency-level.md",
       "translatedAt": "2026-08-04T05:22:18.697Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/dql-sessions-external-collection.md": {
+      "sourceHash": "b7ea5331cf4c4e846d6db09d77ddd7dc790fbf8b00e4517723df695089c118e6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/dql-sessions-external-collection.md",
+      "translatedAt": "2026-08-25T04:33:27.329Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/elasticsearch-queries-to-milvus.md": {
       "sourceHash": "5ded534a4a586b0c866323dd3a0db03ffc7fc563e47d1efa104a22d987831701",
@@ -455,10 +485,25 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-collection.md",
       "translatedAt": "2026-08-04T05:14:04.526Z"
     },
-    "content/en/byoc/tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace.md": {
-      "sourceHash": "e78363d906c9f4cf4f82b3fb2cc5bb7676e67cfeb1a87a9755ada54d50a35977",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace.md",
-      "translatedAt": "2026-08-04T05:16:18.204Z"
+    "content/en/byoc/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md": {
+      "sourceHash": "9bbbbdd128bb240c8062cb4aa632fc44ab334592d97f9edf95c2fb9c5e3b54d7",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md",
+      "translatedAt": "2026-08-25T04:34:18.651Z"
+    },
+    "content/en/byoc/tutorials/get-started/quickstarts/quick-start-to-on-demand-search.md": {
+      "sourceHash": "a7d53c9d29969ed859c13bfd28233848fe02be1d3d07cedf5ffe0c951942b6ec",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/quickstarts/quick-start-to-on-demand-search.md",
+      "translatedAt": "2026-08-25T04:35:08.682Z"
+    },
+    "content/en/byoc/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md": {
+      "sourceHash": "bc38465df42540293330769881bad8e97f231470726a8e70547cf6a2254b9fde",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md",
+      "translatedAt": "2026-08-25T04:37:05.499Z"
+    },
+    "content/en/byoc/tutorials/management/access-control/manage-platform-roles.md": {
+      "sourceHash": "0fd0630f3255c312cb6ccc0de362c6f8ee0a7f3d56b428394a5c815bae08f5a2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/manage-platform-roles.md",
+      "translatedAt": "2026-08-25T04:40:43.257Z"
     },
     "content/en/byoc/tutorials/management/backup-and-restore/schedule-automatic-backups.md": {
       "sourceHash": "0789431f6ed9192ab31b10353de56a75decdfbd621f6b5440cba9208b192862c",
@@ -525,6 +570,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
       "translatedAt": "2026-08-04T05:19:18.278Z"
     },
+    "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression.md": {
+      "sourceHash": "61d5771430b56dd24f0205c9019647fb988fa19c5a16b2788af540224f3b453e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression.md",
+      "translatedAt": "2026-08-25T04:46:37.173Z"
+    },
     "content/en/byoc/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
       "sourceHash": "3c63ee0d6c962db7acb89e1ea81f371c836cac9fed0d8e30d570bffc85fdacbd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
@@ -560,10 +610,55 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/switchover-and-failover.md",
       "translatedAt": "2026-08-04T05:12:32.329Z"
     },
+    "content/en/byoc/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
+      "sourceHash": "f09bba5b9608759878f65a853dd3b9be6ca3182240ec9e7aef766837bd5a98e4",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
+      "translatedAt": "2026-08-25T04:52:37.840Z"
+    },
     "content/en/byoc/tutorials/management/cost-management/analyze-cost.md": {
       "sourceHash": "b51a9dd526284807bab1d7c5e04acc1711462d85a6589007093ed733d45c8cfc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/cost-management/analyze-cost.md",
       "translatedAt": "2026-08-04T05:19:40.572Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/identity-management-overview.md": {
+      "sourceHash": "c4ee5e0db949ecad1578ee3058f195ee124eeebddaa51017f016fca30c41076c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/identity-management-overview.md",
+      "translatedAt": "2026-08-25T04:53:55.373Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/manage-platform-users.md": {
+      "sourceHash": "8384b6912cab39f3b4ffb317a8a5ed27aca5745b7e2e11e76b593fa6fdad5984",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/manage-platform-users.md",
+      "translatedAt": "2026-08-25T04:58:22.709Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-microsoft-entra.md": {
+      "sourceHash": "03ea6c92a916f07e962b3905397a22b5e217b53e1c19589bd24330a4feb8c47d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-microsoft-entra.md",
+      "translatedAt": "2026-08-25T04:59:47.875Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-okta.md": {
+      "sourceHash": "5920af64aa7814503638c68463946ad7c0d5cf079b3894508de47f262a73d56c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-okta.md",
+      "translatedAt": "2026-08-25T05:01:14.855Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/scim-provisioning/scim-provisioning-overview.md": {
+      "sourceHash": "f3dfbe45889872687d0e23c779151e020cbac9fc3c1592e396fc6703158f499c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/scim-provisioning/scim-provisioning-overview.md",
+      "translatedAt": "2026-08-25T05:02:46.886Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/scim-provisioning/view-scim-synced-groups.md": {
+      "sourceHash": "bd83746dc5ee6464273157df493645af3290dfaa249ed61e47c7ac95c1b6676e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/scim-provisioning/view-scim-synced-groups.md",
+      "translatedAt": "2026-08-25T05:03:06.342Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/single-sign-on/enforce-sso-in-your-organization.md": {
+      "sourceHash": "9601290f7c47e90f3155d3df4da743dc35630df05e140307cf0e7288faa5feba",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/enforce-sso-in-your-organization.md",
+      "translatedAt": "2026-08-25T05:04:25.426Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/single-sign-on/openid-connect.md": {
+      "sourceHash": "fb406e4264ea665a058152eead0edab8f5ff941fc6e0b51db8bc28ea5d23da7a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/openid-connect.md",
+      "translatedAt": "2026-08-25T05:06:03.561Z"
     },
     "content/en/byoc/tutorials/management/limits/limits.md": {
       "sourceHash": "a86f16080d479c85bbc89d32ece93da809e5dfd03dc01e9074fcfc57aa458d8d",
@@ -609,11 +704,6 @@
       "sourceHash": "62bf34f3020a48217693518a3e1b0d094b1b605a78fdaa9279f94c32feab17f7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/organizations/organization-settings.md",
       "translatedAt": "2026-08-04T05:04:28.823Z"
-    },
-    "content/en/byoc/tutorials/management/organizations/organization-users.md": {
-      "sourceHash": "dfc7c49ad6946c2b008fd4901cfdfff7ea5da7d4dfd711307a47d1328c8016e3",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/organizations/organization-users.md",
-      "translatedAt": "2026-08-04T05:06:55.058Z"
     },
     "content/en/byoc/tutorials/management/projects/job-center.md": {
       "sourceHash": "c5f4db4aadbf8e2aa6c4e650630d50a342909e28151e385f30395ce9cb937ed6",
@@ -1270,11 +1360,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/select-zilliz-cloud-service-plans.md",
       "translatedAt": "2026-08-04T05:07:30.302Z"
     },
-    "content/en/guides/tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace.md": {
-      "sourceHash": "22006827af586a88aadff93ac9734784165217b5e836d8e11a2400f242fefdf2",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace.md",
-      "translatedAt": "2026-08-04T05:08:23.712Z"
-    },
     "content/en/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md": {
       "sourceHash": "c8c64437eb1c218f51a3322730a7f2637b5c8c7587620d92df2e8eacc11aeee9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/backup-to-other-regions.md",
@@ -1509,11 +1594,6 @@
       "sourceHash": "e6886866c445630eb1e806dae7913e5c4c2935e2377e0db7e6b7b70fbfe29b07",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/organizations/organization-settings.md",
       "translatedAt": "2026-08-04T05:06:09.422Z"
-    },
-    "content/en/guides/tutorials/management/organizations/organization-users.md": {
-      "sourceHash": "52a0fb1324b17bb495a93125971d130b0a66516451daa57d1bb73e1fbd31c686",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/organizations/organization-users.md",
-      "translatedAt": "2026-08-04T05:07:39.195Z"
     },
     "content/en/guides/tutorials/management/private-endpoint/setup-a-private-link-aws.md": {
       "sourceHash": "8acbb77a0564cc844103f7ba2600d3cb8b64ef6b8e457d8773baa9f52e31ce5c",
@@ -4915,31 +4995,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/access-control-overview.md",
       "translatedAt": "2026-07-13T21:00:36.129Z"
     },
-    "docs-byoc/tutorials/management/access-control/cluster-privileges.md": {
-      "sourceHash": "59f6f95ee49198ca21c372b4789f24f19aeef4bbcac7a1d2c937ff2985f018f1",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/cluster-privileges.md",
-      "translatedAt": "2026-07-13T21:01:13.470Z"
-    },
-    "docs-byoc/tutorials/management/access-control/cluster-roles-sdk.md": {
-      "sourceHash": "07fcf12864783e1567dc0037890810872ced95044ca162d8543ed6355670b377",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/cluster-roles-sdk.md",
-      "translatedAt": "2026-07-13T21:01:59.424Z"
-    },
-    "docs-byoc/tutorials/management/access-control/cluster-roles.md": {
-      "sourceHash": "11ea14f99947be2c91ff5bf82ddc90f3e1cccc587a8df4c92fc8191d0439726c",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/cluster-roles.md",
-      "translatedAt": "2026-07-13T21:01:45.435Z"
-    },
-    "docs-byoc/tutorials/management/access-control/cluster-users-sdk.md": {
-      "sourceHash": "402c4fddd9a4c504a634dfcbbdba3494e9add11807053bb76ebc0bf283be9a66",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/cluster-users-sdk.md",
-      "translatedAt": "2026-07-13T21:04:46.496Z"
-    },
-    "docs-byoc/tutorials/management/access-control/cluster-users.md": {
-      "sourceHash": "9870aabbcab64a06914f3821abe53cb0c578224287f076f5bfa286b04011bd62",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/cluster-users.md",
-      "translatedAt": "2026-07-13T21:02:02.671Z"
-    },
     "docs-byoc/tutorials/management/access-logs/access-log-overview.md": {
       "sourceHash": "68b6325121b7252d80b6542c476d39a37fbc3678375a7f4b842df00b8456a113",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-logs/access-log-overview.md",
@@ -4989,41 +5044,6 @@
       "sourceHash": "9acbefd2b779c30fd29a7ee61c96480e7c4e7fd622906a5e615afbd141eb3197",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/multi-factor-auth.md",
       "translatedAt": "2026-07-13T21:06:40.069Z"
-    },
-    "docs-byoc/tutorials/management/authentication/single-sign-on/enforce-sso-in-your-organization.md": {
-      "sourceHash": "9601290f7c47e90f3155d3df4da743dc35630df05e140307cf0e7288faa5feba",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/single-sign-on/enforce-sso-in-your-organization.md",
-      "translatedAt": "2026-07-13T21:06:56.767Z"
-    },
-    "docs-byoc/tutorials/management/authentication/single-sign-on/openid-connect.md": {
-      "sourceHash": "fb406e4264ea665a058152eead0edab8f5ff941fc6e0b51db8bc28ea5d23da7a",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/single-sign-on/openid-connect.md",
-      "translatedAt": "2026-07-13T21:08:59.843Z"
-    },
-    "docs-byoc/tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace.md": {
-      "sourceHash": "682cccd4b462acdf5378bffa0b5fd7c48311d94a857270f54442e31175047769",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace.md",
-      "translatedAt": "2026-07-13T21:09:18.017Z"
-    },
-    "docs-byoc/tutorials/management/authentication/single-sign-on/single-sign-on-with-microsoft-entra.md": {
-      "sourceHash": "fdd01ea54a28199d9d36ff436c69a84816e18a636468fb184f1db5d63f99514b",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/single-sign-on/single-sign-on-with-microsoft-entra.md",
-      "translatedAt": "2026-07-13T21:09:13.976Z"
-    },
-    "docs-byoc/tutorials/management/authentication/single-sign-on/single-sign-on-with-okta.md": {
-      "sourceHash": "b86b32348972c2d5752c7282b28b7c6796ba457b03c748fba9a73d2ec211f386",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/single-sign-on/single-sign-on-with-okta.md",
-      "translatedAt": "2026-07-13T21:09:31.651Z"
-    },
-    "docs-byoc/tutorials/management/authentication/single-sign-on/single-sign-on-with-other-idp.md": {
-      "sourceHash": "995ce4e0137b015bb3987da674e5b7e79af8e72729cad7057eea88fb0bc4a852",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/single-sign-on/single-sign-on-with-other-idp.md",
-      "translatedAt": "2026-07-13T21:11:10.743Z"
-    },
-    "docs-byoc/tutorials/management/authentication/single-sign-on/single-sign-on.md": {
-      "sourceHash": "7879a91ce9c2a4538f09180bb6ca11ed1b12ea919a0636b697433bc79b8a1c86",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/single-sign-on/single-sign-on.md",
-      "translatedAt": "2026-07-13T21:13:28.168Z"
     },
     "docs-byoc/tutorials/management/backup-and-restore/create-backup.md": {
       "sourceHash": "874b8f3acd86663645cfe011edcdfec6c760bce8cb36408d861a15ded48a2c0f",
@@ -5150,16 +5170,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling.md",
       "translatedAt": "2026-07-13T21:22:41.700Z"
     },
-    "docs-byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/cron-expression.md": {
-      "sourceHash": "21d617f4a61bf5be5bddabff1f9d9cc269525e4f4261167ce6b99d58f1d3c9d5",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/cron-expression.md",
-      "translatedAt": "2026-07-13T21:22:13.856Z"
-    },
-    "docs-byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/scheduled-scaling.md": {
-      "sourceHash": "12c7d8d1d1d86cfc50ce36e80fa0e605211c71a8e3a982e592f3256d19ad999f",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/scheduled-scaling.md",
-      "translatedAt": "2026-07-13T21:22:44.818Z"
-    },
     "docs-byoc/tutorials/management/clusters/free-and-serverless-clusters.md": {
       "sourceHash": "ecfaea6c9902514592e064ebc260125563e9c72dfab9456967d77f94e59882de",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/free-and-serverless-clusters.md",
@@ -5220,11 +5230,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/organizations/organization-settings.md",
       "translatedAt": "2026-07-13T21:33:00.882Z"
     },
-    "docs-byoc/tutorials/management/organizations/organization-users.md": {
-      "sourceHash": "35278d08a93404977c5f6d8fc0102fba3a33460c006ec5eb9ff386a1c16d5ce7",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/organizations/organization-users.md",
-      "translatedAt": "2026-07-13T21:34:26.246Z"
-    },
     "docs-byoc/tutorials/management/organizations/use-recycle-bin.md": {
       "sourceHash": "2b42387ee356abb20c50f195f091b44d5ce5ac469605e58de11ed017e8c9d79c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/organizations/use-recycle-bin.md",
@@ -5239,11 +5244,6 @@
       "sourceHash": "61966f71eeaf45f527a6b9567244c7748db93f95647d2ea4dd33eebb74534dff",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/projects/manage-projects.md",
       "translatedAt": "2026-07-13T21:34:29.011Z"
-    },
-    "docs-byoc/tutorials/management/projects/project-users.md": {
-      "sourceHash": "017c228cf3c0b34f5b23782219bb542fe1ed75b83d78be1de9709d301d7e3903",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/projects/project-users.md",
-      "translatedAt": "2026-07-13T21:36:24.508Z"
     },
     "docs-byoc/tutorials/management/slow-logs/configure-slow-logs.md": {
       "sourceHash": "321e569bd25b042f88a202860f5fb0ee47fb7e329b4b33ed34250bf91f0b32f9",
@@ -6335,31 +6335,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/access-control-overview.md",
       "translatedAt": "2026-07-13T17:56:24.283Z"
     },
-    "docs/tutorials/management/access-control/cluster-privileges.md": {
-      "sourceHash": "605fe5bf9a7da40c3d6d708e74cc33459e2fd78a18213adfe0dc3f635d91021a",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/cluster-privileges.md",
-      "translatedAt": "2026-07-13T17:58:20.653Z"
-    },
-    "docs/tutorials/management/access-control/cluster-roles-sdk.md": {
-      "sourceHash": "a18ebfdab4994c16bc43346cdef86fdf4c49cee8015953b3bc8a02c7d5a69c7e",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/cluster-roles-sdk.md",
-      "translatedAt": "2026-07-13T18:05:31.082Z"
-    },
-    "docs/tutorials/management/access-control/cluster-roles.md": {
-      "sourceHash": "39ac8f379223a14ca42ac3bdfc94e237370c77ba943bd710e5ad2184e8af8a06",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/cluster-roles.md",
-      "translatedAt": "2026-07-13T18:01:20.266Z"
-    },
-    "docs/tutorials/management/access-control/cluster-users-sdk.md": {
-      "sourceHash": "40cb30bf04b2e89c1889a70d9919434ae8d699ef8572a277ec315b3dd60e8b0c",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/cluster-users-sdk.md",
-      "translatedAt": "2026-07-13T18:02:35.855Z"
-    },
-    "docs/tutorials/management/access-control/cluster-users.md": {
-      "sourceHash": "7dc6dece57f4372baf9cf55a0c21ff19970739c2e339e58ca9831d589b903905",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/cluster-users.md",
-      "translatedAt": "2026-07-13T18:01:01.328Z"
-    },
     "docs/tutorials/management/access-logs/access-log-overview.md": {
       "sourceHash": "4c6b30f21e2d5bce185f740cd74082d5b3b7a800e82a975568f95e3b7fdd61b3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-logs/access-log-overview.md",
@@ -6409,41 +6384,6 @@
       "sourceHash": "ff7b4d927d024429d45e8238e4b54231bcdc4a0ed03e0a60e536d71f709d712b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/multi-factor-auth.md",
       "translatedAt": "2026-07-13T18:06:32.173Z"
-    },
-    "docs/tutorials/management/authentication/single-sign-on/enforce-sso-in-your-organization.md": {
-      "sourceHash": "56d68c7328f6b223f7a54ade27001ba5e70f259ae840aaaf61e22d07cffdf4d9",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/single-sign-on/enforce-sso-in-your-organization.md",
-      "translatedAt": "2026-07-13T18:07:06.525Z"
-    },
-    "docs/tutorials/management/authentication/single-sign-on/openid-connect.md": {
-      "sourceHash": "9afba2994d913cdd15c686b7fd9bf4d25551367972131007b7ea67d4f174c67d",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/single-sign-on/openid-connect.md",
-      "translatedAt": "2026-07-13T18:08:27.711Z"
-    },
-    "docs/tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace.md": {
-      "sourceHash": "11e4456f0ab838291fba9261da92f284cba72285401f0fe01ad3fd6f6b9b1a01",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace.md",
-      "translatedAt": "2026-07-13T18:07:48.291Z"
-    },
-    "docs/tutorials/management/authentication/single-sign-on/single-sign-on-with-microsoft-entra.md": {
-      "sourceHash": "43b196baad62eda6a7875465dae31058e310b9aa10742480810d8631ff5aec0f",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/single-sign-on/single-sign-on-with-microsoft-entra.md",
-      "translatedAt": "2026-07-13T18:09:07.927Z"
-    },
-    "docs/tutorials/management/authentication/single-sign-on/single-sign-on-with-okta.md": {
-      "sourceHash": "505bd27cbb5bb9dfafbfabc1a27b793d4a4fd45ffaa2e7cfaac6b8b64bf9c95f",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/single-sign-on/single-sign-on-with-okta.md",
-      "translatedAt": "2026-07-13T18:09:42.706Z"
-    },
-    "docs/tutorials/management/authentication/single-sign-on/single-sign-on-with-other-idp.md": {
-      "sourceHash": "159a930ac5a4748eab9ed1022f62e582184514c04c3c50c6e7091bffeb7e5854",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/single-sign-on/single-sign-on-with-other-idp.md",
-      "translatedAt": "2026-07-13T18:10:02.620Z"
-    },
-    "docs/tutorials/management/authentication/single-sign-on/single-sign-on.md": {
-      "sourceHash": "6a8984d971c811e3bdd5c95b2fa90e0206a9c6f13d372bc76f6df0c78568026c",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/single-sign-on/single-sign-on.md",
-      "translatedAt": "2026-07-13T18:08:39.304Z"
     },
     "docs/tutorials/management/backup-and-restore/backup-to-other-regions.md": {
       "sourceHash": "394b2d8837f07969a0272c20dc0de1ef66228e641ccde6bd4d38031face8f56d",
@@ -6590,16 +6530,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling.md",
       "translatedAt": "2026-07-13T18:24:45.843Z"
     },
-    "docs/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/cron-expression.md": {
-      "sourceHash": "a1195305402bdf23cbfa3ccc0461477b0e4a65765096d214300b09d64776bad9",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/cron-expression.md",
-      "translatedAt": "2026-07-13T18:24:25.470Z"
-    },
-    "docs/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/scheduled-scaling.md": {
-      "sourceHash": "45dd38a00b1141be00555b1af5957bcf930724d9f02050f07426ec200c6e271e",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/scheduled-scaling.md",
-      "translatedAt": "2026-07-13T18:25:47.230Z"
-    },
     "docs/tutorials/management/clusters/free-and-serverless-clusters.md": {
       "sourceHash": "0bf2089070539a37bb669e7326b6c19d807f6ca9824962e26d12d5c71f30fe31",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/free-and-serverless-clusters.md",
@@ -6745,11 +6675,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/organizations/organization-settings.md",
       "translatedAt": "2026-07-13T18:48:11.451Z"
     },
-    "docs/tutorials/management/organizations/organization-users.md": {
-      "sourceHash": "debc13c78b2ff09c5c87e493f0dac9d6770e30c12018050451814a41193f6946",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/organizations/organization-users.md",
-      "translatedAt": "2026-07-13T18:51:00.067Z"
-    },
     "docs/tutorials/management/organizations/use-recycle-bin.md": {
       "sourceHash": "641abed277e522e8556b2db4ca97fc92f1a5f53d4ada80c3e5977b099d4f8f67",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/organizations/use-recycle-bin.md",
@@ -6779,11 +6704,6 @@
       "sourceHash": "0f7b221dfd0baefa70dfeba9e213236a030d77fe553a7439a86f97260f24d774",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/projects/manage-projects.md",
       "translatedAt": "2026-07-13T18:50:50.307Z"
-    },
-    "docs/tutorials/management/projects/project-users.md": {
-      "sourceHash": "cf8d29ed16cba7908bb6d11fc0cdd1da63776778c5340ae285c6af2f76bc2688",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/projects/project-users.md",
-      "translatedAt": "2026-07-13T18:53:58.773Z"
     },
     "docs/tutorials/management/slow-logs/configure-slow-logs.md": {
       "sourceHash": "380035cb09290af61900d08df91ad629b1e0ecb2046b417ef9a277eddfafdd37",

@@ -1,16 +1,16 @@
 ---
-title: "クラスター ロールの管理 (SDK) | Cloud"
+title: "クラスターロールの管理 (SDK) | BYOC"
 slug: /cluster-roles-sdk
-sidebar_label: "クラスター ロールの管理 (SDK)"
+sidebar_label: "クラスターロールの管理 (SDK)"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "クラスター ロールは、ユーザーがクラスター内で持つ権限を定義します。より具体的には、クラスター ロールはクラスター、データベース、コレクション レベルでのクラスター ユーザーの権限を制御します。 | Cloud"
+description: "クラスターロールは、クラスター内でユーザーが持つ権限を定義します。より具体的には、クラスターロールはクラスター、データベース、コレクションレベルでのクラスターユーザーの権限を制御します。 | BYOC"
 type: origin
 token: PBZwwNqWjiikeYkXgHPcGhLznTh
-sidebar_position: 7
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -19,23 +19,23 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# クラスター ロールの管理 (SDK)
+# クラスターロールの管理 (SDK)
 
-クラスター ロールは、ユーザーがクラスター内で持つ権限を定義します。より具体的には、クラスター ロールはクラスター、データベース、コレクション レベルでのクラスター ユーザーの権限を制御します。
+クラスターロールは、クラスター内でユーザーが持つ権限を定義します。より具体的には、クラスターロールはクラスター、データベース、コレクションレベルでのクラスターユーザーの権限を制御します。
 
-このガイドでは、ロールを作成し、組み込み権限グループをロールに付与し、ロールから権限グループを取り消し、最後にロールを削除する方法を説明します。組み込み権限グループの詳細については、[Privileges](./cluster-privileges#built-in-privilege-groups) を参照してください。
+このガイドでは、ロールの作成、組み込み権限グループの付与と取り消し、およびロールの削除について順を追って説明します。組み込み権限グループの詳細については、[Privileges](./cluster-privileges#built-in-privilege-groups) を参照してください。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-この機能は Dedicated クラスターでのみ利用できます。
+この機能は Dedicated クラスターでのみ利用可能です。
 
 </Admonition>
 
 ## ロールの作成\{#create-a-role}
 
-以下の例は、`role_a` という名前のロールを作成する方法を示しています。 
+以下の例では、`role_a` という名前のロールを作成する方法を示します。
 
-ロール名は英字で始まる必要があり、大文字または小文字の英字、数字、アンダースコアのみを含めることができます。
+ロール名は英字で始まる必要があり、使用できる文字は大文字・小文字の英字、数字、アンダースコアのみです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -92,7 +92,7 @@ curl --request POST \
 
 ## ロールの一覧表示\{#list-roles}
 
-複数のロールを作成した後、既存のすべてのロールを一覧表示して確認できます。
+複数のロールを作成した後は、既存のすべてのロールを一覧表示して確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -138,7 +138,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。`role_a` は新しく作成されたロールです。
+以下に出力例を示します。`role_a` が新たに作成されたロールです。
 
 ```bash
 ['role_a']
@@ -146,21 +146,21 @@ curl --request POST \
 
 ## ロールへの権限グループの付与\{#grant-a-privilege-group-to-a-role}
 
-Zilliz Cloud では、ロールに以下を付与できます。
+Zilliz Cloud では、以下の項目をロールに付与できます。
 
-- **組み込み権限グループ:** Zilliz Cloud には 9 つの組み込み権限グループがあります。各組み込み権限グループに含まれる具体的な権限の詳細については、[組み込み権限グループ](./cluster-privileges#built-in-privilege-groups) を参照してください。
+- **組み込み権限グループ:** Zilliz Cloud には 9 つの組み込み権限グループが用意されています。各グループに含まれる具体的な権限の詳細については、[Built-in privilege groups](./cluster-privileges#built-in-privilege-groups) を参照してください。
 
-- **カスタム権限グループ:** 組み込み権限が要件を満たさない場合は、異なる権限を組み合わせて独自のカスタム権限グループを作成できます。詳細については、[カスタム権限グループ](./cluster-privileges#custom-privilege-groups) を参照してください。
+- **カスタム権限グループ:** 組み込み権限で要件を満たせない場合は、複数の権限を組み合わせて独自のカスタム権限グループを作成できます。詳細については、[Custom privilege groups](./cluster-privileges#custom-privilege-groups) を参照してください。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-- ロールにカスタム権限グループを付与する必要がある場合は、この機能を有効にできるよう [support ticket を作成](http://support.zilliz.com) してください。
+- カスタム権限グループをロールに付与する場合は、機能を有効化するため [サポートチケットを作成](http://support.zilliz.com) してください。
 
-- Milvus 2.5.x 以降を実行しているクラスターでは、個別の権限はサポートされなくなりました。
+- Milvus 2.5.x 以降のクラスターでは、個別の権限付与はサポートされていません。
 
 </Admonition>
 
-以下の例は、`privilege_group_1` という名前のカスタム権限グループと、組み込み権限グループ `ClusterReadOnly` をロール `role_a` に付与する方法を示しています。
+以下の例では、カスタム権限グループ `privilege_group_1` と組み込み権限グループ `ClusterReadOnly` をロール `role_a` に付与する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -300,56 +300,56 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下はパラメーターと対応する説明です。
+各パラメーターの説明は以下のとおりです。
 
-- **role_name:** 権限グループを付与する対象ロールの名前です。
+- **role_name:** 権限グループを付与する対象のロール名です。
 
-- **privilege**: ロールに付与する権限グループです。利用可能なオプションについては、[Privileges & Privilege Groups](./cluster-privileges) を参照してください。
+- **privilege**: ロールに付与する権限グループです。指定可能な値については、[Privileges & Privilege Groups](./cluster-privileges) を参照してください。
 
-- **リソース**: 権限グループの対象リソースで、特定のクラスター、データベース、またはコレクションを指定できます。 
+- **Resource**: 権限グループの適用対象となるリソースです。特定のクラスター、データベース、またはコレクションを指定できます。
 
-    以下の表では、リソースの指定方法を説明しています。
+    リソースの指定方法については、下表を参照してください。
 
     <table>
        <tr>
          <th><p><strong>レベル</strong></p></th>
          <th><p><strong>リソース</strong></p></th>
          <th><p><strong>付与方法</strong></p></th>
-         <th><p><strong>注記</strong></p></th>
+         <th><p><strong>備考</strong></p></th>
        </tr>
        <tr>
          <td rowspan="2"><p><strong>コレクション</strong></p></td>
          <td><p>特定のコレクション</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="CollectionAdmin",     collection_name="col1",      db_name="db1" )</code></pre></td>
-         <td><p>対象コレクションの名前と、その対象コレクションが属するデータベースの名前を入力します。</p></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;CollectionAdmin&quot;,     collection_name=&quot;col1&quot;,      db_name=&quot;db1&quot; )</code></pre></td>
+         <td><p>対象のコレクション名と、そのコレクションが属するデータベース名を入力します。</p></td>
        </tr>
        <tr>
-         <td><p>特定のデータベース配下のすべてのコレクション</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="CollectionAdmin",     collection_name="&ast;",      db_name="db1" )</code></pre></td>
-         <td><p>対象データベースの名前と、コレクション名としてワイルドカード <code>&ast;</code> を入力します。</p></td>
+         <td><p>特定のデータベース配下の全コレクション</p></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;CollectionAdmin&quot;,     collection_name=&quot;&ast;&quot;,      db_name=&quot;db1&quot; )</code></pre></td>
+         <td><p>対象のデータベース名と、コレクション名としてワイルドカード <code>&ast;</code> を入力します。</p></td>
        </tr>
        <tr>
          <td rowspan="2"><p><strong>データベース</strong></p></td>
          <td><p>特定のデータベース</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="DatabaseAdmin",      collection_name="&ast;",      db_name="db1" )</code></pre></td>
-         <td><p>対象データベースの名前と、コレクション名としてワイルドカード <code>&ast;</code> を入力します。</p></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;DatabaseAdmin&quot;,      collection_name=&quot;&ast;&quot;,      db_name=&quot;db1&quot; )</code></pre></td>
+         <td><p>対象のデータベース名と、コレクション名としてワイルドカード <code>&ast;</code> を入力します。</p></td>
        </tr>
        <tr>
-         <td><p>現在のインスタンス配下のすべてのデータベース</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="DatabaseAdmin",      collection_name="&ast;",      db_name="&ast;" )</code></pre></td>
-         <td><p>データベース名として <code>&ast;</code> を、コレクション名として <code>&ast;</code> を入力します。</p></td>
+         <td><p>現在のインスタンス配下の全データベース</p></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;DatabaseAdmin&quot;,      collection_name=&quot;&ast;&quot;,      db_name=&quot;&ast;&quot; )</code></pre></td>
+         <td><p>データベース名に <code>&ast;</code>、コレクション名に <code>&ast;</code> を入力します。</p></td>
        </tr>
        <tr>
          <td><p><strong>インスタンス</strong></p></td>
          <td><p>現在のインスタンス</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="ClusterAdmin",      collection_name="&ast;",      db_name="&ast;" )</code></pre></td>
-         <td><p>データベース名として <code>&ast;</code> を、コレクション名として <code>&ast;</code> を入力します。</p></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;ClusterAdmin&quot;,      collection_name=&quot;&ast;&quot;,      db_name=&quot;&ast;&quot; )</code></pre></td>
+         <td><p>データベース名に <code>&ast;</code>、コレクション名に <code>&ast;</code> を入力します。</p></td>
        </tr>
     </table>
 
-## ロールの詳細表示\{#describe-a-role}
+## ロールの詳細確認\{#describe-a-role}
 
-以下の例は、`describe_role` メソッドを使用してロール `role_a` に付与された権限を表示する方法を示しています。
+次の例では、`describe_role` メソッドを使用して、ロール `role_a` に付与された権限を確認する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -412,7 +412,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。 
+以下は出力例です。
 
 ```python
 {
@@ -422,9 +422,9 @@ curl --request POST \
 }
 ```
 
-## ロールからの権限グループの取り消し\{#revoke-a-privilege-group-from-a-role}
+## ロールから権限グループを取り消す\{#revoke-a-privilege-group-from-a-role}
 
-以下の例は、ロール `role_a` に付与されていたカスタム権限グループ `privilege_group_1` と組み込み権限グループ `ClusterReadOnly` を取り消す方法を示しています。
+次の例では、ロール `role_a` に付与されたカスタム権限グループ `privilege_group_1` および組み込み権限グループ `ClusterReadOnly` を取り消す方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -540,7 +540,7 @@ curl --request POST \
 
 ## ロールの削除\{#drop-a-role}
 
-以下の例は、ロール `role_a` を削除する方法を示しています。
+次の例では、ロール `role_a` を削除する方法を示します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -599,7 +599,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-ロールが削除されたら、既存のすべてのロールを一覧表示して、削除操作が成功したかどうかを確認できます。 
+ロールを削除した後、既存のすべてのロールを一覧表示して、削除操作が成功したかどうかを確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -645,7 +645,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。一覧に `role_a` はありません。削除操作は成功しています。
+以下は出力例です。リストに `role_a` が含まれていない場合、削除操作は成功しています。
 
 ```bash
 ['admin']
