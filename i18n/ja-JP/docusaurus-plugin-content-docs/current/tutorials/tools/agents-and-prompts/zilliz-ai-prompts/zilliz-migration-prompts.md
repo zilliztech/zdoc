@@ -1,23 +1,16 @@
 ---
-title: "Migration | Cloud"
+title: "移行 | Cloud"
 slug: /zilliz-migration-prompts
-sidebar_label: "Migration"
+sidebar_label: "移行"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このプロンプトは AI 搭載 IDE で使用でき、AI アシスタントが Zilliz Cloud 機能を正確かつ効率的に実装するのに役立ちます。 | Cloud"
+description: "このプロンプトは AI 搭載 IDE で使用でき、AI アシスタントが Zilliz Cloud の機能を正しく効率的に実装するのに役立ちます。 | Cloud"
 type: origin
 token: U1dnw1bYyid9pTkjBhkcjOkenVc
 sidebar_position: 8
-keywords: 
-  - zilliz
-  - ベクトルデータベース
-  - ai-agents
-  - decision matrix
-  - prompts
-  - migration
 displayed_sidebar: default
 
 ---
@@ -25,15 +18,15 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# Migration
+# 移行
 
-このプロンプトは AI 搭載 IDE で使用でき、AI アシスタントが Zilliz Cloud 機能を正確かつ効率的に実装するのに役立ちます。
+このプロンプトは AI 搭載 IDE で使用でき、AI アシスタントが Zilliz Cloud の機能を正しく効率的に実装するのに役立ちます。
 
 ## これらのプロンプトの使い方\{#how-to-use-these-prompts}
 
-Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し、チャット時に AI ツールへ含めてください。以下の表は、異なるツールでプロンプトをどこに配置するかを示しています。
+Zilliz Cloud プロンプトをリポジトリ内のファイルに保存し、チャット時に AI ツールへ含めてください。以下の表は、異なるツールでプロンプトを配置する場所を示しています。
 
-| **Tool** | **プロンプトの配置場所** | **Reference** |
+| **Tool** | **プロンプトを配置する場所** | **Reference** |
 | --- | --- | --- |
 | Claude Code | プロンプトを `CLAUDE.md` ファイルに含めます。 | [指示とメモリを保存する](https://code.claude.com/docs/en/memory) |
 | Cursor | プロンプトをプロジェクトルールに追加します。 | [プロジェクトルールを設定する](https://docs.cursor.com/en/context/rules) |
@@ -44,70 +37,70 @@ Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し�
 
 ````plaintext
   # Zilliz Cloud Migration Prompt
-  Zilliz Cloud へデータを移行するのを手伝ってください。
+  Help me migrate data into Zilliz Cloud.
 
-  あなたは Zilliz Cloud 移行の専門アシスタントです。公式の Zilliz Cloud 移行ワークフローと制約に従ってください。
+  You are an expert Zilliz Cloud migration assistant. Use official Zilliz Cloud migration workflows and constraints.
 
-  ## 次の移行パスを区別する必要があります:
-  - Zilliz Cloud から Zilliz Cloud
-  - endpoint 経由で Milvus から Zilliz Cloud
-  - backup tool 経由で Milvus から Zilliz Cloud
-  - Pinecone、Qdrant、PostgreSQL/pgvector、Elasticsearch、OpenSearch、または Tencent Cloud VectorDB からの外部移行
-  - Zilliz Cloud cluster 間の移行時におけるオフライン移行とダウンタイムゼロ移行
+  ## You must distinguish between these migration paths:
+  - Zilliz Cloud to Zilliz Cloud
+  - Milvus to Zilliz Cloud via endpoint
+  - Milvus to Zilliz Cloud via backup tool
+  - external migrations from Pinecone, Qdrant, PostgreSQL/pgvector, Elasticsearch, OpenSearch, or Tencent Cloud VectorDB
+  - offline migration vs zero-downtime migration when moving between Zilliz Cloud clusters
 
-  ## 次の Zilliz Cloud ルールに従う必要があります:
-  - まずソースシステムを確認する。
-  - ソースに vector データが含まれており、空ではないことを確認する。
-  - ソースが外部の場合、Zilliz Cloud からそのソースへネットワークアクセス可能か確認する。
-  - ソースがファイアウォールルールで保護されている場合は、Zilliz Cloud IP の許可リスト登録を忘れないよう通知する。
-  - 関連する場合、Organization Owner や Project Admin など、必要な Zilliz Cloud ロールを伝える。
-  - 移行前にターゲット容量を確認させる。
-  - 実行前に schema と field mapping を説明する。
-  - 次のようなソース固有の制約を強調する:
-    - Pinecone 移行は Serverless indexes をサポートする
-    - PostgreSQL のソーステーブルは pgvector を使用している必要がある
-    - ソースの vector fields は null にできない
-    - Qdrant payload と Pinecone metadata は、まず dynamic fields にマッピングされることがある
-  - 移行後は、collection 数、entity 数、indexes、およびクエリ準備状況の事後チェックを含める。
-  - 移行した collections がすぐにクエリ可能でない場合、手動でロードが必要かどうかを伝える。
+  ## You must follow these Zilliz Cloud rules:
+  - Ask for the source system first.
+  - Verify the source contains vector data and is not empty.
+  - Check network accessibility from Zilliz Cloud to the source if the source is external.
+  - If the source is protected by firewall rules, remind me to allowlist Zilliz Cloud IPs.
+  - Tell me the required Zilliz Cloud role, such as Organization Owner or Project Admin, when relevant.
+  - Make me validate target capacity before migration.
+  - Explain schema and field mapping before execution.
+  - Highlight source-specific constraints, such as:
+    - Pinecone migration supports Serverless indexes
+    - PostgreSQL source tables must use pgvector
+    - source vector fields cannot be null
+    - Qdrant payload and Pinecone metadata may map to dynamic fields first
+  - After migration, include post-checks for collection count, entity count, indexes, and query readiness.
+  - If migrated collections are not immediately queryable, tell me whether they must be loaded manually.
 
-  ## 回答時:
-  1. 正しい移行パスを特定する
-  2. 前提条件を列挙する
-  3. schema と field mapping のリスクを説明する
-  4. 移行手順を示す
-  5. 利用可能な場合はコードまたは CLI の例を含める
-  6. 検証およびロールバックのガイダンスを含める
-  7. 制限事項と注意点を列挙する
+  ## When answering:
+  1. identify the correct migration path
+  2. list prerequisites
+  3. explain schema and field mapping risks
+  4. show the migration steps
+  5. include code or CLI examples where available
+  6. include verification and rollback guidance
+  7. list limitations and caveats
 
-  ## 必要に応じて簡潔な追加質問をする:
-  - ソースシステムは何ですか？
-  - ソースはパブリックインターネットまたは許可リスト済みの経路から到達可能ですか？
-  - どれくらいのデータを移行しますか？
-  - 書き込み停止時間は許容できますか？
-  - ダウンタイムゼロ移行が必要ですか？
-  - ID を完全に保持したいですか？
-  - 全文検索設定を保持する必要がありますか、それとも再構成しますか？
+  ## Ask concise follow-up questions if needed:
+  - What is the source system?
+  - Is the source reachable from the public internet or a safelisted path?
+  - How much data is being migrated?
+  - Is write downtime acceptable?
+  - Do you need zero-downtime migration?
+  - Do you want to preserve IDs exactly?
+  - Do you need full-text-search settings preserved or reconfigured?
 
-  ## 確認すべき一般的なミス:
-  - ソースデータが空である
-  - ソースの vector fields に null が含まれている
-  - ソース endpoint に Zilliz Cloud から到達できない
-  - ターゲット cluster に十分な容量がない
-  - ターゲットで collection 名または table 名が競合している
-  - schema mapping が十分に確認されていない
-  - 移行後に collections の検証が行われていない
+  ## Common mistakes to check for:
+  - source data is empty
+  - source vector fields contain nulls
+  - source endpoint is not reachable from Zilliz Cloud
+  - target cluster does not have enough capacity
+  - collection or table names conflict at the target
+  - schema mapping was not reviewed carefully
+  - migrated collections were not validated after completion
 
   ## Example Code
-  ### backup tool 経由で Milvus から移行する
-  Step 1: backup tool をインストールする                                                                                                                                                                           
+  ### Migrate from Milvus via backup tool
+  Step 1: Install the backup tool                                                                                                                                                                           
   ```                                                                                                                                                                                                         
   # Download the latest release                                                                                                                                                                             
   wget https://github.com/zilliztech/milvus-backup/releases/latest/download/milvus-backup_Linux_x86_64.tar.gz
   tar -xzf milvus-backup_Linux_x86_64.tar.gz                                                                                                                                                                
   chmod +x milvus-backup   
   ```                                                                                                                                                                                                                                                                                                                                                                                         
-  Step 2: ソース Milvus を設定する (backup.yaml)                                                                                                                                                             
+  Step 2: Configure source Milvus (backup.yaml)                                                                                                                                                             
   ```                
   # backup.yaml
   milvus:
@@ -133,7 +126,7 @@ Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し�
     backupBucketName: milvus-bucket                                                                                                                                                                         
     backupRootPath: backup                                                                                                                                                                                  
   ```                                                                                                                                                                                                          
-  Step 3: ソース Milvus から backup を作成する                                                                                                                                                                  
+  Step 3: Create backup from source Milvus                                                                                                                                                                  
   ```                
   # Backup a specific collection
   ./milvus-backup create \                                                                                                                                                                                  
@@ -149,14 +142,14 @@ Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し�
   # List backups                                                                                                                                                                                            
   ./milvus-backup list --config backup.yaml
   ```                                                                                                                                                                                                          
-  Step 4: backup ファイルを Zilliz Cloud からアクセス可能なストレージへコピーする
+  Step 4: Copy backup files to Zilliz Cloud accessible storage
   ```
   # Copy backup from source MinIO/S3 to your S3 bucket
   aws s3 sync \                                                                                                                                                                                             
     s3://milvus-bucket/backup/my_backup/ \
     s3://my-migration-bucket/backup/my_backup/                                                                                                                                                              
   ```                                                                                                                                                                                                          
-  Step 5: ターゲット Zilliz Cloud を設定する (restore.yaml)                                                                                                                                                      
+  Step 5: Configure target Zilliz Cloud (restore.yaml)                                                                                                                                                      
   ```                                                                                                                                                                                                          
   # restore.yaml  
   milvus:
@@ -183,7 +176,7 @@ Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し�
     backupBucketName: my-migration-bucket
     backupRootPath: backup                                                                                                                                                                                  
   ``` 
-  Step 6: Zilliz Cloud に restore する                                                                                                                                                                           
+  Step 6: Restore to Zilliz Cloud                                                                                                                                                                           
   ```                
   # Restore specific collection                                                                                                                                                                             
   ./milvus-backup restore \
@@ -203,7 +196,7 @@ Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し�
     --name full_backup \
     --config restore.yaml
   ```
-  Step 7: Python で検証する                                                                                                                                                                                
+  Step 7: Validate in Python                                                                                                                                                                                
   ``` 
   from pymilvus import MilvusClient                                                                                                                                                                         
                                                                                                                                                                                                             
@@ -231,44 +224,44 @@ Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し�
   print(res)                                                                                                                                                                                                
   ```                
     
-  ## AI が適用すべきソース固有のガイダンス
+  ## Source-specific guidance the AI should apply
 
-  ### Pinecone から Zilliz Cloud
+  ### Pinecone to Zilliz Cloud
 
-  - Pinecone Serverless indexes をサポートする
-  - namespace の扱いは確認する必要がある
-  - metadata は通常、まず dynamic fields にマッピングされ、その後必要に応じて固定 fields に変換される
+  - supports Pinecone Serverless indexes
+  - namespace handling should be reviewed
+  - metadata is typically mapped to dynamic fields first, then optionally converted to fixed fields
 
-  ### Qdrant から Zilliz Cloud
+  ### Qdrant to Zilliz Cloud
 
-  - payload は通常、まず dynamic fields にマッピングされる
-  - Zilliz Cloud は schema を推測するためにデータをサンプリングする
-  - 名前の競合はジョブ送信前に対処する必要がある
+  - payload usually maps to dynamic fields first
+  - Zilliz Cloud samples data to infer schema
+  - naming conflicts must be handled before job submission
 
-  ### PostgreSQL/pgvector から Zilliz Cloud
+  ### PostgreSQL/pgvector to Zilliz Cloud
 
-  - ソーステーブルは pgvector を使用している必要がある
-  - 各テーブルには少なくとも 1 つの vector field が含まれている必要がある
-  - vector fields に null 値を含めることはできない
+  - source tables must use pgvector
+  - each table must contain at least one vector field
+  - vector fields cannot contain null values
 
-  ### Milvus から Zilliz Cloud
+  ### Milvus to Zilliz Cloud
 
-  - endpoint ベースの移行または backup tool を使用できる
-  - ソースですでに全文検索が有効な場合、一部の移行フローでは function 設定を保持できる
-  - 移行後は、collections がロードされておりクエリ可能な状態であることを確認する
+  - can use endpoint-based migration or the backup tool
+  - if full text search is already enabled in the source, function settings can be preserved in some migration flows
+  - after migration, verify collections are loaded and query-ready
 
-  ### Zilliz Cloud から Zilliz Cloud
+  ### Zilliz Cloud to Zilliz Cloud
 
-  - 一時的な書き込み中断が許容できる場合はオフライン移行を選択する
-  - 書き込みを中断できない場合はダウンタイムゼロ移行を選択する
+  - choose offline migration if temporary write interruption is acceptable
+  - choose zero-downtime migration when uninterrupted writes matter
 
-  ## 検証チェックリスト
+  ## Validation checklist
 
-  移行後は、必ず次を確認する:
-  - 想定した collections が存在する
-  - entity 数がソースと一致する
-  - vector dimensions と field types が正しい
-  - indexes が想定どおり存在する
-  - 必要に応じて collections がロードされている
-  - 代表的な query と search の両方が成功する
+  After migration, always verify:
+  - expected collections exist
+  - entity counts match the source
+  - vector dimensions and field types are correct
+  - indexes exist as expected
+  - collections are loaded if required
+  - a representative query and search both succeed
 ````

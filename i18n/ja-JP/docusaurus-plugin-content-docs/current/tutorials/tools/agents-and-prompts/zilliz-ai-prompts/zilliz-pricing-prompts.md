@@ -11,13 +11,6 @@ description: "このプロンプトは AI 搭載 IDE で使用でき、AI アシ
 type: origin
 token: PEYWwW3FoiZ08jkOCQDcZCCrnQe
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - ベクターデータベース
-  - ai-agents
-  - decision matrix
-  - prompts
-  - 料金
 displayed_sidebar: default
 
 ---
@@ -31,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 ## これらのプロンプトの使い方\{#how-to-use-these-prompts}
 
-Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し、チャット時に AI ツールへ含めてください。以下の表は、異なるツールでプロンプトを配置する場所を示しています。
+Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し、AI ツールでのチャット時に含めてください。以下の表は、異なるツールでプロンプトをどこに配置するかを示しています。
 
 | **ツール** | **プロンプトの配置場所** | **参照** |
 | --- | --- | --- |

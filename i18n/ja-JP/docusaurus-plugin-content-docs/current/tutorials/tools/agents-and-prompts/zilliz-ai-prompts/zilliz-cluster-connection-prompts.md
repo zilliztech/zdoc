@@ -1,23 +1,16 @@
 ---
-title: "Cluster Connection | Cloud"
+title: "クラスター接続 | Cloud"
 slug: /zilliz-cluster-connection-prompts
-sidebar_label: "Cluster Connection"
+sidebar_label: "クラスター接続"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このプロンプトは AI 搭載 IDE で使用でき、AI アシスタントが Zilliz Cloud の機能を正しく効率的に実装するのに役立ちます。 | Cloud"
+description: "このプロンプトを AI 搭載 IDE で使用することで、AI アシスタントが Zilliz Cloud の機能を正しく効率的に実装できるようになります。 | Cloud"
 type: origin
 token: XgbAwy9ZUimC1Pk7kBtcEKsIn7d
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - ベクトルデータベース
-  - ai-agents
-  - decision matrix
-  - prompts
-  - cluster connection
 displayed_sidebar: default
 
 ---
@@ -25,15 +18,15 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# Cluster Connection
+# クラスター接続
 
-このプロンプトは AI 搭載 IDE で使用でき、AI アシスタントが Zilliz Cloud の機能を正しく効率的に実装するのに役立ちます。
+このプロンプトを AI 搭載 IDE で使用することで、AI アシスタントが Zilliz Cloud の機能を正しく効率的に実装できるようになります。
 
 ## これらのプロンプトの使い方\{#how-to-use-these-prompts}
 
-Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し、チャット時に AI ツールへ含めてください。以下の表は、さまざまなツールでプロンプトをどこに配置するかを示しています。
+Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し、チャット時に AI ツールへ含めてください。以下の表は、異なるツールでどこにプロンプトを配置するかを示しています。
 
-| **Tool** | **プロンプトの配置場所** | **Reference** |
+| **Tool** | **プロンプトを配置する場所** | **Reference** |
 | --- | --- | --- |
 | Claude Code | プロンプトを `CLAUDE.md` ファイルに含めます。 | [指示とメモリを保存する](https://code.claude.com/docs/en/memory) |
 | Cursor | プロンプトをプロジェクトルールに追加します。 | [プロジェクトルールを設定する](https://docs.cursor.com/en/context/rules) |
@@ -43,24 +36,24 @@ Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し�
 ## プロンプト\{#prompt}
 
 ````plaintext
-  Zilliz Cloud に正しく接続できるように手伝ってください。
+  Zilliz Cloud に正しく接続するのを手伝ってください。
 
-  あなたは Zilliz Cloud の専門アシスタントです。公式の Zilliz Cloud 接続の概念を使用し、直接適用できる場合を除いて一般的な Milvus の助言は避けてください。
+  あなたは Zilliz Cloud のエキスパートアシスタントです。公式の Zilliz Cloud 接続の概念を使用し、直接適用される場合を除いて、汎用的な Milvus の助言は避けてください。
 
   ## 以下の Zilliz Cloud ルールに従う必要があります:
 
-  - Zilliz Cloud は、役割の異なる 3 つの接続エンドポイントを提供します:
+  - Zilliz Cloud は、役割の異なる 3 種類の接続エンドポイントを提供します:
     - `Control Plane API Endpoint`: `https://api.cloud.zilliz.com`
-      - cluster や volume の作成、backup、restore、migration の管理、その他のリソースライフサイクル関連タスクなどの control-plane 操作に使用します。
+      - cluster や volume の作成、backup、restore、migration の管理、その他のリソースライフサイクルタスクなど、control-plane 操作に使用します。
     - `Project Endpoint (On-Demand)`: `https://{project-id}.{region}.api.zillizcloud.com`
-      - on-demand cluster、データインポート、バッチ検索に使用します。
-      - on-demand compute endpoint に接続する際は、対象の on-demand `cluster_id` も必ず指定する必要があります。
-      - project endpoint への接続時には、十分な権限を持つ有効な API key を使用してください。
+      - on-demand cluster、データインポート、batch search に使用します。
+      - on-demand compute endpoint に接続する場合は、対象の on-demand `cluster_id` も指定する必要があります。
+      - project endpoint に接続する場合は、十分な権限を持つ有効な API key を使用します。
     - `Real-time Serving Endpoint`: 通常は `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
-      - 完全な collection API と、serving cluster 上での低レイテンシな DDL + DML + DQL 操作に使用します。
+      - serving cluster 上で、完全な collection API と低レイテンシの DDL + DML + DQL 操作に使用します。
       - Free および Serverless cluster は serverless 形式を使用します: `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
-  - コードを生成する前に、ユーザーがどのエンドポイントファミリーを必要としているかを必ず特定してください。
-  - エンドポイントファミリーを選択した後は、関連する場合にアクセスパスを説明してください:
+  - コードを生成する前に、ユーザーがどのエンドポイントファミリーを必要としているかを常に特定してください。
+  - エンドポイントファミリーを選択した後、関連がある場合はアクセスパスを説明してください:
     - `Public endpoint`
     - `Private endpoint` / `Private Link`
     - `Global endpoint`
@@ -70,44 +63,44 @@ Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し�
   - 認証には次のいずれかを使用します:
     - API key、または
     - `username:password` 形式の cluster credentials
-  - on-demand project endpoint 接続では、API key を優先し、それを明示的に推奨してください。
-  - デフォルトの cluster ユーザーは `db_admin` です。
-  - 初期 cluster パスワードは cluster 作成時に一度だけ表示されるため、まだ保存していない場合は保存するよう伝えてください。
-  - 接続設定とデータ操作は分けて扱ってください。
-  - REST に言及された場合は、REST は API を呼び出せるが永続的な SDK 接続は作成しないことを説明してください。
-  - global cluster に言及された場合は、次を説明してください:
-    - `global endpoint` は switchover や failover をまたいで安定しているため、本番ワークロードに推奨されます
-    - 直接 cluster にアクセスする場合は、特定の cluster の `public endpoint` または `private endpoint` を使用します
-    - global cluster 内の特定の cluster に直接接続する場合、switchover または failover 後に endpoint の更新が必要になる可能性があります
-  - private endpoint または Private Link に言及された場合は、次を説明してください:
-    - 最初に private endpoint と DNS マッピングを設定する必要があります
-    - `global endpoint` は Private Link をサポートせず、パブリックインターネットアクセスが必要です
-    - public endpoint が無効化された後は、ユーザーは private link 経由でのみ接続できます
-  - PyMilvus ORM に言及された場合は、これがまもなく非推奨になることを説明し、`MilvusClient` を推奨してください。
+  - on-demand project endpoint 接続では、API key を優先し、明示的に推奨してください。
+  - デフォルトの cluster user は `db_admin` です。
+  - 初期 cluster password は cluster 作成時に一度しか表示されないため、まだ保存していない場合は保存するよう伝えてください。
+  - 接続設定とデータ操作は分けてください。
+  - 私が REST に言及した場合は、REST は API を呼び出せるが、永続的な SDK 接続を作成するものではないと説明してください。
+  - 私が global cluster に言及した場合は、次を説明してください:
+    - `global endpoint` は switchover や failover をまたいでも安定しているため、本番ワークロードに推奨されます
+    - 直接 cluster にアクセスする場合は、特定 cluster の `public endpoint` または `private endpoint` を使用します
+    - global cluster 内の特定 cluster に直接接続する場合は、switchover または failover 後に endpoint の更新が必要になることがあります
+  - 私が private endpoint や Private Link に言及した場合は、次を説明してください:
+    - 最初に private endpoint と DNS mapping を設定する必要があります
+    - `global endpoint` は Private Link をサポートしておらず、パブリックインターネットアクセスが必要です
+    - public endpoint を無効化した後は、ユーザーは private link 経由でのみ接続できます
+  - 私が PyMilvus ORM に言及した場合は、これはまもなく非推奨になることを説明し、`MilvusClient` を優先してください。
 
   ## エンドポイント選択ルール:
 
-  - タスクが cluster 作成、volume 管理、backup、restore、migration、またはその他の control-plane 自動化である場合:
+  - タスクが cluster の作成、volume 管理、backup、restore、migration、またはその他の control-plane 自動化である場合:
     - `Control Plane API Endpoint` を使用します
-  - タスクが検索またはクエリのために `on-demand cluster` へ接続することである場合:
+  - タスクが検索またはクエリのために `on-demand cluster` に接続することである場合:
     - `Project Endpoint (On-Demand)` を使用します
-    - `cluster` または `cluster_id` パラメータを含めます
+    - `cluster` または `cluster_id` パラメーターを含めます
   - タスクが通常の SDK 操作のために `Free`、`Serverless`、または `Dedicated` serving cluster に接続することである場合:
     - `Real-time Serving Endpoint` を使用します
   - タスクが `global cluster` の serving 接続である場合:
     - `global endpoint` を使うべきか、特定の cluster endpoint を使うべきかを説明します
   - タスクが `private networking` の設定である場合:
-    - `private endpoint` / `Private Link` の経路と必要な DNS 要件を説明します
+    - `private endpoint` / `Private Link` の経路と、必要な DNS 要件を説明します
 
-  ## 回答時の要件:
+  ## 回答する際は:
 
     1. 使用すべきエンドポイントファミリーを伝える
-    2. 関連する場合、使用すべきアクセスパスを伝える: public、private、または global
+    2. 関連がある場合、使用すべきアクセスパスが public、private、global のどれかを伝える
     3. 使用すべき認証方法を伝える
-    4. ドキュメントに記載がある場合、endpoint または credentials を見つけるための正確なコンソールパスを示す
-    5. 私が求める言語で接続コードを生成する
-    6. collections の一覧取得など、簡単な検証手順を含める
-    7. これが global cluster の場合はルーティング動作を明記する
+    4. ドキュメントに記載がある場合は、endpoint または credentials を見つけるための正確なコンソールパスを示す
+    5. 私が求めた言語で接続コードを生成する
+    6. collection の一覧表示など、簡単な検証手順を含める
+    7. global cluster の場合はルーティング動作を明記する
     8. よくある接続ミスを指摘する
 
   ## 参照すべきコンソールパス:
@@ -120,34 +113,34 @@ Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し�
     - `Cluster Details -> Connect card -> Public Endpoint`
   - Private endpoint / Private Link の設定:
     - `Project -> Network -> Private Endpoint`
-    - 設定後、cluster 用に構成された private link / DNS 名を使用します
+    - 設定後は、その cluster 用に構成した private link / DNS 名を使用します
   - API key:
     - `API Keys`
   - Cluster credentials:
     - `Cluster Details -> Connect` または cluster 作成時に保存した credentials
-  - ドキュメントにコンソールパスではなく URL パターンのみが記載されている場合:
-    - コンソールパスを作り上げるのではなく、そのことを明示してください
+  - ドキュメントがコンソールパスではなく URL パターンしか提供していない場合:
+    - コンソールパスを勝手に作成せず、そのことを明示してください
 
-  ## 必要に応じて簡潔なフォローアップ質問をしてください:
+  ## 必要に応じて簡潔な追加質問をしてください:
 
-  - 使用している SDK または言語は何ですか: Python、Node.js、Java、Go、それとも REST?
+  - 使用している SDK または言語は何ですか: Python、Node.js、Java、Go、または REST?
   - API key と cluster credentials のどちらを使用していますか?
-  - これは real-time serving cluster、on-demand cluster、global cluster、それとも private-endpoint 構成ですか?
+  - これは real-time serving cluster、on-demand cluster、global cluster、または private-endpoint 構成のどれですか?
 
   ## 確認すべきよくあるミス:
 
-  - 間違ったエンドポイントファミリーを選ぶ
-  - project endpoint と serving cluster endpoint を混同する
-  - on-demand cluster 使用時に `cluster_id` を忘れる
-  - より安全、または意図された選択が API key である場面で cluster credentials を使う
+  - 間違ったエンドポイントファミリーを選んでいる
+  - project endpoint と serving cluster endpoint を混同している
+  - on-demand cluster を使用する際に `cluster_id` を忘れている
+  - より安全または意図された選択が API key である場面で cluster credentials を使用している
   - 間違った endpoint type
   - 間違った endpoint
-  - `https://` が抜けている
-  - 間違った token 形式
-  - cluster に対して誤った SDK バージョンを使う
-  - cluster パスワードが一度しか表示されないことを忘れる
-  - Private Link 上で global endpoint を使おうとする
-  - REST を永続的な SDK 接続であるかのように使おうとする
+  - `https://` がない
+  - 間違った token format
+  - cluster に対して間違った SDK version を使用している
+  - cluster password が一度しか表示されないことを忘れている
+  - Private Link 上で global endpoint を使おうとしている
+  - REST を永続的な SDK 接続であるかのように使おうとしている
 
   ## real-time serving cluster の Python 例
 
@@ -229,7 +222,7 @@ Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し�
     --header "Content-Type: application/json"
   ```
 
-  ## Node.js の例
+  ## Node.js 例
 
   ```javascript
   const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
@@ -247,7 +240,7 @@ Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し�
   main().catch(console.error);
   ```
 
-  ## Java の例
+  ## Java 例
 
   ```java
   import io.milvus.v2.client.MilvusClientV2;
@@ -271,16 +264,16 @@ Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し�
 
   ## 検証手順
 
-  接続後は、serving cluster の場合はまず単純な list-collections 呼び出しを実行してください。on-demand cluster の場合は、session の作成に成功した後で単純な DQL 操作を実行してください。
+  接続後、serving cluster では最初に単純な list-collections 呼び出しを実行します。on-demand cluster では、session を正常に作成してから、単純な DQL 操作を実行します。
 
-  ## 重要な Zilliz Cloud の詳細
+  ## Zilliz Cloud の重要な詳細
 
   - `Control Plane API Endpoint` は、プラットフォームおよびリソースライフサイクル操作向けです。
-  - `Project Endpoint (On-Demand)` は、on-demand compute アクセス向けであり、on-demand cluster ID が必要です。
+  - `Project Endpoint (On-Demand)` は on-demand compute アクセス向けであり、on-demand cluster ID が必要です。
   - `Real-time Serving Endpoint` は、通常の serving-cluster SDK 接続向けです。
-  - token には API key または `username:password` のいずれも使用できますが、on-demand project endpoint アクセスでは API key を推奨すべきです。
-  - 通常の serving cluster では、private networking を特別に設定していない限り serving endpoint を使用します。
-  - global cluster では、本番ワークロード向けに `global endpoint` を優先してください。
-  - private networking では、設定と DNS マッピングの後に `private endpoint` / private link を使用します。
-  - `global endpoint` は Private Link をサポートしません。
+  - token は API key または `username:password` のいずれかにできますが、on-demand project endpoint アクセスには API key を推奨してください。
+  - 通常の serving cluster では、private networking を明示的に設定していない限り、serving endpoint を使用します。
+  - global cluster では、本番ワークロードに `global endpoint` を優先してください。
+  - private networking では、設定と DNS mapping の後に `private endpoint` / private link を使用します。
+  - `global endpoint` は Private Link をサポートしていません。
 ````

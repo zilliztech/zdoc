@@ -7,21 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、自然言語を使ってインフラストラクチャをプロビジョニングし、データ操作を実行し、クラスター間でデータをバックアップおよび復元し、クラスターのセキュリティのためのアクセス制御を実装する、より多くの例を紹介します。 | Cloud"
+description: "このガイドでは、自然言語を使用してインフラストラクチャをプロビジョニングし、データ操作を実行し、クラスター間でデータをバックアップおよび復元し、クラスターのセキュリティのためのアクセス制御を実装する、その他の例を紹介します。 | Cloud"
 type: origin
 token: JiHgw9rQsibSugklTvBcpS1unGe
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - ベクターデータベース
-  - ai-agents
-  - decision matrix
-  - skill
-  - claude
-  - zilliz cli
-  - 例
-  - rbac
-  - migration
 displayed_sidebar: default
 
 ---
@@ -31,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 # Zilliz Claude Code Plugin の例
 
-このガイドでは、自然言語を使ってインフラストラクチャをプロビジョニングし、データ操作を実行し、クラスター間でデータをバックアップおよび復元し、クラスターのセキュリティのためのアクセス制御を実装する、より多くの例を紹介します。
+このガイドでは、自然言語を使用してインフラストラクチャをプロビジョニングし、データ操作を実行し、クラスター間でデータをバックアップおよび復元し、クラスターのセキュリティのためのアクセス制御を実装する、その他の例を紹介します。
 
 ## 例 1: インフラストラクチャのプロビジョニング\{#example-1-infrastructure-provisioning}
 
@@ -48,7 +37,7 @@ You: "Create a collection called products with 768-dimension vectors and fields:
 Plugin: Creates collection with schema
 ```
 
-## 例 2: データ操作ワークフロー\{#example-2-data-operations-workflow}
+## 例 2: データ操作のワークフロー\{#example-2-data-operations-workflow}
 
 **シナリオ**: データを挿入して検索を実行する
 
@@ -90,4 +79,4 @@ You: "Create a user alice@company.com and assign the analyst role"
 Plugin: Creates user and assigns role
 ```
 
-さらに多くの例については、[Zilliz CLI リファレンス](/reference/cli/cli/overview) ドキュメントを参照してください。
+その他の例については、[Zilliz CLI リファレンス](/reference/cli/cli/overview) ドキュメントを参照してください。

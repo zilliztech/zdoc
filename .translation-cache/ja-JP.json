@@ -1405,6 +1405,26 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/dedicated-cluster-cost.md",
       "translatedAt": "2026-08-04T05:15:58.024Z"
     },
+    "content/en/guides/tutorials/management/cost-management/understand-cost/on-demand-compute-cost.md": {
+      "sourceHash": "7be1a74d5a892f69b6aef5178b09b6213ea76e4def21ea3561fa8057c6be9fd1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/on-demand-compute-cost.md",
+      "translatedAt": "2026-08-04T05:04:57.358Z"
+    },
+    "content/en/guides/tutorials/management/cost-management/understand-cost/serverless-cluster-cost.md": {
+      "sourceHash": "de0005519ae4f2ab70467f15755122e29df04fc75d3c854f27a5a357808ac1d0",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/serverless-cluster-cost.md",
+      "translatedAt": "2026-08-04T05:04:37.863Z"
+    },
+    "content/en/guides/tutorials/management/cost-management/understand-cost/storage-cost.md": {
+      "sourceHash": "32c1f1d6f5ad40f3049ed819c1863d2fba218998956794c689ac76da1bcd01f9",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/storage-cost.md",
+      "translatedAt": "2026-08-04T05:05:08.679Z"
+    },
+    "content/en/guides/tutorials/management/limits/limits.md": {
+      "sourceHash": "fa5e1960a09fc39892c97df8e84ab2e0ed3a9bd590a735e3cd71c5333bbc5680",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/limits/limits.md",
+      "translatedAt": "2026-08-04T05:08:16.757Z"
+    },
     "content/en/guides/tutorials/management/metrics-alerts/manage-notification-channels.md": {
       "sourceHash": "78663d619ef93a525fcd89b738a4a0504b192b9d1f7273ae35007d20876f1c24",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/manage-notification-channels.md",
@@ -1485,6 +1505,16 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
       "translatedAt": "2026-08-04T05:04:52.268Z"
     },
+    "content/en/guides/tutorials/management/organizations/organization-settings.md": {
+      "sourceHash": "e6886866c445630eb1e806dae7913e5c4c2935e2377e0db7e6b7b70fbfe29b07",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/organizations/organization-settings.md",
+      "translatedAt": "2026-08-04T05:06:09.422Z"
+    },
+    "content/en/guides/tutorials/management/organizations/organization-users.md": {
+      "sourceHash": "52a0fb1324b17bb495a93125971d130b0a66516451daa57d1bb73e1fbd31c686",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/organizations/organization-users.md",
+      "translatedAt": "2026-08-04T05:07:39.195Z"
+    },
     "content/en/guides/tutorials/management/private-endpoint/setup-a-private-link-aws.md": {
       "sourceHash": "8acbb77a0564cc844103f7ba2600d3cb8b64ef6b8e457d8773baa9f52e31ce5c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/private-endpoint/setup-a-private-link-aws.md",
@@ -1499,6 +1529,101 @@
       "sourceHash": "cf0b9518a0bd1edf2c1f64c3e81895bbedf7e421071cf56369403e62577481af",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/private-endpoint/setup-a-private-link-gcp.md",
       "translatedAt": "2026-08-04T05:07:31.449Z"
+    },
+    "content/en/guides/tutorials/management/projects/job-center.md": {
+      "sourceHash": "e33753bb224cc071c3b85c9ec4f3b500626e8bd85fe7efbe2172bb441ce177d6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/projects/job-center.md",
+      "translatedAt": "2026-08-04T05:06:40.315Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md": {
+      "sourceHash": "e881131f6ef8ca6416f7b01dfbb37ece2cd0d7fef7a5ea54342ebcf2eb80c5a6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/agents-and-prompts.md",
+      "translatedAt": "2026-08-04T05:07:59.795Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-access-control-prompts.md": {
+      "sourceHash": "320f59a43de0157b25b12929cd345a3a86b4dd4c7335afa5b456476975b48ca1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-access-control-prompts.md",
+      "translatedAt": "2026-08-04T05:07:45.789Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-ai-prompts.md": {
+      "sourceHash": "d7cc42bda844010848ba7bd7954f6edd8c8297f206057c72afa21fe86d00be8c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-ai-prompts.md",
+      "translatedAt": "2026-08-04T05:08:27.304Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-base-prompts.md": {
+      "sourceHash": "b983d0dbd953c2d1c5a0fd58e18f46d9d1474dc2dc71adbddd52e7c27006527c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-base-prompts.md",
+      "translatedAt": "2026-08-04T05:08:34.358Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-cluster-connection-prompts.md": {
+      "sourceHash": "49a5cca21689812824a7ccd69aa55ff072b16f45ab580b8e325fb25bf82362e2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-cluster-connection-prompts.md",
+      "translatedAt": "2026-08-04T05:10:27.329Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-import-prompts.md": {
+      "sourceHash": "da620d67d441d6dbae0c688b6ddb8aba181af7820d43f4c9fd16d56099b8170d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-import-prompts.md",
+      "translatedAt": "2026-08-04T05:09:15.464Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-integrations-prompts.md": {
+      "sourceHash": "fb915efd6b48234fb9f8c2f69e7ad621b1ef94507cf04d267553cffc2b78aca9",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-integrations-prompts.md",
+      "translatedAt": "2026-08-04T05:11:17.263Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-migration-prompts.md": {
+      "sourceHash": "89d4efc7c066a459a7a229dddb20ecd7fb67d940c95bbd19db41bd2086eddade",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-migration-prompts.md",
+      "translatedAt": "2026-08-04T05:09:33.988Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-pricing-prompts.md": {
+      "sourceHash": "99fdeeb04f7d5c21addf3216d80e935a98a68bddbcea4ef98a6acf4300358126",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-pricing-prompts.md",
+      "translatedAt": "2026-08-04T05:10:18.215Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-resource-planning-prompts.md": {
+      "sourceHash": "24cb07f0df0e9766ff0a902e363f2564bb0eb8fff218874c8ff429afca2fe021",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-resource-planning-prompts.md",
+      "translatedAt": "2026-08-04T05:11:29.907Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-schema-design-prompts.md": {
+      "sourceHash": "e849aebdcf5becf5c1ef32f8db642a60d206e4f770eb615b55a52a1c86df527b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-schema-design-prompts.md",
+      "translatedAt": "2026-08-04T05:11:13.558Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-search-prompts.md": {
+      "sourceHash": "ba704a1345b3ba4fa242f6586f487985b1ef4f760d90f8f2402f28dca4e058e3",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-search-prompts.md",
+      "translatedAt": "2026-08-04T05:11:14.615Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-gemini-extension.md": {
+      "sourceHash": "0c846eaa91c7791db505b06d213b1eb4ea9eddd1a02f21ed3e09fdf3f4089405",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-gemini-extension.md",
+      "translatedAt": "2026-08-04T05:12:28.293Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-capabilities.md": {
+      "sourceHash": "79b7242584b84efd4ee335dfb7c08cb0cd071b8effc4cdef6d032aeab58ee69e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-capabilities.md",
+      "translatedAt": "2026-08-04T05:11:37.301Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-examples.md": {
+      "sourceHash": "0277d9c417e02fef39ae5a871824054537563dd33875ab366e5c43141947f7d6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-examples.md",
+      "translatedAt": "2026-08-04T05:11:59.128Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-setup.md": {
+      "sourceHash": "009a22b13e24c047de1a7e065915cea8fac2960f3a36593ecd0d993a25a39dff",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-setup.md",
+      "translatedAt": "2026-08-04T05:12:39.739Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin.md": {
+      "sourceHash": "6dfc51d1275b94be57c0a0c6853c62978f364ba1015c0d0427908f51673973a8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin.md",
+      "translatedAt": "2026-08-04T05:12:06.123Z"
+    },
+    "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-skill.md": {
+      "sourceHash": "f830efc6a08b1755697a7fdfb082134b30ab0239d937d5294da4bcc2c0e898ca",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-skill.md",
+      "translatedAt": "2026-08-04T05:12:18.789Z"
     },
     "docs-byoc/tutorials/architecture/best-practices/environment-isolation.md": {
       "sourceHash": "2af23c87d9a811d1f7ea55d03d35f26dc5f1feebc14963672338c1b86e065beb",
