@@ -40,7 +40,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 事前準備\{#before-you-start}
 
-- **Project Admin** 権限を持っていることを確認してください。
+- **Project Admin** であることを確認してください。
 
 - 現在、この機能はすべての AWS リージョンおよび Google Cloud の us-central1、us-east4 リージョンで利用できます。Google Cloud リージョンでグローバルクラスターを作成する場合は、[お問い合わせ](http://support.zilliz.com) ください。
 
@@ -52,7 +52,7 @@ import Procedures from '@site/src/components/Procedures';
 
     <Procedures>
 
-    1. **クラスター設定** の **グローバルクラスター** にあるスイッチをオンにします。
+    1. **Cluster Settings** で **Global Cluster** の横にあるスイッチをオンにします。
 
     1. グローバルクラスターの名前を入力します。
 
@@ -84,7 +84,7 @@ import Procedures from '@site/src/components/Procedures';
         | リージョン | セカンダリクラスターをデプロイするリージョンです。 |
         | レプリカ | セカンダリクラスターのレプリカ数です。レプリカ数は、プライマリクラスターと各セカンダリクラスターで異なる値を設定できます。 |
 
-    1. **作成** をクリックします。
+    1. **Create** をクリックします。
 
         ![Z9xYwy7dKhQMGob52EzcFpAnnmh](https://zdoc-images.s3.us-west-2.amazonaws.com/Z9xYwy7dKhQMGob52EzcFpAnnmh.png)
 
@@ -92,17 +92,17 @@ import Procedures from '@site/src/components/Procedures';
 
     グローバルクラスターを作成すると、Zilliz Cloud が以下の処理を実行します。
 
-    1. グローバルクラスター、およびそのプライマリクラスターとセカンダリクラスターのプロビジョニングが行われます。すべてのプライマリクラスターとセカンダリクラスターは **CREATING** ステータスで表示されます。
+    1. グローバルクラスターと、そのプライマリクラスターおよびセカンダリクラスターをプロビジョニングします。すべてのプライマリクラスターとセカンダリクラスターは **CREATING** ステータスで表示されます。
 
-    1. プライマリクラスターとセカンダリクラスターの両方のプロビジョニングが完了すると、クラスターは **RUNNING** ステータスになり、データレプリケーションが開始されます。
+    1. プライマリクラスターとセカンダリクラスターの両方のプロビジョニングが完了すると、クラスターは **RUNNING** ステータスで表示され、データレプリケーションをサポートします。
 
-    データ同期のステータスと遅延状況は、**グローバルクラスター** ページの **グローバルトポロジー** タブで確認できます。
+    データ同期のステータスと遅延は、**Global Cluster** ページの **Global Topology** タブで確認できます。
 
     ![CLpZwH1e3hd3F1bIXisc6u7GnDg](https://zdoc-images.s3.us-west-2.amazonaws.com/CLpZwH1e3hd3F1bIXisc6u7GnDg.png)
 
 - **RESTful API を使用する場合**
 
-    以下の例では、AWS us-west-2 にデプロイされたプライマリクラスター 1 つと、AWS eu-west-1 にデプロイされたセカンダリクラスター 1 つから構成されるグローバルクラスターを作成します。API の詳細については、[グローバルクラスターの作成](/reference/restful/create-global-cluster-v2) を参照してください。
+    以下の例では、AWS us-west-2 にデプロイされたプライマリクラスター 1 つと、AWS eu-west-1 にデプロイされたセカンダリクラスター 1 つから構成されるグローバルクラスターを作成します。API の詳細については、[Create Global Cluster](/reference/restful/create-global-cluster-v2) を参照してください。
 
     ```bash
     curl --request POST \

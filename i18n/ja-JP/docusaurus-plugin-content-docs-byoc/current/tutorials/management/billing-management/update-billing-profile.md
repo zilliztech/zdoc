@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 請求プロファイルには、請求、請求書、税務記録に使用される組織情報および連絡先情報が含まれます。請求書が正しい会社名、住所、連絡先の詳細で発行されるよう、請求プロファイルを常に最新の状態に保ってください。 
 
-<Admonition type="info" icon="📘" title="**Note**">
+<Admonition type="info" icon="📘" title="Note">
 
 請求プロファイルを管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 
@@ -44,7 +44,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-## 請求プロファイルの更新後\{#after-you-update-the-billing-profile}
+## 請求プロファイルを更新した後\{#after-you-update-the-billing-profile}
 
 請求プロファイルが更新されると、今後の請求書には新しい請求情報が使用されます。
 

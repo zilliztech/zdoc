@@ -40,8 +40,6 @@ Zilliz Cloud は、以下のマーケットプレイスでのサブスクリプ�
 
 各マーケットプレイスでは、複数のサブスクリプションオプションが提供される場合があります。
 
-- Marketplace 無料トライアル
-
 - Marketplace パブリックオファー
 
 - Marketplace プライベートオファー
@@ -50,11 +48,10 @@ Zilliz Cloud は、以下のマーケットプレイスでのサブスクリプ�
 
 | **サブスクリプションオプション** | **説明** | **推奨用途** | **契約条件** | **利用可否** |
 | --- | --- | --- | --- | --- |
-| Marketplace 無料トライアル | 有料サブスクリプションへの移行前に、クラウドマーケットプレイス経由で Zilliz Cloud を評価できるトライアルサブスクリプションです。 | 初期検証や短期間のテスト。 | 30日間の無料トライアル。終了後は有料サブスクリプションへの[アップグレード](./subscribe-on-aws-marketplace-free-trial#upgrade-to-paid-subscription)が必要です。 | **AWS** Marketplace 経由の Zilliz Cloud **SaaS** デプロイメントのみ対象。 |
 | Marketplace パブリックオファー | クラウドマーケットプレイスに掲載されている標準の Zilliz Cloud リスティングです。 | 標準価格・標準条件でのセルフサービスサブスクリプション。 | マーケットプレイスのリスティングページに記載された公開価格、契約条件、請求ルールが適用されます。 | **AWS、Google Cloud、Mircosoft** Marketplace 経由の Zilliz Cloud **SaaS** デプロイメントのみ対象。 |
 | Marketplace プライベートオファー | Zilliz がお客様の組織向けに作成するカスタムオファーです。 | エンタープライズ調達、割引、コミット済み支出、個別条件、または BYOC の購入。 | 交渉済みの価格、カスタム契約期間、支払いスケジュールなどの契約条件を含められます。 | **AWS、Google Cloud、Mircosoft** Marketplace 経由の Zilliz Cloud **SaaS** および **BYOC** デプロイメントの両方で利用可能。 |
 
-<Admonition type="info" icon="📘" title="**Note**">
+<Admonition type="info" icon="📘" title="Note">
 
 AWS Marketplace 無料トライアルは AWS Marketplace から開始・管理されます。トライアル後にアップグレードすると、その後の料金も AWS Marketplace を通じて請求されます。このオプションは、AWS Marketplace で調達と請求を一括管理したいチームに適しています。
 

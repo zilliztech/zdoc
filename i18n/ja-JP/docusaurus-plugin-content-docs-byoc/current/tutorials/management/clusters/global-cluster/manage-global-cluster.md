@@ -1,13 +1,13 @@
 ---
-title: "グローバルクラスタの管理 | BYOC"
+title: "グローバルクラスターの管理 | BYOC"
 slug: /manage-global-cluster
-sidebar_label: "グローバルクラスタの管理"
+sidebar_label: "グローバルクラスターの管理"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このページでは、セカンダリクラスタの追加と削除、グローバルクラスタの通常クラスタへの変換、およびグローバルクラスタ全体の削除について説明します。 | BYOC"
+description: "このページでは、セカンダリクラスターの追加と削除、グローバルクラスターの通常クラスターへの変換、およびグローバルクラスター全体の削除について説明します。 | BYOC"
 type: origin
 token: DW9wwFlgAiwOhBk2PgucY4URnke
 sidebar_position: 7
@@ -22,7 +22,7 @@ import Supademo from '@site/src/components/Supademo';
 
 import Procedures from '@site/src/components/Procedures';
 
-# グローバルクラスタの管理
+# グローバルクラスターの管理
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
@@ -32,39 +32,39 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は、すべての AWS リージョンと、次の Google Cloud リージョンで利用できます：gcp-us-central1 および gcp-us-east4。Microsoft Azure では利用できません。
+この機能は、すべての AWS リージョンおよび次の Google Cloud リージョン（gcp-us-central1、gcp-us-east4）で利用できます。Microsoft Azure では利用できません。
 
 </FeatureNote>
 
-このページでは、セカンダリクラスタの追加と削除、グローバルクラスタの通常クラスタへの変換、およびグローバルクラスタ全体の削除について説明します。
+このページでは、セカンダリクラスターの追加と削除、グローバルクラスターの通常クラスターへの変換、およびグローバルクラスター全体の削除について説明します。
 
-## 始める前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
-- **Project Admin** であることを確認してください。
+- **Project Admin** であること。
 
-- プライマリクラスタとセカンダリクラスタはいずれも一時停止できない点に注意してください。
+- プライマリクラスターとセカンダリクラスターはいずれも一時停止できない点に注意すること。
 
-## セカンダリクラスタを追加する\{#add-secondary-cluster}
+## セカンダリクラスターを追加する\{#add-secondary-cluster}
 
-リージョンのカバレッジを向上させるために、既存のグローバルクラスタに異なるリージョンのセカンダリクラスタを追加できます。
+リージョンのカバレッジを向上させるために、既存のグローバルクラスターに異なるリージョンのセカンダリクラスターを追加できます。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" icon="📘" title="Notes">
 
-グローバルクラスタには最大 5 つのセカンダリクラスタまでしか追加できません。
+グローバルクラスターには、セカンダリクラスターを最大5つまでしか追加できません。
 
 </Admonition>
 
-新しいセカンダリクラスタを追加すると、Zilliz Cloud はそれをプロビジョニングし、プライマリクラスタからのデータレプリケーションを開始します。新しいセカンダリクラスタは CREATING ステータスで表示され、初回のデータ同期が完了すると RUNNING に移行します。
+新しいセカンダリクラスターを追加すると、Zilliz Cloud がそれをプロビジョニングし、プライマリクラスターからのデータレプリケーションを開始します。新しいセカンダリクラスターは CREATING ステータスで表示され、初回のデータ同期が完了すると RUNNING に移行します。
 
-- **Web コンソールから**
+- **Web コンソールを使用する場合**
 
-    次のデモは、1 つ以上のセカンダリクラスタを追加する方法を示しています。
+    次のデモでは、1つ以上のセカンダリクラスターを追加する方法を示しています。
 
     <Supademo id="cmkat4dkp1h55ke4xyc8i7c9y" title=""  />
 
-- **RESTful API 経由**
+- **RESTful API を使用する場合**
 
-    次の例では、AWS ap-southeast-1 にデプロイされた `secondary-cluster-ap` という名前の新しいセカンダリクラスタを追加します。API の詳細については、[セカンダリクラスタの追加](/reference/restful/add-secondary-clusters-v2) を参照してください。
+    次の例では、AWS ap-southeast-1 にデプロイされた `secondary-cluster-ap` という名前の新しいセカンダリクラスターを追加します。API の詳細については、[Add Secondary クラスター](/reference/restful/add-secondary-clusters-v2) を参照してください。
 
     ```bash
     curl --request POST \
@@ -82,7 +82,7 @@ import Procedures from '@site/src/components/Procedures';
       }'
     ```
 
-    以下は出力例です。
+    出力例は以下のとおりです。
 
     ```bash
     {
@@ -93,27 +93,27 @@ import Procedures from '@site/src/components/Procedures';
     }
     ```
 
-## セカンダリクラスタを削除する\{#drop-secondary-cluster}
+## セカンダリクラスターを削除する\{#drop-secondary-cluster}
 
-そのリージョンでのカバレッジが不要になった場合や、コストを削減したい場合は、セカンダリクラスタを削除できます。
+そのリージョンでのカバレッジが不要になった場合や、コストを削減したい場合は、セカンダリクラスターを削除できます。
 
-セカンダリクラスタを削除すると、次のようになります。
+セカンダリクラスターを削除すると、次のようになります。
 
-- 削除されたセカンダリクラスタは、グローバルクラスタのトポロジーから取り除かれます。
+- 削除されたセカンダリクラスターは、グローバルクラスターのトポロジーから取り除かれます。
 
-- そのクラスタへのデータレプリケーションは即座に停止します。
+- そのクラスターへのデータレプリケーションは直ちに停止します。
 
-セカンダリクラスタは、Web コンソールまたは RESTful API のいずれかで削除できます。
+セカンダリクラスターは、Web コンソールまたは RESTful API を使用して削除できます。
 
-- **Web コンソールから**
+- **Web コンソールを使用する場合**
 
-    次のスクリーンショットは、セカンダリクラスタを削除する方法を示しています。
+    次のスクリーンショットは、セカンダリクラスターを削除する方法を示しています。
 
     ![KjCvwgeZWhTEHnb1t3Pc1NoXnCb](https://zdoc-images.s3.us-west-2.amazonaws.com/KjCvwgeZWhTEHnb1t3Pc1NoXnCb.png)
 
-- **RESTful API 経由**
+- **RESTful API を使用する場合**
 
-    次の例ではセカンダリクラスタを削除します。API の詳細については、[グローバルメンバークラスタの削除](/reference/restful/delete-global-member-cluster-v2) を参照してください。
+    次の例では、セカンダリクラスターを削除します。API の詳細については、[Delete Global Member Cluster](/reference/restful/delete-global-member-cluster-v2) を参照してください。
 
     ```bash
     curl --request DELETE \
@@ -122,7 +122,7 @@ import Procedures from '@site/src/components/Procedures';
       --header "Accept: application/json"
     ```
 
-    以下は出力例です。
+    出力例は以下のとおりです。
 
     ```bash
     {
@@ -135,15 +135,15 @@ import Procedures from '@site/src/components/Procedures';
     }
     ```
 
-## グローバルクラスタを通常クラスタに変換する\{#convert-a-global-cluster-to-a-regular-cluster}
+## グローバルクラスターを通常クラスターに変換する\{#convert-a-global-cluster-to-a-regular-cluster}
 
-マルチリージョン機能が不要になったものの、プライマリクラスタとそのデータは保持したい場合は、グローバルクラスタを通常の Dedicated クラスタに戻すことができます。 
+マルチリージョン機能が不要になったものの、プライマリクラスターとそのデータは保持したい場合は、グローバルクラスターを通常の Dedicated クラスターに戻すことができます。
 
-グローバルクラスタを通常クラスタに変換するには、次の手順を実行する必要があります。
+グローバルクラスターを通常クラスターに変換するには、次の手順を実行する必要があります。
 
 <Procedures>
 
-1. すべてのセカンダリクラスタを[削除](./manage-global-cluster#drop-secondary-cluster)します。
+1. すべてのセカンダリクラスターを[削除](./manage-global-cluster#drop-secondary-cluster)します。
 
 1. **Global Cluster** ページで、**Actions** ドロップダウンから **Remove Global Endpoint** をクリックします。
 
@@ -151,7 +151,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-RESTful API を使用してグローバルエンドポイントを削除することもできます。以下はその例です。詳細については、[グローバルエンドポイントの削除](/reference/restful/remove-global-endpoint-v2) を参照してください。
+RESTful API を使用してグローバルエンドポイントを削除することもできます。以下に例を示します。詳細については、[Remove Global Endpoint](/reference/restful/remove-global-endpoint-v2) を参照してください。
 
 ```bash
 curl --request POST \
@@ -165,13 +165,11 @@ curl --request POST \
 | **項目** | **動作** |
 | --- | --- |
 | グローバルエンドポイント | 直ちに削除されます。これを使用しているクライアントは切断されます。 |
-| プライマリクラスタ | 通常の Dedicated クラスタになります。すべてのデータを保持したまま稼働を継続します。 |
+| プライマリクラスター | 通常の Dedicated クラスターになります。すべてのデータを保持したまま稼働を継続します。 |
 | データレプリケーション | 停止します。データレプリケーションメトリクスは削除されます。 |
-| グローバルクラスタメタデータ | クリアされます（グローバルクラスタ ID、トポロジー）。 |
-| バックアップポリシー | 以前のプライマリクラスタにそのまま残り、変更されません。 |
-| 課金 | [データ転送](./data-transfer-cost) 料金は停止します。残るクラスタは通常の [Dedicated クラスタ](./dedicated-cluster-cost) として課金されます。 |
+| グローバルクラスターメタデータ | クリアされます（グローバルクラスター ID、トポロジー）。 |
+| バックアップポリシー | 以前のプライマリクラスターにそのまま残り、変更されません。 |
 
-## グローバルクラスタを削除する\{#drop-global-cluster}
+## グローバルクラスターを削除する\{#drop-global-cluster}
 
-グローバルクラスタ全体を削除するには、まず[すべてのセカンダリクラスタを削除](./manage-global-cluster#drop-secondary-cluster)し、その後プライマリクラスタを削除します。プライマリクラスタが削除されると、グローバルクラスタは自動的に削除されます。
-
+グローバルクラスター全体を削除するには、まず[すべてのセカンダリクラスターを削除](./manage-global-cluster#drop-secondary-cluster)し、その後プライマリクラスターを削除します。プライマリクラスターが削除されると、グローバルクラスターは自動的に削除されます。

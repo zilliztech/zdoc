@@ -224,13 +224,13 @@ AWS Marketplace でプライベートオファーを更新するには、以下�
 
 1. プライベートオファーを承諾した AWS アカウントにサインインします。
 
-1. AWS Marketplace コンソールを開き、**サブスクリプションの管理** に移動します。
+1. AWS Marketplace コンソールを開き、**Manage subscriptions** に移動します。
 
 1. ご利用の Zilliz Cloud サブスクリプションを探し、契約 ID をクリックします。
 
-1. **契約** セクションで **アクション** リストを開き、**サブスクリプションのキャンセル** を選択します。
+1. **Agreement** セクションで **Actions** リストを開き、**Cancel subscription** を選択します。
 
-1. **サブスクリプションのキャンセル** ダイアログボックスに **confirm** と入力し、**はい、サブスクリプションをキャンセルします** を選択します。
+1. **Cancel subscription** ダイアログボックスに **confirm** と入力し、**Yes, cancel subscription** を選択します。
 
 </Procedures>
 
@@ -252,7 +252,7 @@ AWS Marketplace でプライベートオファーを更新するには、以下�
 
     ![insufficient-permission-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
 
-    組織を Marketplace サブスクリプションにリンクするには、**組織オーナー** または **組織請求管理者** である必要があります。組織メンバーのみの方には必要な権限がありませんので、組織オーナーにお問い合わせください。
+    組織を Marketplace サブスクリプションにリンクするには、**Organization Owner** または **Organization Billing Admin** である必要があります。Organization Member のみである場合は必要な権限がないため、組織オーナーにお問い合わせください。
 
 - **すべての組織がすでに Marketplace サブスクリプションにリンク済みである**
 
@@ -276,4 +276,4 @@ AWS Marketplace でプライベートオファーを更新するには、以下�
 
     - [新しい組織を作成](./organization-settings#create-an-organization)する。
 
-    - 他のユーザーに依頼して、それぞれの組織に自分を[招待](./manage-platform-users#invite-organization-members)してもらい、組織オーナーのロールを付与してもらう。
+    - 他のユーザーに依頼して、それぞれの組織に自分を[招待](./manage-platform-users#invite-organization-members)してもらい、Organization Owner ロールを付与してもらう。

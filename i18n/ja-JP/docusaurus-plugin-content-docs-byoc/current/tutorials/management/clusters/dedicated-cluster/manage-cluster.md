@@ -33,7 +33,7 @@ Dedicated クラスターでは、次の操作を実行できます。
 
 <Procedures>
 
-1. 対象クラスターの **Cluster Details** ページに移動します。
+1. 対象クラスターの **クラスター Details** ページに移動します。
 
 1. **Actions** をクリックし、**Rename** を選択します。
 
@@ -49,7 +49,7 @@ Dedicated クラスターでは、次の操作を実行できます。
 
 <Procedures>
 
-1. 対象クラスターの **Cluster Details** ページに移動します。
+1. 対象クラスターの **クラスター Details** ページに移動します。
 
 1. クラスターの説明にカーソルを合わせ、**Edit** **description** アイコンをクリックします。
 
@@ -69,7 +69,7 @@ Dedicated クラスターでは、次の操作を実行できます。
 
 <TabItem value="Cloud Console">
 
-対象クラスターの **Cluster Details** ページに移動し、以下の手順に従って Dedicated クラスターを一時停止します。
+対象クラスターの **クラスター Details** ページに移動し、以下の手順に従って Dedicated クラスターを一時停止します。
 
 <Supademo id="cm9tqgxt30snl11m7twwj7xia" title=""  />
 
@@ -103,7 +103,7 @@ curl --request POST \
 
 - `{CLUSTER_ID}`: 一時停止する Dedicated クラスターの ID です。
 
-詳細については、[Suspend Cluster](/reference/restful/suspend-cluster-v2) を参照してください。
+詳細については、[Suspend クラスター](/reference/restful/suspend-cluster-v2) を参照してください。
 
 </TabItem>
 
@@ -121,19 +121,19 @@ curl --request POST \
 
 <TabItem value="Cloud Console">
 
-対象クラスターの **Cluster Details** ページに移動し、以下の手順に従ってクラスターを再開します。
+対象クラスターの **クラスター Details** ページに移動し、以下の手順に従ってクラスターを再開します。
 
 <Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title=""  />
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-**Resume Cluster** ダイアログボックスで **Resume** をクリックすると、プロジェクトのリソースクォータを確認するよう求められます。リソースが十分であれば、確認完了後にダイアログボックスは閉じます。十分でない場合は、次のいずれかを実行できます。 
+**Resume クラスター** ダイアログボックスで **Resume** をクリックすると、プロジェクトのリソースクォータを確認するよう求められます。リソースが十分であれば、確認完了後にダイアログボックスは閉じます。十分でない場合は、次のいずれかを実行できます。 
 
 - **Go To Project Resource Settings** をクリックして、プロジェクトのリソース設定を編集する
 
 - **Back to Last Step** をクリックして、クラスター設定を変更する
 
-このプロセス中、ローリングのために追加のリソースが一時的に必要になります。これらのリソースは使用後に解放されます。
+このプロセス中、ローリングのために追加のリソースが必要になります。これらのリソースは使用後に解放されます。
 
 </Admonition>
 
@@ -167,13 +167,25 @@ curl --request POST \
 
 - `{CLUSTER_ID}`: 再開するクラスターの ID です。
 
-詳細については、[Resume Cluster](/reference/restful/resume-cluster-v2) を参照してください。
+詳細については、[Resume クラスター](/reference/restful/resume-cluster-v2) を参照してください。
 
 </TabItem>
 
 </Tabs>
 
 再開操作が成功すると、ジョブレコードが生成されます。進行状況は [Jobs](./job-center) ページで確認できます。
+
+## グローバルクラスターへの変換\{#convert-to-a-global-cluster}
+
+既存のクラスターを [グローバルクラスター](./global-cluster-explained) に変換する必要がある場合は、以下の手順に従ってください。
+
+<Admonition type="info" icon="📘" title="Note">
+
+グローバルクラスターは Milvus 2.6.x とのみ互換性があります。Milvus 3.0.x と互換性のある通常のクラスターをグローバルクラスターに変換することはできません。
+
+</Admonition>
+
+<Supademo id="cmm5p53sh3hogdtfhemesjhv0" title=""  />
 
 ## 削除\{#drop}
 
@@ -183,7 +195,7 @@ curl --request POST \
 
 <TabItem value="Cloud Console">
 
-対象クラスターの **Cluster Details** ページに移動し、以下の手順に従ってクラスターを削除します。
+対象クラスターの **クラスター Details** ページに移動し、以下の手順に従ってクラスターを削除します。
 
 <Supademo id="cm9trwi5n0txr11m7otr902sk" title=""  />
 
@@ -217,9 +229,8 @@ curl --request POST \
 
 - `{CLUSTER_ID}`: 削除する Dedicated クラスターの ID です。
 
-詳細については、[Drop Cluster](/reference/restful/drop-cluster-v2) を参照してください。
+詳細については、[Drop クラスター](/reference/restful/drop-cluster-v2) を参照してください。
 
 </TabItem>
 
 </Tabs>
-

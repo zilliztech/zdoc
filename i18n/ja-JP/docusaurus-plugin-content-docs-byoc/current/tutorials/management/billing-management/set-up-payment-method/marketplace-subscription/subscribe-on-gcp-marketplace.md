@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、GCP Marketplace での Zilliz Cloud のサブスクリプション手順と料金条件について説明します。 | BYOC"
+description: "このガイドでは、サブスクリプションの手順を順を追って説明し、GCP Marketplace における Zilliz Cloud の価格条件について概説します。 | BYOC"
 type: origin
 token: MIqTw7iJ4iQAtVkYKiEc98a7nsh
 sidebar_position: 4
@@ -22,7 +22,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # Google Cloud Marketplace でパブリックオファーをサブスクライブする
 
-このガイドでは、GCP Marketplace での Zilliz Cloud のサブスクリプション手順と料金条件について説明します。
+このガイドでは、サブスクリプションの手順を順を追って説明し、GCP Marketplace における Zilliz Cloud の価格条件について概説します。
 
 <Admonition type="info" icon="📘" title="📘 Note">
 
@@ -32,11 +32,11 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 事前準備\{#before-you-start}
 
-- [GCP アカウント](https://cloud.google.com/apigee/docs/hybrid/v1.1/precog-gcpaccount) を用意してください。
+- [GCP アカウント](https://cloud.google.com/apigee/docs/hybrid/v1.1/precog-gcpaccount) を持っていること。
 
-- サブスクリプションに使用する GCP プロジェクトに請求先アカウントが設定されていることを確認してください。
+- サブスクリプションに使用する GCP プロジェクトに請求先アカウントを設定していること。
 
-- GCP Marketplace アカウントが組織に属している場合、購入を行うには請求管理者からの承認が必要です。
+- GCP Marketplace アカウントが組織に属している場合は、請求管理者から購入の承認を得ていること。
 
 ## GCP Marketplace でのサブスクリプション\{#subscribe-on-gcp-marketplace}
 
@@ -44,13 +44,13 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. 検索ボックスに **Zilliz Cloud** と入力するか、[GCP Marketplace](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1) から Zilliz Cloud のポータルページを開きます。
+1. 検索ボックスに **Zilliz Cloud** と入力するか、[GCP Marketplace に移動](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1)して Zilliz Cloud のポータルページを表示します。
 
     ![search_for_zilliz_on_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/searchforzillizongcp.png "search_for_zilliz_on_gcp")
 
 1. **Zilliz Cloud** をクリックします。
 
-    サービス内容と料金をご確認ください。
+    サービス内容と料金を確認してください。
 
 1. サブスクリプションに使用するプロジェクトを選択し、**Subscribe** をクリックします。
 
@@ -78,7 +78,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 新しいタブで、以下の手順に従ってサブスクリプションを完了してください。
 
-    1. すでに Zilliz Cloud アカウントをお持ちの場合はログインしてください。お持ちでない場合は、[サインアップ方法](./register-with-zilliz-cloud) を選択して登録を進めます。
+    1. すでに Zilliz Cloud アカウントをお持ちの場合は、そのままログインしてください。お持ちでない場合は、[サインアップ方法](./register-with-zilliz-cloud) を選択し、手順に従ってください。
 
     1. 既存の Zilliz Cloud 組織にサブスクリプションをリンクします。
 
@@ -94,9 +94,9 @@ import Procedures from '@site/src/components/Procedures';
 
 ## サブスクリプションまたは支払い方法の変更\{#update-subscription-or-payment-method}
 
-Marketplace でのサブスクリプション後、必要に応じていつでも設定を変更できます。
+Marketplace でのサブスクリプションに成功した後は、必要に応じていつでもサブスクリプションを更新できます。
 
-具体的には、以下の操作が可能です。
+具体的には、以下のいずれかを実行できます。
 
 - サブスクリプションに使用する Marketplace アカウントを別のアカウントに変更する。
 
@@ -128,37 +128,37 @@ Marketplace でのサブスクリプション後、必要に応じていつで�
 
 ## トラブルシューティング\{#troubleshooting}
 
-**Marketplace サブスクリプションを Zilliz Cloud にリンクする際に、利用可能な組織が表示されない場合はどうすればよいですか？**
+**Marketplace サブスクリプションを Zilliz Cloud にリンクする際に、利用可能な組織がない場合はどうすればよいですか？**
 
-主な原因として以下が考えられます。
+理由はいくつか考えられます。
 
 - **権限不足**
 
-    必要な権限がない場合に発生します。利用できない組織の横に **"Insufficient Permissions"** タグが表示されます。
+    十分な権限がない場合に発生します。利用できない組織の横に **"Insufficient Permissions"** タグが表示されます。
 
     ![insufficient-permission-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
 
-    組織を Marketplace サブスクリプションにリンクするには、**Organization Owner** または **Organization Billing Admin** の権限が必要です。Organization Member のみでは権限が不足しているため、組織のオーナーにお問い合わせください。
+    組織を Marketplace サブスクリプションにリンクするには、**Organization Owner** または **Organization Billing Admin** である必要があります。ただし、Organization Member のみの場合は必要な権限がありません。組織のオーナーにお問い合わせください。
 
-- **すべての組織がすでに Marketplace サブスクリプションにリンクされている**
+- **すべての組織がすでに Marketplace サブスクリプションに正常にリンクされている**
 
-    所有するすべての組織がすでに Marketplace サブスクリプションにリンクされている場合に発生します。利用できない組織の横に **"Marketplace Linked"** タグが表示されます。
+    すべての組織がすでに Marketplace サブスクリプションにリンクされている場合に発生します。利用できない組織の横に **"Marketplace Linked"** タグが表示されます。
 
     ![marketplace-already-linked-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
 
     この場合は、以下の対応を行ってください。
 
-    - 既存の Marketplace サブスクリプションを更新したい場合は、まず現在のサブスクリプションを組織からリンク解除してから、新たにサブスクリプションを設定してください。
+    - 既存の Marketplace サブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションのリンクを解除してから、新しいサブスクリプションを設定してください。
 
-    - 異なる Marketplace サブスクリプション用に複数の組織が必要な場合は、[組織を作成](./organization-settings#create-an-organization) してください。
+    - 異なる Marketplace サブスクリプション用に複数の組織が必要な場合は、[組織を作成](./organization-settings#create-an-organization) できます。
 
-- **リストに組織が表示されない**
+- **リストに組織がない**
 
-    - アカウントが閉鎖された場合や、すべての組織から退出した場合に発生します。画面は以下のように表示されます。
+    - アカウントが閉鎖された場合や、すべての組織から退出した場合に発生します。画面は以下のようになります。
 
     ![no-organization-during-subcription](https://zdoc-images.s3.us-west-2.amazonaws.com/no-organization-during-subcription.png "no-organization-during-subcription")
 
-    この場合は、以下のいずれかの操作を行ってください。
+    この場合は、以下のいずれかを実行できます。
 
     - [新しい組織を作成](./organization-settings#create-an-organization) する。
 

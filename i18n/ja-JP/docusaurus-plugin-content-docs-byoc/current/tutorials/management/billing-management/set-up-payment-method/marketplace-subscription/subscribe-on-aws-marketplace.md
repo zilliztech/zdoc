@@ -32,11 +32,11 @@ import Procedures from '@site/src/components/Procedures';
 
 </Admonition>
 
-## 開始する前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
-- AWS Marketplace アカウントをお持ちであることを確認してください。
+- AWS Marketplace のアカウントを用意してください。
 
-- AWS Buyer ID のデフォルトの支払い方法を Invoicing Plan に設定します。[デフォルトの支払い方法を変更する方法](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-payment-method.html)をご参照ください。
+- AWS Buyer ID のデフォルトの支払い方法を Invoicing Plan に設定してください。[デフォルトの支払い方法を変更する方法](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-payment-method.html) を参照してください。
 
 - AWS アカウントが組織に属している場合は、請求管理者から購入の承認を得ている必要があります。
 
@@ -48,7 +48,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. 検索ボックスに **Zilliz Cloud** と入力して検索し、**Milvus ベクトル データベース, Zilliz Cloud (Pay-as-you-go)** をクリックします。
+1. 検索ボックスに **Zilliz Cloud** と入力して検索し、**Milvus ベクトルデータベース、Zilliz Cloud (Pay-as-you-go)** をクリックします。
 
     または、[このページ](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?trk=8d276e92-b310-40ce-908f-23a198ca7ffc&sc_channel=el&source=zilliz) から直接アクセスすることもできます。
 
@@ -164,4 +164,4 @@ Marketplace でのサブスクライブ完了後、必要に応じていつで�
 
     - [新しい組織を作成](./organization-settings#create-an-organization) する。
 
-    - 他のユーザーに依頼して、自身の組織へ[招待](./manage-platform-users#invite-organization-members)してもらい、Organization Owner ロールを付与してもらう。
+    - 他のユーザーに依頼して、そのユーザーの組織へ[招待](./manage-platform-users#invite-organization-members) してもらい、Organization Owner ロールを付与してもらう。
