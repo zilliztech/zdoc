@@ -1,5 +1,5 @@
 ---
-title: "プロジェクトジョブを管理する | BYOC"
+title: "プロジェクトジョブの管理 | BYOC"
 slug: /job-center
 sidebar_label: "プロジェクトジョブ"
 beta: FALSE
@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、同じプロジェクト内のすべての過去のデータタスクおよび非同期データタスクを統合した、直感的な Jobs ページを提供します。 | BYOC"
+description: "Zilliz Cloud は、同じプロジェクト内のすべての履歴データタスクと非同期データタスクを統合した直感的な Jobs ページを提供します。 | BYOC"
 type: origin
 token: RY8ww0NDQi8yU9kNpjicHP7Gn4b
-sidebar_position: 1
+sidebar_position: 3
 displayed_sidebar: default
 
 ---
@@ -18,22 +18,22 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# プロジェクトジョブを管理する
+# プロジェクトジョブの管理
 
-Zilliz Cloud は、同じプロジェクト内のすべての過去のデータタスクおよび非同期データタスクを統合した、直感的な Jobs ページを提供します。
+Zilliz Cloud は、同じプロジェクト内のすべての履歴データタスクと非同期データタスクを統合した直感的な Jobs ページを提供します。
 
 ## プロジェクトジョブを表示する\{#view-project-jobs}
 
-プロジェクトを選択します。左側のナビゲーションペインで **Jobs** を選択します。表示されたページでは、実行中または実行済みのすべての非同期ジョブの一覧を確認できます。
+プロジェクトを選択します。左側のナビゲーションペインで **Jobs** を選択します。表示されたページでは、実行中または過去に実行されたすべての非同期ジョブの一覧を確認できます。
 
-以下のジョブ情報が表示されます。
+次のジョブ情報が表示されます。
 
-- Type と Description: ジョブの目的と情報。このページにはいくつかの種類のジョブがあります。
+- Type and Description: ジョブの目的と情報です。このページにはいくつかのジョブタイプがあります。
 
     <table>
        <tr>
          <th><p><strong>Type</strong></p></th>
-         <th><p><strong>説明</strong></p></th>
+         <th><p><strong>Explanation</strong></p></th>
        </tr>
        <tr>
          <td rowspan="3"><p><a href="./create-backup">Backup</a></p></td>
@@ -43,7 +43,7 @@ Zilliz Cloud は、同じプロジェクト内のすべての過去のデータ�
          <td><p>コレクションまたは指定した複数のコレクションのバックアップファイルを作成します</p></td>
        </tr>
        <tr>
-         <td><p>指定したクラウドリージョンにバックアップをコピーします</p></td>
+         <td><p>バックアップを指定したクラウドリージョンにコピーします</p></td>
        </tr>
        <tr>
          <td rowspan="2"><p><a href="./restore-from-backup-files">Restore</a></p></td>
@@ -58,26 +58,26 @@ Zilliz Cloud は、同じプロジェクト内のすべての過去のデータ�
        </tr>
        <tr>
          <td><p><a href="./zilliz-migration-prompts">Migration</a></p></td>
-         <td><p>データをクラスターに移行します。</p><ul><li><p>Zilliz Cloud クラスター間移行:</p><ul><li><p>同じ組織内でのクラスター間移行</p></li><li><p>組織をまたぐクラスター間の移行</p></li></ul></li></ul></td>
+         <td><p>データをクラスターに移行します。</p><ul><li><p>Zilliz Cloud クラスター間移行:</p><ul><li><p>同一組織内でのクラスター間移行</p></li><li><p>組織をまたぐクラスター間の移行</p></li></ul></li></ul></td>
        </tr>
        <tr>
          <td><p><a href="./zilliz-import-prompts">Import</a></p></td>
          <td><p>データをコレクションにインポートします</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-collections-console">Clone Collection</a></p></td>
+         <td><p><a href="./manage-collections-console#create-a-collection">Clone Collection</a></p></td>
          <td><p>スキーマとデータの両方を含むコレクションの完全なコピーを作成します</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-collections-console">Create Sample Collection</a></p></td>
+         <td><p><a href="./manage-collections-console#create-a-collection">Create Sample Collection</a></p></td>
          <td><p>サンプルデータセットがロードされたコレクションを作成します</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-cluster">Suspend Cluster</a></p></td>
+         <td><p><a href="./manage-cluster#suspend">Suspend Cluster</a></p></td>
          <td><p>クラスターを手動で一時停止します</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-cluster">Resume Cluster</a></p></td>
+         <td><p><a href="./manage-cluster#resume">Resume Cluster</a></p></td>
          <td><p>クラスターを手動で再開します</p></td>
        </tr>
        <tr>
@@ -90,17 +90,17 @@ Zilliz Cloud は、同じプロジェクト内のすべての過去のデータ�
        </tr>
     </table>
 
-- Status: ジョブのステータス。Successful、In Progress、Pending、Failed、Canceled のいずれかです。
+- Status: ジョブのステータスです。Successful、In Progress、Pending、Failed、Canceled があります。
 
-- ID: データジョブの ID。データジョブに関する問題が発生した場合は、[サポートチケットを作成](http://support.zilliz.com) し、関連する Job ID を提供してください。
+- ID: データジョブの ID です。データジョブに関する問題がある場合は、[サポートチケットを作成し](http://support.zilliz.com)、関連する Job ID を提供してください。
 
-- Start Time と End Time
+- Start Time & End Time
 
-- Created By: データジョブを開始したユーザー。
+- Created By: データジョブを開始したユーザーです。
 
 ## ジョブの詳細を表示する\{#view-job-details}
 
-ジョブの詳細を表示するには、**Actions** 列の **...** をクリックしてから **View Details** を選択します。あるいは、[Describe Job](/reference/restful/describe-job-v2) API を使用してプログラムから詳細を取得することもできます。
+ジョブの詳細を表示するには、**Actions** 列の **...** をクリックし、**View Details** を選択します。あるいは、[Describe Job](/reference/restful/describe-job-v2) API を使用してプログラムから詳細を取得することもできます。
 
 ![view_job_details](https://zdoc-images.s3.us-west-2.amazonaws.com/view_job_details.png "view_job_details")
 
@@ -132,9 +132,9 @@ Zilliz Cloud は、同じプロジェクト内のすべての過去のデータ�
 
 </Admonition>
 
-失敗したインポートジョブについては、そのステータスの横にある情報アイコンをクリックして理由を確認し、このジョブが失敗した原因を把握できます。
+失敗したインポートジョブについては、そのステータスの横にある情報アイコンをクリックし、理由を確認してこのジョブが失敗した原因を把握できます。
 
-インポートに失敗したファイルに対して調整を行った場合は、ジョブを再試行できます。
+インポートに失敗したファイルを修正した場合は、ジョブを再試行できます。
 
 ![retry_failed_job](https://zdoc-images.s3.us-west-2.amazonaws.com/retry_failed_job.png "retry_failed_job")
 

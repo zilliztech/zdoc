@@ -1,13 +1,13 @@
 ---
-title: "Model Providers と統合する | Cloud"
+title: "モデルプロバイダーとの統合 | Cloud"
 slug: /integrate-with-model-providers
-sidebar_label: "Model Providers"
+sidebar_label: "モデルプロバイダー"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "モデルプロバイダー統合は、Zilliz Cloud をサードパーティのモデルサービスに接続し、プロバイダーの機能をプロジェクトで利用できるようにします。 | Cloud"
+description: "外部プロバイダーでホストされている text embedding または reranking モデルは、プロバイダーがプロジェクトからのリクエストを認証できるようになるまで、Zilliz Cloud から呼び出すことはできません。モデルプロバイダー統合は、プロバイダー発行の認証情報をプロジェクトレベルで保存し、text embedding および reranking 機能が参照できる integration ID を Zilliz Cloud に提供します。これにより、個々の Function または Ranker 設定に認証情報を配置する必要がなくなります。 | Cloud"
 type: origin
 token: B1cSwfWcri4VJLkCR20cHIs6nCf
 sidebar_position: 1
@@ -22,45 +22,42 @@ import Supademo from '@site/src/components/Supademo';
 
 import Procedures from '@site/src/components/Procedures';
 
-# Model Providers と統合する
+# モデルプロバイダーとの統合
 
-**モデルプロバイダー統合**は、Zilliz Cloud をサードパーティのモデルサービスに接続し、プロバイダーの機能をプロジェクトで利用できるようにします。
+外部プロバイダーでホストされている text embedding または reranking モデルは、プロバイダーがプロジェクトからのリクエストを認証できるようになるまで、Zilliz Cloud から呼び出すことはできません。**モデルプロバイダー統合**は、プロバイダー発行の認証情報をプロジェクトレベルで保存し、text embedding および reranking 機能が参照できる integration ID を Zilliz Cloud に提供します。これにより、個々の Function または Ranker 設定に認証情報を配置する必要がなくなります。
 
-統合では、次のことを行います。
+<Admonition type="info" icon="📘" title="注">
 
-- モデルプロバイダーにアクセスするために必要な認証情報を保存する
+モデルプロバイダー統合の作成自体に料金は発生しません。外部プロバイダーはモデル推論に対して課金する場合があり、プロバイダーへデータを送信すると[データ転送コスト](./data-transfer-cost)が発生する可能性があります。
 
-- モデルプロバイダーがサポートする機能（たとえば、テキスト埋め込みや再ランキング）を調べる
+</Admonition>
 
-## モデルプロバイダー統合が必要な場合\{#when-you-need-a-model-provider-integration}
+## サポートされているモデルプロバイダー\{#supported-model-providers}
 
-Zilliz Cloud で**モデルベースの機能**を使用する場合にのみ、モデルプロバイダー統合を作成する必要があります。
+以下のモデルプロバイダーを Zilliz Cloud と統合できます。
 
-- **Text Embedding Functions**: 外部モデルを使用して生テキストを密ベクトルに変換します。詳細については、[Function の概要](./function-and-model-inference-overview)を参照してください。
+| Model provider | Supported Zilliz Cloud features | Required credential |
+| --- | --- | --- |
+| **OpenAI** | Text Embedding Function | API key。取得方法については、[OpenAI API quickstart](https://developers.openai.com/api/docs/quickstart#create-and-export-an-api-key)を参照してください。 |
+| **Cohere** | Text Embedding Function および model-based Ranker | API key。取得方法については、[API Keys and Rate Limits](https://docs.cohere.com/docs/rate-limits)を参照してください。 |
+| **Voyage AI** | Text Embedding Function および model-based Ranker | API key。取得方法については、[API Key and Python Client](https://docs.voyageai.com/docs/api-key-and-installation)を参照してください。 |
+| **Hugging Face** | [Text Embedding Function](./hugging-face) および [Hugging Face Ranker](./hugging-face-ranker) | **Make calls to Inference Providers** 権限を持つ User Access Token。取得方法については、[User Access Tokens](https://huggingface.co/docs/hub/en/security-tokens)を参照してください。 |
 
-- **Model-based Rankers**: 外部の再ランキングモデルを使用して検索結果を再ランキングします。詳細については、[Cohere Ranker](./cohere-model-ranker) と関連ページを参照してください。
+<Admonition type="info" icon="📘" title="注">
 
-BM25、ハイブリッドランカー、ルールベースのランカーなどのローカル機能では、モデルプロバイダー統合は**不要**です。
+外部プロバイダーのモデルを選択する際は、そのプロバイダーが現在、必要なタスクに対してそのモデルを提供していることを確認してください。モデルの可用性、タスク対応、安定性、レイテンシ、出力品質は、プロバイダーと選択したモデルによって異なります。本番環境でモデルを使用する前に、これらの特性をワークロードに対して評価してください。
 
-## 課金に関する考慮事項\{#billing-considerations}
+</Admonition>
 
-モデルプロバイダー統合の作成自体には料金は発生しません。ただし、外部モデルプロバイダーを使用すると、次のような追加コストが発生する場合があります。
+## 開始する前に\{#before-you-start}
 
-- モデルプロバイダーからの料金。
+モデルプロバイダー統合を作成する前に、以下を確認してください。
 
-- 埋め込みまたは再ランキングのためにデータが送信される際のデータ転送コスト。詳細については、[データ転送コスト](./data-transfer-cost)を参照してください。
+- 対象の Zilliz Cloud プロジェクトに対する **Organization Owner** または **Project Admin** 権限を持っていること。十分な権限がない場合は、Zilliz Cloud の Organization Owner に連絡してください。
 
-課金は、モデルベースの関数またはランカーが実行された場合にのみ適用されます。
+- 選択したモデルプロバイダーで必要な認証情報を持っていること。[サポートされているモデルプロバイダー](./integrate-with-model-providers)を参照してください。
 
-## 始める前に\{#before-you-start}
-
-モデルプロバイダー統合を作成する前に、次を確認してください。
-
-- 対象の Zilliz Cloud プロジェクトに対する **Organization Owner** または **Project Admin** 権限を持っていること。十分な権限がない場合は、Zilliz Cloud Organization Owner に連絡してください。
-
-- 統合したいモデルプロバイダーの有効な **API キー** を持っていること。
-
-## モデルプロバイダー統合を作成する\{#create-a-model-provider-integration}
+## Zilliz Cloud コンソールで統合を作成する\{#create-an-integration-in-the-zilliz-cloud-console}
 
 <Supademo id="cmj9f3j6u0johf6zpk5kdyx3u" title=""  />
 
@@ -68,23 +65,25 @@ BM25、ハイブリッドランカー、ルールベースのランカーなど�
 
 <Procedures>
 
-1. [Zilliz Cloud console](https://cloud.zilliz.com/login) にログインします。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
 
 1. プロジェクトページで、左側のナビゲーションペインから **Integrations** に移動します。
 
 1. **Model Providers** セクションで、**+ Integration** をクリックします。
 
-1. 表示されるダイアログボックスで、**Basic Settings** を構成します。
+1. 表示されるダイアログボックスで、**Basic Settings** を設定します。
 
     - **Model Provider**: 統合するモデルプロバイダーを選択します。
 
-    - **Integration Name**: この統合の一意の名前（例: `test`）。
+    - **Integration Name**: この統合の一意な名前です（例: `test`）。
 
-    - **Integration Description** *(任意)*: この統合の説明（例: `for model provider`）。
+    - **Integration Description***(optional)*: この統合の説明です（例: `for model provider`）。
 
-1. **Next** をクリックします。**Credential Information** ステップにリダイレクトされます。
+    - **Provider** *(Hugging Face only)*: デフォルト値 `hf-inference` のままにします。Hugging Face Text Embedding と Hugging Face Ranker は現在、この Inference Provider のみをサポートしています。
 
-    1. **API Key** フィールドに、モデルプロバイダーアクセス用の API キーを入力します。
+1. **Next** をクリックします。**Credential Information** ステップに移動します。
+
+    1. 選択したモデルプロバイダーに必要な認証情報を入力します。Hugging Face の場合は、**Hugging Face Access Token** フィールドに User Access Token を入力します。
 
     1. **Validate Integration** をクリックして接続を確認します。ステータスが Successful に変わったら、次のステップに進みます。
 
@@ -92,15 +91,15 @@ BM25、ハイブリッドランカー、ルールベースのランカーなど�
 
 </Procedures>
 
-作成後、この統合はモデルベースの関数およびランカーで使用できるようになります。
+作成後、この統合はモデルベースの function および ranker で使用できるようになります。
 
-## 統合を管理する\{#manage-integrations}
+## 統合の管理\{#manage-integrations}
 
 統合を作成した後は、**Integrations** ページから管理できます。
 
-- 統合 ID を取得する
+- integration ID を取得する
 
-    統合 ID は、テキスト埋め込み関数または再ランキング関数を使用するときに必要になります。
+    Text Embedding Function または model-based Ranker が統合を使用する際には、integration ID が必要です。
 
 - 統合の詳細を表示する
 
@@ -108,9 +107,9 @@ BM25、ハイブリッドランカー、ルールベースのランカーなど�
 
 - 不要になった統合を削除する
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" icon="📘" title="注">
 
-統合が削除されたり無効になったりした場合、それを参照しているコレクションまたはランカーは、統合が更新または置換されるまで、挿入または検索操作中に失敗する可能性があります。
+統合が削除されたり無効になったりすると、それを参照している collections や rankers は、統合が更新または置き換えられるまで、insert または search 操作中に失敗する可能性があります。
 
 </Admonition>
 
@@ -118,24 +117,27 @@ BM25、ハイブリッドランカー、ルールベースのランカーなど�
 
 ## 次のステップ\{#next-steps}
 
-モデルプロバイダー統合を作成した後、次のことができます。
+モデルプロバイダー統合を作成した後は、次のことができます。
 
-- **Text Embedding Function** とともに使用して、テキストを密ベクトルに変換する
+- **Text Embedding Function** と一緒に使用して、テキストを dense vectors に変換する。
 
-- **Model-based Rankers** とともに使用して、検索結果を再ランキングする
+- model-based Ranker を使用して、検索結果を rerank する。
 
-詳細な手順については、次を参照してください。
+詳細な手順については、以下を参照してください。
 
-- [Function の概要](./function-and-model-inference-overview)
+- [Function Overview](./function-and-model-inference-overview)
 
-- [Weighted Ranker](./reranking-weighted-reranker)
+- [OpenAI](./openai)
 
-- [RRF Ranker](./reranking-rrf)
+- [Cohere](./cohere)
 
-- [Boost Ranker](./boost-ranker)
+- [Voyage AI](./voyage-ai)
 
-- [Decay Ranker の概要](./decay-ranker-oveview)
+- [Hugging Face](./hugging-face)
+
+- [Hugging Face Ranker](./hugging-face-ranker)
 
 - [Cohere Ranker](./cohere-model-ranker)
 
 - [Voyage AI Ranker](./voyage-ai-model-ranker)
+

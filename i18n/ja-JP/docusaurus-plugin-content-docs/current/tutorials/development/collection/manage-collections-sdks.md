@@ -1,22 +1,16 @@
 ---
-title: "Collectionの作成 | Cloud"
+title: "Collection の作成 | Cloud"
 slug: /manage-collections-sdks
-sidebar_label: "Managed Collection"
+sidebar_label: "管理対象 Collection"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "schema、indexパラメーター、metric type、作成時に読み込むかどうかを定義することで、collectionを作成できます。このページでは、collectionをゼロから作成する方法を紹介します。 | Cloud"
+description: "schema、index パラメータ、metric type、作成時にロードするかどうかを定義して collection を作成できます。このページでは、collection をゼロから作成する方法を紹介します。 | Cloud"
 type: origin
 token: EmcowmwYpiFbWgkmnqfcMf3knVc
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - collectionの作成
 displayed_sidebar: default
 
 ---
@@ -25,41 +19,41 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Collectionの作成
+# Collection の作成
 
-schema、indexパラメーター、metric type、作成時に読み込むかどうかを定義することで、collectionを作成できます。このページでは、collectionをゼロから作成する方法を紹介します。
+schema、index パラメータ、metric type、作成時にロードするかどうかを定義して collection を作成できます。このページでは、collection をゼロから作成する方法を紹介します。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" icon="📘" title="注意">
 
-強力なデータ分離が必要で、少数のテナントのみを管理する場合は、テナントごとに個別のcollectionを作成できます。
+強力なデータ分離が必要で、管理するテナント数が少ない場合は、各テナントごとに個別の collection を作成できます。
 
-ただし、[project planおよびcluster deployment option](./limits)に応じて、作成できるcollectionは最大16,384個までです。そのため、大規模なマルチテナンシーでは、ユースケースに応じて、partitionベースまたはpartition-keyベースのマルチテナンシーなどの代替戦略の使用を検討してください。詳細については、[マルチテナンシーの実装](./multi-tenancy)を参照してください。
+ただし、作成できる collection の最大数は、[プロジェクトプランと cluster のデプロイオプション](./limits)に応じて 16,384 までです。したがって、大規模なマルチテナンシーでは、ユースケースに応じて、partition ベースまたは partition-key ベースのマルチテナンシーなどの代替戦略の使用を検討してください。詳細については、[マルチテナンシーの実装](./multi-tenancy)を参照してください。
 
 </Admonition>
 
-## 概要\{#overview}
+## Overview\{#overview}
 
-collectionは、固定された列と可変の行を持つ2次元テーブルです。各列はfieldを表し、各行はentityを表します。このような構造化データ管理を実装するにはschemaが必要です。挿入するすべてのentityは、schemaで定義された制約を満たす必要があります。
+collection は、固定された列と可変の行を持つ二次元テーブルです。各列は field を表し、各行は entity を表します。このような構造化データ管理を実現するには schema が必要です。挿入するすべての entity は、schema で定義された制約を満たしている必要があります。
 
-collectionが要件を完全に満たすように、schema、indexパラメーター、metric type、作成時に読み込むかどうかなど、collectionのあらゆる側面を決定できます。
+schema、index パラメータ、metric type、作成時にロードするかどうかなど、collection のあらゆる要素を決定して、要件に完全に適合する collection を作成できます。
 
-collectionを作成するには、以下を行う必要があります。
+collection を作成するには、以下が必要です。
 
-- [schemaを作成する](./manage-collections-sdks#create-schema)
+- [schema を作成する](./manage-collections-sdks#create-schema)
 
-- [indexパラメーターを設定する](./manage-collections-sdks#optional-set-index-parameters)（オプション）
+- [index パラメータを設定する](./manage-collections-sdks#optional-set-index-parameters)（任意）
 
-- [collectionを作成する](./manage-collections-sdks#create-a-collection)
+- [collection を作成する](./manage-collections-sdks#create-a-collection)
 
-## Schemaを作成する\{#create-schema}
+## Schema の作成\{#create-schema}
 
-schemaはcollectionのデータ構造を定義します。collectionを作成する際は、要件に基づいてschemaを設計する必要があります。詳細については、[Schema Explained](./schema-explained)を参照してください。
+schema は collection のデータ構造を定義します。collection を作成する際は、要件に基づいて schema を設計する必要があります。詳細については、[Schema Explained](./schema-explained) を参照してください。
 
-次のコードスニペットは、有効化されたdynamic fieldと、`my_id`、`my_vector`、`my_varchar`という名前の3つの必須fieldを持つschemaを作成します。
+以下のコードスニペットでは、動的 field を有効にし、`my_id`、`my_vector`、`my_varchar` という 3 つの必須 field を持つ schema を作成します。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" icon="📘" title="注意">
 
-任意のscalar fieldにデフォルト値を設定し、nullableにすることができます。詳細については、[Nullable & Default](./nullable-fields)を参照してください。
+任意の scalar field にデフォルト値を設定し、nullable にすることができます。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
 
 </Admonition>
 
@@ -257,15 +251,15 @@ schema->AddField(milvus::FieldSchema("my_varchar", milvus::DataType::VARCHAR).Wi
 </TabItem>
 </Tabs>
 
-## （オプション）Indexパラメーターを設定する\{#optional-set-index-parameters}
+## （任意）Index パラメータの設定\{#optional-set-index-parameters}
 
-特定のfieldにindexを作成すると、そのfieldに対する検索が高速化されます。indexはcollection内のentityの順序を記録します。次のコードスニペットに示すように、`metric_type`と`index_type`を使用して、Zilliz Cloudがfieldをindex化し、vector embeddings間の類似度を測定するための適切な方法を選択できます。
+特定の field に index を作成すると、その field に対する検索が高速化されます。index は、collection 内の entity の順序を記録します。以下のコードスニペットに示すように、`metric_type` と `index_type` を使用して、Zilliz Cloud が field に index を作成する適切な方法と、vector 埋め込み間の類似度を測定する方法を選択できます。
 
-Zilliz Cloudでは、すべてのvector fieldに対してindex typeとして`AUTOINDEX`を使用でき、ニーズに基づいてmetric typeとして`COSINE`、`L2`、`IP`のいずれかを使用できます。
+Zilliz Cloud では、すべての vector field の index type として `AUTOINDEX` を使用でき、必要に応じて `COSINE`、`L2`、`IP` のいずれかを metric type として使用できます。
 
-上記のコードスニペットで示したように、vector fieldにはindex typeとmetric typeの両方を設定し、scalar fieldにはindex typeのみを設定する必要があります。vector fieldにはindexが必須であり、フィルタリング条件で頻繁に使用されるscalar fieldにはindexを作成することをお勧めします。
+上記のコードスニペットに示したように、vector field には index type と metric type の両方を設定し、scalar field には index type のみを設定する必要があります。vector field では index は必須であり、フィルタ条件で頻繁に使用される scalar field にも index を作成することが推奨されます。
 
-詳細については、[Indexes](./indexes)を参照してください。
+詳細については、[Indexes](./indexes) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -382,11 +376,11 @@ std::vector<milvus::IndexDesc> indexes = {
 </TabItem>
 </Tabs>
 
-## Collectionを作成する\{#create-a-collection}
+## Collection の作成\{#create-a-collection}
 
-indexパラメーターを指定してcollectionを作成した場合、Zilliz Cloudは作成時にcollectionを自動的に読み込みます。この場合、indexパラメーターに記載されているすべてのfieldがindex化されます。
+index パラメータ付きで collection を作成した場合、Zilliz Cloud は作成時に自動的に collection をロードします。この場合、index パラメータで指定されたすべての field に index が作成されます。
 
-次のコードスニペットは、indexパラメーターを指定してcollectionを作成し、そのload statusを確認する方法を示しています。
+以下のコードスニペットは、index パラメータ付きで collection を作成し、そのロード状態を確認する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -529,9 +523,9 @@ std::cout << std::to_string(response.State()) << std::endl;
 </TabItem>
 </Tabs>
 
-indexパラメーターを指定せずにcollectionを作成し、後から追加することもできます。この場合、Zilliz Cloudは作成時にcollectionを読み込みません。既存のcollectionにindexを作成する方法の詳細については、[AUTOINDEX Explained](./autoindex-explained)を参照してください。
+index パラメータなしで collection を作成し、その後で追加することもできます。この場合、Zilliz Cloud は collection 作成時にその collection をロードしません。既存の collection に対して index を作成する方法の詳細については、[AUTOINDEX Explained](./autoindex-explained) を参照してください。
 
-次のコードスニペットは、indexなしでcollectionを作成する方法を示しており、collectionのload statusは作成時にunloadedのままです。
+以下のコードスニペットは、index なしで collection を作成する方法を示しており、collection のロード状態は作成時に未ロードのままになります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -680,19 +674,19 @@ std::cout << std::to_string(response.State()) << std::endl;
 </TabItem>
 </Tabs>
 
-## Collectionプロパティを設定する\{#set-collection-properties}
+## Collection プロパティの設定\{#set-collection-properties}
 
-作成するcollectionにプロパティを設定して、サービスに適合させることができます。適用可能なプロパティは以下のとおりです。
+作成する collection には、サービスに適合するようプロパティを設定できます。適用可能なプロパティは以下のとおりです。
 
-### Shard数を設定する\{#set-shard-number}
+### Shard 数の設定\{#set-shard-number}
 
-shardはcollectionの水平方向のスライスであり、各shardはデータ入力チャネルに対応します。デフォルトでは、すべてのcollectionに1つのshardがあります。collectionを作成する際にshard数を指定して、データ量とワークロードにより適合させることができます。
+Shard は collection の水平方向の分割単位であり、各 shard は 1 つのデータ入力チャネルに対応します。デフォルトでは、すべての collection には 1 つの shard があります。collection の作成時に shard 数を指定することで、データ量やワークロードにより適した構成にできます。
 
-一般的な指針として、shard数を設定する際には次の点を考慮してください。
+一般的なガイドラインとして、shard 数を設定する際は次の点を考慮してください。
 
-- **データサイズ:** 一般的な方法は、2億entityごとに1つのshardを持つことです。合計データサイズに基づいて見積もることもできます。たとえば、挿入予定のデータ100 GBごとに1つのshardを追加します。
+- **データサイズ:** 一般的な方法として、2 億 entities ごとに 1 つの shard を設定します。総データサイズに基づいて見積もることもでき、たとえば挿入予定のデータ 100 GB ごとに 1 つの shard を追加します。
 
-次のコードスニペットは、collectionを作成するときにshard数を設定する方法を示しています。
+次のコードスニペットは、collection の作成時に shard 数を設定する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -789,9 +783,9 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### mmapを有効にする\{#enable-mmap}
+### mmap の有効化\{#enable-mmap}
 
-Zilliz Cloudでは、すべてのcollectionでデフォルトでmmapが有効になっており、raw field dataを完全に読み込む代わりにメモリへマップできます。これにより、メモリフットプリントが削減され、collection容量が増加します。mmapの詳細については、[mmapを使用する](./use-mmap)を参照してください。
+Zilliz Cloud では、デフォルトですべての collection で mmap が有効になっており、フィールドの生データを完全に読み込むのではなく、Zilliz Cloud がそれらをメモリにマップできるようになっています。これにより、メモリ使用量が削減され、collection の容量が増加します。mmap の詳細については、[Use mmap](./use-mmap) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -892,11 +886,11 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### Collection TTLを設定する\{#set-collection-ttl}
+### Collection TTL の設定\{#set-collection-ttl}
 
-collection内のデータを特定の期間で削除する必要がある場合は、Time-To-Live（TTL）を秒単位で設定することを検討してください。TTLがタイムアウトすると、Zilliz Cloudはcollection内のentityを削除します。削除は非同期で行われるため、削除が完了する前でも検索やクエリは引き続き可能です。
+collection 内のデータを一定期間後に削除する必要がある場合は、Time-To-Live (TTL) を秒単位で設定することを検討してください。TTL が期限切れになると、Zilliz Cloud は collection 内の entities を削除します。この削除は非同期で行われるため、削除が完了するまでの間も search と query は引き続き実行できます。
 
-次のコードスニペットは、TTLを1日（86400秒）に設定します。TTLは最低でも数日に設定することをお勧めします。
+次のコードスニペットでは、TTL を 1 日（86400 秒）に設定しています。TTL は最低でも数日に設定することを推奨します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1002,9 +996,9 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### Consistency Levelを設定する\{#set-consistency-level}
+### Consistency Level の設定\{#set-consistency-level}
 
-collectionを作成する際、collection内の検索とクエリに対するconsistency levelを設定できます。特定の検索またはクエリ中に、collectionのconsistency levelを変更することもできます。
+collection の作成時に、その collection 内での search と query の consistency level を設定できます。特定の search または query の実行時に collection の consistency level を変更することもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1107,10 +1101,10 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-consistency levelの詳細については、[Consistency Level](./consistency-level)を参照してください。
+consistency level の詳細については、[Consistency Level](./consistency-level) を参照してください。
 
-### Dynamic Fieldを有効にする\{#enable-dynamic-field}
+### Dynamic Field の有効化\{#enable-dynamic-field}
 
-collection内のdynamic fieldは、**\&#36;meta**という名前の予約済みJavaScript Object Notation（JSON）fieldです。このfieldを有効にすると、Zilliz Cloudは各entityに含まれるschemaで定義されていないすべてのfieldとその値を、予約済みfield内のkey-valueペアとして保存します。
+collection の dynamic field は、**\&#36;meta** という名前の予約済み JavaScript Object Notation (JSON) フィールドです。このフィールドを有効にすると、Zilliz Cloud は各 entity に含まれる schema で定義されていないすべてのフィールドとその値を、この予約済みフィールドにキーと値のペアとして保存します。
 
-dynamic fieldの使用方法の詳細については、[Dynamic Field](./enable-dynamic-field)を参照してください。
+dynamic field の使用方法の詳細については、[Dynamic Field](./enable-dynamic-field) を参照してください。

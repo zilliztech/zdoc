@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`decompounder` filter は、指定された辞書に基づいて複合語を個別の構成要素に分割し、複合語の一部を検索しやすくします。この filter は、ドイツ語のように複合語を頻繁に使用する言語で特に役立ちます。| Cloud"
+description: "`decompounder` フィルターは、指定された辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語で特に有用です。 | Cloud"
 type: origin
 token: DDrHwdsb7idJa9kVU6zc2VwInBf
-sidebar_position: 8
+sidebar_position: 9
 displayed_sidebar: default
 
 ---
@@ -21,17 +21,17 @@ import TabItem from '@theme/TabItem';
 
 # Decompounder
 
-`decompounder` filter は、指定された辞書に基づいて複合語を個別の構成要素に分割し、複合語の一部を検索しやすくします。この filter は、ドイツ語のように複合語を頻繁に使用する言語で特に役立ちます。
+`decompounder` フィルターは、指定された辞書に基づいて複合語を個々の構成要素に分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語のように複合語を頻繁に使用する言語で特に有用です。
 
-## 設定\{#configuration}
+## Configuration\{#configuration}
 
-`decompounder` filter は、`word_list` パラメータを介したインライン、または `word_list_file` パラメータを介した登録済みファイルリソースから、構成要素の辞書を受け取ります。
+`decompounder` フィルターは、`word_list` パラメーターを介してインラインで構成要素辞書を受け取るか、`word_list_file` パラメーターを介して登録済みのファイルリソースから受け取ります。
 
-### インライン単語リスト\{#inline-word-list}
+### Inline word list\{#inline-word-list}
 
-`decompounder` filter は Zilliz Cloud のカスタム filter です。使用するには、filter 設定で `"type": "decompounder"` を指定し、認識する単語構成要素の辞書を提供する `word_list` パラメータをあわせて指定します。
+`decompounder` フィルターは Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター設定で `"type": "decompounder"` を指定し、認識する単語構成要素の辞書を提供する `word_list` パラメーターをあわせて指定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -112,7 +112,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -126,23 +127,26 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`decompounder` filter は、次の設定可能なパラメータを受け取ります。
+</TabItem>
+</Tabs>
 
-| パラメータ | 説明 |
+`decompounder` フィルターは、以下の設定可能なパラメーターを受け入れます。
+
+| Parameter | Description |
 | --- | --- |
-| `word_list` | 複合語を分割するために使用される単語構成要素のリストです。この辞書は、複合語を個別の語にどのように分解するかを決定します。 |
+| `word_list` | 複合語を分割するために使用される単語構成要素のリストです。この辞書によって、複合語をどのように個別の語に分解するかが決まります。 |
 
-`decompounder` filter は tokenizer によって生成された語に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
+`decompounder` フィルターは tokenizer によって生成された terms に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
 
-`analyzer_params` を定義した後、collection schema を定義するときにそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は効率的なトークン化とフィルタリングのために、指定された analyzer を使用してそのフィールド内のテキストを処理できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、指定した analyzer を使用して効率的に tokenization と filtering できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
 
-## 例\{#examples}
+## Examples\{#examples}
 
 analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer 設定\{#analyzer-configuration}
+### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -217,7 +221,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -231,9 +236,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -327,7 +335,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -352,8 +361,12 @@ if (!status.IsOk()) {
 }
 ```
 
-### 期待される出力\{#expected-output}
+</TabItem>
+</Tabs>
+
+### Expected output\{#expected-output}
 
 ```python
 ['dampf', 'schiff', 'fahrt', 'brotbackautomat']
 ```
+

@@ -1,5 +1,5 @@
 ---
-title: "コレクションの表示 | Cloud"
+title: "コレクションを表示 | Cloud"
 slug: /view-collections
 sidebar_label: "表示"
 beta: FALSE
@@ -19,11 +19,11 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# コレクションの表示
+# コレクションを表示
 
 現在接続されているデータベース内のすべてのコレクションの名前一覧を取得し、特定のコレクションの詳細を確認できます。
 
-## コレクションの一覧表示\{#list-collections}
+## コレクションを一覧表示する\{#list-collections}
 
 以下の例は、現在接続されているデータベース内のすべてのコレクションの名前一覧を取得する方法を示しています。
 
@@ -159,9 +159,9 @@ for (auto& name : response.CollectionNames()) {
 ["quick_setup"]
 ```
 
-## コレクションの詳細表示\{#describe-collection}
+## コレクションの詳細を表示する\{#describe-collection}
 
-特定のコレクションの詳細を取得することもできます。以下の例では、`quick_setup` という名前のコレクションをすでに作成していることを前提としています。
+特定のコレクションの詳細を取得することもできます。以下の例では、すでに quick_setup という名前のコレクションを作成していることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -250,9 +250,9 @@ std::cout << "Collection ID: " << response.Desc().ID() << std::endl;
 </TabItem>
 </Tabs>
 
-上記の例の結果は、次のようになります。
+上記の例の結果は次のようになります。
 
-```plaintext
+```sql
 {
     'collection_name': 'quick_setup', 
     'auto_id': False, 
