@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`jieba` tokenizer は、中国語テキストを構成する単語に分割して処理します。 | BYOC"
+description: "`jieba` トークナイザーは、中国語テキストを構成単語に分割して処理します。 | BYOC"
 type: origin
 token: JGURwBQNOijp2DkspFFctbAGnLh
 sidebar_position: 3
@@ -21,21 +21,21 @@ import TabItem from '@theme/TabItem';
 
 # Jieba
 
-`jieba` tokenizer は、中国語テキストを構成する単語に分割して処理します。
+`jieba` トークナイザーは、中国語テキストを構成単語に分割して処理します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-`jieba` tokenizer は、句読点を出力内で個別のトークンとして保持します。たとえば、`"你好！世界。"` は `["你好", "！", "世界", "。"]` になります。これらの独立した句読点トークンを削除するには、[`removepunct`](./remove-punct-filter) フィルタを使用してください。
+`jieba` トークナイザーは、出力時に句読点を個別のトークンとして保持します。たとえば、`"你好！世界。"` は `["你好", "！", "世界", "。"]` となります。これらの単独の句読点トークンを除去するには、[`removepunct`](./remove-punct-filter) フィルターを使用してください。
 
 </Admonition>
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
-Milvus は、`jieba` tokenizer に対して 2 つの設定方法をサポートしています。シンプル設定とカスタム設定です。
+Milvus では、`jieba` トークナイザーに対してシンプル設定とカスタム設定の 2 通りの設定方法がサポートされています。
 
-### Simple configuration\{#simple-configuration}
+### シンプル設定\{#simple-configuration}
 
-シンプル設定では、tokenizer を `"jieba"` に設定するだけで済みます。たとえば、次のようになります。
+シンプル設定では、トークナイザーを `"jieba"` に指定するだけです。例:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -98,7 +98,7 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-このシンプル設定は、次のカスタム設定と同等です。
+このシンプル設定は、以下のカスタム設定と同等です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -165,11 +165,11 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-パラメータの詳細については、[Custom configuration](./jieba-tokenizer#custom-configuration) を参照してください。
+パラメーターの詳細については、[カスタム設定](./jieba-tokenizer#custom-configuration) を参照してください。
 
-### Custom configuration\{#custom-configuration}
+### カスタム設定\{#custom-configuration}
 
-より細かく制御するには、カスタム設定を指定できます。これにより、カスタム辞書の指定、分割モードの選択、および Hidden Markov Model（HMM）の有効化または無効化が可能になります。たとえば、次のようになります。
+より詳細な制御を行うには、カスタム辞書の指定、分割モードの選択、Hidden Markov Model (HMM) の有効化・無効化が可能なカスタム設定を利用できます。例:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -251,39 +251,39 @@ nlohmann::json analyzerParams = {
 
 <table>
    <tr>
-     <th><p>パラメータ</p></th>
+     <th><p>パラメーター</p></th>
      <th><p>説明</p></th>
      <th><p>デフォルト値</p></th>
    </tr>
    <tr>
      <td><p><code>type</code></p></td>
-     <td><p>tokenizer の種類です。これは <code>"jieba"</code> に固定されています。</p></td>
-     <td><p><code>"jieba"</code></p></td>
+     <td><p>トークナイザーの種類です。<code>&quot;jieba&quot;</code> に固定されています。</p></td>
+     <td><p><code>&quot;jieba&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>dict</code></p></td>
-     <td><p>analyzer が語彙ソースとして読み込む辞書のリストです。組み込みオプション:</p><ul><li><p><code>"_default_"</code>: エンジン内蔵の簡体字中国語辞書を読み込みます。詳細は <a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a> を参照してください。</p></li><li><p><code>"_extend_default_"</code>: <code>"_default_"</code> の内容すべてに加えて、繁体字中国語の追加辞書を読み込みます。詳細は <a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a> を参照してください。</p><p>組み込み辞書は、任意の数のカスタム辞書と組み合わせることもできます。例: <code>["_default_", "结巴分词器"]</code>。</p></li></ul></td>
-     <td><p><code>["_default_"]</code></p></td>
+     <td><p>アナライザーが語彙ソースとして読み込む辞書のリストです。組み込みオプションは以下のとおりです。</p><ul><li><p><code>&quot;_default_&quot;</code>: エンジン組み込みの簡体字中国語辞書を読み込みます。詳細は <a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a> を参照してください。</p></li><li><p><code>&quot;_extend_default_&quot;</code>: <code>&quot;_default_&quot;</code> に加え、繁体字中国語の補足辞書も読み込みます。詳細は <a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a> を参照してください。</p></li></ul><p>組み込み辞書と任意の数のカスタム辞書を併用することも可能です。例: <code>[&quot;_default_&quot;, &quot;结巴分词器&quot;]</code>。</p></td>
+     <td><p><code>[&quot;_default_&quot;]</code></p></td>
    </tr>
    <tr>
      <td><p><code>mode</code></p></td>
-     <td><p>分割モードです。指定可能な値:</p><ul><li><p><code>"exact"</code>: 文をできるだけ正確に分割しようとするため、テキスト分析に最適です。</p></li><li><p><code>"search"</code>: exact モードをベースに、さらに長い単語を分解して再現率を向上させるため、検索エンジンのトークン化に適しています。</p><p>詳細については、<a href="https://github.com/fxsjy/jieba">Jieba GitHub Project</a> を参照してください。</p></li></ul></td>
-     <td><p><code>"search"</code></p></td>
+     <td><p>分割モードです。指定可能な値は以下のとおりです。</p><ul><li><p><code>&quot;exact&quot;</code>: 文を最も精密に分割しようとするモードで、テキスト分析に適しています。</p></li><li><p><code>&quot;search&quot;</code>: exact モードを基に、長い単語をさらに細かく分割して再現率を高めます。検索エンジンのトークン化に適しています。</p></li></ul><p>詳しくは、<a href="https://github.com/fxsjy/jieba">Jieba GitHub Project</a> を参照してください。</p></td>
+     <td><p><code>&quot;search&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>hmm</code></p></td>
-     <td><p>辞書に存在しない単語を確率的に分割するために Hidden Markov Model（HMM）を有効にするかどうかを示すブールフラグです。</p></td>
+     <td><p>辞書に登録されていない単語に対して Hidden Markov Model (HMM) による確率的な分割を有効にするかどうかを示すブール値フラグです。</p></td>
      <td><p><code>true</code></p></td>
    </tr>
 </table>
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマの定義時に `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud が指定されたアナライザーを使って当該フィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えるようになります。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+コレクションスキーマにアナライザー設定を適用する前に、`run_analyzer` メソッドを使って動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -362,7 +362,7 @@ nlohmann::json analyzerParams = {
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
+### `run_analyzer` を使った検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

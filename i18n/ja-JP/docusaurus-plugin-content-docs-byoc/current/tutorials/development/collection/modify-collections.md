@@ -1,5 +1,5 @@
 ---
-title: "Collection の変更 | BYOC"
+title: "コレクションの変更 | BYOC"
 slug: /modify-collections
 sidebar_label: "変更"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "collection の名前を変更したり、設定を変更したりできます。このページでは、collection を変更する方法に焦点を当てます。 | BYOC"
+description: "コレクションの名前変更や設定変更が行えます。このページでは、コレクションを変更する方法について説明します。 | BYOC"
 type: origin
 token: WMh8w3tbKiBhukk3ICMc4ctznEg
 sidebar_position: 5
@@ -19,13 +19,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Collection の変更
+# コレクションの変更
 
-collection の名前を変更したり、設定を変更したりできます。このページでは、collection を変更する方法に焦点を当てます。
+コレクションの名前変更や設定変更が行えます。このページでは、コレクションを変更する方法について説明します。
 
-## Collection の名前変更\{#rename-collection}
+## コレクション名の変更\{#rename-collection}
 
-collection の名前は次のように変更できます。
+コレクション名は次のようにして変更できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -169,11 +169,11 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## Collection プロパティの設定\{#set-collection-properties}
+## コレクションプロパティの設定\{#set-collection-properties}
 
-collection の作成後に、collection レベルのプロパティを変更できます。
+コレクションの作成後でも、コレクションレベルのプロパティを変更できます。
 
-### サポートされるプロパティ\{#supported-properties}
+### サポートされているプロパティ\{#supported-properties}
 
 <table>
    <tr>
@@ -182,37 +182,37 @@ collection の作成後に、collection レベルのプロパティを変更で�
    </tr>
    <tr>
      <td><p><code>collection.ttl.seconds</code></p></td>
-     <td><p>collection のデータを特定の期間後に削除する必要がある場合は、Time-To-Live (TTL) を秒単位で設定することを検討してください。TTL が期限切れになると、Zilliz Cloud は collection からすべての entity を削除します。</p><p>削除は非同期で行われるため、削除が完了する前でも検索やクエリは可能です。</p><p>詳細については、<a href="./set-collection-ttl#set-collection-level-ttl">collection レベル TTL の設定</a>を参照してください。</p></td>
+     <td><p>コレクションのデータを一定期間後に削除する必要がある場合は、Time-To-Live (TTL) を秒単位で設定することを検討してください。TTL の期限が切れると、Zilliz Cloud がコレクションからすべてのエンティティを削除します。</p><p>削除は非同期で行われるため、削除が完了する前でも検索やクエリを実行できます。</p><p>詳細については、<a href="./set-collection-ttl#set-collection-level-ttl">コレクションレベルの TTL の設定</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>ttl_field</code></p></td>
-     <td><p>各 entity の絶対有効期限タイムスタンプ（<strong>entity レベル TTL</strong>）を保存する <code>TIMESTAMPTZ</code> フィールドの名前です。各 entity は、実時間がこのフィールドに保存された値に達した時点で正確に期限切れとなります。フィールド内の <code>NULL</code> は、その entity が期限切れにならないことを意味します。<code>collection.ttl.seconds</code> とは相互排他です。</p><p>詳細については、<a href="./set-collection-ttl#set-entity-level-ttl">entity レベル TTL の設定</a>を参照してください。</p></td>
+     <td><p>各エンティティの絶対有効期限タイムスタンプ（<strong>エンティティレベルの TTL</strong>）を格納する <code>TIMESTAMPTZ</code> フィールドの名前です。実時刻がこのフィールドに格納された値に達した時点で、各エンティティは正確に期限切れとなります。フィールド内の <code>NULL</code> は、エンティティが期限切れにならないことを意味します。<code>collection.ttl.seconds</code> とは排他的な関係にあります。</p><p>詳細については、<a href="./set-collection-ttl#set-entity-level-ttl">エンティティレベルの TTL の設定</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>
-     <td><p>メモリマッピング (Mmap) は、ディスク上の大きなファイルへの直接メモリアクセスを可能にし、Zilliz Cloud が index とデータをメモリとハードドライブの両方に保存できるようにします。このアプローチは、アクセス頻度に基づいてデータ配置ポリシーを最適化するのに役立ち、検索パフォーマンスに影響を与えることなく collection のストレージ容量を拡張します。</p><p>Zilliz Cloud は、cluster に対して<a href="./use-mmap#global-mmap-strategy">グローバル mmap 設定</a>を実装します。特定の field またはその index に対して設定を変更できます。</p><p>詳細については、<a href="./use-mmap">mmap の使用</a>を参照してください。</p></td>
+     <td><p>メモリマッピング（Mmap）によりディスク上の大きなファイルへ直接メモリアクセスが可能になるため、Zilliz Cloud はインデックスとデータをメモリとハードドライブの両方に格納できます。この仕組みにより、アクセス頻度に基づいたデータ配置の最適化が可能になり、検索パフォーマンスを維持したままコレクションのストレージ容量を拡張できます。</p><p>Zilliz Cloud はクラスターに対して <a href="./use-mmap#global-mmap-strategy">グローバル mmap 設定</a>を提供しています。特定のフィールドやそのインデックスに対して設定を変更することも可能です。</p><p>詳細については、<a href="./use-mmap">mmap の使用</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>partitionkey.isolation</code></p></td>
-     <td><p>Partition Key Isolation を有効にすると、Zilliz Cloud は Partition Key の値に基づいて entity をグループ化し、それぞれのグループごとに個別の index を作成します。検索リクエストを受け取ると、Zilliz Cloud はフィルタ条件で指定された Partition Key の値に基づいて index を特定し、その index に含まれる entity 内に検索範囲を限定します。これにより、検索中に無関係な entity のスキャンを回避し、検索パフォーマンスを大幅に向上させます。</p><p>詳細については、<a href="./use-partition-key#use-partition-key-isolation">Partition Key Isolation の使用</a>を参照してください。</p></td>
+     <td><p>Partition Key Isolation を有効にすると、Zilliz Cloud は Partition Key の値に基づいてエンティティをグループ化し、各グループごとに個別のインデックスを作成します。検索リクエストを受け取ると、Zilliz Cloud はフィルタリング条件で指定された Partition Key の値に基づいて対象のインデックスを特定し、検索範囲をそのインデックスに含まれるエンティティに限定します。これにより、無関係なエンティティのスキャンを回避でき、検索パフォーマンスが大幅に向上します。</p><p>詳細については、<a href="./use-partition-key#use-partition-key-isolation">Partition Key Isolation の使用</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>dynamicfield.enabled</code></p></td>
-     <td><p>有効化せずに作成された collection に対して dynamic field を有効にします。有効にすると、元の schema で定義されていない field を持つ entity を挿入できます。詳細については、<a href="./enable-dynamic-field">Dynamic Field</a> を参照してください。</p></td>
+     <td><p>動的フィールドを有効にせずに作成されたコレクションで、動的フィールドを有効にできます。有効にすると、元のスキーマで定義されていないフィールドを持つエンティティを挿入できるようになります。詳細については、<a href="./enable-dynamic-field">動的フィールド</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>allow_insert_auto_id</code></p></td>
-     <td><p>collection で AutoID が有効になっている場合に、ユーザー指定の主キー値を受け入れるかどうかを指定します。</p><ul><li><p><strong>"true"</strong> に設定した場合: 挿入、upsert、および bulk import では、ユーザー指定の主キーが存在すればそれを使用し、存在しなければ主キー値が自動生成されます。</p></li><li><p><strong>"false"</strong> に設定した場合: ユーザー指定の主キー値は拒否または無視され、主キー値は常に自動生成されます。デフォルトは <strong>"false"</strong> です。</p></li></ul></td>
+     <td><p>コレクションで AutoID が有効になっている場合に、ユーザー指定のプライマリキー値をコレクションが受け入れるかどうかを指定します。</p><ul><li><p><strong>&quot;true&quot;</strong> に設定した場合: 挿入、アップサート、一括インポートでは、ユーザー指定のプライマリキーが存在すればそれを使用し、存在しない場合はプライマリキー値が自動生成されます。</p></li><li><p><strong>&quot;false&quot;</strong> に設定した場合: ユーザー指定のプライマリキー値は拒否または無視され、プライマリキー値は常に自動生成されます。デフォルトは <strong>&quot;false&quot;</strong> です。</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>timezone</code></p></td>
-     <td><p>時間に依存する操作、特に <code>TIMESTAMPTZ</code> field を扱う際の、この collection のデフォルトタイムゾーンを指定します。タイムスタンプは内部的には UTC で保存され、Milvus はこの設定に従って表示と比較のために値を変換します。設定されている場合、collection のタイムゾーンは database のデフォルトタイムゾーンより優先され、クエリのタイムゾーンパラメータはその両方を一時的に上書きできます。値は有効な <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA time zone identifier</a> である必要があります（たとえば、<strong>Asia/Shanghai</strong>、<strong>America/Chicago</strong>、または <strong>UTC</strong>）。<code>TIMESTAMPTZ</code> field の使用方法の詳細については、<a href="./use-timestamptz-field">TIMESTAMPTZ Field</a> を参照してください。</p></td>
+     <td><p>時間に関連する操作、特に <code>TIMESTAMPTZ</code> フィールドを扱う際の、このコレクションのデフォルトタイムゾーンを指定します。タイムスタンプは内部的に UTC で格納され、Milvus はこの設定に基づいて表示や比較のための値を変換します。この設定がある場合、コレクションのタイムゾーンがデータベースのデフォルトタイムゾーンよりも優先されます。また、クエリのタイムゾーンパラメータで一時的に両方を上書きすることも可能です。値には有効な <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA タイムゾーン識別子</a>（例：<strong>Asia/Shanghai</strong>、<strong>America/Chicago</strong>、<strong>UTC</strong>）を指定する必要があります。<code>TIMESTAMPTZ</code> フィールドの使用方法の詳細については、<a href="./use-timestamptz-field">TIMESTAMPTZ フィールド</a>を参照してください。</p></td>
    </tr>
 </table>
 
-### 例 1: collection レベル TTL の設定\{#example-1-set-collection-level-ttl}
+### 例 1: コレクションレベルの TTL を設定する\{#example-1-set-collection-level-ttl}
 
-次のコードスニペットは、collection TTL を設定する方法を示しています。
+次のコードスニペットは、コレクションの TTL を設定する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -390,9 +390,9 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### 例 4: partition key を有効にする\{#example-4-enable-partition-key}
+### 例 4: パーティションキーを有効にする\{#example-4-enable-partition-key}
 
-次のコードスニペットは、partition key を有効にする方法を示しています。
+次のコードスニペットは、パーティションキーを有効にする方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -477,9 +477,9 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### 例 5: dynamic field を有効にする\{#example-5-enable-dynamic-field}
+### 例 5: 動的フィールドを有効にする\{#example-5-enable-dynamic-field}
 
-次のコードスニペットは、dynamic field を有効にする方法を示しています。
+次のコードスニペットは、動的フィールドを有効にする方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -566,9 +566,9 @@ if (!status.IsOk()) {
 
 ### 例 6: allow_insert_auto_id を有効にする\{#example-6-enable-allowinsertautoid}
 
-`allow_insert_auto_id` プロパティを使用すると、AutoID が有効な collection で、insert、upsert、および bulk import の際にユーザー指定の主キー値を受け入れられます。**"true"** に設定すると、Zilliz Cloud はユーザー指定の主キー値が存在する場合はそれを使用し、存在しない場合は自動生成します。デフォルトは **"false"** です。
+`allow_insert_auto_id` プロパティを有効にすると、AutoID が有効なコレクションに対して、挿入、upsert、バルクインポート時にユーザー指定の主キー値を受け入れられます。**"true"** に設定した場合、Zilliz Cloud はユーザー指定の主キー値が存在すればそれを使用し、存在しない場合は自動生成します。デフォルトは **"false"** です。
 
-以下の例は、`allow_insert_auto_id` を有効にする方法を示しています。
+次の例は、`allow_insert_auto_id` を有効にする方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -653,13 +653,13 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### 例 7: collection のタイムゾーンを設定する\{#example-7-set-collection-time-zone}
+### 例 7: コレクションのタイムゾーンを設定する\{#example-7-set-collection-time-zone}
 
-`timezone` プロパティを使用して、collection のデフォルトタイムゾーンを設定できます。これにより、データ挿入、クエリ、および結果表示を含む、collection 内のすべての操作において時間関連データがどのように解釈され表示されるかが決まります。
+`timezone` プロパティを使用して、コレクションのデフォルトタイムゾーンを設定できます。この設定により、データ挿入、クエリ、結果表示など、コレクション内のすべての操作において、時間関連データの解釈と表示方法が決定されます。
 
-`timezone` の値は、`Asia/Shanghai`、`America/Chicago`、または `UTC` のような有効な [IANA time zone identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) である必要があります。無効または標準外の値を使用すると、collection プロパティの変更時にエラーになります。
+`timezone` の値には、`Asia/Shanghai`、`America/Chicago`、`UTC` などの有効な [IANA タイムゾーン識別子](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) を指定する必要があります。無効または非標準の値を指定すると、コレクションプロパティの変更時にエラーが発生します。
 
-以下の例は、collection のタイムゾーンを **Asia/Shanghai** に設定する方法を示しています。
+次の例は、コレクションのタイムゾーンを **Asia/Shanghai**: に設定する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -738,9 +738,9 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## Collection プロパティの削除\{#drop-collection-properties}
+## コレクションプロパティの削除\{#drop-collection-properties}
 
-以下のように collection プロパティを削除して、プロパティをリセットすることもできます。 
+次のようにコレクションプロパティを削除することで、設定をリセットすることもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

@@ -2,12 +2,12 @@
 title: "Text Field | BYOC"
 slug: /use-text-field
 sidebar_label: "Text Field"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "AI 検索アプリケーションでは、vector search は意味的に類似したエンティティを見つけるのに役立ちますが、アプリケーションでは多くの場合、各一致の背後にある元のソーステキストも必要になります。LLM や agent は、そのテキストをコンテキストとして使用して、読み取り、引用、要約、またはプロンプトに結果を含めることができます。 | BYOC"
+description: "AI検索アプリケーションでは、ベクトル検索によって意味的に類似したエンティティを見つけられますが、多くの場合、各検索結果に対応する元のソーステキストも必要になります。LLMやエージェントはそのテキストをコンテキストとして活用し、内容の読み取り、引用、要約、あるいはプロンプトへの組み込みを行うことができます。 | BYOC"
 type: origin
 token: GBynwwkyBihIHukvJXfc76dMnth
 sidebar_position: 7
@@ -20,11 +20,11 @@ import Admonition from '@theme/Admonition';
 
 # Text Field
 
-AI 検索アプリケーションでは、vector search は意味的に類似したエンティティを見つけるのに役立ちますが、アプリケーションでは多くの場合、各一致の背後にある元のソーステキストも必要になります。LLM や agent は、そのテキストをコンテキストとして使用して、読み取り、引用、要約、またはプロンプトに結果を含めることができます。
+AI検索アプリケーションでは、ベクトル検索によって意味的に類似したエンティティを見つけられますが、多くの場合、各検索結果に対応する元のソーステキストも必要になります。LLMやエージェントはそのテキストをコンテキストとして活用し、内容の読み取り、引用、要約、あるいはプロンプトへの組み込みを行うことができます。
 
-Zilliz Cloud は、長いソーステキストをエンティティとともに直接保存するための `TEXT` scalar field type を提供します。一般的な値には、passage、長文ドキュメント、記事本文、チケット、ログが含まれます。固定の `max_length` を必要とする `VARCHAR` とは異なり、`TEXT` では collection schema で最大バイト長を設定する必要がありません。
+Zilliz Cloud は、長いソーステキストをエンティティに直接保存するための `TEXT` スカラーフィールド型を提供します。代表的な値としては、パッセージ、長文ドキュメント、記事本文、チケット、ログなどがあります。固定の `max_length` を必要とする `VARCHAR` とは異なり、`TEXT` ではコレクションスキーマに最大バイト長を設定する必要はありません。
 
-collection schema で `TEXT` field を定義するには、`datatype` を `DataType.TEXT` に設定します。
+コレクションスキーマで `TEXT` フィールドを定義するには、`datatype` を `DataType.TEXT` に設定します。
 
 ```python
 schema.add_field(
@@ -34,49 +34,49 @@ schema.add_field(
 )
 ```
 
-field を定義した後は、各エンティティがその field に文字列値を含めることができます。値の挿入は他の scalar field と同様に行い、query または search の結果から返すには、`output_fields` にその field を指定します。
+フィールド定義後、各エンティティにそのフィールドの文字列値を含めることができます。他のスカラーフィールドと同様に値を挿入でき、`output_fields` にフィールド名を指定することで、クエリや検索結果から値を取得できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-TEXT field は null 値をサポートします。この機能を有効にするには、nullable を True に設定します。詳細については、[Nullable Fields](./nullable-fields) を参照してください。
+TEXTフィールドはnull値をサポートしています。この機能を有効にするには、nullable を True に設定してください。詳細については、[Nullable Fields](./nullable-fields) を参照してください。
 
 </Admonition>
 
-## Limits\{#limits}
+## 制限事項\{#limits}
 
-- `TEXT` field は primary field にできません。primary field でサポートされるのは `INT64` と `VARCHAR` です。
+- `TEXT` フィールドをプライマリフィールドとして使用することはできません。プライマリフィールドとしてサポートされるのは `INT64` および `VARCHAR` です。
 
-- `TEXT` field は `PHRASE_MATCH` をサポートしません。
+- `TEXT` フィールドは `PHRASE_MATCH` をサポートしていません。
 
-- `TEXT` field はデフォルト値をサポートしません。
+- `TEXT` フィールドはデフォルト値をサポートしていません。
 
-- `TEXT` field は scalar index をサポートしません。
+- `TEXT` フィールドはスカラーインデックスをサポートしていません。
 
-- `TEXT` は通常のメタデータフィルタリング向けではありません。短い文字列メタデータでフィルタリングする必要があり、その field の値が `VARCHAR` の長さ制限内に収まる場合は、`VARCHAR` を使用してください。
+- `TEXT` は一般的なメタデータのフィルタリングを目的としたものではありません。短い文字列メタデータに基づいてフィルタリングを行いたい場合で、かつ値が `VARCHAR` の長さ制限内に収まる場合は、`VARCHAR` を使用してください。
 
-- `TEXT` field は external collections ではサポートされません。
+- 外部コレクションでは `TEXT` フィールドはサポートされていません。
 
-## Choose TEXT or VARCHAR\{#choose-text-or-varchar}
+## TEXT と VARCHAR の使い分け\{#choose-text-or-varchar}
 
-`TEXT` と `VARCHAR` はどちらも文字列値を保存しますが、サポートするアプリケーション要件は異なります。`VARCHAR` は、エンティティを識別、分類、またはフィルタリングするための短く長さが制限されたメタデータに使用します。`TEXT` は、LLM や agent が読み取り、引用、要約、またはプロンプト構築を行うのに十分なコンテキストを提供する、より長いソースコンテンツに使用します。
+`TEXT` と `VARCHAR` はいずれも文字列値を保存しますが、適した用途が異なります。エンティティの識別、分類、フィルタリングに用いる短いメタデータには `VARCHAR` を使用します。一方、LLMやエージェントが読み取り、引用、要約、プロンプト生成などに活用できる十分なコンテキストを含む長いソースコンテンツには `TEXT` を使用します。
 
-| **Aspect** | **VARCHAR** | **TEXT** |
+| **比較項目** | **VARCHAR** | **TEXT** |
 | --- | --- | --- |
-| 最適な用途 | `title`、`tag`、`category`、`external_id` など、エンティティの識別、分類、フィルタリングに使用する短いメタデータ。 | `content`、`passage`、`article_body`、`log_message` など、LLM や agent のワークフローで使用される長いソースコンテンツ。 |
-| 長さ設定 | field に保存できる最大バイト数を定義する `max_length` が必要です。最大値は 65,535 バイトです。値がこの制限を超える可能性がある場合は、`TEXT` を使用してください。 | `max_length` は不要なため、schema でテキスト値に対する固定バイト制限を設定する必要がありません。 |
-| ストレージの動作 | field に設定された `max_length` の範囲内で各値を保存します。 | より大きなテキスト値に対して自動的にストレージ選択を行います。 |
-| Primary field のサポート | primary field として使用できます。 | primary field として使用できません。 |
-| Filtering | `category == "news"` や `tag in ["ai", "database"]` などの filter expression に含める必要がある短い文字列メタデータに使用します。 | 通常のメタデータフィルタリング向けではありません。 |
+| 推奨用途 | エンティティの識別、分類、フィルタリングに使用する短いメタデータ（例: `title`、`tag`、`category`、`external_id`） | LLMやエージェントのワークフローで利用される長いソースコンテンツ（例: `content`、`passage`、`article_body`、`log_message`） |
+| 長さの設定 | `max_length` の指定が必須で、フィールドに保存できる最大バイト数を定義します。上限は65,535バイトです。値がこの制限を超える可能性がある場合は `TEXT` を使用してください。 | `max_length` の指定は不要であり、スキーマでテキスト値の固定バイト制限を設定する必要はありません。 |
+| ストレージの動作 | 各値はフィールドに設定された `max_length` の範囲内で保存されます。 | サイズの大きいテキスト値に対しては、自動的に最適なストレージ方式が選択されます。 |
+| プライマリフィールドとしての使用 | プライマリフィールドとして使用可能です。 | プライマリフィールドとして使用できません。 |
+| フィルタリング | フィルター式で使用したい短い文字列メタデータ（`category == "news"` や `tag in ["ai", "database"]` など）に適しています。 | 一般的なメタデータのフィルタリングには適していません。 |
 
-`VARCHAR` field の詳細については、[VARCHAR Field](https://milvus.io/docs/string.md) を参照してください。
+`VARCHAR` フィールドの詳細については、[VARCHAR Field](https://milvus.io/docs/string.md) を参照してください。
 
-`TEXT` の一般的な用途は、BM25 を使用した Full Text Search です。このパターンでは、`TEXT` field に元のソースコンテンツを保存し、BM25 がテキストを解析して、キーワードベースの一致をランキングするための sparse vector を生成します。その後、search 結果は、一致した `TEXT` 値を LLM や agent のワークフロー用のコンテキストとして返すことができます。次の例では、BM25 の入力 field として `TEXT` field を使用する方法を示します。Full Text Search の概念とクエリオプションについては、[Full Text Search](./full-text-search) を参照してください。
+`TEXT` の代表的な用途は、BM25を用いた全文検索です。このパターンでは、`TEXT` フィールドに元のソースコンテンツを保存し、BM25がテキストを解析してキーワードベースのマッチング順位付け用のスパースベクトルを生成します。検索結果では、一致した `TEXT` の値をLLMやエージェントのワークフロー向けコンテキストとして返すことができます。以下の例では、BM25の入力フィールドとして `TEXT` フィールドを使用する方法を示しています。全文検索の概念やクエリオプションの詳細については、[Full Text Search](./full-text-search) を参照してください。
 
-## Step 1: Create a collection with a TEXT field\{#step-1-create-a-collection-with-a-text-field}
+## ステップ1: TEXTフィールドを持つコレクションを作成する\{#step-1-create-a-collection-with-a-text-field}
 
-次の例では、ソースコンテンツ用の `TEXT` field と、BM25 が生成する sparse vector 用の sparse vector field を持つ collection を作成します。BM25 function は、`content` からトークン化されたテキストを、`sparse` に保存される sparse vector に変換します。
+以下の例では、ソースコンテンツ用の `TEXT` フィールドと、BM25で生成されるスパースベクトル用のスパースベクトルフィールドを持つコレクションを作成します。BM25関数は `content` のトークン化済みテキストをスパースベクトルに変換し、`sparse` に保存します。
 
-BM25 full text search では、入力 `TEXT` field で `enable_analyzer=True` を設定する必要があります。
+BM25による全文検索を行う場合、入力となる `TEXT` フィールドには `enable_analyzer=True` を設定する必要があります。
 
 ```python
 from pymilvus import DataType, Function, FunctionType, MilvusClient
@@ -109,9 +109,9 @@ schema.add_function(bm25_function)
 # highlight-end
 ```
 
-## Step 2: Create a sparse vector index\{#step-2-create-a-sparse-vector-index}
+## ステップ2: スパースベクトルインデックスを作成する\{#step-2-create-a-sparse-vector-index}
 
-BM25 function によって生成される sparse vector field に index を作成します。metric type は `BM25` に設定する必要があります。
+BM25関数によって生成されたスパースベクトルフィールドにインデックスを作成します。メトリックタイプは `BM25` に設定する必要があります。
 
 ```python
 index_params = client.prepare_index_params()
@@ -135,9 +135,9 @@ client.create_collection(
 )
 ```
 
-## Step 3: Insert TEXT data\{#step-3-insert-text-data}
+## ステップ3: TEXTデータを挿入する\{#step-3-insert-text-data}
 
-テキストを `TEXT` field に直接挿入します。`sparse` field には値を指定しないでください。Milvus は、`content` に BM25 function を適用することで、内部的に sparse vector を生成します。
+`TEXT` フィールドにテキストを直接挿入します。`sparse` フィールドに値を指定する必要はありません。Milvus がBM25関数を `content` に適用し、内部でスパースベクトルを自動生成します。
 
 ```python
 data = [
@@ -159,9 +159,9 @@ client.insert(collection_name=COLLECTION_NAME, data=data)
 client.load_collection(collection_name=COLLECTION_NAME)
 ```
 
-## Step 4: Perform BM25 full text search\{#step-4-perform-bm25-full-text-search}
+## ステップ4: BM25全文検索を実行する\{#step-4-perform-bm25-full-text-search}
 
-生のクエリテキストを search データとして使用し、sparse vector field に対して search を実行します。Milvus はクエリテキストを sparse vector に変換し、BM25 で一致をランキングし、要求された `TEXT` field を `output_fields` で返します。
+生のクエリテキストを検索データとして、スパースベクトルフィールドに対して検索を実行します。Milvus がクエリテキストをスパースベクトルに変換し、BM25スコアに基づいて結果をランク付けした後、`output_fields` で指定された `TEXT` フィールドの値を返します。
 
 ```python
 results = client.search(
@@ -175,9 +175,9 @@ results = client.search(
 )
 ```
 
-## Step 5: Read the returned TEXT values\{#step-5-read-the-returned-text-values}
+## ステップ5: 返されたTEXT値を確認する\{#step-5-read-the-returned-text-values}
 
-各 search hit には、BM25 スコアと元の `TEXT` 値が含まれます。
+各検索ヒットには、BM25スコアと元の `TEXT` 値が含まれます。
 
 ```python
 for hit in results[0]:
@@ -185,4 +185,4 @@ for hit in results[0]:
     print(hit["entity"]["content"])
 ```
 
-BM25 functions、sparse vector index、および full text search のクエリ構文の詳細については、[Full Text Search](./full-text-search) を参照してください。
+BM25関数、スパースベクトルインデックス、全文検索のクエリ構文に関する詳細情報は、[Full Text Search](./full-text-search) を参照してください。
