@@ -1,5 +1,5 @@
 ---
-title: "プロジェクトを管理する | BYOC"
+title: "プロジェクトの管理 | BYOC"
 slug: /manage-projects
 sidebar_label: "プロジェクト"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、プロジェクトは組織内の論理コンテナとして機能し、クラスター、ボリューム、および関連リソースをグループ化します。プロジェクト内のすべてのリソースは同じクラウドプロバイダーとリージョンを共有します。 | BYOC"
+description: "Zilliz Cloud において、プロジェクトは組織内の論理コンテナとして機能し、クラスター、ボリューム、および関連リソースをグループ化します。プロジェクト内のすべてのリソースは、同じクラウドプロバイダーとリージョンを共有します。 | BYOC"
 type: origin
 token: NXypwJ2ySiv7RAkyKb5cZ9SKnvf
 sidebar_position: 1
@@ -18,19 +18,19 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# プロジェクトを管理する
+# プロジェクトの管理
 
-Zilliz Cloud では、プロジェクトは組織内の論理コンテナとして機能し、クラスター、ボリューム、および関連リソースをグループ化します。プロジェクト内のすべてのリソースは同じクラウドプロバイダーとリージョンを共有します。
+Zilliz Cloud では、プロジェクトは組織内の論理コンテナとして機能し、クラスター、ボリューム、および関連リソースをグループ化します。プロジェクト内のすべてのリソースは、同じクラウドプロバイダーとリージョンを共有します。
 
-ビジネスのさまざまな側面に合わせて、複数のプロジェクトを作成できます。たとえば、会社がマルチメディア推薦サービスを提供している場合、動画推薦用のプロジェクトと音楽推薦用の別のプロジェクトを作成できます。
+ビジネスのさまざまな用途に合わせて、複数のプロジェクトを作成できます。たとえば、マルチメディアレコメンデーションサービスを提供している場合、動画レコメンデーション用のプロジェクトと音楽レコメンデーション用のプロジェクトをそれぞれ作成できます。
 
-BYOC デプロイメントでは、各プロジェクトは 1 つのリージョン内の単一の Kubernetes クラスターに対応します。クロスリージョン操作はサポートされていません。複数のリージョンで運用するには、個別の BYOC プロジェクトを作成してください。
+BYOC デプロイメントでは、各プロジェクトは1つのリージョン内の単一の Kubernetes クラスターに対応します。クロスリージョン操作はサポートされていません。複数のリージョンで運用するには、リージョンごとに別々の BYOC プロジェクトを作成してください。
 
-このガイドでは、プロジェクトを管理する手順を説明します。
+このガイドでは、プロジェクトの管理手順について説明します。
 
 ## すべてのプロジェクトを表示する\{#view-all-projects}
 
-組織内で自分の権限範囲にあるすべてのプロジェクトの一覧を表示できます。
+組織内で権限が及ぶ範囲のすべてのプロジェクト一覧を表示できます。
 
 - **RESTful API を使用する場合**
 
@@ -78,7 +78,7 @@ BYOC デプロイメントでは、各プロジェクトは 1 つのリージョ
 
 - **RESTful API を使用する場合**
 
-    次の例は、プロジェクト `proj-xxxxxxxxxxxxxxx` の詳細を取得する方法を示しています。詳細については、[Describe Project](/reference/restful/describe-project-v2) を参照してください。
+    次の例では、プロジェクト `proj-xxxxxxxxxxxxxxx` の情報を取得します。詳細については、[Describe Project](/reference/restful/describe-project-v2) を参照してください。
 
     ```bash
     export TOKEN="YOUR_API_KEY"
@@ -90,7 +90,7 @@ BYOC デプロイメントでは、各プロジェクトは 1 つのリージョ
     --header "Content-Type: application/json"
     ```
 
-    以下は出力例です
+    以下は出力例です。
 
     ```json
     {
@@ -112,31 +112,25 @@ BYOC デプロイメントでは、各プロジェクトは 1 つのリージョ
 
 - **Web コンソールを使用する場合**
 
-    **Projects** ページでは、プロジェクト名、プラン、作成時刻、およびプロジェクト内のクラスター数を確認できます。さらに、特定のプロジェクトをクリックすると、そのクラスターを表示できます。
+    **Projects** ページでは、プロジェクト名、プラン、作成日時、およびプロジェクト内のクラスター数を確認できます。特定のプロジェクトをクリックすると、そのプロジェクトに含まれるクラスターを表示できます。
 
     ![HhfsbgOXco1fdGxoEYxc6QXBnpc](https://zdoc-images.s3.us-west-2.amazonaws.com/hhfsbgoxco1fdgxoeyxc6qxbnpc.png "HhfsbgOXco1fdGxoEYxc6QXBnpc")
 
 ## プロジェクトの詳細を編集する\{#edit-project-details}
 
-プロジェクト名の変更またはプロジェクトの説明の編集を行うには、[Organization Owner](./organization-users) である必要があります。プロジェクトの詳細は Web コンソールから編集できます。
+プロジェクトの名前変更や説明の編集を行うには、[Organization Owner](./organization-users) である必要があります。プロジェクトの詳細は Web コンソールから編集できます。
 
 ![rename-project-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/rename-project-byoc.png "rename-project-byoc")
 
 ## プロジェクトを削除する\{#delete-a-project}
 
-プロジェクトを削除するには、[Organization Owner](./organization-users) である必要があります。 
+プロジェクトを削除するには、[Organization Owner](./organization-users) である必要があります。
 
-プロジェクトを削除する前に、そのプロジェクト内のすべての [クラスター](./manage-cluster#drop) を削除する必要があります。
+プロジェクトを削除する前に、プロジェクト内のすべての [クラスター](./manage-cluster#drop) を削除する必要があります。
 
-プロジェクトが削除されると、それに関連付けられたすべてのデータとリソースも完全に削除され、元に戻すことはできません。
+プロジェクトを削除すると、関連するすべてのデータとリソースも復元不可能な形で消去されます。
 
-<Admonition type="info" icon="📘" title="📘 注意">
-
-デフォルトのプロジェクトは削除できません。
-
-</Admonition>
-
-Web コンソールからプロジェクトを削除できます。
+プロジェクトは Web コンソールから削除できます。
 
 ![delete-project-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-project-byoc.png "delete-project-byoc")
 

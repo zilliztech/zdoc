@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`stop` filter は、トークン化されたテキストから指定したストップワードを削除し、一般的で意味の薄い単語を除去するのに役立ちます。`stopwords` パラメータを使用してストップワードのリストを設定できます。 | Cloud"
+description: "`stop` フィルターは、トークン化されたテキストから指定されたストップワードを除去し、一般的で意味の薄い単語を取り除くのに役立ちます。ストップワードのリストは `stopwords` パラメーターで設定できます。 | Cloud"
 type: origin
 token: ScncwBnDBiVoLjksXAwcUgrgnod
 sidebar_position: 8
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # Stop
 
-`stop` filter は、トークン化されたテキストから指定したストップワードを削除し、一般的で意味の薄い単語を除去するのに役立ちます。`stop_words` パラメータを使用してストップワードのリストを設定できます。
+`stop` フィルターは、トークン化されたテキストから指定されたストップワードを除去し、一般的で意味の薄い単語を取り除くのに役立ちます。ストップワードのリストは `stop_words` パラメーターで設定できます。
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
-`stop` filter は、`stop_words` パラメータによるインライン指定、または `stop_words_file` パラメータによる登録済みファイルリソースのいずれかでストップワードリストを受け取ります。
+`stop` フィルターのストップワードリストは、`stop_words` パラメーターでインラインに指定するか、登録済みのファイルリソースから `stop_words_file` パラメーターで指定できます。
 
-### Inline stop-words list\{#inline-stop-words-list}
+### インラインのストップワードリスト\{#inline-stop-words-list}
 
-インラインリストで `stop` filter を使用するには、filter 設定で `"type": "stop"` を指定し、あわせてストップワードのリストを提供する `stop_words` パラメータを指定します。
+`stop` フィルターをインラインリストで使用するには、フィルター設定で `"type": "stop"` を指定し、ストップワードのリストを含む `stop_words` パラメーターを併せて指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -124,28 +124,28 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-`stop` filter は、以下の設定可能なパラメータを受け付けます。
+`stop` フィルターでは、以下のパラメーターを設定できます。
 
 <table>
    <tr>
-     <th><p>パラメータ</p></th>
+     <th><p>パラメーター</p></th>
      <th><p>説明</p></th>
    </tr>
    <tr>
      <td><p><code>stop_words</code></p></td>
-     <td><p>トークン化結果から削除する単語のリストです。デフォルトでは、この filter は組み込みの <code>_english_</code> 辞書を使用します。これを上書きまたは拡張するには、次の 3 つの方法があります。</p><ul><li><p><strong>組み込み辞書</strong> – 事前定義済みの辞書を使用するには、以下の言語エイリアスのいずれかを指定します。</p><p><code>"_english_"</code>, <code>"_danish_"</code>, <code>"_dutch_"</code>, <code>"_finnish_"</code>, <code>"_french_"</code>, <code>"_german_"</code>, <code>"_hungarian_"</code>, <code>"_italian_"</code>, <code>"_norwegian_"</code>, <code>"_portuguese_"</code>, <code>"_russian_"</code>, <code>"_spanish_"</code>, <code>"_swedish_"</code></p></li><li><p><strong>カスタムリスト</strong> – たとえば <code>["foo", "bar", "baz"]</code> のように、独自の用語の配列を渡します。</p></li><li><p><strong>混在リスト</strong> – たとえば <code>["of", "to", "_english_"]</code> のように、エイリアスとカスタム用語を組み合わせます。</p><p>各事前定義済み辞書に含まれる正確な内容については、<a href="https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words.rs">stop_words</a> を参照してください。</p></li></ul></td>
+     <td><p>トークン化の対象から除外する単語のリストです。デフォルトでは、組み込みの <code>_english_</code> 辞書が使用されます。この辞書は次の3つの方法で上書きまたは拡張できます。</p><ul><li><p><strong>組み込み辞書</strong> – 事前定義された辞書を使用するには、次の言語エイリアスのいずれかを指定します。</p><p><code>&quot;_english_&quot;</code>、<code>&quot;_danish_&quot;</code>、<code>&quot;_dutch_&quot;</code>、<code>&quot;_finnish_&quot;</code>、<code>&quot;_french_&quot;</code>、<code>&quot;_german_&quot;</code>、<code>&quot;_hungarian_&quot;</code>、<code>&quot;_italian_&quot;</code>、<code>&quot;_norwegian_&quot;</code>、<code>&quot;_portuguese_&quot;</code>、<code>&quot;_russian_&quot;</code>、<code>&quot;_spanish_&quot;</code>、<code>&quot;_swedish_&quot;</code></p></li><li><p><strong>カスタムリスト</strong> – 独自の用語の配列を渡します（例: <code>[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]</code>）。</p></li><li><p><strong>混合リスト</strong> – エイリアスとカスタム用語を組み合わせます（例: <code>[&quot;of&quot;, &quot;to&quot;, &quot;_english_&quot;]</code>）。</p></li></ul><p>各事前定義辞書の正確な内容については、<a href="https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words.rs">stop_words</a> を参照してください。</p></td>
    </tr>
 </table>
 
-`stop` filter は tokenizer によって生成された terms に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) およびその関連ページを参照してください。
+`stop` フィルターはトークナイザーが生成した語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) およびその関連ページを参照してください。
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、指定された analyzer を使用して効率的にトークン化およびフィルタリングできます。詳細は、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマの定義時に `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud が指定されたアナライザーを使用して当該フィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用して動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### アナライザーの設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -221,7 +221,7 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -346,7 +346,7 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### Expected output\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
 ['The', 'stop', 'filter', 'allows', 'control', 'over', 'common', 'stop', 'words', 'text', 'processing']

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`lindera` tokenizer は辞書ベースの形態素解析を実行します。これは、日本語や韓国語のように、単語がスペースで区切られず、文法標識（助詞）が単語に直接付く言語向けに設計されています。 | Cloud"
+description: "`lindera` トークナイザーは、辞書ベースの形態素解析を実行します。単語がスペースで区切られず、文法標識（助詞）が単語に直接付着する日本語や韓国語向けに設計されています。 | Cloud"
 type: origin
 token: PvwZwtu3FiBQNqkPa5VcqH6qnmg
 sidebar_position: 4
@@ -21,17 +21,17 @@ import TabItem from '@theme/TabItem';
 
 # Lindera
 
-`lindera` tokenizer は辞書ベースの形態素解析を実行します。これは、日本語や韓国語のように、単語がスペースで区切られず、文法標識（助詞）が単語に直接付く言語向けに設計されています。
+`lindera` トークナイザーは、辞書ベースの形態素解析を実行します。単語がスペースで区切られず、文法標識（助詞）が単語に直接付着する日本語や韓国語向けに設計されています。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-**中国語テキストについて**: `lindera` は `cc-cedict` 辞書を通じて中国語をサポートしていますが、代わりに [`jieba`](./jieba-tokenizer) tokenizer を使用することを推奨します。Jieba は中国語の単語分割向けに特別に設計されており、より良い結果を提供します。
+**中国語テキストの場合**: `lindera` は `cc-cedict` 辞書を通じて中国語をサポートしますが、代わりに [`jieba`](./jieba-tokenizer) トークナイザーの使用を推奨します。Jieba は中国語の単語分割に特化して設計されており、より高精度な結果を得られます。
 
 </Admonition>
 
-## Overview\{#overview}
+## 概要\{#overview}
 
-日本語と韓国語は膠着語です。助詞と呼ばれる文法標識が名詞に直接付くため、多数の組み合わせが生まれます。例えば次のようになります。
+日本語と韓国語は膠着語であり、助詞と呼ばれる文法標識が名詞に直接付着して多様な組み合わせを形成します。例:
 
 <table>
    <tr>
@@ -57,19 +57,19 @@ import TabItem from '@theme/TabItem';
    </tr>
 </table>
 
-`lindera` tokenizer は次のことを行います。
+`lindera` トークナイザーは以下の処理を行います。
 
-1. **テキストを分割**して個々の形態素（単語と助詞）にする
+1. **テキストを**個々の形態素（単語や助詞）に**分割します**
 
-1. **各 token にタグ付け**して辞書由来の品詞（POS）情報を付与する
+1. **各トークンに**辞書に基づく品詞（POS）情報を**付与します**
 
-1. **フィルターを適用**して不要な token（例: 助詞、句読点）を除去する
+1. **フィルターを適用し**、不要なトークン（助詞や句読点など）を**除去します**
 
-この2段階のプロセス、つまり分割の後に POS ベースのフィルタリングを行うことで、検索用にどの token を index 化するかを正確に制御できます。
+この「分割→POS ベースのフィルタリング」という 2 段階の処理により、検索対象としてインデックスに登録するトークンを精密に制御できます。
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
-`lindera` tokenizer を使用する analyzer を設定するには、`tokenizer.type` を `lindera` に設定し、`dict_kind` で辞書を選択し、必要に応じてフィルターを適用します。
+`lindera` トークナイザーを使用するアナライザーを設定するには、`tokenizer.type` を `lindera` に指定し、`dict_kind` で辞書を選択します。必要に応じてフィルターも適用できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -166,30 +166,30 @@ const analyzer_params = {
 
 <table>
    <tr>
-     <th><p>パラメータ</p></th>
+     <th><p>パラメーター</p></th>
      <th><p>説明</p></th>
    </tr>
    <tr>
      <td><p><code>type</code></p></td>
-     <td><p>tokenizer のタイプです。これは <code>"lindera"</code> に固定されています。</p></td>
+     <td><p>トークナイザーの種類です。<code>&quot;lindera&quot;</code> に固定されています。</p></td>
    </tr>
    <tr>
      <td><p><code>dict_kind</code></p></td>
-     <td><p>語彙を定義するために使用される辞書です。指定可能な値:</p><ul><li><p><code>ko-dic</code>: 韓国語 - 韓国語形態素辞書 (<a href="https://bitbucket.org/eunjeon/mecab-ko-dic">MeCab Ko-dic</a>)</p></li><li><p><code>ipadic</code>: 日本語 - 標準形態素辞書 (<a href="https://taku910.github.io/mecab/">MeCab IPADIC</a>)</p></li></ul></td>
+     <td><p>語彙の定義に使用する辞書です。指定可能な値は次のとおりです。</p><ul><li><p><code>ko-dic</code>: 韓国語 - 韓国語形態素辞書 (<a href="https://bitbucket.org/eunjeon/mecab-ko-dic">MeCab Ko-dic</a>)</p></li><li><p><code>ipadic</code>: 日本語 - 標準形態素辞書 (<a href="https://taku910.github.io/mecab/">MeCab IPADIC</a>)</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>filter</code></p></td>
-     <td><p>分割後に適用する tokenizer レベルのフィルターのリストです。各フィルターは次を持つオブジェクトです:</p><ul><li><p><code>kind</code>: フィルターの種類。サポートされる値:</p><ul><li><p><code>korean_stop_tags</code>: 指定された韓国語 POS タグに一致する token を削除します。</p></li><li><p><code>japanese_stop_tags</code>: 指定された日本語 POS タグに一致する token を削除します。</p></li></ul></li><li><p><code>tags</code>: フィルタリング対象の POS タグのリストです。使用可能なタグは <code>kind</code> に依存します:</p><ul><li><p><code>korean_stop_tags</code> の場合: 完全一致するタグコード（例: <code>JKS</code>, <code>JKO</code>, <code>SF</code>）を使用します。韓国語タグは完全一致が必要です。世宗 tagset に基づく完全なリストについては、<a href="https://docs.rs/lindera/latest/src/lindera/token_filter/korean_stop_tags.rs.html">Lindera Korean stop tags source</a> を参照してください。</p></li><li><p><code>japanese_stop_tags</code> の場合: 完全一致するタグコード（例: <code>助詞,格助詞</code>, <code>助詞,係助詞</code>, <code>助動詞</code>）を使用します。日本語タグは完全一致が必要です。完全なリスト（IPADIC）については、<a href="https://github.com/taku910/mecab/blob/master/mecab-ipadic/pos-id.def">Japanese POS tags reference</a> を参照してください。</p></li></ul></li></ul></td>
+     <td><p>分割後に適用するトークナイザーレベルのフィルター一覧です。各フィルターは以下のプロパティを持つオブジェクトです。</p><ul><li><p><code>kind</code>: フィルターの種類です。指定可能な値は次のとおりです。</p><ul><li><p><code>korean_stop_tags</code>: 指定した韓国語 POS タグに一致するトークンを除去します。</p></li><li><p><code>japanese_stop_tags</code>: 指定した日本語 POS タグに一致するトークンを除去します。</p></li></ul></li><li><p><code>tags</code>: 除外対象の POS タグ一覧です。利用可能なタグは <code>kind</code> によって異なります。</p><ul><li><p><code>korean_stop_tags</code> の場合: 正確なタグコード（例: <code>JKS</code>、<code>JKO</code>、<code>SF</code>）を指定します。韓国語タグは完全一致が必要です。Sejong タグセットに基づく全タグ一覧は、<a href="https://docs.rs/lindera/latest/src/lindera/token_filter/korean_stop_tags.rs.html">Lindera Korean stop tags source</a> を参照してください。</p></li><li><p><code>japanese_stop_tags</code> の場合: 正確なタグコード（例: <code>助詞,格助詞</code>、<code>助詞,係助詞</code>、<code>助動詞</code>）を指定します。日本語タグは完全一致が必要です。IPADIC の全タグ一覧は、<a href="https://github.com/taku910/mecab/blob/master/mecab-ipadic/pos-id.def">Japanese POS tags reference</a> を参照してください。</p></li></ul></li></ul></td>
    </tr>
 </table>
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` field に適用できます。これにより、Zilliz Cloud は効率的な tokenization とフィルタリングのために、その field 内のテキストを指定された analyzer で処理できます。詳細は [使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマの定義時に `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud が指定されたアナライザーを使って当該フィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細は [使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer の設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使って動作を確認してください。
 
-### Korean example\{#korean-example}
+### 韓国語の例\{#korean-example}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -377,9 +377,9 @@ console.log("Analyzer output:", result);
 ['서울', '맛있', '음식', '먹', '습니다']
 ```
 
-`korean_stop_tags` がない場合、出力には `에서`（〜で）、`는`（主題標識）、`을`（目的格標識）のような助詞も含まれますが、これらは通常検索にはあまり有用ではありません。
+`korean_stop_tags` を使用しない場合、出力には `에서`（in）、`는`（topic marker）、`을`（object marker）などの助詞が含まれますが、これらは通常検索に有用ではありません。
 
-### Japanese example\{#japanese-example}
+### 日本語の例\{#japanese-example}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -467,10 +467,10 @@ console.log("Analyzer output:", result);
 </TabItem>
 </Tabs>
 
-**期待される出力:**
+**期待される出力**:
 
 ```plaintext
 ['東京', 'スカイ', 'ツリー', '最寄り駅', 'とう', 'きょう', 'スカイ', 'ツリー', '駅']
 ```
 
-`japanese_stop_tags` がない場合、出力には `の`（連体助詞）、`は`（主題標識）、`です`（コピュラ）のような要素も含まれます。
+`japanese_stop_tags` を使用しない場合、出力には `の`（possessive）、`は`（topic marker）、`です`（copula）などの助詞が含まれます。
