@@ -1,5 +1,5 @@
 ---
-title: "JSON フィールドの概要 | BYOC"
+title: "JSON Field の概要 | BYOC"
 slug: /json-field-overview
 sidebar_label: "概要"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "製品カタログ、コンテンツ管理システム、ユーザー設定エンジンのようなアプリケーションを構築する際には、vector embeddings とあわせて柔軟なメタデータを保存する必要がよくあります。製品属性はカテゴリごとに異なり、ユーザー設定は時間とともに変化し、ドキュメントのプロパティは複雑なネスト構造を持つことがあります。Zilliz Cloud の JSON フィールドは、パフォーマンスを犠牲にすることなく、柔軟な構造化データの保存とクエリを可能にすることで、この課題を解決します。 | BYOC"
+description: "製品カタログ、コンテンツ管理システム、ユーザー設定エンジンのようなアプリケーションを構築する際には、vector embeddings とともに柔軟なメタデータを保存する必要がよくあります。製品属性はカテゴリごとに異なり、ユーザー設定は時間とともに変化し、ドキュメントのプロパティは複雑なネスト構造を持ちます。Zilliz Cloud の JSON フィールドは、パフォーマンスを損なうことなく柔軟な構造化データを保存およびクエリできるようにすることで、この課題を解決します。 | BYOC"
 type: origin
 token: Neq4wR0EdiXokRkhXwbcMPfanCd
 sidebar_position: 1
@@ -19,15 +19,15 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# JSON フィールドの概要
+# JSON Field の概要
 
-製品カタログ、コンテンツ管理システム、ユーザー設定エンジンのようなアプリケーションを構築する際には、vector embeddings とあわせて柔軟なメタデータを保存する必要がよくあります。製品属性はカテゴリごとに異なり、ユーザー設定は時間とともに変化し、ドキュメントのプロパティは複雑なネスト構造を持つことがあります。Zilliz Cloud の JSON フィールドは、パフォーマンスを犠牲にすることなく、柔軟な構造化データの保存とクエリを可能にすることで、この課題を解決します。
+製品カタログ、コンテンツ管理システム、ユーザー設定エンジンのようなアプリケーションを構築する際には、vector embeddings とともに柔軟なメタデータを保存する必要がよくあります。製品属性はカテゴリごとに異なり、ユーザー設定は時間とともに変化し、ドキュメントのプロパティは複雑なネスト構造を持ちます。Zilliz Cloud の JSON フィールドは、パフォーマンスを損なうことなく柔軟な構造化データを保存およびクエリできるようにすることで、この課題を解決します。
 
-## JSON フィールドとは？\{#what-is-a-json-field}
+## JSON field とは何ですか？\{#what-is-a-json-field}
 
-JSON フィールドは、Zilliz Cloud におけるスキーマ定義済みのデータ型（`DataType.JSON`）で、構造化されたキーと値のデータを保存します。従来の固定的なデータベースカラムとは異なり、JSON フィールドはネストされたオブジェクト、配列、混在するデータ型を格納でき、さらに高速なクエリのための複数のインデックスオプションを提供します。
+JSON field は、構造化されたキーと値のデータを格納する Zilliz Cloud のスキーマ定義データ型 (`DataType.JSON`) です。従来の固定的なデータベース列とは異なり、JSON field はネストしたオブジェクト、配列、混在するデータ型を扱うことができ、さらに高速なクエリのための複数のインデックスオプションを提供します。
 
-JSON フィールド構造の例:
+JSON field 構造の例:
 
 ```json
 {
@@ -50,34 +50,34 @@ JSON フィールド構造の例:
 }
 ```
 
-この例では、`metadata` は単一の JSON フィールドであり、フラットな値（例: `category`、`in_stock`）、配列（`tags`）、ネストされたオブジェクト（`supplier`）が混在しています。
+この例では、`metadata` は単一の JSON field であり、フラットな値（例: `category`、`in_stock`）、配列（`tags`）、ネストしたオブジェクト（`supplier`）が混在しています。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-**命名規則:** JSON キーには英字、数字、アンダースコアのみを使用してください。特殊文字、スペース、ドットはクエリでの解析問題を引き起こす可能性があるため避けてください。
+**命名規則:** JSON キーには英字、数字、アンダースコアのみを使用してください。特殊文字、スペース、ドットはクエリ時の解析問題を引き起こす可能性があるため避けてください。
 
 </Admonition>
 
-## JSON フィールドと dynamic field の違い\{#json-field-vs-dynamic-field}
+## JSON field と dynamic field の違い\{#json-field-vs-dynamic-field}
 
-よく混同されるポイントとして、JSON フィールドと [dynamic field](./enable-dynamic-field) の違いがあります。どちらも JSON に関連していますが、用途は異なります。
+よくある混乱ポイントの 1 つが、JSON field と [dynamic field](./enable-dynamic-field) の違いです。どちらも JSON に関連していますが、用途は異なります。
 
-以下の表は、JSON フィールドと dynamic field の主な違いをまとめたものです。
+以下の表は、JSON field と dynamic field の主な違いをまとめたものです。
 
-| Feature | JSON Field | Dynamic Field |
+| 機能 | JSON Field | Dynamic Field |
 | --- | --- | --- |
-| Schema definition | collection スキーマで `DataType.JSON` 型として明示的に宣言する必要がある scalar field。 | 宣言されていないフィールドを自動的に保存する、非表示の JSON フィールド（`$meta` という名前）。 |
-| Use case | スキーマが既知で一貫している構造化データを保存する。 | 固定スキーマに収まらない、柔軟で変化する、または半構造化データを保存する。 |
-| Control | フィールド名と構造はユーザーが制御する。 | 未定義フィールド用にシステムが管理する。 |
-| Querying | フィールド名、または JSON フィールド内の対象キーを使ってクエリする: `metadata["key"]`。 | dynamic field キーを直接使ってクエリする: `"dynamic_key"`、または `$meta` 経由: `$meta["dynamic_key"]` |
+| スキーマ定義 | `DataType.JSON` 型で collection スキーマに明示的に宣言する必要がある scalar field。 | 宣言されていないフィールドを自動的に保存する非表示の JSON field（名前は `$meta`）。 |
+| 使用ケース | スキーマが既知で一貫している構造化データを保存する。 | 固定スキーマに収まらない、柔軟で進化する、または半構造化されたデータを保存する。 |
+| 制御 | フィールド名と構造を自分で制御できる。 | 未定義フィールド用としてシステムが管理する。 |
+| クエリ | フィールド名または JSON field 内の対象キーを使ってクエリする: `metadata["key"]`。 | dynamic field キーを直接使ってクエリする: `"dynamic_key"` または `$meta` 経由: `$meta["dynamic_key"]` |
 
 ## 基本操作\{#basic-operations}
 
-JSON フィールドを使用するための基本的なワークフローは、スキーマで定義し、データを挿入し、その後に特定のフィルター式を使ってデータをクエリすることです。
+JSON field を使用する基本的なワークフローは、スキーマ内で定義し、データを挿入し、その後特定のフィルター式を使ってデータをクエリすることです。
 
-### JSON フィールドを定義する\{#define-a-json-field}
+### JSON field を定義する\{#define-a-json-field}
 
-JSON フィールドを使用するには、collection 作成時に collection スキーマで明示的に定義します。次の例は、`DataType.JSON` 型の `metadata` フィールドを持つ collection を作成する方法を示しています。
+JSON field を使用するには、collection 作成時に collection スキーマで明示的に定義します。次の例は、`DataType.JSON` 型の `metadata` フィールドを持つ collection を作成する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -144,15 +144,15 @@ client.create_collection(
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-この例では、collection スキーマで定義された JSON フィールドは `nullable=True` によって null 値を許可しています。詳細は [Nullable & Default](./nullable-fields) を参照してください。
+この例では、collection スキーマで定義された JSON field は `nullable=True` によって null 値を許可しています。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
 
 </Admonition>
 
 ### データを挿入する\{#insert-data}
 
-collection を作成したら、指定した JSON フィールドに構造化 JSON オブジェクトを含むエンティティを挿入します。データは辞書のリスト形式にする必要があります。
+collection を作成したら、指定した JSON field に構造化された JSON オブジェクトを含むエンティティを挿入します。データは辞書のリストとしてフォーマットする必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -223,7 +223,7 @@ client.insert(collection_name="product_catalog", data=entities)
 
 ### フィルタリング操作\{#filtering-operations}
 
-JSON フィールドに対してフィルタリング操作を実行する前に、以下を確認してください。
+JSON field に対してフィルタリング操作を実行する前に、以下を確認してください。
 
 - 各 vector field にインデックスを作成していること。
 
@@ -287,11 +287,11 @@ client.load_collection(collection_name="product_catalog")
 
 </details>
 
-これらの要件を満たすと、以下の式を使って JSON フィールド内の値に基づいて collection をフィルタリングできます。これらのフィルター式は、特定の JSON パス構文と専用の演算子を利用します。
+これらの要件を満たすと、以下の式を使用して、JSON field 内の値に基づいて collection をフィルタリングできます。これらのフィルター式では、JSON パス構文と専用演算子を活用します。
 
-#### JSON パス構文を使ったフィルタリング\{#filtering-with-json-path-syntax}
+#### JSON パス構文によるフィルタリング\{#filtering-with-json-path-syntax}
 
-特定のキーをクエリするには、ブラケット記法を使って JSON キーにアクセスします: `json_field_name["key"]`。ネストされたキーの場合は、`json_field_name["key1"]["key2"]` のように連結します。
+特定のキーをクエリするには、角括弧表記を使って JSON キーにアクセスします: `json_field_name["key"]`。ネストしたキーの場合は、`json_field_name["key1"]["key2"]` のように連結します。
 
 `category` が `"electronics"` のエンティティをフィルタリングするには、次のようにします。
 
@@ -347,7 +347,7 @@ client.search(
 </TabItem>
 </Tabs>
 
-ネストされたキー `supplier["country"]` が `"USA"` のエンティティをフィルタリングするには、次のようにします。
+ネストしたキー `supplier["country"]` が `"USA"` のエンティティをフィルタリングするには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -403,15 +403,15 @@ print(res)
 </TabItem>
 </Tabs>
 
-#### JSON 専用演算子を使ったフィルタリング\{#filtering-with-json-specific-operators}
+#### JSON 固有の演算子によるフィルタリング\{#filtering-with-json-specific-operators}
 
-Zilliz Cloud は、特定の JSON フィールドキー上の配列値をクエリするための特別な演算子も提供しています。たとえば次のようなものがあります。
+Zilliz Cloud では、特定の JSON field キー上の配列値をクエリするための特別な演算子も提供されています。たとえば次のとおりです。
 
-- `json_contains(identifier, expr)`: JSON 配列内に特定の要素またはサブ配列が存在するかを確認します
+- `json_contains(identifier, expr)`: 特定の要素またはサブ配列が JSON 配列内に存在するかを確認します
 
-- `json_contains_all(identifier, expr)`: 指定された JSON 式のすべての要素がフィールド内に存在することを保証します
+- `json_contains_all(identifier, expr)`: 指定した JSON 式のすべての要素が field 内に存在することを確認します
 
-- `json_contains_any(identifier, expr)`: JSON 式の少なくとも 1 つのメンバーがフィールド内に存在するエンティティをフィルタリングします
+- `json_contains_any(identifier, expr)`: JSON 式の少なくとも 1 つのメンバーが field 内に存在するエンティティをフィルタリングします
 
 `tags` キーの下に `"summer_sale"` の値を持つ製品を見つけるには、次のようにします。
 
@@ -469,7 +469,7 @@ print(res)
 </TabItem>
 </Tabs>
 
-`tags` キーの下に `"electronics"`、`"new"`、または `"clearance"` のうち少なくとも 1 つの値を持つ製品を見つけるには、次のようにします。
+`tags` キーの下に `"electronics"`、`"new"`、または `"clearance"` の少なくとも 1 つの値を持つ製品を見つけるには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -525,21 +525,27 @@ print(res)
 </TabItem>
 </Tabs>
 
-JSON 専用演算子の詳細については、[JSON Operators](./json-filtering-operators) を参照してください。
+JSON 固有の演算子の詳細については、[JSON Operators](./json-filtering-operators) を参照してください。
 
 ## 次へ: JSON クエリを高速化する\{#next-accelerate-json-queries}
 
-デフォルトでは、高速化されていない JSON フィールドへのクエリはすべての行をフルスキャンするため、大規模データセットでは遅くなる可能性があります。JSON クエリを高速化するために、Zilliz Cloud は高度なインデックス作成機能とストレージ最適化機能を提供しています。
+デフォルトでは、高速化されていない JSON field へのクエリはすべての行をフルスキャンするため、大規模データセットでは遅くなることがあります。JSON クエリを高速化するために、Zilliz Cloud は高度なインデックス機能とストレージ最適化機能を提供しています。
 
-以下の表は、それらの違いと最適な利用シナリオをまとめたものです。
+<Admonition type="warning" icon="🚧" title="Warning">
+
+Milvus 3.0.0 以降、オブジェクト全体に対する JSON インデックス (`json_cast_type="JSON"`)、別名 JSON フラットインデックスは非推奨です。既存のインデックスおよび新しいインデックス作成リクエストは互換性のために引き続きサポートされますが、このモードは新しいワークロードには推奨されなくなりました。既知のクエリパスには JSON path indexing を使用するか、複雑または進化するドキュメント全体にわたる幅広いクエリ高速化には [JSON Shredding](./json-shredding) を検討してください。
+
+</Admonition>
+
+以下の表は、それぞれの違いと最適な利用シナリオをまとめたものです。
 
 | Technique | Best For | Arrays Acceleration | Notes |
 | --- | --- | --- | --- |
 | JSON Indexing | 頻繁にアクセスされる少数のキー、特定の配列キー上の配列 | Yes (on indexed array key) | キーを事前に選定する必要があり、スキーマが進化する場合はメンテナンスが必要 |
-| JSON Shredding | 多くのキーにまたがる一般的な高速化、多様なクエリに柔軟に対応 | Yes (slightly accelerates array values compared to brute-force queries) | 追加のストレージ設定が必要で、配列は引き続きキーごとのインデックスが必要 |
-| NGRAM Index | ワイルドカード検索、テキストフィールドでの部分文字列一致 | N/A | 数値/範囲フィルター用ではない |
+| JSON Shredding | 多数のキーにわたる全般的な高速化、さまざまなクエリに柔軟に対応 | Yes (slightly accelerates array values compared to brute-force queries) | 追加のストレージ設定が必要で、配列には引き続きキーごとのインデックスが必要 |
+| NGRAM Index | テキストフィールドにおけるワイルドカード検索、部分文字列一致 | N/A | 数値/範囲フィルターには不向き |
 
-**ヒント:** これらのアプローチは組み合わせて使用できます。たとえば、広範なクエリ高速化には JSON shredding、高頻度の配列キーには JSON indexing、柔軟なテキスト検索には NGRAM indexing を使用できます。
+**ヒント:** これらのアプローチは組み合わせて使用できます。たとえば、幅広いクエリ高速化には JSON shredding、高頻度の配列キーには JSON indexing、柔軟なテキスト検索には NGRAM indexing を使用できます。
 
 実装の詳細については、以下を参照してください。
 
@@ -551,29 +557,29 @@ JSON 専用演算子の詳細については、[JSON Operators](./json-filtering
 
 ## FAQ\{#faq}
 
-### JSON フィールドのサイズに制限はありますか？\{#are-there-any-limitations-on-the-size-of-a-json-field}
+### JSON field のサイズに制限はありますか？\{#are-there-any-limitations-on-the-size-of-a-json-field}
 
-はい。各 JSON フィールドは 65,536 バイトに制限されています。
+はい。各 JSON field は 65,536 バイトに制限されています。
 
-### JSON フィールドではデフォルト値を設定できますか？\{#does-a-json-field-support-setting-a-default-value}
+### JSON field はデフォルト値の設定をサポートしていますか？\{#does-a-json-field-support-setting-a-default-value}
 
-いいえ。JSON フィールドはデフォルト値をサポートしていません。ただし、フィールド定義時に `nullable=True` を設定することで空のエントリを許可できます。
+いいえ。JSON field はデフォルト値をサポートしていません。ただし、field 定義時に `nullable=True` を設定して空のエントリを許可することはできます。
 
-詳細は [Nullable & Default](./nullable-fields) を参照してください。
+詳細については、[Nullable & Default](./nullable-fields) を参照してください。
 
-### JSON フィールドキーに命名規則はありますか？\{#are-there-any-naming-conventions-for-json-field-keys}
+### JSON Field キーに命名規則はありますか？\{#are-there-any-naming-conventions-for-json-field-keys}
 
-はい。クエリおよびインデックスとの互換性を確保するために、以下に従ってください。
+はい。クエリおよびインデックスとの互換性を確保するために、次の点に従ってください。
 
-- JSON キーには英字、数字、アンダースコアのみを使用してください。
+- JSON キーには、英字、数字、およびアンダースコアのみを使用してください。
 
-- 特殊文字、スペース、ドット（`.`, `/` など）は使用しないでください。
+- 特殊文字、スペース、ドット（`.`, `/` など）の使用は避けてください。
 
-- 互換性のないキーは、フィルター式の解析問題を引き起こす可能性があります。
+- 互換性のないキーは、filter expression の解析時に問題を引き起こす可能性があります。
 
-### Zilliz Cloud は JSON フィールド内の文字列値をどのように扱いますか？\{#how-does-zilliz-cloud-handle-string-values-in-json-fields}
+### Zilliz Cloud は JSON Field 内の文字列値をどのように処理しますか？\{#how-does-zilliz-cloud-handle-string-values-in-json-fields}
 
-Zilliz Cloud は、JSON 入力内の文字列値を意味的な変換なしに、そのまま保存します。引用符が不適切な文字列は、解析時にエラーの原因となる場合があります。
+Zilliz Cloud は、文字列値を JSON 入力に現れたとおりにそのまま保存し、意味的な変換は行いません。不適切に引用された文字列は、解析時にエラーの原因となる可能性があります。
 
 **有効な文字列の例**:
 
