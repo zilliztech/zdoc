@@ -1,5 +1,155 @@
 {
   "files": {
+    "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md": {
+      "sourceHash": "5af0871b871450db30d897b6b405af00dd78868ae0bf61d24c2f520351c12c42",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md",
+      "translatedAt": "2026-08-04T05:07:52.639Z"
+    },
+    "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer.md": {
+      "sourceHash": "325300c9ec41f8e7c8805e15ff2e15664e0341a2e63e21252f7caa08d9dfd1b4",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer.md",
+      "translatedAt": "2026-08-04T05:09:01.745Z"
+    },
+    "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md": {
+      "sourceHash": "9c4f8828ddef0545773c601ad967035abb2163c1d6eff8a7e0255a9aea7dee2f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md",
+      "translatedAt": "2026-08-04T05:08:33.537Z"
+    },
+    "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer.md": {
+      "sourceHash": "d4100b5433ccec1e83d3f802c381441671cd70dd8303f02ee2dd9da2d7537b9d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer.md",
+      "translatedAt": "2026-08-04T05:09:11.001Z"
+    },
+    "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer.md": {
+      "sourceHash": "0d27cd1ab91dab730791cf00aaed373e0724e5d9c298e32135efbfee5d269abf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer.md",
+      "translatedAt": "2026-08-04T05:08:38.846Z"
+    },
+    "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md": {
+      "sourceHash": "b31ee32cc099cb553e6be08dbda5efa50d3283b823e3bab33a197c29b84ddfe8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md",
+      "translatedAt": "2026-08-04T05:10:12.872Z"
+    },
+    "content/en/byoc/tutorials/development/collection/collection-on-console/manage-collections-console.md": {
+      "sourceHash": "665726c6e894f052645099d6ac3e69761aa1bbae27e26434f7d49070c553e455",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/collection-on-console/manage-collections-console.md",
+      "translatedAt": "2026-08-04T05:10:18.486Z"
+    },
+    "content/en/byoc/tutorials/development/data-import/data-import-format-options/data-import-format-options.md": {
+      "sourceHash": "cdf87f5843d3b025245195c3dddcc10719b969809c9e3fbdebe3bf47bd733244",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/data-import-format-options/data-import-format-options.md",
+      "translatedAt": "2026-08-04T05:09:10.433Z"
+    },
+    "content/en/byoc/tutorials/development/data-import/import-data/import-data.md": {
+      "sourceHash": "33e9babafad491f63b4ecd530714bbb5870ac1223753274cc703a205f5d32acd",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/import-data/import-data.md",
+      "translatedAt": "2026-08-04T05:09:22.888Z"
+    },
+    "content/en/byoc/tutorials/development/data-import/prepare-data-import/prepare-data-import.md": {
+      "sourceHash": "aef090e3b0d89ad3260ef7cfd9c1783db19caab62458acd1aebcaafa459e77ce",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/prepare-data-import/prepare-data-import.md",
+      "translatedAt": "2026-08-04T05:09:21.576Z"
+    },
+    "content/en/byoc/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md": {
+      "sourceHash": "98098720f092cad06ea98307afa533dd7a9bcfce195290e398f51c3d57d5ff27",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md",
+      "translatedAt": "2026-08-04T05:13:34.831Z"
+    },
+    "content/en/byoc/tutorials/development/schema/json-fields/json-field-overview.md": {
+      "sourceHash": "69407e869e058d094a775370d1fe5157a602adc4a9f61948d3a7311329961791",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/json-fields/json-field-overview.md",
+      "translatedAt": "2026-08-04T05:12:19.409Z"
+    },
+    "content/en/byoc/tutorials/development/schema/json-fields/json-indexing.md": {
+      "sourceHash": "3d86eea06b24dd492563c333a934baa13b6c29da200ac68828f8f844b0f3c87f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/json-fields/json-indexing.md",
+      "translatedAt": "2026-08-04T05:12:52.938Z"
+    },
+    "content/en/byoc/tutorials/development/schema/json-fields/json-shredding.md": {
+      "sourceHash": "261e70e7621ce1aa4286752c9e9960c23fa85a0506c251a5c79ed0b4f3c9eb73",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/json-fields/json-shredding.md",
+      "translatedAt": "2026-08-04T05:11:12.195Z"
+    },
+    "content/en/byoc/tutorials/development/schema/schema-best-practices/schema-best-practices.md": {
+      "sourceHash": "6c226920701a6d630c4140a3ce22d759cb874bdc4f95b5ec1ce5f7877829ec7e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/schema-best-practices/schema-best-practices.md",
+      "translatedAt": "2026-08-04T05:11:19.322Z"
+    },
+    "content/en/byoc/tutorials/development/schema/struct-array/create-struct-array.md": {
+      "sourceHash": "1d550c3a9f697a73aa3e8a49917ed01e77cb2a4eb640a0ba7c448ddb5b44b724",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/struct-array/create-struct-array.md",
+      "translatedAt": "2026-08-04T05:12:50.682Z"
+    },
+    "content/en/byoc/tutorials/development/schema/struct-array/index-struct-array.md": {
+      "sourceHash": "a1f4876d03f91cdaf6cb88a44dca6801ad86ba74c56d1800b97096bfb1fb3f10",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/struct-array/index-struct-array.md",
+      "translatedAt": "2026-08-04T05:13:44.645Z"
+    },
+    "content/en/byoc/tutorials/development/schema/struct-array/insert-struct-array.md": {
+      "sourceHash": "a4d72b52b33cc5fe5b19c1142da3d741708cab3e558c39f278ef89ef39d6778e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/struct-array/insert-struct-array.md",
+      "translatedAt": "2026-08-04T05:14:05.624Z"
+    },
+    "content/en/byoc/tutorials/development/schema/struct-array/struct-array-limits.md": {
+      "sourceHash": "97cdb21b741ebd17d5231bd4718e49b63b83233a3e8b2160671bcdff7d419110",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/struct-array/struct-array-limits.md",
+      "translatedAt": "2026-08-04T05:14:06.837Z"
+    },
+    "content/en/byoc/tutorials/development/schema/struct-array/use-array-of-structs.md": {
+      "sourceHash": "5a1760624dbafc633a8a642c85a08355f72f170b4e40c6ef63c60c732c529ebb",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/struct-array/use-array-of-structs.md",
+      "translatedAt": "2026-08-04T05:14:53.659Z"
+    },
+    "content/en/byoc/tutorials/development/schema/use-geometry-field.md": {
+      "sourceHash": "36c9fba82a27110440686273333ed7f7a815f13da33c0158e6d7149e656cb7ba",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-geometry-field.md",
+      "translatedAt": "2026-08-04T05:17:34.597Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/search-aggregation.md": {
+      "sourceHash": "6cc1a43b5f5350b860b83ebb2e21b50de75ca452a61a0a645ecb052827811604",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/search-aggregation.md",
+      "translatedAt": "2026-08-04T05:18:30.203Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/single-vector-search.md": {
+      "sourceHash": "a2d3b93594d71fcc5fd8a7472dc68bd2c92ad59dfa4052c67dc8a428265e885b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/single-vector-search.md",
+      "translatedAt": "2026-08-04T05:19:59.426Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md": {
+      "sourceHash": "c57738434cffaf16bdc01c2b2f5592fb09c6491a755e45527d928c9fd1080055",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md",
+      "translatedAt": "2026-08-04T05:15:58.793Z"
+    },
+    "content/en/byoc/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
+      "sourceHash": "e17e01ace7b871d0faecb0f8f3af709e3d8a4b76d2a677f7a1db3b0e7704ef77",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
+      "translatedAt": "2026-08-04T05:04:51.236Z"
+    },
+    "content/en/guides/tutorials/get-started/cloud-providers-and-regions.md": {
+      "sourceHash": "111c1ca88e79137e909dbaea8bd6a9e59336ca5fe48cdb7944c0ca82c0c1c508",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/cloud-providers-and-regions.md",
+      "translatedAt": "2026-08-04T05:06:09.661Z"
+    },
+    "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
+      "sourceHash": "ce34b466ab773028c71b9180bb36440b1246c57f86bdc85f5d90ecafa81442da",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
+      "translatedAt": "2026-08-04T05:04:52.268Z"
+    },
+    "content/en/guides/tutorials/management/private-endpoint/setup-a-private-link-aws.md": {
+      "sourceHash": "8acbb77a0564cc844103f7ba2600d3cb8b64ef6b8e457d8773baa9f52e31ce5c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/private-endpoint/setup-a-private-link-aws.md",
+      "translatedAt": "2026-08-04T05:07:12.629Z"
+    },
+    "content/en/guides/tutorials/management/private-endpoint/setup-a-private-link-azure.md": {
+      "sourceHash": "376729be8d4f923ebd45eda36883eb3f9bf98a6c2fe59a5e0683ef2a8f57f7c0",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/private-endpoint/setup-a-private-link-azure.md",
+      "translatedAt": "2026-08-04T05:06:22.698Z"
+    },
+    "content/en/guides/tutorials/management/private-endpoint/setup-a-private-link-gcp.md": {
+      "sourceHash": "cf0b9518a0bd1edf2c1f64c3e81895bbedf7e421071cf56369403e62577481af",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/private-endpoint/setup-a-private-link-gcp.md",
+      "translatedAt": "2026-08-04T05:07:31.449Z"
+    },
     "docs-byoc/tutorials/architecture/best-practices/environment-isolation.md": {
       "sourceHash": "2af23c87d9a811d1f7ea55d03d35f26dc5f1feebc14963672338c1b86e065beb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/architecture/best-practices/environment-isolation.md",
@@ -230,36 +380,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/multi-language-analyzers.md",
       "translatedAt": "2026-07-13T19:26:33.934Z"
     },
-    "docs-byoc/tutorials/development/analyzer/tokenizers/icu-tokenizer.md": {
-      "sourceHash": "123d808cf81f5d67993dff3d5ad1da1f3858fa20fb7a706004a699b8ab7a0b7b",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/tokenizers/icu-tokenizer.md",
-      "translatedAt": "2026-07-13T19:24:33.606Z"
-    },
-    "docs-byoc/tutorials/development/analyzer/tokenizers/jieba-tokenizer.md": {
-      "sourceHash": "8357511dbb8ddd5620b9329433abac90d6c597d84a4ca2718e5fcc7046c37587",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/tokenizers/jieba-tokenizer.md",
-      "translatedAt": "2026-07-13T19:29:47.386Z"
-    },
-    "docs-byoc/tutorials/development/analyzer/tokenizers/language-identifier-tokenizer.md": {
-      "sourceHash": "9c4f8828ddef0545773c601ad967035abb2163c1d6eff8a7e0255a9aea7dee2f",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/tokenizers/language-identifier-tokenizer.md",
-      "translatedAt": "2026-07-13T19:29:54.354Z"
-    },
-    "docs-byoc/tutorials/development/analyzer/tokenizers/lindera-tokenizer.md": {
-      "sourceHash": "d4100b5433ccec1e83d3f802c381441671cd70dd8303f02ee2dd9da2d7537b9d",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/tokenizers/lindera-tokenizer.md",
-      "translatedAt": "2026-07-13T19:30:13.729Z"
-    },
-    "docs-byoc/tutorials/development/analyzer/tokenizers/standard-tokenizer.md": {
-      "sourceHash": "2b23c84268c3b49f57b45f77957141d2524902c1f9d60b3f76d2fbcb71061468",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/tokenizers/standard-tokenizer.md",
-      "translatedAt": "2026-07-13T19:29:20.605Z"
-    },
-    "docs-byoc/tutorials/development/analyzer/tokenizers/whitespace-tokenizer.md": {
-      "sourceHash": "d80fa30a1eaa0c5c1091f4206d2e0864b3f6a89c0f37cd39d3bdf63eadce8ec1",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/tokenizers/whitespace-tokenizer.md",
-      "translatedAt": "2026-07-13T19:30:04.711Z"
-    },
     "docs-byoc/tutorials/development/collection/drop-collection.md": {
       "sourceHash": "9621292cc8451b8fd88944e10488fd8ae79c9c7e15311b66ce4db999895c7363",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/drop-collection.md",
@@ -274,11 +394,6 @@
       "sourceHash": "0968a0841ef5bea72b7f14446bfb7da9cf158dd82c03a977eaae862c31bde042",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/manage-aliases.md",
       "translatedAt": "2026-07-13T19:35:46.061Z"
-    },
-    "docs-byoc/tutorials/development/collection/manage-collection-on-console/manage-collections-console.md": {
-      "sourceHash": "665726c6e894f052645099d6ac3e69761aa1bbae27e26434f7d49070c553e455",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/manage-collection-on-console/manage-collections-console.md",
-      "translatedAt": "2026-07-13T19:31:52.204Z"
     },
     "docs-byoc/tutorials/development/collection/manage-collections-sdks.md": {
       "sourceHash": "08fa6af6ab9079293238fa26032c111fedf49e39afa80a31a041c5f7d3a10066",
@@ -490,21 +605,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/enable-dynamic-field.md",
       "translatedAt": "2026-07-13T20:06:39.683Z"
     },
-    "docs-byoc/tutorials/development/schema/json-field/json-field-overview.md": {
-      "sourceHash": "5a5109ed6ff32c8254cbf5430631a1d3db1775b649df752cfab4e080cb58e157",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/json-field/json-field-overview.md",
-      "translatedAt": "2026-07-13T20:01:55.766Z"
-    },
-    "docs-byoc/tutorials/development/schema/json-field/json-indexing.md": {
-      "sourceHash": "540b6ad50c066173ea81562a7540bed680fac535127e422e4dfde7e97cb46497",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/json-field/json-indexing.md",
-      "translatedAt": "2026-07-13T20:03:38.958Z"
-    },
-    "docs-byoc/tutorials/development/schema/json-field/json-shredding.md": {
-      "sourceHash": "261e70e7621ce1aa4286752c9e9960c23fa85a0506c251a5c79ed0b4f3c9eb73",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/json-field/json-shredding.md",
-      "translatedAt": "2026-07-13T20:03:57.593Z"
-    },
     "docs-byoc/tutorials/development/schema/nullable-fields.md": {
       "sourceHash": "00b33a327276864b8f984e015db8efd5aaaec5be5b1222b7bd37b0afc5bde5d7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/nullable-fields.md",
@@ -529,31 +629,6 @@
       "sourceHash": "36e797914027fb2643811d49053855eddfdc911fb54b36e111de16bfb98e11b7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/schema-explained.md",
       "translatedAt": "2026-07-13T20:08:08.049Z"
-    },
-    "docs-byoc/tutorials/development/schema/structarray/create-struct-array.md": {
-      "sourceHash": "45f0e8d4d41301791aa1da936d9f4724408c9416a8ba89891e80ac882b12654f",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/structarray/create-struct-array.md",
-      "translatedAt": "2026-07-13T20:14:39.238Z"
-    },
-    "docs-byoc/tutorials/development/schema/structarray/index-struct-array.md": {
-      "sourceHash": "ab225e1a547f0ff48ba57f946cb047f6532a9e2413d2f2bf4dcc9192c7c63635",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/structarray/index-struct-array.md",
-      "translatedAt": "2026-07-13T20:12:20.052Z"
-    },
-    "docs-byoc/tutorials/development/schema/structarray/insert-struct-array.md": {
-      "sourceHash": "06464954a01acdef41b09abc60f9570f36e75e11a29298a998828b397044643e",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/structarray/insert-struct-array.md",
-      "translatedAt": "2026-07-13T20:12:35.828Z"
-    },
-    "docs-byoc/tutorials/development/schema/structarray/struct-array-limits.md": {
-      "sourceHash": "97cdb21b741ebd17d5231bd4718e49b63b83233a3e8b2160671bcdff7d419110",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/structarray/struct-array-limits.md",
-      "translatedAt": "2026-07-13T20:14:17.213Z"
-    },
-    "docs-byoc/tutorials/development/schema/structarray/use-array-of-structs.md": {
-      "sourceHash": "eddb22f95acf7f559414071c30ebc66410afe4a1990b43664bd06207047decf1",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/structarray/use-array-of-structs.md",
-      "translatedAt": "2026-07-13T20:13:31.850Z"
     },
     "docs-byoc/tutorials/development/schema/use-array-fields.md": {
       "sourceHash": "6c2439b3632379ddba3c4c322231e304f2518a828b720e7e6be8bc2e5cf05ef0",
@@ -695,36 +770,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/search-metrics-explained.md",
       "translatedAt": "2026-07-13T20:38:23.099Z"
     },
-    "docs-byoc/tutorials/development/search-and-query/search-with-structarray/filtered-search-with-struct-arrays.md": {
-      "sourceHash": "bbd37a302920a37f04b4a58bcf5eb89facd0efe931e541d6d63fc2665ef6088d",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/search-with-structarray/filtered-search-with-struct-arrays.md",
-      "translatedAt": "2026-07-13T20:37:06.915Z"
-    },
-    "docs-byoc/tutorials/development/search-and-query/search-with-structarray/grouping-search-with-struct-array.md": {
-      "sourceHash": "7a800eb2107857a7c8a737f1cde4e63880d4cafb11a23e0b59802a72f8297665",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/search-with-structarray/grouping-search-with-struct-array.md",
-      "translatedAt": "2026-07-13T20:37:11.799Z"
-    },
-    "docs-byoc/tutorials/development/search-and-query/search-with-structarray/hybrid-search-with-struct-array.md": {
-      "sourceHash": "20fa6293404388e33bd396d79652d20efc713fb774417794ef06288036022cb0",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/search-with-structarray/hybrid-search-with-struct-array.md",
-      "translatedAt": "2026-07-13T20:38:27.102Z"
-    },
-    "docs-byoc/tutorials/development/search-and-query/search-with-structarray/range-search-with-struct-arrays.md": {
-      "sourceHash": "d03a474fdfb443d2e3713ced7bfc987a4ffbc97046804b2131fe44be8c5a6108",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/search-with-structarray/range-search-with-struct-arrays.md",
-      "translatedAt": "2026-07-13T20:38:18.202Z"
-    },
-    "docs-byoc/tutorials/development/search-and-query/search-with-structarray/search-with-struct-array.md": {
-      "sourceHash": "f0bb47a94f0868dce3302abb85a2d2b5f48431800c9199e769578f2e89266e87",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/search-with-structarray/search-with-struct-array.md",
-      "translatedAt": "2026-07-13T20:39:15.459Z"
-    },
-    "docs-byoc/tutorials/development/search-and-query/search-with-structarray/tutorial-colbert-colpali.md": {
-      "sourceHash": "cf939bb2a04fbfc072ad29815a2de3d1aa56f534627cc33a0c367124c9f5861a",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/search-with-structarray/tutorial-colbert-colpali.md",
-      "translatedAt": "2026-07-13T20:40:24.423Z"
-    },
     "docs-byoc/tutorials/development/search-and-query/text-highlighter.md": {
       "sourceHash": "b782f014fdd06f42b1180b7a2d93c48035417cff0dcf07ab02dae75c680c80a0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/text-highlighter.md",
@@ -769,11 +814,6 @@
       "sourceHash": "3da5b1dc2a7b68dca2ea61cec3bf445600686328f4bd130639b726cc0f857f84",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/vector-index/tune-index-build-level.md",
       "translatedAt": "2026-07-13T20:44:22.704Z"
-    },
-    "docs-byoc/tutorials/development/volume/managed-volume.md": {
-      "sourceHash": "b7dc1146715371ab8efc0e1d61384d3d0480441b8578117b649928ec4ef5eb62",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/volume/managed-volume.md",
-      "translatedAt": "2026-07-14T00:48:25.193Z"
     },
     "docs-byoc/tutorials/get-started/cu-types-explained.md": {
       "sourceHash": "3f1a450d2c1a29ae8e9d2e6f03c9e6b292bfb8ed8c3a2c370ef2680fae69b3e3",
@@ -839,11 +879,6 @@
       "sourceHash": "7f05322a75888852cd25c14146c9eb6aee061d199daababc71a6f421313ac5cb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-users-and-roles.md",
       "translatedAt": "2026-07-13T20:58:08.788Z"
-    },
-    "docs-byoc/tutorials/get-started/faqs/faqs.md": {
-      "sourceHash": "42f6192a9e4514f364b6f9e80c00ce7c0002b138f59ca7048105bbaf584c85d8",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faqs.md",
-      "translatedAt": "2026-07-13T20:58:14.235Z"
     },
     "docs-byoc/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md": {
       "sourceHash": "83513cfd5c634601b6ebd0cf5908ea32064fe8daecf495df684450e11946ea8d",
@@ -1145,36 +1180,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/limits/limits.md",
       "translatedAt": "2026-07-13T21:27:41.925Z"
     },
-    "docs-byoc/tutorials/management/metrics-and-alerts/manage-notification-channels.md": {
-      "sourceHash": "64242356dc5e4c403eb0d577e9b76494641251aad81a51b67a46a93aade37f3d",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-and-alerts/manage-notification-channels.md",
-      "translatedAt": "2026-07-13T21:30:39.331Z"
-    },
-    "docs-byoc/tutorials/management/metrics-and-alerts/manage-organization-alerts.md": {
-      "sourceHash": "1ae7df3ef131cbbccdb5541e4d7b3c8db518c2fdca5aae2e6cf185a1c1cc7c8f",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-and-alerts/manage-organization-alerts.md",
-      "translatedAt": "2026-07-13T21:29:14.087Z"
-    },
-    "docs-byoc/tutorials/management/metrics-and-alerts/manage-project-alerts.md": {
-      "sourceHash": "5cc7fb8dfb511ca73cfcbb822917285ef0e022d04d4e7ef9dacaa1cd4586d716",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-and-alerts/manage-project-alerts.md",
-      "translatedAt": "2026-07-13T21:30:36.816Z"
-    },
-    "docs-byoc/tutorials/management/metrics-and-alerts/metrics-alerts-reference.md": {
-      "sourceHash": "e35027e3793b0a66fcbab99ab1a1476ab07a220f5dc8e4b102f910c401c13a5a",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-and-alerts/metrics-alerts-reference.md",
-      "translatedAt": "2026-07-13T21:30:04.537Z"
-    },
-    "docs-byoc/tutorials/management/metrics-and-alerts/observability-integrations/prometheus-monitoring.md": {
-      "sourceHash": "8f3dfe9f6218076ec63a357d64e26f8868ea8327ba2bddb4ba174011d72f4787",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-and-alerts/observability-integrations/prometheus-monitoring.md",
-      "translatedAt": "2026-07-13T21:31:33.945Z"
-    },
-    "docs-byoc/tutorials/management/metrics-and-alerts/view-cluster-metric-charts.md": {
-      "sourceHash": "977bb62baa194c94fef617b9c57506004b9fc85b98427bb9885dd80a8d47316a",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-and-alerts/view-cluster-metric-charts.md",
-      "translatedAt": "2026-07-13T21:31:24.314Z"
-    },
     "docs-byoc/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md": {
       "sourceHash": "772a9ec337f28935822ef5d9a43e10c3328b0754770dd3558c05b1658fd8e8a9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md",
@@ -1194,11 +1199,6 @@
       "sourceHash": "438a3c56285888cbaa1fd478e0daa753034e294d305d60bcb7f0ed59e7e8aa3d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md",
       "translatedAt": "2026-07-13T21:32:32.156Z"
-    },
-    "docs-byoc/tutorials/management/migrations/migration-from-external-sources/zilliz-cloud-ips.md": {
-      "sourceHash": "8f23bed3d6302e841f1e1af847b9232e29431b64787af5edafcb0d1b237ee203",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migration-from-external-sources/zilliz-cloud-ips.md",
-      "translatedAt": "2026-07-13T21:33:14.285Z"
     },
     "docs-byoc/tutorials/management/organizations/organization-settings.md": {
       "sourceHash": "2610aa7290d3c9f41e4b2a3e482d1340edc731955843190cb19289338b4dd5ef",
@@ -1470,36 +1470,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/multi-language-analyzers.md",
       "translatedAt": "2026-07-11T12:46:41.213Z"
     },
-    "docs/tutorials/development/analyzer/tokenizers/icu-tokenizer.md": {
-      "sourceHash": "627f892261f162f699f49776769a02f67139765f9467ecf77e4d978f87182e1a",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/tokenizers/icu-tokenizer.md",
-      "translatedAt": "2026-07-11T13:20:56.224Z"
-    },
-    "docs/tutorials/development/analyzer/tokenizers/jieba-tokenizer.md": {
-      "sourceHash": "ac6b2af83264b2d04d22957e3a30579b0f4c82ef057a7002a33ac3b867f6859e",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/tokenizers/jieba-tokenizer.md",
-      "translatedAt": "2026-07-11T13:24:20.866Z"
-    },
-    "docs/tutorials/development/analyzer/tokenizers/language-identifier-tokenizer.md": {
-      "sourceHash": "13c7954c39dc91ff50bee790ed1b73a6ddeee3f992ca82ef8f7df87cfe471900",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/tokenizers/language-identifier-tokenizer.md",
-      "translatedAt": "2026-07-11T13:25:49.255Z"
-    },
-    "docs/tutorials/development/analyzer/tokenizers/lindera-tokenizer.md": {
-      "sourceHash": "f20aaac1736d69c977d1af01bac90907c6bbca6916469f5e4bb515c5388a763f",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/tokenizers/lindera-tokenizer.md",
-      "translatedAt": "2026-07-11T13:27:30.038Z"
-    },
-    "docs/tutorials/development/analyzer/tokenizers/standard-tokenizer.md": {
-      "sourceHash": "76b634cf7e1d506e2cdd299591d31641c5dc3325e765d94e27a457748c8be95b",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/tokenizers/standard-tokenizer.md",
-      "translatedAt": "2026-07-11T13:28:17.823Z"
-    },
-    "docs/tutorials/development/analyzer/tokenizers/whitespace-tokenizer.md": {
-      "sourceHash": "60a23a7523fed08c4ebe9953c3d7e6da8de8bbe8812d9ea2f17a5885ee06e15b",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/tokenizers/whitespace-tokenizer.md",
-      "translatedAt": "2026-07-11T13:29:07.815Z"
-    },
     "docs/tutorials/development/collection/create-external-collection/create-external-collection.md": {
       "sourceHash": "ecfc6a12ae67ad715d21e1a88b383f9e16ed26a49a3ffc7bbbf9eda21716a049",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/create-external-collection/create-external-collection.md",
@@ -1529,16 +1499,6 @@
       "sourceHash": "3a683294d252871778105b0918e01e0f35a09b8a5a1f78fffc191c26e3771e0b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/manage-aliases.md",
       "translatedAt": "2026-07-11T13:37:28.164Z"
-    },
-    "docs/tutorials/development/collection/manage-collection-on-console/manage-collections-console.md": {
-      "sourceHash": "bac74d481e9857aff0b7460711924f49d4d394aa4dd099b18425266dd58236a6",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/manage-collection-on-console/manage-collections-console.md",
-      "translatedAt": "2026-07-11T13:39:25.103Z"
-    },
-    "docs/tutorials/development/collection/manage-collection-on-console/manage-external-collections-console.md": {
-      "sourceHash": "4305e9745c46715397d96f93d0c073eb1f4980121bdf08bbea1161f5a9d12496",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/manage-collection-on-console/manage-external-collections-console.md",
-      "translatedAt": "2026-07-11T13:39:44.845Z"
     },
     "docs/tutorials/development/collection/manage-collections-sdks.md": {
       "sourceHash": "0b8c34264910545f5c12cf6f99aefd04b49fc998550d0b0908a7726153b419f5",
@@ -1715,21 +1675,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay.md",
       "translatedAt": "2026-07-13T16:26:31.675Z"
     },
-    "docs/tutorials/development/function/text-embedding-functions/cohere.md": {
-      "sourceHash": "28992d9b1dfa80eaf12435968a2369b3069f5bc53fd044f053e772217e7345a1",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-functions/cohere.md",
-      "translatedAt": "2026-07-13T16:31:44.677Z"
-    },
-    "docs/tutorials/development/function/text-embedding-functions/openai.md": {
-      "sourceHash": "800a272095513f1d79d729033cf2bd71a7b3cad1c85c2e02610f70e64b2563d6",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-functions/openai.md",
-      "translatedAt": "2026-07-13T16:33:28.424Z"
-    },
-    "docs/tutorials/development/function/text-embedding-functions/voyage-ai.md": {
-      "sourceHash": "9f0d020edbcb2c2fa41576cd329ac343271724bfd2b34f28adab285dd5b80fa6",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-functions/voyage-ai.md",
-      "translatedAt": "2026-07-13T16:31:58.736Z"
-    },
     "docs/tutorials/development/insert-and-delete/count-entities.md": {
       "sourceHash": "55b6fe59e0d2b999544fb45a5532f6be3e467280ede9b11d0c30b25f454764f8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/insert-and-delete/count-entities.md",
@@ -1800,21 +1745,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/enable-dynamic-field.md",
       "translatedAt": "2026-07-13T16:41:22.962Z"
     },
-    "docs/tutorials/development/schema/json-field/json-field-overview.md": {
-      "sourceHash": "bd721a8865b98d7d873ba9c6f00ee65dbc5f7a6037060e0349ab057b6c863e11",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/json-field/json-field-overview.md",
-      "translatedAt": "2026-07-13T16:41:39.084Z"
-    },
-    "docs/tutorials/development/schema/json-field/json-indexing.md": {
-      "sourceHash": "846622594ee57d6ee7680785e5df0bc964bd90b8e7b856478227eb268ddc4a80",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/json-field/json-indexing.md",
-      "translatedAt": "2026-07-13T16:41:55.210Z"
-    },
-    "docs/tutorials/development/schema/json-field/json-shredding.md": {
-      "sourceHash": "b865db63411ab6cdedfff2342e86904e685997213dadb887bd3b030c67f3da76",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/json-field/json-shredding.md",
-      "translatedAt": "2026-07-13T16:44:26.056Z"
-    },
     "docs/tutorials/development/schema/nullable-fields.md": {
       "sourceHash": "b4d378a7ec39d5a0cc0f6b2d650f6e44c3b3f82bf51d232b8ce2c40b4a21f4e6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/nullable-fields.md",
@@ -1839,31 +1769,6 @@
       "sourceHash": "516c2458dd94edd32eb8cd4c147d6f4bd1b21aaf012398fb1204fa6da6b90a58",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/schema-explained.md",
       "translatedAt": "2026-07-13T16:47:47.725Z"
-    },
-    "docs/tutorials/development/schema/structarray/create-struct-array.md": {
-      "sourceHash": "1381086f7faa209b7d78176de0ed6e04e20658b96af0b91a062d9b892d3b02f7",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/structarray/create-struct-array.md",
-      "translatedAt": "2026-07-13T16:46:00.532Z"
-    },
-    "docs/tutorials/development/schema/structarray/index-struct-array.md": {
-      "sourceHash": "7baf74d194d2ab70151796fcfd8eb6cde8372fb2683c0ffebe2d137c7ba770f1",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/structarray/index-struct-array.md",
-      "translatedAt": "2026-07-13T16:46:55.677Z"
-    },
-    "docs/tutorials/development/schema/structarray/insert-struct-array.md": {
-      "sourceHash": "33ae448f8e7f48d90b873bf2e8b7f60c83eee004545b363718719a4b6eb17512",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/structarray/insert-struct-array.md",
-      "translatedAt": "2026-07-13T16:47:10.285Z"
-    },
-    "docs/tutorials/development/schema/structarray/struct-array-limits.md": {
-      "sourceHash": "fc6717ff4ef77acfb44ef3e8f97d3d2d58d79ed168763d99ca5a37b07dba5f37",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/structarray/struct-array-limits.md",
-      "translatedAt": "2026-07-13T16:47:25.205Z"
-    },
-    "docs/tutorials/development/schema/structarray/use-array-of-structs.md": {
-      "sourceHash": "bfe9af81a294904bfe3f06b82df8c95edb5f4de67b82697ec8e6fc79d79487dc",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/structarray/use-array-of-structs.md",
-      "translatedAt": "2026-07-13T16:48:03.425Z"
     },
     "docs/tutorials/development/schema/use-array-fields.md": {
       "sourceHash": "6c45e179072eebbeacb08f809e99c41d5619339308d7a547e2cbe7732862630d",
@@ -2009,36 +1914,6 @@
       "sourceHash": "7200de039bb2d227165abc7942d4a4b8503dbea3c61bf5be52f273f20f3b88cd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/search-metrics-explained.md",
       "translatedAt": "2026-07-13T17:12:18.446Z"
-    },
-    "docs/tutorials/development/search-and-query/search-with-structarray/filtered-search-with-struct-arrays.md": {
-      "sourceHash": "57e9418494874fbd4af969de6e59e50151a92c3cd35b5c18c13aa3d07c274e7f",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/search-with-structarray/filtered-search-with-struct-arrays.md",
-      "translatedAt": "2026-07-13T17:16:11.376Z"
-    },
-    "docs/tutorials/development/search-and-query/search-with-structarray/grouping-search-with-struct-array.md": {
-      "sourceHash": "6567242534ff38b502652b024899fc7d0669b8e577a86577a35c6b2acb449a83",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/search-with-structarray/grouping-search-with-struct-array.md",
-      "translatedAt": "2026-07-13T17:16:02.289Z"
-    },
-    "docs/tutorials/development/search-and-query/search-with-structarray/hybrid-search-with-struct-array.md": {
-      "sourceHash": "b8e40a6cd8de3f1eb58ccc3dc7f0c37a08394fd69c4afdb5d76cfb3816185dee",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/search-with-structarray/hybrid-search-with-struct-array.md",
-      "translatedAt": "2026-07-13T17:18:31.095Z"
-    },
-    "docs/tutorials/development/search-and-query/search-with-structarray/range-search-with-struct-arrays.md": {
-      "sourceHash": "ff1d5c9fa4ed0928e99a1dbf2b94ed51affaa913d00dde7f924ee49ee5e69a06",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/search-with-structarray/range-search-with-struct-arrays.md",
-      "translatedAt": "2026-07-13T17:16:16.818Z"
-    },
-    "docs/tutorials/development/search-and-query/search-with-structarray/search-with-struct-array.md": {
-      "sourceHash": "2679888f92b4357776d29fa1b50a6a87831cecde2c7b63ff60b673852cddce8d",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/search-with-structarray/search-with-struct-array.md",
-      "translatedAt": "2026-07-13T17:16:55.099Z"
-    },
-    "docs/tutorials/development/search-and-query/search-with-structarray/tutorial-colbert-colpali.md": {
-      "sourceHash": "64216493091d334b8bb5ebcd0abf5102d0b42307ba30e11c362c7cc793dc0676",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/search-with-structarray/tutorial-colbert-colpali.md",
-      "translatedAt": "2026-07-13T17:18:07.555Z"
     },
     "docs/tutorials/development/search-and-query/semantic-highlighter.md": {
       "sourceHash": "3d24545dc5fd8dac3fd54cb59ea3c047c0579c44d877e991b70dc04e3511e89e",
@@ -2204,11 +2079,6 @@
       "sourceHash": "588c33ef164af353f05be0d3e3fbdfb2f6a422b01004948d29d23739b9bb06a5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/faqs/faq-users-and-roles.md",
       "translatedAt": "2026-07-13T17:38:39.390Z"
-    },
-    "docs/tutorials/get-started/faqs/faqs.md": {
-      "sourceHash": "59c97ef2ca999f59fcea3bce4962dc5e11dfffeaf3266aab97d8514206205943",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/faqs/faqs.md",
-      "translatedAt": "2026-07-13T17:38:34.593Z"
     },
     "docs/tutorials/get-started/feature-availability.md": {
       "sourceHash": "932fa9b0e722c4c5338a1afe1a0a8171fba5e47b02259ea0b28391c9269c5d8d",
@@ -2610,16 +2480,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/payment-billing.md",
       "translatedAt": "2026-07-13T18:17:39.595Z"
     },
-    "docs/tutorials/management/billing-management/separate-billing-by-marketplace-account/separate-zilliz-cloud-billing-on-aws-marketplace.md": {
-      "sourceHash": "168ecbd403f8dd4e925c248426cb9b52388285dc26fbc45d6c8f070eb3c1c7f8",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/separate-billing-by-marketplace-account/separate-zilliz-cloud-billing-on-aws-marketplace.md",
-      "translatedAt": "2026-07-13T18:19:24.377Z"
-    },
-    "docs/tutorials/management/billing-management/separate-billing-by-marketplace-account/separate-zilliz-cloud-billing-on-azure-marketplace.md": {
-      "sourceHash": "eafb73ccc0d2b9bd16f45ac03a61ab910a26299d84a9b4c95d688f0b835c21e4",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/separate-billing-by-marketplace-account/separate-zilliz-cloud-billing-on-azure-marketplace.md",
-      "translatedAt": "2026-07-13T18:17:36.470Z"
-    },
     "docs/tutorials/management/billing-management/set-up-payment-method/advance-pay.md": {
       "sourceHash": "09ae927dfb6e979abdfc57b21172455327eef2a685e328cd9a682b85cf26559e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/advance-pay.md",
@@ -2765,16 +2625,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/switchover-and-failover.md",
       "translatedAt": "2026-07-13T18:32:19.860Z"
     },
-    "docs/tutorials/management/clusters/on-demand-cluster/manage-on-demand-clusters.md": {
-      "sourceHash": "bb8db41409fd940693f37400abbc69c4eaeb65e07f2bb9f767e5df54042b8439",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-cluster/manage-on-demand-clusters.md",
-      "translatedAt": "2026-07-13T18:30:01.063Z"
-    },
-    "docs/tutorials/management/clusters/on-demand-cluster/on-demand-cluster.md": {
-      "sourceHash": "b87f13ce55d6fdc65674ba4400ae1df0d3d208be1ff6a36ec3e51d34bc1d10ad",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-cluster/on-demand-cluster.md",
-      "translatedAt": "2026-07-13T18:29:35.725Z"
-    },
     "docs/tutorials/management/cmek/aws-kms.md": {
       "sourceHash": "5a19b4308ace8a6f8e8ca6a8fe22f7564271b389838d31354ca3113b167ea6b5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/aws-kms.md",
@@ -2850,41 +2700,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/limits/limits.md",
       "translatedAt": "2026-07-13T18:38:38.761Z"
     },
-    "docs/tutorials/management/metrics-and-alerts/manage-notification-channels.md": {
-      "sourceHash": "78663d619ef93a525fcd89b738a4a0504b192b9d1f7273ae35007d20876f1c24",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-and-alerts/manage-notification-channels.md",
-      "translatedAt": "2026-07-13T18:38:17.795Z"
-    },
-    "docs/tutorials/management/metrics-and-alerts/manage-organization-alerts.md": {
-      "sourceHash": "1b10776a496c77e7b8a2009b64574b0bb6800ee2fa7d9c8a6d5b3c9561bc7268",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-and-alerts/manage-organization-alerts.md",
-      "translatedAt": "2026-07-13T18:37:49.524Z"
-    },
-    "docs/tutorials/management/metrics-and-alerts/manage-project-alerts.md": {
-      "sourceHash": "766f15625a93bba644254376b8e07a86e2eaf92d649488e37ad12fe6940576ef",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-and-alerts/manage-project-alerts.md",
-      "translatedAt": "2026-07-13T18:39:06.135Z"
-    },
-    "docs/tutorials/management/metrics-and-alerts/metrics-alerts-reference.md": {
-      "sourceHash": "19d74ea413e5b3fcb8807e311039538f4a02f11487104defec9bb64c14b646f8",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-and-alerts/metrics-alerts-reference.md",
-      "translatedAt": "2026-07-13T18:39:35.200Z"
-    },
-    "docs/tutorials/management/metrics-and-alerts/observability-integrations/integrate-with-datadog.md": {
-      "sourceHash": "01f28e1e5b90fcecbc126af7da66dbc2415d5039b5b6546d70a3285575d74b72",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-and-alerts/observability-integrations/integrate-with-datadog.md",
-      "translatedAt": "2026-07-13T18:40:11.252Z"
-    },
-    "docs/tutorials/management/metrics-and-alerts/observability-integrations/prometheus-monitoring.md": {
-      "sourceHash": "e099c890136e16c4d4a745075b5049eb7ad1b75ba7ea6c04c4f0533c1f31077d",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-and-alerts/observability-integrations/prometheus-monitoring.md",
-      "translatedAt": "2026-07-13T18:40:54.990Z"
-    },
-    "docs/tutorials/management/metrics-and-alerts/view-cluster-metric-charts.md": {
-      "sourceHash": "376616d833242320b952dd938e2143c8277ae3564696ddafc291dc45673cca0e",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-and-alerts/view-cluster-metric-charts.md",
-      "translatedAt": "2026-07-13T18:40:25.601Z"
-    },
     "docs/tutorials/management/migrations/migrate-between-clusters/offline-migration.md": {
       "sourceHash": "eb543e489cc91b942bbc81c8de38eaaae9c55b9d50a9df864e37d64bb9f51e00",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-between-clusters/offline-migration.md",
@@ -2909,46 +2724,6 @@
       "sourceHash": "52c06b4c94fb7a223fe6013781f64bd65b55d71bb552074d89b9edbebc1840b5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-milvus/via-stage.md",
       "translatedAt": "2026-07-13T18:45:47.595Z"
-    },
-    "docs/tutorials/management/migrations/migration-from-external-sources/external-migration-basics.md": {
-      "sourceHash": "188bc84639fb74025da0a816cfcba0197bad14edd4b250d33a71b54ff453e739",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migration-from-external-sources/external-migration-basics.md",
-      "translatedAt": "2026-07-13T18:46:14.065Z"
-    },
-    "docs/tutorials/management/migrations/migration-from-external-sources/migrate-from-elasticsearch.md": {
-      "sourceHash": "b5b2c7562f3db6e47054d08ec7214fba13546e242a4eab4016e6595648492a3b",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migration-from-external-sources/migrate-from-elasticsearch.md",
-      "translatedAt": "2026-07-13T18:45:21.614Z"
-    },
-    "docs/tutorials/management/migrations/migration-from-external-sources/migrate-from-opensearch.md": {
-      "sourceHash": "7d2a4352e9fc511621fef28f84b61c0003927fb045e179da31d2e6633ba754bf",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migration-from-external-sources/migrate-from-opensearch.md",
-      "translatedAt": "2026-07-13T18:45:46.841Z"
-    },
-    "docs/tutorials/management/migrations/migration-from-external-sources/migrate-from-pgvector.md": {
-      "sourceHash": "e7d0d4de5733ad90d429712d17aebb6377aac17454c53fc3734e17ac6cd13476",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migration-from-external-sources/migrate-from-pgvector.md",
-      "translatedAt": "2026-07-13T18:46:04.653Z"
-    },
-    "docs/tutorials/management/migrations/migration-from-external-sources/migrate-from-pinecone.md": {
-      "sourceHash": "8762f3ad1a57d3004c028375c07c6cb3292e44c0a8b9e11169f0c51e12766f23",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migration-from-external-sources/migrate-from-pinecone.md",
-      "translatedAt": "2026-07-13T18:46:32.037Z"
-    },
-    "docs/tutorials/management/migrations/migration-from-external-sources/migrate-from-qdrant.md": {
-      "sourceHash": "65f766b0227c413e220c71d94571d4a0d1d4182149acdfb2270f4764744ca355",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migration-from-external-sources/migrate-from-qdrant.md",
-      "translatedAt": "2026-07-13T18:47:20.851Z"
-    },
-    "docs/tutorials/management/migrations/migration-from-external-sources/migrate-from-tencent-cloud.md": {
-      "sourceHash": "e6aad26897a327fe3e36ef37bc78cc364478c9b0fe85bd7f6c70e500cf322b49",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migration-from-external-sources/migrate-from-tencent-cloud.md",
-      "translatedAt": "2026-07-13T18:46:47.017Z"
-    },
-    "docs/tutorials/management/migrations/migration-from-external-sources/zilliz-cloud-ips.md": {
-      "sourceHash": "c6d5e9f30a51e92f6cbfd52986eacd44d33004c94e022344971d5509847f477c",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migration-from-external-sources/zilliz-cloud-ips.md",
-      "translatedAt": "2026-07-13T18:47:22.643Z"
     },
     "docs/tutorials/management/organizations/organization-settings.md": {
       "sourceHash": "ed6071fcdc67bdee0c8b85be159ff26928f11c1bfe23a99e97ce96f06bf73cd4",
