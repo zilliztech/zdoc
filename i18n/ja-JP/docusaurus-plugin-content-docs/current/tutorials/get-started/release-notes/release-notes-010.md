@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud の大規模アップデートの一般提供開始をお知らせします。このリリースでは、データプレビュー機能に加え、コンソール上でコレクションに簡単にインポートできるデモデータセットが追加されました。 | Cloud"
 type: origin
 token: UIaAwGay9iJHhlkxx8VcxfZ3nvb
-sidebar_position: 36
+sidebar_position: 37
 displayed_sidebar: releasesSidebar
 
 ---

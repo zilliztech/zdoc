@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz CLI とエージェント連携をローカルでセットアップする方法を説明します。セットアップ後は、エージェントを使って自然言語で Zilliz Cloud を操作したり、CLI をターミナル、スクリプト、CI ワークフローで直接使用したりできます。 | Cloud"
+description: "ローカルのワークフローに合わせて、Zilliz CLI とエージェント連携をインストールします。Zilliz は、Claude Code と OpenAI Codex 向けの Zilliz Plugin、スキル対応エージェント向けの Zilliz Skill、およびターミナルや自動化ワークフローで直接使用する Zilliz CLI を通じて、エージェント連携をサポートしています。 | Cloud"
 type: shortcut
 token: HxWmwteOEi1Egukx26pcBnnknSd
 sidebar_position: 1
@@ -23,43 +23,69 @@ import Procedures from '@site/src/components/Procedures';
 
 # CLI とエージェント連携のクイックスタート
 
-このガイドでは、Zilliz CLI とエージェント連携をローカルでセットアップする方法を説明します。セットアップ後は、エージェントを使って自然言語で Zilliz Cloud を操作したり、CLI をターミナル、スクリプト、CI ワークフローで直接使用したりできます。
+ローカルのワークフローに合わせて、Zilliz CLI とエージェント連携をインストールします。Zilliz は、Claude Code と OpenAI Codex 向けの Zilliz Plugin、スキル対応エージェント向けの Zilliz Skill、およびターミナルや自動化ワークフローで直接使用する Zilliz CLI を通じて、エージェント連携をサポートしています。
+
+セットアップ後は、エージェントに Zilliz Cloud の直接操作を依頼したり、スクリプトやターミナルで CLI を使用したりできます。
 
 ## インストール\{#installation}
 
-開始する前に、以下を用意してください。
+開始する前に、以下を満たしていることを確認してください。
 
-- [Zilliz Cloud アカウント](https://cloud.zilliz.com/login)
+- [Zilliz Cloud アカウント](https://cloud.zilliz.com/login) があること。
 
-- [Claude Code Plugin](/docs/agents/zilliz-plugin) を使用する場合は、Claude Code
+- [Zilliz Claude Code Plugin](./zilliz-plugin) を使用する場合は、Claude Code があること。
 
-- [Zilliz Skill](https://github.com/zilliztech/zilliz-skill) をインストールする場合は、Node.js
+- [Codex Plugin](./zilliz-codex-plugin) を使用する場合は、Codex があること。
 
-### Claude Code Plugin をインストールする\{#install-claude-code-plugin}
+- [Zilliz Skill](https://github.com/zilliztech/zilliz-skill) をインストールする場合は、Node.js があること。
 
-Claude Code から直接 Zilliz Cloud を操作したい場合は、[Claude Code Plugin](/docs/agents/zilliz-plugin) を使用してください。
+### OpenAI Codex 向け Zilliz Plugin をインストールする\{#install-zilliz-plugin-for-openai-codex}
+
+OpenAI Codex から Zilliz Cloud を直接操作する場合は、[Zilliz](https://github.com/zilliztech/zilliz-plugin)[ Plugin](https://github.com/zilliztech/zilliz-plugin) を使用します。
 
 <Procedures>
 
-1. Claude Code を実行します
+1. マーケットプレイスを追加します。
+
+    ```plaintext
+    codex plugin marketplace add zilliztech/zilliz-plugin
+    ```
+
+1. Codex で `/plugins` を開き、マーケットプレイスから `zilliz` をインストールします。
+
+</Procedures>
+
+次のように、[codex-marketplace](https://www.npmjs.com/package/codex-marketplace) を使用して直接インストールすることもできます。
+
+```plaintext
+npx codex-marketplace add zilliztech/zilliz-plugin --plugins
+```
+
+### Claude Code 向け Zilliz Plugin をインストールする\{#install-zilliz-plugin-for-claude-code}
+
+Claude Code から Zilliz Cloud を直接操作する場合は、[Zilliz Claude Code Plugin](./zilliz-plugin) を使用します。
+
+<Procedures>
+
+1. Claude Code を実行します。
 
     ```bash
     > claude
     ```
 
-1. プラグインマーケットプレイスを開きます
+1. プラグインマーケットプレイスを開きます。
 
     ```bash
     /plugin
     ```
 
-1. Zilliz Plugin を見つけてインストールします
+1. Zilliz Plugin を見つけてインストールします。
 
     **Discover** タブに移動し、zilliz を検索します。zilliz プラグインを選択してインストールします。
 
     ![TqS3b4z7Ho9xcXxHJaIc7HTZn1e](https://zdoc-images.s3.us-west-2.amazonaws.com/tqs3b4z7ho9xcxxhjaic7htzn1e.png "TqS3b4z7Ho9xcXxHJaIc7HTZn1e")
 
-1. クイックスタートウィザードを実行します。ウィザードは、CLI のインストール、認証、クラスター接続、最初の操作を案内します。
+1. クイックスタートウィザードを実行します。ウィザードでは、CLI のインストール、認証、クラスター接続、最初の操作を順に案内します。
 
     ```plaintext
     /zilliz:quickstart
@@ -69,13 +95,13 @@ Claude Code から直接 Zilliz Cloud を操作したい場合は、[Claude Code
 
 ### 一般的なエージェントフレームワーク向けに Zilliz Skill をインストールする\{#install-zilliz-skill-for-common-agent-frameworks}
 
-Codex、Gemini CLI、Cursor、またはその他の Skill 対応エージェントなどのコーディングエージェントがエージェントスキルをサポートしている場合は、以下のように [Zilliz Skill](https://github.com/zilliztech/zilliz-skill) をインストールします。
+Codex、Gemini CLI、Cursor などのコーディングエージェント、またはその他のスキル対応エージェントがエージェントスキルをサポートしている場合は、次のように [Zilliz Skill](https://github.com/zilliztech/zilliz-skill) をインストールします。
 
 ```bash
 npx skills add zilliztech/zilliz-skill
 ```
 
-このコマンドを実行すると、対象のエージェントフレームワークとインストール範囲を選択するよう求められます。
+このコマンドでは、対象のエージェントフレームワークとインストールスコープを選択するよう求められます。
 
 ### Zilliz CLI をインストールする\{#install-zilliz-cli}
 
@@ -119,7 +145,7 @@ npx skills add zilliztech/zilliz-skill
     zilliz login
     ```
 
-    これにより、認証用のブラウザが開きます。ログイン後、認証情報はローカルに保存されます。
+    認証用のブラウザーが開きます。ログイン後、認証情報はローカルに保存されます。
 
 </Procedures>
 
@@ -127,50 +153,50 @@ npx skills add zilliztech/zilliz-skill
 
 これらのツールは、次のような場合に使用します。
 
-- ローカル環境から手動で開発およびテストする場合
+- ローカル環境から手動で開発およびテストする場合。
 
-- 再現可能なワークフローのために自動操作スクリプトを作成する場合
+- 再現可能なワークフロー向けに自動運用スクリプトを作成する場合。
 
-- エージェントが Vector Database または Vector Lakebase サービスを自動的に呼び出せるようにする場合
+- エージェントがベクトルデータベースまたは ベクトル Lakebase サービスを自動的に呼び出せるようにする場合。
 
-### ツール比較\{#tool-comparison}
+### ツールの比較\{#tool-comparison}
 
-Claude Code Plugin、Zilliz Skill、Zilliz CLI は、同じ主要な機能をカバーすることを想定しています。機能範囲ではなく、ワークフローに基づいて選択してください。
+Claude Code Plugin、Zilliz Skill、および Zilliz CLI は、同じ主要な機能をカバーすることを想定しています。機能の範囲ではなく、ワークフローに基づいて選択してください。
 
-|  | **Claude Code Plugin** | **Zilliz Skill** | **Zilliz CLI** |
-| --- | --- | --- | --- |
-| **最適な用途** | Claude Code の自然言語ワークフロー | Skill 対応コーディングエージェント | ターミナル利用、スクリプト、CI |
-| **セットアップ** | `/zilliz:quickstart` | `npx skills add zilliztech/zilliz-skill` | インストールスクリプト + `zilliz login` |
-| **自然言語** | はい | はい | いいえ |
-| **自動化** | エージェント支援 | エージェント支援 | スクリプト優先 |
-| **構造化出力** | エージェントが読めるレスポンス | エージェントが読めるレスポンス | スクリプト向けの `--output json` |
+|  | **OpenAI Codex plugin** | **Claude Code Plugin** | **Zilliz Skill** | **Zilliz CLI** |
+| --- | --- | --- | --- | --- |
+| **最適な用途** | Codex の自然言語ワークフロー | Claude Code の自然言語ワークフロー | スキル対応のコーディングエージェント | ターミナルでの利用、スクリプト、CI |
+| **セットアップ** | `quickstart` スキルによるガイド付きセットアップ | `/zilliz:quickstart` | `npx skills add zilliztech/zilliz-skill` | インストールスクリプト + `zilliz login` |
+| **自然言語** | はい | はい | はい | いいえ |
+| **自動化** | エージェント支援 | エージェント支援 | エージェント支援 | スクリプト優先 |
+| **構造化出力** | エージェントが読み取れるレスポンス | エージェントが読み取れるレスポンス | エージェントが読み取れるレスポンス | スクリプト向けの `--output json` |
 
 ### サポートされる機能\{#supported-capabilities}
 
-次の表では、CLI、Plugin、Skill の機能について説明します。
+次の表では、CLI、Plugin、および Skill の機能について説明します。
 
 | 領域 | 実行できること |
 | --- | --- |
 | クラスター | 作成、削除、一時停止、再開、変更 |
-| コレクション | カスタムスキーマで作成、ロード、リリース、名前変更、削除 |
+| コレクション | カスタムスキーマでの作成、ロード、リリース、名前変更、削除 |
 | ベクトル | 検索、クエリ、挿入、アップサート、削除、ハイブリッド検索 |
-| インデックス | 作成（AUTOINDEX）、一覧表示、説明表示、削除 |
-| データベース | 作成、一覧表示、説明表示、削除 |
-| ユーザーとロール | RBAC セットアップ、権限管理 |
+| インデックス | 作成（AUTOINDEX）、一覧表示、詳細表示、削除 |
+| データベース | 作成、一覧表示、詳細表示、削除 |
+| ユーザーとロール | RBAC のセットアップ、権限管理 |
 | バックアップ | 作成、復元、エクスポート、ポリシー管理 |
 | インポート | S3/GCS/Azure Blob Storage からの一括データインポート |
 | パーティション | 作成、ロード、リリース、管理 |
-| モニタリング | クラスターのステータス、コレクション統計、ロード状態 |
+| モニタリング | クラスターのステータス、コレクションの統計情報、ロード状態 |
 | プロジェクト | プロジェクトとリージョンの管理 |
-| 請求 | 利用状況クエリ、請求書 |
+| 請求 | 使用量の照会、請求書 |
 
 ## エージェントに依頼できること\{#what-you-can-ask-your-agent-to-do}
 
-インストール後は、タスクをそのまま記述してください。エージェントはそのリクエストを対応する Zilliz CLI コマンドに変換するはずです。以下の例は、自然言語のリクエストが、エージェントが実行することを想定される CLI コマンドにどのように対応するかを示しています。
+インストール後は、タスクをそのまま伝えてください。エージェントは、リクエストを対応する Zilliz CLI コマンドに変換することが想定されています。次の例は、自然言語のリクエストが、エージェントが実行すると想定される CLI コマンドにどのように対応するかを示しています。
 
-- **自分のクラスターを一覧表示し、現在アクティブなものを示してください。**
+- **自分のクラスターを一覧表示し、現在アクティブなものを表示してください。**
 
-    想定される CLI コマンド:
+    想定される CLI コマンド：
 
     ```bash
     zilliz cluster list
@@ -179,7 +205,7 @@ Claude Code Plugin、Zilliz Skill、Zilliz CLI は、同じ主要な機能をカ
 
 - **768 次元のベクトルフィールドを持つ product embeddings 用のコレクションを作成してください。**
 
-    想定される CLI コマンド:
+    想定される CLI コマンド：
 
     ```bash
     zilliz collection create --name product_embeddings --dimension 768
@@ -187,31 +213,31 @@ Claude Code Plugin、Zilliz Skill、Zilliz CLI は、同じ主要な機能をカ
 
 - **S3 から自分のコレクションにデータをインポートし、インポートジョブのステータスを確認してください。**
 
-    想定される CLI コマンド:
+    想定される CLI コマンド：
 
     ```bash
     zilliz import start --cluster-id <cluster-id> --collection product_embeddings --body '{"files": [["s3://bucket/path/data.json"]]}'
     ```
 
-- **本番クラスターのバックアップを作成してください。**
+- **自分の本番クラスターのバックアップを作成してください。**
 
-    想定される CLI コマンド:
+    想定される CLI コマンド：
 
     ```bash
     zilliz backup create --cluster-id <cluster-id>
     ```
 
-- **メタデータフィルターを使って自分のコレクションを検索し、上位 10 件の結果を返してください。**
+- **メタデータフィルターを使用して自分のコレクションを検索し、上位 10 件の結果を返してください。**
 
-    想定される CLI コマンド:
+    想定される CLI コマンド：
 
     ```bash
     zilliz vector search --collection product_embeddings --data '[[0.1, 0.2, 0.3]]' --filter 'age > 20' --limit 10 --output-fields '["name", "age"]'
     ```
 
-- **analytics コレクションに読み取り専用アクセスを持つロールを作成してください。**
+- **analytics コレクションへの読み取り専用アクセス権を持つロールを作成してください。**
 
-    想定される CLI コマンド:
+    想定される CLI コマンド：
 
     ```bash
     zilliz role create --role analytics_readonly

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud の大規模アップデートが一般提供になり、招待なしで一般公開されたことをお知らせします。このリリースでは、容量最適化された Compute Units（CUs）が導入され、データベースごとに最大 32 CUs を割り当てて、パフォーマンスを向上できるようになりました。また、ローカルファイルおよび AWS S3 バケットからのデータインポート、自動インデックス化によるプロセスの簡素化、QPS とクエリレイテンシーのリソース監視も追加されています。さらに、データベース作成速度が 5 倍に向上し、ユーザーインターフェースもより優れた体験のために最適化されています。 | Cloud"
 type: origin
 token: Q9ZcwPZieiYoU4kwEuOcFjewneP
-sidebar_position: 38
+sidebar_position: 39
 displayed_sidebar: releasesSidebar
 
 ---

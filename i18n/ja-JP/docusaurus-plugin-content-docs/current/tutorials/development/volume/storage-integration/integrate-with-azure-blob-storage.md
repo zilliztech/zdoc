@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、バックアップファイルや監査ログを指定したコンテナにエクスポートするために Azure Blob Storage と統合できます。 | Cloud"
+description: "Zilliz Cloud では、Azure Blob Storage と統合して、バックアップファイルや監査ログを指定したコンテナにエクスポートできます。 | Cloud"
 type: origin
 token: IzXPwUlJ5isTa4kH9KTcC6SfnvZ
 sidebar_position: 3
@@ -24,13 +24,13 @@ import Procedures from '@site/src/components/Procedures';
 
 Zilliz Cloud では、[Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs) と統合して、バックアップファイルや監査ログを指定したコンテナにエクスポートできます。
 
-以下の図は、Zilliz Cloud と Azure Portal で必要な手順を示しています。
+次の図は、Zilliz Cloud と Azure Portal で必要な手順を示しています。
 
 ![EFqDwDiAIhoOPXbvLBDcO7DrnJd](https://zdoc-images.s3.us-west-2.amazonaws.com/EFqDwDiAIhoOPXbvLBDcO7DrnJd.png)
 
-## 始める前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
-- Zilliz Cloud を Azure Blob と統合するには、プロジェクトに対する **Organization Owner** または **Project Admin** のアクセス権が必要です。必要な権限がない場合は、Zilliz Cloud 管理者にお問い合わせください。
+- Zilliz Cloud を Azure Blob と統合するには、プロジェクトに対する **Organization Owner** または **Project Admin** のアクセス権が必要です。必要な権限がない場合は、Zilliz Cloud の管理者にお問い合わせください。
 
 - Azure Portal への管理者アクセス権を持っていること。
 
@@ -38,7 +38,7 @@ Zilliz Cloud では、[Azure Blob Storage](https://azure.microsoft.com/en-us/pro
 
 <Procedures>
 
-1. [Zilliz Cloud console](https://cloud.zilliz.com/login) にログインします。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインします。
 
 1. プロジェクトページで、左側のナビゲーションペインから **Integrations** に移動します。
 
@@ -50,9 +50,15 @@ Zilliz Cloud では、[Azure Blob Storage](https://azure.microsoft.com/en-us/pro
 
     - **Integration Name**: この統合の一意の名前（例: `container_for_backup`）。
 
-    - **Integration Description** *(optional)*: この統合の説明（例: `for backupfile export`）。
+    - **Integration Description** *（任意）*: この統合の説明（例: `for backupfile export`）。
 
-    入力後、**Next** をクリックして進みます。
+    - **Bucket Permission**: この統合に必要なアクセスモードを選択します。
+
+        - **Read only**: Zilliz Cloud がコンテナからデータを読み取ることのみを許可します。統合を外部テーブルやその他の読み取り専用のシナリオで使用する場合は、このモードを選択します。
+
+        - **Read write**: Zilliz Cloud がコンテナの読み取りと書き込みを行うことを許可します。バックアップをエクスポートしたり、監査ログをコンテナに書き込んだりする場合は、このモードを選択します。
+
+    次に、**Next** をクリックして続行します。
 
 </Procedures>
 
@@ -66,25 +72,25 @@ Zilliz Cloud では、[Azure Blob Storage](https://azure.microsoft.com/en-us/pro
 
     ![integrate-with-azure-blob-1](https://zdoc-images.s3.us-west-2.amazonaws.com/integrate-with-azure-blob-1.png "integrate-with-azure-blob-1")
 
-1. **Storage accounts** ページで、既存のストレージアカウントを選択するか、**+ Create** をクリックして新しいものを設定します。**Note:** ストレージアカウントは、Zilliz Cloud クラスターと同じリージョンにある必要があります。
+1. **Storage accounts** ページで、既存のストレージアカウントを選択するか、**+ Create** をクリックして新しいアカウントを作成します。**Note:** ストレージアカウントは、Zilliz Cloud クラスターと同じリージョンに存在する必要があります。
 
     ![integrate-with-azure-blob-2](https://zdoc-images.s3.us-west-2.amazonaws.com/integrate-with-azure-blob-2.png "integrate-with-azure-blob-2")
 
-1. ストレージアカウントの詳細ページで、**Data Storage** > **Containers** に進み、**+ Container** をクリックします。
+1. ストレージアカウントの詳細ページで、**Data Storage** > **Containers** に移動し、**+ Container** をクリックします。
 
     ![S3Evbdfp1o5JWnxhCkEcUZktnme](https://zdoc-images.s3.us-west-2.amazonaws.com/s3evbdfp1o5jwnxhckecuzktnme.png "S3Evbdfp1o5JWnxhCkEcUZktnme")
 
-1. 表示されるパネルで、コンテナ名を入力します。このコンテナ名は Zilliz Cloud console で必要になるため、控えておいてください。
+1. 表示されるパネルで、コンテナ名を入力します。このコンテナ名は Zilliz Cloud コンソールで必要になるため、控えておいてください。
 
-1. [Zilliz Cloud console](https://cloud.zilliz.com/login) に戻り、**Create Azure Blob Storage Container** ステップで設定を完了します。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) に戻り、**Create Azure Blob Storage Container** ステップで設定を完了します。
 
-    - **Zilliz Cloud Cluster Region**: Zilliz Cloud クラスターが配置されているクラウドリージョンを選択します。
+    - **Zilliz Cloud クラスター Region**: Zilliz Cloud クラスターが存在するクラウドリージョンを選択します。
 
     - **Storage Account Name**: Azure ストレージアカウント名を入力します。
 
     - **Container Name**: 作成したコンテナの名前を入力します。
 
-    入力後、**Next** をクリックして進みます。
+    次に、**Next** をクリックして続行します。
 
     ![integrate-with-azure-blob-3](https://zdoc-images.s3.us-west-2.amazonaws.com/integrate-with-azure-blob-3.png "integrate-with-azure-blob-3")
 
@@ -102,19 +108,19 @@ Zilliz Cloud では、[Azure Blob Storage](https://azure.microsoft.com/en-us/pro
 
     ![integrate-with-azure-blob-5](https://zdoc-images.s3.us-west-2.amazonaws.com/integrate-with-azure-blob-5.png "integrate-with-azure-blob-5")
 
-1. **Register an application** パネルで、アプリケーション名を入力し、他のフィールドはデフォルト設定のままにして、**Register** をクリックします。
+1. **Register an application** パネルで、アプリケーションの名前を入力し、他のフィールドはデフォルト設定のままにして、**Register** をクリックします。
 
     ![RLaubwh94oRrLqxf8R4cd3xvnPg](https://zdoc-images.s3.us-west-2.amazonaws.com/rlaubwh94orrlqxf8r4cd3xvnpg.png "RLaubwh94oRrLqxf8R4cd3xvnPg")
 
-1. アプリケーションの **Overview** ページで、**Application (client) ID** と **Directory (tenant) ID** をコピーします。これらの値は Zilliz Cloud console で必要になります。
+1. アプリケーションの **Overview** ページで、**Application (client) ID** と **Directory (tenant) ID** をコピーします。これらの値は Zilliz Cloud コンソールで必要になります。
 
     ![Dgwnbb77ToK38Vx8WHdcN2ylnSh](https://zdoc-images.s3.us-west-2.amazonaws.com/dgwnbb77tok38vx8whdcn2ylnsh.png "Dgwnbb77ToK38Vx8WHdcN2ylnSh")
 
-1. [Zilliz Cloud console](https://cloud.zilliz.com/login) に戻り、**Register a New Application** ステップで、コピーした **Application (client) ID** と **Directory (tenant) ID** を入力します。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) に戻り、**Register a New Application** ステップで、コピーした **Application (client) ID** と **Directory (tenant) ID** を入力します。
 
-    また、Zilliz Cloud により提供される **Cluster Issuer URL**、**Service Name**、および **Service Account Name** を控えておいてください。これらの値は Azure Portal で必要になります。
+    また、Zilliz Cloud から提供される **Cluster Issuer URL**（クラスターの発行元 URL）、**Service Name**、**Service Account Name** も控えておいてください。これらの値は Azure Portal で必要になります。
 
-1. [Azure Portal](https://portal.azure.com/#home) のアプリケーションページに戻ります。**Manage** > **Certificates & secrets** > **Federated credentials** に進み、**Add credential** をクリックします。
+1. [Azure Portal](https://portal.azure.com/#home) のアプリケーションページに戻ります。**Manage** > **Certificates & secrets** > **Federated credentials** に移動し、**Add credential** をクリックします。
 
     ![UGgmb9dKnoPlk9xtrFvcDl3Dnfd](https://zdoc-images.s3.us-west-2.amazonaws.com/uggmb9dknoplk9xtrfvcdl3dnfd.png "UGgmb9dKnoPlk9xtrFvcDl3Dnfd")
 
@@ -122,37 +128,37 @@ Zilliz Cloud では、[Azure Blob Storage](https://azure.microsoft.com/en-us/pro
 
     - **Federated credential scenario**: **Kubernetes accessing Azure resources** を選択します。
 
-    - **Cluster issuer URL**: Zilliz Cloud から提供された値を入力します。
+    - **Cluster issuer URL**: Zilliz Cloud から提供されたクラスターの発行元 URL を入力します。
 
     - **Namespace**: **milvus-tool** に設定します。
 
     - **Service account name**: **milvus-bucket** に設定します。
 
-    - **Name**: カスタム名を入力します（例: わかりやすさのために **zilliz** を含める）。
+    - **Name**: 任意の名前を入力します（例: わかりやすくするために **zilliz** を含めます）。
 
     - **Audience**: デフォルト値を使用します。
 
-    その後、**Add** をクリックして認証情報を保存します。
+    次に、**Add** をクリックして認証情報を保存します。
 
     ![integrate-with-azure-blob-7](https://zdoc-images.s3.us-west-2.amazonaws.com/integrate-with-azure-blob-7.png "integrate-with-azure-blob-7")
 
-1. [Zilliz Cloud console](https://cloud.zilliz.com/login) に戻り、**Next** をクリックして進みます。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) に戻り、**Next** をクリックして続行します。
 
 </Procedures>
 
-## ステップ 4: ロール割り当てを追加する\{#step-4-add-role-assignment}
+## ステップ 4: ストレージアカウントのロール割り当てを追加する\{#step-4-add-storage-account-role-assignment}
 
 <Procedures>
 
-1. [Azure Portal](https://portal.azure.com/#home) で、**Access Control (IAM)** > **+ Add** > **Add role assignment** に進みます。
+1. [Azure Portal](https://portal.azure.com/#home) で、**Access Control (IAM)** > **+ Add** > **Add role assignment** に移動します。
 
     ![integrate-with-azure-blob-6](https://zdoc-images.s3.us-west-2.amazonaws.com/integrate-with-azure-blob-6.png "integrate-with-azure-blob-6")
 
-1. **Job function roles** タブで、**Storage Blob Data Contributor** ロールを選択します。
+1. **Job function roles** タブで、**Storage Blob Delegator** ロールを選択します。
 
-    ![CXjcbs7q9oitdRxKzkhcrhnznh0](https://zdoc-images.s3.us-west-2.amazonaws.com/cxjcbs7q9oitdrxkzkhcrhnznh0.png "CXjcbs7q9oitdRxKzkhcrhnznh0")
+    ![BZ2lbDBZdoGylqxA0zwcsCvNnme](https://zdoc-images.s3.us-west-2.amazonaws.com/bz2lbdbzdogylqxa0zwcscvnnme.png "BZ2lbDBZdoGylqxA0zwcsCvNnme")
 
-1. **Members** タブで、ロールを割り当てる登録済みアプリケーションを選択します。
+1. **Members** タブで、ロールを割り当てる登録済みのアプリケーションを選択します。
 
     ![SbSgbe9tzo45z3xtKLicm64ingc](https://zdoc-images.s3.us-west-2.amazonaws.com/sbsgbe9tzo45z3xtklicm64ingc.png "SbSgbe9tzo45z3xtKLicm64ingc")
 
@@ -160,21 +166,53 @@ Zilliz Cloud では、[Azure Blob Storage](https://azure.microsoft.com/en-us/pro
 
 </Procedures>
 
-## ステップ 5: 検証して統合を作成する\{#step-5-validate-and-create-integration}
+## ステップ 5: コンテナのロール割り当てを追加する\{#step-5-add-container-role-assignment}
+
+[ステップ 1](./integrate-with-azure-blob-storage#step-1-start-integration-on-zilliz-cloud) で選択した **Bucket Permission** に基づいて、登録済みのアプリケーションに、対応するコンテナスコープのロールを割り当てます。
 
 <Procedures>
 
-1. [Zilliz Cloud console](https://cloud.zilliz.com/login) で、**Validate Integration** をクリックし、コンテナとロール割り当ての設定が有効であることを確認します。
+1. [Azure Portal](https://portal.azure.com/#home) で、[ステップ 2](./integrate-with-azure-blob-storage#step-2-create-a-container-on-azure-portal) で作成したコンテナを含むストレージアカウントに移動します。
 
-1. 検証に成功したら、**Create** をクリックして統合を完了します。
+1. **Data storage** の下の **Containers** に移動し、対象のコンテナを選択します。
+
+1. 左側のナビゲーションペインから **Access Control (IAM)** を選択し、**+ Add** > **Add role assignment** をクリックします。
+
+1. **Job function roles** タブで、[ステップ 1](./integrate-with-azure-blob-storage#step-1-start-integration-on-zilliz-cloud) で選択したアクセスモードに応じて、次のいずれかのロールを選択します。
+
+    - [ステップ 1](./integrate-with-azure-blob-storage#step-1-start-integration-on-zilliz-cloud) で **Read only** を選択した場合は、**Storage Blob Data Reader** を選択します。
+
+    - [ステップ 1](./integrate-with-azure-blob-storage#step-1-start-integration-on-zilliz-cloud) で **Read write** を選択した場合は、**Storage Blob Data Contributor** を選択します。
+
+    ![NsGcbvXTvojt4OxAnBGcqKNhnad](https://zdoc-images.s3.us-west-2.amazonaws.com/nsgcbvxtvojt4oxanbgcqknhnad.png "NsGcbvXTvojt4OxAnBGcqKNhnad")
+
+1. **Members** タブで、ロールを割り当てる登録済みのアプリケーションを選択します。
+
+1. **Review + assign** タブで、**Review + assign** をクリックして確認します。
 
 </Procedures>
 
-これで Azure Blob Storage は、バックアップファイルをエクスポートするために Zilliz Cloud と統合されました。詳細については、[Export Backup Files](./export-backup-files) を参照してください。
+## ステップ 6: 統合を検証して作成する\{#step-6-validate-and-create-integration}
+
+<Procedures>
+
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) で、**Validate Integration** をクリックし、コンテナとロール割り当ての設定が有効であることを確認します。
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    検証は、Azure のロール割り当ての反映に時間がかかるため、完了するまでに最大で約 10 分かかる場合があります。
+
+    </Admonition>
+
+1. 検証が成功したら、**Create** をクリックして統合を確定します。
+
+</Procedures>
+
+これで Azure Blob Storage が Zilliz Cloud と統合され、バックアップファイルをエクスポートできるようになりました。詳細については、[Export Backup Files](./export-backup-files) を参照してください。
 
 ## プログラムでストレージ統合を作成する\{#create-storage-integration-programmatically}
 
-Zilliz Cloud console 上で作業する代わりに、プログラムでストレージ統合を作成することもできます。
+Zilliz Cloud コンソールでの操作に代えて、プログラムからストレージ統合を作成することもできます。
 
 <Procedures>
 
@@ -200,9 +238,9 @@ Zilliz Cloud console 上で作業する代わりに、プログラムでスト�
     }'
     ```
 
-    上記のリクエストは、GCP 管理コンソールで権限とロールを作成するために必要な認証情報を生成します。 
+    上記のリクエストは、GCP 管理コンソールで権限とロールを作成するために必要な認証情報を生成します。
 
-    想定されるレスポンスの例は次のとおりです。
+    レスポンスの例は以下の通りです。
 
     ```bash
     {
@@ -217,15 +255,15 @@ Zilliz Cloud console 上で作業する代わりに、プログラムでスト�
     }
     ```
 
-    パラメータの説明については、[Generate Storage Integration Authorization Materials](/reference/restful/generate-storage-integration-authorization-materials-v2) を参照してください。
+    パラメーターの説明の詳細については、[Generate Storage Integration Authorization Materials](/reference/restful/generate-storage-integration-authorization-materials-v2) を参照してください。
 
-1. 返された `clusterIssuerUrl`、`namespace`、および `serviceAccountName` を使用して、アプリケーションを登録し、認証情報を追加します。 
+1. 返された `clusterIssuerUrl`、`namespace`、`serviceAccountName` を使用して、アプリケーションを登録し、認証情報を追加します。
 
     詳細については、[アプリケーションを登録して認証情報を追加する](./integrate-with-azure-blob-storage#step-3-register-an-application-and-add-credential) を参照してください。
 
 1. 取得した認証情報を検証します。
 
-    リクエストでは、`externalCred.accountName` を Azure Portal に表示される Azure ストレージアカウント名に設定し、`externalCred.clientId` と `externalCred.tenantId` をアプリケーション登録時に控えた値に設定します。
+    リクエストでは、`externalCred.accountName` にポータルに表示される Azure ストレージアカウント名を設定し、`externalCred.clientId` と `externalCred.tenantId` には、アプリケーションの登録時に控えた値を設定します。
 
     ```bash
     curl --request POST \
@@ -245,7 +283,7 @@ Zilliz Cloud console 上で作業する代わりに、プログラムでスト�
     }'
     ```
 
-    検証成功時のレスポンスは次のとおりです。
+    検証が成功した場合のレスポンスは以下の通りです。
 
     ```bash
     {
@@ -257,11 +295,11 @@ Zilliz Cloud console 上で作業する代わりに、プログラムでスト�
     }
     ```
 
-    パラメータの説明については、[Validate Storage Integration](/reference/restful/validate-storage-integration-v2) を参照してください。
+    パラメーターの説明の詳細については、[Validate Storage Integration](/reference/restful/validate-storage-integration-v2) を参照してください。
 
 1. ストレージ統合を作成します。
 
-    このリクエストは、`description` が追加されている点を除き、検証リクエストとほとんど同じパラメータを共有します。
+    このリクエストは、`description` が追加されている点を除き、検証リクエストとほとんどのパラメーターを共有します。
 
     ```bash
     curl --request POST \
@@ -283,7 +321,7 @@ Zilliz Cloud console 上で作業する代わりに、プログラムでスト�
     }'
     ```
 
-    レスポンスは次のようになります。
+    レスポンスは以下の通りです。
 
     ```bash
     {
@@ -295,7 +333,7 @@ Zilliz Cloud console 上で作業する代わりに、プログラムでスト�
     }
     ```
 
-    パラメータの説明については、[Create Storage Integration](/reference/restful/create-storage-integration-v2) を参照してください。
+    パラメーターの説明の詳細については、[Create Storage Integration](/reference/restful/create-storage-integration-v2) を参照してください。
 
 </Procedures>
 
@@ -307,7 +345,7 @@ Zilliz Cloud console 上で作業する代わりに、プログラムでスト�
 
 ### 統合 ID を取得する\{#obtain-the-integration-id}
 
-Zilliz Cloud と統合された AWS S3 バケットの 1 つにバックアップファイルをエクスポートするために RESTful API を使用する必要がある場合は、**View Details** をクリックして統合の詳細を表示し、その統合 ID をコピーします。
+RESTful API を使用して、Zilliz Cloud と統合された AWS S3 バケットのいずれかにバックアップファイルをエクスポートする必要がある場合は、**View Details** をクリックして統合の詳細を表示し、その統合 ID をコピーします。
 
 または、次のコマンドを実行して統合 ID を取得することもできます。
 
@@ -321,7 +359,7 @@ curl --request GET \
 --header "Content-Type: application/json"
 ```
 
-レスポンスは次のようになります。
+レスポンスは以下の通りです。
 
 ```bash
 {
@@ -344,11 +382,11 @@ curl --request GET \
 }
 ```
 
-パラメータの説明については、[List Storage Integrations](/reference/restful/list-storage-integrations-v2) を参照してください。
+パラメーターの説明の詳細については、[List Storage Integrations](/reference/restful/list-storage-integrations-v2) を参照してください。
 
 ### 統合の詳細を表示する\{#view-integration-details}
 
-次のコマンドを使用して統合の詳細を表示できます
+次のコマンドを使用して、統合の詳細を表示できます。
 
 ```bash
 export integrationId="integ-xxxxxxxxxxxxxxxxxxx"
@@ -360,7 +398,7 @@ curl --request GET \
 --header "Content-Type: application/json"
 ```
 
-レスポンスは次のようになります。
+レスポンスは以下の通りです。
 
 ```bash
 {
@@ -382,11 +420,11 @@ curl --request GET \
 }
 ```
 
-パラメータの説明については、[Describe Storage Integration](/reference/restful/describe-storage-integration-v2) を参照してください。
+パラメーターの説明の詳細については、[Describe Storage Integration](/reference/restful/describe-storage-integration-v2) を参照してください。
 
 ### ストレージ統合を削除する\{#delete-storage-integration}
 
-Zilliz Cloud console で **Remove** をクリックする代替方法として、次のコマンドを使用して不要なストレージ統合を削除できます。
+Zilliz Cloud コンソールで **Remove** をクリックする代わりに、次のコマンドを使用して不要なストレージ統合を削除できます。
 
 ```bash
 export integrationId="integ-xxxxxxxxxxxxxxxxxxx"
@@ -398,7 +436,7 @@ curl --request DELETE \
 --header "Content-Type: application/json"
 ```
 
-レスポンスは次のようになります。
+レスポンスは以下の通りです。
 
 ```bash
 {
@@ -410,18 +448,20 @@ curl --request DELETE \
 }
 ```
 
-パラメータの説明については、[Delete Storage Integration](/reference/restful/delete-storage-integration-v2) を参照してください。
+パラメーターの説明の詳細については、[Delete Storage Integration](/reference/restful/delete-storage-integration-v2) を参照してください。
 
 ## トラブルシューティング\{#troubleshooting}
 
-- **Validation Errors:**
+- **検証エラー:**
 
-    統合の検証に失敗した場合は、次を確認してください。
+    統合の検証に失敗した場合は、次の点を確認してください。
 
     - Azure ストレージアカウントと Zilliz Cloud クラスターのリージョンが一致していること。
 
-    - すべての Application ID、テナント ID、および認証情報の詳細が正しいこと。
+    - すべてのアプリケーション ID、テナント ID、および認証情報の詳細が正しいこと。
 
-- **Permission Issues:**
+- **権限の問題:**
 
-    Zilliz Cloud と Azure Portal の両方で必要な権限を持っていることを確認してください。
+    - Zilliz Cloud と Azure Portal の両方で、必要な権限があることを確認してください。
+
+    - ロールを構成した直後に **AuthorizationPermissionMismatch** または同様の権限エラーが発生した場合は、待機して再試行してください。Azure のロール割り当ての反映には最大 10 分かかることがあり、管理グループのスコープが関与するまれなケースでは、反映に最大 12 時間かかることがあります。

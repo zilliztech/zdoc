@@ -20,21 +20,21 @@ import Admonition from '@theme/Admonition';
 
 # クラウドプロバイダーとリージョン
 
-Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数のクラウドプロバイダーとリージョンをサポートしています。 
+Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数のクラウドプロバイダーとリージョンをサポートしています。
 
-リージョンのサポートは、ワークロードタイプ、デプロイオプション、機能によって異なる場合があります。[プロジェクトを作成](./manage-projects#create-a-project)する前に、このページを使ってリージョンを選択してください。
+リージョンのサポートは、ワークロードタイプ、デプロイオプション、および機能によって異なる場合があります。[プロジェクトを作成](./manage-projects#create-a-project)する前に、このページを使用してリージョンを選択してください。
 
 ## クラウドリージョンの選び方\{#how-to-choose-a-cloud-region}
 
 - アプリケーションまたはユーザーに近いリージョンを選択してください。
 
-- データレジデンシーとコンプライアンス要件を考慮してください。
+- データレジデンシーとコンプライアンスの要件を考慮してください。
 
-- レイテンシーとリージョン間データ転送の影響を考慮してください。
+- レイテンシーとリージョン間のデータ転送の影響を考慮してください。
 
-- 希望する機能が対象リージョンでサポートされているか確認してください。
+- 目的の機能が対象リージョンでサポートされているかどうかを確認してください。
 
-- 必要なリージョンまたは機能が利用できない場合は、[お問い合わせください](http://zilliz.com/contact-sales)。
+- 必要なリージョンまたは機能が利用できない場合は、[お問い合わせください](https://zilliz.com/all-regions#region-request)。
 
 ## サポートされているリージョン\{#supported-regions}
 
@@ -182,7 +182,7 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
      <th><p><strong>Microsoft Azure</strong></p></th>
    </tr>
    <tr>
-     <td><p>常時稼働コンピュート（<a href="./manage-cluster">Serving cluster</a>）</p></td>
+     <td><p>常時稼働コンピュート（<a href="./manage-cluster">Serving クラスター</a>）</p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>✅ すべてのリージョン</p></td>
@@ -191,13 +191,13 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
      <td><p><a href="./on-demand-cluster">オンデマンドコンピュート</a></p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>❌</p></td>
-     <td><p>ℹ️  一部のリージョン:</p><ul><li>East US</li></ul></td>
+     <td><p>ℹ️  一部のリージョン：</p><ul><li>East US</li></ul></td>
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" icon="📘" title="Note">
 
-記載されていないリージョンでオンデマンドコンピュートが必要な場合は、[お問い合わせください](http://zilliz.com/contact-sales)。
+一覧にないリージョンでオンデマンドコンピュートが必要な場合は、[お問い合わせください](http://zilliz.com/contact-sales)。
 
 </Admonition>
 
@@ -212,8 +212,8 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
    </tr>
    <tr>
      <td><p>SaaS (Free & Serverless)</p></td>
-     <td><p>ℹ️  一部のリージョン:</p><ul><li><p>eu-central-1</p></li><li><p>eu-west-1</p></li></ul></td>
-     <td><p>ℹ️   一部のリージョン:</p><ul><li>us-west1</li></ul></td>
+     <td><p>ℹ️  一部のリージョン：</p><ul><li>eu-central-1</li></ul></td>
+     <td><p>ℹ️   一部のリージョン：</p><ul><li>us-west1</li></ul></td>
      <td><p>❌</p></td>
    </tr>
    <tr>
@@ -224,13 +224,13 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
    </tr>
    <tr>
      <td><p>BYOC</p></td>
-     <td><p>✅ すべてのリージョン</p><p>加えて ap-east-1（香港特別行政区）</p></td>
-     <td><p>✅ すべてのリージョン</p></td>
+     <td><p>✅ すべてのリージョン</p><p>さらに：</p><ul><li><p>ap-east-1（香港特別行政区）</p></li><li><p>ap-southeast-7（タイ）</p></li></ul></td>
+     <td><p>✅ すべてのリージョン</p><p>さらに：</p><ul><li>europe-west9（フランス、パリ）</li></ul></td>
      <td><p>✅ すべてのリージョン</p></td>
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" icon="📘" title="Note">
 
 BYOC デプロイが必要な場合は、[お問い合わせください](http://zilliz.com/contact-sales)。
 
@@ -246,7 +246,7 @@ BYOC デプロイが必要な場合は、[お問い合わせください](http:/
      <th><p><strong>Microsoft Azure</strong></p></th>
    </tr>
    <tr>
-     <td><p><a href="./managed-volume">Volume</a></p></td>
+     <td><p><a href="./managed-volume">ボリューム</a></p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>❌</p></td>
@@ -260,7 +260,7 @@ BYOC デプロイが必要な場合は、[お問い合わせください](http:/
    <tr>
      <td><p><a href="./global-cluster-explained">グローバルクラスター</a></p></td>
      <td><p>✅ すべてのリージョン</p></td>
-     <td><p>ℹ️   一部のリージョン:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p><Admonition type="info" icon="📘" title="注記"> Google Cloud リージョンでこの機能を使用する必要がある場合は、[お問い合わせください](http://support.zilliz.com)。 </Admonition></li></ul></td>
+     <td><p>ℹ️   一部のリージョン：</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul><Admonition type="info" icon="📘" title="Note"> Google Cloud リージョンでこの機能を使用する必要がある場合は、[お問い合わせください](http://support.zilliz.com)。 </Admonition></td>
      <td><p>❌</p></td>
    </tr>
    <tr>
@@ -275,11 +275,17 @@ BYOC デプロイが必要な場合は、[お問い合わせください](http:/
      <td><p>❌</p></td>
      <td><p>❌</p></td>
    </tr>
+   <tr>
+     <td><p><a href="/docs/spark-batch-jobs">Spark バッチジョブ</a></p></td>
+     <td><p>ℹ️   一部のリージョン：</p><ul><li>us-west-2</li></ul></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" icon="📘" title="Note">
 
-一部の機能は、追加設定、プロジェクトプラン、またはデプロイモードに依存します。詳細については、[デプロイとプランの比較](./select-zilliz-cloud-service-plans)を参照してください。
+一部の機能は、追加の構成、プロジェクトプラン、またはデプロイモードによって異なります。詳細については、[デプロイメントとプランの比較](./select-zilliz-cloud-service-plans) を参照してください。
 
 </Admonition>
 
