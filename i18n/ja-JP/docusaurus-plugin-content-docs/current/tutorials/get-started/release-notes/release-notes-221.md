@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud のローンチを発表できることを大変うれしく思います。このリリースでは、新しい CU サイズオプションによる柔軟性の向上、前払いのサポート、さらに多くの AWS リージョンなど、さまざまな改善と機能を導入しています。 | Cloud"
 type: origin
 token: YtxBwrPfBiuFDdk10GVcYY1DnGg
-sidebar_position: 29
+sidebar_position: 30
 displayed_sidebar: releasesSidebar
 
 ---
@@ -45,4 +45,3 @@ Zilliz Cloud のローンチを発表できることを大変うれしく思い�
 - クレジット有効期限監視機能の UI を強化
 
 - Playground 機能のユーザー体験を改善
-

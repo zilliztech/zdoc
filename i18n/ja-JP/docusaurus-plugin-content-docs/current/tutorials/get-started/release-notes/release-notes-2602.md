@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "(placeholder) | Cloud"
+description: "(プレースホルダー) | Cloud"
 type: origin
 token: KtAgwMSa6iEoFkkEqzAcEJgRnjc
-sidebar_position: 6
+sidebar_position: 7
 displayed_sidebar: releasesSidebar
 
 ---
