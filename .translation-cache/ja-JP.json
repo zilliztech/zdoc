@@ -1411,9 +1411,9 @@
       "translatedAt": "2026-07-11T11:42:17.427Z"
     },
     "docs/tutorials/ai-models/integrate-with-model-providers.md": {
-      "sourceHash": "dca000d17a97764181bcaccb0957674d6a4e1552c692e432af6f217ed6d1dd70",
+      "sourceHash": "02041e6ba4cd92532f6a7695ec3a03d217b560c7adb0bee2013fcb19ba1367c6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/ai-models/integrate-with-model-providers.md",
-      "translatedAt": "2026-07-22T11:11:49.504Z"
+      "translatedAt": "2026-07-22T18:57:22.701Z"
     },
     "docs/tutorials/architecture/best-practices/environment-isolation.md": {
       "sourceHash": "e63b2b79884b5fb0882076b6786e7db1d3e3989b95b558cbec7d1b5dc6b3819f",
@@ -2921,9 +2921,9 @@
       "translatedAt": "2026-07-17T03:24:14.381Z"
     },
     "docs/tutorials/management/cost-management/understand-cost/on-demand-compute-cost.md": {
-      "sourceHash": "d8f302a36dc07f5089d3eeba0c104871040a2d6c256afe706073c36f3d2743cc",
+      "sourceHash": "7be1a74d5a892f69b6aef5178b09b6213ea76e4def21ea3561fa8057c6be9fd1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/on-demand-compute-cost.md",
-      "translatedAt": "2026-07-13T18:35:07.232Z"
+      "translatedAt": "2026-07-22T18:58:14.760Z"
     },
     "docs/tutorials/management/cost-management/understand-cost/serverless-cluster-cost.md": {
       "sourceHash": "de0005519ae4f2ab70467f15755122e29df04fc75d3c854f27a5a357808ac1d0",
