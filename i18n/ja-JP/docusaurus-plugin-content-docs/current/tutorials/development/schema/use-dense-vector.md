@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Dense vector は、機械学習とデータ分析で広く使用される数値データ表現です。実数の配列で構成され、その要素のほとんどまたはすべてがゼロではありません。sparse vector と比較すると、dense vector は同じ次元レベルでより多くの情報を含みます。これは各次元が意味のある値を保持するためです。この表現により、複雑なパターンや関係性を効果的に捉えられ、高次元空間でのデータ分析や処理が容易になります。dense vector は通常、数十から数百、さらには数千に及ぶ固定次元数を持ち、具体的なアプリケーションや要件によって異なります。 | Cloud"
+description: "Dense vector は、機械学習やデータ分析で広く使用される数値データ表現です。実数の配列で構成され、その要素のほとんどまたはすべてが非ゼロです。sparse vector と比較すると、dense vector は同じ次元数でもより多くの情報を含みます。これは、各次元が意味のある値を保持しているためです。この表現により、複雑なパターンや関係性を効果的に捉えることができ、高次元空間でのデータの分析や処理が容易になります。dense vector は通常、固定された次元数を持ち、具体的な用途や要件に応じて数十次元から数百次元、場合によっては数千次元に及びます。 | Cloud"
 type: origin
 token: ARalwpaVDiCwDZkoSHtcPNgXnRg
 sidebar_position: 3
@@ -21,23 +21,23 @@ import TabItem from '@theme/TabItem';
 
 # Dense Vector
 
-Dense vector は、機械学習とデータ分析で広く使用される数値データ表現です。実数の配列で構成され、その要素のほとんどまたはすべてがゼロではありません。sparse vector と比較すると、dense vector は同じ次元レベルでより多くの情報を含みます。これは各次元が意味のある値を保持するためです。この表現により、複雑なパターンや関係性を効果的に捉えられ、高次元空間でのデータ分析や処理が容易になります。dense vector は通常、数十から数百、さらには数千に及ぶ固定次元数を持ち、具体的なアプリケーションや要件によって異なります。
+Dense vector は、機械学習やデータ分析で広く使用される数値データ表現です。実数の配列で構成され、その要素のほとんどまたはすべてが非ゼロです。sparse vector と比較すると、dense vector は同じ次元数でもより多くの情報を含みます。これは、各次元が意味のある値を保持しているためです。この表現により、複雑なパターンや関係性を効果的に捉えることができ、高次元空間でのデータの分析や処理が容易になります。dense vector は通常、固定された次元数を持ち、具体的な用途や要件に応じて数十次元から数百次元、場合によっては数千次元に及びます。
 
-Dense vector は主に、semantic search や recommendation system など、データの意味理解が必要なシナリオで使用されます。semantic search では、dense vector によってクエリとドキュメントの潜在的なつながりを捉え、検索結果の関連性を向上させます。recommendation system では、ユーザーとアイテム間の類似性を特定するのに役立ち、よりパーソナライズされた提案を提供します。
+Dense vector は主に、セマンティクスの理解が必要なシナリオ、たとえばセマンティック検索やレコメンデーションシステムで使用されます。セマンティック検索では、dense vector はクエリとドキュメントの背後にあるつながりを捉え、検索結果の関連性向上に役立ちます。レコメンデーションシステムでは、ユーザーとアイテム間の類似性を特定し、よりパーソナライズされた提案を提供するのに役立ちます。
 
 ## Overview\{#overview}
 
-Dense vector は通常、`[0.2, 0.7, 0.1, 0.8, 0.3, ..., 0.5]` のような固定長の浮動小数点数配列として表現されます。これらの vector の次元数は通常、128、256、768、1024 のように数百から数千の範囲です。各次元はオブジェクトの特定の意味特徴を捉え、類似度計算を通じてさまざまなシナリオに適用できます。
+Dense vector は通常、`[0.2, 0.7, 0.1, 0.8, 0.3, ..., 0.5]` のような固定長の浮動小数点数配列として表現されます。これらのベクトルの次元数は通常、128、256、768、1024 のように数百から数千に及びます。各次元はオブジェクトの特定の意味的特徴を捉え、類似度計算を通じてさまざまなシナリオに適用できます。
 
 ![QOgMwbrhLhvvtbbk5TxcarhEn8i](https://zdoc-images.s3.us-west-2.amazonaws.com/QOgMwbrhLhvvtbbk5TxcarhEn8i.png)
 
-上の画像は、2D 空間における dense vector の表現を示しています。実際のアプリケーションで使われる dense vector ははるかに高次元であることが多いものの、この 2D の図は以下の重要な概念を効果的に伝えています。
+上の画像は、2D 空間における dense vector の表現を示しています。実際のアプリケーションで使用される dense vector は通常、はるかに高次元ですが、この 2D の図は次の重要な概念を効果的に伝えています。
 
 - **多次元表現:** 各点は概念的なオブジェクト（**Milvus**、**vector database**、**retrieval system** など）を表し、その位置は各次元の値によって決まります。
 
-- **意味的関係:** 点同士の距離は、概念間の意味的な類似性を反映します。点が近いほど、概念同士の意味的関連性が高いことを示します。
+- **意味的関係:** 点同士の距離は、概念間の意味的な類似性を反映します。点が近いほど、それらの概念は意味的により近いことを示します。
 
-- **クラスタリング効果:** 関連する概念（**Milvus**、**vector database**、**retrieval system** など）は空間内で近くに配置され、意味的なクラスターを形成します。
+- **クラスタリング効果:** 関連する概念（**Milvus**、**vector database**、**retrieval system** など）は空間内で互いに近く配置され、意味的なクラスターを形成します。
 
 以下は、テキスト `"Milvus is an efficient vector database"` を表す実際の dense vector の例です。
 
@@ -55,15 +55,15 @@ Dense vector は通常、`[0.2, 0.7, 0.1, 0.8, 0.3, ..., 0.5]` のような固�
 ]
 ```
 
-Dense vector は、画像向けの CNN モデル（[ResNet](https://pytorch.org/hub/pytorch_vision_resnet/)、[VGG](https://pytorch.org/vision/stable/models/vgg.html) など）や、テキスト向けの言語モデル（[BERT](https://en.wikipedia.org/wiki/BERT_(language_model))、[Word2Vec](https://en.wikipedia.org/wiki/Word2vec) など）といったさまざまな [embedding](https://en.wikipedia.org/wiki/Embedding) モデルを使って生成できます。これらのモデルは、生データを高次元空間内の点へと変換し、データの意味的特徴を捉えます。さらに、Zilliz Cloud は、ユーザーが dense vector を生成および処理するのに役立つ便利な方法も提供しています。詳細は Embeddings を参照してください。
+Dense vector は、画像向けの CNN モデル（[ResNet](https://pytorch.org/hub/pytorch_vision_resnet/)、[VGG](https://pytorch.org/vision/stable/models/vgg.html) など）や、テキスト向けの言語モデル（[BERT](https://en.wikipedia.org/wiki/BERT_(language_model))、[Word2Vec](https://en.wikipedia.org/wiki/Word2vec) など）といった、さまざまな [embedding](https://en.wikipedia.org/wiki/Embedding) モデルを使用して生成できます。これらのモデルは生データを高次元空間上の点へと変換し、データの意味的特徴を捉えます。さらに、Zilliz Cloud は、ユーザーが dense vector を生成および処理するのに役立つ便利な方法を提供しています。詳細は Embeddings を参照してください。
 
-データが vector 化されると、管理および vector 検索のために Zilliz Cloud cluster に保存できます。以下の図は基本的なプロセスを示しています。
+データが vector 化されると、管理および vector retrieval のために Zilliz Cloud cluster に保存できます。以下の図は、その基本的なプロセスを示しています。
 
 ![No8KwR6wPhTIP6bKEqGcbBDWngc](https://zdoc-images.s3.us-west-2.amazonaws.com/No8KwR6wPhTIP6bKEqGcbBDWngc.png)
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" icon="📘" title="注意">
 
-dense vector に加えて、Zilliz Cloud は sparse vector と binary vector もサポートしています。sparse vector は、keyword search や term matching のように、特定の用語に基づく正確な一致に適しています。一方、binary vector は、画像パターンマッチングや一部のハッシュアプリケーションのような二値化データを効率的に扱う用途で一般的に使用されます。詳細については、[Binary Vector](./use-binary-vector) および [Sparse Vector](./use-sparse-vector) を参照してください。
+Zilliz Cloud は dense vector に加えて、sparse vector と binary vector もサポートしています。sparse vector は、キーワード検索や用語マッチングのように特定の用語に基づく正確な一致に適しており、binary vector は、画像パターンマッチングや一部のハッシュアプリケーションのような二値化データを効率的に扱うためによく使用されます。詳細については、[Binary Vector](./use-binary-vector) および [Sparse Vector](./use-sparse-vector) を参照してください。
 
 </Admonition>
 
@@ -71,15 +71,15 @@ dense vector に加えて、Zilliz Cloud は sparse vector と binary vector も
 
 ### Add vector field\{#add-vector-field}
 
-Zilliz Cloud cluster で dense vector を使用するには、まず collection 作成時に dense vector を保存するための vector field を定義します。このプロセスには以下が含まれます。
+Zilliz Cloud cluster で dense vector を使用するには、まず collection 作成時に、dense vector を格納するための vector field を定義します。このプロセスには以下が含まれます。
 
 1. `datatype` を、サポートされている dense vector データ型に設定します。サポートされている dense vector データ型については、Data Types を参照してください。
 
 1. `dim` パラメータを使用して dense vector の次元数を指定します。
 
-以下の例では、dense vector を保存するために `dense_vector` という名前の vector field を追加しています。この field のデータ型は `FLOAT_VECTOR`、次元数は `4` です。
+以下の例では、dense vector を格納するために `dense_vector` という名前の vector field を追加しています。この field のデータ型は `FLOAT_VECTOR` で、次元数は `4` です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -217,7 +217,8 @@ export schema="{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -236,20 +237,23 @@ schema->AddField(milvus::FieldSchema("pk", milvus::DataType::VARCHAR, "", true, 
 schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
 ```
 
+</TabItem>
+</Tabs>
+
 **dense vector field でサポートされるデータ型**:
 
 | Data Type | Description |
 | --- | --- |
-| `FLOAT_VECTOR` | 32 ビット浮動小数点数を保存します。科学計算や機械学習における実数表現で一般的に使用されます。類似した vector の識別など、高精度が求められるシナリオに最適です。 |
-| `FLOAT16_VECTOR` | 16 ビット半精度浮動小数点数を保存します。deep learning や GPU 計算で使用されます。recommendation system の低精度リコール段階のように、精度がそれほど重要でないシナリオでは、ストレージ容量を節約できます。 |
-| `BFLOAT16_VECTOR` | 16 ビット Brain Floating Point（bfloat16）数を保存します。Float32 と同じ指数範囲を持ちながら、精度は低くなります。大規模画像検索のように、大量の vector を高速に処理する必要があるシナリオに適しています。 |
-| `INT8_VECTOR` | 各次元の個々の要素が 8 ビット整数（int8）である vector を保存し、各要素の範囲は –128 から 127 です。量子化された deep learning モデル（例: ResNet、EfficientNet）向けに設計されており、INT8_VECTOR はわずかな精度低下でモデルサイズを削減し、推論を高速化します。 |
+| `FLOAT_VECTOR` | 32 ビット浮動小数点数を格納します。科学計算や機械学習で実数を表現する際によく使用されます。類似した vector を区別する必要があるような高精度が求められるシナリオに最適です。 |
+| `FLOAT16_VECTOR` | 16 ビット半精度浮動小数点数を格納します。深層学習や GPU 計算で使用されます。レコメンデーションシステムの低精度リコール段階のように、精度がそれほど重要でないシナリオでストレージ容量を節約できます。 |
+| `BFLOAT16_VECTOR` | 16 ビット Brain Floating Point（bfloat16）数を格納します。Float32 と同じ指数範囲を提供しながら、精度を下げています。大規模画像検索のように、大量の vector をすばやく処理する必要があるシナリオに適しています。 |
+| `INT8_VECTOR` | 各次元の個々の要素が 8 ビット整数（int8）である vector を格納し、各要素の値域は –128 から 127 です。量子化された深層学習モデル（例: ResNet、EfficientNet）向けに設計されており、INT8_VECTOR はわずかな精度低下でモデルサイズを削減し、推論を高速化します。 |
 
 ### Set index params for vector field\{#set-index-params-for-vector-field}
 
-semantic search を高速化するには、vector field に対して index を作成する必要があります。index 作成により、大規模 vector データの検索効率を大幅に向上できます。
+セマンティック検索を高速化するには、vector field に対して index を作成する必要があります。index 作成により、大規模な vector データの retrieval 効率を大幅に向上できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -320,7 +324,8 @@ export indexParams='[
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 std::vector<milvus::IndexDesc> indexes = {
@@ -328,7 +333,10 @@ std::vector<milvus::IndexDesc> indexes = {
 }
 ```
 
-上記の例では、`dense_vector` field に対して `dense_vector_index` という名前の index を `AUTOINDEX` index type を使って作成しています。`metric_type` は `IP` に設定されており、距離指標として inner product を使用することを示します。
+</TabItem>
+</Tabs>
+
+上記の例では、`dense_vector` field に対して `AUTOINDEX` index type を使用し、`dense_vector_index` という名前の index を作成しています。`metric_type` は `IP` に設定されており、距離メトリックとして内積が使用されることを示します。
 
 Zilliz Cloud は他の metric type もサポートしています。詳細については、[Metric Types](./search-metrics-explained) を参照してください。
 
@@ -336,7 +344,7 @@ Zilliz Cloud は他の metric type もサポートしています。詳細につ
 
 dense vector と index param の設定が完了したら、dense vector を含む collection を作成できます。以下の例では、`create_collection` メソッドを使用して `my_collection` という名前の collection を作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -408,7 +416,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
@@ -420,11 +429,14 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ### Insert data\{#insert-data}
 
-collection を作成した後、`insert` メソッドを使用して dense vector を含むデータを追加します。挿入する dense vector の次元数が、dense vector field 追加時に定義した `dim` の値と一致していることを確認してください。
+collection を作成したら、`insert` メソッドを使用して dense vector を含むデータを追加します。挿入する dense vector の次元数が、dense vector field を追加した際に定義した `dim` の値と一致していることを確認してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -515,7 +527,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::EntityRows data = {{{"dense_vector", std::vector<float>{0.1, 0.2, 0.3, 0.4}}},
@@ -531,11 +544,14 @@ if (!status.IsOk()) {
 }
 ```
 
-### Perform similarity search\{#perform-similarity-search}
+</TabItem>
+</Tabs>
 
-dense vector に基づく semantic search は Zilliz Cloud cluster の中核機能の 1 つであり、vector 間の距離に基づいてクエリ vector に最も類似したデータをすばやく見つけることができます。similarity search を実行するには、クエリ vector と検索パラメータを準備し、`search` メソッドを呼び出します。
+### 類似性検索を実行する\{#perform-similarity-search}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+dense vector に基づくセマンティック検索は Zilliz Cloud cluster の中核機能の 1 つであり、vector 間の距離に基づいて、クエリ vector に最も類似したデータをすばやく見つけることができます。類似性検索を実行するには、クエリ vector と検索パラメータを準備し、その後 `search` メソッドを呼び出します。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -661,7 +677,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.7};
@@ -688,4 +705,7 @@ for (auto& result : search_results.Results()) {
 }
 ```
 
-similarity search パラメータの詳細については、[Basic ANN Search](./single-vector-search) を参照してください。
+</TabItem>
+</Tabs>
+
+類似性検索パラメータの詳細については、[基本的な ANN 検索](./single-vector-search) を参照してください。

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ANN 検索に加えて、MilvusZilliz Cloud はクエリによるメタデータフィルタリングもサポートしています。このページでは、Query、Get、QueryIterators を使用してメタデータフィルタリングを実行する方法を紹介します。 | Cloud"
+description: "ANN 検索に加えて、MilvusZilliz Cloud はクエリによるメタデータフィルタリングもサポートしています。このページでは、Query、Get、QueryIterator を使用してメタデータフィルタリングを実行する方法を紹介します。 | Cloud"
 type: origin
 token: R7F7wY8pCiJ5Q4kbntxcMsE6nLf
 sidebar_position: 9
@@ -25,13 +25,13 @@ ANN 検索に加えて、MilvusZilliz Cloud はクエリによるメタデータ
 
 <Admonition type="info" icon="📘" title="注意">
 
-collection の作成後に新しいフィールドを追加した場合、これらのフィールドを含むクエリでは、明示的に値が設定されていない entity に対して、定義されたデフォルト値または `NULL` が返されます。詳細については、[Alter Collection Schema](./add-fields-to-an-existing-collection) を参照してください。
+collection の作成後に新しいフィールドを追加した場合、それらのフィールドを含むクエリは、明示的に値が設定されていない entity に対して、定義されたデフォルト値または `NULL` を返します。詳細については、[Alter Collection Schema](./add-fields-to-an-existing-collection) を参照してください。
 
 </Admonition>
 
-## 概要\{#overview}
+## Overview\{#overview}
 
-Collection にはさまざまな型の scalar フィールドを格納できます。Zilliz Cloud では、1 つ以上の scalar フィールドに基づいて Entities をフィルタリングできます。Zilliz Cloud には、Query、Get、QueryIterator の 3 種類のクエリがあります。以下の表では、これら 3 種類のクエリを比較しています。
+Collection にはさまざまな型の scalar フィールドを保存できます。Zilliz Cloud では、1 つ以上の scalar フィールドに基づいて Entities をフィルタリングできます。Zilliz Cloud では、Query、Get、QueryIterator の 3 種類のクエリを提供しています。以下の表では、これら 3 種類のクエリを比較しています。
 
 <table>
    <tr>
@@ -42,9 +42,9 @@ Collection にはさまざまな型の scalar フィールドを格納できま�
    </tr>
    <tr>
      <td><p>適用シナリオ</p></td>
-     <td><p>指定した主キーを持つ entity を見つけるため。</p></td>
-     <td><p>カスタムフィルタリング条件を満たすすべて、または指定数の entity を見つけるため</p></td>
-     <td><p>ページネーションされたクエリで、カスタムフィルタリング条件を満たすすべての entity を見つけるため。</p></td>
+     <td><p>指定した主キーを持つ entity を検索する場合。</p></td>
+     <td><p>カスタムフィルタリング条件を満たすすべて、または指定数の entity を検索する場合</p></td>
+     <td><p>カスタムフィルタリング条件を満たすすべての entity を、ページネーション付きクエリで検索する場合。</p></td>
    </tr>
    <tr>
      <td><p>フィルタリング方法</p></td>
@@ -60,23 +60,23 @@ Collection にはさまざまな型の scalar フィールドを格納できま�
    </tr>
    <tr>
      <td><p>オプションパラメータ</p></td>
-     <td><ul><li><p>Partition 名</p></li><li><p>出力フィールド</p></li></ul></td>
-     <td><ul><li><p>Partition 名</p></li><li><p>返す entity 数</p></li><li><p>出力フィールド</p></li></ul></td>
-     <td><ul><li><p>Partition 名</p></li><li><p>合計で返す entity 数</p></li><li><p>出力フィールド</p></li></ul></td>
+     <td><ul><li><p>partition 名</p></li><li><p>出力フィールド</p></li></ul></td>
+     <td><ul><li><p>partition 名</p></li><li><p>返す entity 数</p></li><li><p>出力フィールド</p></li></ul></td>
+     <td><ul><li><p>partition 名</p></li><li><p>合計で返す entity 数</p></li><li><p>出力フィールド</p></li></ul></td>
    </tr>
    <tr>
-     <td><p>返される内容</p></td>
+     <td><p>戻り値</p></td>
      <td><p>指定した collection または partition 内で、指定した主キーを持つ entity を返します。</p></td>
      <td><p>指定した collection または partition 内で、カスタムフィルタリング条件を満たすすべて、または指定数の entity を返します。</p></td>
-     <td><p>指定した collection または partition 内で、カスタムフィルタリング条件を満たすすべての entity を、ページネーションされたクエリを通じて返します。</p></td>
+     <td><p>指定した collection または partition 内で、カスタムフィルタリング条件を満たすすべての entity を、ページネーション付きクエリを通じて返します。</p></td>
    </tr>
 </table>
 
 メタデータフィルタリングの詳細については、[Filtering Explained](./filtering-overview)[Filtering Explained](./filtering-overview) を参照してください。
 
-## Get の使用\{#use-get}
+## Use Get\{#use-get}
 
-主キーで entity を見つける必要がある場合は、**Get** メソッドを使用できます。以下のコード例では、collection に `id`、`vector`、`color` という 3 つのフィールドがあることを前提としています。
+主キーによって entity を検索する必要がある場合は、**Get** メソッドを使用できます。以下のコード例では、collection に `id`、`vector`、`color` という 3 つのフィールドがあることを前提としています。
 
 ```python
 [
@@ -95,7 +95,7 @@ Collection にはさまざまな型の scalar フィールドを格納できま�
 
 以下のように、ID によって entity を取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -233,7 +233,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -260,13 +261,16 @@ if (!status.IsOk()) {
 }
 ```
 
-## Query を使用する\{#use-query}
+</TabItem>
+</Tabs>
 
-### 基本的な Query\{#basic-query}
+## Use Query\{#use-query}
 
-カスタムのフィルタリング条件で entity を検索する必要がある場合は、**Query** メソッドを使用します。以下のコード例では、`id`、`vector`、`color` という 3 つのフィールドがあることを前提とし、`red` で始まる `color` 値を持つ指定数の entity を返します。
+### Basic Query\{#basic-query}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+カスタムフィルタリング条件によって entity を検索する必要がある場合は、**Query** メソッドを使用します。以下のコード例では、`id`、`vector`、`color` という 3 つのフィールドがあることを前提とし、`color` の値が `red` で始まる entity を指定数返します。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -373,7 +377,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
  #include "milvus/MilvusClientV2.h"
@@ -400,19 +405,22 @@ if (!status.IsOk()) {
 }
 ```
 
-### Query 結果を並べ替える | ONDEMAND\{#sort-query-results}
+</TabItem>
+</Tabs>
 
-デフォルトでは、Query は順序が指定されていない結果を返します。`order_by` パラメータを使用すると、1 つ以上の scalar フィールドで結果を並べ替えることができます。`order_by` を使用する際は、次の点に注意してください。
+### Sort Query Results | ONDEMAND\{#sort-query-results}
+
+デフォルトでは、Query は順序が指定されていない状態で結果を返します。`order_by` パラメータを使用すると、1 つ以上の scalar フィールドで結果をソートできます。`order_by` を使用する場合は、以下の点に注意してください。
 
 - `order_by` は `limit` と一緒に使用する必要があります。
 
-- サポートされるフィールド型: `INT8`、`INT16`、`INT32`、`INT64`、`FLOAT`、`DOUBLE`、`VARCHAR`。vector、`JSON`、`ARRAY` フィールドによる並べ替えはサポートされていません。
+- サポートされるフィールド型: `INT8`、`INT16`、`INT32`、`INT64`、`FLOAT`、`DOUBLE`、`VARCHAR`。vector、`JSON`、`ARRAY` フィールドでのソートはサポートされていません。
 
-- nullable フィールドで並べ替える場合、昇順では NULL 値は末尾に配置され（NULLS LAST）、降順では先頭に配置されます（NULLS FIRST）。
+- nullable フィールドでソートする場合、NULL 値は昇順では末尾（NULLS LAST）、降順では先頭（NULLS FIRST）に配置されます。
 
-#### 基本的な並べ替え\{#basic-sort}
+#### Basic Sort\{#basic-sort}
 
-`order_by` パラメータに `"field_name:direction"` 形式の文字列リストを渡します。ここで、`direction` は `asc`（昇順）または `desc`（降順）のいずれかです。`asc` と `desc` は大文字小文字を区別する点に注意してください。
+`order_by` パラメータには `"field_name:direction"` 形式の文字列リストを渡します。ここで `direction` は `asc`（昇順）または `desc`（降順）です。`asc` と `desc` は大文字と小文字を区別する点に注意してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -522,9 +530,9 @@ console.log(res.data);
 </TabItem>
 </Tabs>
 
-#### 複数フィールドでの並べ替え\{#multi-field-sort}
+#### 複数フィールドでのソート\{#multi-field-sort}
 
-複数のフィールドで同時に並べ替えることもできます。結果はまずリスト内の最初のフィールドで並べ替えられます。2 行のそのフィールド値が同じ場合は、2 番目のフィールドで順序が決まり、以降も同様です。
+複数のフィールドで同時にソートできます。結果はまずリスト内の最初のフィールドで並べ替えられます。2 行がそのフィールドで同じ値を持つ場合は、2 番目のフィールドで順序が決まり、以降も同様です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -608,9 +616,9 @@ console.log(res.data);
 </TabItem>
 </Tabs>
 
-#### 並べ替え付きページネーション\{#pagination-with-sort}
+#### ソート付きページネーション\{#pagination-with-sort}
 
-`order_by` を `limit` および `offset` と組み合わせて使用すると、並べ替えられた結果をページネーションできます。たとえば、価格順に並べた商品リストを複数ページにわたって表示する場合、各ページには正しい価格順で次の一群のアイテムが、重複や欠落なく表示されます。
+`order_by` を `limit` および `offset` と組み合わせて、ソート済みの結果をページネーションできます。たとえば、複数ページにまたがって価格順でソートされた商品リストを表示する場合、各ページには重複や欠落なしに、正しい価格順で次のアイテムのまとまりが表示されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -734,19 +742,19 @@ console.log(page2.data);
 </TabItem>
 </Tabs>
 
-### Query 結果を集計する | ONDEMAND\{#aggregate-query-results}
+### クエリ結果の集計 | ONDEMAND\{#aggregate-query-results}
 
-1 つ以上の scalar フィールドで query 結果をグループ化し、グループごとに集計を計算できます。サポートされている集計演算子は `count`、`min`、`max`、`sum`、`avg` です。
+1 つ以上の scalar フィールドでクエリ結果をグループ化し、グループごとに集計を計算できます。サポートされている集計演算子は `count`、`min`、`max`、`sum`、`avg` です。
 
 `group_by_fields` を使用する際は、次の点に注意してください。
 
-- `group_by_fields` でサポートされるフィールド型: `INT8`、`INT16`、`INT32`、`INT64`、`VARCHAR`、`TIMESTAMPTZ`。`FLOAT`、`DOUBLE`、vector、`JSON`、`ARRAY` フィールドでのグループ化はエラーになります。
+- `group_by_fields` でサポートされるフィールド型: `INT8`、`INT16`、`INT32`、`INT64`、`VARCHAR`、`TIMESTAMPTZ`。`FLOAT`、`DOUBLE`、vector、`JSON`、`ARRAY` フィールドでグループ化するとエラーになります。
 
-- `sum` と `avg` は数値型のみ対応です。`VARCHAR` フィールドに適用するとエラーになります。
+- `sum` と `avg` は数値型のみを対象とします。`VARCHAR` フィールドに適用するとエラーになります。
 
-集計を有効にするには、`query()` に `group_by_fields` を渡し、集計式（`count(*)`、`count(<field>)`、`min(<field>)`、`max(<field>)`、`sum(<field>)`、`avg(<field>)`）を `output_fields` に追加します。
+集計を有効にするには、`query()` に `group_by_fields` を渡し、`output_fields` に集計式（`count(*)`、`count(<field>)`、`min(<field>)`、`max(<field>)`、`sum(<field>)`、`avg(<field>)`）を追加します。
 
-以下の例では、entity を `color` フィールドでグループ化し、各 color グループの entity 数を返します。
+次の例では、`color` フィールドで entity をグループ化し、各色グループ内の entity 数を返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -852,7 +860,7 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 </TabItem>
 </Tabs>
 
-1 回の呼び出しで複数の集計式をリクエストすることもできます。以下の例では、`color` でグループ化し、各グループの行数、平均価格、最大評価を返します。
+1 回の呼び出しで複数の集計式をリクエストできます。次の例では、`color` でグループ化し、各グループの行数、平均価格、最大 rating を返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -938,7 +946,7 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 </TabItem>
 </Tabs>
 
-複合グループを計算するには、`group_by_fields` に複数のフィールドを渡します。以下の例では、`(color, rating)` でグループ化し、各バケットの価格範囲を計算します。
+複合グループを計算するには、複数のフィールドを `group_by_fields` に渡します。次の例では、`(color, rating)` でグループ化し、各バケット内の価格範囲を計算します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1026,7 +1034,7 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 </TabItem>
 </Tabs>
 
-`group_by_fields` を `limit` と組み合わせて、返されるグループ数に上限を設けることもできます。これは、フィールドの cardinality が高く、バケットのサンプルだけが必要な場合に便利です。
+`group_by_fields` を `limit` と組み合わせて、返されるグループ数に上限を設けることもできます。これは、フィールドのカーディナリティが高く、バケットのサンプルだけが必要な場合に便利です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1115,9 +1123,9 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 
 ## QueryIterator を使用する\{#use-queryiterator}
 
-ページネーションされた query を通じてカスタムのフィルタリング条件で entity を検索する必要がある場合は、**QueryIterator** を作成し、その **next()** メソッドを使用してすべての entity を反復処理し、フィルタリング条件を満たすものを見つけます。以下のコード例では、`id`、`vector`、`color` という 3 つのフィールドがあることを前提とし、`red` で始まる `color` 値を持つすべての entity を返します。
+ページネーションされたクエリを通じてカスタムのフィルタリング条件で entity を見つける必要がある場合は、**QueryIterator** を作成し、その **next()** メソッドを使用してすべての entity を反復処理し、フィルタリング条件を満たすものを見つけます。以下のコード例では、`id`、`vector`、`color` という 3 つのフィールドが存在することを前提としており、`color` の値が `red` で始まるすべての entity を返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1214,7 +1222,8 @@ for await (const value of iterator) {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::QueryIteratorRequest request;
@@ -1249,11 +1258,14 @@ while (true) {
 }
 ```
 
-## partition 内での query\{#queries-in-partitions}
+</TabItem>
+</Tabs>
 
-Get、Query、または QueryIterator リクエストに partition 名を含めることで、1 つまたは複数の partition 内で query を実行することもできます。以下のコード例では、collection 内に **PartitionA** という名前の partition があることを前提としています。
+## partition 内での Query\{#queries-in-partitions}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+Get、Query、または QueryIterator リクエストに partition 名を含めることで、1 つまたは複数の partition 内で Query を実行することもできます。以下のコード例では、collection 内に **PartitionA** という名前の partition が存在することを前提としています。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1439,7 +1451,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 // Use get
@@ -1512,17 +1525,20 @@ curl --request POST \
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## Query によるランダムサンプリング\{#random-sampling-with-query}
 
-データ探索や開発テストのために collection から代表的なデータのサブセットを抽出するには、`RANDOM_SAMPLE(sampling_factor)` 式を使用します。ここで `sampling_factor` は 0 から 1 の間の浮動小数点数で、サンプリングするデータの割合を表します。
+データ探索や開発時のテストのために collection から代表的なデータのサブセットを抽出するには、`RANDOM_SAMPLE(sampling_factor)` 式を使用します。ここで `sampling_factor` は 0 から 1 の間の float 値で、サンプリングするデータの割合を表します。
 
 <Admonition type="info" icon="📘" title="注意">
 
-詳細な使い方、高度な例、ベストプラクティスについては、[ランダムサンプリング](./ramdom-sampling) を参照してください。
+詳細な使用方法、高度な例、ベストプラクティスについては、[Random Sampling](./ramdom-sampling) を参照してください。
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1630,7 +1646,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto request = milvus::QueryRequest()
@@ -1652,15 +1669,18 @@ if (!status.IsOk()) {
 }
 ```
 
-## Query のタイムゾーンを一時的に設定する\{#temporarily-set-a-timezone-for-a-query}
+</TabItem>
+</Tabs>
 
-collection に `TIMESTAMPTZ` フィールドがある場合、query 呼び出しで `timezone` パラメータを設定することで、単一の操作に対して database または collection のデフォルトタイムゾーンを一時的に上書きできます。これにより、操作中に `TIMESTAMPTZ` 値がどのように表示・比較されるかを制御できます。
+## Query に対して一時的にタイムゾーンを設定する\{#temporarily-set-a-timezone-for-a-query}
 
-`timezone` の値は、有効な [IANA time zone identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) である必要があります（例: **Asia/Shanghai**、**America/Chicago**、**UTC**）。`TIMESTAMPTZ` フィールドの使用方法の詳細については、[TIMESTAMPTZ フィールド](./use-timestamptz-field) を参照してください。
+collection に `TIMESTAMPTZ` フィールドがある場合、query 呼び出しで `timezone` パラメータを設定することで、単一の操作に対してデータベースまたは collection のデフォルトタイムゾーンを一時的に上書きできます。これにより、操作中に `TIMESTAMPTZ` 値がどのように表示・比較されるかを制御できます。
 
-以下の例は、query 操作に対してタイムゾーンを一時的に設定する方法を示しています。
+`timezone` の値は、有効な [IANA time zone identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) である必要があります（例: **Asia/Shanghai**、**America/Chicago**、**UTC**）。`TIMESTAMPTZ` フィールドの使用方法の詳細については、[TIMESTAMPTZ Field](./use-timestamptz-field) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+以下の例は、query 操作に対して一時的にタイムゾーンを設定する方法を示しています。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1708,7 +1728,8 @@ results = client.query(
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto request = milvus::QueryRequest()
@@ -1726,4 +1747,7 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
