@@ -1,16 +1,16 @@
 ---
-title: "Phrase Match | BYOC"
+title: "フレーズ一致 | BYOC"
 slug: /phrase-match
-sidebar_label: "Phrase Match"
+sidebar_label: "フレーズ一致"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Phrase match を使用すると、クエリ語を完全なフレーズとして含むドキュメントを検索できます。デフォルトでは、単語は同じ順序で、互いに直接隣接して出現する必要があります。たとえば、\"robotics machine learning\" というクエリは、\"…typical robotics machine learning models…\" のようなテキストに一致します。ここでは、\"robotics\"、\"machine\"、\"learning\" という単語が、間にほかの単語を挟まずに連続して出現しています。 | BYOC"
+description: "フレーズ一致を使用すると、クエリ語を完全なフレーズとして含むドキュメントを検索できます。デフォルトでは、単語は同じ順序で、互いに隣接して出現する必要があります。たとえば、\"robotics machine learning\" というクエリは、\"…typical robotics machine learning models…\" のようなテキストに一致します。これは、\"robotics\"、\"machine\"、\"learning\" という単語が、間に他の単語を挟まずに連続して出現しているためです。 | BYOC"
 type: origin
 token: O2YiwLai5iSjT1k1WEsc06E8nEe
-sidebar_position: 16
+sidebar_position: 15
 displayed_sidebar: default
 
 ---
@@ -19,43 +19,43 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Phrase Match
+# フレーズ一致
 
-Phrase match を使用すると、クエリ語を完全なフレーズとして含むドキュメントを検索できます。デフォルトでは、単語は同じ順序で、互いに直接隣接して出現する必要があります。たとえば、**"robotics machine learning"** というクエリは、*"…typical robotics machine learning models…"* のようなテキストに一致します。ここでは、**"robotics"**、**"machine"**、**"learning"** という単語が、間にほかの単語を挟まずに連続して出現しています。
+フレーズ一致を使用すると、クエリ語を完全なフレーズとして含むドキュメントを検索できます。デフォルトでは、単語は同じ順序で、互いに隣接して出現する必要があります。たとえば、**"robotics machine learning"** というクエリは、*"…typical robotics machine learning models…"* のようなテキストに一致します。これは、**"robotics"**、**"machine"**、**"learning"** という単語が、間に他の単語を挟まずに連続して出現しているためです。
 
-ただし、実際のシナリオでは、厳密なフレーズ一致は硬直的すぎる場合があります。たとえば、*"…machine learning models widely adopted in robotics…"* のようなテキストにも一致させたいことがあります。この場合、同じキーワードは含まれていますが、隣接しておらず、元の順序でもありません。これに対応するため、phrase match は `slop` パラメーターをサポートしています。これにより柔軟性が加わります。`slop` の値は、フレーズ内の語句間で許容される位置のずれの数を定義します。たとえば、`slop` が 1 の場合、**"machine learning"** というクエリは、元の語の間に 1 語（**"deep"**）が入る *"...machine deep learning..."* のようなテキストにも一致できます。
+ただし、実際のシナリオでは、厳密なフレーズ一致は硬直的すぎることがあります。たとえば、*"…machine learning models widely adopted in robotics…"* のようなテキストにも一致させたい場合があります。この場合、同じキーワードは存在しますが、隣接しておらず、元の順序でもありません。これに対応するため、フレーズ一致は `slop` パラメーターをサポートしており、柔軟性を導入できます。`slop` の値は、フレーズ内の語の間で許可される位置のずれの数を定義します。たとえば、`slop` が 1 の場合、**"machine learning"** というクエリは *"...machine deep learning..."* のようなテキストにも一致できます。これは、元の語の間に 1 語（**"deep"**）が入っているためです。
 
 ## 概要\{#overview}
 
-[Tantivy](https://github.com/quickwit-oss/tantivy) 検索エンジンライブラリを基盤とする phrase match は、ドキュメント内の単語の位置情報を解析して動作します。以下の図はそのプロセスを示しています。
+[Tantivy](https://github.com/quickwit-oss/tantivy) 検索エンジンライブラリを基盤として、フレーズ一致はドキュメント内の単語の位置情報を解析して機能します。以下の図はこのプロセスを示しています。
 
 ![AFrdwVT8ChT11ibs9lpcuN7onZc](https://zdoc-images.s3.us-west-2.amazonaws.com/AFrdwVT8ChT11ibs9lpcuN7onZc.png)
 
 1. **ドキュメントのトークン化**: ドキュメントを Zilliz Cloud に挿入すると、テキストは analyzer によってトークン（個々の単語または語句）に分割され、各トークンの位置情報が記録されます。たとえば、**doc_1** は **["machine" (pos=0), "learning" (pos=1), "boosts" (pos=2), "efficiency" (pos=3)]** にトークン化されます。analyzer の詳細については、[Analyzer Overview](./analyzer-overview) を参照してください。
 
-1. **転置インデックスの作成**: Zilliz Cloud は転置インデックスを構築し、各トークンを、そのトークンが出現するドキュメントと、そのドキュメント内でのトークンの位置に対応付けます。
+1. **転置インデックスの作成**: Zilliz Cloud は転置インデックスを構築し、各トークンを、そのトークンが出現するドキュメントと、そのドキュメント内でのトークン位置に対応付けます。
 
-1. **フレーズ一致**: フレーズクエリが実行されると、Zilliz Cloud は転置インデックス内で各トークンを検索し、それらの位置を確認して、正しい順序と近接性で出現しているかを判断します。`slop` パラメーターは、一致するトークン間に許容される最大位置数を制御します。
+1. **フレーズ一致**: フレーズクエリが実行されると、Zilliz Cloud は転置インデックス内で各トークンを検索し、それらの位置を確認して、正しい順序と近接性で出現しているかを判断します。`slop` パラメーターは、一致するトークン間で許可される最大位置数を制御します。
 
-    - **slop = 0** は、トークンが **正確な順序で、かつ直ちに隣接して** 出現する必要があることを意味します（つまり、間に余分な単語は許可されません）。
+    - **slop = 0** は、トークンが **完全に同じ順序で、かつ隣接して** 出現する必要があることを意味します（つまり、間に余分な単語は入れられません）。
 
-        - この例では、**doc_1** のみが正確に一致します（**"machine"** が **pos=0**、**"learning"** が **pos=1**）。
+        - この例では、**doc_1** のみ（**"machine"** が **pos=0**、**"learning"** が **pos=1**）が完全一致します。
 
-    - **slop = 2** は、一致するトークン間で最大 2 位置分の柔軟性または並び替えを許可します。
+    - **slop = 2** は、一致するトークン間で最大 2 位置までの柔軟性または並び替えを許可します。
 
-        - これにより、逆順（**"learning machine"**）や、トークン間に少し間隔がある場合も許可されます。
+        - これにより、逆順（**"learning machine"**）や、トークン間の小さなギャップが許可されます。
 
         - その結果、**doc_1**、**doc_2**（**"learning"** が **pos=0**、**"machine"** が **pos=1**）、および **doc_3**（**"learning"** が **pos=1**、**"machine"** が **pos=2**）のすべてが一致します。
 
-## phrase match を有効にする\{#enable-phrase-match}
+## フレーズ一致を有効にする\{#enable-phrase-match}
 
-Phrase match は、Zilliz Cloud の文字列データ型である `VARCHAR` フィールド型で動作します。
+フレーズ一致は、Zilliz Cloud の文字列データ型である `VARCHAR` フィールド型で機能します。
 
-phrase matching を有効にするには、collection schema を設定し、`enable_analyzer` と `enable_match` の両方のパラメーターを `True` に設定します。この設定により、テキストがトークン化され、位置情報を含む転置インデックスが構築されるため、効率的なフレーズ検索が可能になります。
+フレーズ一致を有効にするには、コレクションスキーマで `enable_analyzer` と `enable_match` の両方のパラメーターを `True` に設定します。この設定により、テキストがトークン化され、位置情報を含む転置インデックスが構築されるため、効率的なフレーズ検索が可能になります。
 
-### schema フィールドを定義する\{#define-schema-fields}
+### スキーマフィールドを定義する\{#define-schema-fields}
 
-特定の `VARCHAR` フィールドで phrase match を有効にするには、フィールド schema を定義する際に `enable_analyzer` と `enable_match` の両方を `True` に設定します。
+特定の `VARCHAR` フィールドでフレーズ一致を有効にするには、フィールドスキーマを定義する際に `enable_analyzer` と `enable_match` の両方を `True` に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -272,15 +272,15 @@ schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VEC
 </TabItem>
 </Tabs>
 
-デフォルトでは、Zilliz Cloud は [standard](./standard-analyzer) [analyzer](./standard-analyzer) を使用します。これは、空白と句読点でテキストをトークン化し、テキストを小文字に変換します。
+デフォルトでは、Zilliz Cloud は [standard](./standard-analyzer) [analyzer](./standard-analyzer) を使用します。これは、空白や句読点でテキストをトークン化し、テキストを小文字に変換します。
 
-テキストデータが特定の言語や形式である場合は、`analyzer_params` パラメーターを使用してカスタム analyzer を設定できます（たとえば、`{ "type": "english" }` や `{ "type": "jieba" }`）。
+テキストデータが特定の言語や形式である場合は、`analyzer_params` パラメーターを使用してカスタム analyzer を設定できます（たとえば `{ "type": "english" }` や `{ "type": "jieba" }`）。
 
 詳細については、[Analyzer Overview](./analyzer-overview) を参照してください。
 
-### collection を作成する\{#create-the-collection}
+### コレクションを作成する\{#create-the-collection}
 
-必要なフィールドを定義したら、次のコードを使用して collection を作成します。
+必要なフィールドを定義したら、次のコードを使用してコレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -409,13 +409,13 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-collection の作成後、[phrase match の使用](./phrase-match#use-phrase-match) の前に、以下の必要な手順が実行されていることを確認してください。
+コレクションを作成した後、[フレーズ一致を使用する](./phrase-match#use-phrase-match) 前に、以下の必要な手順が実行されていることを確認してください。
 
-- エンティティが collection に挿入されていること。
+- エンティティがコレクションに挿入されていること。
 
-- 各 vector フィールドに index が作成されていること。
+- 各ベクトルフィールドにインデックスが作成されていること。
 
-- collection がメモリにロードされていること。
+- コレクションがメモリにロードされていること。
 
 <details>
 
@@ -668,17 +668,17 @@ if (!status.IsOk()) {
 
 ## フレーズ一致を使用する\{#use-phrase-match}
 
-collection スキーマ内の `VARCHAR` フィールドで match を有効にすると、`PHRASE_MATCH` 式を使用してフレーズ一致を実行できます。
+コレクションスキーマで `VARCHAR` フィールドに対してマッチを有効にすると、`PHRASE_MATCH` 式を使用してフレーズ一致を実行できます。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" icon="📘" title="Notes">
 
-`PHRASE_MATCH` 式では大文字と小文字は区別されません。`PHRASE_MATCH` と `phrase_match` のどちらも使用できます。
+`PHRASE_MATCH` 式は大文字と小文字を区別しません。`PHRASE_MATCH` と `phrase_match` のどちらも使用できます。
 
 </Admonition>
 
 ### PHRASE_MATCH 式の構文\{#phrasematch-expression-syntax}
 
-検索時にフィールド、フレーズ、およびオプションの柔軟性（`slop`）を指定するには、`PHRASE_MATCH` 式を使用します。構文は次のとおりです。
+`PHRASE_MATCH` 式を使用して、検索時のフィールド、フレーズ、および任意の柔軟性（`slop`）を指定します。構文は次のとおりです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -733,23 +733,23 @@ const auto filter = R"(PHRASE_MATCH(text, 'machine learning'))";
 
 - `field_name`**:** フレーズ一致を実行する `VARCHAR` フィールドの名前。
 
-- `phrase`**:** 検索する完全なフレーズ。
+- `phrase`**:** 検索する完全一致のフレーズ。
 
-- `slop` (optional)**:** 一致する token 間で許可される最大位置数を指定する整数。
+- `slop`（オプション）**:** 一致するトークン間で許可される最大位置数を指定する整数。
 
-    - `0`（デフォルト）: 完全一致するフレーズのみを一致させます。例: **"machine learning"** に対する filter は **"machine learning"** に正確に一致しますが、**"machine boosts learning"** や **"learning machine"** には一致しません。
+    - `0`（デフォルト）: 完全一致のフレーズのみ一致します。例: **"machine learning"** のフィルターは **"machine learning"** には完全一致しますが、**"machine boosts learning"** や **"learning machine"** には一致しません。
 
-    - `1`: 1 つの追加語句や位置のわずかなずれなど、軽微な変化を許可します。例: **"machine learning"** に対する filter は **"machine boosts learning"**（**"machine"** と **"learning"** の間に 1 token ある）には一致しますが、**"learning machine"**（語順が逆）には一致しません。
+    - `1`: 1つの追加語や軽微な位置のずれなど、小さな変動を許可します。例: **"machine learning"** のフィルターは **"machine boosts learning"**（**"machine"** と **"learning"** の間に1トークン）には一致しますが、**"learning machine"**（語順が逆）には一致しません。
 
-    - `2`: 語順の逆転や、その間に最大 2 つの token が入るケースを含む、より高い柔軟性を許可します。例: **"machine learning"** に対する filter は **"learning machine"**（語順が逆）や **"machine quickly boosts learning"**（**"machine"** と **"learning"** の間に 2 token ある）に一致します。
+    - `2`: 語順の逆転や、間に最大2トークンが入るケースなど、より高い柔軟性を許可します。例: **"machine learning"** のフィルターは **"learning machine"**（語順が逆）や **"machine quickly boosts learning"**（**"machine"** と **"learning"** の間に2トークン）に一致します。
 
-### フレーズ一致を使った query\{#query-with-phrase-match}
+### フレーズ一致でクエリを実行する\{#query-with-phrase-match}
 
-`query()` メソッドを使用する場合、**PHRASE_MATCH** は scalar filter として機能します。指定したフレーズを含むドキュメントのみが返されます（許可された slop に従います）。
+`query()` メソッドを使用する場合、**PHRASE_MATCH** はスカラーフィルターとして機能します。指定したフレーズ（許可された slop の範囲内）を含むドキュメントのみが返されます。
 
 #### 例: slop = 0（完全一致）\{#example-slop-0-exact-match}
 
-この例では、間に余分な token を含まない、完全なフレーズ **"machine learning"** を含むドキュメントを返します。
+この例では、間に余分なトークンを含まない完全なフレーズ **"machine learning"** を含むドキュメントを返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -851,13 +851,13 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### フレーズ一致を使った search\{#search-with-phrase-match}
+### フレーズ一致で検索する\{#search-with-phrase-match}
 
-search 操作では、**PHRASE_MATCH** は vector 類似度ランキングを適用する前にドキュメントを事前に絞り込むために使用されます。この 2 段階のアプローチでは、まずテキスト一致によって候補セットを絞り込み、その後、それらの候補を vector embeddings に基づいて再ランキングします。
+検索操作では、**PHRASE_MATCH** はベクトル類似度ランキングを適用する前にドキュメントを事前フィルタリングするために使用されます。この 2 段階アプローチでは、まずテキスト一致によって候補セットを絞り込み、その後ベクトル埋め込みに基づいて候補を再ランキングします。
 
 #### 例: slop = 1\{#example-slop-1}
 
-ここでは、slop を 1 に設定します。この filter は、わずかな柔軟性を持ってフレーズ **"learning machine"** を含むドキュメントに適用されます。
+ここでは、slop を 1 に設定しています。フィルターは、わずかな柔軟性を持ってフレーズ **"learning machine"** を含むドキュメントに適用されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -988,7 +988,7 @@ if (!status.IsOk()) {
 
 #### 例: slop = 2\{#example-slop-2}
 
-この例では slop を 2 に設定します。つまり、**"machine"** と **"learning"** の間に最大 2 つの追加 token（または語順が逆の語）が許可されます。
+この例では slop を 2 に設定しており、**"machine"** と **"learning"** の間に最大2つの追加トークン（または語順の逆転）が許可されることを意味します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1113,7 +1113,7 @@ if (!status.IsOk()) {
 
 #### 例: slop = 3\{#example-slop-3}
 
-この例では、slop を 3 にするとさらに柔軟性が高まります。この filter は、単語間に最大 3 token の位置を許可して **"machine learning"** を検索します。
+この例では、slop を 3 に設定することでさらに高い柔軟性を提供します。フィルターは、単語間に最大3つのトークン位置を許可して **"machine learning"** を検索します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1237,17 +1237,17 @@ if (!status.IsOk()) {
 
 ## 考慮事項\{#considerations}
 
-- フィールドに対してフレーズ一致を有効にすると、ストレージリソースを消費する反転 index が作成されます。この機能を有効にするかどうかを決める際は、ストレージへの影響を考慮してください。影響は、テキストサイズ、一意なトークン数、使用する analyzer によって異なります。
+- フィールドに対してフレーズ一致を有効にすると、転置インデックスが作成され、ストレージリソースを消費します。この機能を有効にするかどうかを判断する際は、ストレージへの影響を考慮してください。影響は、テキストサイズ、一意のトークン数、使用する analyzer によって異なります。
 
-- スキーマで analyzer を定義すると、その設定はその collection に対して永続的になります。別の analyzer の方が要件に適していると判断した場合は、既存の collection を削除し、希望する analyzer 設定で新しい collection を作成することを検討してください。
+- スキーマで analyzer を定義すると、その設定はそのコレクションに対して永続的になります。別の analyzer の方が要件に適していると判断した場合は、既存のコレクションを削除し、必要な analyzer 設定で新しいコレクションを作成することを検討してください。
 
-- フレーズ一致のパフォーマンスは、テキストがどのようにトークン化されるかに依存します。analyzer を collection 全体に適用する前に、`run_analyzer` メソッドを使用してトークン化の出力を確認してください。詳細については、[Analyzer Overview](./analyzer-overview) を参照してください。
+- フレーズ一致のパフォーマンスは、テキストがどのようにトークン化されるかに依存します。analyzer をコレクション全体に適用する前に、`run_analyzer` メソッドを使用してトークン化の出力を確認してください。詳細については、[Analyzer Overview](./analyzer-overview) を参照してください。
 
 - `filter` 式におけるエスケープ規則:
 
-    - 式内でダブルクォートまたはシングルクォートで囲まれた文字は、文字列定数として解釈されます。文字列定数にエスケープ文字が含まれる場合、それらのエスケープ文字はエスケープシーケンスで表現する必要があります。たとえば、`\` は `\\`、タブ `\t` は `\\t`、改行は `\\n` を使用して表現します。
+    - 式内でダブルクォートまたはシングルクォートで囲まれた文字列は、文字列定数として解釈されます。文字列定数にエスケープ文字が含まれる場合、それらのエスケープ文字はエスケープシーケンスで表現する必要があります。たとえば、`\` を表すには `\\`、タブ `\t` を表すには `\\t`、改行を表すには `\\n` を使用します。
 
-    - 文字列定数がシングルクォートで囲まれている場合、定数内のシングルクォートは `\\'` で表現し、ダブルクォートは `"` または `\\"` のいずれかで表現できます。例: `'It\\'s milvus'`。
+    - 文字列定数がシングルクォートで囲まれている場合、定数内のシングルクォートは `\\'` として表現する必要があります。一方、ダブルクォートは `"` または `\\"` のいずれかで表現できます。例: `'It\\'s milvus'`。
 
-    - 文字列定数がダブルクォートで囲まれている場合、定数内のダブルクォートは `\\"` で表現し、シングルクォートは `'` または `\\'` のいずれかで表現できます。例: `"He said \\"Hi\\""`。
+    - 文字列定数がダブルクォートで囲まれている場合、定数内のダブルクォートは `\\"` として表現する必要があります。一方、シングルクォートは `'` または `\\'` のいずれかで表現できます。例: `"He said \\"Hi\\""`。
 

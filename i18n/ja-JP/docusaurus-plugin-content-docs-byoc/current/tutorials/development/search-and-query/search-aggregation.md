@@ -383,15 +383,15 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" --h
 
 </details>
 
-上記の設定では、ベクトルインデックスと検索パラメーターの両方に `COSINE` を指定しています。そのため、以降の例では `{"_score": "desc"}` を使用して、コサイン類似度が高い順に並べ替えます。`L2` のような距離メトリックの場合は、`{"_score": "asc"}` を使用してください。
+上記の設定では、ベクトルインデックスと検索パラメーターの両方に `COSINE` を指定しています。そのため、以降の例では `{"_score": "desc"}` を使用して、コサイン類似度が高い順に並べ替えます。`L2` のような距離メトリクスの場合は、`{"_score": "asc"}` を使用してください。
 
 ### バケットの比較とソート\{#compare-and-sort-buckets}
 
-このパターンは、取得したエンティティのグループを統計値に基づいて比較し、バケットの返却順序を制御したい場合に使用します。この例では、Zilliz Cloud が取得した製品を `brand` でグループ化し、各ブランドバケットの価格メトリックを計算した上で、平均価格でバケットをソートします。
+このパターンは、取得したエンティティのグループを統計値に基づいて比較し、バケットの返却順序を制御したい場合に使用します。この例では、Zilliz Cloud が取得した製品を `brand` でグループ化し、各ブランドバケットの価格メトリクスを計算した上で、平均価格でバケットをソートします。
 
 フィールド値ごとに1つ以上のエンティティを返すことで結果の多様性を高めることだけが目的であれば、代わりに [Grouping Search](./grouping-search) を使用してください。
 
-次の設定では、最大3つのブランドバケットを作成し、各バケットのメトリックを計算して、平均価格でバケットをソートします。
+次の設定では、最大3つのブランドバケットを作成し、各バケットのメトリクスを計算して、平均価格でバケットをソートします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -590,7 +590,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`search_aggregation` を設定すると、PyMilvus は `result[0]` に通常のエンティティヒットを返しません。代わりに `result.agg_buckets[0]` からバケットのレスポンスを取得してください。`output_fields` パラメーターは、返される各 `AggregationHit.fields` マッピングに含まれるスカラーフィールドを制御します。なお、Zilliz Cloud では、`output_fields` に含まれていないメトリックソースやソート用のフィールドも引き続き使用できます。
+`search_aggregation` を設定すると、PyMilvus は `result[0]` に通常のエンティティヒットを返しません。代わりに `result.agg_buckets[0]` からバケットのレスポンスを取得してください。`output_fields` パラメーターは、返される各 `AggregationHit.fields` マッピングに含まれるスカラーフィールドを制御します。なお、Zilliz Cloud では、`output_fields` に含まれていないメトリクス算出用やソート用のフィールドも引き続き使用できます。
 
 <details>
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "分散ベクトルデータベースとして、Zilliz Cloud は読み取りおよび書き込み操作中に各ノードまたはレプリカが同じデータにアクセスできるようにするため、複数の整合性レベルを提供します。現在、サポートされている整合性レベルには Strong、Bounded、Eventually、Session があり、デフォルトで使用される整合性レベルは Bounded です。 | BYOC"
 type: origin
 token: Xx9EwWtekinLZfkWKqic37dDnFb
-sidebar_position: 22
+sidebar_position: 21
 displayed_sidebar: default
 
 ---
@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 ## 概要\{#overview}
 
-Zilliz Cloud は、ストレージと計算を分離したシステムです。このシステムでは、**DataNodes** がデータの永続化を担い、最終的に MinIO/S3 などの分散オブジェクトストレージに保存します。**QueryNodes** は Search などの計算タスクを処理します。これらのタスクでは、**バッチデータ** と **ストリーミングデータ** の両方を処理します。簡単に言うと、バッチデータはすでにオブジェクトストレージに保存されたデータであり、ストリーミングデータはまだオブジェクトストレージに保存されていないデータを指します。ネットワーク遅延のため、QueryNodes は多くの場合、最新のストリーミングデータを保持していません。追加の保護がない場合、ストリーミングデータに対して直接 Search を実行すると、未コミットの多数のデータポイントが失われ、検索結果の精度に影響する可能性があります。
+Zilliz Cloud は、ストレージと計算を分離したシステムです。このシステムでは、**DataNodes** がデータの永続化を担い、最終的に MinIO/S3. などの分散オブジェクトストレージに保存します。**QueryNodes** は Search などの計算タスクを処理します。これらのタスクでは、**バッチデータ** と **ストリーミングデータ** の両方を処理します。簡単に言うと、バッチデータはすでにオブジェクトストレージに保存されたデータであり、ストリーミングデータはまだオブジェクトストレージに保存されていないデータを指します。ネットワーク遅延のため、QueryNodes は多くの場合、最新のストリーミングデータを保持していません。追加の保護がない場合、ストリーミングデータに対して直接 Search を実行すると、未コミットの多数のデータポイントが失われ、検索結果の精度に影響する可能性があります。
 
 ![UlOJwpWuKhj5LAbGSp9cwMFznEb](https://zdoc-images.s3.us-west-2.amazonaws.com/UlOJwpWuKhj5LAbGSp9cwMFznEb.png)
 

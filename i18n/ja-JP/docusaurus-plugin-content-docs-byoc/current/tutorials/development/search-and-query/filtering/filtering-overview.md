@@ -111,21 +111,21 @@ Zilliz Cloud は、JSON、ARRAY、VARCHAR フィールドなど、特定のデ�
 
 Zilliz Cloud は、JSON フィールドをクエリするための高度な演算子を提供し、複雑な JSON 構造内でも精密なフィルタリングを可能にします。
 
-**JSON_CONTAINS(identifier, jsonExpr)**: JSON 式がフィールド内に存在するかどうかを確認します。
+**`JSON_CONTAINS(identifier, jsonExpr)`**: JSON 式がフィールド内に存在するかどうかを確認します。
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new"]}
 filter='json_contains(tags, "sale")'
 ```
 
-**JSON_CONTAINS_ALL(identifier, jsonExpr)**: JSON 式のすべての要素が存在することを確認します。
+**`JSON_CONTAINS_ALL(identifier, jsonExpr)`**: JSON 式のすべての要素が存在することを確認します。
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
 filter='json_contains_all(tags, ["electronics", "sale", "new"])'
 ```
 
-**JSON_CONTAINS_ANY(identifier, jsonExpr)**: JSON 式に含まれる要素のうち少なくとも 1 つが存在するエンティティをフィルタリングします。
+**`JSON_CONTAINS_ANY(identifier, jsonExpr)`**: JSON 式に含まれる要素のうち少なくとも 1 つが存在するエンティティをフィルタリングします。
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new"]}
@@ -138,25 +138,25 @@ JSON 演算子の詳細については、[JSON Operators](./json-filtering-opera
 
 Zilliz Cloud は、配列フィールド向けの高度なフィルタリング演算子として `ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH` を提供しており、配列データをきめ細かく制御できます。
 
-**ARRAY_CONTAINS**: 特定の要素を含むエンティティをフィルタリングします。
+**`ARRAY_CONTAINS`**: 特定の要素を含むエンティティをフィルタリングします。
 
 ```python
 filter="ARRAY_CONTAINS(history_temperatures, 23)"
 ```
 
-**ARRAY_CONTAINS_ALL**: リスト内のすべての要素が含まれるエンティティをフィルタリングします。
+**`ARRAY_CONTAINS_ALL`**: リスト内のすべての要素が含まれるエンティティをフィルタリングします。
 
 ```python
 filter="ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])"
 ```
 
-**ARRAY_CONTAINS_ANY**: リスト内のいずれかの要素を含むエンティティをフィルタリングします。
+**`ARRAY_CONTAINS_ANY`**: リスト内のいずれかの要素を含むエンティティをフィルタリングします。
 
 ```python
 filter="ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])"
 ```
 
-**ARRAY_LENGTH**: 配列の長さに基づいてフィルタリングします。
+**`ARRAY_LENGTH`**: 配列の長さに基づいてフィルタリングします。
 
 ```python
 filter="ARRAY_LENGTH(history_temperatures) < 10"

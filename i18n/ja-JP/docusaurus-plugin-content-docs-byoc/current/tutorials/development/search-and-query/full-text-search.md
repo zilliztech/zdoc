@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "全文検索は、テキストデータセットから特定の用語やフレーズを含むドキュメントを取得し、関連性に基づいて結果をランキングする機能です。この機能により、正確な用語を見逃しがちなセマンティック検索の限界を補い、より精度高く文脈に即した結果を得られます。さらに、生のテキスト入力をそのまま受け付けて自動的にスパース埋め込みに変換するため、ベクトル埋め込みを手動で生成することなくベクトル検索を実行できます。 | BYOC"
+description: "全文検索は、テキストデータセット内の特定の用語やフレーズを含むドキュメントを取得し、関連性に基づいて結果をランキングする機能です。この機能は、正確な用語を見落とす可能性があるセマンティック検索の限界を克服し、最も正確で文脈に即した結果を得られるようにします。さらに、生のテキスト入力を受け付けてテキストデータを自動的にスパース埋め込みに変換するため、ベクトル埋め込みを手動で生成することなくベクトル検索を簡素化します。 | BYOC"
 type: origin
 token: RQTRwhOVPiwnwokqr4scAtyfnBf
 sidebar_position: 12
@@ -21,57 +21,57 @@ import TabItem from '@theme/TabItem';
 
 # 全文検索
 
-全文検索は、テキストデータセットから特定の用語やフレーズを含むドキュメントを取得し、関連性に基づいて結果をランキングする機能です。この機能により、正確な用語を見逃しがちなセマンティック検索の限界を補い、より精度高く文脈に即した結果を得られます。さらに、生のテキスト入力をそのまま受け付けて自動的にスパース埋め込みに変換するため、ベクトル埋め込みを手動で生成することなくベクトル検索を実行できます。
+全文検索は、テキストデータセット内の特定の用語やフレーズを含むドキュメントを取得し、関連性に基づいて結果をランキングする機能です。この機能は、正確な用語を見落とす可能性があるセマンティック検索の限界を克服し、最も正確で文脈に即した結果を得られるようにします。さらに、生のテキスト入力を受け付けてテキストデータを自動的にスパース埋め込みに変換するため、ベクトル埋め込みを手動で生成することなくベクトル検索を簡素化します。
 
-関連性スコアリングにBM25アルゴリズムを使用するこの機能は、特定の検索語句に厳密に一致するドキュメントを優先できるため、検索拡張生成（RAG）のシナリオで特に有効です。
+関連性スコアリングに BM25 アルゴリズムを使用するこの機能は、特定の検索語句に厳密に一致するドキュメントを優先するため、検索拡張生成（RAG）のシナリオで特に役立ちます。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-全文検索をセマンティックベースの高密度ベクトル検索と組み合わせることで、検索結果の精度と関連性をさらに高められます。詳細については、[ハイブリッド検索](./hybrid-search)を参照してください。
+全文検索をセマンティックベースの高密度ベクトル検索と統合すると、検索結果の精度と関連性を高めることができます。詳細については、[ハイブリッド検索](./hybrid-search) を参照してください。
 
 </Admonition>
 
-Zilliz Cloud では、プログラムまたはWebコンソールから全文検索を有効にできます。このページでは、プログラムで全文検索を有効にする方法を説明します。Webコンソールでの操作の詳細については、[コレクションの管理（コンソール）](./manage-collections-console#full-text-search)を参照してください。
+Zilliz Cloud では、プログラムからでも Web コンソールからでも全文検索を有効にできます。このページでは、プログラムで全文検索を有効にする方法について説明します。Web コンソールでの操作の詳細については、[コレクションの管理（コンソール）](./manage-collections-console#full-text-search) を参照してください。
 
-## BM25の実装\{#bm25-implementation}
+## BM25 の実装\{#bm25-implementation}
 
-Zilliz Cloud は、情報検索システムで広く採用されているBM25関連性アルゴリズムに基づく全文検索を提供しており、Zilliz Cloud はこれを検索ワークフローに統合して、関連性に応じてランク付けされた正確なテキスト検索結果を返します。
+Zilliz Cloud は、情報検索システムで広く採用されているスコアリング関数である BM25 関連性アルゴリズムを基盤とした全文検索を提供しており、Zilliz Cloud はこれを検索ワークフローに統合することで、関連性に基づいてランク付けされた正確なテキスト結果を返します。
 
-Zilliz Cloud における全文検索は、以下のワークフローに従います。
+Zilliz Cloud の全文検索は、以下のワークフローに従います。
 
-1. **生テキスト入力**: プレーンテキストを用いてドキュメントを挿入したりクエリを指定したりでき、埋め込みモデルは不要です。
+1. **生のテキスト入力**: プレーンテキストを使用してテキストドキュメントを挿入するか、クエリを指定します。埋め込みモデルは不要です。
 
-1. **テキスト解析**: Zilliz Cloud が[アナライザー](./analyzer-overview)を使用してテキストを処理し、インデックス化や検索に適した意味のある語句に分解します。
+1. **テキスト分析**: Zilliz Cloud は [アナライザー](./analyzer-overview) を使用してテキストを処理し、インデックスを作成して検索できる意味のある用語に変換します。
 
-1. **BM25関数による処理**: 組み込み関数がこれらの語句を、BM25スコアリングに最適化されたスパースベクトル表現に変換します。
+1. **BM25 関数による処理**: 組み込み関数がこれらの用語を、BM25 スコアリングに最適化されたスパースベクトル表現に変換します。
 
-1. **コレクションへの保存**: Zilliz Cloud は、高速な取得とランキングのため、生成されたスパース埋め込みをコレクションに保存します。
+1. **コレクションへの格納**: Zilliz Cloud は、高速な取得とランキングのために、生成されたスパース埋め込みをコレクションに格納します。
 
-1. **BM25による関連性スコアリング**: 検索時に Zilliz Cloud がBM25スコアリング関数を適用してドキュメントの関連性を算出し、クエリの語句に最も適合する結果をランキングして返します。
+1. **BM25 関連性スコアリング**: 検索時に、Zilliz Cloud は BM25 スコアリング関数を適用してドキュメントの関連性を計算し、クエリの用語に最も適合する結果をランク付けして返します。
 
 ![DfPMwP6ZahhHlLbIN0gcG9d7nQM](https://zdoc-images.s3.us-west-2.amazonaws.com/DfPMwP6ZahhHlLbIN0gcG9d7nQM.png)
 
-全文検索を利用するには、主に以下の手順を実行します。
+全文検索を使用するには、以下の主要な手順を実行します。
 
-1. [コレクションの作成](./full-text-search#create-a-collection-for-bm25-full-text-search): 必要なフィールドを設定し、生テキストをスパース埋め込みに変換するBM25関数を定義します。
+1. [コレクションの作成](./full-text-search#create-a-collection-for-bm25-full-text-search): 必要なフィールドを設定し、生のテキストをスパース埋め込みに変換する BM25 関数を定義します。
 
-1. [データの挿入](./full-text-search#insert-text-data): 生テキストドキュメントをコレクションに取り込みます。
+1. [データの挿入](./full-text-search#insert-text-data): 生のテキストドキュメントをコレクションに取り込みます。
 
-1. [検索の実行](./full-text-search#perform-full-text-search): 自然言語のクエリテキストを使用して、BM25の関連性に基づきランキングされた結果を取得します。
+1. [検索の実行](./full-text-search#perform-full-text-search): 自然言語のクエリテキストを使用して、BM25 の関連性に基づいてランク付けされた結果を取得します。
 
-## BM25全文検索用コレクションの作成\{#create-a-collection-for-bm25-full-text-search}
+## BM25 全文検索用のコレクションの作成\{#create-a-collection-for-bm25-full-text-search}
 
-BM25を活用した全文検索を有効にするには、必要なフィールドを備えたコレクションを準備し、スパースベクトルを生成するBM25関数を定義し、インデックスを設定した上で、コレクションを作成する必要があります。
+BM25 を活用した全文検索を有効にするには、必要なフィールドを備えたコレクションを準備し、スパースベクトルを生成する BM25 関数を定義し、インデックスを構成してから、コレクションを作成する必要があります。
 
 ### スキーマフィールドの定義\{#define-schema-fields}
 
-コレクションのスキーマには、少なくとも以下の3つの必須フィールドを含める必要があります。
+コレクションのスキーマには、少なくとも 3つの必須フィールドを含める必要があります。
 
 - **プライマリフィールド**: コレクション内の各エンティティを一意に識別します。
 
-- **文字列フィールド**（`VARCHAR` または `TEXT`）: 生テキストドキュメントを保存します。Zilliz Cloud がBM25の関連性ランキング用にテキストを処理できるよう、`enable_analyzer=True` を設定する必要があります。デフォルトでは、Zilliz Cloud はテキスト解析に [`standard`](./standard-analyzer)[ アナライザー](./standard-analyzer) を使用します。別のアナライザーを設定する場合は、[アナライザーの概要](./analyzer-overview)を参照してください。このページの例では `VARCHAR` を使用していますが、長いテキストを扱う場合は入力フィールドを `TEXT` として定義し、`max_length` を省略できます。完全な例については、[テキストフィールド](./use-text-field)を参照してください。
+- **文字列フィールド**（`VARCHAR` または `TEXT`）: 生のテキストドキュメントを格納します。Zilliz Cloud が BM25 関連性ランキングのためにテキストを処理できるよう、`enable_analyzer=True` を設定する必要があります。デフォルトでは、Zilliz Cloud はテキスト分析に [`standard`](./standard-analyzer)[ アナライザー](./standard-analyzer) を使用します。別のアナライザーを構成する場合は、[アナライザーの概要](./analyzer-overview) を参照してください。このページの例では `VARCHAR` を使用しています。長いテキストの場合は、入力フィールドを `TEXT` として定義し、`max_length` を省略できます。完全な例については、[テキストフィールド](./use-text-field) を参照してください。
 
-- **スパースベクトルフィールド**（`SPARSE_FLOAT_VECTOR`）: BM25関数によって自動生成されたスパース埋め込みを保存します。
+- **スパースベクトルフィールド**（`SPARSE_FLOAT_VECTOR`）: BM25 関数によって自動生成されたスパース埋め込みを格納します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -255,18 +255,17 @@ schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VE
 
 </TabItem>
 </Tabs>
+上記の構成では、
 
-上記の設定において、各項目は以下の通りです。
+- `id`: プライマリキーとして機能し、`auto_id=True` によって自動的に生成されます。
 
-- `id`: 主キーとして機能し、`auto_id=True` により自動生成されます。
+- `text`: 全文検索操作のために生のテキストデータを格納します。データ型は `VARCHAR` である必要があります。`VARCHAR` はテキスト格納用の Zilliz Cloud の文字列データ型です。
 
-- `text`: 全文検索用の生テキストデータを保存します。データ型は `VARCHAR` である必要があります。これは、`VARCHAR` が Zilliz Cloud におけるテキスト保存用の文字列データ型であるためです。
-
-- `sparse`: 全文検索用に内部で生成されるスパース埋め込みを保存するためのベクトルフィールドです。データ型は `SPARSE_FLOAT_VECTOR` である必要があります。
+- `sparse`: 全文検索操作のために内部で生成されたスパース埋め込みを格納するために予約されたベクトルフィールドです。データ型は `SPARSE_FLOAT_VECTOR` である必要があります。
 
 ### BM25 関数の定義\{#define-the-bm25-function}
 
-BM25 関数は、トークン化されたテキストを BM25 スコアリングに対応するスパースベクトルに変換します。
+BM25 関数は、トークン化されたテキストを、BM25 スコアリングをサポートするスパースベクトルに変換します。
 
 関数を定義し、スキーマに追加します。
 
@@ -385,23 +384,22 @@ schema->AddFunction(function);
 
 </TabItem>
 </Tabs>
-
 | パラメーター | 説明 |
 | --- | --- |
-| `name` | 関数の名前です。この関数は、`text` フィールドの生テキストを BM25 対応のスパースベクトルに変換し、`sparse` フィールドに格納します。 |
-| `input_field_names` | テキストからスパースベクトルへの変換対象となる `VARCHAR` フィールドの名前です。`FunctionType.BM25` では、このパラメーターに指定できるフィールド名は 1 つだけです。 |
-| `output_field_names` | 内部で生成されたスパースベクトルの格納先フィールドの名前です。`FunctionType.BM25` では、このパラメーターに指定できるフィールド名は 1 つだけです。 |
-| `function_type` | 使用する関数のタイプです。`FunctionType.BM25` を指定する必要があります。 |
+| `name` | 関数の名前。この関数は、`text` フィールドの生のテキストを、`sparse` フィールドに格納される BM25 互換のスパースベクトルに変換します。 |
+| `input_field_names` | テキストからスパースベクトルへの変換が必要な `VARCHAR` フィールドの名前。`FunctionType.BM25` の場合、このパラメーターは 1つのフィールド名のみを受け付けます。 |
+| `output_field_names` | 内部で生成されたスパースベクトルが格納されるフィールドの名前。`FunctionType.BM25` の場合、このパラメーターは 1つのフィールド名のみを受け付けます。 |
+| `function_type` | 使用する関数の種類。`FunctionType.BM25` である必要があります。 |
 
 <Admonition type="info" icon="📘" title="Notes">
 
-BM25 処理が必要な `VARCHAR` フィールドが複数ある場合は、**フィールドごとに 1 つの BM25 関数**を定義し、それぞれに一意の名前と出力フィールドを設定してください。
+複数の `VARCHAR` フィールドに BM25 処理が必要な場合は、**フィールドごとに 1つの BM25 関数**を定義し、それぞれに一意の名前と出力フィールドを設定してください。
 
 </Admonition>
 
-### インデックスの設定\{#configure-the-index}
+### インデックスの構成\{#configure-the-index}
 
-必要なフィールドと組み込み関数を含むスキーマを定義したら、コレクションのインデックスを設定します。手順を簡略化するには、`AUTOINDEX` を `index_type` として使用します。これにより、Zilliz Cloud がデータ構造に基づいて最適なインデックスタイプを自動的に選択・設定できます。
+必要なフィールドと組み込み関数を備えたスキーマを定義したら、コレクションのインデックスを設定します。このプロセスを簡素化するには、`index_type` として `AUTOINDEX` を使用します。これは、データの構造に基づいて Zilliz Cloud が最適なインデックスタイプを選択して構成できるようにするオプションです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -411,7 +409,7 @@ index_params = client.prepare_index_params()
 
 index_params.add_index(
     field_name="sparse",
-    index_type="AUTOINDEX",
+    index_type="AUTOINDEX", 
     metric_type="BM25"
 )
 ```
@@ -434,7 +432,7 @@ indexes.add(IndexParam.builder()
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.BM25)
         .extraParams(params)
-        .build());
+        .build());    
 ```
 
 </TabItem>
@@ -500,7 +498,6 @@ index_params.AddExtraParam("bm25_b", "0.75");
 
 </TabItem>
 </Tabs>
-
 <table>
    <tr>
      <th><p>パラメーター</p></th>
@@ -508,45 +505,45 @@ index_params.AddExtraParam("bm25_b", "0.75");
    </tr>
    <tr>
      <td><p><code>field_name</code></p></td>
-     <td><p>インデックスを作成するベクトルフィールドの名前です。全文検索では、生成されたスパースベクトルを格納するフィールドを指定します。この例では、値を <code>sparse</code> に設定します。</p></td>
+     <td><p>インデックスを作成するベクトルフィールドの名前。全文検索の場合は、生成されたスパースベクトルを格納するフィールドを指定します。この例では、値を <code>sparse</code> に設定します。</p></td>
    </tr>
    <tr>
      <td><p><code>index_type</code></p></td>
-     <td><p>作成するインデックスのタイプです。<code>AUTOINDEX</code> を指定すると、Zilliz Cloud がインデックス設定を自動的に最適化します。インデックス設定を細かく制御したい場合は、Zilliz Cloud で利用可能なスパースベクトル用の各種インデックスタイプから選択できます。</p></td>
+     <td><p>作成するインデックスの種類。<code>AUTOINDEX</code> を使用すると、Zilliz Cloud がインデックス設定を自動的に最適化します。インデックス設定をより細かく制御する必要がある場合は、Zilliz Cloud でスパースベクトルに利用できるさまざまなインデックスタイプから選択できます。 .</p></td>
    </tr>
    <tr>
      <td><p><code>metric_type</code></p></td>
-     <td><p>全文検索機能を使用する場合、このパラメーターの値は必ず <code>BM25</code> に設定する必要があります。</p></td>
+     <td><p>全文検索機能では、このパラメーターの値を <code>BM25</code> に設定する必要があります。</p></td>
    </tr>
    <tr>
      <td><p><code>params</code></p></td>
-     <td><p>インデックス固有の追加パラメーターを含む辞書です。</p></td>
+     <td><p>インデックスに固有の追加パラメーターのディクショナリ。</p></td>
    </tr>
    <tr>
      <td><p><code>params.inverted_index_algo</code></p></td>
-     <td><p>インデックスの構築およびクエリ実行に使用されるアルゴリズムです。有効な値は以下のとおりです。</p><ul><li><p><code>&quot;DAAT_MAXSCORE&quot;</code>（デフォルト）: MaxScore アルゴリズムを用いた最適化済みの Document-at-a-Time (DAAT) クエリ処理です。MaxScore は、影響度が低いと考えられる用語やドキュメントをスキップすることで、大きな <em>k</em> 値や多数の用語を含むクエリにおいて高いパフォーマンスを実現します。これは、最大影響スコアに基づいて用語を必須グループと非必須グループに分割し、top-k の結果に寄与する可能性のある用語に処理を集中させることで達成されます。</p></li><li><p><code>&quot;DAAT_WAND&quot;</code>: WAND アルゴリズムを用いた最適化済みの DAAT クエリ処理です。WAND は、最大影響スコアを利用して競合しないドキュメントをスキップすることで評価対象のヒット数を削減しますが、ヒットごとのオーバーヘッドが高くなります。そのため、スキップの効果が高い小さな <em>k</em> 値や短いクエリに対してより効率的です。</p></li><li><p><code>&quot;TAAT_NAIVE&quot;</code>: 基本的な Term-at-a-Time (TAAT) クエリ処理です。<code>DAAT_MAXSCORE</code> や <code>DAAT_WAND</code> に比べて低速ですが、<code>TAAT_NAIVE</code> には独自の利点があります。グローバルコレクションパラメーター（avgdl）の変更に関わらずキャッシュされた静的な最大影響スコアを使用する DAAT アルゴリズムとは異なり、<code>TAAT_NAIVE</code> はそのような変更に対して動的に適応します。</p></li></ul></td>
+     <td><p>インデックスの構築とクエリに使用されるアルゴリズム。有効な値:</p><ul><li><p><code>&quot;DAAT_MAXSCORE&quot;</code>（デフォルト）: MaxScore アルゴリズムを使用した最適化された Document-at-a-Time（DAAT）クエリ処理。MaxScore は、影響が最小限になる可能性が高い用語とドキュメントをスキップすることで、大きな <em>k</em> 値や用語数の多いクエリに対して優れたパフォーマンスを提供します。これは、最大影響スコアに基づいて用語を必須グループと非必須グループに分割し、top-k の結果に寄与できる用語に焦点を当てることで実現されます。</p></li><li><p><code>&quot;DAAT_WAND&quot;</code>: WAND アルゴリズムを使用した最適化された DAAT クエリ処理。WAND は、最大影響スコアを活用して競合しないドキュメントをスキップすることで、評価するヒットドキュメントを減らしますが、ヒットごとのオーバーヘッドは大きくなります。そのため WAND は、小さな <em>k</em> 値のクエリや短いクエリなど、スキップがより現実的な場合に効率的です。</p></li><li><p><code>&quot;TAAT_NAIVE&quot;</code>: 基本的な Term-at-a-Time（TAAT）クエリ処理。<code>DAAT_MAXSCORE</code> や <code>DAAT_WAND</code> と比較すると低速ですが、<code>TAAT_NAIVE</code> には独自の利点があります。グローバルなコレクションパラメーター（avgdl）の変更に関係なく静的なままであるキャッシュされた最大影響スコアを使用する DAAT アルゴリズムとは異なり、<code>TAAT_NAIVE</code> はそのような変更に動的に適応します。</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>params.bm25_k1</code></p></td>
-     <td><p>用語頻度の飽和度を制御します。値が大きいほど、ドキュメントランキングにおける用語頻度の重要度が高くなります。値の範囲は [1.2, 2.0] です。</p></td>
+     <td><p>用語頻度の飽和を制御します。値が大きいほど、ドキュメントのランキングにおける用語頻度の重要度が高くなります。値の範囲: [1.2, 2.0]。</p></td>
    </tr>
    <tr>
      <td><p><code>params.bm25_b</code></p></td>
-     <td><p>ドキュメント長の正規化の度合いを制御します。通常は 0 から 1 の値を使用し、デフォルト値は 0.75 です。0 は長さの正規化なし、1 は完全な長さの正規化を意味します。</p></td>
+     <td><p>ドキュメント長が正規化される度合いを制御します。通常は 0 から 1 の間の値が使用され、デフォルト値は 0.75 です。値が 0 の場合は長さの正規化を行わないことを意味し、値が 1 の場合は完全な長さの正規化を意味します。</p></td>
    </tr>
 </table>
 
 ### コレクションの作成\{#create-the-collection}
 
-定義したスキーマとインデックスパラメーターを使用して、コレクションを作成します。
+次に、定義したスキーマとインデックスパラメーターを使用してコレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
 client.create_collection(
-    collection_name='my_collection',
-    schema=schema,
+    collection_name='my_collection', 
+    schema=schema, 
     index_params=index_params
 )
 ```
@@ -586,8 +583,8 @@ if err != nil {
 
 ```javascript
 await client.create_collection(
-    collection_name: 'my_collection',
-    schema: schema,
+    collection_name: 'my_collection', 
+    schema: schema, 
     index_params: index_params,
     functions: functions
 );
@@ -629,10 +626,9 @@ if (!status.IsOk()) {
 
 </TabItem>
 </Tabs>
-
 ## テキストデータの挿入\{#insert-text-data}
 
-コレクションとインデックスの準備ができたら、テキストデータを挿入できます。この際、指定が必要なのは生のテキストのみです。前述の組み込み関数により、各テキストに対応するスパースベクトルが自動的に生成されます。
+コレクションとインデックスを設定したら、テキストデータを挿入する準備が整います。このプロセスでは、生のテキストを指定するだけで済みます。先ほど定義した組み込み関数が、各テキストエントリに対応するスパースベクトルを自動的に生成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -682,7 +678,7 @@ client.insert(InsertReq.builder()
 
 ```javascript
 await client.insert({
-collection_name: 'my_collection',
+collection_name: 'my_collection', 
 data: [
     {'text': 'information retrieval is a field of study.'},
     {'text': 'information retrieval focuses on finding relevant information in large datasets.'},
@@ -704,7 +700,7 @@ curl --request POST \
     "data": [
         {"text": "information retrieval is a field of study."},
         {"text": "information retrieval focuses on finding relevant information in large datasets."},
-        {"text": "data mining and information retrieval overlap in research."}
+        {"text": "data mining and information retrieval overlap in research."}       
     ],
     "collectionName": "my_collection"
 }'
@@ -733,10 +729,9 @@ if (!status.IsOk()) {
 
 </TabItem>
 </Tabs>
-
 ## 全文検索の実行\{#perform-full-text-search}
 
-コレクションにデータを挿入すると、生のテキストクエリを使って全文検索を実行できます。Zilliz Cloud がクエリをスパースベクトルに自動変換し、BM25 アルゴリズムに基づいて検索結果をランキングした上で、topK（`limit`）件の結果を返します。
+コレクションにデータを挿入したら、生のテキストクエリを使用して全文検索を実行できます。Zilliz Cloud はクエリを自動的にスパースベクトルに変換し、BM25 アルゴリズムを使用して一致した検索結果をランク付けしてから、topK（`limit`）の結果を返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -747,7 +742,7 @@ search_params = {
 }
 
 res = client.search(
-    collection_name='my_collection',
+    collection_name='my_collection', 
     # highlight-start
     data=['whats the focus of information retrieval?'],
     anns_field='sparse',
@@ -813,7 +808,7 @@ for _, resultSet := range resultSets {
 
 ```javascript
 await client.search(
-    collection_name: 'my_collection',
+    collection_name: 'my_collection', 
     data: ['whats the focus of information retrieval?'],
     anns_field: 'sparse',
     output_fields: ['text'],
@@ -869,34 +864,33 @@ if (!status.IsOk()) {
 
 </TabItem>
 </Tabs>
-
 | パラメーター | 説明 |
 | --- | --- |
-| `search_params` | 検索パラメーターを含む辞書です。 |
-| `params.level` | 簡易的な検索最適化により検索精度を制御します。詳細は「[再現率の調整](./tune-recall-rate)」を参照してください。 |
-| `data` | 自然言語による生のクエリテキストです。Zilliz Cloud が BM25 関数を用いてテキストクエリをスパースベクトルに自動変換するため、事前計算済みのベクトルは指定しないでください。 |
-| `anns_field` | 内部で生成されたスパースベクトルを格納するフィールドの名前です。 |
-| `output_fields` | 検索結果として返すフィールド名のリストです。BM25 で生成された埋め込みを含む**スパースベクトルフィールドを除く**すべてのフィールドを指定できます。一般的には、プライマリキーフィールド（例: `id`）や元のテキストフィールド（例: `text`）を出力フィールドとして指定します。詳細は「[FAQ](./full-text-search#can-i-output-or-access-the-sparse-vectors-generated-by-the-bm25-function-in-full-text-search)」を参照してください。 |
-| `limit` | 返される上位一致結果の最大件数です。 |
+| `search_params` | 検索パラメーターを含むディクショナリ。 |
+| `params.level` | 簡素化された検索最適化を使用して検索精度を制御します。詳細については、[再現率の調整](./tune-recall-rate) を参照してください。 |
+| `data` | 自然言語の生のクエリテキスト。Zilliz Cloud は、BM25 関数を使用してテキストクエリを自動的にスパースベクトルに変換します。事前に計算されたベクトルは指定しないでください。 |
+| `anns_field` | 内部で生成されたスパースベクトルを含むフィールドの名前。 |
+| `output_fields` | 検索結果で返すフィールド名のリスト。BM25 で生成された埋め込みを含む **スパースベクトルフィールドを除く** すべてのフィールドをサポートします。一般的な出力フィールドには、プライマリキーフィールド（例: `id`）と元のテキストフィールド（例: `text`）があります。詳細については、[FAQ](./full-text-search#can-i-output-or-access-the-sparse-vectors-generated-by-the-bm25-function-in-full-text-search) を参照してください。 |
+| `limit` | 返す上位一致の最大数。 |
 
 ## FAQ\{#faq}
 
 ### 全文検索で BM25 関数によって生成されるスパースベクトルを出力または参照できますか？\{#can-i-output-or-access-the-sparse-vectors-generated-by-the-bm25-function-in-full-text-search}
 
-いいえ、全文検索において BM25 関数が生成するスパースベクトルに直接アクセスしたり、それを出力したりすることはできません。詳細は以下のとおりです。
+いいえ。BM25 関数によって生成されるスパースベクトルは、全文検索では直接参照したり出力したりすることはできません。詳細は以下の通りです。
 
-- BM25 関数は、ランキングや検索のためにスパースベクトルを内部的に生成します。
+- BM25 関数は、ランキングと取得のためにスパースベクトルを内部的に生成します
 
-- これらのベクトルはスパースフィールドに保存されますが、`output_fields` に含めることはできません。
+- これらのベクトルはスパースフィールドに格納されますが、`output_fields` に含めることはできません
 
-- 出力できるのは元のテキストフィールドとメタデータ（`id`、`text` など）のみです。
+- 出力できるのは、元のテキストフィールドとメタデータ（`id`、`text` など）のみです
 
 例:
 
 ```python
 # ❌ This throws an error - you cannot output the sparse field
 client.search(
-    collection_name='my_collection',
+    collection_name='my_collection', 
     data=['query text'],
     anns_field='sparse',
     # highlight-next-line
@@ -907,7 +901,7 @@ client.search(
 
 # ✅ This works - output text fields only
 client.search(
-    collection_name='my_collection',
+    collection_name='my_collection', 
     data=['query text'],
     anns_field='sparse',
     # highlight-next-line
@@ -916,23 +910,22 @@ client.search(
     search_params=search_params
 )
 ```
+### アクセスできないのに、スパースベクトルフィールドを定義する必要があるのはなぜですか？\{#why-do-i-need-to-define-a-sparse-vector-field-if-i-cant-access-it}
 
-### アクセスできないにもかかわらず、スパースベクトルフィールドを定義する必要があるのはなぜですか？\{#why-do-i-need-to-define-a-sparse-vector-field-if-i-cant-access-it}
+スパースベクトルフィールドは、ユーザーが直接操作しないデータベースのインデックスと同様に、内部的な検索インデックスとして機能します。
 
-スパースベクトルフィールドは、ユーザーが直接操作することのないデータベースのインデックスと同様に、内部検索インデックスとして機能します。
+**設計の根拠**:
 
-**設計上の理由**:
+- 関心の分離: ユーザーが扱うのはテキスト (input/output), Milvus が扱うのはベクトル（内部処理）です
 
-- 関心の分離: ユーザーはテキスト（入力/output), Milvus）を扱い、システムはベクトル（内部処理）を処理します。
+- パフォーマンス: 事前に計算されたスパースベクトルによって、クエリ中の高速な BM25 ランキングが可能になります
 
-- パフォーマンス: 事前に計算されたスパースベクトルにより、クエリ実行時の高速な BM25 ランキングが可能になります。
-
-- ユーザーエクスペリエンス: 複雑なベクトル操作をシンプルなテキストインターフェースの背後に抽象化します。
+- ユーザーエクスペリエンス: 複雑なベクトル操作をシンプルなテキストインターフェイスの背後に抽象化します
 
 **ベクトルへのアクセスが必要な場合**:
 
-- 全文検索の代わりに、手動でのスパースベクトル操作を利用してください。
+- 全文検索の代わりに、手動のスパースベクトル操作を使用します
 
-- カスタムスパースベクトルワークフローには、専用のコレクションを作成してください。
+- カスタムのスパースベクトルワークフロー用に別々のコレクションを作成します
 
 詳細については、[スパースベクトル](./use-sparse-vector) を参照してください。

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "範囲検索は、返される entity の距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を向上させます。このページでは、範囲検索とは何か、および範囲検索を実行する手順について説明します。 | BYOC"
+description: "範囲検索は、返されるエンティティの距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を向上させます。このページでは、範囲検索とは何か、および範囲検索を実行する手順について説明します。 | BYOC"
 type: origin
 token: GnvtwMeQWi8iRCk7dGccCBQZnOh
 sidebar_position: 5
@@ -21,39 +21,39 @@ import TabItem from '@theme/TabItem';
 
 # 範囲検索
 
-範囲検索は、返される entity の距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を向上させます。このページでは、範囲検索とは何か、および範囲検索を実行する手順について説明します。
+範囲検索は、返されるエンティティの距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を向上させます。このページでは、範囲検索とは何か、および範囲検索を実行する手順について説明します。
 
 ## 概要\{#overview}
 
-Range Search リクエストを実行すると、Zilliz Cloud は ANN Search の結果からクエリ vector に最も類似した vector を中心として使用し、Search リクエストで指定された **radius** を外側の円の半径、**range_filter** を内側の円の半径として 2 つの同心円を描きます。これら 2 つの同心円によって形成される環状領域内に類似度スコアが入るすべての vector が返されます。ここで、**range_filter** は **0** に設定でき、これは指定した類似度スコア（radius）内のすべての entity が返されることを意味します。
+範囲検索リクエストを実行すると、Zilliz Cloud は、ANN Search の結果からクエリベクトルに最も類似したベクトルを中心とし、検索リクエストで指定された **radius** を外側の円の半径、**range_filter** を内側の円の半径として 2 つの同心円を描きます。これら 2 つの同心円によって形成される環状領域内に類似度スコアが収まるすべてのベクトルが返されます。ここで、**range_filter** は **0** に設定でき、これは指定された類似度スコア（radius）内のすべてのエンティティが返されることを意味します。
 
 ![Sewjwp5DShFgKAbC1Mwcrr7enOD](https://zdoc-images.s3.us-west-2.amazonaws.com/Sewjwp5DShFgKAbC1Mwcrr7enOD.png)
 
-上の図は、範囲検索リクエストが **radius** と **range_filter** という 2 つのパラメータを持つことを示しています。範囲検索リクエストを受け取ると、Zilliz Cloud は次の処理を行います。
+上の図は、範囲検索リクエストが **radius** と **range_filter** という 2 つのパラメータを伴うことを示しています。範囲検索リクエストを受け取ると、Zilliz Cloud は次の処理を実行します。
 
-- 指定された metric type（**COSINE**）を使用して、クエリ vector に最も類似したすべての vector 埋め込みを見つけます。
+- 指定されたメトリックタイプ（**COSINE**）を使用して、クエリベクトルに最も類似したすべてのベクトル埋め込みを検索します。
 
-- クエリ vector に対する **distance** または **score** が、**radius** と **range_filter** パラメータで指定された範囲内に入る vector 埋め込みをフィルタリングします。
+- クエリベクトルに対する **距離** または **スコア** が、**radius** と **range_filter** パラメータで指定された範囲内に収まるベクトル埋め込みをフィルタリングします。
 
-- フィルタリングされたものの中から **top-K** entity を返します。
+- フィルタリングされたエンティティの中から **top-K** のエンティティを返します。
 
-**radius** と **range_filter** の設定方法は、検索の metric type によって異なります。次の表は、異なる metric type でこれら 2 つのパラメータを設定する際の要件を示しています。
+**radius** と **range_filter** の設定方法は、検索のメトリックタイプによって異なります。次の表に、メトリックタイプごとにこれら 2 つのパラメータを設定する際の要件を示します。
 
-| Metric Type | 記法 | radius と range_filter の設定要件 |
+| メトリックタイプ | 意味 | radius と range_filter の設定要件 |
 | --- | --- | --- |
-| `L2` | L2 distance が小さいほど、類似度が高くなります。 | 最も類似した vector 埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
-| `IP` | IP distance が大きいほど、類似度が高くなります。 | 最も類似した vector 埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
-| `COSINE` | COSINE distance が大きいほど、類似度が高くなります。 | 最も類似した vector 埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
-| `JACCARD` | Jaccard distance が小さいほど、類似度が高くなります。 | 最も類似した vector 埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
-| `HAMMING` | Hamming distance が小さいほど、類似度が高くなります。 | 最も類似した vector 埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
+| `L2` | L2 距離が小さいほど、類似度が高くなります。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たすようにしてください。 |
+| `IP` | IP 距離が大きいほど、類似度が高くなります。 | 最も類似したベクトル埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たすようにしてください。 |
+| `COSINE` | COSINE 距離が大きいほど、類似度が高くなります。 | 最も類似したベクトル埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たすようにしてください。 |
+| `JACCARD` | Jaccard 距離が小さいほど、類似度が高くなります。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たすようにしてください。 |
+| `HAMMING` | Hamming 距離が小さいほど、類似度が高くなります。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たすようにしてください。 |
 
 ## 例\{#examples}
 
-このセクションでは、範囲検索の実行方法を示します。以下のコードスニペット内の検索リクエストには metric type が含まれていないため、デフォルトの metric type である **COSINE** が適用されます。この場合、**radius** の値が **range_filter** の値より小さくなるようにしてください。
+このセクションでは、範囲検索の実行方法を示します。以下のコードスニペット内の検索リクエストにはメトリックタイプが指定されていないため、デフォルトのメトリックタイプである **COSINE** が適用されます。この場合、**radius** の値が **range_filter** の値より小さくなるようにしてください。
 
-以下のコードスニペットでは、`radius` を `0.4`、`range_filter` を `0.6` に設定し、Zilliz Cloud がクエリ vector に対する距離またはスコアが **0.4** から **0.6** の範囲に入るすべての entity を返すようにします。
+以下のコードスニペットでは、`radius` を `0.4`、`range_filter` を `0.6` に設定し、Zilliz Cloud がクエリベクトルに対する距離またはスコアが **0.4** から **0.6** の範囲に収まるすべてのエンティティを返すようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -276,10 +276,42 @@ for (auto& result : response.Results().Results()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+zilliz vector search \
+  --collection my_collection \
+  --body '{
+    "data": [
+        [
+            0.3580376395471989,
+            -0.6023495712049978,
+            0.18414012509913835,
+            -0.26286205330961354,
+            0.9029438446296592
+        ]
+    ],
+    "annsField": "vector",
+    "limit": 3,
+    "searchParams": {
+        "params": {
+            "radius": 0.4,
+            "range_filter": 0.6
+        }
+    }
+}' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-クエリ vector がすでに対象 collection に存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
+クエリベクトルが対象のコレクションにすでに存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
 
 </Admonition>

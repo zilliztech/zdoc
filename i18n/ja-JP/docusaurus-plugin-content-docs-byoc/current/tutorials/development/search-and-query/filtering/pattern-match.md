@@ -27,7 +27,7 @@ Zilliz Cloud では、これらのパターン制約をスカラーフィルタ�
 
 <Admonition type="info" icon="📘" title="Note">
 
-このページでは、`query`、`search`、およびハイブリッド検索で使用されるスカラーフィルター式のパターンマッチングについて説明します。これらの式はフィールド値を評価するものであり、アナライザーが生成するトークンを変更しません。テキスト分析中にトークンをフィルタリングするには、[Regex Analyzer Filter](./regex-filter) を参照してください。
+このページでは、query、search、およびハイブリッド検索で使用されるスカラーフィルター式のパターンマッチングについて説明します。これらの式はフィールド値を評価するものであり、アナライザーが生成するトークンを変更しません。テキスト分析中にトークンをフィルタリングするには、[Regex Analyzer Filter](./regex-filter) を参照してください。
 
 </Admonition>
 
@@ -541,7 +541,7 @@ filter='message !~ "^DEBUG" OR message IS NULL'
 
 JSON パスに対しては、パスが存在しない、null である、または文字列以外の値に解決される場合に、regex フィルターの動作が異なります。
 
-| フィルター | 欠落/null/non-string値を含むか | 備考 |
+| フィルター | missing/null/non-string の値を含むか | 備考 |
 | --- | --- | --- |
 | `json_field["path"] =&#126; "pattern"` | いいえ | regex パターンに合致する文字列値のみにマッチします。 |
 | `json_field["path"] !&#126; "pattern"` | はい | パスが存在しない、null である、文字列以外である、または regex パターンに合致しない文字列であるエンティティを返します。 |
