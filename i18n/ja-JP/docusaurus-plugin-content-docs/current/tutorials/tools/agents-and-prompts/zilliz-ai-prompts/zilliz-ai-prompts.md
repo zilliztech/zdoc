@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud AI プロンプトライブラリは、AI 搭載 IDE 向けに厳選されたプロンプトを提供し、AI アシスタントが Zilliz Cloud の機能を正確かつ効率的に実装できるよう支援します。 | Cloud"
 type: origin
 token: Li1gwPA8HiBgsokLgO4cKA7nnDg
-sidebar_position: 4
+sidebar_position: 5
 displayed_sidebar: default
 
 ---
@@ -42,10 +42,6 @@ AI ツールに支援してほしい作業に一致するモジュールプロ�
 API または SDK を使用して構築する場合は、使用したいインターフェースを AI ツールに伝えてください: RESTful API、Python SDK、Java SDK、Go SDK、Node.js SDK、または Terraform。
 
 ## プロンプト\{#prompts}
-
-| [ベースプロンプト](./zilliz-base-prompts) | [リソース計画](./zilliz-resource-planning-prompts) | [料金](./zilliz-pricing-prompts) | [クラスター接続](./zilliz-cluster-connection-prompts) | [検索](./zilliz-search-prompts) |
-| --- | --- | --- | --- | --- |
-| [インポート](./zilliz-import-prompts) | [移行](./zilliz-migration-prompts) | [統合](./zilliz-integrations-prompts) | [アクセス制御](./zilliz-access-control-prompts) | [スキーマ設計](./zilliz-schema-design-prompts) |
 
 
 

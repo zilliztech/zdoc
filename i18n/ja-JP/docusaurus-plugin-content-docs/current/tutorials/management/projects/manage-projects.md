@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud において、プロジェクトは組織内の論理コンテナとして機能し、クラスター、ボリューム、および関連リソースをグループ化します。プロジェクト内のすべてのリソースは、同じクラウドプロバイダーとリージョンを共有します。 | Cloud"
+description: "Zilliz Cloud では、プロジェクトは組織内の論理コンテナとして機能し、クラスター、ボリューム、および関連リソースをグループ化します。プロジェクト内のすべてのリソースは、同じクラウドプロバイダーとリージョンを共有します。 | Cloud"
 type: origin
 token: NXypwJ2ySiv7RAkyKb5cZ9SKnvf
 sidebar_position: 1
@@ -24,29 +24,29 @@ import Procedures from '@site/src/components/Procedures';
 
 # プロジェクトの管理
 
-Zilliz Cloud において、プロジェクトは組織内の論理コンテナとして機能し、クラスター、ボリューム、および関連リソースをグループ化します。プロジェクト内のすべてのリソースは、同じクラウドプロバイダーとリージョンを共有します。
+Zilliz Cloud では、プロジェクトは組織内の論理コンテナとして機能し、クラスター、ボリューム、および関連リソースをグループ化します。プロジェクト内のすべてのリソースは、同じクラウドプロバイダーとリージョンを共有します。
 
-ビジネスのさまざまな用途に合わせて、複数のプロジェクトを作成できます。たとえば、マルチメディアレコメンデーションサービスを提供している場合、動画レコメンデーション用のプロジェクトと音楽レコメンデーション用のプロジェクトをそれぞれ作成できます。
+ビジネスのさまざまな側面に合わせて、複数のプロジェクトを作成できます。たとえば、自社がマルチメディアレコメンデーションサービスを提供している場合、動画レコメンデーション用のプロジェクトと、音楽レコメンデーション用のプロジェクトを別々に作成できます。
 
-このガイドでは、プロジェクトの管理手順について説明します。
+このガイドでは、プロジェクトを管理する手順について説明します。
 
 ## プロジェクトの作成\{#create-a-project}
 
-各組織には、`Default Project` という名前のデフォルト **Enterprise** プロジェクトが用意されています。オンボーディング時にワークロードのデプロイ先となるクラウドリージョンを選択すると、システムによってそのリージョンにデフォルトプロジェクトが自動作成されます。デフォルトプロジェクトは削除できません。ワークロードやビジネス要件に応じて、追加のプロジェクトを作成できます。プロジェクトを作成すると、自動的にそのプロジェクトの [Project Admin](./project-users) になります。
+各組織には、`Default Project` という名前のデフォルトの **Enterprise** プロジェクトが用意されています。オンボーディング時に、ワークロードをデプロイするクラウドリージョンを選択すると、システムによってそのリージョンにこのデフォルトプロジェクトが自動的に作成されます。ワークロードとビジネスニーズに応じて、追加のプロジェクトを作成できます。プロジェクトを作成すると、自動的にそのプロジェクトの [Project Admin](./manage-platform-roles#predefined-project-roles) になります。
 
 ### 制限事項\{#limits}
 
-- プロジェクトを作成するには、[Organization Owner](./organization-users) である必要があります。
+- プロジェクトを作成するには、[Organization Owner](./manage-platform-roles#predefined-organization-roles) である必要があります。
 
-- 1つの組織あたり最大100個のプロジェクトを作成できます。
+- 1つの組織で作成できるプロジェクトは最大 100 個です。
 
 ### 手順\{#procedures}
 
-プロジェクトは、Zilliz Cloud WebコンソールまたはRESTful APIから作成できます。
+プロジェクトは、Zilliz Cloud Web コンソールまたは RESTful API から作成できます。
 
-- **RESTful APIを使用する場合**
+- **RESTful API を使用する場合**
 
-    以下にプロジェクト作成の例を示します。詳細については、[Create Project](/reference/restful/create-project-v2) を参照してください。
+    以下にプロジェクトを作成する例を示します。詳細については、[Create Project](/reference/restful/create-project-v2) を参照してください。
 
     ```bash
     curl --request POST \
@@ -75,37 +75,37 @@ Zilliz Cloud において、プロジェクトは組織内の論理コンテナ�
     }
     ```
 
-- **Webコンソールを使用する場合**
+- **Web コンソールを使用する場合**
 
-    以下のデモでは、Zilliz Cloud Webコンソールでプロジェクトを作成する手順を紹介しています。
+    以下のデモでは、Zilliz Cloud Web コンソールでプロジェクトを作成する方法を紹介しています。
 
     <Supademo id="cmhivxhnz5zctfatifx1jw34l" title=""  />
 
     <Procedures>
 
-    1. 対象の組織に移動し、左側ナビゲーションの **Projects** をクリックします。
+    1. 対象の組織に移動します。左側のナビゲーションで **Projects** をクリックします。
 
     1. **+ Project** をクリックします。
 
-    1. プロジェクトの設定を行います。
+    1. プロジェクトの設定を構成します。
 
-        プロジェクト作成時に指定する各パラメータの説明は、以下の表のとおりです。
+        以下では、プロジェクトの作成時に使用する各パラメータについて説明します。
 
         | **パラメータ** | **説明** |
         | --- | --- |
-        | プラン | 用途に最適なプロジェクトプランを選択します。プランによって利用可能な機能や課金体系が異なります。料金、プラン間の違い、適切なプランの選び方などの詳細については、[Detailed Plan Comparison](./select-zilliz-cloud-service-plans) を参照してください。 |
+        | プラン | ニーズに最適なプロジェクトプランを選択します。プランによって、利用できる機能と課金が決まります。料金、プラン間の違い、適切なプランの選び方の詳細については、[詳細なプラン比較](./select-zilliz-cloud-service-plans) を参照してください。 |
         | 名前 | 作成するプロジェクトの名前を入力します。 |
-        | 説明（任意） | 作成するプロジェクトの説明を255文字以内で入力します。 |
-        | リージョン | ワークロードをデプロイするクラウドリージョンを選択します。プロジェクト内のすべてのリソース（クラスター、ボリュームなど）はこのリージョンにデプロイされます。プロジェクト作成後にリージョンを変更することはできません。利用可能なリージョンについては、[Cloud Providers & Regions](./cloud-providers-and-regions) を参照してください。 |
-        | マルチリージョン（任意） | **Business Critical** プロジェクトでのみ利用可能です。有効にすると、同じプロジェクト内の複数のクラウドリージョンにリソースをデプロイできます。[Global クラスター Explained](./global-cluster-explained) 機能を使用する予定がある場合は必須です。マルチリージョンは、プロジェクトの作成後に有効にすることもできます。 |
+        | 説明（任意） | 作成するプロジェクトの説明を最大 255 文字で入力します。 |
+        | リージョン | ワークロードをデプロイするクラウドリージョンを選択します。プロジェクト内のすべてのリソース（クラスター、ボリュームなど）は、このリージョンにデプロイされます。プロジェクトの作成後にリージョンを変更することはできません。利用可能なリージョンについては、[クラウドプロバイダーとリージョン](./cloud-providers-and-regions) を参照してください。 |
+        | マルチリージョン（任意） | **Business Critical** プロジェクトでのみ利用できます。有効にすると、同じプロジェクト内で複数のクラウドリージョンにリソースをデプロイできます。これは、[Global クラスター の説明](./global-cluster-explained) 機能を使用する予定がある場合に必要です。マルチリージョンは、プロジェクトの作成後に有効にすることができます。 |
 
     </Procedures>
 
-## プロジェクトリージョンの追加\{#add-project-regions}
+## プロジェクトのリージョンの追加\{#add-project-regions}
 
-プロジェクトが **Business Critical** プランの場合、プロジェクトにリージョンを追加できます。[Global クラスター](./global-cluster-explained) 機能を使用する必要がある場合は、プロジェクトがマルチリージョンである必要があります。
+プロジェクトが **Business Critical** プランの場合は、プロジェクトにリージョンを追加できます。[Global クラスター](./global-cluster-explained) 機能を使用する必要がある場合、プロジェクトはマルチリージョンである必要があります。
 
-- **RESTful APIを使用する場合**
+- **RESTful API を使用する場合**
 
     ```bash
     export BASE_URL="https://api.cloud.zilliz.com"
@@ -133,15 +133,15 @@ Zilliz Cloud において、プロジェクトは組織内の論理コンテナ�
     }
     ```
 
-- **Webコンソールを使用する場合**
+- **Web コンソールを使用する場合**
 
     ![Cw14w6V8Ih4QqWbuYstcKqjVnUx](https://zdoc-images.s3.us-west-2.amazonaws.com/Cw14w6V8Ih4QqWbuYstcKqjVnUx.png)
 
-## プロジェクトリージョンの削除\{#delete-project-regions}
+## プロジェクトのリージョンの削除\{#delete-project-regions}
 
 マルチリージョンプロジェクトからリージョンを削除できます。
 
-- **RESTful APIを使用する場合**
+- **RESTful API を使用する場合**
 
     ```bash
     curl -i --request DELETE \
@@ -159,21 +159,21 @@ Zilliz Cloud において、プロジェクトは組織内の論理コンテナ�
     } 
     ```
 
-- **Webコンソールを使用する場合**
+- **Web コンソールを使用する場合**
 
     ![DpQXwPmA9hnquubow8UcnFnQn9c](https://zdoc-images.s3.us-west-2.amazonaws.com/DpQXwPmA9hnquubow8UcnFnQn9c.png)
 
 ## プロジェクトのアップグレード\{#upgrade-a-project}
 
-高度な機能を利用するには、既存プロジェクトのプランをアップグレードします。
+高度な機能を利用するには、既存のプロジェクトのプランをアップグレードできます。
 
-プロジェクトをアップグレードすると、そのプロジェクト内のすべてのクラスターも同時にアップグレードされます。
+プロジェクトをアップグレードすると、プロジェクト内のすべてのクラスターもアップグレードされます。
 
-プロジェクトを **Business Critical** または **BYOC** プランにアップグレードする場合は、[contact sales](https://zilliz.com/contact-sales) までお問い合わせください。
+プロジェクトを **Business Critical** または **BYOC** プランにアップグレードする必要がある場合は、[営業担当者](https://zilliz.com/contact-sales) にお問い合わせください。
 
-- **RESTful APIを使用する場合**
+- **RESTful API を使用する場合**
 
-    以下のデモでは、プロジェクトのプランをStandardからEnterpriseへアップグレードする手順を紹介しています。詳細については、[Upgrade Project](/reference/restful/upgrade-project-v2) を参照してください。
+    以下のデモでは、プロジェクトのプランを Standard から Enterprise にアップグレードする方法を紹介しています。詳細については、[Upgrade Project](/reference/restful/upgrade-project-v2) を参照してください。
 
     ```bash
     export TOKEN="YOUR_API_KEY"
@@ -199,19 +199,19 @@ Zilliz Cloud において、プロジェクトは組織内の論理コンテナ�
     }
     ```
 
-- **Webコンソールを使用する場合**
+- **Web コンソールを使用する場合**
 
-    以下のデモでは、プロジェクトのプランを **Standard** から **Enterprise** へアップグレードする手順を紹介しています。
+    以下のデモでは、プロジェクトのプランを **Standard** から **Enterprise** にアップグレードする方法を紹介しています。
 
     <Supademo id="cmhiw3gu85zhlfati4r154s2h" title=""  />
 
 ## すべてのプロジェクトの表示\{#view-all-projects}
 
-権限範囲内のすべてのプロジェクト一覧を表示できます。
+組織内で権限の範囲内にあるすべてのプロジェクトの一覧を表示できます。
 
-- **RESTful APIを使用する場合**
+- **RESTful API を使用する場合**
 
-    以下に現在の組織内のすべてのプロジェクトを一覧表示する例を示します。詳細については、[List Projects](/reference/restful/list-projects-v2) を参照してください。
+    以下に、現在の組織内のすべてのプロジェクトを一覧表示する例を示します。詳細については、[List Projects](/reference/restful/list-projects-v2) を参照してください。
 
     ```bash
     export TOKEN="YOUR_API_KEY"
@@ -245,17 +245,17 @@ Zilliz Cloud において、プロジェクトは組織内の論理コンテナ�
     }
     ```
 
-- **Webコンソールを使用する場合**
+- **Web コンソールを使用する場合**
 
     ![VnLHwjlDbhA62GbPXsYcIl6CnKb](https://zdoc-images.s3.us-west-2.amazonaws.com/VnLHwjlDbhA62GbPXsYcIl6CnKb.png)
 
-## プロジェクトの詳細を表示する\{#view-project-details}
+## プロジェクトの詳細の表示\{#view-project-details}
 
 特定のプロジェクトの詳細を確認することもできます。
 
 - **RESTful API を使用する場合**
 
-    次の例は、プロジェクト `proj-xxxxxxxxxxxxxxx` について説明しています。詳細については、[Describe Project](/reference/restful/describe-project-v2) を参照してください。
+    以下は、プロジェクト `proj-xxxxxxxxxxxxxxx` の詳細を表示する例です。詳細については、[Describe Project](/reference/restful/describe-project-v2) を参照してください。
 
     ```bash
     export TOKEN="YOUR_API_KEY"
@@ -289,23 +289,23 @@ Zilliz Cloud において、プロジェクトは組織内の論理コンテナ�
 
 - **Web コンソールを使用する場合**
 
-    **Projects** ページでは、プロジェクト名、プラン、作成日時、およびプロジェクト内のクラスター数を確認できます。また、特定のプロジェクトをクリックすると、そのクラスターを表示できます。
+    **Projects** ページでは、プロジェクト名、プラン、作成日時、およびプロジェクト内のクラスター数を確認できます。さらに、特定のプロジェクトをクリックすると、そのクラスターを表示できます。
 
     ![HhfsbgOXco1fdGxoEYxc6QXBnpc](https://zdoc-images.s3.us-west-2.amazonaws.com/hhfsbgoxco1fdgxoeyxc6qxbnpc.png "HhfsbgOXco1fdGxoEYxc6QXBnpc")
 
-## プロジェクトの詳細を編集する\{#edit-project-details}
+## プロジェクトの詳細の編集\{#edit-project-details}
 
-プロジェクトの名前変更や説明の編集を行うには、[Organization Owner](./organization-users) である必要があります。プロジェクトの詳細は Web コンソールから編集できます。
+プロジェクトの名前を変更したり、プロジェクトの説明を編集したりするには、[Organization Owner](./manage-platform-roles#predefined-organization-roles) である必要があります。プロジェクトの詳細は Web コンソールから編集できます。
 
 <Supademo id="cmhiwa69y5zk2fatiw4ou24k6" title=""  />
 
-## プロジェクトを削除する\{#delete-a-project}
+## プロジェクトの削除\{#delete-a-project}
 
-プロジェクトを削除するには、[Organization Owner](./organization-users) である必要があります。
+プロジェクトを削除するには、[Organization Owner](./manage-platform-roles#predefined-organization-roles) である必要があります。
 
 プロジェクトを削除する前に、プロジェクト内のすべての[クラスター](./manage-cluster#drop)と[ボリューム](./managed-volume)を削除する必要があります。
 
-プロジェクトを削除すると、関連するすべてのデータとリソースも復元不可能な形で消去されます。
+プロジェクトを削除すると、関連するすべてのデータとリソースも復元できない形で削除されます。
 
 プロジェクトは Web コンソールから削除できます。
 
@@ -315,5 +315,4 @@ Zilliz Cloud において、プロジェクトは組織内の論理コンテナ�
 
 **プロジェクトのプランをダウングレードできますか？**
 
-プランの直接ダウングレードはサポートされていません。下位プランに切り替えるには、希望するプランで新しいプロジェクトを作成し、そこへデータを[移行](./offline-migration)してください。
-
+プランの直接的なダウングレードはサポートされていません。下位のプランに切り替えるには、目的のプランで新しいプロジェクトを作成し、そこへデータを[移行](./offline-migration)してください。

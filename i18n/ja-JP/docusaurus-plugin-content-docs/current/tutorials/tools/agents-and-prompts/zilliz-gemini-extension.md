@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Gemini CLI 用の Zilliz Cloud 拡張機能は、Zilliz Cloud の操作を IDE に直接持ち込む自然言語インターフェースです。CLI コマンドを覚えたり Web コンソールに切り替えたりする代わりに、やりたいことを平易な言葉で説明するだけで、プラグインが処理します。 | Cloud"
 type: origin
 token: FDwgwyDbMi98nckzPxkc2qWynW4
-sidebar_position: 3
+sidebar_position: 4
 displayed_sidebar: default
 
 ---
@@ -29,9 +29,9 @@ Gemini CLI 用の Zilliz Cloud 拡張機能は、Zilliz Cloud の操作を IDE �
 
 - 自然言語のリクエストを `zilliz-cli` コマンドに変換します
 
-- クラスター、データベース、コレクション、パーティション、インデックス、ベクトル、インポート、バックアップ、ユーザー/ロール、監視、プロジェクト、請求など、主要な Zilliz Cloud 操作をすべてカバーします
+- クラスター、データベース、コレクション、パーティション、インデックス、ベクトル、インポート、バックアップ、users/roles, 監視、プロジェクト、請求など、主要な Zilliz Cloud 操作をすべてカバーします
 
-- 呼び出し時に最新の `--help` 出力を埋め込むため、アシスタントは常に最新のフラグ情報を利用できます
+- 呼び出し時に実際の `--help` 出力を埋め込むため、アシスタントは常に最新のフラグ情報を利用できます
 
 - 破壊的な操作を実行する前に、必ず明示的なユーザー確認を求めます
 
@@ -166,7 +166,7 @@ You: "List my clusters"
     zilliz login
     ```
 
-1. **"No cluster configured"**
+1. **"No クラスター configured" と表示される**
 
     **解決策**: デフォルトのクラスターを設定します。
 

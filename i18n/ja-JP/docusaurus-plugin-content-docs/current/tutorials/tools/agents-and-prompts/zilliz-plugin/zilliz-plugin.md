@@ -1,16 +1,16 @@
 ---
-title: "Zilliz Claude Code Plugin | Cloud"
+title: "Zilliz Claude Code プラグイン | Cloud"
 slug: /zilliz-plugin
-sidebar_label: "Claude Code Plugin"
+sidebar_label: "Claude Code プラグイン"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Claude Code 向け Zilliz Cloud plugin は、Zilliz Cloud の操作を IDE に直接取り込む自然言語インターフェースです。CLI コマンドを覚えたり Web コンソールに切り替えたりする代わりに、やりたいことを平易な言葉で説明するだけで、plugin が処理します。 | Cloud"
+description: "Claude Code 向け Zilliz Cloud プラグインは、Zilliz Cloud の操作を IDE に直接持ち込む自然言語インターフェースです。CLI コマンドを覚えたり Web コンソールに切り替えたりする代わりに、やりたいことを平易な言葉で説明すれば、プラグインがそれを処理します。 | Cloud"
 type: origin
 token: LFepwAKeGiURJUksNA4cqYPYnIb
-sidebar_position: 2
+sidebar_position: 3
 displayed_sidebar: default
 
 ---
@@ -18,43 +18,43 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# Zilliz Claude Code Plugin
+# Zilliz Claude Code プラグイン
 
-Claude Code 向け Zilliz Cloud plugin は、Zilliz Cloud の操作を IDE に直接取り込む自然言語インターフェースです。CLI コマンドを覚えたり Web コンソールに切り替えたりする代わりに、やりたいことを平易な言葉で説明するだけで、plugin が処理します。
+Claude Code 向け Zilliz Cloud プラグインは、Zilliz Cloud の操作を IDE に直接持ち込む自然言語インターフェースです。CLI コマンドを覚えたり Web コンソールに切り替えたりする代わりに、やりたいことを平易な言葉で説明すれば、プラグインがそれを処理します。
 
 ## Zilliz Plugin とは？\{#what-is-the-zilliz-plugin}
 
-自然言語機能で Zilliz CLI をラップした Claude Code plugin であり、対話型コマンドを通じて Zilliz Cloud リソースを管理できます。
+自然言語機能で Zilliz CLI をラップする Claude Code プラグインで、会話形式のコマンドを通じて Zilliz Cloud リソースを管理できます。
 
 ## 主な機能\{#key-features}
 
 ### 14 の機能領域\{#14-capability-areas}
 
-- **Clusters**: cluster の作成、削除、一時停止、再開、変更
+- **クラスター**: クラスターの作成、削除、一時停止、再開、変更
 
-- **Collections**: カスタム schema での作成、load、release、rename、drop
+- **コレクション**: カスタムスキーマでの作成、読み込み、解放、名前変更、削除
 
-- **Vectors**: vector の search、query、insert、upsert、delete
+- **ベクトル**: ベクトルの検索、クエリ、挿入、アップサート、削除
 
-- **Indexes**: index の作成、一覧表示、詳細表示、drop
+- **インデックス**: インデックスの作成、一覧表示、詳細表示、削除
 
-- **Databases**: database の作成、一覧表示、詳細表示、drop
+- **データベース**: データベースの作成、一覧表示、詳細表示、削除
 
-- **Users & Roles**: RBAC の設定、権限管理
+- **Users & Roles**: RBAC セットアップ、権限管理
 
 - **Backups**: 作成、復元、エクスポート、ポリシー管理
 
-- **Import**: クラウドストレージからの一括データ import
+- **Import**: クラウドストレージからの一括データインポート
 
-- **Partitions**: partition の作成、load、release、管理
+- **Partitions**: パーティションの作成、読み込み、解放、管理
 
-- **Monitoring**: cluster ステータス、collection 統計
+- **Monitoring**: クラスターのステータス、コレクション統計
 
 - **Billing**: 請求管理
 
-- **Jobs**: job 管理
+- **Jobs**: ジョブ管理
 
-- **Project/Region**: project と region の設定
+- **Project/Region**: プロジェクトとリージョンの設定
 
 - **Setup**: 初期設定とクイックスタート
 
@@ -84,13 +84,13 @@ Plugin: Executes vector search with filters
 /zilliz:quickstart
 ```
 
-これにより、次の内容をガイドします。
+これにより、次の手順を案内します。
 
 1. CLI のインストール
 
 1. 認証設定
 
-1. cluster 接続
+1. クラスター接続
 
 1. 最初の操作
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud は、同じプロジェクト内のすべての履歴データタスクと非同期データタスクを統合した、直感的な Jobs ページを提供します。 | Cloud"
 type: origin
 token: RY8ww0NDQi8yU9kNpjicHP7Gn4b
-sidebar_position: 3
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -28,7 +28,7 @@ Zilliz Cloud は、同じプロジェクト内のすべての履歴データタ�
 
 以下のジョブ情報が表示されます。
 
-- Type と Description: ジョブの目的と情報です。このページにはいくつかのジョブタイプがあります。
+- Type と Description: ジョブの目的と情報です。このページには、いくつかの種類のジョブがあります。
 
     <table>
        <tr>
@@ -65,7 +65,7 @@ Zilliz Cloud は、同じプロジェクト内のすべての履歴データタ�
          <td><p>コレクションにデータをインポートします</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-collections-console#create-a-collection">Clone Collection</a></p></td>
+         <td><p><a href="./manage-collections-console#create-a-collection">Clone コレクション</a></p></td>
          <td><p>スキーマとデータの両方を含めてコレクションの完全なコピーを作成します</p></td>
        </tr>
        <tr>
@@ -73,16 +73,16 @@ Zilliz Cloud は、同じプロジェクト内のすべての履歴データタ�
          <td><p>サンプルデータセットがロードされたコレクションを作成します</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-cluster#suspend">Suspend Cluster</a></p></td>
+         <td><p><a href="./manage-cluster#suspend">Suspend クラスター</a></p></td>
          <td><p>クラスターを手動で一時停止します</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-cluster#resume">Resume Cluster</a></p></td>
+         <td><p><a href="./manage-cluster#resume">Resume クラスター</a></p></td>
          <td><p>クラスターを手動で再開します</p></td>
        </tr>
        <tr>
          <td><p><a href="./plan-cluster-scaling">Scale Query CU</a></p></td>
-         <td><p>クラスターの query CU 数を増減します。</p></td>
+         <td><p>クラスターのクエリ CU 数を増減します。</p></td>
        </tr>
        <tr>
          <td><p><a href="./plan-cluster-scaling">Scale Replica</a></p></td>
@@ -102,7 +102,7 @@ Zilliz Cloud は、同じプロジェクト内のすべての履歴データタ�
 
 ジョブの詳細を表示するには、**Actions** 列の **...** をクリックし、**View Details** を選択します。あるいは、[Describe Job](/reference/restful/describe-job-v2) API を使用してプログラムで詳細を取得することもできます。
 
-![view_job_details](https://zdoc-images.s3.us-west-2.amazonaws.com/view_job_details.png "view_job_details")
+![view_job_details](https://zdoc-images.s3.us-west-2.amazonaws.com/viewjobdetails.png "view_job_details")
 
 ## ジョブをキャンセルする\{#cancel-job}
 
@@ -120,7 +120,7 @@ Zilliz Cloud は、同じプロジェクト内のすべての履歴データタ�
 
 </Admonition>
 
-![cancel_job](https://zdoc-images.s3.us-west-2.amazonaws.com/cancel_job.png "cancel_job")
+![cancel_job](https://zdoc-images.s3.us-west-2.amazonaws.com/canceljob.png "cancel_job")
 
 ## 失敗したジョブを再試行する\{#retry-failed-job}
 
@@ -136,5 +136,4 @@ Zilliz Cloud は、同じプロジェクト内のすべての履歴データタ�
 
 インポートに失敗したファイルを調整済みであれば、ジョブを再試行できます。
 
-![retry_failed_job](https://zdoc-images.s3.us-west-2.amazonaws.com/retry_failed_job.png "retry_failed_job")
-
+![retry_failed_job](https://zdoc-images.s3.us-west-2.amazonaws.com/retryfailedjob.png "retry_failed_job")
