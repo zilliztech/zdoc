@@ -1806,9 +1806,9 @@
       "translatedAt": "2026-08-04T05:09:23.839Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pgvector.md": {
-      "sourceHash": "e7d0d4de5733ad90d429712d17aebb6377aac17454c53fc3734e17ac6cd13476",
+      "sourceHash": "c72ca07b308fa3af3c6df4df31c2dea4292e05c7af3217a98e746db4712f162e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pgvector.md",
-      "translatedAt": "2026-08-04T05:09:20.676Z"
+      "translatedAt": "2026-08-25T09:23:01.605Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md": {
       "sourceHash": "8762f3ad1a57d3004c028375c07c6cb3292e44c0a8b9e11169f0c51e12766f23",
@@ -1826,14 +1826,14 @@
       "translatedAt": "2026-08-04T05:09:59.517Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
-      "sourceHash": "ce34b466ab773028c71b9180bb36440b1246c57f86bdc85f5d90ecafa81442da",
+      "sourceHash": "2a7a91addb51ed459cc640417f2473248fcb67e97c34f60b469344aed33713a2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
-      "translatedAt": "2026-08-04T05:04:52.268Z"
+      "translatedAt": "2026-08-25T09:24:49.503Z"
     },
     "content/en/guides/tutorials/management/organizations/organization-settings.md": {
-      "sourceHash": "e6886866c445630eb1e806dae7913e5c4c2935e2377e0db7e6b7b70fbfe29b07",
+      "sourceHash": "7fcf5ab4372f296a0dd0d10266c0e44ce5cc43bddb541ea6588d59aced0e6f84",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/organizations/organization-settings.md",
-      "translatedAt": "2026-08-04T05:06:09.422Z"
+      "translatedAt": "2026-08-25T09:25:48.480Z"
     },
     "content/en/guides/tutorials/management/private-endpoint/setup-a-private-link-aws.md": {
       "sourceHash": "8acbb77a0564cc844103f7ba2600d3cb8b64ef6b8e457d8773baa9f52e31ce5c",
@@ -1854,6 +1854,11 @@
       "sourceHash": "e33753bb224cc071c3b85c9ec4f3b500626e8bd85fe7efbe2172bb441ce177d6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/projects/job-center.md",
       "translatedAt": "2026-08-04T05:06:40.315Z"
+    },
+    "content/en/guides/tutorials/management/projects/manage-projects.md": {
+      "sourceHash": "1a00c43d961e3b0e8a3025d738f31c6e8d8fbba050e139771c8e649ecc2ec4a3",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/projects/manage-projects.md",
+      "translatedAt": "2026-08-25T09:35:42.664Z"
     },
     "content/en/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md": {
       "sourceHash": "e881131f6ef8ca6416f7b01dfbb37ece2cd0d7fef7a5ea54342ebcf2eb80c5a6",
