@@ -1,13 +1,13 @@
 ---
-title: "Google Cloud Marketplace のプライベートオファーを購読する | BYOC"
+title: "Google Cloud Marketplace でプライベート オファーを購読する | BYOC"
 slug: /subscribe-on-gcp-marketplace-private-offer
-sidebar_label: "Google Cloud Marketplace（プライベートオファー）"
+sidebar_label: "Google Cloud Marketplace（プライベート オファー）"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Google Cloud Marketplace のプライベートオファーは、Zilliz がお客様の組織向けに作成するカスタム購入オプションです。Google Cloud Marketplace の製品ページに表示される標準価格と利用条件を使用するパブリックオファーとは異なり、プライベートオファーには、交渉済みの価格、カスタム契約条件、特定の契約期間、定義済みの支払いスケジュールを含めることができます。 | BYOC"
+description: "Google Cloud Marketplace のプライベート オファーは、Zilliz がお客様の組織向けに作成するカスタム購入オプションです。Google Cloud Marketplace の製品ページに表示される標準的な価格と条件が適用されるパブリック オファーとは異なり、プライベート オファーでは交渉済みの価格、カスタム契約条件、特定の契約期間、定義された支払いスケジュールを含めることができます。 | BYOC"
 type: origin
 token: Fd8EwsD0JiIt98kmps4c5wGlnrh
 sidebar_position: 5
@@ -20,69 +20,69 @@ import Admonition from '@theme/Admonition';
 
 import Procedures from '@site/src/components/Procedures';
 
-# Google Cloud Marketplace のプライベートオファーを購読する
+# Google Cloud Marketplace でプライベート オファーを購読する
 
-Google Cloud Marketplace のプライベートオファーは、Zilliz がお客様の組織向けに作成するカスタム購入オプションです。Google Cloud Marketplace の製品ページに表示される標準価格と利用条件を使用するパブリックオファーとは異なり、プライベートオファーには、交渉済みの価格、カスタム契約条件、特定の契約期間、定義済みの支払いスケジュールを含めることができます。
+Google Cloud Marketplace のプライベート オファーは、Zilliz がお客様の組織向けに作成するカスタム購入オプションです。Google Cloud Marketplace の製品ページに表示される標準的な価格と条件が適用されるパブリック オファーとは異なり、プライベート オファーでは交渉済みの価格、カスタム契約条件、特定の契約期間、定義された支払いスケジュールを含めることができます。
 
-Zilliz Cloud のプライベートオファーが必要な場合は、[Zilliz のアカウント担当者にお問い合わせください](https://zilliz.com/contact-sales)。オファーを受け取る Google Cloud Billing アカウント ID とメールアドレス、想定する契約期間、利用要件、および組織で含める必要のある調達または請求要件を提供してください。
+Zilliz Cloud のプライベート オファーが必要な場合は、[Zilliz のアカウント エグゼクティブにお問い合わせください](https://zilliz.com/contact-sales)。その際、オファーの受信用として Google Cloud Billing アカウント ID とメールアドレス、希望する契約期間、利用要件、および組織で必要な調達や請求に関する要件をお伝えください。
 
-このガイドでは、Google Cloud Marketplace で Zilliz Cloud のプライベートオファーを承諾し、それを Zilliz Cloud 組織にリンクする方法を説明します。
+このガイドでは、Google Cloud Marketplace で Zilliz Cloud のプライベート オファーを受け入れ、それを Zilliz Cloud 組織にリンクする手順について説明します。
 
-## 始める前に\{#before-you-start}
+## 開始前に\{#before-you-start}
 
-プライベートオファーを承諾する前に、以下を確認してください。
+プライベート オファーを受け入れる前に、以下の点を確認してください。
 
-- 有料の Google Cloud Billing アカウントを持っていること。Free Trial Google Cloud Billing アカウントは使用できません。
+- 有料の Google Cloud Billing アカウントを持っていること。無料トライアルの Google Cloud Billing アカウントは使用できません。
 
-- Cloud Billing アカウントに対して、以下のいずれかの必要な権限を持っていること。
+- Cloud Billing アカウントに対して、以下のいずれかの権限を持っていること。
 
-    - Billing Account Administrator (`roles/billing.admin`)
+    - Billing Account Administrator（`roles/billing.admin`）
 
-    - Billing Account User (`roles/billing.user`) と Consumer Procurement Order Administrator (`roles/consumerprocurement.orderAdmin`)
+    - Billing Account User（`roles/billing.user`）および Consumer Procurement Order Administrator（`roles/consumerprocurement.orderAdmin`）
 
-    必要な権限がない場合は、Billing Administrator または Organization Administrator に、アクセス権を付与するか、代わりにオファーを承諾してもらってください。
+    必要な権限を持っていない場合は、Billing Administrator または Organization Administrator にアクセス権の付与、またはオファーの代理受け入れを依頼してください。
 
 - Zilliz Cloud 上で Organization Owner または Organization Billing Admin であること。これらの権限は、Marketplace のサブスクリプションを Zilliz Cloud 組織にリンクするために必要です。
 
-## プライベートオファーを購読する\{#subscribe-to-a-private-offer}
+## プライベート オファーを購読する\{#subscribe-to-a-private-offer}
 
-以下は、購読プロセスの概要です。
+以下は、サブスクリプション登録プロセスの概要です。
 
 ![YSY9wG2TNhNlvMbFCZ9cLrIDnDh](https://zdoc-images.s3.us-west-2.amazonaws.com/YSY9wG2TNhNlvMbFCZ9cLrIDnDh.png)
 
-以下の詳細なステップバイステップガイドに従って、Google Cloud Marketplace でプライベートオファーを購読できます。
+以下の詳細なステップバイステップ ガイドに従って、Google Cloud Marketplace でプライベート オファーを購読できます。
 
 <Procedures>
 
-1. プライベートオファーについて Zilliz のアカウント担当者に連絡します。
+1. プライベート オファーについて Zilliz のアカウント エグゼクティブに連絡します。
 
-    [Zilliz のアカウント担当者に連絡する](https://zilliz.com/contact-sales)際には、プライベートオファーを受け取るために、[Google Cloud Billling account ID](https://docs.cloud.google.com/billing/docs/how-to/find-billing-account-id) とメールアドレスを提供する必要があります。 
+    [Zilliz のアカウント エグゼクティブに連絡する](https://zilliz.com/contact-sales)際は、プライベート オファーを受け取るための [Google Cloud Billing アカウント ID](https://docs.cloud.google.com/billing/docs/how-to/find-billing-account-id) とメールアドレスを提供する必要があります。
 
 1. メールの受信トレイを確認します。
 
-    件名が **New Private Offer from Zilliz** の Google Cloud Marketplace からのメールを探します。メール内の **Review Offer** ボタンをクリックします。
+    件名が **New Private Offer from Zilliz** となっている Google Cloud Marketplace からのメールを探し、メール内の **Review Offer** ボタンをクリックします。
 
     ![Oawqwr3rDheYWibpPwQclqh0n3d](https://zdoc-images.s3.us-west-2.amazonaws.com/Oawqwr3rDheYWibpPwQclqh0n3d.png)
 
     <Admonition type="info" icon="📘" title="Note">
 
-    オファーは有効期限までに承諾する必要があります。オファーの期限が切れている場合は、アカウント担当者にお問い合わせください。
+    有効期限までにオファーを受け入れる必要があります。オファーの有効期限が切れている場合は、アカウント エグゼクティブにお問い合わせください。
 
     </Admonition>
 
-1. オファーの詳細を確認し、オファーを承諾します。
+1. オファーの詳細を確認し、オファーを受け入れます。
 
     ![NGJ1w2fVKh9ED1bMqK4cuzq2n5w](https://zdoc-images.s3.us-west-2.amazonaws.com/NGJ1w2fVKh9ED1bMqK4cuzq2n5w.png)
 
 1. Zilliz にサインアップします。
 
-    オファーの購入が完了すると、ページに **Accepted! Now sign up with Zilliz** というタイトルのダイアログボックスが表示されます。
+    オファーの購入が完了すると、**Accepted! Now sign up with Zilliz** というタイトルのダイアログ ボックスがページに表示されます。
 
     **Sign up** をクリックします。Zilliz Cloud にリダイレクトされます。
 
     <Admonition type="info" icon="📘" title="Note">
 
-    この手順は必ず完了してください。そうしないと、プライベートオファーのサブスクリプションはどの Zilliz Cloud 組織にもリンクされません。
+    この手順は必ず完了してください。完了しない場合、プライベート オファーのサブスクリプションがどの Zilliz Cloud 組織にもリンクされません。
 
     </Admonition>
 
@@ -96,11 +96,11 @@ Zilliz Cloud のプライベートオファーが必要な場合は、[Zilliz �
 
     1. Marketplace のサブスクリプションにリンクする Zilliz Cloud 組織を選択します。
 
-        選択可能な組織がない場合、または質問がある場合は、[Zilliz Support](http://support.zilliz.com) にお問い合わせください。
+        選択できる組織がない場合、またはご不明な点がある場合は、[Zilliz サポート](http://support.zilliz.com)にお問い合わせください。
 
         ![EGjCbIHRGoDylPxCNQdc4YT6nTd](https://zdoc-images.s3.us-west-2.amazonaws.com/egjcbihrgodylpxcnqdc4yt6ntd.png "EGjCbIHRGoDylPxCNQdc4YT6nTd")
 
-    1. プロセスが完了すると、次の確認ウィンドウが表示されます。
+    1. プロセスが完了すると、以下の確認ウィンドウが表示されます。
 
         ![Hcy6bjddpoGiJfxszMBccAalnoe](https://zdoc-images.s3.us-west-2.amazonaws.com/hcy6bjddpogijfxszmbccaalnoe.png "Hcy6bjddpoGiJfxszMBccAalnoe")
 
@@ -110,63 +110,63 @@ Zilliz Cloud のプライベートオファーが必要な場合は、[Zilliz �
 
 </Procedures>
 
-## プライベートオファーを更新する\{#renew-your-private-offer}
+## プライベート オファーを更新する\{#renew-your-private-offer}
 
-プライベートオファーの有効期限が近づくと、Zilliz は更新用の新しいプライベートオファーリンクを送信します。更新プロセスについて質問がある場合は、アカウント担当者にお問い合わせください。
+プライベート オファーの有効期限が近づくと、Zilliz から更新用の新しいプライベート オファー リンクが送信されます。更新プロセスについてご質問がある場合は、アカウント エグゼクティブにお問い合わせください。
 
 <Admonition type="info" icon="📘" title="Note">
 
-Google Cloud Marketplace では、更新は既存のプライベートオファー注文に対して処理されます。更新が有効になった後は、現在のプライベートオファーのサブスクリプションから継続されるため、サブスクリプションを Zilliz Cloud 組織に再度リンクする必要はありません。
+Google Cloud Marketplace では、更新は既存のプライベート オファー注文で処理されます。更新が有効になると、現在のプライベート オファー サブスクリプションから継続されるため、サブスクリプションを Zilliz Cloud 組織に再度リンクする必要はありません。
 
 </Admonition>
 
-以下は、更新プロセスの概要です。 
+以下は、更新プロセスの概要です。
 
 ![CbdUwGifPh2rvFbk0F4c1OVFnxh](https://zdoc-images.s3.us-west-2.amazonaws.com/CbdUwGifPh2rvFbk0F4c1OVFnxh.png)
 
-以下の詳細なステップバイステップガイドに従って、Google Cloud Marketplace でプライベートオファーを購読できます。
+以下の詳細なステップバイステップ ガイドに従って、Google Cloud Marketplace でプライベート オファーを更新できます。
 
 <Procedures>
 
 1. メールの受信トレイを確認します。
 
-    1. 件名が **New Private Offer from Zilliz** の Google Cloud Marketplace からのメールを探します。メール内の **Review Offer** ボタンをクリックします。
+    1. 件名が **New Private Offer from Zilliz** となっている Google Cloud Marketplace からのメールを探し、メール内の **Review Offer** ボタンをクリックします。
 
         ![DYogwUgizhEYNnbIks9cqZVcn1f](https://zdoc-images.s3.us-west-2.amazonaws.com/DYogwUgizhEYNnbIks9cqZVcn1f.png)
 
-1. オファーの詳細を確認し、オファーを承諾します。
+1. オファーの詳細を確認し、オファーを受け入れます。
 
     ![Y6cAwGfu0hBF5obUyWScaR63njf](https://zdoc-images.s3.us-west-2.amazonaws.com/Y6cAwGfu0hBF5obUyWScaR63njf.png)
 
-1. オファーは正常に更新されます。
+1. オファーが正常に更新されました。
 
-    **Amendment request sent to Zilliz** というタイトルのダイアログボックスが表示されたら、Zilliz Cloud での更新プロセスは完了です。
+    **Amendment request sent to Zilliz** というタイトルのダイアログ ボックスが表示されると、Zilliz Cloud での更新プロセスは完了です。
 
     ![O7r8wYN4lhED5qbVkrScNkpAned](https://zdoc-images.s3.us-west-2.amazonaws.com/O7r8wYN4lhED5qbVkrScNkpAned.png)
 
-1. 更新を確認します。
+1. 更新内容を確認します。
 
-    1. [Google Cloud Orders](https://console.cloud.google.com/marketplace/orders) ページに移動できます。請求アカウントを選択し、注文 ID をクリックして詳細を表示します。
+    1. [Google Cloud Orders](https://console.cloud.google.com/marketplace/orders) ページに移動します。請求アカウントを選択し、注文 ID をクリックして詳細を表示します。
 
         ![A3piwyJD6hz3qwbzry0cAYSunRc](https://zdoc-images.s3.us-west-2.amazonaws.com/A3piwyJD6hz3qwbzry0cAYSunRc.png)
 
-    1. **Key Events** セクションで、既存の注文が正常に修正され、プライベートオファーが新しい契約終了日で更新されたことを確認できます。
+    1. **Key Events** セクションで、既存の注文が正常に変更され、プライベート オファーが新しい契約終了日で更新されたことを確認できます。
 
         ![SlGfwioVMhP8uqbFi0ucDEMOnmd](https://zdoc-images.s3.us-west-2.amazonaws.com/SlGfwioVMhP8uqbFi0ucDEMOnmd.png)
 
 </Procedures>
 
-## パブリックオファーからプライベートオファーに切り替える\{#switch-from-a-public-offer-to-a-private-offer}
+## パブリック オファーからプライベート オファーへの切り替え\{#switch-from-a-public-offer-to-a-private-offer}
 
-[プライベートオファーの更新](./subscribe-on-gcp-marketplace-private-offer#renew-your-private-offer)と同様に、パブリックオファーからプライベートオファーに切り替えるには、新しいプライベートオファーを承諾する必要があります。承諾後、新しいプライベートオファーは以前のパブリックオファーを自動的に置き換えます。新しいオファーを再度 Zilliz Cloud 組織にリンクする必要があります。
+[プライベート オファーの更新](./subscribe-on-gcp-marketplace-private-offer#renew-your-private-offer)と同様に、パブリック オファーからプライベート オファーへ切り替えるには、新しいプライベート オファーを受け入れる必要があります。受け入れると、新しいプライベート オファーが以前のパブリック オファーに自動的に置き換わります。ただし、新しいオファーを Zilliz Cloud 組織に再度リンクする必要があります。
 
-## プライベートオファーのサブスクリプションをキャンセルする\{#cancel-private-offer-subscription}
+## プライベート オファーの購読をキャンセルする\{#cancel-private-offer-subscription}
 
-Google Cloud Marketplace からプライベートオファーのサブスクリプションをキャンセルできます。 
+プライベート オファーの購読は、Google Cloud Marketplace からキャンセルできます。
 
 <Admonition type="info" icon="📘" title="Note">
 
-サブスクリプションをキャンセルすると、組織は高度な Zilliz Cloud 機能へのアクセスを失います。組織に残っているクレジットがない場合、またはすべてのクレジットの有効期限が切れている場合は、直ちに凍結されます。
+購読をキャンセルすると、組織は高度な Zilliz Cloud 機能にアクセスできなくなります。組織に残りのクレジットがない場合、またはすべてのクレジットの有効期限が切れている場合は、直ちに凍結されます。
 
 </Admonition>
 
@@ -176,33 +176,33 @@ Google Cloud Marketplace からプライベートオファーのサブスクリ�
 
 1. 該当する **Cloud Billing account** を選択します。
 
-1. プライベートオファーの注文を見つけます。
+1. プライベート オファーの注文を探します。
 
-1. **Actions** で **Contact support** をクリックします。Zilliz Cloud Support portal にリダイレクトされます。チケットを作成して、有効なプライベートオファー注文のキャンセルを依頼してください。
+1. **Actions** で **Contact support** をクリックします。Zilliz Cloud サポート ポータルにリダイレクトされるので、有効なプライベート オファー注文のキャンセルを依頼するチケットを作成します。
 
-    アカウント担当者に連絡してキャンセルを依頼することもできます。
+    担当のアカウント エグゼクティブに連絡してキャンセルを依頼することもできます。
 
-1. Zilliz がキャンセルリクエストを処理すると、Cloud Marketplace で注文をキャンセルできることを知らせる通知が Google Cloud から届きます。
+1. Zilliz がキャンセル リクエストを処理した後、Cloud Marketplace で注文をキャンセルできる旨の通知が Google Cloud に届きます。
 
 </Procedures>
 
-詳細については、[承諾済みオファーを管理する](https://docs.cloud.google.com/marketplace/docs/offers/manage-accepted-offer) を参照してください。
+詳細については、[Manage your accepted offers](https://docs.cloud.google.com/marketplace/docs/offers/manage-accepted-offer) を参照してください。
 
 ## FAQ\{#faq}
 
-**プライベートオファーの有効期限が切れ、更新されなかった場合はどうなりますか？**
+**プライベート オファーの有効期限が切れ、更新されない場合はどうなりますか？**
 
-プライベートオファーの有効期限が切れて更新されなかった場合、Google Cloud Marketplace のサブスクリプションはプライベートオファー条件を失います。Zilliz Cloud 組織で有効な支払い方法または残りのクレジットが利用できない場合、高度な機能へのアクセスは無効になり、組織は凍結されます。
+プライベート オファーが更新されずに有効期限を迎えた場合、Google Cloud Marketplace の購読からプライベート オファーの条件が失われます。Zilliz Cloud 組織に有効な支払い方法や残りのクレジットがない場合、高度な機能へのアクセスが無効になり、組織は凍結されます。
 
-**プライベートオファーを承諾したが、Sign up with Zilliz Cloud を完了しなかった場合はどうなりますか？**
+**プライベート オファーを承諾したものの、Zilliz Cloud でのサインアップを完了しなかった場合はどうなりますか？**
 
-プライベートオファーを承諾しても **Sign up with Zilliz Cloud** を完了しない場合、Marketplace のサブスクリプションは作成されますが、どの Zilliz Cloud 組織にもリンクされません。その結果、組織はそのプライベートオファーを支払い方法として使用できません。
+プライベート オファーを承諾しても **Sign up with Zilliz Cloud** を完了しない場合、Marketplace の購読は作成されますが、どの Zilliz Cloud 組織にもリンクされません。その結果、組織はプライベート オファーを支払い方法として使用できません。
 
-設定を完了するには、
+セットアップを完了するには、次の手順を実行します。
 
 <Procedures>
 
-1. **Google Cloud Marketplace > Your orders** に移動し、Zilliz Cloud の注文を見つけます。製品名をクリックします。
+1. **Google Cloud Marketplace > Your orders** に移動し、Zilliz Cloud の注文を探して製品名をクリックします。
 
     ![YgzQwi6xDh8eVFbgOSLcNElVnNh](https://zdoc-images.s3.us-west-2.amazonaws.com/YgzQwi6xDh8eVFbgOSLcNElVnNh.png)
 
@@ -210,45 +210,45 @@ Google Cloud Marketplace からプライベートオファーのサブスクリ�
 
     ![GO3bwCnjWhyzT0bZCk3cpyHonPH](https://zdoc-images.s3.us-west-2.amazonaws.com/GO3bwCnjWhyzT0bZCk3cpyHonPH.png)
 
-1. Zilliz Cloud にリダイレクトされます。Zilliz Cloud 上で操作を完了してください。
+1. Zilliz Cloud にリダイレクトされます。Zilliz Cloud で操作を完了してください。
 
     ![RYtsbHgYUoaFBuxOspXcxIlrn5b](https://zdoc-images.s3.us-west-2.amazonaws.com/rytsbhgyuoafbuxospxcxilrn5b.png "RYtsbHgYUoaFBuxOspXcxIlrn5b")
 
 </Procedures>
 
-**Marketplace のサブスクリプションを Zilliz Cloud にリンクする際に、利用可能な組織がない場合はどうすればよいですか？**
+**マーケットプレイスの購読を Zilliz Cloud にリンクする際に、利用可能な組織がない場合はどうすればよいですか？**
 
 いくつかの理由が考えられます。
 
-- **権限不足** 
+- **権限が不十分です**
 
-    十分な権限がない場合に発生することがあります。利用できない組織の横に **"Insufficient Permissions"** タグが表示されます。
+    十分な権限がない場合に発生する可能性があります。利用できない組織の横に **"Insufficient Permissions"** タグが表示されます。
 
     ![insufficient-permission-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
 
-    Marketplace のサブスクリプションに組織をリンクするには、**Organization Owner** または **Organization Billing Admin** である必要があります。ただし、Organization Member のみである場合、必要な権限がありません。組織のオーナーに連絡して支援を依頼してください。
+    組織をマーケットプレイスの購読にリンクするには、**Organization Owner** または **Organization Billing Admin** である必要があります。Organization Member のみの場合は必要な権限がないため、組織のオーナーにお問い合わせください。
 
-- **すべての組織がすでに Marketplace のサブスクリプションに正常にリンクされている**
+- **すべての組織が既に Marketplace の購読にリンクされています**
 
-    これは、すべての組織がすでに Marketplace のサブスクリプションにリンクされている場合に発生することがあります。利用できない組織の横に **"Marketplace Linked"** タグが表示されます。
+    すべての組織が既に Marketplace の購読にリンクされている場合に発生する可能性があります。利用できない組織の横に **"Marketplace Linked"** タグが表示されます。
 
     ![marketplace-already-linked-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
 
-    この場合、
+    この場合、以下の対応を行ってください。
 
-    - 既存の marketplace サブスクリプションを更新する必要がある場合は、まずその組織の現在のサブスクリプションのリンクを解除してから、新しいサブスクリプションを設定してください。
+    - 既存のマーケットプレイス購読を更新する必要がある場合は、まず組織の現在の購読のリンクを解除してから、新しい購読を設定してください。
 
-    - 異なる Marketplace サブスクリプション用に複数の組織が必要な場合は、[組織を作成](./organization-settings#create-an-organization) できます。
+    - 異なる Marketplace 購読用に複数の組織が必要な場合は、[組織を作成](./organization-settings#create-an-organization)できます。
 
-- **リストに組織がない**
+- **リストに組織がありません**
 
-    - アカウントが閉鎖されている場合、またはすべての組織から退出している場合に発生することがあります。UI は以下のようになります。
+    - アカウントが閉鎖された場合や、すべての組織から退会した場合に発生する可能性があります。UI は次のようになります。
 
     ![no-organization-during-subcription](https://zdoc-images.s3.us-west-2.amazonaws.com/no-organization-during-subcription.png "no-organization-during-subcription")
 
-    この場合、次のことができます。
+    この場合、次のいずれかの操作を行えます。
 
-    - [新しい組織を作成する](./organization-settings#create-an-organization)。
+    - [新しい組織を作成](./organization-settings#create-an-organization)します。
 
-    - 他のユーザーに、そのユーザーの組織へあなたを[招待](./organization-users#invite-a-user-to-your-organization)してもらい、Organization Owner のロールを付与してもらいます。
+    - 他のユーザーに、自分の組織への[招待](./manage-platform-users#invite-organization-users)と Organization Owner ロールの付与を依頼します。
 

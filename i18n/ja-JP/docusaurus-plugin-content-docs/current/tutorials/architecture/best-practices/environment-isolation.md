@@ -1,13 +1,13 @@
 ---
-title: "Environment Isolation | Cloud"
+title: "環境分離 | Cloud"
 slug: /environment-isolation
-sidebar_label: "Environment Isolation"
+sidebar_label: "環境分離"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "適切な環境分離とアクセス制御は、エンタープライズアプリケーションの開発とデプロイに不可欠です。Zilliz Cloud は、Organizations、Projects、Clusters の階層構造を通じて柔軟な分離を提供します。このガイドは、運用、セキュリティ、財務の要件に基づいて最適な戦略を選択するのに役立ちます。| Cloud"
+description: "適切な環境分離とアクセス制御は、エンタープライズアプリケーションの開発とデプロイにおいて不可欠です。Zilliz Cloud は、**Organizations**、**Projects**、**クラスター** の階層構造を通じて柔軟な分離を提供します。このガイドは、運用、セキュリティ、財務の要件に基づいて最適な戦略を選択するのに役立ちます。 | Cloud"
 type: origin
 token: LQwnwNY73iCd8Hkj55ZczQTOn6g
 sidebar_position: 2
@@ -18,81 +18,82 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# Environment Isolation
+# 環境分離
 
-適切な環境分離とアクセス制御は、エンタープライズアプリケーションの開発とデプロイに不可欠です。Zilliz Cloud は、**Organizations**、**Projects**、**Clusters** の階層構造を通じて柔軟な分離を提供します。このガイドは、運用、セキュリティ、財務の要件に基づいて最適な戦略を選択するのに役立ちます。
+適切な環境分離とアクセス制御は、エンタープライズアプリケーションの開発とデプロイにおいて不可欠です。Zilliz Cloud は、**Organizations**、**Projects**、**クラスター** の階層構造を通じて柔軟な分離を提供します。このガイドは、運用、セキュリティ、財務の要件に基づいて最適な戦略を選択するのに役立ちます。
 
 ## Organization レベルの分離\{#organization-level-isolation}
 
-Organization レベルの分離は、最も安全なオプションです。
+Organization レベルの分離は、最もセキュリティ強度が高いオプションです。
 
-**最適な用途:**
+**推奨ユースケース:**
 
-- 個別の請求アカウント（例: 複数の異なる AWS サブスクリプションアカウント）
+- 請求アカウントを分離したい場合（例: 複数の異なる AWS サブスクリプションアカウント）
 
-- 独立した請求書とコスト管理
+- 請求書とコスト管理を独立させたい場合
 
-- 環境間での厳格なユーザーアクセス境界
+- 環境間でユーザーアクセス権限を厳密に分離したい場合
 
 **実装方法:**
 
-- 各環境（例: 本番、開発、テスト）ごとに個別の [organization](./organization-settings) を作成します
+- 環境ごとに個別の [organization](./organization-settings) を作成します（例: 本番、開発、テスト）。
 
-- 各 organization は一意の[支払い方法](/docs/payment-billing)にリンクできます
+- 各 organization に固有の [支払い方法](/docs/payment-billing) を紐付けられます。
 
-- デフォルトでは、Zilliz Cloud でサポートされる organization は 1 つのみです。複数の organization が必要な場合は、[Support Portal](https://support.zilliz.com/hc/en-us) でリクエストを送信してください。
+- デフォルトでは、Zilliz Cloud で作成できる organization は 1 つのみです。複数の organization が必要な場合は、[Support Portal](https://support.zilliz.com/hc/en-us) からリクエストを送信してください。
 
 ## Project レベルの分離\{#project-level-isolation}
 
-このオプションは、請求の分離が要件ではない、ほとんどのエンタープライズグレードの本番デプロイに推奨されます。
+請求の分離が不要な、ほとんどのエンタープライズ向け本番デプロイメントに推奨されるオプションです。
 
-**最適な用途:**
+**推奨ユースケース:**
 
-- 単一の支払い方法の下で環境間の請求を共有する場合
+- 単一の支払い方法で複数環境の請求を一元管理したい場合
 
-- 環境ごとのリソース[使用量](/docs/analyze-cost)の追跡
+- 環境ごとにリソース [使用量](/docs/analyze-cost) を追跡したい場合
 
-- 中程度の分離でユーザー[roles](./project-users#invite-a-user-to-a-project)を管理する場合
+- 適度な分離を保ちつつユーザー [ロール](./manage-platform-roles#manage-project-roles) を管理したい場合
 
-**利点:**
+**メリット:**
 
-- [project](./manage-projects) レベルでのきめ細かなユーザーアクセス制御
+- [プロジェクト](./manage-projects) レベルでのきめ細かいユーザーアクセス制御が可能
 
-- 環境ごとの使用量追跡を備えた統合請求
+- 環境ごとの使用量を追跡しつつ請求を一元化できる
 
-- ほとんどのエンタープライズユースケースに十分な分離
+- ほとんどのエンタープライズユースケースに十分な分離レベルを確保できる
 
-## Cluster レベルの分離\{#cluster-level-isolation}
+## クラスターレベルの分離\{#cluster-level-isolation}
 
-これは最もアジャイルで軽量なオプションです。
+最もアジャイルで軽量なオプションです。
 
-**最適な用途:**
+**推奨ユースケース:**
 
-- 迅速なイテレーションに重点を置く小規模チーム
+- 迅速なイテレーションを重視する小規模チーム
 
-- 最小限のアクセス制御ニーズ
+- 最小限のアクセス制御で十分な場合
 
-- 基本的なワークロード分離
+- 基本的なワークロード分離を行いたい場合
 
-**機能:**
+**特徴:**
 
-- 同じ project 配下の複数の [clusters](./manage-cluster)
+- 同一プロジェクト内に複数の [クラスター](./manage-cluster) を配置可能
 
-- 各 cluster は、ワークロード分離のために専用のコンピューティング/ストレージリソースを持ちます
+- 各クラスターは専用のコンピュート/storage リソースを持ち、ワークロードを分離
 
-- 運用と管理を容易にする一元化された[監視](./metrics-alerts-reference)
+- 一元化された [モニタリング](./metrics-alerts-reference) により運用管理が容易
 
 ## 適切な分離戦略の選択\{#choosing-the-right-isolation-strategy}
 
-以下のフローを使用して判断してください。
+以下のフローチャートを参考に、最適な戦略を選択してください。
 
-1. **個別の請求または請求書が必要ですか？**
- → はい: **Organization レベルの分離**を使用します
+1. **請求や請求書を分離する必要がありますか？**
+ → はい: **Organization レベルの分離** を採用
 
-1. **環境ごとのロールベースのアクセス制御が必要ですか？**
- → はい: **Project レベルの分離**を使用します
+1. **環境ごとにロールベースのアクセス制御が必要ですか？**
+ → はい: **Project レベルの分離** を採用
 
-1. **上記のいずれにも該当しませんか？**
- → シンプルにするために **Cluster レベルの分離**を使用します
+1. **上記のいずれにも該当しない場合**
+ → シンプルな **クラスターレベルの分離** を採用
 
-個別の推奨事項については、[Zilliz Cloud Support Team](https://support.zilliz.com/hc/en-us) までお問い合わせください。
+個別のアドバイスが必要な場合は、[Zilliz Cloud Support Team](https://support.zilliz.com/hc/en-us) までお問い合わせください。
+

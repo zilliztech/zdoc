@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Azure Marketplace での Zilliz Cloud のサブスクリプション手順と価格条件について説明します。 | BYOC"
+description: "このガイドでは、Azure Marketplace での Zilliz Cloud のサブスクリプション手順と料金条件について説明します。 | BYOC"
 type: origin
 token: LbFXwpruviFWWokwtkhcVmnhnFh
 sidebar_position: 6
@@ -26,13 +26,13 @@ import Procedures from '@site/src/components/Procedures';
 
 # Microsoft Marketplace でパブリックオファーにサブスクライブする
 
-このガイドでは、Azure Marketplace での Zilliz Cloud のサブスクリプション手順と価格条件について説明します。
+このガイドでは、Azure Marketplace での Zilliz Cloud のサブスクリプション手順と料金条件について説明します。
 
 ## 事前準備\{#before-you-start}
 
 Azure Marketplace でサブスクライブするには、[Azure Marketplace](https://learn.microsoft.com/en-us/marketplace/azure-marketplace-overview) アカウントと Azure の[請求先アカウント](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/view-all-accounts)が必要です。
 
-また、請求先の国または地域がサポート対象市場に含まれていることを確認してください。税金およびコンプライアンス上の理由により、Zilliz Cloud は Azure Marketplace の一部の市場をサポートしていません。サポート対象外の市場からサブスクライブしようとすると、`"No plans are available for market '<market_code>'."` というエラーメッセージが表示される場合があります。この場合は、エラーメッセージのスクリーンショットと市場コードを添えて[サポートにお問い合わせ](http://support.zilliz.com/)ください。解決策をご案内いたします。
+また、請求先の国または地域がサポート対象市場に含まれていることを確認してください。税金およびコンプライアンス上の理由により、Zilliz Cloud は Azure Marketplace の一部の市場をサポートしていません。サポート対象外の市場からサブスクライブしようとすると、`"No plans are available for market '<market_code>'."` というエラーメッセージが表示される場合があります。この場合は、[サポートにお問い合わせ](http://support.zilliz.com/)のうえ、エラーメッセージのスクリーンショットと市場コードをご提供ください。解決策についてご案内いたします。
 
 ![YaPcbHnQXovDLIxks0xcItOJnpf](https://zdoc-images.s3.us-west-2.amazonaws.com/yapcbhnqxovdlixks0xcitojnpf.png "YaPcbHnQXovDLIxks0xcItOJnpf")
 
@@ -216,13 +216,13 @@ Azure Marketplace でサブスクライブするには、[Azure Marketplace](htt
 
 <Procedures>
 
-1. 検索ボックスに **Zilliz Cloud** と入力するか、[Azure Marketplace のページ](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview)から Zilliz Cloud のポータルを表示します。
+1. 検索ボックスに **Zilliz Cloud** と入力するか、[Azure Marketplace ページ](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview)から Zilliz Cloud のポータルページを表示します。
 
     ![search_for_zilliz_on_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/searchforzillizonazure.png "search_for_zilliz_on_azure")
 
 1. **Zilliz Cloud** をクリックします。
 
-    サービス内容と価格を確認します。
+    サービス内容と料金を確認します。
 
 1. **Plans + Pricing** タブに切り替え、**Get it now** をクリックします。
 
@@ -238,7 +238,7 @@ Azure Marketplace でサブスクライブするには、[Azure Marketplace](htt
 
     1. **SaaS Details** を設定します。
 
-        1. 後から識別しやすいようにサブスクリプション名を設定します。
+        1. 後から識別しやすい名前をサブスクリプションに付けます。
 
         1. 契約期間（1 か月または 1 年）を選択します。
 
@@ -246,7 +246,7 @@ Azure Marketplace でサブスクライブするには、[Azure Marketplace](htt
 
             <Admonition type="info" icon="📘" title="📘 Note">
 
-            自動更新がオンの場合、契約期間終了時に Azure 上の Zilliz Cloud サブスクリプションが自動的に更新されます。オフの場合は契約期間終了時にサブスクリプションが終了し、Zilliz Cloud の組織とアカウントがこの Azure Marketplace サブスクリプションから自動的にリンク解除されます。
+            自動更新がオンの場合、契約期間終了時に Azure 上の Zilliz Cloud サブスクリプションが自動的に更新されます。オフの場合、契約期間終了時にサブスクリプションが終了し、Zilliz Cloud の組織とアカウントがこの Azure Marketplace サブスクリプションから自動的にリンク解除されます。
 
             </Admonition>
 
@@ -268,7 +268,7 @@ Azure Marketplace でサブスクライブするには、[Azure Marketplace](htt
 
         ![aws-marketplace-dialog](https://zdoc-images.s3.us-west-2.amazonaws.com/aws-marketplace-dialog.png "aws-marketplace-dialog")
 
-1. Zilliz Cloud の **Billing** ページで、Azure Marketplace サブスクリプションが支払い方法として正しく設定されていることを確認します。
+1. Zilliz Cloud の **Billing** ページで、Azure Marketplace サブスクリプションが支払い方法として設定されていることを確認します。
 
     ![azure-marketplace-success](https://zdoc-images.s3.us-west-2.amazonaws.com/azure-marketplace-success.png "azure-marketplace-success")
 
@@ -276,7 +276,7 @@ Azure Marketplace でサブスクライブするには、[Azure Marketplace](htt
 
 ## サブスクリプションまたは支払い方法の変更\{#update-subscription-or-payment-method}
 
-Marketplace 経由でのサブスクリプション完了後は、必要に応じていつでもサブスクリプションを更新できます。
+Marketplace からのサブスクリプション完了後は、必要に応じていつでもサブスクリプションを更新できます。
 
 具体的には、以下の操作が可能です。
 
@@ -302,13 +302,13 @@ Marketplace 経由でのサブスクリプション完了後は、必要に応�
 
 </Procedures>
 
-Azure Marketplace でのサブスクリプション キャンセルに関する詳細は、[こちら](https://learn.microsoft.com/en-us/marketplace/saas-subscription-lifecycle-management#cancel-subscription)を参照してください。
+Azure Marketplace でサブスクリプションをキャンセルする方法の詳細については、[こちら](https://learn.microsoft.com/en-us/marketplace/saas-subscription-lifecycle-management#cancel-subscription)を参照してください。
 
 ## トラブルシューティング\{#troubleshooting}
 
-**Azure Marketplace からのサブスクリプション時に「No plans are available for market '&lt;country_code&gt;'」と表示されるのはなぜですか？**
+**Azure Marketplace でのサブスクリプション時に「No plans are available for market '&lt;country_code&gt;'」と表示されるのはなぜですか？**
 
-このメッセージは、請求先の国または地域に対応する Azure Marketplace で Zilliz Cloud がまだ提供されていない場合に表示されます。詳細については、[サポートされているマーケット](./subscribe-on-azure-marketplace#before-you-start)をご確認ください。[サポートにお問い合わせ](http://support.zilliz.com)のうえ、エラーメッセージのスクリーンショットとマーケットコードをお知らせください。代替手段のご提案や、提供地域の追加を検討できる場合があります。
+このメッセージは、Zilliz Cloud が請求先の国または地域の Azure Marketplace でまだ利用できない場合に表示されます。詳細については、[サポート対象市場](./subscribe-on-azure-marketplace#before-you-start)をご確認ください。[サポートにお問い合わせ](http://support.zilliz.com)のうえ、エラーメッセージのスクリーンショットと市場コードをお知らせください。代替手段のご提案や、利用可能状況の更新を行える場合があります。
 
 **Marketplace サブスクリプションを Zilliz Cloud にリンクする際に、利用可能な組織がない場合はどうすればよいですか？**
 
@@ -316,33 +316,33 @@ Azure Marketplace でのサブスクリプション キャンセルに関する�
 
 - **権限不足** 
 
-    必要な権限がない場合に発生します。利用できない組織の横に **"Insufficient Permissions"** タグが表示されます。
+    十分な権限がない場合に発生します。利用できない組織の横に **"Insufficient Permissions"** タグが表示されます。
 
     ![insufficient-permission-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
 
-    組織を Marketplace サブスクリプションにリンクするには、**Organization Owner** または **Organization Billing Admin** の権限が必要です。Organization Member のみでは必要な権限がありませんので、組織のオーナーにお問い合わせください。
+    組織を Marketplace サブスクリプションにリンクするには、**Organization Owner** または **Organization Billing Admin** の権限が必要です。Organization Member のみの場合は必要な権限がないため、組織のオーナーにお問い合わせください。
 
-- **すべての組織がすでに Marketplace サブスクリプションにリンク済みである**
+- **すべての組織がすでに Marketplace サブスクリプションにリンクされている**
 
     所有するすべての組織がすでに Marketplace サブスクリプションにリンクされている場合に発生します。利用できない組織の横に **"Marketplace Linked"** タグが表示されます。
 
     ![marketplace-already-linked-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
 
-    この場合、以下の対応が可能です。
+    この場合、
 
-    - 既存の Marketplace サブスクリプションを更新したい場合は、まず該当組織の現在のサブスクリプションのリンクを解除してから、新しいサブスクリプションを設定してください。
+    - 既存の Marketplace サブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションのリンクを解除してから、新しいサブスクリプションを設定してください。
 
     - 異なる Marketplace サブスクリプション用に複数の組織が必要な場合は、[組織を作成](./organization-settings#create-an-organization)できます。
 
 - **リストに組織が表示されない**
 
-    - アカウントが閉鎖された場合や、すべての組織から脱退した場合に発生する可能性があります。UI は次のように表示されます。
+    - アカウントが閉鎖された場合や、すべての組織から脱退した場合に発生します。UI は次のようになります。
 
     ![no-organization-during-subcription](https://zdoc-images.s3.us-west-2.amazonaws.com/no-organization-during-subcription.png "no-organization-during-subcription")
 
-    この場合、以下のいずれかの操作を行ってください。
+    この場合、以下の対応が可能です。
 
     - [新しい組織を作成](./organization-settings#create-an-organization)する。
 
-    - 他のユーザーに依頼して、自身の組織へ[招待](./organization-users#invite-a-user-to-your-organization)してもらい、Organization Owner ロールを付与してもらう。
+    - 他のユーザーに依頼して、自身の組織へ[招待](./manage-platform-users#invite-organization-users)してもらい、Organization Owner ロールを付与してもらう。
 

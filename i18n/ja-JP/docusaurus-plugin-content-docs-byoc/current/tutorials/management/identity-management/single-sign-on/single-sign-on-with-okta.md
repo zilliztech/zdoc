@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
-この機能は、Enterprise プラン以上および BYOC デプロイメントでのみ利用できます。
+この機能は Enterprise プラン以上および BYOC デプロイメントでのみ利用できます。
 
 </FeatureNote>
 
@@ -76,7 +76,7 @@ SP である Zilliz Cloud は、Okta で SAML アプリを設定する際に必�
 
 <Procedures>
 
-1. [Okta Admin console](https://login.okta.com/) にログインします。
+1. [Okta Admin コンソール](https://login.okta.com/) にログインします。
 
 1. 左側のナビゲーションペインで **Applications** > **Applications** を選択します。
 
@@ -84,7 +84,7 @@ SP である Zilliz Cloud は、Okta で SAML アプリを設定する際に必�
 
 1. **Create a new app integration** ダイアログボックスで **SAML 2.0** を選択し、**Next** をクリックします。
 
-1. 分かりやすくするため、**App name** に **zilliz** を入力して **Next** をクリックします。
+1. ここでは簡略化のため、**App name** に **zilliz** を入力して **Next** をクリックします。
 
 1. **Configure SAML** 画面の **General** セクションで、以下のフィールドを設定します。
 
@@ -92,19 +92,19 @@ SP である Zilliz Cloud は、Okta で SAML アプリを設定する際に必�
 
         - [手順 1](./single-sign-on-with-okta#step-1-access-sp-details-in-zilliz-cloud-console) で Zilliz Cloud コンソールからコピーした **Single sign-on URL** を貼り付けます。
 
-        - SAML リクエストの正しいルーティングを確保するため、**"Use this for Recipient URL and Destination URL"** の **チェックボックスをオン** にしてください。
+        - SAML リクエストの正しいルーティングを確保するため、**"Use this for Recipient URL and Destination URL"** の**チェックボックスをオン**にしてください。
 
     - **Audience URI (SP Entity ID)**: [手順 1](./single-sign-on-with-okta#step-1-access-sp-details-in-zilliz-cloud-console) で Zilliz Cloud コンソールからコピーした **Audience URL (SP Entity ID)** を貼り付けます。
 
 1. **Attribute Statements (optional)** セクションで、以下を指定します。
 
-    - **Name**: 値に **email** を入力します。
+    - **Name**: 値に **email** を設定します。
 
     - **Value**: ドロップダウンリストから **user.email** を選択します。
 
 1. **Next** をクリックし、続いて **Finish** をクリックします。アプリページにリダイレクトされます。
 
-1. アプリページの **Sign On** タブで **Metadata URL** を確認し、**Copy** をクリックします。この値は [手順 3](./single-sign-on-with-okta#step-3-configure-idp-settings-in-zilliz-cloud-console) で Zilliz Cloud コンソールに入力します。
+1. アプリページの **Sign On** タブで **Metadata URL** を確認し、**Copy** をクリックします。この値は [手順 3](./single-sign-on-with-okta#step-3-configure-idp-settings-in-zilliz-cloud-console) で Zilliz Cloud コンソールに入力する際に必要になります。
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -132,11 +132,11 @@ SP である Zilliz Cloud は、Okta で SAML アプリを設定する際に必�
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    または、IdP の詳細設定で **Manual** モードを選択する場合は、以下を設定します。
+    または、IdP 詳細の設定で **Manual** モードを選択する場合は、以下を設定します。
     
     - **Sign On URL**: [手順 2](./single-sign-on-with-okta#step-2-create-a-saml-app-in-okta-admin-console) で Okta Admin Console からコピーした **Sign on URL** を貼り付けます。
     
-    - **Signing Certificate**: [手順 2](./single-sign-on-with-okta#step-2-create-a-saml-app-in-okta-admin-console) で Okta Admin Console からダウンロードした証明書をアップロードします。`-----BEGIN CERTIFICATE-----` で始まる行から `-----END CERTIFICATE-----` で終わる行まで、証明書の内容全体が含まれていることを確認してください。
+    - **Signing Certificate**: [手順 2](./single-sign-on-with-okta#step-2-create-a-saml-app-in-okta-admin-console) で Okta Admin Console からダウンロードした証明書をアップロードします。証明書の内容全体（`-----BEGIN CERTIFICATE-----` で始まり `-----END CERTIFICATE-----` で終わる行を含む）が含まれていることを確認してください。
 
     </Admonition>
 
@@ -154,17 +154,17 @@ SP である Zilliz Cloud は、Okta で SAML アプリを設定する際に必�
 
 <Procedures>
 
-1. [Okta Admin console](https://login.okta.com/) のアプリ詳細ページで、**Assignments** をクリックします。
+1. [Okta Admin コンソール](https://login.okta.com/) のアプリ詳細ページで、**Assignments** をクリックします。
 
 1. **Assign** > **Assign to People** を選択します。
 
-1. SAML アプリをユーザーに割り当て、変更を保存します。
+1. 対象ユーザーに SAML アプリを割り当て、変更を保存します。
 
 1. **Save** **and** **Go Back** をクリックします。
 
 </Procedures>
 
-必要に応じて、他のユーザーにも同様の操作を行います。詳細については、[Okta ドキュメント](https://help.okta.com/oie/en-us/content/topics/provisioning/lcm/lcm-assign-app-groups.htm) を参照してください。
+必要に応じて他のユーザーにも同様の操作を行います。詳細については [Okta ドキュメント](https://help.okta.com/oie/en-us/content/topics/provisioning/lcm/lcm-assign-app-groups.htm) を参照してください。
 
 ### タスク 2: ユーザーをプロジェクトに招待する\{#task-2-invite-users-to-your-project}
 
@@ -172,15 +172,15 @@ SP である Zilliz Cloud は、Okta で SAML アプリを設定する際に必�
 
 - **Organization Owner** が適切なプロジェクトにユーザーを招待する必要があります。
 
-- プロジェクトへのユーザー招待手順の詳細については、[Manage Project Users](./project-users#invite-a-user-to-a-project) を参照してください。
+- ユーザーをプロジェクトに招待する手順の詳細については、[Manage Platform Users](./manage-platform-users#invite-project-users) を参照してください。
 
 プロジェクトへの招待後、**Organization** **Owner** はエンタープライズユーザーに対して Zilliz Cloud のログイン URL を共有し、SSO 経由でサインインできるように案内できます。
 
 設定やテスト中に問題が発生した場合は、[Zilliz サポート](https://zilliz.com/contact-sales) にお問い合わせください。
 
-### タスク 3:（任意）SSO 強制を有効にする\{#task-3-optional-enable-sso-enforcement}
+### タスク 3: （任意）SSO 強制を有効にする\{#task-3-optional-enable-sso-enforcement}
 
-SSO 接続の設定とテストが完了したら、必要に応じて **SSO enforcement** を有効にして、組織のすべてのメンバーに SSO 経由でのログインを必須にできます。有効化すると、メンバーはメール/passwordやサードパーティー アカウント（Google、GitHub）でサインインできなくなります。
+SSO 接続の設定とテストが完了したら、必要に応じて **SSO enforcement** を有効にして、すべての組織メンバーに SSO 経由でのログインを必須にできます。有効化すると、メンバーはメール/passwordやサードパーティー アカウント（Google、GitHub）でサインインできなくなります。
 
 <Admonition type="warning" icon="🚧" title="Warning">
 
@@ -190,22 +190,22 @@ SSO 接続の設定とテストが完了したら、必要に応じて **SSO enf
 
 <Supademo id="cml4tlban34cozsadvi68n666" title=""  />
 
-詳細については、[組織で SSO を強制する](./enforce-sso-in-your-organization) を参照してください。
+詳細については、「[組織で SSO を強制する](./enforce-sso-in-your-organization)」を参照してください。
 
 ## FAQ\{#faq}
 
 ### SSO で初めてログインするユーザーにはどのロールが割り当てられますか？\{#what-role-is-assigned-to-users-who-log-in-via-sso-for-the-first-time}
 
-Zilliz Cloud アカウントをまだ持っていない新規ユーザーは、最初の SSO ログイン時に自動的に作成されます。これらのユーザーには、デフォルトで **Organization Member** ロールが割り当てられます。ロールは後から Zilliz Cloud コンソールで変更できます。詳しい手順は、[プロジェクト ユーザーの管理](./project-users#edit-a-collaborators-role) を参照してください。
+まだ Zilliz Cloud アカウントを持たない新規ユーザーは、初回の SSO ログイン時に自動的に作成されます。これらのユーザーには、デフォルトで **Organization Member** ロールが割り当てられます。ロールは後から Zilliz Cloud コンソールで変更できます。詳しい手順については、「[プラットフォームユーザーの管理](./manage-platform-users#invite-project-users)」を参照してください。
 
-### SSO ログイン後、ユーザーはどのようにプロジェクトにアクセスしますか？\{#how-do-users-access-projects-after-sso-login}
+### SSO ログイン後、ユーザーはプロジェクトにどうアクセスしますか？\{#how-do-users-access-projects-after-sso-login}
 
-SSO でログインしたユーザーには、デフォルトで **Organization Member** ロールが割り当てられます。特定のプロジェクトにアクセスするには、**Organization Owner** または **Project Admin** がそのユーザーをプロジェクトに招待する必要があります。詳しい手順は、[プロジェクト ユーザーの管理](./project-users) を参照してください。
+SSO でログインしたユーザーには、デフォルトで **Organization Member** ロールが割り当てられます。特定のプロジェクトにアクセスするには、**Organization Owner** または **Project Admin** がそのユーザーをプロジェクトに招待する必要があります。詳しい手順については、「[プラットフォームユーザーの管理](./manage-platform-users#invite-project-users)」を参照してください。
 
-### SSO ログイン前にユーザーがすでに Zilliz Cloud アカウントを持っている場合はどうなりますか？\{#what-happens-if-a-user-already-has-a-zilliz-cloud-account-before-logging-in-with-sso}
+### SSO ログイン前にすでに Zilliz Cloud アカウントを持っている場合はどうなりますか？\{#what-happens-if-a-user-already-has-a-zilliz-cloud-account-before-logging-in-with-sso}
 
-ユーザーがメールアドレスに基づいてすでに Zilliz Cloud 組織に存在する場合、SSO でログインしても既存のロールと権限が維持されます。システムはメールアドレスでユーザーを照合し、既存のアカウントを上書きしません。
+メールアドレスに基づき、ユーザーがすでに Zilliz Cloud 組織に存在する場合、SSO でログインしても元のロールと権限が維持されます。システムはメールアドレスでユーザーを照合し、既存のアカウントを上書きしません。
 
 ### 同じ組織に複数の SSO プロバイダーを設定できますか？\{#can-i-configure-multiple-sso-providers-for-the-same-organization}
 
-現在、各 Zilliz Cloud 組織では、同時に有効にできる SAML SSO 設定は **1 つのみ** です。
+現在、各 Zilliz Cloud 組織で有効にできる SAML SSO 設定は **1 つだけ**です。

@@ -48,7 +48,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ### 手順 1: Zilliz Cloud コンソールで SP の詳細を確認する\{#step-1-access-sp-details-in-zilliz-cloud-console}
 
-SP である Zilliz Cloud は、Okta で OIDC アプリを設定する際に必要な **Single sign-on URL** を提供します。
+SP である Zilliz Cloud は、Okta で OIDC アプリを設定する際に必要となる **Single sign-on URL** を提供します。
 
 <Supademo id="cme89wf1w3eaoh3pytd3723ao" title="Step 1: Access service provider details in Zilliz Cloud console" />
 
@@ -90,11 +90,11 @@ SP である Zilliz Cloud は、Okta で OIDC アプリを設定する際に必�
 
     - **Sign-in redirect URIs**: [手順 1](./openid-connect#step-1-access-sp-details-in-zilliz-cloud-console) で Zilliz Cloud コンソールからコピーした **Single sign-on URL** を貼り付けます。
 
-    - **Controlled access**: 特定のグループアクセスを設定しない限り、**Skip group assignment for now** を選択します。
+    - **Controlled access**: 特定のグループへのアクセスを設定しない限り、**Skip group assignment for now** を選択します。
 
-1. **Save** をクリックすると、アプリ詳細ページにリダイレクトされます。
+1. **Save** をクリックすると、アプリの詳細ページにリダイレクトされます。
 
-1. アプリ詳細ページで、以下の情報を確認します。
+1. アプリの詳細ページで、以下の情報を確認します。
 
     - **Client ID**
 
@@ -102,13 +102,13 @@ SP である Zilliz Cloud は、Okta で OIDC アプリを設定する際に必�
 
     - **Okta domain**
 
-    これらの値は、[手順 3](./openid-connect#step-3-configure-idp-settings-in-zilliz-cloud-console) で Zilliz Cloud コンソールに入力する必要があります。
+    これらの値は、[手順 3](./openid-connect#step-3-configure-idp-settings-in-zilliz-cloud-console) で Zilliz Cloud コンソールに入力するために必要です。
 
 </Procedures>
 
 ### 手順 3: Zilliz Cloud コンソールで IdP 設定を行う\{#step-3-configure-idp-settings-in-zilliz-cloud-console}
 
-この手順では、OIDC の信頼関係を確立するために、Okta の IdP 詳細を Zilliz Cloud に登録します。
+この手順では、OIDC の信頼関係を確立するため、Okta の IdP 詳細を Zilliz Cloud に登録します。
 
 <Supademo id="cme8af32q3elth3pyaygkdnmo" title="Step 3: Configure Okta settings in Zilliz Cloud console" />
 
@@ -144,7 +144,7 @@ SP である Zilliz Cloud は、Okta で OIDC アプリを設定する際に必�
 
 1. 対象ユーザーに OIDC アプリを割り当て、変更を保存します。
 
-1. **Save** **and** **Go Back** をクリックし、**Done** をクリックします。
+1. **Save** **and** **Go Back** をクリックし、次に **Done** をクリックします。
 
 </Procedures>
 
@@ -152,13 +152,13 @@ SP である Zilliz Cloud は、Okta で OIDC アプリを設定する際に必�
 
 ### タスク 2: ユーザーをプロジェクトに招待する\{#task-2-invite-users-to-your-project}
 
-ユーザーが初めて SSO 経由で Zilliz Cloud にログインすると、**Organization Member** として登録されますが、デフォルトではどのプロジェクトにもアクセスできません。
+ユーザーが初めて SSO 経由で Zilliz Cloud にログインすると、**Organization Member** として登録されますが、デフォルトではどのプロジェクトへのアクセス権も付与されません。
 
 - **Organization Owner** が適切なプロジェクトにユーザーを招待する必要があります。
 
-- プロジェクトへのユーザー招待手順については、[Manage Project Users](./project-users#invite-a-user-to-a-project) を参照してください。
+- プロジェクトへのユーザー招待手順については、[Manage Platform Users](./manage-platform-users#invite-project-users) を参照してください。
 
-プロジェクトへの招待後、**Organization** **Owner** はエンタープライズユーザーに対して Zilliz Cloud のログイン URL を共有し、SSO 経由でサインインできるように案内できます。
+プロジェクトへの招待後、**Organization** **Owner** はエンタープライズユーザーに対して Zilliz Cloud のログイン URL を共有し、SSO 経由でサインインできるよう案内できます。
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -170,7 +170,7 @@ SP である Zilliz Cloud は、Okta で OIDC アプリを設定する際に必�
 
 ### タスク 3: （オプション）SSO 強制を有効にする\{#task-3-optional-enable-sso-enforcement}
 
-SSO 接続の設定とテストが完了したら、オプションで **SSO enforcement** を有効にして、すべての組織メンバーに SSO 経由でのログインを必須にすることができます。有効化すると、メール/passwordやサードパーティアカウント（Google、GitHub）を使用したサインインはできなくなります。
+SSO 接続の設定とテストが完了した後、オプションで **SSO enforcement** を有効にすることで、すべての組織メンバーに SSO 経由でのログインを必須化できます。これを有効にすると、メール/passwordやサードパーティーアカウント（Google、GitHub）を使用したサインインはできなくなります。
 
 <Admonition type="warning" icon="🚧" title="Warning">
 
@@ -186,16 +186,16 @@ SSO 接続の設定とテストが完了したら、オプションで **SSO enf
 
 ### SSO 経由で初めてログインするユーザーにはどのロールが割り当てられますか？\{#what-role-is-assigned-to-users-who-log-in-via-sso-for-the-first-time}
 
-Zilliz Cloud アカウントを持っていない新規ユーザーは、最初の SSO ログイン時にアカウントが自動作成されます。これらのユーザーにはデフォルトで **Organization Member** ロールが割り当てられます。ロールは後から Zilliz Cloud コンソールで変更可能です。詳細な手順については、[Manage Project Users](./project-users#edit-a-collaborators-role) を参照してください。
+まだ Zilliz Cloud アカウントを持っていない新規ユーザーは、最初の SSO ログイン時にアカウントが自動作成されます。これらのユーザーにはデフォルトで **Organization Member** ロールが割り当てられます。ロールは後から Zilliz Cloud コンソールで変更可能です。詳細な手順については、[Manage Platform Users](./manage-platform-users#invite-project-users) を参照してください。
 
 ### SSO ログイン後、ユーザーはどのようにプロジェクトにアクセスしますか？\{#how-do-users-access-projects-after-sso-login}
 
-SSO でログインしたユーザーには、デフォルトで **Organization Member** ロールが付与されます。特定のプロジェクトにアクセスするには、**Organization Owner** または **Project Admin** がそのユーザーをプロジェクトに招待する必要があります。詳細な手順については、[Manage Project Users](./project-users) を参照してください。
+SSO でログインすると、ユーザーにはデフォルトで **Organization Member** ロールが付与されます。特定のプロジェクトにアクセスするには、**Organization Owner** または **Project Admin** がそのユーザーをプロジェクトに招待する必要があります。詳細な手順については、[Manage Platform Users](./manage-platform-users#invite-project-users) を参照してください。
 
-### SSO ログイン前にユーザーが既に Zilliz Cloud アカウントを持っている場合はどうなりますか？\{#what-happens-if-a-user-already-has-a-zilliz-cloud-account-before-logging-in-with-sso}
+### SSO ログイン前にユーザーがすでに Zilliz Cloud アカウントを持っている場合はどうなりますか？\{#what-happens-if-a-user-already-has-a-zilliz-cloud-account-before-logging-in-with-sso}
 
-ユーザーのメールアドレスが既に Zilliz Cloud 組織に登録されている場合、SSO でログインしても元のロールと権限が維持されます。システムはメールアドレスに基づいてユーザーを照合し、既存のアカウントを上書きすることはありません。
+ユーザーがメールアドレスに基づいて Zilliz Cloud 組織にすでに登録されている場合、SSO でログインしても元のロールと権限が維持されます。システムはメールアドレスでユーザーを照合し、既存のアカウントを上書きすることはありません。
 
 ### 同じ組織に複数の SSO プロバイダーを設定できますか？\{#can-i-configure-multiple-sso-providers-for-the-same-organization}
 
-現在、各 Zilliz Cloud 組織でサポートされるのは、**有効な SAML SSO 設定 1 つ**のみです。
+現在、各 Zilliz Cloud 組織でサポートされるのは、**1 つのアクティブな SAML SSO 設定** のみです。

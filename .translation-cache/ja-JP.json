@@ -525,6 +525,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-collection.md",
       "translatedAt": "2026-08-04T05:14:04.526Z"
     },
+    "content/en/byoc/tutorials/get-started/faqs/faq-users-and-roles.md": {
+      "sourceHash": "dc18ba74027b42490d5a6e813b8e8d40baf6e4b311f2d17e5a3765a875081d2f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-users-and-roles.md",
+      "translatedAt": "2026-08-25T16:35:00.173Z"
+    },
     "content/en/byoc/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md": {
       "sourceHash": "9bbbbdd128bb240c8062cb4aa632fc44ab334592d97f9edf95c2fb9c5e3b54d7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md",
@@ -566,14 +571,19 @@
       "translatedAt": "2026-08-25T06:46:36.955Z"
     },
     "content/en/byoc/tutorials/management/backup-and-restore/schedule-automatic-backups.md": {
-      "sourceHash": "0789431f6ed9192ab31b10353de56a75decdfbd621f6b5440cba9208b192862c",
+      "sourceHash": "54c3086690b8a611fe812e49c185f2b267dcd755a7088f43e705c5867a02c248",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/backup-and-restore/schedule-automatic-backups.md",
-      "translatedAt": "2026-08-04T05:15:48.248Z"
+      "translatedAt": "2026-08-25T16:39:59.142Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/manage-invoice.md": {
+      "sourceHash": "38447eee3e70f283cbb13451d0c267b57c6f94f5c8d7a075706f5b30bb29fe8b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/manage-invoice.md",
+      "translatedAt": "2026-08-25T16:40:30.624Z"
     },
     "content/en/byoc/tutorials/management/billing-management/payment-billing.md": {
-      "sourceHash": "2464ef546368b0592391f8a56f32e762a34c940e0a0e90905a514cc1b8b4a0e3",
+      "sourceHash": "82f97d9e021db176ce7219574f84a0a961e27dd5e1a198eef5570fc41ead2ba0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/payment-billing.md",
-      "translatedAt": "2026-08-25T06:51:35.351Z"
+      "translatedAt": "2026-08-25T16:43:17.654Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md": {
       "sourceHash": "1949458d0ed6a517cec825172c06bca978092c35322b490043ee9aba79d2385a",
@@ -581,24 +591,29 @@
       "translatedAt": "2026-08-25T06:52:32.183Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md": {
-      "sourceHash": "7725e8646394bc30b5786873a982411db7ca8d9c4a0c8e3079fcf04f5f10163c",
+      "sourceHash": "a304abfc747520226f8e27b853f514b46b201452d039c781fe7046946b7f9747",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md",
-      "translatedAt": "2026-08-04T05:16:04.578Z"
+      "translatedAt": "2026-08-25T16:45:44.376Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md": {
-      "sourceHash": "a240111174b4fd43b8ad2e78ba400777f6768c81f5ee40e2fbc9eb1d92509904",
+      "sourceHash": "5a54ad8b335bccef7aab0aad7495bcfdac1cde13bc8bc715396493eb0c6bf332",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md",
-      "translatedAt": "2026-08-04T05:16:33.028Z"
+      "translatedAt": "2026-08-25T16:46:55.861Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md": {
-      "sourceHash": "49e2d7b019b4cdaf6cf8042a53a26e30f7a216fa91cd7bfef5289e90b493d74c",
+      "sourceHash": "e793d9a1955021bb82497ef3091bdca3fb187a0e774cec40fd36dbddda1532a1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md",
-      "translatedAt": "2026-08-25T06:55:04.236Z"
+      "translatedAt": "2026-08-25T16:49:15.883Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer.md": {
+      "sourceHash": "4f52342e84b3aac19a61552e5bd20ca3cce9921eb2c536fea21f6ab83501cca6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer.md",
+      "translatedAt": "2026-08-25T16:51:28.288Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md": {
-      "sourceHash": "6c02b51e83d983ac8fa6b16b8e6a78944026a569fb082e45d617f733b677b02d",
+      "sourceHash": "f9b58454a76f38cd892749babb349a00f891508cc451c301182df2d5fcadc5a6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md",
-      "translatedAt": "2026-08-25T06:56:26.159Z"
+      "translatedAt": "2026-08-25T16:52:42.945Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card.md": {
       "sourceHash": "51a6ff28665a4f30b3f5e032ad7f5d74e133c748e1834e5fbbff83462bd42f36",
@@ -614,6 +629,11 @@
       "sourceHash": "122b607392d64633af4bb562236dc3ebaf2133039604e3e31592d441f3d5f2e3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/update-billing-profile.md",
       "translatedAt": "2026-08-04T05:17:28.541Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/view-invoice.md": {
+      "sourceHash": "f1b1985ae4b96c3ab3e751795c2be5cbcd34b3e6ef2fc270dd46db48c481c47c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/view-invoice.md",
+      "translatedAt": "2026-08-25T16:54:08.342Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md": {
       "sourceHash": "2c206c7ff5c53acc8631dd2506a26cbbf75f6e24201f4825d6bf6b3f0bac2da6",
@@ -676,9 +696,9 @@
       "translatedAt": "2026-08-04T05:12:32.329Z"
     },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
-      "sourceHash": "f09bba5b9608759878f65a853dd3b9be6ca3182240ec9e7aef766837bd5a98e4",
+      "sourceHash": "ea7048aa9ed25f4d38b38c13feeea46c10d44aaa31205aaae2f039a5c95f4858",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
-      "translatedAt": "2026-08-25T04:52:37.840Z"
+      "translatedAt": "2026-08-25T16:58:23.572Z"
     },
     "content/en/byoc/tutorials/management/cmek/cmek.md": {
       "sourceHash": "a7396ad63ead85a854ba20f7f137b9a65f0310387e3974d6a8cc81ad5edf88ef",
@@ -726,24 +746,24 @@
       "translatedAt": "2026-08-25T05:04:25.426Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/openid-connect.md": {
-      "sourceHash": "fb406e4264ea665a058152eead0edab8f5ff941fc6e0b51db8bc28ea5d23da7a",
+      "sourceHash": "5559f94d4aa444acfa8719d198b4fc8e37faef955ed7c833214ea0bba8877f30",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/openid-connect.md",
-      "translatedAt": "2026-08-25T05:06:03.561Z"
+      "translatedAt": "2026-08-25T17:00:03.500Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace.md": {
-      "sourceHash": "e78363d906c9f4cf4f82b3fb2cc5bb7676e67cfeb1a87a9755ada54d50a35977",
+      "sourceHash": "8faef974d7ad879b2b08a214520b0c64f8e8811cb845a1344720017da1eefaa1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace.md",
-      "translatedAt": "2026-08-25T05:08:49.445Z"
+      "translatedAt": "2026-08-25T17:01:54.749Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md": {
-      "sourceHash": "b86b32348972c2d5752c7282b28b7c6796ba457b03c748fba9a73d2ec211f386",
+      "sourceHash": "bd6e071365d4932dce20522a4ff8aee7a0189c2a7c07e4c0cf70df6462d83cb1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md",
-      "translatedAt": "2026-08-25T05:11:32.370Z"
+      "translatedAt": "2026-08-25T17:03:42.414Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md": {
-      "sourceHash": "995ce4e0137b015bb3987da674e5b7e79af8e72729cad7057eea88fb0bc4a852",
+      "sourceHash": "e42541466e13aa2f7ac468a5b0ddb8bdbb31c2d3609e3ba99c171768c5e39b9c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md",
-      "translatedAt": "2026-08-25T05:12:55.415Z"
+      "translatedAt": "2026-08-25T17:05:16.045Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on.md": {
       "sourceHash": "ac6a693c2de0f9cd0468fd229941e89dc64e2c56f26eabbd99cd150526c4115b",
@@ -756,9 +776,9 @@
       "translatedAt": "2026-08-04T05:05:23.401Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/manage-notification-channels.md": {
-      "sourceHash": "64242356dc5e4c403eb0d577e9b76494641251aad81a51b67a46a93aade37f3d",
+      "sourceHash": "7afdca3d7bbd89bd289d325c51f4258231f2d7647d9a29ae5b7fb0effdeeee02",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/manage-notification-channels.md",
-      "translatedAt": "2026-08-04T05:12:38.156Z"
+      "translatedAt": "2026-08-25T17:09:25.476Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/manage-organization-alerts.md": {
       "sourceHash": "d2d8c1e8cc42082b5fa044750d5a7f7c1091f75d8ad21c057f4bab62047ab1a0",
@@ -766,9 +786,9 @@
       "translatedAt": "2026-08-25T07:05:04.006Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/manage-project-alerts.md": {
-      "sourceHash": "5cc7fb8dfb511ca73cfcbb822917285ef0e022d04d4e7ef9dacaa1cd4586d716",
+      "sourceHash": "f8a47584d4f71698242167b79ed901cf86f0930552af16513f8361741a625bee",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/manage-project-alerts.md",
-      "translatedAt": "2026-08-04T05:12:27.360Z"
+      "translatedAt": "2026-08-25T17:11:22.673Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/metrics-alerts-reference.md": {
       "sourceHash": "84703899a41da73af9fb1d285763ea5999785ece1493c3e449c24de35db6a0b0",
@@ -791,9 +811,9 @@
       "translatedAt": "2026-08-25T07:15:02.148Z"
     },
     "content/en/byoc/tutorials/management/organizations/organization-settings.md": {
-      "sourceHash": "62bf34f3020a48217693518a3e1b0d094b1b605a78fdaa9279f94c32feab17f7",
+      "sourceHash": "72e6f9c6d130a83968c10f2388a73abb707bc13750cee1d5a1620011f3d83858",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/organizations/organization-settings.md",
-      "translatedAt": "2026-08-04T05:04:28.823Z"
+      "translatedAt": "2026-08-25T17:14:07.557Z"
     },
     "content/en/byoc/tutorials/management/projects/job-center.md": {
       "sourceHash": "c5f4db4aadbf8e2aa6c4e650630d50a342909e28151e385f30395ce9cb937ed6",
@@ -801,14 +821,19 @@
       "translatedAt": "2026-08-04T05:05:14.256Z"
     },
     "content/en/byoc/tutorials/management/projects/manage-projects.md": {
-      "sourceHash": "1515031b9ea504795b754ef88ec0f5d205213689e4536131d44726ac40671333",
+      "sourceHash": "ebc1be179f50878b2e18ae765b5362a3391dc911083dced9f46ce73a2408af7d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/projects/manage-projects.md",
-      "translatedAt": "2026-08-25T07:22:49.117Z"
+      "translatedAt": "2026-08-25T17:18:58.230Z"
     },
     "content/en/guides/tutorials/ai-models/integrate-with-model-providers.md": {
       "sourceHash": "5fd86b230d39f10c2803caad7cc39675f6477be027d561224aef80edc705ec26",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/ai-models/integrate-with-model-providers.md",
       "translatedAt": "2026-08-04T05:05:16.690Z"
+    },
+    "content/en/guides/tutorials/architecture/best-practices/environment-isolation.md": {
+      "sourceHash": "3f5d5554a1acdd6ebe760a1f2aca7f07325eb952b144b10438828f493e9c3d7a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/architecture/best-practices/environment-isolation.md",
+      "translatedAt": "2026-08-25T17:19:39.161Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/alphanumonly-filter.md": {
       "sourceHash": "d81aae7dbde2dda5568718dab9b42e6507eaaa25ba59a87949c6acd771fa9da5",

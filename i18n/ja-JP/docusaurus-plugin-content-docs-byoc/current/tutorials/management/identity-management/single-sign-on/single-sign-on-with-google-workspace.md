@@ -48,7 +48,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ### 手順 1: Zilliz Cloud コンソールで SP 情報を確認する\{#step-1-access-sp-details-in-zilliz-cloud-console}
 
-SP である Zilliz Cloud は、Google 管理コンソールで SAML アプリを設定する際に必要な **Entity ID** と **ACS URL** を提供します。
+SP である Zilliz Cloud は、Google Admin で SAML アプリを設定する際に必要な **Entity ID** と **ACS URL** を提供します。
 
 <Supademo id="cme6flmz31zk2h3py5y8zv82m" title="Step 1: Access service provider details in Zilliz Cloud" />
 
@@ -88,7 +88,7 @@ SP である Zilliz Cloud は、Google 管理コンソールで SAML アプリ�
 
 1. アプリ名を任意の名前（例: **zilliz**）に設定し、**CONTINUE** をクリックします。
 
-1. 表示されるページで、**Option 1: Download IdP metadata** から IdP メタデータをダウンロードします。これは、[手順 3](./single-sign-on-with-google-workspace#step-3-configure-idp-settings-in-zilliz-cloud-console) で Zilliz Cloud コンソールの IdP 設定を行う際に必要になります。その後、**Continue** をクリックします。
+1. 表示されるページで、**Option 1: Download IdP metadata** から IdP メタデータをダウンロードします。これは、Zilliz Cloud コンソールで IdP 設定を行う際の [手順 3](./single-sign-on-with-google-workspace#step-3-configure-idp-settings-in-zilliz-cloud-console) で必要になります。その後、**Continue** をクリックします。
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -114,7 +114,7 @@ SP である Zilliz Cloud は、Google 管理コンソールで SAML アプリ�
 
 </Procedures>
 
-### 手順 3: Zilliz Cloud コンソールで IdP 情報を設定する\{#step-3-configure-idp-settings-in-zilliz-cloud-console}
+### 手順 3: Zilliz Cloud コンソールで IdP 設定を行う\{#step-3-configure-idp-settings-in-zilliz-cloud-console}
 
 この手順では、SAML の信頼関係を確立するため、Google Workspace の IdP 情報を Zilliz Cloud に登録します。
 
@@ -150,24 +150,24 @@ SP である Zilliz Cloud は、Google 管理コンソールで SAML アプリ�
 
 <Procedures>
 
-1. 作成したアプリの詳細ページにある **User access** セクションで、サービスステータスをクリックして編集します。
+1. 作成したアプリの詳細ページにある **User access** セクションで、サービスステータスを編集します。
 
 1. 組織全体のサービスをオンまたはオフにするには、全員に対して **ON** または **OFF** を選択し、**Save** をクリックします。
 
-1. （オプション）特定の組織部門に対してサービスをオンまたはオフにする場合:
+1. （オプション）特定の組織単位のサービスをオンまたはオフにする場合:
 
-    1. 左側で対象の組織部門を選択します。
+    1. 左側で対象の組織単位を選択します。
 
     1. サービスステータスを変更するには、**ON** または **OFF** を選択します。
 
     1. 以下のいずれかを選択します。
 
-        - **Service status** が **Inherited** に設定されている場合に、親の設定が変更されても現在の設定を維持したいときは、**Override** をクリックします。
+        - **Service status** が **Inherited** で、親の設定が変更されても現在の設定を維持したい場合は、**Override** をクリックします。
 
-        - **Service status** が **Overridden** に設定されている場合は、**Inherit** をクリックして親と同じ設定に戻すか、**Save** をクリックして親の設定変更に関わらず新しい設定を維持します。<br/>
+        - **Service status** が **Overridden** の場合、**Inherit** をクリックして親と同じ設定に戻すか、**Save** をクリックして親の設定変更に関わらず新しい設定を維持します。<br/>
           注: 詳しくは [組織構造](https://support.google.com/a/answer/4352075) をご覧ください。
 
-1. （オプション）組織部門全体または部門内の特定のユーザーグループに対してサービスを有効にするには、アクセスグループを選択します。詳細については、[グループを使用したサービスアクセスのカスタマイズ](https://support.google.com/a/answer/9050643) をご覧ください。
+1. （オプション）組織単位全体または特定のユーザーグループに対してサービスを有効にするには、アクセスグループを選択します。詳細については、[グループを使用したサービスアクセスのカスタマイズ](https://support.google.com/a/answer/9050643) をご覧ください。
 
 1. ユーザーが SAML アプリへのサインインに使用するメールアドレスと、Google ドメインへのサインインに使用するメールアドレスが一致していることを確認してください。
 
@@ -175,19 +175,19 @@ SP である Zilliz Cloud は、Google 管理コンソールで SAML アプリ�
 
 ### タスク 2: プロジェクトにユーザーを招待する\{#task-2-invite-users-to-your-project}
 
-ユーザーが SSO を使用して初めて Zilliz Cloud にログインすると、**Organization Member** として登録されますが、デフォルトではどのプロジェクトにもアクセスできません。
+ユーザーが SSO を使用して Zilliz Cloud に初めてログインすると、**Organization Member** として登録されますが、デフォルトではどのプロジェクトにもアクセスできません。
 
-- **Organization Owner** が該当のユーザーを適切なプロジェクトに招待する必要があります。
+- **Organization Owner** が適切なプロジェクトにユーザーを招待する必要があります。
 
-- プロジェクトへのユーザー招待手順については、[Manage Project Users](./project-users#invite-a-user-to-a-project) を参照してください。
+- プロジェクトへのユーザー招待手順については、[Manage Platform Users](./manage-platform-users#invite-project-users) を参照してください。
 
 ユーザーをプロジェクトに招待した後、**Organization** **Owner** は Zilliz Cloud のログイン URL をエンタープライズ ユーザーに共有し、SSO 経由でサインインできるようにします。
 
 設定やテスト中に問題が発生した場合は、[Zilliz support](https://zilliz.com/contact-sales) にお問い合わせください。
 
-### タスク 3: (オプション) SSO 強制を有効にする\{#task-3-optional-enable-sso-enforcement}
+### タスク 3: (オプション) SSO enforcement を有効にする\{#task-3-optional-enable-sso-enforcement}
 
-SSO 接続の設定とテストが完了したら、オプションで **SSO enforcement** を有効にして、すべての組織メンバーに SSO 経由でのログインを必須にすることができます。この機能を有効にすると、メンバーはメール/passwordやサードパーティー アカウント (Google、GitHub) を使用してサインインできなくなります。
+SSO 接続の設定とテストが完了したら、オプションで **SSO enforcement** を有効にして、すべての組織メンバーに SSO 経由でのログインを必須にすることができます。この機能を有効にすると、メンバーはメール/passwordやサードパーティー アカウント（Google、GitHub）を使用してサインインできなくなります。
 
 <Admonition type="warning" icon="🚧" title="Warning">
 
@@ -203,11 +203,11 @@ SSO 接続の設定とテストが完了したら、オプションで **SSO enf
 
 ### SSO で初めてログインするユーザーにはどのロールが割り当てられますか？\{#what-role-is-assigned-to-users-who-log-in-via-sso-for-the-first-time}
 
-Zilliz Cloud アカウントをまだ持っていない新規ユーザーは、最初の SSO ログイン時にアカウントが自動作成されます。これらのユーザーには、デフォルトで **Organization Member** ロールが割り当てられます。ロールは後から Zilliz Cloud コンソールで変更できます。詳しい手順については、[Manage Project Users](./project-users#edit-a-collaborators-role) を参照してください。
+Zilliz Cloud アカウントをまだ持っていない新規ユーザーは、最初の SSO ログイン時にアカウントが自動作成されます。これらのユーザーには、デフォルトで **Organization Member** ロールが割り当てられます。ロールは後から Zilliz Cloud コンソールで変更できます。詳しい手順については、[Manage Platform Users](./manage-platform-users#invite-project-users) を参照してください。
 
 ### SSO ログイン後、ユーザーはどのようにプロジェクトにアクセスできますか？\{#how-do-users-access-projects-after-sso-login}
 
-SSO でログインしたユーザーには、デフォルトで **Organization Member** ロールが割り当てられます。特定のプロジェクトにアクセスするには、**Organization Owner** または **Project Admin** がそのユーザーをプロジェクトに招待する必要があります。詳しい手順については、[Manage Project Users](./project-users) を参照してください。
+SSO でログインしたユーザーには、デフォルトで **Organization Member** ロールが割り当てられます。特定のプロジェクトにアクセスするには、**Organization Owner** または **Project Admin** がそのユーザーをプロジェクトに招待する必要があります。詳しい手順については、[Manage Platform Users](./manage-platform-users#invite-project-users) を参照してください。
 
 ### SSO ログイン前にすでに Zilliz Cloud アカウントを持っている場合はどうなりますか？\{#what-happens-if-a-user-already-has-a-zilliz-cloud-account-before-logging-in-with-sso}
 
