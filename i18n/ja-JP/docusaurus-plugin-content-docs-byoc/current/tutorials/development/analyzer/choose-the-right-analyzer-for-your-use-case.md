@@ -24,11 +24,11 @@ import Supademo from '@site/src/components/Supademo';
 
 このガイドでは、Zilliz Cloud のテキストコンテンツに最適な **アナライザー** を選択・設定する方法を解説します。
 
-本ガイドは **実践的な意思決定** に焦点を当てており、どのアナライザーを使うべきか、いつカスタマイズすべきか、設定をどう検証するかを扱います。アナライザーの構成要素やパラメーターに関する背景知識については、[アナライザー概要](./analyzer-overview) を参照してください。
+本ガイドは **実践的な意思決定** に焦点を当てており、どのアナライザーを使うべきか、いつカスタマイズすべきか、設定をどう検証するかを扱います。アナライザーの構成要素やパラメーターに関する背景知識については、[アナライザーの概要](./analyzer-overview) を参照してください。
 
 ## 基本概念: アナライザーの仕組み\{#quick-concept-how-analyzers-work}
 
-アナライザーは、[全文検索](./full-text-search)（BM25 ベース）、[フレーズ一致](./phrase-match)、[テキスト一致](./text-match) などの機能でテキストデータを検索可能にするために処理を行います。2 段階のパイプラインを通じて、生のテキストを検索可能な個々のトークンに変換します。
+アナライザーは、[全文検索](./full-text-search)（BM25 ベース）、[フレーズ一致](./phrase-match)、[テキストマッチ](./text-match) などの機能でテキストデータを検索可能にするために処理を行います。2 段階のパイプラインを通じて、生のテキストを検索可能な個々のトークンに変換します。
 
 ![JwMZwIYUwhbSZ4bjhxcc1PfNnvx](https://zdoc-images.s3.us-west-2.amazonaws.com/JwMZwIYUwhbSZ4bjhxcc1PfNnvx.png)
 
@@ -39,7 +39,7 @@ import Supademo from '@site/src/components/Supademo';
 例:
 
 ```plaintext
-Input: "Hello World!"
+Input: "Hello World!" 
        1. Tokenization → ["Hello", "World", "!"]
        2. Lowercase & Punctuation Filtering → ["hello", "world"]
 ```
@@ -81,7 +81,7 @@ Input: "Hello World!"
    </tr>
    <tr>
      <td><p>入力方式の不一致</p></td>
-     <td><p>ユーザーはピンインを入力するが、インデックス化されたテキストは漢字である。</p></td>
+     <td><p>ユーザーはピンインを入力しますが、インデックス化されたテキストは漢字です。</p></td>
      <td><p>中国語テキスト: <code>&quot;足球&quot;</code>; クエリテキスト: <code>&quot;zuqiu&quot;</code></p></td>
      <td><p>漢字トークンのみを出力するアナライザー</p></td>
      <td><p><a href="./jieba-tokenizer"><code>jieba</code></a> トークナイザーと <a href="./pinyin-filter"><code>pinyin</code></a> フィルターを備えたカスタムアナライザーを使用します。</p></td>
@@ -90,7 +90,7 @@ Input: "Hello World!"
 
 ## ステップ 1: アナライザーの選択は必要か？\{#step-1-do-you-need-to-choose-an-analyzer}
 
-テキスト検索機能（**全文検索**、**フレーズ一致**、**テキスト一致** など）を使用しているものの、**アナライザーを明示的に指定していない** 場合、
+テキスト検索機能（**全文検索**、**フレーズ一致**、**テキストマッチ** など）を使用しているものの、**アナライザーを明示的に指定していない** 場合、
 
 Zilliz Cloud は自動的に [標準アナライザー](./standard-analyzer) を適用します。
 
@@ -148,7 +148,7 @@ Output: ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale']
    </tr>
    <tr>
      <td><p><a href="./english-analyzer"><code>english</code></a></p></td>
-     <td><p>Dedicated から派生した英語向けアナライザー。ステミングとストップワード除去を適用し、英語の意味的一致精度を向上させます</p></td>
+     <td><p>英語専用（Dedicated to English）。ステミングとストップワード除去を適用し、英語のセマンティックマッチング精度を向上させます</p></td>
      <td><ul><li><p>トークナイザー: <code>standard</code></p></li><li><p>フィルター: <code>lowercase</code>, <code>stemmer</code>, <code>stop</code></p></li></ul></td>
      <td><p>英語のみのコンテンツには <code>standard</code> よりも推奨されます。</p></td>
    </tr>
@@ -183,15 +183,15 @@ schema.add_field(
 
 <Admonition type="info" icon="📘" title="Notes">
 
-詳細な使用方法については、[全文検索](./full-text-search)、[テキスト一致](./text-match)、または[フレーズ一致](./phrase-match)を参照してください。
+詳細な使用方法については、[全文検索](./full-text-search)、[テキストマッチ](./text-match)、または[フレーズ一致](./phrase-match)を参照してください。
 
 </Admonition>
 
-### パス B: カスタムアナライザーの作成\{#path-b-create-a-custom-analyzer}
+### アプローチ B: カスタムアナライザーの作成\{#path-b-create-a-custom-analyzer}
 
 [組み込み](./choose-the-right-analyzer-for-your-use-case#available-built-in-analyzers)[オプション](./choose-the-right-analyzer-for-your-use-case#available-built-in-analyzers)で要件を満たせない場合は、トークナイザーとフィルターを組み合わせてカスタムアナライザーを作成できます。これにより、テキスト処理パイプラインを完全に制御できます。
 
-#### 手順 1: 言語に応じたトークナイザーの選択\{#step-1-select-the-tokenizer-based-on-language}
+#### ステップ 1: 言語に応じたトークナイザーを選択する\{#step-1-select-the-tokenizer-based-on-language}
 
 コンテンツの主要言語に応じてトークナイザーを選択します。
 
@@ -286,13 +286,13 @@ schema.add_field(
    </tr>
    <tr>
      <td><p><a href="./icu-tokenizer"><code>icu</code></a></p></td>
-     <td><p>Unicode 対応トークナイゼーション (International Components for Unicode)</p></td>
-     <td><p>複数の文字体系が混在するテキスト、不明な言語、または単純なトークナイゼーションで十分な場合</p></td>
+     <td><p>Unicode 対応のトークン化（International Components for Unicode）</p></td>
+     <td><p>複数の文字体系が混在するテキスト、不明な言語、または単純なトークン化で十分な場合</p></td>
      <td><ul><li><p>入力: <code>&quot;Hello 世界 مرحبا&quot;</code></p></li><li><p>出力: <code>['Hello', ' ', '世界', ' ', 'مرحبا']</code></p></li></ul></td>
    </tr>
 </table>
 
-**icu を使用するケース**:
+**`icu` を使用する場合**:
 
 - 言語識別が現実的ではないほど複数の言語が混在している場合。
 
@@ -302,7 +302,7 @@ schema.add_field(
 
 **代替アプローチ**: 多言語コンテンツをより正確に処理するには、多言語アナライザーまたは言語識別子の使用を検討してください。詳細については、[多言語アナライザー](./multi-language-analyzers)または[言語識別子](./language-identifier-tokenizer)を参照してください。
 
-#### 手順 2: 精度向上のためのフィルター追加\{#step-2-add-filters-for-precision}
+#### ステップ 2: 精度向上のためのフィルターを追加する\{#step-2-add-filters-for-precision}
 
 [トークナイザーを選択](./choose-the-right-analyzer-for-your-use-case#step-1-select-the-tokenizer-based-on-language)したら、検索要件やコンテンツの特性に合わせてフィルターを適用します。
 
@@ -314,7 +314,7 @@ schema.add_field(
    <tr>
      <th><p>フィルター</p></th>
      <th><p>仕組み</p></th>
-     <th><p>使用タイミング</p></th>
+     <th><p>使用場面</p></th>
      <th><p>例</p></th>
    </tr>
    <tr>
@@ -339,7 +339,7 @@ schema.add_field(
 
 <Admonition type="info" icon="📘" title="Notes">
 
-東アジア言語（中国語、日本語、韓国語など）の場合は、代わりに[言語固有のフィルター](./choose-the-right-analyzer-for-your-use-case#language-specific-filters)に注目してください。これらの言語はテキスト処理のアプローチが異なるため、ステミングの効果が限定的な場合があります。
+東アジア言語（中国語、日本語、韓国語など）の場合は、代わりに[言語固有のフィルター](./choose-the-right-analyzer-for-your-use-case#language-specific-filters)に注目してください。これらの言語は通常、テキスト処理に異なるアプローチを使用するため、ステミングの効果が限定的な場合があります。
 
 </Admonition>
 
@@ -350,7 +350,7 @@ schema.add_field(
 <table>
    <tr>
      <th><p>フィルター</p></th>
-     <th><p>動作の仕組み</p></th>
+     <th><p>仕組み</p></th>
      <th><p>使用場面</p></th>
      <th><p>例</p></th>
    </tr>
@@ -369,7 +369,7 @@ schema.add_field(
 <table>
    <tr>
      <th><p>フィルター</p></th>
-     <th><p>動作の仕組み</p></th>
+     <th><p>仕組み</p></th>
      <th><p>使用場面</p></th>
      <th><p>例</p></th>
    </tr>
@@ -407,7 +407,7 @@ schema.add_field(
    <tr>
      <th><p>フィルター</p></th>
      <th><p>言語</p></th>
-     <th><p>動作の仕組み</p></th>
+     <th><p>仕組み</p></th>
      <th><p>例</p></th>
    </tr>
    <tr>
@@ -436,7 +436,7 @@ schema.add_field(
    </tr>
 </table>
 
-#### ステップ3: 組み合わせて実装する\{#step-3-combine-and-implement}
+#### ステップ 3: 組み合わせて実装する\{#step-3-combine-and-implement}
 
 カスタムアナライザーを作成するには、`analyzer_params` ディクショナリでトークナイザーとフィルターのリストを定義します。フィルターはリスト順に適用されます。
 
@@ -475,7 +475,7 @@ print("Analyzer output:", result)
 
 - **過剰トークン化**: 技術用語が誤って分割される
 
-- **トークン分割不足**: フレーズが適切に分離されない
+- **過少トークン化**: フレーズが適切に分離されない
 
 - **トークンの欠落**: 重要な用語がフィルターで除外される
 
@@ -754,3 +754,4 @@ analyzer_params = {
 Zilliz Cloud では、コードを書かずに [Zilliz Cloud](https://cloud.zilliz.com/) [コンソール](https://cloud.zilliz.com/) から直接テキストアナライザーの設定とテストを行えます。
 
 <Supademo id="cmfxfue5c41ld10k86la66x1v" title=""  />
+

@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 <Admonition type="info" icon="📘" title="Note">
 
-このページでは、アナライザーパイプラインにおける `regex` フィルターについて説明します。このフィルターはトークナイザーが生成したトークンをフィルタリングし、テキスト解析時に生成されるタームに影響を与えます。`query`、`search`、またはハイブリッド検索において、`field =~ "pattern"` や `field !~ "pattern"` などのスカラー式を使ってエンティティをフィルタリングする方法については、[Pattern Matching](./pattern-match) を参照してください。
+このページでは、アナライザーパイプラインにおける regex フィルターについて説明します。このフィルターはトークナイザーが生成したトークンをフィルタリングし、テキスト解析時に生成されるタームに影響を与えます。query、search、またはハイブリッド検索で field =~ "pattern" や field !~ "pattern" などのスカラー式を使ってエンティティをフィルタリングする方法については、[Pattern Matching](./pattern-match) を参照してください。
 
 </Admonition>
 

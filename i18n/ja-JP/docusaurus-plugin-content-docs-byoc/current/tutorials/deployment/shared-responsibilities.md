@@ -10,7 +10,7 @@ notebook: FALSE
 description: "このページでは、クラウド管理、アップグレード、セキュリティ、アクセス制御、サービス可用性、技術サポートに関するタスク分担を明確にするために、Zilliz Cloud と BYOC ユーザーそれぞれの責任を示しています。これにより、安全で効率的な運用環境を維持しながら、円滑なコラボレーションを実現します。 | BYOC"
 type: origin
 token: QqtGwq7lSimnHJk6IuXcM9synWg
-sidebar_position: 8
+sidebar_position: 9
 displayed_sidebar: default
 
 ---
@@ -52,8 +52,8 @@ import Admonition from '@theme/Admonition';
 
 | タスク | Zilliz BYOC | お客様 |
 | --- | --- | --- |
-| 災害復旧 (DR) | ✔ | ✔ |
-| サービスレベル契約 (SLA) | ✔ | ✔ |
+| 災害復旧（DR） | ✔ | ✔ |
+| サービスレベル契約（SLA） | ✔ | ✔ |
 
 ## 技術サポート\{#technical-support}
 

@@ -26,7 +26,7 @@ Zilliz Cloud Bring-Your-Own-Cloud (BYOC) ソリューションを使用すると
 
 このページでは、これらの要件を満たすカスタマー管理 VPC で Zilliz Cloud BYOC プロジェクトをホストするための最小要件を示します。 
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
 Zilliz BYOC は現在 **General Availability** で利用可能です。アクセス方法および実装の詳細については、[Zilliz Cloud sales](https://zilliz.com/contact-sales) までお問い合わせください。
 
@@ -116,7 +116,7 @@ Zilliz Cloud プロジェクトをホストするには、このセクション�
 
 Zilliz Cloud では、VPC の IPv4 CIDR 設定で **/16** のネットマスクを使用することを推奨しています。これにより、CIDR ブロックから 1 つのパブリックサブネットと 3 つのプライベートサブネットを作成できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
 Zilliz Cloud は現在、IPv4 CIDR ブロックのみをサポートしています。
 
@@ -126,9 +126,9 @@ Zilliz Cloud は現在、IPv4 CIDR ブロックのみをサポートしていま
 
 Zilliz Cloud プロジェクトには、1 つのパブリックサブネットと 3 つのプライベートサブネットが必要で、各プライベートサブネットは異なるアベイラビリティゾーンに配置されている必要があります。 
 
-パブリックサブネットは NAT gateway をホストし、ネットマスクは **/24** です。各プライベートサブネットのネットマスクは **/18** で、EKS cluster 内で Application Load Balancer (ALB) Ingress ルーティングを使用できるようにするため、`kubernetes.io/role/internal-elb=1` のタグを付ける必要があります。 
+パブリックサブネットは NAT gateway をホストし、ネットマスクは **/24**. 各プライベートサブネットのネットマスクは **/18** で、EKS クラスター内で Application Load Balancer (ALB) Ingress ルーティングを使用できるようにするため、`kubernetes.io/role/internal-elb=1` のタグを付ける必要があります。 
 
-ALB が EKS cluster 内の pod に対してアプリケーションおよび HTTP トラフィックをどのようにルーティングするかの詳細については、[この記事](https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)を参照してください。
+ALB が EKS クラスター内の pod に対してアプリケーションおよび HTTP トラフィックをどのようにルーティングするかの詳細については、[この記事](https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)を参照してください。
 
 ### DNS サポート\{#dns-support}
 
@@ -144,7 +144,7 @@ Zilliz Cloud は、プライベートサブネット内のリソースがイン�
 
 ### VPC endpoint\{#vpc-endpoint}
 
-VPC endpoint はオプションであり、BYOC cluster 用のプライベートエンドポイントを設定する必要がある場合に使用されます。作成方法の詳細については、[ステップ 3: （オプション）VPC endpoint を作成する](./configure-vpc#step-3-optional-create-a-vpc-endpoint) を参照してください。
+VPC endpoint はオプションであり、BYOC クラスター用のプライベートエンドポイントを設定する必要がある場合に使用されます。作成方法の詳細については、[ステップ 3: （オプション）VPC endpoint を作成する](./configure-vpc#step-3-optional-create-a-vpc-endpoint) を参照してください。
 
 ## 手順\{#procedure}
 
@@ -168,7 +168,7 @@ AWS コンソールでは、[VPC 要件](./configure-vpc#vpc-requirements) に�
 
     1. **VPC and more** をクリックします。**Name tag auto-generation** に、プロジェクト名を入力します。
 
-    1. **IPv4 CIDR block** で、ネットマスクが **/16** であることを確認します。
+    1. **IPv4 CIDR block** で、ネットマスクが **/16**. であることを確認します。
 
     1. **Number of Availability Zones (AZ)** で **3** をクリックします。**Customize AZs** を展開すると、利用可能なアベイラビリティゾーンを確認できます。
 
@@ -176,7 +176,7 @@ AWS コンソールでは、[VPC 要件](./configure-vpc#vpc-requirements) に�
 
     1. **Number of private subnets** で **3** をクリックします。これらのサブネットは、Zilliz Cloud BYOC プロジェクトに必要です。
 
-    1. **Customize subnets CIDR blocks** を展開し、各パブリックサブネットのネットワークマスクが **/24**（例: **10.0.0.0/24**、**10.0.16.0/24**、**10.0.32.0/24**）であり、各プライベートサブネットのネットワークマスクが **/18**（例: **10.0.64.0/18**、**10.0.128。0/18**、**10.0.192.0/18**）であることを確認します。
+    1. **Customize subnets CIDR blocks** を展開し、各パブリックサブネットのネットワークマスクが **/24**, 例えば **10.0.0.0/24**, **10.0.16.0/24**, **10.0.32.0/24**, であり、各プライベートサブネットのネットワークマスクが **/18**, 例えば **10.0.64.0/18**, **10.0.128。0/18**, **10.0.192.0/18**. であることを確認します。
 
     1. **NAT gateways** で **In 1 AZ** をクリックします。
 
@@ -244,11 +244,11 @@ VPC 内のセキュリティグループは、インバウンドおよびアウ�
 
 ### ステップ 3: （オプション）VPC endpoint を作成する\{#step-3-optional-create-a-vpc-endpoint}
 
-VPC endpoint は、安全な cluster 接続リレーを確保し、Zilliz Cloud REST API へのプライベートコールを可能にします。AWS Management Console を使用して VPC endpoint を管理する方法については、AWS Management Console の [AWS article Create VPC endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html) を参照するか、次の手順を使用してください。
+VPC endpoint は、安全なクラスター接続リレーを確保し、Zilliz Cloud REST API へのプライベートコールを可能にします。AWS Management Console を使用して VPC endpoint を管理する方法については、AWS Management Console の [AWS article Create VPC endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html) を参照するか、次の手順を使用してください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-このセクションで作成する VPC endpoint は、AWS PrivateLink のセットアップに使用されます。VPC endpoint の準備ができたら、hosted zone を作成し、いくつかの DNS レコードを追加する必要があります。詳細については、[Set up a PrivateLink (AWS)](./setup-a-private-link-aws) を参照してください。
+このセクションで作成する VPC endpoint は、AWS PrivateLink のセットアップに使用されます。VPC endpoint の準備ができたら、hosted zone を作成し、いくつかの DNS レコードを追加する必要があります。
 
 </Admonition>
 
