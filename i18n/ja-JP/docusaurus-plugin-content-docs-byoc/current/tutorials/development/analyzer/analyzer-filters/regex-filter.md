@@ -1,13 +1,13 @@
 ---
-title: "Regex Analyzer Filter | BYOC"
+title: "Regex | BYOC"
 slug: /regex-filter
-sidebar_label: "Regex"
+sidebar_label: "Regex Analyzer Filter"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`regex` フィルターは正規表現フィルターです。tokenizer によって生成された token は、指定した式に一致する場合にのみ保持され、それ以外は破棄されます。 | BYOC"
+description: "`regex` フィルターは正規表現フィルターです。トークナイザーによって生成されたトークンのうち、指定した式に一致するものだけが保持され、それ以外はすべて破棄されます。 | BYOC"
 type: origin
 token: AwmtwHGQii1j9Wk1W04cNxvBnth
 sidebar_position: 12
@@ -19,19 +19,19 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Regex Analyzer Filter
+# Regex
 
-`regex` フィルターは正規表現フィルターです。tokenizer によって生成された token は、指定した式に一致する場合にのみ保持され、それ以外は破棄されます。
+`regex` フィルターは正規表現フィルターです。トークナイザーによって生成されたトークンのうち、指定した式に一致するものだけが保持され、それ以外はすべて破棄されます。
 
 <Admonition type="info" icon="📘" title="Note">
 
-このページでは、analyzer パイプラインにおける `regex` フィルターについて説明します。これは tokenizer によって生成された token をフィルタリングし、テキスト分析中に生成される term に影響します。`query`、`search`、または hybrid search で、`field =~ "pattern"` や `field !~ "pattern"` のような scalar 式を使って entity をフィルタリングする方法については、[Pattern Matching](./pattern-match) を参照してください。
+このページでは、アナライザーパイプラインにおける `regex` フィルターについて説明します。このフィルターはトークナイザーが生成したトークンをフィルタリングし、テキスト解析時に生成されるタームに影響を与えます。`query`、`search`、またはハイブリッド検索において、`field =~ "pattern"` や `field !~ "pattern"` などのスカラー式を使ってエンティティをフィルタリングする方法については、[Pattern Matching](./pattern-match) を参照してください。
 
 </Admonition>
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
-`regex` フィルターは、Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター設定で `"type": "regex"` を指定し、あわせて `expr` パラメーターで目的の正規表現を指定します。
+`regex` フィルターは、Zilliz Cloud のカスタムフィルターです。使用するには、フィルター設定で `"type": "regex"` を指定するとともに、適用したい正規表現を `expr` パラメーターで指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -105,21 +105,21 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-`regex` フィルターでは、以下の設定可能なパラメーターを受け付けます。
+`regex` フィルターでは、以下のパラメーターを設定できます。
 
-| Parameter | Description |
+| パラメーター | 説明 |
 | --- | --- |
-| `expr` | 各 token に適用される正規表現パターンです。一致した token は保持され、一致しないものは除外されます。<br/>正規表現の構文の詳細については、[Syntax](https://docs.rs/regex/latest/regex/#syntax) を参照してください。 |
+| `expr` | 各トークンに適用される正規表現パターンです。パターンに一致するトークンは保持され、一致しないトークンは破棄されます。<br/>正規表現の構文の詳細については、[Syntax](https://docs.rs/regex/latest/regex/#syntax) を参照してください。 |
 
-`regex` フィルターは tokenizer によって生成された term に対して動作するため、tokenizer と組み合わせて使用する必要があります。
+`regex` フィルターはトークナイザーが生成したタームに対して動作するため、トークナイザーと組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後は、collection schema を定義するときにそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを指定された analyzer を使って処理し、効率的な tokenization とフィルタリングを実行できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマの定義時にそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud が指定されたアナライザーを使用して該当フィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えるようになります。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -192,7 +192,7 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -317,7 +317,7 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### Expected output\{#expected-output}
+### 想定される出力\{#expected-output}
 
 ```python
 ['apple', 'banana']

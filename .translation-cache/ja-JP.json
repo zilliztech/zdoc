@@ -66,9 +66,9 @@
       "translatedAt": "2026-08-04T05:15:40.910Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/regex-filter.md": {
-      "sourceHash": "50759c72274076fdf33125ef58822e2e5ca915f9f936a49adcabb2198cf4546f",
+      "sourceHash": "b6f3f5d649218de8ea52ed4c2d8f02388207257e8ffc9a2dd27d3028565eaf4c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/regex-filter.md",
-      "translatedAt": "2026-08-04T05:16:46.531Z"
+      "translatedAt": "2026-08-25T05:45:58.834Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md": {
       "sourceHash": "6b6608a635b57c7f130c8c82676824fb54366d29e3d85b5f8c6a14231e2c2706",
@@ -81,9 +81,9 @@
       "translatedAt": "2026-08-04T05:04:35.318Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/stop-filter.md": {
-      "sourceHash": "b191dc066235f24289a0855568d6dc7491602a4a59707883a8ec12eb85b148fa",
+      "sourceHash": "8d360dee6cff2481c44a192e13195a955597167818b1c3927622e590eaec5f3d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/stop-filter.md",
-      "translatedAt": "2026-08-04T05:04:43.232Z"
+      "translatedAt": "2026-08-25T05:47:13.853Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/synonym-filter.md": {
       "sourceHash": "7c92d8ec325a5b14a4a25ea979a2de08d0e20913ed90a33325c8762400c6df1a",
@@ -91,9 +91,9 @@
       "translatedAt": "2026-08-04T05:04:28.153Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-overview.md": {
-      "sourceHash": "346a935c33e76f60e7de5822384965664bf0c11cc39e7953f3fadb4f03511684",
+      "sourceHash": "2d6a170cda04b30ef4932d94b6c947242548f9b2a79654d9527846aa8d59f8c8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-overview.md",
-      "translatedAt": "2026-08-04T05:09:54.778Z"
+      "translatedAt": "2026-08-25T05:49:48.718Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md": {
       "sourceHash": "5af0871b871450db30d897b6b405af00dd78868ae0bf61d24c2f520351c12c42",
@@ -659,6 +659,26 @@
       "sourceHash": "fb406e4264ea665a058152eead0edab8f5ff941fc6e0b51db8bc28ea5d23da7a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/openid-connect.md",
       "translatedAt": "2026-08-25T05:06:03.561Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace.md": {
+      "sourceHash": "e78363d906c9f4cf4f82b3fb2cc5bb7676e67cfeb1a87a9755ada54d50a35977",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace.md",
+      "translatedAt": "2026-08-25T05:08:49.445Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md": {
+      "sourceHash": "b86b32348972c2d5752c7282b28b7c6796ba457b03c748fba9a73d2ec211f386",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md",
+      "translatedAt": "2026-08-25T05:11:32.370Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md": {
+      "sourceHash": "995ce4e0137b015bb3987da674e5b7e79af8e72729cad7057eea88fb0bc4a852",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md",
+      "translatedAt": "2026-08-25T05:12:55.415Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on.md": {
+      "sourceHash": "ac6a693c2de0f9cd0468fd229941e89dc64e2c56f26eabbd99cd150526c4115b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/single-sign-on.md",
+      "translatedAt": "2026-08-25T05:13:06.229Z"
     },
     "content/en/byoc/tutorials/management/limits/limits.md": {
       "sourceHash": "a86f16080d479c85bbc89d32ece93da809e5dfd03dc01e9074fcfc57aa458d8d",
@@ -1360,6 +1380,16 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/select-zilliz-cloud-service-plans.md",
       "translatedAt": "2026-08-04T05:07:30.302Z"
     },
+    "content/en/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md": {
+      "sourceHash": "2a89a788d187935709f5ae12980874358cf53e5aacfa25956d3a090ee46cb26a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md",
+      "translatedAt": "2026-08-25T05:14:55.944Z"
+    },
+    "content/en/guides/tutorials/management/access-control/manage-platform-roles.md": {
+      "sourceHash": "65e6d42f4346f93c4792d9a7a672f951672a79d6d070b9ebe129bd9aa9e2fb0e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/manage-platform-roles.md",
+      "translatedAt": "2026-08-25T05:18:32.251Z"
+    },
     "content/en/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md": {
       "sourceHash": "c8c64437eb1c218f51a3322730a7f2637b5c8c7587620d92df2e8eacc11aeee9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/backup-to-other-regions.md",
@@ -1450,6 +1480,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
       "translatedAt": "2026-08-04T05:13:42.493Z"
     },
+    "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression.md": {
+      "sourceHash": "fe02983f6d6fc839079ab6633325da0656bfb17f51fc326bedf0e1f59650328a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression.md",
+      "translatedAt": "2026-08-25T05:24:22.603Z"
+    },
     "content/en/guides/tutorials/management/clusters/global-cluster/global-cluster-explained.md": {
       "sourceHash": "8defd2eee260584116613be8fcc1f9ffea4e87e9543357c1e229fa370877d980",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/global-cluster-explained.md",
@@ -1504,6 +1539,66 @@
       "sourceHash": "32c1f1d6f5ad40f3049ed819c1863d2fba218998956794c689ac76da1bcd01f9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/storage-cost.md",
       "translatedAt": "2026-08-04T05:05:08.679Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/identity-management-overview.md": {
+      "sourceHash": "f4699ad71ed2efef66feeda028d97fde253a6c1ccaad610ac688b44a5a7b5544",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/identity-management-overview.md",
+      "translatedAt": "2026-08-25T05:27:03.867Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/manage-platform-users.md": {
+      "sourceHash": "515b1492f748bb50fbde3eadb3ca84867469f2abb2a193dc6d349314914b537e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/manage-platform-users.md",
+      "translatedAt": "2026-08-25T05:31:03.607Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-microsoft-entra.md": {
+      "sourceHash": "d8e5792130a144bec580f739b5ca87223700173cdd21c5f633977ce8dc7c3a30",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-microsoft-entra.md",
+      "translatedAt": "2026-08-25T05:32:29.107Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-okta.md": {
+      "sourceHash": "5350a4214e5404282185212c763df7578e4fcf1acc327a466dd960aedfe3f4d5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-okta.md",
+      "translatedAt": "2026-08-25T05:34:11.070Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/scim-provisioning/scim-provisioning-overview.md": {
+      "sourceHash": "5f7496d02ad1773ade60ac4815e656dabe09b83984a2c3270f649d0b1a9b3f71",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/scim-provisioning/scim-provisioning-overview.md",
+      "translatedAt": "2026-08-25T05:35:32.054Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/scim-provisioning/view-scim-synced-groups.md": {
+      "sourceHash": "b51ae761327896c897ddeef6fee6652c8e6948d25b933ae65f8f7604b56aaa7b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/scim-provisioning/view-scim-synced-groups.md",
+      "translatedAt": "2026-08-25T05:35:52.384Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/single-sign-on/enforce-sso-in-your-organization.md": {
+      "sourceHash": "56d68c7328f6b223f7a54ade27001ba5e70f259ae840aaaf61e22d07cffdf4d9",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/enforce-sso-in-your-organization.md",
+      "translatedAt": "2026-08-25T05:37:09.692Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/single-sign-on/openid-connect.md": {
+      "sourceHash": "9afba2994d913cdd15c686b7fd9bf4d25551367972131007b7ea67d4f174c67d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/openid-connect.md",
+      "translatedAt": "2026-08-25T05:38:54.070Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace.md": {
+      "sourceHash": "22006827af586a88aadff93ac9734784165217b5e836d8e11a2400f242fefdf2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace.md",
+      "translatedAt": "2026-08-25T05:40:38.562Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md": {
+      "sourceHash": "505bd27cbb5bb9dfafbfabc1a27b793d4a4fd45ffaa2e7cfaac6b8b64bf9c95f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md",
+      "translatedAt": "2026-08-25T05:43:31.283Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md": {
+      "sourceHash": "159a930ac5a4748eab9ed1022f62e582184514c04c3c50c6e7091bffeb7e5854",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md",
+      "translatedAt": "2026-08-25T05:45:12.015Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on.md": {
+      "sourceHash": "84818a67dbc4f26172ad7d2f529792471d465c9ee67cb5023364c7036b185c73",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on.md",
+      "translatedAt": "2026-08-25T05:45:24.533Z"
     },
     "content/en/guides/tutorials/management/limits/limits.md": {
       "sourceHash": "fa5e1960a09fc39892c97df8e84ab2e0ed3a9bd590a735e3cd71c5333bbc5680",
