@@ -24,7 +24,7 @@ Zilliz Cloud 組織の最近の使用状況、クレジットの状態、支払�
 
 このガイドでは、請求関連のアラートについて説明します。請求アラートの設定方法については、[組織アラートを管理する](./manage-organization-alerts) を参照してください。
 
-<Admonition type="info" icon="📘" title="**Note**">
+<Admonition type="info" icon="📘" title="Note">
 
 請求アラートを表示または管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 
@@ -34,15 +34,15 @@ Zilliz Cloud 組織の最近の使用状況、クレジットの状態、支払�
 
 Zilliz Cloud は、以下の請求アラートメトリクスを提供します。
 
-| **Metric** | **Description** | **Recommended action** |
+| **指標** | **説明** | **推奨アクション** |
 | --- | --- | --- |
-| Usage Amount in the Past Day ($) | 過去 1 日間の累積使用料金。 | 使用量を予算と比較してください。使用量が想定より多い場合は、最近のアクティビティを確認し、[ワークロードを最適化](./cost-optimization) するか、必要に応じて予算を調整してください。 |
+| Usage Amount in the Past Day (&#36;) | 過去 1 日間の累積使用料金。 | 使用量を予算と比較してください。使用量が想定より多い場合は、最近のアクティビティを確認し、[ワークロードを最適化](./cost-optimization) するか、必要に応じて予算を調整してください。 |
 | Credit Validity (days) | 無料クレジットの有効期限までの日数。 | 対象のクレジットは有効期限前に使用するか、クレジットの有効性について支援が必要な場合は [営業に問い合わせて](http://zilliz.com/contact-sales) ください。 |
-| Remaining Credits ($) | 無料クレジットの残高。 | サービス中断を避けるため、クレジットがなくなる前に [Credits](./credits) や [Credit Card](./subscribe-by-adding-credit-card) などの別の支払い方法を設定してください。 |
+| Remaining Credits (&#36;) | 無料クレジットの残高。 | サービス中断を避けるため、クレジットがなくなる前に [Credits](./credits) や [Credit Card](./subscribe-by-adding-credit-card) などの別の支払い方法を設定してください。 |
 | Credit Card Validity (days) | 保存済みクレジットカードの有効期限までの日数。 | 支払い失敗を避けるため、有効期限前に [クレジットカードを差し替えて](./subscribe-by-adding-credit-card#replace-a-credit-card) ください。 |
-| Advance Pay Balance ($) | 前払い Advance Pay の残高。 | 残高が少なくなったら、支払いの問題やサービス中断を防ぐために [資金を追加](./advance-pay#add-funds-to-advance-pay) してください。 |
+| Advance Pay Balance (&#36;) | 前払い Advance Pay の残高。 | 残高が少なくなったら、支払いの問題やサービス中断を防ぐために [資金を追加](./advance-pay#add-funds-to-advance-pay) してください。 |
 
-## **推奨アラート**\{#recommended-alerts}
+## 推奨アラート\{#recommended-alerts}
 
 組織の支払い方法と利用パターンに基づいてアラートを設定してください。
 
@@ -80,4 +80,3 @@ Zilliz Cloud は、以下の請求アラートメトリクスを提供します�
 - テストや PoC の期間中は残りのクレジットを監視してください。さらに多くのクレジットを申請する必要がある場合は、[営業に問い合わせて](http://zilliz.com/contact-sales) ください。
 
 - クレジットカードの有効性または Advance Pay の残高を監視し、サービス中断を防ぐために適時に支払い方法を更新してください。
-

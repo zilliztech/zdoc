@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、監査ログは以下の構文を持ちます | Cloud"
+description: "Zilliz Cloud では、監査ログの構文は以下の通りです | Cloud"
 type: origin
 token: Nby4wCqNviuLg3kEZpkcdKtnnnb
 sidebar_position: 2
@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 </FeatureNote>
 
-Zilliz Cloud では、監査ログは以下の構文を持ちます。
+Zilliz Cloud では、監査ログの構文は以下の通りです。
 
 ```json
 {
@@ -57,58 +57,58 @@ Zilliz Cloud では、監査ログは以下の構文を持ちます。
    </tr>
    <tr>
      <td><p><code>date</code></p></td>
-     <td><p>String (ISO 8601 形式)</p></td>
-     <td><p>アクションが発生した UTC のタイムスタンプです（例: <code>"2025-01-21T08:38:39.494527Z"</code>）。</p></td>
+     <td><p>String（ISO 8601 形式）</p></td>
+     <td><p>アクションが発生した UTC のタイムスタンプです（例：<code>&quot;2025-01-21T08:38:39.494527Z&quot;</code>）。</p></td>
    </tr>
    <tr>
      <td><p><code>action</code></p></td>
      <td><p>String</p></td>
-     <td><p>実行されたアクションです（例: <code>"DescribeCollection"</code>）。利用可能なアクションの一覧については、<a href="./audit-logs-ref">アクション一覧</a>を参照してください。</p></td>
+     <td><p>実行されたアクションです（例：<code>&quot;DescribeCollection&quot;</code>）。利用可能なアクションの一覧については、<a href="./audit-logs-ref">アクション一覧</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>cluster_id</code></p></td>
      <td><p>String</p></td>
-     <td><p>アクションが発生した cluster の一意識別子です（例: <code>"in01-b5a7e190615xxxf"</code>）。</p></td>
+     <td><p>アクションが発生したクラスターの一意の識別子です（例：<code>&quot;in01-b5a7e190615xxxf&quot;</code>）。</p></td>
    </tr>
    <tr>
      <td><p><code>database</code></p></td>
      <td><p>String</p></td>
-     <td><p>アクションに関係する database の名前です（例: <code>"default"</code>）。</p></td>
+     <td><p>アクションの対象となるデータベースの名前です（例：<code>&quot;default&quot;</code>）。</p></td>
    </tr>
    <tr>
      <td><p><code>interface</code></p></td>
      <td><p>string</p></td>
-     <td><p>アクションが実行されるインターフェースです（例: <code>"Grpc"</code>、<code>"Restful"</code>）。</p></td>
+     <td><p>アクションが実行されるインターフェースです（例：<code>&quot;Grpc&quot;</code>、<code>&quot;Restful&quot;</code>）。</p></td>
    </tr>
    <tr>
      <td><p><code>log_type</code></p></td>
      <td><p>String</p></td>
-     <td><p>ログエントリの種類です（例: <code>"AUDIT"</code>）。</p></td>
+     <td><p>ログエントリの種類です（例：<code>&quot;AUDIT&quot;</code>）。</p></td>
    </tr>
    <tr>
      <td><p><code>params</code></p></td>
-     <td><p>Object (キーと値のペア)</p></td>
-     <td><p>アクションに関連する追加パラメータです。これには <code>collection</code>、<code>consistency_level</code> などが含まれる場合があります。</p></td>
+     <td><p>Object（キーと値のペア）</p></td>
+     <td><p>アクションに関連する追加のパラメータです。<code>collection</code>、<code>consistency_level</code> などを含めることができます。</p></td>
    </tr>
    <tr>
      <td><p><code>result</code></p></td>
      <td><p>Integer</p></td>
-     <td><p>結果コードまたはステータスコードです（例: 成功時は <code>0</code>、それ以外のコードはエラーを示す場合があります）。<code>status</code> が <code>Receive</code> の場合は利用できません。</p></td>
+     <td><p>結果コードまたはステータスコードです（例：成功の場合は <code>0</code>、それ以外のコードはエラーを示す場合があります）。<code>status</code> が <code>Receive</code> の場合は利用できません。</p></td>
    </tr>
    <tr>
      <td><p><code>status</code></p></td>
      <td><p>String</p></td>
-     <td><p>記録対象のアクションのステータスです（例: <code>Receive</code>、<code>Success</code>、<code>Failed</code>）。</p><ul><li><p><code>Receive</code>: アクションはシステムに受信されましたが、まだ完了していません。</p></li><li><p><code>Success</code>: アクションは問題なく正常に完了しました。</p></li><li><p><code>Failed</code>: アクションは失敗しました。</p></li></ul></td>
+     <td><p>ログに記録されるアクションのステータスです（例：<code>Receive</code>、<code>Success</code>、<code>Failed</code>）。</p><ul><li><p><code>Receive</code>: アクションはシステムに受信されましたが、完了していません。</p></li><li><p><code>Success</code>: アクションは問題なく正常に完了しました。</p></li><li><p><code>Failed</code>: アクションは失敗しました。</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>time</code></p></td>
-     <td><p>Integer (エポック時間、ミリ秒)</p></td>
-     <td><p>1970 年からのミリ秒単位のタイムスタンプです（エポック時間）。</p></td>
+     <td><p>Integer（エポック時間、ミリ秒）</p></td>
+     <td><p>1970 年以降のミリ秒単位のタイムスタンプです（エポック時間）。</p></td>
    </tr>
    <tr>
      <td><p><code>trace_id</code></p></td>
      <td><p>String</p></td>
-     <td><p>システム間でリクエストを追跡するための一意識別子です。これによりログ同士を関連付けることができます。</p></td>
+     <td><p>システム間でリクエストを追跡するための一意の識別子です。ログ同士を関連付けるのに役立ちます。</p></td>
    </tr>
    <tr>
      <td><p><code>user</code></p></td>
@@ -119,103 +119,102 @@ Zilliz Cloud では、監査ログは以下の構文を持ちます。
 
 ## アクション一覧\{#list-of-actions}
 
-以下の表は、監査用にログ記録できるデータプレーン上のアクションをまとめたものです。
+以下の表は、監査用にログに記録できるデータプレーン上のアクションをまとめたものです。
 
 ### 接続\{#connection}
 
 | `action` | 説明 |
 | --- | --- |
-| Connect | 接続を確立する |
+| Connect | 接続を確立します。 |
 
-### Database\{#database}
-
-| `action` | 説明 |
-| --- | --- |
-| ListDatabases | 現在のインスタンス内のすべての database を表示する |
-| DescribeDatabase | database の詳細を表示する |
-| CreateDatabase | database を作成する |
-| DropDatabase | database を削除する |
-| AlterDatabase | database のプロパティを変更する |
-
-### Collection\{#collection}
+### データベース\{#database}
 
 | `action` | 説明 |
 | --- | --- |
-| GetLoadState | collection のロード状態を確認する |
-| GetLoadingProgress | collection のロード進捗を確認する |
-| DescribeCollection | collection の詳細を表示する |
-| CreateCollection | collection を作成する |
-| HasCollection | database 内に collection が存在するか確認する |
-| DropCollection | collection を削除する |
-| LoadCollection | collection をロードする |
-| AlterCollection | collection のスキーマまたは構成を変更する |
-| ShowCollections | collection 権限を持つすべての collection を表示する |
-| RenameCollection | collection の名前を変更する |
-| ReleaseCollection | collection を解放する |
-| GetCollectionStatistics | collection の統計情報を取得する（例: collection 内のエンティティ数） |
-| Flush | collection 内のすべてのエンティティを sealed segment に永続化します。flush 操作後に挿入されたエンティティは新しい segment に保存されます。 |
-| GetFlushState | collection の flush 操作の状態を確認する |
-| CreateAlias | collection の alias を作成する |
-| DescribeAlias | collection の alias を表示する |
-| AlterAlias | collection に関連付けられた alias を変更する |
-| ListAliases | collection のすべての alias を表示する |
-| DropAlias | collection の alias を削除する |
-| GetReplicas | collection の replica を取得する |
+| ListDatabases | 現在のインスタンス内のすべてのデータベースを表示します。 |
+| DescribeDatabase | データベースの詳細を表示します。 |
+| CreateDatabase | データベースを作成します。 |
+| DropDatabase | データベースを削除します。 |
+| AlterDatabase | データベースのプロパティを変更します。 |
 
-### Partition\{#partition}
+### コレクション\{#collection}
 
 | `action` | 説明 |
 | --- | --- |
-| CreatePartition | partition を作成する |
-| HasPartition | partition が存在するかどうかを確認する |
-| LoadPartitions | 1 つ以上の partition をロードする |
-| ShowPartitions | collection 内のすべての partition を表示する |
-| DropPartition | partition を削除する |
-| ReleasePartitions | 1 つ以上の partition を解放する |
-| GetPartitionStatistics | partition の統計情報を取得する |
+| GetLoadState | コレクションのロードステータスを確認します。 |
+| GetLoadingProgress | コレクションのロード進行状況を確認します。 |
+| DescribeCollection | コレクションの詳細を表示します。 |
+| CreateCollection | コレクションを作成します。 |
+| HasCollection | データベース内にコレクションが存在するかどうかを確認します。 |
+| DropCollection | コレクションを削除します。 |
+| LoadCollection | コレクションをロードします。 |
+| AlterCollection | コレクションのスキーマまたは構成を変更します。 |
+| ShowCollections | コレクション権限を持つすべてのコレクションを表示します。 |
+| RenameCollection | コレクションの名前を変更します。 |
+| ReleaseCollection | コレクションをリリースします。 |
+| GetCollectionStatistics | コレクションの統計情報（例：コレクション内のエンティティ数）を取得します。 |
+| Flush | コレクション内のすべてのエンティティを sealed segment に永続化します。flush 操作後に挿入されたエンティティは、新しい segment に保存されます。 |
+| GetFlushState | コレクションの flush 操作のステータスを確認します。 |
+| CreateAlias | コレクションのエイリアスを作成します。 |
+| DescribeAlias | コレクションのエイリアスを表示します。 |
+| AlterAlias | コレクションに関連付けられたエイリアスを変更します。 |
+| ListAliases | コレクションのすべてのエイリアスを表示します。 |
+| DropAlias | コレクションのエイリアスを削除します。 |
+| GetReplicas | コレクションのレプリカを取得します。 |
 
-### Index\{#index}
+### パーティション\{#partition}
 
 | `action` | 説明 |
 | --- | --- |
-| CreateIndex | index を作成する |
-| DescribeIndex | collection の index 構築の進捗を表示する |
-| AlterIndex | 既存の index の構成またはパラメータを更新する |
-| GetIndexState | 既存の index の構成またはパラメータを更新する |
-| GetIndexStatistics | index の現在の状態を取得する（例: `building`、`built`、`failed`） |
-| GetIndexBuildProgress | メモリ使用量やインデックス化済みエンティティ数など、index の詳細な統計情報を取得する |
-| DropIndex | collection 内の特定の segment に対する詳細な index データを取得する |
+| CreatePartition | パーティションを作成します。 |
+| HasPartition | パーティションが存在するかどうかを確認します。 |
+| LoadPartitions | 1 つ以上のパーティションをロードします。 |
+| ShowPartitions | コレクション内のすべてのパーティションを表示します。 |
+| DropPartition | パーティションを削除します。 |
+| ReleasePartitions | 1 つ以上のパーティションをリリースします。 |
+| GetPartitionStatistics | パーティションの統計情報を取得します。 |
 
-### Entity\{#entity}
+### インデックス\{#index}
 
 | `action` | 説明 |
 | --- | --- |
-| Insert | エンティティを挿入する |
-| Query | クエリを実行する |
-| Search | 検索を実行する |
-| HybridSearch | ハイブリッド検索を実行する |
-| Delete | エンティティを削除する |
-| Upsert | エンティティを upsert する |
+| CreateIndex | インデックスを作成します。 |
+| DescribeIndex | コレクションのインデックス構築の進捗を表示します。 |
+| AlterIndex | 既存のインデックスの構成またはパラメータを更新します。 |
+| GetIndexState | 既存のインデックスの構成またはパラメータを更新します。 |
+| GetIndexStatistics | インデックスの現在の状態を取得します（例：`building`、`built`、`failed`）。 |
+| GetIndexBuildProgress | メモリ使用量やインデックス化されたエンティティ数など、インデックスの詳細な統計情報を取得します。 |
+| DropIndex | コレクション内の特定の segment に対する詳細なインデックスデータを取得します。 |
+
+### エンティティ\{#entity}
+
+| `action` | 説明 |
+| --- | --- |
+| Insert | エンティティを挿入します。 |
+| Query | クエリを実行します。 |
+| Search | 検索を実行します。 |
+| HybridSearch | ハイブリッド検索を実行します。 |
+| Delete | エンティティを削除します。 |
+| Upsert | エンティティをアップサートします。 |
 
 ### RBAC\{#rbac}
 
 | `action` | 説明 |
 | --- | --- |
-| SelectRole | 現在のインスタンスで利用可能なロールの一覧を取得する |
-| CreateRole | ユーザー権限を管理するための新しいロールを定義する |
-| DropRole | ロールを削除する |
-| OperateUserRole | ユーザーにロールを割り当てる、またはユーザーからロールを削除する |
-| ListPrivilegeGroups | 現在のインスタンス内のすべての権限グループを表示する |
-| OperatePrivilegeV2 | 権限グループに特定の権限を追加または削除する |
-| SelectGrant | 特定のロールまたはユーザーに割り当てられたすべての権限付与の一覧を取得する |
-| CreateCredential | システムにアクセスするための新しい認証情報（例: API key やトークン）を作成する |
-| UpdateCredential | 既存の認証情報のプロパティまたは権限を更新する |
-| DeleteCredential | システムから認証情報を削除する |
-| ListCredUsers | 特定の認証情報に関連付けられたすべてのユーザーの一覧を取得する |
+| SelectRole | 現在のインスタンスで利用可能なロールの一覧を取得します。 |
+| CreateRole | ユーザー権限を管理するための新しいロールを定義します。 |
+| DropRole | ロールを削除します。 |
+| OperateUserRole | ユーザーにロールを割り当てる、またはユーザーからロールを削除します。 |
+| ListPrivilegeGroups | 現在のインスタンス内のすべての権限グループを表示します。 |
+| OperatePrivilegeV2 | 権限グループに対して特定の権限を追加または削除します。 |
+| SelectGrant | 特定のロールまたはユーザーに割り当てられたすべての権限付与の一覧を取得します。 |
+| CreateCredential | システムにアクセスするための新しい認証情報（例：API key またはトークン）を作成します。 |
+| UpdateCredential | 既存の認証情報のプロパティまたは権限を更新します。 |
+| DeleteCredential | システムから認証情報を削除します。 |
+| ListCredUsers | 特定の認証情報に関連付けられたすべてのユーザーの一覧を取得します。 |
 
 ### その他\{#others}
 
 | `action` | 説明 |
 | --- | --- |
 | Authorize | 認可に失敗した場合にのみ記録され、`status` は `Refused` として記録されます。 |
-

@@ -28,7 +28,7 @@ API key は、Zilliz Cloud の control plane および data plane リソース�
 
 Zilliz Cloud では、多様なユーザー要件に対応するために 2 種類の API key を提供しています。
 
-- **Personal API keys**: ユーザー登録時に自動生成され、各 key はユーザーのアカウントに紐付けられ、そのユーザーが所属する organization および project におけるロールの権限を継承します。アカウントユーザーが organization を離れると、関連する personal key は自動的に削除されます。[Organization Owner](./organization-users#organization-owner) または [Project Admin](./project-users#project-admin) として、Zilliz Cloud Web コンソールでは次の 2 種類の personal API key を確認できます。
+- **Personal API keys**: ユーザー登録時に自動生成され、各 key はユーザーのアカウントに紐付けられ、そのユーザーが所属する organization および project におけるロールの権限を継承します。アカウントユーザーが organization を離れると、関連する personal key は自動的に削除されます。[Organization Owner](./manage-platform-roles#predefined-organization-roles) または [Project Admin](./manage-platform-roles#predefined-project-roles) として、Zilliz Cloud Web コンソールでは次の 2 種類の personal API key を確認できます。
 
     - **Your own personal API key**: 自分専用の personal key です。この API key は表示およびコピーできます。
 
@@ -55,24 +55,24 @@ Zilliz Cloud では、多様なユーザー要件に対応するために 2 種�
    </tr>
    <tr>
      <td colspan="2"><p>Organization Owner</p></td>
-     <td><p>organization 内のすべてのリソース（project、cluster、volume を含む）に対する完全な管理者アクセス。</p></td>
+     <td><p>organization 内のすべてのリソース（project、クラスター、volume を含む）に対する完全な管理者アクセス。</p></td>
    </tr>
    <tr>
      <td colspan="2"><p>Organization Billing Admin</p></td>
-     <td><p>organization の請求に対する管理者アクセスのみ。organization 内の project、cluster、volume にはアクセス不可。</p></td>
+     <td><p>organization の請求に対する管理者アクセスのみ。organization 内の project、クラスター、volume にはアクセス不可。</p></td>
    </tr>
    <tr>
      <td rowspan="3"><p>Organization Member</p></td>
      <td><p>Project Admin</p></td>
-     <td><p>指定された project に対する完全な管理者アクセス。デフォルトで、その project 内のすべての cluster と volume に対しても完全な管理者アクセス。</p></td>
+     <td><p>指定された project に対する完全な管理者アクセス。デフォルトで、その project 内のすべての クラスター と volume に対しても完全な管理者アクセス。</p></td>
    </tr>
    <tr>
      <td><p>Project Read-Write</p></td>
-     <td><p>指定された project に対する読み取りおよび書き込みアクセス。デフォルトで、その project 内のすべての cluster と volume に対しても読み取りおよび書き込みアクセス。</p></td>
+     <td><p>指定された project に対する読み取りおよび書き込みアクセス。デフォルトで、その project 内のすべての クラスター と volume に対しても読み取りおよび書き込みアクセス。</p></td>
    </tr>
    <tr>
      <td><p>Project Read-Only</p></td>
-     <td><p>指定された project に対する読み取り専用アクセス。デフォルトで、その project 内のすべての cluster と volume に対しても読み取り専用アクセス。</p></td>
+     <td><p>指定された project に対する読み取り専用アクセス。デフォルトで、その project 内のすべての クラスター と volume に対しても読み取り専用アクセス。</p></td>
    </tr>
 </table>
 
@@ -251,11 +251,11 @@ Zilliz Cloud が各 organization ユーザーに対して自動生成する pers
 
     - **API Key Description (optional)**: 作成する API key の説明です。最大 255 文字です。
 
-    - **API Key Access**: 適切な organization ロールおよび project ロールを割り当てて、現在の customized API key のアクセス範囲を定義します。よりきめ細かなアクセス制御のために、**Restrict Access to Specific Clusters and Volumes** をチェックして、この key がアクセスできる cluster と volume を制限できます。
+    - **API Key Access**: 適切な organization ロールおよび project ロールを割り当てて、現在の customized API key のアクセス範囲を定義します。よりきめ細かなアクセス制御のために、**Restrict Access to Specific クラスター and Volumes** をチェックして、この key がアクセスできる クラスター と volume を制限できます。
 
         <Admonition type="info" icon="📘" title="📘 Notes">
 
-        [Project Admins](./project-users) の場合、このユーザーが API key に付与できる権限は、そのユーザー自身の権限範囲に制限されます。 
+        [Project Admins](./manage-platform-roles#predefined-project-roles) の場合、このユーザーが API key に付与できる権限は、そのユーザー自身の権限範囲に制限されます。 
 
         </Admonition>
 
@@ -293,11 +293,11 @@ organization の **API Keys** ページに移動します。表示内容は、�
 
     - **API Key Name:** 名前は 64 文字以内である必要があります。
 
-    - **API Key Access**:  適切な organization ロールおよび project ロールを割り当てて、現在の customized API key のアクセス範囲を定義します。よりきめ細かなアクセス制御のために、**Restrict Access to Specific Clusters and Volumes** をチェックして、この key がアクセスできる cluster と volume を制限できます。
+    - **API Key Access**:  適切な organization ロールおよび project ロールを割り当てて、現在の customized API key のアクセス範囲を定義します。よりきめ細かなアクセス制御のために、**Restrict Access to Specific クラスター and Volumes** をチェックして、この key がアクセスできる クラスター と volume を制限できます。
 
         <Admonition type="info" icon="📘" title="📘 Notes">
 
-        [Project Admins](./project-users) の場合、このユーザーが API key に付与できる権限は、そのユーザー自身の権限範囲に制限されます。 
+        [Project Admins](./manage-platform-roles#predefined-project-roles) の場合、このユーザーが API key に付与できる権限は、そのユーザー自身の権限範囲に制限されます。 
 
         </Admonition>
 

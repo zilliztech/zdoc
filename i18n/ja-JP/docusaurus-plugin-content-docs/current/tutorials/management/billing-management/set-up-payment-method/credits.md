@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "クレジットは、Zilliz Cloud の利用料金の支払いに使用できます。仕事用メールアドレスで Zilliz Cloud に登録した場合、対象となる Zilliz Cloud のプログラムやイベントに参加した場合、または概念実証（PoC）のために Zilliz からクレジットを受け取った場合に、クレジットを取得できることがあります。 | Cloud"
+description: "クレジットは、Zilliz Cloud の利用料金の支払いに充当できます。仕事用のメールアドレスで Zilliz Cloud に登録した場合、対象となる Zilliz Cloud のプログラムやイベントに参加した場合、または概念実証（PoC）のために Zilliz からクレジットを受け取った場合に、クレジットを受け取ることがあります。 | Cloud"
 type: origin
 token: YWhwwvlxOiGk9gkTm0Pc2w00npe
 sidebar_position: 1
@@ -22,11 +22,11 @@ import Procedures from '@site/src/components/Procedures';
 
 # クレジット
 
-クレジットは、Zilliz Cloud の利用料金の支払いに使用できます。仕事用メールアドレスで Zilliz Cloud に登録した場合、対象となる Zilliz Cloud のプログラムやイベントに参加した場合、または概念実証（PoC）のために Zilliz からクレジットを受け取った場合に、クレジットを取得できることがあります。
+クレジットは、Zilliz Cloud の利用料金の支払いに充当できます。仕事用のメールアドレスで Zilliz Cloud に登録した場合、対象となる Zilliz Cloud のプログラムやイベントに参加した場合、または概念実証（PoC）のために Zilliz からクレジットを受け取った場合に、クレジットを受け取ることがあります。
 
-クレジットを利用すると、長期的な支払い方法を設定する前に、Zilliz Cloud を試したり、評価用ワークロードを実行したりできます。
+クレジットは、長期的な支払い方法を設定する前に、Zilliz Cloud を試したり、評価用のワークロードを実行したりするのに役立ちます。
 
-<Admonition type="info" icon="📘" title="📘 注記">
+<Admonition type="info" icon="📘" title="📘 Note">
 
 クレジットと支払い方法を管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 
@@ -44,29 +44,29 @@ import Procedures from '@site/src/components/Procedures';
 
 1. クレジットカードまたは Marketplace サブスクリプション
 
-## クレジットの有効期限\{#credit-validity}
+## クレジットの有効性\{#credit-validity}
 
-クレジットには有効期限があります。有効期限が切れたクレジットは、今後の利用料金の支払いには使用できません。
+クレジットには有効期限があります。有効期限が切れたクレジットは、今後の利用料金の支払いに充当できません。
 
 利用可能なクレジットを失わないようにするには、次の点に注意してください。
 
-- 残りのクレジット残高を定期的に確認する。
+- 残りのクレジット残高を定期的に確認してください。
 
-- クレジットの有効期限までの残り日数を確認する。
+- クレジットの有効期限までの日数を確認してください。
 
-- 有効期限が切れる前にクレジットを使用する。
+- クレジットは有効期限が切れる前に使用してください。
 
-- 有効な支払い方法を追加して、クレジットの有効期間を 30 日から 1 年に延長する。
+- 有効な支払い方法を追加して、クレジットの有効期間を 30 日から 1 年に延長してください。
 
-- クレジットの有効期限について質問がある場合は、[Zilliz Support](http://support.zilliz.com) または担当営業に連絡する。
+- クレジットの有効性について質問がある場合は、[Zilliz Support](http://support.zilliz.com) または担当のアカウントエグゼクティブにお問い合わせください。
 
 ## クレジットと支払い方法\{#credits-and-payment-methods}
 
 クレジットは、クレジットカード、Advance Pay 残高、または Marketplace サブスクリプションのいずれかと併用できます。
 
-ただし、クレジットは長期的な支払い方法の代替ではありません。クレジットを使い切るか有効期限が切れ、他に有効な支払い方法がない場合、組織は高度な機能にアクセスできなくなり、凍結状態になります。
+ただし、クレジットは長期的な支払い方法の代替にはなりません。クレジットを使い切るか有効期限が切れ、他に有効な支払い方法がない場合、組織は高度な機能にアクセスできなくなり、凍結されます。
 
-クレジットを使い切った後も Zilliz Cloud を継続して利用するには、次のいずれかの支払い方法を設定してください。
+クレジットを使い切った後も Zilliz Cloud の使用を続けるには、次のいずれかの支払い方法を設定してください。
 
 - [クレジットカード](./subscribe-by-adding-credit-card)
 
@@ -80,11 +80,11 @@ import Procedures from '@site/src/components/Procedures';
 
 ## クレジットを申請する\{#apply-for-credits}
 
-PoC のためにさらに多くのクレジットが必要な場合は、[営業にお問い合わせ](http://zilliz.com/contact-sales)いただくか、担当営業にご連絡ください。
+PoC のためにさらにクレジットが必要な場合は、[営業担当](http://zilliz.com/contact-sales) または担当のアカウントエグゼクティブにお問い合わせください。
 
-## クレジット残高を確認する\{#view-credit-balance}
+## クレジット残高を表示する\{#view-credit-balance}
 
-クレジット残高を確認するには、次の手順を行います。
+クレジット残高を表示するには、次の手順に従います。
 
 ![FWMbwmjNKh6Qt3btRCyc4KKSnZf](https://zdoc-images.s3.us-west-2.amazonaws.com/FWMbwmjNKh6Qt3btRCyc4KKSnZf.png)
 
@@ -92,18 +92,17 @@ PoC のためにさらに多くのクレジットが必要な場合は、[営業
 
 1. Zilliz Cloud で自分の組織に移動します。
 
-1. **Billing** に進みます。
+1. **Billing** に移動します。
 
-1. **Credits** セクションで残高を確認します。
+1. **Credits** セクションで残りの残高を確認します。
 
 </Procedures>
 
 ## クレジットアラートを監視する\{#monitor-credit-alerts}
 
-Zilliz Cloud は、クレジットと支払い状況の健全性を監視するのに役立つ請求アラートを提供します。
+Zilliz Cloud は、クレジットと支払いの健全性を監視するのに役立つ請求アラートを提供しています。
 
 | **指標** | **説明** | **推奨アクション** |
 | --- | --- | --- |
-| Credit Validity (days) | 無料クレジットの有効期限までの日数。 | 対象となるクレジットを有効期限前に使用するか、PoC を完全に完了するためにクレジットの有効期限延長が必要な場合は [Zilliz sales](http://zilliz.com/contact-sales) に連絡してください。 |
-| Remaining Credits ($) | 残りのクレジット残高。 | クレジットを使い切る前に、別の支払い方法を追加または設定してください。PoC 用の追加クレジットについては、[Zilliz sales](http://zilliz.com/contact-sales) に連絡できます。 |
-
+| Credit Validity (days) | 無料クレジットの有効期限までの日数。 | 対象となるクレジットを有効期限前に使用するか、PoC を完全に完了するためにクレジットの有効期限を延長する必要がある場合は [Zilliz 営業担当](http://zilliz.com/contact-sales) にお問い合わせください。 |
+| Remaining Credits (&#36;) | 残りのクレジット残高。 | クレジットがなくなる前に、別の支払い方法を追加または設定してください。PoC 用の追加クレジットについては、[Zilliz 営業担当](http://zilliz.com/contact-sales) にお問い合わせいただけます。 |

@@ -140,13 +140,13 @@ Marketplace の価格は、クラウドプロバイダー、リージョン、�
 
 支払いおよび請求設定は組織レベルで管理されます。請求情報を表示または更新するには、必要な組織レベルの権限が必要です。
 
-| **Role** | **Billing Permissions** |
+| **ロール** | **請求権限** |
 | --- | --- |
 | Organization Owner | 支払い方法、請求プロファイル、Marketplace subscription、請求書、請求アラートを管理できます。 |
 | Organization Billing Admin | 支払い方法、請求プロファイル、Marketplace subscription、請求書、請求アラートを管理できます。 |
 | Other Organization Roles | 請求情報にはアクセスできません。請求設定を表示または更新するには、Organization Owner または Organization Billing Admin に連絡してください。 |
 
-詳細については、[Manage Organization Users](./organization-users) を参照してください。
+詳細については、[Manage Platform Users](./manage-platform-users) を参照してください。
 
 ## 請求サイクルと請求書\{#billing-cycle-and-invoices}
 
@@ -201,4 +201,3 @@ Marketplace でサブスクライブすることを選択した場合、請求�
 - [Separate Zilliz Cloud Billing on Microsoft Marketplace](./separate-zilliz-cloud-billing-on-azure-marketplace)
 
 - [Monitor Billing Alerts](./monitor-billing-alerts)
-
