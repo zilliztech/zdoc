@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`alphanumonly` フィルターは、非 ASCII 文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、基本的な英字と数字のみが関連するテキストを処理し、特殊文字や記号を除外する場合に役立ちます。 | BYOC"
+description: "`alphanumonly` フィルターは、非 ASCII 文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、基本的な文字と数字のみが関連し、特殊文字や記号を除外したいテキストの処理に役立ちます。 | BYOC"
 type: origin
 token: BZkiw99tkiDkLXktLhqcJtjKnmb
 sidebar_position: 3
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # Alphanumonly
 
-`alphanumonly` フィルターは、非 ASCII 文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、基本的な英字と数字のみが関連するテキストを処理し、特殊文字や記号を除外する場合に役立ちます。
+`alphanumonly` フィルターは、非 ASCII 文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、基本的な文字と数字のみが関連し、特殊文字や記号を除外したいテキストの処理に役立ちます。
 
 ## Configuration\{#configuration}
 
-`alphanumonly` フィルターは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
+`alphanumonly` フィルターは Zilliz Cloud に組み込まれています。これを使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -81,7 +81,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -90,17 +91,20 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 `alphanumonly` フィルターは tokenizer によって生成された用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) およびその関連ページを参照してください。
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより Zilliz Cloud は、そのフィールド内のテキストを指定された analyzer を使用して処理し、効率的な tokenization と filtering を実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は効率的なトークン化とフィルタリングのために、指定された analyzer を使用してそのフィールド内のテキストを処理できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## Examples\{#examples}
 
-analyzer の設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -145,7 +149,8 @@ analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"alphan
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -154,9 +159,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+</TabItem>
+</Tabs>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -254,7 +262,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -279,7 +288,10 @@ if (!status.IsOk()) {
 }
 ```
 
-### Expected output\{#expected-output}
+</TabItem>
+</Tabs>
+
+### 期待される出力\{#expected-output}
 
 ```python
 ['Milvus', '2', '0', 'Scale', 'AI', 'Vector']

@@ -1,5 +1,5 @@
 ---
-title: "Regex | BYOC"
+title: "Regex Analyzer Filter | BYOC"
 slug: /regex-filter
 sidebar_label: "Regex"
 beta: FALSE
@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`regex` フィルターは正規表現フィルターです。トークナイザーによって生成されたトークンのうち、指定した式に一致するものだけが保持され、それ以外は破棄されます。 | BYOC"
+description: "`regex` フィルターは正規表現フィルターです。tokenizer によって生成された token は、指定した式に一致する場合にのみ保持され、それ以外は破棄されます。 | BYOC"
 type: origin
 token: AwmtwHGQii1j9Wk1W04cNxvBnth
-sidebar_position: 11
+sidebar_position: 12
 displayed_sidebar: default
 
 ---
@@ -19,15 +19,21 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Regex
+# Regex Analyzer Filter
 
-`regex` フィルターは正規表現フィルターです。トークナイザーによって生成されたトークンのうち、指定した式に一致するものだけが保持され、それ以外は破棄されます。
+`regex` フィルターは正規表現フィルターです。tokenizer によって生成された token は、指定した式に一致する場合にのみ保持され、それ以外は破棄されます。
 
-## 設定\{#configuration}
+<Admonition type="info" icon="📘" title="Note">
 
-`regex` フィルターは Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター設定で `"type": "regex"` を指定し、あわせて `expr` パラメーターで目的の正規表現を指定します。
+このページでは、analyzer パイプラインにおける `regex` フィルターについて説明します。これは tokenizer によって生成された token をフィルタリングし、テキスト分析中に生成される term に影響します。`query`、`search`、または hybrid search で、`field =~ "pattern"` や `field !~ "pattern"` のような scalar 式を使って entity をフィルタリングする方法については、[Pattern Matching](./pattern-match) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+</Admonition>
+
+## Configuration\{#configuration}
+
+`regex` フィルターは、Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター設定で `"type": "regex"` を指定し、あわせて `expr` パラメーターで目的の正規表現を指定します。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -84,7 +90,8 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -95,23 +102,26 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`regex` フィルターは、以下の設定可能なパラメーターを受け付けます。
+</TabItem>
+</Tabs>
 
-| パラメーター | 説明 |
+`regex` フィルターでは、以下の設定可能なパラメーターを受け付けます。
+
+| Parameter | Description |
 | --- | --- |
-| `expr` | 各トークンに適用される正規表現パターンです。一致したトークンは保持され、一致しないものは除外されます。<br/>正規表現の構文の詳細については、[Syntax](https://docs.rs/regex/latest/regex/#syntax) を参照してください。 |
+| `expr` | 各 token に適用される正規表現パターンです。一致した token は保持され、一致しないものは除外されます。<br/>正規表現の構文の詳細については、[Syntax](https://docs.rs/regex/latest/regex/#syntax) を参照してください。 |
 
-`regex` フィルターはトークナイザーによって生成された語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。
+`regex` フィルターは tokenizer によって生成された term に対して動作するため、tokenizer と組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義するときにそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、指定されたアナライザーを使用して処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後は、collection schema を定義するときにそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを指定された analyzer を使って処理し、効率的な tokenization とフィルタリングを実行できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
 
-## 例\{#examples}
+## Examples\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### アナライザー設定\{#analyzer-configuration}
+### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -167,7 +177,8 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -178,9 +189,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
+</TabItem>
+</Tabs>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -274,7 +288,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -299,7 +314,10 @@ if (!status.IsOk()) {
 }
 ```
 
-### 期待される出力\{#expected-output}
+</TabItem>
+</Tabs>
+
+### Expected output\{#expected-output}
 
 ```python
 ['apple', 'banana']

@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`length` フィルターは、指定した長さの要件を満たさないトークンを削除し、テキスト処理中に保持するトークンの長さを制御できるようにします。 | BYOC"
+description: "`length` フィルターは、指定された長さの要件を満たさないトークンを削除し、テキスト処理中に保持されるトークンの長さを制御できるようにします。 | BYOC"
 type: origin
 token: MKdvwWBDRi5MMAkkn5PcD1x9nfh
-sidebar_position: 6
+sidebar_position: 7
 displayed_sidebar: default
 
 ---
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # Length
 
-`length` フィルターは、指定した長さの要件を満たさないトークンを削除し、テキスト処理中に保持するトークンの長さを制御できるようにします。
+`length` フィルターは、指定された長さの要件を満たさないトークンを削除し、テキスト処理中に保持されるトークンの長さを制御できるようにします。
 
 ## Configuration\{#configuration}
 
-`length` フィルターは Zilliz Cloud のカスタムフィルターであり、フィルター設定で `"type": "length"` を設定することで指定します。`analyzer_params` 内で辞書として設定し、長さの制限を定義できます。
+`length` フィルターは Zilliz Cloud のカスタムフィルターであり、フィルター設定で `"type": "length"` を設定することで指定します。長さの制限を定義するために、`analyzer_params` 内で辞書として設定できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -98,7 +98,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -109,23 +110,26 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`length` フィルターは、以下の設定可能なパラメータを受け付けます。
+</TabItem>
+</Tabs>
+
+`length` フィルターは、以下の設定可能なパラメーターを受け入れます。
 
 | Parameter | Description |
 | --- | --- |
 | `max` | トークンの最大長を設定します。この長さを超えるトークンは削除されます。 |
 
-`length` フィルターは tokenizer によって生成された term に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
+`length` フィルターは tokenizer によって生成された用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) および関連ページを参照してください。
 
-`analyzer_params` を定義した後、collection schema を定義する際に `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、効率的な tokenization と filtering のために指定された analyzer を使用して処理できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、collection スキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
 
 ## Examples\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+analyzer 設定を collection スキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -181,7 +185,8 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -192,9 +197,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -288,7 +296,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -312,6 +321,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ### Expected output\{#expected-output}
 

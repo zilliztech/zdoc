@@ -1,5 +1,75 @@
 {
   "files": {
+    "content/en/byoc/tutorials/deployment/deploy-byoc-aws/deploy-byoc-aws.md": {
+      "sourceHash": "51f9f9ed9e85a164aa9e4eb3b2c8a6f5b2574228c59382b2b67425c44868addb",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-aws/deploy-byoc-aws.md",
+      "translatedAt": "2026-08-04T05:11:22.054Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-gcp/deploy-byoc-gcp.md": {
+      "sourceHash": "1a23caa0bad2b91ad2866f5a9f9dda0e9f4bac0bf0967d221fc8f8b6fad2b8c0",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-gcp/deploy-byoc-gcp.md",
+      "translatedAt": "2026-08-04T05:11:35.102Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-i-aws.md": {
+      "sourceHash": "6dc23499f822845de0804d964062e4d33b1ebb079affa9349f2b50e8b1a8ab70",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-aws.md",
+      "translatedAt": "2026-08-04T05:14:04.159Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-i-azure.md": {
+      "sourceHash": "5c355a7924bddc34174c5e1372d26db8947eb357d6c638b23cd6574139e575ed",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-azure.md",
+      "translatedAt": "2026-08-04T05:15:04.702Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-i-gcp.md": {
+      "sourceHash": "c3b5e3ddcbeee9bbcbaf5cf9891eeb6ca7029137b5ce18b779ef186e5b13feac",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-gcp.md",
+      "translatedAt": "2026-08-04T05:13:39.255Z"
+    },
+    "content/en/byoc/tutorials/development/analyzer/analyzer-filters/alphanumonly-filter.md": {
+      "sourceHash": "d46dce579fb639290720074e66abf744c0265b52d6fd68bbf6fb9a58790f7282",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/alphanumonly-filter.md",
+      "translatedAt": "2026-08-04T05:12:22.808Z"
+    },
+    "content/en/byoc/tutorials/development/analyzer/analyzer-filters/ascii-folding-filter.md": {
+      "sourceHash": "a0a92f0d4c380344bd319b25350de93476d0c3d5cbaaea34f4d13e3069e9d25f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/ascii-folding-filter.md",
+      "translatedAt": "2026-08-04T05:13:06.182Z"
+    },
+    "content/en/byoc/tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter.md": {
+      "sourceHash": "753f7a8af3736a0c9e727b6831dffc7d0571a1c7c155d464ca7e949dca016b2c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter.md",
+      "translatedAt": "2026-08-04T05:15:39.374Z"
+    },
+    "content/en/byoc/tutorials/development/analyzer/analyzer-filters/cncharonly-filter.md": {
+      "sourceHash": "8f84f6e5d85ef4c3d907717e8a94508db59f40515ea679d29f95a4e435166f50",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/cncharonly-filter.md",
+      "translatedAt": "2026-08-04T05:14:21.744Z"
+    },
+    "content/en/byoc/tutorials/development/analyzer/analyzer-filters/decompounder-filter.md": {
+      "sourceHash": "36d9287936e411a27f58ef08795f2568b227c3f9d70ff52d81d8790a5f6eea5c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/decompounder-filter.md",
+      "translatedAt": "2026-08-04T05:14:58.620Z"
+    },
+    "content/en/byoc/tutorials/development/analyzer/analyzer-filters/length-filter.md": {
+      "sourceHash": "8ad17c13c804cac66f97a5ec0b0f85505b4425d75b3b5eacd75340c8685bfc02",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/length-filter.md",
+      "translatedAt": "2026-08-04T05:15:08.708Z"
+    },
+    "content/en/byoc/tutorials/development/analyzer/analyzer-filters/lowercase-filter.md": {
+      "sourceHash": "7dda45f203ab9fc84b202cac3cb2a9659a20093c9be38facd92dd261d3b4aa23",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/lowercase-filter.md",
+      "translatedAt": "2026-08-04T05:15:38.865Z"
+    },
+    "content/en/byoc/tutorials/development/analyzer/analyzer-filters/pinyin-filter.md": {
+      "sourceHash": "a13a32de9aae2de63dc215647604327fd1d0f79e341aa38d371b70fe68144296",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/pinyin-filter.md",
+      "translatedAt": "2026-08-04T05:15:40.910Z"
+    },
+    "content/en/byoc/tutorials/development/analyzer/analyzer-filters/regex-filter.md": {
+      "sourceHash": "50759c72274076fdf33125ef58822e2e5ca915f9f936a49adcabb2198cf4546f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/regex-filter.md",
+      "translatedAt": "2026-08-04T05:16:46.531Z"
+    },
     "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md": {
       "sourceHash": "5af0871b871450db30d897b6b405af00dd78868ae0bf61d24c2f520351c12c42",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md",
@@ -429,6 +499,86 @@
       "sourceHash": "b56fef0d65b35969ab228daff606ea881c0d8ba6ae19f4b40b3c9d14477dd2e1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
       "translatedAt": "2026-08-04T05:20:44.345Z"
+    },
+    "content/en/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
+      "sourceHash": "b87f13ce55d6fdc65674ba4400ae1df0d3d208be1ff6a36ec3e51d34bc1d10ad",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
+      "translatedAt": "2026-08-04T05:05:43.890Z"
+    },
+    "content/en/guides/tutorials/management/metrics-alerts/manage-notification-channels.md": {
+      "sourceHash": "78663d619ef93a525fcd89b738a4a0504b192b9d1f7273ae35007d20876f1c24",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/manage-notification-channels.md",
+      "translatedAt": "2026-08-04T05:07:23.347Z"
+    },
+    "content/en/guides/tutorials/management/metrics-alerts/manage-organization-alerts.md": {
+      "sourceHash": "1b10776a496c77e7b8a2009b64574b0bb6800ee2fa7d9c8a6d5b3c9561bc7268",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/manage-organization-alerts.md",
+      "translatedAt": "2026-08-04T05:05:46.075Z"
+    },
+    "content/en/guides/tutorials/management/metrics-alerts/manage-project-alerts.md": {
+      "sourceHash": "766f15625a93bba644254376b8e07a86e2eaf92d649488e37ad12fe6940576ef",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/manage-project-alerts.md",
+      "translatedAt": "2026-08-04T05:05:17.719Z"
+    },
+    "content/en/guides/tutorials/management/metrics-alerts/metrics-alerts-reference.md": {
+      "sourceHash": "421b88460c9bc036e0afa1b78d63d9f857973ed8c5879a31abdec240a0436088",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
+      "translatedAt": "2026-08-04T05:08:48.049Z"
+    },
+    "content/en/guides/tutorials/management/metrics-alerts/observability-integrations/integrate-with-datadog.md": {
+      "sourceHash": "01f28e1e5b90fcecbc126af7da66dbc2415d5039b5b6546d70a3285575d74b72",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/observability-integrations/integrate-with-datadog.md",
+      "translatedAt": "2026-08-04T05:07:33.764Z"
+    },
+    "content/en/guides/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md": {
+      "sourceHash": "58609f98d7c0987a6c32bcc63addcf8bcabb08098591708aa0b10a9f5259f0d8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md",
+      "translatedAt": "2026-08-04T05:08:05.920Z"
+    },
+    "content/en/guides/tutorials/management/metrics-alerts/view-cluster-metric-charts.md": {
+      "sourceHash": "376616d833242320b952dd938e2143c8277ae3564696ddafc291dc45673cca0e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/view-cluster-metric-charts.md",
+      "translatedAt": "2026-08-04T05:08:32.860Z"
+    },
+    "content/en/guides/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md": {
+      "sourceHash": "bba775f26464b2fa0d3b7377009c35ff130072e8b7815042f520763bd04b07ce",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md",
+      "translatedAt": "2026-08-04T05:07:56.962Z"
+    },
+    "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/external-migration-basics.md": {
+      "sourceHash": "188bc84639fb74025da0a816cfcba0197bad14edd4b250d33a71b54ff453e739",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/external-migration-basics.md",
+      "translatedAt": "2026-08-04T05:11:24.817Z"
+    },
+    "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch.md": {
+      "sourceHash": "b5b2c7562f3db6e47054d08ec7214fba13546e242a4eab4016e6595648492a3b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch.md",
+      "translatedAt": "2026-08-04T05:08:37.398Z"
+    },
+    "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-opensearch.md": {
+      "sourceHash": "7d2a4352e9fc511621fef28f84b61c0003927fb045e179da31d2e6633ba754bf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-opensearch.md",
+      "translatedAt": "2026-08-04T05:09:23.839Z"
+    },
+    "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pgvector.md": {
+      "sourceHash": "e7d0d4de5733ad90d429712d17aebb6377aac17454c53fc3734e17ac6cd13476",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pgvector.md",
+      "translatedAt": "2026-08-04T05:09:20.676Z"
+    },
+    "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md": {
+      "sourceHash": "8762f3ad1a57d3004c028375c07c6cb3292e44c0a8b9e11169f0c51e12766f23",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md",
+      "translatedAt": "2026-08-04T05:09:29.234Z"
+    },
+    "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant.md": {
+      "sourceHash": "65f766b0227c413e220c71d94571d4a0d1d4182149acdfb2270f4764744ca355",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant.md",
+      "translatedAt": "2026-08-04T05:10:00.469Z"
+    },
+    "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md": {
+      "sourceHash": "e6aad26897a327fe3e36ef37bc78cc364478c9b0fe85bd7f6c70e500cf322b49",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md",
+      "translatedAt": "2026-08-04T05:09:59.517Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
       "sourceHash": "ce34b466ab773028c71b9180bb36440b1246c57f86bdc85f5d90ecafa81442da",
