@@ -25,35 +25,35 @@ import TabItem from '@theme/TabItem';
 
 ## 概要\{#overview}
 
-範囲検索リクエストを実行するとき、Zilliz Cloud は ANN Search の結果からクエリ vector に最も類似した vector を中心として使用し、Search リクエストで指定された **radius** を外側の円の半径、**range_filter** を内側の円の半径として、2 つの同心円を描きます。これら 2 つの同心円によって形成される環状領域内に類似度スコアが入るすべての vector が返されます。ここで、**range_filter** は **0** に設定することもでき、その場合は指定された類似度スコア（radius）内のすべての entity が返されます。
+Range Search リクエストを実行すると、Zilliz Cloud は ANN Search の結果からクエリ vector に最も類似した vector を中心として使用し、Search リクエストで指定された **radius** を外側の円の半径、**range_filter** を内側の円の半径として 2 つの同心円を描きます。これら 2 つの同心円によって形成される環状領域内に類似度スコアが入るすべての vector が返されます。ここで、**range_filter** は **0** に設定でき、これは指定した類似度スコア（radius）内のすべての entity が返されることを意味します。
 
 ![Sewjwp5DShFgKAbC1Mwcrr7enOD](https://zdoc-images.s3.us-west-2.amazonaws.com/Sewjwp5DShFgKAbC1Mwcrr7enOD.png)
 
-上の図が示すように、範囲検索リクエストには 2 つのパラメータ **radius** と **range_filter** が含まれます。範囲検索リクエストを受け取ると、Zilliz Cloud は以下を実行します。
+上の図は、範囲検索リクエストが **radius** と **range_filter** という 2 つのパラメータを持つことを示しています。範囲検索リクエストを受け取ると、Zilliz Cloud は次の処理を行います。
 
-- 指定された metric type（**COSINE**）を使用して、クエリ vector に最も類似したすべての vector embeddings を見つけます。
+- 指定された metric type（**COSINE**）を使用して、クエリ vector に最も類似したすべての vector 埋め込みを見つけます。
 
-- クエリ vector に対する **distances** または **scores** が **radius** および **range_filter** パラメータで指定された範囲内にある vector embeddings をフィルタリングします。
+- クエリ vector に対する **distance** または **score** が、**radius** と **range_filter** パラメータで指定された範囲内に入る vector 埋め込みをフィルタリングします。
 
-- フィルタリング後の中から **top-K** entity を返します。
+- フィルタリングされたものの中から **top-K** entity を返します。
 
 **radius** と **range_filter** の設定方法は、検索の metric type によって異なります。次の表は、異なる metric type でこれら 2 つのパラメータを設定する際の要件を示しています。
 
-| Metric Type | 意味 | radius と range_filter の設定要件 |
+| Metric Type | 記法 | radius と range_filter の設定要件 |
 | --- | --- | --- |
-| `L2` | L2 距離が小さいほど、類似度が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
-| `IP` | IP 距離が大きいほど、類似度が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
-| `COSINE` | COSINE 距離が大きいほど、類似度が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
-| `JACCARD` | Jaccard 距離が小さいほど、類似度が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
-| `HAMMING` | Hamming 距離が小さいほど、類似度が高いことを示します。 | 最も類似した vector embeddings を無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
+| `L2` | L2 distance が小さいほど、類似度が高くなります。 | 最も類似した vector 埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
+| `IP` | IP distance が大きいほど、類似度が高くなります。 | 最も類似した vector 埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
+| `COSINE` | COSINE distance が大きいほど、類似度が高くなります。 | 最も類似した vector 埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください |
+| `JACCARD` | Jaccard distance が小さいほど、類似度が高くなります。 | 最も類似した vector 埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
+| `HAMMING` | Hamming distance が小さいほど、類似度が高くなります。 | 最も類似した vector 埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください |
 
 ## 例\{#examples}
 
-このセクションでは、範囲検索の実行方法を示します。以下のコードスニペットの検索リクエストには metric type が含まれていないため、デフォルトの metric type **COSINE** が適用されます。この場合、**radius** の値が **range_filter** の値より小さくなるようにしてください。
+このセクションでは、範囲検索の実行方法を示します。以下のコードスニペット内の検索リクエストには metric type が含まれていないため、デフォルトの metric type である **COSINE** が適用されます。この場合、**radius** の値が **range_filter** の値より小さくなるようにしてください。
 
-以下のコードスニペットでは、`radius` を `0.4`、`range_filter` を `0.6` に設定し、クエリ vector に対する距離またはスコアが **0.4** から **0.6** の範囲にあるすべての entity を Zilliz Cloud が返すようにします。
+以下のコードスニペットでは、`radius` を `0.4`、`range_filter` を `0.6` に設定し、Zilliz Cloud がクエリ vector に対する距離またはスコアが **0.4** から **0.6** の範囲に入るすべての entity を返すようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -236,7 +236,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -274,8 +275,11 @@ for (auto& result : response.Results().Results()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 <Admonition type="info" icon="📘" title="注意">
 
-クエリ vector がすでに対象の collection に存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
+クエリ vector がすでに対象 collection に存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
 
 </Admonition>

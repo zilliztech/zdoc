@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud で利用可能な支払い方法、支払いの優先順位の仕組み、および請求書とサブスクリプションを管理する際の考慮事項について説明します。 | BYOC"
+description: "このガイドでは、Zilliz Cloud で利用可能な支払い方法、支払いの優先順位の仕組み、請求書およびサブスクリプションを管理する際の考慮事項について説明します。 | BYOC"
 type: origin
 token: Y6Qqw4a3XiWPlCkQYMqcLEORnAU
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -20,11 +20,11 @@ import Admonition from '@theme/Admonition';
 
 # 支払いと請求の概要
 
-このガイドでは、Zilliz Cloud で利用可能な支払い方法、支払いの優先順位の仕組み、および請求書とサブスクリプションを管理する際の考慮事項について説明します。
+このガイドでは、Zilliz Cloud で利用可能な支払い方法、支払いの優先順位の仕組み、請求書およびサブスクリプションを管理する際の考慮事項について説明します。
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" icon="📘" title="📘 注">
 
-支払いおよび請求設定を管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
+支払いと請求の設定を管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 
 </Admonition>
 
@@ -41,19 +41,19 @@ import Admonition from '@theme/Admonition';
    </tr>
    <tr>
      <td colspan="2"><p>Credits</p></td>
-     <td><p>Credits は、Zilliz Cloud に登録したとき、または対象となる Zilliz Cloud のプログラムやイベントに参加したときに付与されます。</p><p>Credits は、Zilliz Cloud の利用料金に充当できます。</p></td>
+     <td><p>Credits は、Zilliz Cloud に登録したとき、または対象となる Zilliz Cloud のプログラムやイベントに参加したときに付与されます。 </p><p>Credits は、Zilliz Cloud の利用料金の支払いに使用できます。</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
      <td colspan="2"><p>クレジットカード</p></td>
-     <td><p>Zilliz Cloud の利用状況に基づいてクレジットカードに請求されます。請求書は毎月作成されます。</p></td>
+     <td><p>Zilliz Cloud の利用状況に基づいてクレジットカードに請求されます。請求書は毎月発行されます。</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
      <td colspan="2"><p>Advance Pay</p></td>
-     <td><p>Zilliz Cloud サービスのために資金を前払いします。利用料金は Advance Pay 残高から差し引かれます。</p></td>
+     <td><p>Zilliz Cloud サービスの料金を事前に支払います。利用料金は Advance Pay 残高から差し引かれます。</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
@@ -100,13 +100,13 @@ import Admonition from '@theme/Admonition';
    </tr>
 </table>
 
-Credits と Advance Pay は、クレジットカードまたは Marketplace サブスクリプションのいずれかと併用できます。ただし、クレジットカードと Marketplace サブスクリプションを同時に使用することはできません。
+Credits と Advance Pay は、クレジットカードまたは Marketplace サブスクリプションのいずれかと組み合わせて使用できます。ただし、クレジットカードと Marketplace サブスクリプションを同時に使用することはできません。
 
-Marketplace サブスクリプションは支払い方法にすぎません。プロジェクト、クラスター、および関連リソースを作成するクラウドプロバイダーを決定するものではありません。たとえば、AWS Marketplace 経由でサブスクライブした後でも、選択したクラウドプロバイダーとリージョンがサポートされている限り、AWS、Google Cloud、または Azure 上で Zilliz Cloud のプロジェクトとクラスターを引き続き作成できます。
+Marketplace サブスクリプションは支払い方法にすぎません。これは、プロジェクト、クラスター、および関連リソースを作成するクラウドプロバイダーを決定するものではありません。たとえば、AWS Marketplace 経由でサブスクライブした後でも、選択したクラウドプロバイダーとリージョンがサポートされている限り、AWS、Google Cloud、または Azure 上で Zilliz Cloud のプロジェクトやクラスターを引き続き作成できます。
 
 ## 支払い方法の優先順位\{#payment-method-priority}
 
-複数の支払い方法または残高が利用可能な場合、Zilliz Cloud は次の順序でそれらを適用します。
+複数の支払い方法または残高が利用可能な場合、Zilliz Cloud は次の順序で適用します。
 
 1. Credits
 
@@ -114,9 +114,9 @@ Marketplace サブスクリプションは支払い方法にすぎません。�
 
 1. クレジットカードまたは Marketplace サブスクリプション
 
-たとえば、未払いの請求額が &#36;500、Credits が &#36;100、Advance Pay 残高が &#36;200、さらに AWS Marketplace サブスクリプションがリンクされているとします。
+たとえば、未払い請求額が &#36;500、Credits が &#36;100、Advance Pay 残高が &#36;200、そして AWS Marketplace サブスクリプションがリンクされているとします。
 
-- Zilliz Cloud はまず &#36;100 の Credits を適用し、未払い額を &#36;400 に減らします。
+- Zilliz Cloud は最初に &#36;100 の Credits を適用し、未払い額を &#36;400 に減らします。
 
 - 次に Zilliz Cloud は &#36;200 の Advance Pay 残高を適用し、未払い額を &#36;200 に減らします。
 
@@ -132,19 +132,19 @@ Marketplace サブスクリプションは支払い方法にすぎません。�
 
 - [Microsoft Marketplace](./subscribe-on-azure-marketplace)
 
-Marketplace サブスクリプションを使用すると、組織はクラウド Marketplace の請求アカウントを通じて Zilliz Cloud の料金の請求を受け取れます。これは、財務チームまたは調達チームが、既存のクラウド請求書に Zilliz Cloud の利用料金を含めたい場合に便利です。
+Marketplace サブスクリプションを利用すると、組織はクラウド Marketplace の請求アカウントを通じて Zilliz Cloud の請求を受けることができます。これは、財務チームや調達チームが、Zilliz Cloud の利用料金を既存のクラウド請求書に含めたい場合に便利です。
 
 詳細な価格については、[営業にお問い合わせください](http://zilliz.com/contact-sales)。
 
 ## ロールと権限\{#roles-and-permissions}
 
-支払いおよび請求設定は組織レベルで管理されます。請求情報を表示または更新するには、必要な組織レベルの権限を持っている必要があります。
+支払いと請求の設定は組織レベルで管理されます。請求情報を表示または更新するには、必要な組織レベルの権限が必要です。
 
 | **ロール** | **請求権限** |
 | --- | --- |
 | Organization Owner | 支払い方法、請求プロファイル、Marketplace サブスクリプション、請求書、および請求アラートを管理できます。 |
 | Organization Billing Admin | 支払い方法、請求プロファイル、Marketplace サブスクリプション、請求書、および請求アラートを管理できます。 |
-| その他の組織ロール | 請求情報へのアクセス権はありません。請求設定を表示または更新するには、Organization Owner または Organization Billing Admin に連絡してください。 |
+| その他の組織ロール | 請求情報にはアクセスできません。請求設定を表示または更新するには、Organization Owner または Organization Billing Admin に連絡してください。 |
 
 詳細については、[組織ユーザーの管理](./organization-users) を参照してください。
 

@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "類似検索を実行する際は、クエリ vector が対象 collection にすでに存在している場合でも、常に1つ以上のクエリ vector を指定する必要があります。検索前に vector を取得するのを避けるために、代わりに主キーを使用できます。 | BYOC"
+description: "類似検索を行う際は、クエリベクトルが対象 collection にすでに存在している場合でも、常に1つ以上のクエリベクトルを指定する必要があります。検索前にベクトルを取得することを避けるために、代わりに主キーを使用できます。 | BYOC"
 type: origin
 token: U7OvwHP3AiUWlckzIEKclLQQnPr
-sidebar_position: 7
+sidebar_position: 8
 displayed_sidebar: default
 
 ---
@@ -21,43 +21,43 @@ import TabItem from '@theme/TabItem';
 
 # Primary-Key Search
 
-類似検索を実行する際は、クエリ vector が対象 collection にすでに存在している場合でも、常に1つ以上のクエリ vector を指定する必要があります。検索前に vector を取得するのを避けるために、代わりに主キーを使用できます。
+類似検索を行う際は、クエリベクトルが対象 collection にすでに存在している場合でも、常に1つ以上のクエリベクトルを指定する必要があります。検索前にベクトルを取得することを避けるために、代わりに主キーを使用できます。
 
 ## 概要\{#overview}
 
-Eコマースプラットフォームでは、ユーザーはキーワードを入力して、それに一致する商品を取得できます。ユーザーが商品詳細ページを表示すると、比較したいユーザー向けに、ページ下部に類似商品の一覧も表示されます。
+eコマースプラットフォームでは、ユーザーはキーワードを入力して、それに一致する商品を取得できます。ユーザーが商品詳細ページを表示すると、プラットフォームは比較したいユーザー向けに、ページ下部に類似商品のリストも表示します。
 
-レコメンデーションは、キーワードまたは現在の商品との類似度に基づいて並べ替えられます。これを実現するために、プラットフォーム開発者は実際の類似検索の前に、キーワードまたは現在の商品の vector 表現を Milvus から取得する必要があります。これにより、プラットフォームと Milvus 間のラウンドトリップが増加し、多数の高次元 float がネットワークを介して送信されることになります。
+レコメンデーションは、キーワードまたは現在の商品との類似度に基づいて並べ替えられます。これを実現するには、プラットフォーム開発者は実際の類似検索の前に、キーワードまたは現在の商品のベクトル表現を Milvus から取得する必要があります。これにより、プラットフォームと Milvus 間のラウンドトリップが増え、多数の高次元浮動小数点数がネットワーク経由で送信されることになります。
 
-アプリケーションと Milvus 間のやり取りのロジックを簡素化し、ラウンドトリップ数を減らし、ネットワーク経由で大量の高次元浮動小数点値を送信するのを避けるために、主キー検索の使用を検討してください。
+アプリケーションと Milvus 間のやり取りのロジックを簡素化し、ラウンドトリップの回数を減らし、ネットワーク経由で大量の高次元浮動小数点値を送信することを避けるには、主キー検索の使用を検討してください。
 
-主キー検索では、クエリ vector を指定する必要はありません。代わりに、クエリ vector を含むエンティティの主キー（`ids`）を指定します。 
+主キー検索では、クエリベクトルを指定する必要はありません。代わりに、クエリベクトルを含むエンティティの主キー（`ids`）を指定します。 
 
 ## 制限事項\{#limits-and-restrictions}
 
-- 主キーを使用した検索は、BM25 関数のように VarChar フィールドから派生した sparse vector フィールドを除き、すべての vector データ型に適用されます。
+- 主キーを使用する検索は、BM25 関数のように VarChar フィールドから導出された sparse vector フィールドを除き、すべての vector データ型に適用されます。
 
-- フィルタ付き検索、範囲検索、グループ化検索では、必要に応じてページネーションを有効にしたうえで、クエリ vector の代わりに主キーを使用できます。ただし、この機能は hybrid search と search iterator には適用されません。
+- クエリベクトルの代わりに主キーを、フィルタ付き検索、範囲検索、グループ化検索で使用でき、必要に応じてページネーションも有効にできます。ただし、この機能はハイブリッド検索および検索イテレーターには適用されません。
 
-- embedding list を含む類似検索では、引き続きクエリ vector を取得し、それらを embedding list にまとめて、検索を実行する必要があります。
+- embedding list を含む類似検索では、引き続きクエリベクトルを取得し、それらを embedding list にまとめてから検索を実行する必要があります。
 
-- 存在しない主キーや形式が正しくない主キーについては、Milvus がエラーを返します。
+- 存在しない主キー、または形式が正しくない主キーについては、Milvus はエラーを返します。
 
-- 主キーとクエリ vector は相互排他的です。両方を指定した場合もエラーになります。
+- 主キーとクエリベクトルは相互排他的です。両方を指定した場合もエラーになります。
 
 ## 例\{#examples}
 
-以下の例では、指定されたすべての Int64 ID が対象 collection に存在していることを前提としています。
+以下の例では、指定されたすべての Int64 ID が対象 collection に存在することを前提としています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注意">
 
-主キーはフィルタリングには使用されず、vector の取得にのみ使用されます。
+主キーはフィルタリングには使用されず、ベクトル取得にのみ使用されます。
 
 </Admonition>
 
-### 例1: 基本的な主キー検索\{#example-1-basic-primary-key-search}
+### 例 1: 基本的な主キー検索\{#example-1-basic-primary-key-search}
 
-基本的な主キー検索を実行するには、クエリ vector を主キーに置き換えるだけです。
+基本的な主キー検索を行うには、クエリベクトルを主キーに置き換えるだけです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -152,9 +152,9 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 </TabItem>
 </Tabs>
 
-### 例2: 主キーを使用したフィルタ付き検索\{#example-2-filtered-search-using-primary-keys}
+### 例 2: 主キーを使用したフィルタ付き検索\{#example-2-filtered-search-using-primary-keys}
 
-以下の例では、`color` と `likes` が対象 collection 内で schema 定義された2つのフィールドであることを前提としています。 
+以下の例では、`color` と `likes` が対象 collection 内でスキーマ定義された2つのフィールドであることを前提としています。 
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -232,7 +232,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 </TabItem>
 </Tabs>
 
-### 例3: 主キーを使用した範囲検索\{#example-3-range-search-using-primary-keys}
+### 例 3: 主キーを使用した範囲検索\{#example-3-range-search-using-primary-keys}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -323,9 +323,9 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 </TabItem>
 </Tabs>
 
-### 例4: 主キーを使用したグループ化検索\{#example-4-grouping-search-using-primary-keys}
+### 例 4: 主キーを使用したグループ化検索\{#example-4-grouping-search-using-primary-keys}
 
-以下の例では、`docId` が対象 collection 内で schema 定義されたフィールドであることを前提としています。
+以下の例では、`docId` が対象 collection 内でスキーマ定義されたフィールドであることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

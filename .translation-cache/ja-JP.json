@@ -325,10 +325,50 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/filtering/struct-array-filtering.md",
       "translatedAt": "2026-08-04T05:25:16.938Z"
     },
+    "content/en/byoc/tutorials/development/search-and-query/full-text-search.md": {
+      "sourceHash": "5517c43560a967be043c2dbf1132a8d61da6b1bc9f86ce0d3e45565a44369d68",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/full-text-search.md",
+      "translatedAt": "2026-08-04T05:06:54.166Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/get-and-scalar-query.md": {
+      "sourceHash": "d31f1bda18d1998a07f87cd33cc445fc8844e23dfc642a7db570351117062680",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/get-and-scalar-query.md",
+      "translatedAt": "2026-08-04T05:08:38.130Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/grouping-search.md": {
+      "sourceHash": "dda9e7740ccd6e5a473ab47409ce60514c20b4b3332462d506ebc659493ec93c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/grouping-search.md",
+      "translatedAt": "2026-08-04T05:07:52.976Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/hybrid-search.md": {
+      "sourceHash": "87cc5c76503dc344e2f6c64502fb529202853e13957184db637a97975051d7ee",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/hybrid-search.md",
+      "translatedAt": "2026-08-04T05:07:54.029Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/phrase-match.md": {
+      "sourceHash": "5f6ff60e25b6219e60c7cd5f2931eadf67c42a6ea9ddcd1210fb0ff69a1dab81",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/phrase-match.md",
+      "translatedAt": "2026-08-04T05:12:50.937Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/primary-key-search.md": {
+      "sourceHash": "321a76f90b73cc456f792c576c5471473accbf7471ca56a54b2ee6ae00e52226",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/primary-key-search.md",
+      "translatedAt": "2026-08-04T05:09:01.298Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/range-search.md": {
+      "sourceHash": "0694aade1a8bba183da26d14f7623374f16ee075571bbab04d9883d21bdf47c8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/range-search.md",
+      "translatedAt": "2026-08-04T05:08:57.075Z"
+    },
     "content/en/byoc/tutorials/development/search-and-query/search-aggregation.md": {
       "sourceHash": "6cc1a43b5f5350b860b83ebb2e21b50de75ca452a61a0a645ecb052827811604",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/search-aggregation.md",
       "translatedAt": "2026-08-04T05:18:30.203Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/search-metrics-explained.md": {
+      "sourceHash": "804b59ac4f654486f006401a002410a44919890ca65c70aa38b32bd6079bb939",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/search-metrics-explained.md",
+      "translatedAt": "2026-08-04T05:11:57.520Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/single-vector-search.md": {
       "sourceHash": "a2d3b93594d71fcc5fd8a7472dc68bd2c92ad59dfa4052c67dc8a428265e885b",
@@ -365,6 +405,36 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali.md",
       "translatedAt": "2026-08-04T05:07:07.590Z"
     },
+    "content/en/byoc/tutorials/development/search-and-query/text-highlighter.md": {
+      "sourceHash": "051052c72921258b1ad48343f88418822d448628051e196457c7c36a50fd4711",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/text-highlighter.md",
+      "translatedAt": "2026-08-04T05:10:47.627Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/text-match.md": {
+      "sourceHash": "0df177740987d97faf1f91324a146e0beec3ef419b169159d82018936cd18fe1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/text-match.md",
+      "translatedAt": "2026-08-04T05:11:30.421Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/use-mmap.md": {
+      "sourceHash": "11b31ca3325b27d4abb97ec2112794b340102e70b40cd240cdda99beb02adb5d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/use-mmap.md",
+      "translatedAt": "2026-08-04T05:13:52.472Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/use-partition-key.md": {
+      "sourceHash": "6e51fd5ce2b420f87db10b470ef8ce26586cc96e4a3ad5e8f8ea7847dbd76020",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/use-partition-key.md",
+      "translatedAt": "2026-08-04T05:13:17.312Z"
+    },
+    "content/en/byoc/tutorials/development/search-and-query/with-iterators.md": {
+      "sourceHash": "51d9cd6af57a2a6e33b353b6021922a4de1d060f6e854b51074817f3d8405d68",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/with-iterators.md",
+      "translatedAt": "2026-08-04T05:12:47.661Z"
+    },
+    "content/en/byoc/tutorials/development/vector-index/tune-index-build-level.md": {
+      "sourceHash": "f148cfcf97bd47c58406e0b34c577659f07ca4ed3e2f530153e9166bd4e73210",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/vector-index/tune-index-build-level.md",
+      "translatedAt": "2026-08-04T05:13:40.703Z"
+    },
     "content/en/byoc/tutorials/development/volume/external-volume.md": {
       "sourceHash": "5cfa20b0ed821269a773a028ecaffa62cf2f2ec4a438ff3f6ebbb2a149922976",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/volume/external-volume.md",
@@ -375,10 +445,85 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md",
       "translatedAt": "2026-08-04T05:07:48.251Z"
     },
+    "content/en/byoc/tutorials/get-started/faqs/faq-cluster.md": {
+      "sourceHash": "d772e4bc91213d0d40a60c4a7cd13a835967c6400af795acfb3818a2569e7cdb",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-cluster.md",
+      "translatedAt": "2026-08-04T05:14:25.781Z"
+    },
+    "content/en/byoc/tutorials/get-started/faqs/faq-collection.md": {
+      "sourceHash": "32d0fb270f41aa6cbf4fae21dad075f0e3a37a901fd581ef0306e6ec28c53699",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-collection.md",
+      "translatedAt": "2026-08-04T05:14:04.526Z"
+    },
+    "content/en/byoc/tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace.md": {
+      "sourceHash": "e78363d906c9f4cf4f82b3fb2cc5bb7676e67cfeb1a87a9755ada54d50a35977",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace.md",
+      "translatedAt": "2026-08-04T05:16:18.204Z"
+    },
+    "content/en/byoc/tutorials/management/backup-and-restore/schedule-automatic-backups.md": {
+      "sourceHash": "0789431f6ed9192ab31b10353de56a75decdfbd621f6b5440cba9208b192862c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/backup-and-restore/schedule-automatic-backups.md",
+      "translatedAt": "2026-08-04T05:15:48.248Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/payment-billing.md": {
+      "sourceHash": "01a5d8c21cd092ef3a673ae2dc7920bc55a9c467168b4647f128c4e305fe9dcb",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/payment-billing.md",
+      "translatedAt": "2026-08-04T05:15:35.593Z"
+    },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md": {
       "sourceHash": "c3b6fb10b2bbb8f04ed08eb00e4dac5dd6c2cf779a2dcd5e01de685545d69611",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md",
       "translatedAt": "2026-08-04T05:06:21.543Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md": {
+      "sourceHash": "7725e8646394bc30b5786873a982411db7ca8d9c4a0c8e3079fcf04f5f10163c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md",
+      "translatedAt": "2026-08-04T05:16:04.578Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md": {
+      "sourceHash": "a240111174b4fd43b8ad2e78ba400777f6768c81f5ee40e2fbc9eb1d92509904",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md",
+      "translatedAt": "2026-08-04T05:16:33.028Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md": {
+      "sourceHash": "9af217d2d1f6114505c56f7fc6afcd54f1c804fdc8fd7df4519c3a1f02d95141",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md",
+      "translatedAt": "2026-08-04T05:17:00.363Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md": {
+      "sourceHash": "7445f3e5c707206fa5ab5ae839175748f3f8afc1eabcc0ee9017aef9101e9835",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md",
+      "translatedAt": "2026-08-04T05:17:51.192Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card.md": {
+      "sourceHash": "51a6ff28665a4f30b3f5e032ad7f5d74e133c748e1834e5fbbff83462bd42f36",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card.md",
+      "translatedAt": "2026-08-04T05:16:47.070Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/understand-byoc-billing.md": {
+      "sourceHash": "af1c4593cdb1782bc584b58d4e193fc95a5a950cbf24e93b96fca5c44e5b7291",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/understand-byoc-billing.md",
+      "translatedAt": "2026-08-04T05:18:22.239Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/update-billing-profile.md": {
+      "sourceHash": "122b607392d64633af4bb562236dc3ebaf2133039604e3e31592d441f3d5f2e3",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/update-billing-profile.md",
+      "translatedAt": "2026-08-04T05:17:28.541Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md": {
+      "sourceHash": "2c206c7ff5c53acc8631dd2506a26cbbf75f6e24201f4825d6bf6b3f0bac2da6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md",
+      "translatedAt": "2026-08-04T05:18:24.167Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
+      "sourceHash": "427f4046ec1458ff63b8d6bb18e85a3d5cad0c247e57bea3a46f32a16503853a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
+      "translatedAt": "2026-08-04T05:18:13.838Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md": {
+      "sourceHash": "6686ec7a70ee712d21ecf8e2924308d8f6ab6a5eabcd7246c1817998e6025d74",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
+      "translatedAt": "2026-08-04T05:19:18.278Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
       "sourceHash": "3c63ee0d6c962db7acb89e1ea81f371c836cac9fed0d8e30d570bffc85fdacbd",
@@ -414,6 +559,11 @@
       "sourceHash": "6c1b214fe7b04ba498a85e17779a0a080cdc5b2137f87e36568ad0caf9d30f80",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/switchover-and-failover.md",
       "translatedAt": "2026-08-04T05:12:32.329Z"
+    },
+    "content/en/byoc/tutorials/management/cost-management/analyze-cost.md": {
+      "sourceHash": "b51a9dd526284807bab1d7c5e04acc1711462d85a6589007093ed733d45c8cfc",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/cost-management/analyze-cost.md",
+      "translatedAt": "2026-08-04T05:19:40.572Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/manage-notification-channels.md": {
       "sourceHash": "64242356dc5e4c403eb0d577e9b76494641251aad81a51b67a46a93aade37f3d",

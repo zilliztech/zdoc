@@ -1,5 +1,5 @@
 ---
-title: "テキストマッチ | BYOC"
+title: "Text Match | BYOC"
 slug: /text-match
 sidebar_label: "テキストマッチ"
 beta: FALSE
@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud のテキストマッチは、特定の用語に基づいて正確にドキュメントを取得できるようにします。この機能は主に、特定の条件を満たすためのフィルタ付き検索に使用され、scalar filtering を組み込んでクエリ結果を絞り込むことができます。これにより、scalar 条件を満たす vector 内で類似検索を実行できます。 | BYOC"
+description: "Zilliz Cloud のテキストマッチでは、特定の用語に基づいて正確にドキュメントを取得できます。この機能は主に、特定の条件を満たすためのフィルタ付き検索に使用され、クエリ結果を絞り込むために scalar フィルタリングを組み合わせることができます。これにより、scalar 条件を満たす vector 内で類似検索を実行できます。 | BYOC"
 type: origin
 token: RQQKwqhZUiubFzkHo4WcR62Gnvh
-sidebar_position: 12
+sidebar_position: 13
 displayed_sidebar: default
 
 ---
@@ -19,37 +19,37 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# テキストマッチ
+# Text Match
 
-Zilliz Cloud のテキストマッチは、特定の用語に基づいて正確にドキュメントを取得できるようにします。この機能は主に、特定の条件を満たすためのフィルタ付き検索に使用され、scalar filtering を組み込んでクエリ結果を絞り込むことができます。これにより、scalar 条件を満たす vector 内で類似検索を実行できます。
+Zilliz Cloud のテキストマッチでは、特定の用語に基づいて正確にドキュメントを取得できます。この機能は主に、特定の条件を満たすためのフィルタ付き検索に使用され、クエリ結果を絞り込むために scalar フィルタリングを組み合わせることができます。これにより、scalar 条件を満たす vector 内で類似検索を実行できます。
 
 <Admonition type="info" icon="📘" title="注意">
 
-テキストマッチは、クエリ用語の正確な出現箇所を見つけることに重点を置いており、一致したドキュメントの関連性はスコアリングしません。クエリ用語の意味や重要度に基づいて最も関連性の高いドキュメントを取得したい場合は、[Full Text Search](./full-text-search) の使用をおすすめします。
+テキストマッチは、一致したドキュメントの関連性をスコアリングすることなく、クエリ用語の完全一致箇所を見つけることに重点を置いています。クエリ用語の意味や重要度に基づいて、最も関連性の高いドキュメントを取得したい場合は、[Full Text Search](./full-text-search) の使用をおすすめします。
 
 </Admonition>
 
-Zilliz Cloud は、プログラムから、または Web コンソール経由でテキストマッチを有効にすることをサポートしています。このページでは、プログラムからテキストマッチを有効にする方法に焦点を当てます。Web コンソールでの操作の詳細については、[Manage Collections (Console)](./manage-collections-console#text-match) を参照してください。
+Zilliz Cloud では、プログラムまたは Web コンソール経由でテキストマッチを有効にできます。このページでは、プログラムでテキストマッチを有効にする方法に焦点を当てています。Web コンソールでの操作の詳細については、[Manage Collections (Console)](./manage-collections-console#text-match) を参照してください。
 
 ## Overview\{#overview}
 
-Zilliz Cloud は、基盤となる inverted index と用語ベースのテキスト検索を実現するために [Tantivy](https://github.com/quickwit-oss/tantivy) を統合しています。各テキストエントリについて、Zilliz Cloud は次の手順に従って index を作成します。
+Zilliz Cloud は、基盤となる inverted index と用語ベースのテキスト検索を実現するために [Tantivy](https://github.com/quickwit-oss/tantivy) を統合しています。各テキストエントリについて、Zilliz Cloud は以下の手順に従ってインデックス化を行います。
 
-1. [Analyzer](./analyzer-overview): analyzer は入力テキストを個々の単語、つまり token に分割し、必要に応じて filter を適用して処理します。これにより、Zilliz Cloud はこれらの token に基づいて index を構築できます。
+1. [Analyzer](./analyzer-overview): analyzer は入力テキストを個々の単語、すなわち token に分割し、必要に応じてフィルタを適用して処理します。これにより、Zilliz Cloud はこれらの token に基づく index を構築できます。
 
-1. [Indexing](./indexes): テキスト分析の後、Zilliz Cloud は各一意の token を、その token を含むドキュメントにマッピングする inverted index を作成します。
+1. [Indexing](./indexes): テキスト解析の後、Zilliz Cloud は各一意の token を、その token を含むドキュメントに対応付ける inverted index を作成します。
 
-ユーザーがテキストマッチを実行すると、inverted index を使用して、その用語を含むすべてのドキュメントをすばやく取得します。これは各ドキュメントを個別に走査するよりも大幅に高速です。
+ユーザーがテキストマッチを実行すると、inverted index を使用して、その用語を含むすべてのドキュメントをすばやく取得します。これは各ドキュメントを個別に走査するよりもはるかに高速です。
 
 ![N43zw7HuGhmCHRbYDDmctO1bnkd](https://zdoc-images.s3.us-west-2.amazonaws.com/N43zw7HuGhmCHRbYDDmctO1bnkd.png)
 
-## テキストマッチを有効にする\{#enable-text-match}
+## Enable text match\{#enable-text-match}
 
-テキストマッチは [`VARCHAR`](./use-string-field) field type で動作します。これは本質的に Zilliz Cloud における文字列データ型です。テキストマッチを有効にするには、collection schema を定義する際に `enable_analyzer` と `enable_match` の両方を `True` に設定し、その後必要に応じてテキスト分析用の [analyzer](./analyzer-overview) を設定します。
+テキストマッチは [`VARCHAR`](./use-string-field) field type で動作します。これは Zilliz Cloud における文字列データ型です。テキストマッチを有効にするには、collection schema を定義する際に `enable_analyzer` と `enable_match` の両方を `True` に設定し、その後必要に応じてテキスト解析用の [analyzer](./analyzer-overview) を構成します。
 
-### `enable_analyzer` と `enable_match` を設定する\{#set-enableanalyzer-and-enablematch}
+### Set `enable_analyzer` and `enable_match`\{#set-enableanalyzer-and-enablematch}
 
-特定の `VARCHAR` field でテキストマッチを有効にするには、field schema を定義する際に `enable_analyzer` と `enable_match` の両方のパラメータを `True` に設定します。これにより、Zilliz Cloud は指定された field のテキストを token 化し、inverted index を作成するよう指示され、高速かつ効率的なテキストマッチが可能になります。
+特定の `VARCHAR` field に対してテキストマッチを有効にするには、field schema を定義する際に `enable_analyzer` と `enable_match` の両方のパラメータを `True` に設定します。これにより、Zilliz Cloud はテキストを token 化し、指定された field に対して inverted index を作成するようになり、高速かつ効率的なテキストマッチが可能になります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -210,13 +210,13 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 </TabItem>
 </Tabs>
 
-### 任意: analyzer を設定する\{#optional-configure-an-analyzer}
+### Optional: Configure an analyzer\{#optional-configure-an-analyzer}
 
-キーワードマッチングの性能と精度は、選択した analyzer に依存します。異なる analyzer はさまざまな言語やテキスト構造向けに設計されているため、適切なものを選ぶことで、特定のユースケースにおける検索結果に大きな影響を与える可能性があります。
+キーワードマッチングの性能と精度は、選択した analyzer に依存します。異なる analyzer はさまざまな言語やテキスト構造に合わせて設計されているため、適切なものを選ぶことで、特定のユースケースにおける検索結果に大きな影響を与える可能性があります。
 
-デフォルトでは、Zilliz Cloud は `standard` analyzer を使用します。これは空白と句読点に基づいてテキストを token 化し、40 文字を超える token を削除し、テキストを小文字に変換します。このデフォルト設定を適用するために追加のパラメータは必要ありません。詳細については、[Standard](./standard-analyzer) を参照してください。
+デフォルトでは、Zilliz Cloud は `standard` analyzer を使用します。これは空白と句読点に基づいてテキストを token 化し、40 文字を超える token を削除し、テキストを小文字に変換します。このデフォルト設定を適用するために追加のパラメータは不要です。詳細については、[Standard](./standard-analyzer) を参照してください。
 
-別の analyzer が必要な場合は、`analyzer_params` パラメータを使用して設定できます。たとえば、英語テキストの処理に `english` analyzer を適用するには、次のようにします。
+別の analyzer が必要な場合は、`analyzer_params` パラメータを使用して構成できます。たとえば、英語テキストの処理に `english` analyzer を適用するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -347,15 +347,15 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 </TabItem>
 </Tabs>
 
-Zilliz Cloud は、さまざまな言語やシナリオに適した他の analyzer も提供しています。詳細については、[Analyzer Overview](./analyzer-overview) を参照してください。
+Zilliz Cloud は、異なる言語やシナリオに適したさまざまな analyzer も提供しています。詳細については、[Analyzer Overview](./analyzer-overview) を参照してください。
 
-## テキストマッチを使用する\{#use-text-match}
+## Use text match\{#use-text-match}
 
 collection schema 内の VARCHAR field に対してテキストマッチを有効にすると、`TEXT_MATCH` 式を使用してテキストマッチを実行できます。
 
-### TEXT_MATCH 式の構文\{#textmatch-expression-syntax}
+### TEXT_MATCH expression syntax\{#textmatch-expression-syntax}
 
-`TEXT_MATCH` 式は、検索対象の field と検索する用語を指定するために使用されます。その構文は次のとおりです。
+`TEXT_MATCH` 式は、検索対象の field と検索する用語を指定するために使用されます。構文は次のとおりです。
 
 ```python
 TEXT_MATCH(field_name, text)
@@ -363,9 +363,9 @@ TEXT_MATCH(field_name, text)
 
 - `field_name`: 検索対象の VARCHAR field の名前。
 
-- `text`: 検索する用語。複数の用語は、言語や設定された analyzer に応じて、空白またはその他の適切な区切り文字で区切ることができます。
+- `text`: 検索する用語。複数の用語は、言語や構成された analyzer に応じて、スペースまたはその他の適切な区切り文字で区切ることができます。
 
-デフォルトでは、`TEXT_MATCH` は **OR** マッチングロジックを使用します。つまり、指定した用語のいずれかを含むドキュメントを返します。たとえば、`text` field 内で `machine` または `deep` という用語を含むドキュメントを検索するには、次の式を使用します。
+デフォルトでは、`TEXT_MATCH` は **OR** のマッチングロジックを使用します。つまり、指定した用語のいずれかを含むドキュメントを返します。たとえば、`text` field 内で `machine` または `deep` という用語を含むドキュメントを検索するには、次の式を使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -419,7 +419,7 @@ const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
 
 複数の `TEXT_MATCH` 式を論理演算子で組み合わせて、**AND** マッチングを実行することもできます。 
 
-- `text` field に `machine` と `deep` の両方を含むドキュメントを検索するには、次の式を使用します。
+- `text` field 内で `machine` と `deep` の両方を含むドキュメントを検索するには、次の式を使用します。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
     <TabItem value='python'>
@@ -471,7 +471,7 @@ const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
     </TabItem>
     </Tabs>
 
-- `text` field に `machine` と `learning` の両方を含み、かつ `deep` を含まないドキュメントを検索するには、次の式を使用します。
+- `text` field 内で `machine` と `learning` の両方を含み、`deep` は含まないドキュメントを検索するには、次の式を使用します。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
     <TabItem value='python'>
@@ -523,11 +523,11 @@ const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
     </TabItem>
     </Tabs>
 
-### テキストマッチを使った search\{#search-with-text-match}
+### Search with text match\{#search-with-text-match}
 
-テキストマッチは、vector 類似度 search と組み合わせて使用し、検索範囲を絞り込んで search のパフォーマンスを向上させることができます。vector 類似度 search の前にテキストマッチで collection をフィルタすることで、検索が必要なドキュメント数を減らし、クエリ時間を短縮できます。
+テキストマッチは、vector 類似検索と組み合わせて使用することで、検索範囲を絞り込み、検索性能を向上させることができます。vector 類似検索の前にテキストマッチで collection をフィルタリングすることで、検索対象となるドキュメント数を減らし、クエリ時間を短縮できます。
 
-この例では、`filter` 式により、指定した用語 `keyword1` または `keyword2` に一致するドキュメントのみが search 結果に含まれるようにフィルタリングされます。その後、このフィルタ済みドキュメントのサブセットに対して vector 類似度 search が実行されます。
+この例では、`filter` 式によって、指定した用語 `keyword1` または `keyword2` に一致するドキュメントのみが検索結果に含まれるようにフィルタリングしています。その後、このフィルタ済みのドキュメント部分集合に対して vector 類似検索が実行されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -664,11 +664,11 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### テキストマッチを使った query\{#query-with-text-match}
+### テキストマッチを使用したクエリ\{#query-with-text-match}
 
-テキストマッチは、query 操作における scalar filtering にも使用できます。`query()` メソッドの `expr` パラメータに `TEXT_MATCH` 式を指定することで、指定した用語に一致するドキュメントを取得できます。
+テキストマッチは、クエリ操作における scalar フィルタリングにも使用できます。`query()` メソッドの `expr` パラメータに `TEXT_MATCH` 式を指定することで、指定された用語に一致するドキュメントを取得できます。
 
-以下の例では、`text` field に `keyword1` と `keyword2` の両方が含まれるドキュメントを取得します。
+以下の例では、`text` フィールドに `keyword1` と `keyword2` の両方が含まれるドキュメントを取得します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -777,17 +777,17 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## 注意事項\{#considerations}
+## 考慮事項\{#considerations}
 
-- field に対して用語マッチングを有効にすると inverted index が作成され、ストレージリソースを消費します。この機能を有効にするかどうかを判断する際は、ストレージへの影響を考慮してください。影響は、テキストサイズ、一意の token、使用する analyzer によって異なります。
+- フィールドに対して用語マッチングを有効にすると、反転 index が作成され、ストレージリソースを消費します。この機能を有効にするかどうかを判断する際には、ストレージへの影響を考慮してください。影響は、テキストサイズ、一意のトークン数、使用する analyzer によって異なります。
 
-- schema で analyzer を定義すると、その設定はその collection に対して永続的になります。別の analyzer の方が要件に適していると判断した場合は、既存の collection を削除し、目的の analyzer 設定で新しいものを作成することを検討してください。
+- スキーマで analyzer を定義すると、その設定はその collection に対して永続的になります。別の analyzer の方が要件に適していると判断した場合は、既存の collection を削除し、目的の analyzer 設定で新しい collection を作成することを検討してください。
 
-- フレーズマッチのパフォーマンスは、テキストがどのように token 化されるかに依存します。collection 全体に analyzer を適用する前に、`run_analyzer` メソッドを使用して token 化の出力を確認してください。詳細については、[Analyzer Overview](./analyzer-overview#built-in-analyzer) を参照してください。
+- フレーズマッチのパフォーマンスは、テキストがどのようにトークン化されるかに依存します。analyzer を collection 全体に適用する前に、`run_analyzer` メソッドを使用してトークン化の出力を確認してください。詳細については、[Analyzer Overview](./analyzer-overview#built-in-analyzer) を参照してください。
 
-- `filter` 式のエスケープ規則:
+- `filter` 式におけるエスケープ規則:
 
-    - 式内でダブルクォートまたはシングルクォートで囲まれた文字は、文字列定数として解釈されます。文字列定数にエスケープ文字が含まれる場合、エスケープ文字はエスケープシーケンスで表現する必要があります。たとえば、`\` を表すには `\\`、タブ `\t` を表すには `\\t`、改行を表すには `\\n` を使用します。
+    - 式内でダブルクォートまたはシングルクォートで囲まれた文字は、文字列定数として解釈されます。文字列定数にエスケープ文字が含まれている場合、エスケープ文字はエスケープシーケンスで表現する必要があります。たとえば、`\` を表すには `\\`、タブ `\t` を表すには `\\t`、改行を表すには `\\n` を使用します。
 
     - 文字列定数がシングルクォートで囲まれている場合、定数内のシングルクォートは `\\'` として表現する必要があります。一方、ダブルクォートは `"` または `\\"` のいずれでも表現できます。例: `'It\\'s milvus'`。
 

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "アプリケーションでスキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全な Collection API が必要な場合は、Dedicated cluster endpoint を使用します。 | BYOC"
+description: "アプリケーションで、スキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全な Collection API が必要な場合は、Dedicated クラスターエンドポイントを使用します。 | BYOC"
 type: origin
 token: ZWwJwKjeDi7SJGkzUQ0c7XfBnqh
 sidebar_position: 2
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # クラスターへの接続
 
-アプリケーションでスキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全な Collection API が必要な場合は、Dedicated cluster endpoint を使用します。
+アプリケーションで、スキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全な Collection API が必要な場合は、Dedicated クラスターエンドポイントを使用します。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" icon="📘" title="注記">
 
-このページでは、Dedicated serving cluster に接続する方法を説明します。Free または Serverless cluster に接続するには、[Free & Serverless Clusters](./free-and-serverless-clusters) を参照してください。project endpoint 経由の on-demand compute については、[Connect for On-Demand Search](./connect-for-on-demand-search) を参照してください。
+このページでは、Dedicated サービングクラスターへの接続方法を示します。Free または Serverless クラスターに接続するには、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンド計算については、[オンデマンド検索への接続](./connect-for-on-demand-search) を参照してください。
 
 </Admonition>
 
@@ -33,53 +33,53 @@ import TabItem from '@theme/TabItem';
 
 | クラスタータイプ | エンドポイントパターン | 注記 |
 | --- | --- | --- |
-| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated cluster は、ポート `19530` のリアルタイム serving endpoint を使用します。 |
+| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` を使用するリアルタイムサービングエンドポイントを使用します。 |
 
 ## 始める前に\{#before-you-begin}
 
-Dedicated cluster に接続する前に、以下を確認してください。
+Dedicated クラスターに接続する前に、以下を確認してください。
 
-- BYOC project をデプロイしていること。詳細は次を参照してください。 
+- BYOC プロジェクトをデプロイ済みであること。詳細については、以下を参照してください。 
 
-    - [Deploy BYOC on AWS](./deploy-byoc-aws)
+    - [AWS に BYOC をデプロイする](./deploy-byoc-aws)
 
-    - [Deploy BYOC-I on AWS](./deploy-byoc-i-aws)
+    - [AWS に BYOC-I をデプロイする](./deploy-byoc-i-aws)
 
-    - [Deploy BYOC on GCP](./deploy-byoc-gcp)
+    - [GCP に BYOC をデプロイする](./deploy-byoc-gcp)
 
-    - [Deploy BYOC-I on Microsoft Azure](./deploy-byoc-i-azure)
+    - [Microsoft Azure に BYOC-I をデプロイする](./deploy-byoc-i-azure)
 
-- アプリケーションと BYOC project 内の cluster 間のネットワーク設定が完了していること。詳細は、[Prepare for Cluster Connection](./prepare-for-cluster-connection) を参照してください。
+- アプリケーションと BYOC プロジェクト内のクラスター間のネットワーク構成が完了していること。詳細については、[クラスター接続の準備](./prepare-for-cluster-connection) を参照してください。
 
-- cluster を作成していること。
+- クラスターを作成済みであること。
 
-- ユースケースに応じた Milvus SDK をインストールしていること。詳細は、[Install SDKs](./install-sdks) を参照してください。
+- ユースケースに対応する Milvus SDK をインストール済みであること。詳細については、[SDK のインストール](./install-sdks) を参照してください。
 
-- cluster public endpoint を取得していること。
+- クラスターのパブリックエンドポイントを取得していること。
 
-- 認証トークンを取得していること。これは、対象 cluster にアクセスできる API key、または `username:password` 形式の cluster credential です。
+- 認証トークンを取得していること。これは、対象クラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報のいずれかです。
 
-cluster public endpoint は、Zilliz Cloud コンソールから取得できます。対象 cluster の **Cluster Details** ページに移動します。**Connect** カードで、cluster public endpoint をコピーします。
+クラスターのパブリックエンドポイントは Zilliz Cloud コンソールから取得できます。対象クラスターの **Cluster Details** ページに移動します。**Connect** カードで、クラスターのパブリックエンドポイントをコピーしてください。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" icon="📘" title="注記">
 
-SDK ではなく RESTful API を使用する場合、HTTP はリクエスト・レスポンスの通信モデルに従うため、継続的な接続は確立されません。
+SDK の代わりに RESTful API を使用する場合、HTTP はリクエスト/レスポンスの通信モデルに従うため、継続的な接続は確立されません。
 
 </Admonition>
 
 ## SDK のインストール\{#install-sdks}
 
-アプリケーション言語用の SDK をインストールします。
+アプリケーション言語向けの SDK をインストールします。
 
-```plaintext
+```bash
 pip install pymilvus
 ```
 
-Java、Node.js、Go の project では、以下の例を使用する前に、対応する Milvus SDK を project にインストールしてください。
+Java、Node.js、Go のプロジェクトでは、以下の例を使用する前に、対応する Milvus SDK をプロジェクトにインストールしてください。
 
-## Dedicated cluster への接続\{#connect-to-a-dedicated-cluster}
+## Dedicated クラスターへの接続\{#connect-to-a-dedicated-cluster}
 
-SDK 間で cluster endpoint と token を一貫して使用します。`YOUR_CLUSTER_ENDPOINT` は cluster の **Connect** カードからコピーした public endpoint、`YOUR_CLUSTER_TOKEN` は対象 cluster にアクセスできる API key、または `username:password` 形式の cluster credential です。
+SDK 間でクラスターエンドポイントとトークンを一貫して使用してください。`YOUR_CLUSTER_ENDPOINT` はクラスターの **Connect** カードからコピーしたパブリックエンドポイント、`YOUR_CLUSTER_TOKEN` は対象クラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -158,7 +158,7 @@ curl --request POST \
 
 ## 接続の確認\{#verify-the-connection}
 
-SDK で接続した後、collections の一覧表示のような軽量な操作を実行します。
+SDK で接続した後、コレクションの一覧取得などの軽量な操作を実行します。
 
 ```python
 collections = client.list_collections()
@@ -167,6 +167,6 @@ print(collections)
 
 ## 次のステップ\{#next-steps}
 
-接続後は、同じ client インスタンスを使用して collection を作成し、データをロードし、Dedicated cluster に対してリアルタイムの search または query 操作を実行します。
+接続後は、同じクライアントインスタンスを使用してコレクションを作成し、データをロードし、Dedicated クラスターに対してリアルタイムの search または query 操作を実行します。
 
-Free または Serverless serving cluster については、[Free & Serverless Clusters](./free-and-serverless-clusters) を参照してください。project endpoint 経由の on-demand compute については、[Connect for On-Demand Search](./connect-for-on-demand-search) を参照してください。
+Free または Serverless サービングクラスターについては、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンド計算については、[オンデマンド検索への接続](./connect-for-on-demand-search) を参照してください。

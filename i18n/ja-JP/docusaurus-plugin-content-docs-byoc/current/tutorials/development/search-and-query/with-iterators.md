@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ANN Search には、1 回のクエリで取得できるエンティティ数に上限があり、基本的な ANN Search を使うだけでは大規模検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することをおすすめします。このセクションでは、SearchIterator の使い方と関連する注意事項を紹介します。 | BYOC"
+description: "ANN Search には、1 回のクエリでリコールできるエンティティ数に最大制限があり、基本的な ANN Search を単純に使用するだけでは大規模検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することを推奨します。このセクションでは、SearchIterator の使用方法と関連する考慮事項を紹介します。 | BYOC"
 type: origin
 token: QVTnwVz2aifvSAkgomAc9KWRnHb
-sidebar_position: 18
+sidebar_position: 19
 displayed_sidebar: default
 
 ---
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # Search Iterator
 
-ANN Search には、1 回のクエリで取得できるエンティティ数に上限があり、基本的な ANN Search を使うだけでは大規模検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することをおすすめします。このセクションでは、SearchIterator の使い方と関連する注意事項を紹介します。
+ANN Search には、1 回のクエリでリコールできるエンティティ数に最大制限があり、基本的な ANN Search を単純に使用するだけでは大規模検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することを推奨します。このセクションでは、SearchIterator の使用方法と関連する考慮事項を紹介します。
 
 ## Overview\{#overview}
 
@@ -29,9 +29,9 @@ Search リクエストは検索結果を返しますが、SearchIterator はイ�
 
 具体的には、SearchIterator は次のように使用できます。
 
-1. SearchIterator を作成し、**検索リクエストごとに返すエンティティ数**と**返すエンティティの総数**を設定します。
+1. SearchIterator を作成し、**検索リクエストごとに返すエンティティ数** と **返すエンティティの総数** を設定します。
 
-1. SearchIterator の **next()** メソッドをループ内で呼び出し、ページネーション方式で検索結果を取得します。
+1. SearchIterator の **next()** メソッドをループ内で呼び出し、ページネーションされた形で検索結果を取得します。
 
 1. **next()** メソッドが空の結果を返したら、イテレータの **close()** メソッドを呼び出してループを終了します。
 
@@ -205,11 +205,11 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-上記の例では、検索ごとに返すエンティティ数（**batch_size**/**batchSize**）を 50 に設定し、返すエンティティの総数（**topK**）を 20,000 に設定しています。
+上記の例では、検索ごとに返すエンティティ数（**batch_size**/**batchSize**）を 50、返すエンティティの総数（**topK**）を 20,000 に設定しています。
 
 ## Use SearchIterator\{#use-searchiterator}
 
-SearchIterator の準備ができたら、その next() メソッドを呼び出して、ページネーション方式で検索結果を取得できます。
+SearchIterator の準備ができたら、その next() メソッドを呼び出して、ページネーションされた形で検索結果を取得できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

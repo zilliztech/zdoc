@@ -1,16 +1,16 @@
 ---
 title: "Partition Key を使用する | BYOC"
 slug: /use-partition-key
-sidebar_label: "Partition Key (Namespace)"
+sidebar_label: "Partition Key（Namespace）"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Partition Key は、collection の namespace として機能することで論理的なデータ分離を可能にする検索最適化ソリューションです。特定の scalar フィールド（tenant ID や project 名など）を Partition Key として指定することで、1 つの collection 内のデータを個別の namespace に効果的に分割できます。これにより、検索リクエストはフィルタリング条件を通じて特定の namespace に限定でき、検索範囲を大幅に狭めて全体的な効率を向上させます。この記事では、この namespace ベースの最適化を実装する方法と、Partition Key を使用する際の考慮事項を紹介します。 | BYOC"
+description: "Partition Key は、collection の namespace として機能することで論理的なデータ分離を可能にする検索最適化ソリューションです。特定の scalar フィールド（tenant ID やプロジェクト名など）を Partition Key として指定することで、単一の collection 内のデータを個別の namespace に効果的に分割できます。これにより、検索リクエストはフィルタリング条件を介して特定の namespace にスコープでき、検索範囲を大幅に狭めて全体的な効率を向上させることができます。この記事では、この namespace ベースの最適化を実装する方法と、Partition Key を使用する際の考慮事項を紹介します。 | BYOC"
 type: origin
 token: QWqiwrgJViA5AJkv64VcgQX2nKd
-sidebar_position: 19
+sidebar_position: 20
 displayed_sidebar: default
 
 ---
@@ -21,27 +21,27 @@ import TabItem from '@theme/TabItem';
 
 # Partition Key を使用する
 
-**Partition Key** は、collection の **namespace** として機能することで論理的なデータ分離を可能にする検索最適化ソリューションです。特定の scalar フィールド（tenant ID や project 名など）を Partition Key として指定することで、1 つの collection 内のデータを個別の namespace に効果的に分割できます。これにより、検索リクエストはフィルタリング条件を通じて特定の namespace に限定でき、検索範囲を大幅に狭めて全体的な効率を向上させます。この記事では、この namespace ベースの最適化を実装する方法と、Partition Key を使用する際の考慮事項を紹介します。
+**Partition Key** は、collection の **namespace** として機能することで論理的なデータ分離を可能にする検索最適化ソリューションです。特定の scalar フィールド（tenant ID やプロジェクト名など）を Partition Key として指定することで、単一の collection 内のデータを個別の namespace に効果的に分割できます。これにより、検索リクエストはフィルタリング条件を介して特定の namespace にスコープでき、検索範囲を大幅に狭めて全体的な効率を向上させることができます。この記事では、この namespace ベースの最適化を実装する方法と、Partition Key を使用する際の考慮事項を紹介します。
 
 ## 概要\{#overview}
 
-Zilliz Cloud では、partition を使用してデータ分離を実装し、検索範囲を特定の partition に制限することで検索パフォーマンスを向上できます。partition を手動で管理する場合、1 つの collection に最大 1,024 個の partition を作成でき、特定のルールに基づいて entity をこれらの partition に挿入することで、検索を特定数の partition 内に制限して検索範囲を狭めることができます。
+Zilliz Cloud では、partition を使用してデータ分離を実装し、検索スコープを特定の partition に制限することで検索パフォーマンスを向上させることができます。partition を手動で管理する場合、1 つの collection に最大 1,024 個の partition を作成でき、特定のルールに基づいてこれらの partition に entity を挿入することで、検索を特定数の partition 内に制限して検索スコープを狭めることができます。
 
-Zilliz Cloud では、collection に作成できる partition 数の制限を克服するために、データ分離で partition を再利用する Partition Key を導入しています。collection の作成時に、scalar フィールドを Partition Key として使用できます。collection の準備が整うと、Zilliz Cloud は指定された数の partition を collection 内に作成します。挿入された entity を受け取ると、Zilliz Cloud はその entity の Partition Key 値を使用してハッシュ値を計算し、そのハッシュ値と collection の `partitions_num` プロパティに基づいて剰余演算を実行して対象 partition の ID を取得し、その entity を対象 partition に保存します。
+Zilliz Cloud では、1 つの collection に作成できる partition 数の制限を克服するために、データ分離で partition を再利用できるよう Partition Key を導入しています。collection の作成時に、scalar フィールドを Partition Key として使用できます。collection の準備が完了すると、Zilliz Cloud は指定された数の partition を collection 内に作成します。挿入された entity を受け取ると、Zilliz Cloud はその entity の Partition Key 値を使用してハッシュ値を計算し、そのハッシュ値と collection の `partitions_num` プロパティに基づいて剰余演算を実行して対象 partition ID を取得し、その entity を対象 partition に格納します。
 
 ![IXXIwZdOYhRFXmbTMdwcaN6fnPe](https://zdoc-images.s3.us-west-2.amazonaws.com/IXXIwZdOYhRFXmbTMdwcaN6fnPe.png)
 
-次の図は、Partition Key 機能が有効な場合と無効な場合で、Zilliz Cloud が collection 内の検索リクエストをどのように処理するかを示しています。 
+次の図は、Partition Key 機能が有効な場合と無効な場合に、Zilliz Cloud が collection 内の検索リクエストをどのように処理するかを示しています。 
 
-- Partition Key が無効な場合、Zilliz Cloud は collection 内でクエリ vector に最も類似した entity を検索します。どの partition に最も関連性の高い結果が含まれているかが分かっている場合は、検索範囲を狭めることができます。
+- Partition Key が無効な場合、Zilliz Cloud は collection 内でクエリ vector に最も類似する entity を検索します。最も関連性の高い結果が含まれる partition がわかっている場合は、検索スコープを狭めることができます。
 
-- Partition Key が有効な場合、Zilliz Cloud は検索フィルタで指定された Partition Key 値に基づいて検索範囲を決定し、一致する partition 内の entity のみをスキャンします。
+- Partition Key が有効な場合、Zilliz Cloud は検索フィルタで指定された Partition Key 値に基づいて検索スコープを決定し、一致する partition 内の entity のみをスキャンします。
 
 ![RTaqwdaWXhRWPTb4uJTc9Uknn5c](https://zdoc-images.s3.us-west-2.amazonaws.com/RTaqwdaWXhRWPTb4uJTc9Uknn5c.png)
 
 ## Partition Key を使用する\{#use-partition-key}
 
-Partition Key を使用するには、次の作業が必要です。
+Partition Key を使用するには、以下が必要です。
 
 - [Partition Key を設定する](./use-partition-key#set-partition-key)
 
@@ -55,7 +55,7 @@ scalar フィールドを Partition Key として指定するには、その sca
 
 <Admonition type="info" icon="📘" title="注意">
 
-scalar フィールドを Partition Key として設定すると、そのフィールド値を空または null にすることはできません。
+scalar フィールドを Partition Key として設定すると、そのフィールド値は空または null にできません。
 
 </Admonition>
 
@@ -271,9 +271,9 @@ schema->AddField(milvus::FieldSchema("my_varchar", milvus::DataType::VARCHAR).Wi
 
 ### partition 数を設定する\{#set-partition-numbers}
 
-collection 内の scalar フィールドを Partition Key として指定すると、Zilliz Cloud は collection 内に自動的に 16 個の partition を作成します。entity を受け取ると、Zilliz Cloud はその entity の Partition Key 値に基づいて partition を選択し、その partition に entity を保存します。その結果、一部またはすべての partition に異なる Partition Key 値を持つ entity が格納されます。 
+collection 内の scalar フィールドを Partition Key として指定すると、Zilliz Cloud は自動的に collection 内に 16 個の partition を作成します。entity を受け取ると、Zilliz Cloud はその entity の Partition Key 値に基づいて partition を選択し、その entity をその partition に格納します。その結果、一部またはすべての partition に、異なる Partition Key 値を持つ entity が格納されます。 
 
-また、collection とあわせて作成する partition 数を指定することもできます。これは、Partition Key として指定された scalar フィールドがある場合にのみ有効です。
+また、collection の作成時に、作成する partition 数を指定することもできます。これは、scalar フィールドが Partition Key として指定されている場合にのみ有効です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -371,11 +371,11 @@ if (!status.IsOk()) {
 
 ### フィルタリング条件を作成する\{#create-filtering-condition}
 
-Partition Key 機能が有効な collection で ANN 検索を行う場合、検索リクエストに Partition Key を含むフィルタ式を含める必要があります。フィルタ式では、Partition Key 値を特定の範囲内に制限できるため、Zilliz Cloud は対応する partition 内に検索範囲を制限できます。 
+Partition Key 機能が有効な collection で ANN 検索を実行する場合、検索リクエストに Partition Key を含むフィルタ式を含める必要があります。フィルタ式では、Partition Key の値を特定の範囲に制限できるため、Zilliz Cloud は対応する partition 内に検索スコープを制限できます。 
 
-削除操作を実行する際は、より効率的な削除を実現するために、単一の partition key を指定するフィルタ式を含めることが推奨されます。この方法により削除操作が特定の partition に限定され、compaction 時の書き込み増幅が減少し、compaction と indexing のためのリソースを節約できます。
+削除操作を実行する際には、より効率的な削除を実現するために、単一の partition key を指定するフィルタ式を含めることを推奨します。このアプローチにより、削除操作は特定の partition に限定され、compaction 中の write amplification が減少し、compaction と indexing のためのリソースを節約できます。
 
-次の例は、特定の Partition Key 値と、Partition Key 値のセットに基づく Partition-Key ベースのフィルタリングを示しています。
+次の例は、特定の Partition Key 値および Partition Key 値のセットに基づく、Partition Key ベースのフィルタリングを示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -456,17 +456,17 @@ const auto filter = R"(partition_key in ['x', 'y', 'z'] && <other conditions>)";
 
 ## Partition Key Isolation を使用する\{#use-partition-key-isolation}
 
-マルチテナンシーのシナリオでは、tenant の識別情報に関連する scalar フィールドを partition key として指定し、この scalar フィールドの特定の値に基づくフィルタを作成できます。このようなシナリオで検索パフォーマンスをさらに向上させるために、Zilliz Cloud では Partition Key Isolation 機能を導入しています。
+マルチテナンシーのシナリオでは、tenant ID に関連する scalar フィールドを partition key として指定し、この scalar フィールド内の特定の値に基づいてフィルタを作成できます。同様のシナリオで検索パフォーマンスをさらに向上させるために、Zilliz Cloud は Partition Key Isolation 機能を導入しています。
 
 ![BVotwv5BvhBWXXbvotUccowZnng](https://zdoc-images.s3.us-west-2.amazonaws.com/BVotwv5BvhBWXXbvotUccowZnng.png)
 
-上の図に示すように、Zilliz Cloud は Partition Key 値に基づいて entity をグループ化し、それぞれのグループごとに個別の index を作成します。検索リクエストを受け取ると、Zilliz Cloud はフィルタリング条件で指定された Partition Key 値に基づいて index を特定し、その index に含まれる entity 内に検索範囲を制限します。これにより、検索時に無関係な entity をスキャンすることを避け、検索パフォーマンスを大幅に向上させます。
+上図のように、Zilliz Cloud は Partition Key 値に基づいて entity をグループ化し、各グループごとに個別の index を作成します。検索リクエストを受け取ると、Zilliz Cloud はフィルタリング条件で指定された Partition Key 値に基づいて index を特定し、その index に含まれる entity 内に検索スコープを制限します。これにより、検索中に無関係な entity をスキャンすることを回避し、検索パフォーマンスを大幅に向上させます。
 
-Partition Key Isolation を有効にした後は、Zilliz Cloud が一致する index に含まれる entity 内に検索範囲を制限できるように、Partition-key ベースのフィルタには 1 つの特定の値のみを含める必要があります。
+Partition Key Isolation を有効にした後は、Zilliz Cloud が一致する index に含まれる entity 内に検索スコープを制限できるように、Partition-key-based フィルタには 1 つの特定の値のみを含める必要があります。
 
 ### Partition Key Isolation を有効にする\{#enable-partition-key-isolation}
 
-次のコード例は、Partition Key Isolation を有効にする方法を示しています。
+以下のコード例は、Partition Key Isolation を有効にする方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -566,4 +566,4 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-Partition Key Isolation を有効にした後でも、[partition 数を設定する](./use-partition-key#set-partition-numbers) で説明したように Partition Key と partition 数を設定できます。Partition-Key ベースのフィルタには、1 つの特定の Partition Key 値のみを含める必要がある点に注意してください。
+Partition Key Isolation を有効にした後も、[パーティション数の設定](./use-partition-key#set-partition-numbers) で説明されているように、Partition Key とパーティション数を設定できます。Partition Key ベースのフィルターには、1 つの特定の Partition Key 値のみを含める必要があることに注意してください。
