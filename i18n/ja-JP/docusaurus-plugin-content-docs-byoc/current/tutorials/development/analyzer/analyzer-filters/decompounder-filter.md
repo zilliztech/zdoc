@@ -25,13 +25,13 @@ import TabItem from '@theme/TabItem';
 
 ## Configuration\{#configuration}
 
-`decompounder` フィルターは、`word_list` パラメーターによるインライン指定、または `word_list_file` パラメーターによる登録済みファイルリソースのいずれかから、構成要素辞書を受け取ります。
+`decompounder` フィルターは、コンポーネント辞書を `word_list` パラメーター経由でインライン指定するか、`word_list_file` パラメーター経由で登録済みのファイルリソースから受け取ります。
 
 ### Inline word list\{#inline-word-list}
 
-`decompounder` フィルターは Zilliz Cloud のカスタムフィルターです。使用するには、フィルター設定で `"type": "decompounder"` を指定し、認識する単語構成要素の辞書を提供する `word_list` パラメーターをあわせて指定します。
+`decompounder` フィルターは、Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター設定で `"type": "decompounder"` を指定し、あわせて認識する単語構成要素の辞書を提供する `word_list` パラメーターを指定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -112,7 +112,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -126,15 +127,18 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 `decompounder` フィルターは、以下の設定可能なパラメーターを受け付けます。
 
 | Parameter | Description |
 | --- | --- |
-| `word_list` | 複合語を分割するために使用される単語構成要素のリストです。この辞書によって、複合語をどのように個々の用語へ分解するかが決まります。 |
+| `word_list` | 複合語を分割するために使用される単語構成要素のリストです。この辞書によって、複合語がどのように個別の語に分解されるかが決まります。 |
 
-`decompounder` フィルターは tokenizer によって生成された用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) および関連ページを参照してください。
+`decompounder` フィルターは tokenizer によって生成された term に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
 
-`analyzer_params` を定義した後、collection schema の定義時にこれを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的な tokenization と filtering を行えます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを指定した analyzer を使用して処理し、効率的な tokenization と filtering を実現できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
 
 ## Examples\{#examples}
 
@@ -142,7 +146,7 @@ analyzer 設定を collection schema に適用する前に、`run_analyzer` メ�
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -217,7 +221,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -231,9 +236,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
+</TabItem>
+</Tabs>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -327,7 +335,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -351,6 +360,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ### Expected output\{#expected-output}
 

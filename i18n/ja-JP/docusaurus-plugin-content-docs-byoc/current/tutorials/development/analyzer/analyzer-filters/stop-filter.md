@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`stop` フィルターは、トークン化されたテキストから指定したストップワードを削除し、一般的で意味の薄い単語を除去するのに役立ちます。`stopwords` パラメータを使用してストップワードのリストを設定できます。 | BYOC"
+description: "`stop` filter は、トークン化されたテキストから指定したストップワードを削除し、一般的で意味の薄い単語を除去するのに役立ちます。ストップワードのリストは `stopwords` パラメータで設定できます。 | BYOC"
 type: origin
 token: ScncwBnDBiVoLjksXAwcUgrgnod
 sidebar_position: 8
@@ -21,17 +21,17 @@ import TabItem from '@theme/TabItem';
 
 # Stop
 
-`stop` フィルターは、トークン化されたテキストから指定したストップワードを削除し、一般的で意味の薄い単語を除去するのに役立ちます。`stop_words` パラメータを使用してストップワードのリストを設定できます。
+`stop` filter は、トークン化されたテキストから指定したストップワードを削除し、一般的で意味の薄い単語を除去するのに役立ちます。ストップワードのリストは `stop_words` パラメータで設定できます。
 
 ## Configuration\{#configuration}
 
-`stop` フィルターは、`stop_words` パラメータによるインライン指定、または `stop_words_file` パラメータによる登録済みファイルリソースのいずれかからストップワードのリストを受け取ります。
+`stop` filter は、`stop_words` パラメータによるインライン指定、または `stop_words_file` パラメータによる登録済みファイルリソースのいずれかからストップワードリストを受け取ります。
 
 ### Inline stop-words list\{#inline-stop-words-list}
 
-インラインリストで `stop` フィルターを使用するには、フィルター設定で `"type": "stop"` を指定し、あわせてストップワードのリストを提供する `stop_words` パラメータを指定します。
+`stop` filter をインラインリストで使用するには、filter 設定で `"type": "stop"` を指定し、あわせてストップワードのリストを提供する `stop_words` パラメータを指定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -109,7 +109,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -120,7 +121,10 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`stop` フィルターは、以下の設定可能なパラメータを受け付けます。
+</TabItem>
+</Tabs>
+
+`stop` filter は、以下の設定可能なパラメータを受け付けます。
 
 <table>
    <tr>
@@ -129,21 +133,21 @@ nlohmann::json analyzer_params = {
    </tr>
    <tr>
      <td><p><code>stop_words</code></p></td>
-     <td><p>トークン化結果から削除する単語のリストです。デフォルトでは、このフィルターは組み込みの <code>_english_</code> 辞書を使用します。これを上書きまたは拡張する方法は 3 つあります。</p><ul><li><p><strong>組み込み辞書</strong> – 以下の言語エイリアスのいずれかを指定すると、定義済み辞書を使用できます。</p><p><code>"_english_"</code>, <code>"_danish_"</code>, <code>"_dutch_"</code>, <code>"_finnish_"</code>, <code>"_french_"</code>, <code>"_german_"</code>, <code>"_hungarian_"</code>, <code>"_italian_"</code>, <code>"_norwegian_"</code>, <code>"_portuguese_"</code>, <code>"_russian_"</code>, <code>"_spanish_"</code>, <code>"_swedish_"</code></p></li><li><p><strong>カスタムリスト</strong> – 独自の用語配列を渡します。例: <code>["foo", "bar", "baz"]</code>。</p></li><li><p><strong>混合リスト</strong> – エイリアスとカスタム用語を組み合わせます。例: <code>["of", "to", "_english_"]</code>。</p><p>各定義済み辞書の正確な内容については、<a href="https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words.rs">stop_words</a> を参照してください。</p></li></ul></td>
+     <td><p>トークン化から削除する単語のリストです。デフォルトでは、この filter は組み込みの <code>_english_</code> 辞書を使用します。これを上書きまたは拡張する方法は 3 つあります。</p><ul><li><p><strong>組み込み辞書</strong> – 以下の言語エイリアスのいずれかを指定すると、事前定義された辞書を使用できます。</p><p><code>"_english_"</code>, <code>"_danish_"</code>, <code>"_dutch_"</code>, <code>"_finnish_"</code>, <code>"_french_"</code>, <code>"_german_"</code>, <code>"_hungarian_"</code>, <code>"_italian_"</code>, <code>"_norwegian_"</code>, <code>"_portuguese_"</code>, <code>"_russian_"</code>, <code>"_spanish_"</code>, <code>"_swedish_"</code></p></li><li><p><strong>カスタムリスト</strong> – たとえば <code>["foo", "bar", "baz"]</code> のように、独自の用語の配列を渡します。</p></li><li><p><strong>混合リスト</strong> – たとえば <code>["of", "to", "_english_"]</code> のように、エイリアスとカスタム用語を組み合わせます。</p><p>各事前定義辞書の正確な内容については、<a href="https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words.rs">stop_words</a> を参照してください。</p></li></ul></td>
    </tr>
 </table>
 
-`stop` フィルターは tokenizer によって生成された terms に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) およびその関連ページを参照してください。
+`stop` filter は tokenizer によって生成された terms に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) および関連ページを参照してください。
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は効率的なトークン化とフィルタリングのために、そのフィールド内のテキストを指定された analyzer を使って処理できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、それらを collection schema の定義時に `VARCHAR` field に適用できます。これにより Zilliz Cloud は、その field 内のテキストを指定された analyzer を使用して処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## Examples\{#examples}
 
-analyzer の設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -202,7 +206,8 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -213,9 +218,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ### Verification using `run_analyzer`\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -309,7 +317,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -333,6 +342,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ### Expected output\{#expected-output}
 

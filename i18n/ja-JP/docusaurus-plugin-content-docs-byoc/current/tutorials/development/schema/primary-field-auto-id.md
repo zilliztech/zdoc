@@ -1,13 +1,13 @@
 ---
-title: "プライマリフィールドと AutoID | BYOC"
+title: "主フィールド & AutoID | BYOC"
 slug: /primary-field-auto-id
-sidebar_label: "プライマリフィールド"
+sidebar_label: "主フィールド"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud のすべてのコレクションには、各エンティティを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、すべてのエンティティを曖昧さなく挿入、更新、クエリ、削除できます。 | BYOC"
+description: "Zilliz Cloud のすべての collection には、各 entity を一意に識別するための主フィールドが必要です。このフィールドにより、すべての entity を曖昧さなく挿入、更新、クエリ、削除できます。 | BYOC"
 type: origin
 token: D2ctwKZhNilLY0ke1vpcHL62n5G
 sidebar_position: 2
@@ -19,59 +19,59 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# プライマリフィールドと AutoID
+# 主フィールド & AutoID
 
-Zilliz Cloud のすべてのコレクションには、各エンティティを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、すべてのエンティティを曖昧さなく挿入、更新、クエリ、削除できます。
+Zilliz Cloud のすべての collection には、各 entity を一意に識別するための主フィールドが必要です。このフィールドにより、すべての entity を曖昧さなく挿入、更新、クエリ、削除できます。
 
 ユースケースに応じて、Zilliz Cloud に ID を自動生成させる（AutoID）ことも、自分で ID を手動で割り当てることもできます。
 
-## プライマリフィールドとは？\{#what-is-a-primary-field}
+## 主フィールドとは何ですか？\{#what-is-a-primary-field}
 
-プライマリフィールドは、従来のデータベースにおける主キーのように、コレクション内の各エンティティに対する一意キーとして機能します。Zilliz Cloud は、挿入、upsert、削除、クエリ操作の際にエンティティを管理するためにプライマリフィールドを使用します。
+主フィールドは、従来のデータベースにおける主キーのように、collection 内の各 entity の一意キーとして機能します。Zilliz Cloud は、挿入、upsert、削除、クエリ操作の際に entity を管理するために主フィールドを使用します。
 
 主な要件:
 
-- 各コレクションには **ちょうど 1 つ** のプライマリフィールドが必要です。
+- 各 collection には **ちょうど 1 つ** の主フィールドが必要です。
 
-- プライマリフィールドの値は null にできません。
+- 主フィールドの値を null にすることはできません。
 
 - データ型は作成時に指定する必要があり、後から変更することはできません。
 
 ## サポートされるデータ型\{#supported-data-types}
 
-プライマリフィールドには、エンティティを一意に識別できる、サポート対象のスカラーデータ型を使用する必要があります。
+主フィールドには、entity を一意に識別できるサポート対象の scalar データ型を使用する必要があります。
 
-| データ型 | 説明 |
+| Data Type | Description |
 | --- | --- |
-| `INT64` | 64 ビット整数型で、一般的に AutoID とともに使用されます。ほとんどのユースケースで推奨されるオプションです。 |
-| `VARCHAR` | 可変長文字列型です。エンティティ識別子が外部システム由来である場合（たとえば、製品コードやユーザー ID）に使用します。1 値あたりに許可される最大バイト数を定義するために `max_length` プロパティが必要です。 |
+| `INT64` | 64 ビット整数型で、一般的に AutoID とともに使用されます。これはほとんどのユースケースで推奨されるオプションです。 |
+| `VARCHAR` | 可変長文字列型です。entity 識別子が外部システムに由来する場合（たとえば、製品コードやユーザー ID）に使用します。値ごとに許可される最大バイト数を定義するために `max_length` プロパティが必要です。 |
 
 ## AutoID と手動 ID の選択\{#choose-between-autoid-and-manual-ids}
 
-Zilliz Cloud は、プライマリキー値を割り当てるための 2 つのモードをサポートしています。
+Zilliz Cloud は、主キー値の割り当てに 2 つのモードをサポートしています。
 
-| モード | 説明 | 推奨される用途 |
+| Mode | Description | Recommended For |
 | --- | --- | --- |
-| AutoID | Zilliz Cloud が、挿入またはインポートされたエンティティに対して一意の識別子を自動生成します。 | ID を手動で管理する必要がないほとんどのシナリオ。 |
-| 手動 ID | データの挿入またはインポート時に、自分で一意な ID を指定します。 | ID を外部システムや既存のデータセットに合わせる必要がある場合。 |
+| AutoID | Zilliz Cloud が、挿入またはインポートされた entity に対して一意の識別子を自動生成します。 | ID を手動で管理する必要がないほとんどのシナリオ。 |
+| Manual ID | データの挿入またはインポート時に、自分で一意の ID を指定します。 | ID を外部システムや既存のデータセットと一致させる必要がある場合。 |
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" icon="📘" title="注意">
 
-- どちらのモードを選ぶべきか分からない場合は、よりシンプルな取り込みと一意性保証のために、[AutoID から始めて](./primary-field-auto-id#quickstart-use-autoid)ください。
+- どちらのモードを選ぶべきかわからない場合は、より簡単なデータ取り込みと一意性の保証のために、[AutoID から始めてください](./primary-field-auto-id#quickstart-use-autoid)。
 
-- プライマリキーを手動設定することに利点がある場合を除き、すべてのケースで `autoId` に依存することを推奨します。
+- 主キーを手動で設定することに利点がある場合を除き、すべてのケースで `autoId` に依存することを推奨します。
 
 </Admonition>
 
 ## クイックスタート: AutoID を使用する\{#quickstart-use-autoid}
 
-Zilliz Cloud に ID 生成を自動的に処理させることができます。
+Zilliz Cloud に ID 生成を自動的に任せることができます。
 
-### ステップ 1: AutoID を使用するコレクションを作成する\{#step-1-create-a-collection-with-autoid}
+### ステップ 1: AutoID 付きで collection を作成する\{#step-1-create-a-collection-with-autoid}
 
-プライマリフィールドの定義で `auto_id=True` を有効にします。Zilliz Cloud が ID 生成を自動的に処理します。
+主フィールド定義で `auto_id=True` を有効にします。Zilliz Cloud が ID 生成を自動的に処理します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -239,7 +239,8 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -270,11 +271,14 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ### ステップ 2: データを挿入する\{#step-2-insert-data}
 
-**重要:** データにプライマリフィールドの列を含めないでください。Zilliz Cloud が ID を自動生成します。
+**重要:** データに主フィールド列を含めないでください。Zilliz Cloud が ID を自動生成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -371,7 +375,8 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::EntityRows data = {{{"embedding", std::vector<float>{0.1, 0.2, 0.3, 0.4}}, {"category", "book"}},
@@ -388,19 +393,22 @@ if (!status.IsOk()) {
 auto ids = response.Results().IdArray().IntIDArray();
 ```
 
-<Admonition type="info" icon="📘" title="注記">
+</TabItem>
+</Tabs>
 
-既存のエンティティを扱う場合は、重複 ID エラーを避けるために `insert()` ではなく `upsert()` を使用してください。
+<Admonition type="info" icon="📘" title="注意">
+
+既存の entity を扱う際は、重複 ID エラーを避けるために `insert()` の代わりに `upsert()` を使用してください。
 
 </Admonition>
 
 ## 手動 ID を使用する\{#use-manual-ids}
 
-ID を手動で制御する必要がある場合は、AutoID を無効にして独自の値を指定します。
+ID を手動で管理する必要がある場合は、AutoID を無効にして独自の値を指定します。
 
-### ステップ 1: AutoID なしでコレクションを作成する\{#step-1-create-a-collection-without-autoid}
+### ステップ 1: AutoID なしで collection を作成する\{#step-1-create-a-collection-without-autoid}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -569,7 +577,8 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -600,11 +609,14 @@ if (!status.IsOk()) {
 }
 ```
 
-### ステップ 2: 独自の ID を指定してデータを挿入する\{#step-2-insert-data-with-your-ids}
+</TabItem>
+</Tabs>
 
-すべての insert 操作でプライマリフィールドの列を含める必要があります。
+### ステップ 2: 独自の ID でデータを挿入する\{#step-2-insert-data-with-your-ids}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+すべての挿入操作で、主フィールド列を含める必要があります。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -707,7 +719,8 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::EntityRows data = {{{"product_id", "PROD-001"}, {"embedding", std::vector<float>{0.1, 0.2, 0.3, 0.4}}, {"category", "book"}},
@@ -724,11 +737,14 @@ if (!status.IsOk()) {
 auto ids = response.Results().IdArray().StrIDArray()
 ```
 
-あなたの責務:
+</TabItem>
+</Tabs>
 
-- すべてのエンティティ間で、すべての ID が一意であることを保証する
+あなたの責任:
 
-- すべての insert/import 操作でプライマリフィールドを含める
+- すべての entity 間で各 ID が一意であることを保証する
 
-- ID の競合と重複検出を自分で処理する
+- すべての insert/import 操作に主フィールドを含める
+
+- ID の競合と重複の検出を自分で処理する
 

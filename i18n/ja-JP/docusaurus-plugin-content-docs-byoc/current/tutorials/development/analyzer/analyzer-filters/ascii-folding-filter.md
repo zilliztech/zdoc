@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`asciifolding` フィルターは、Basic Latin Unicode ブロック外の文字を対応する ASCII 文字に変換します。たとえば、`í` のような文字を `i` に変換し、特に多言語コンテンツにおいて、テキスト処理をよりシンプルで一貫性のあるものにします。 | BYOC"
+description: "`asciifolding` フィルターは、Basic Latin Unicode ブロックの外にある文字を対応する ASCII 文字に変換します。たとえば、`í` のような文字を `i` に変換し、特に多言語コンテンツにおいて、テキスト処理をよりシンプルで一貫性のあるものにします。 | BYOC"
 type: origin
 token: SFLCweOuaiChuVkjazqcqyE7neb
 sidebar_position: 2
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # ASCII folding
 
-`asciifolding` フィルターは、[Basic Latin Unicode block](https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block))（最初の 127 個の ASCII 文字）外の文字を対応する ASCII 文字に変換します。たとえば、`í` のような文字を `i` に変換し、特に多言語コンテンツにおいて、テキスト処理をよりシンプルで一貫性のあるものにします。
+`asciifolding` フィルターは、[Basic Latin Unicode ブロック](https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block))（最初の 127 個の ASCII 文字）の外にある文字を対応する ASCII 文字に変換します。たとえば、`í` のような文字を `i` に変換し、特に多言語コンテンツにおいて、テキスト処理をよりシンプルで一貫性のあるものにします。
 
 ## Configuration\{#configuration}
 
 `asciifolding` フィルターは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -81,7 +81,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -90,9 +91,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`asciifolding` フィルターは tokenizer によって生成された terms に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
+</TabItem>
+</Tabs>
 
-`analyzer_params` を定義した後、collection schema を定義するときにそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、効率的な tokenization と filtering のために指定された analyzer を使用して処理できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`asciifolding` フィルターは tokenizer によって生成された term に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
+
+`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` field に適用できます。これにより Zilliz Cloud は、その field 内のテキストを指定された analyzer を使用して処理し、効率的な tokenization と filtering を実現できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
 
 ## Examples\{#examples}
 
@@ -100,7 +104,7 @@ analyzer の設定を collection schema に適用する前に、`run_analyzer` �
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -145,7 +149,8 @@ analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"asciif
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -154,9 +159,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -254,7 +262,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -279,7 +288,10 @@ if (!status.IsOk()) {
 }
 ```
 
-### Expected output\{#expected-output}
+</TabItem>
+</Tabs>
+
+### 期待される出力\{#expected-output}
 
 ```python
 ['Cafe', 'Moller', 'serves', 'creme', 'brulee', 'and', 'pinatas']

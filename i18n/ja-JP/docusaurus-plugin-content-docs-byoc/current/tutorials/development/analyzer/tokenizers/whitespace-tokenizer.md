@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`whitespace` tokenizer は、単語間にスペースがあるたびにテキストを用語に分割します。 | BYOC"
+description: "`whitespace` tokenizer は、単語間にスペースがあるたびにテキストを語に分割します。 | BYOC"
 type: origin
 token: F2QrwjFSziSUkJkyXzbcwovUnCg
 sidebar_position: 2
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # Whitespace
 
-`whitespace` tokenizer は、単語間にスペースがあるたびにテキストを用語に分割します。
+`whitespace` tokenizer は、単語間にスペースがあるたびにテキストを語に分割します。
 
 ## Configuration\{#configuration}
 
-`whitespace` tokenizer を使用して analyzer を設定するには、`analyzer_params` 内で `tokenizer` を `whitespace` に設定します。
+`whitespace` tokenizer を使用して analyzer を設定するには、`analyzer_params` で `tokenizer` を `whitespace` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -75,7 +75,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -83,9 +84,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 whitespace tokenizer は、1 つ以上の filter と組み合わせて使用できます。たとえば、次のコードは `whitespace` tokenizer と [`lowercase`](./lowercase-filter)[ filter](./lowercase-filter) を使用する analyzer を定義しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -139,7 +143,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -148,15 +153,18 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`analyzer_params` を定義した後、collection スキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的な tokenization と filtering を実現できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+</TabItem>
+</Tabs>
+
+`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は効率的な tokenization と filtering のために、そのフィールド内のテキストを指定された analyzer を使って処理できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## Examples\{#examples}
 
-analyzer 設定を collection スキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -201,7 +209,8 @@ analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowe
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -210,9 +219,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
+</TabItem>
+</Tabs>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -310,7 +322,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -334,6 +347,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ### Expected output\{#expected-output}
 

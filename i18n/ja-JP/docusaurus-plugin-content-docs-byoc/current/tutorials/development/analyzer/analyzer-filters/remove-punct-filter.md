@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`removepunct` フィルタは、トークンストリームから独立した句読点トークンを削除します。句読点ではなく意味のある内容語に焦点を当てた、よりクリーンなテキスト処理を行いたい場合に使用します。 | BYOC"
+description: "`removepunct` フィルターは、トークンストリームから独立した句読点トークンを削除します。句読点ではなく意味のある内容語に重点を置いた、よりクリーンなテキスト処理を行いたい場合に使用します。 | BYOC"
 type: origin
 token: TVfnwtCEQico7Bk9bngcnV1cnGb
 sidebar_position: 11
@@ -21,19 +21,19 @@ import TabItem from '@theme/TabItem';
 
 # Remove Punct
 
-`removepunct` フィルタは、トークンストリームから独立した句読点トークンを削除します。句読点ではなく意味のある内容語に焦点を当てた、よりクリーンなテキスト処理を行いたい場合に使用します。
+`removepunct` フィルターは、トークンストリームから独立した句読点トークンを削除します。句読点ではなく意味のある内容語に重点を置いた、よりクリーンなテキスト処理を行いたい場合に使用します。
 
 <Admonition type="info" icon="📘" title="注意">
 
-このフィルタは、句読点を個別のトークンとして保持する `jieba`、`lindera`、`icu` トークナイザーと組み合わせると最も効果的です（例: `"Hello!"` → `["Hello", "!"]`）。`standard` や `whitespace` のような他のトークナイザーは、トークン化の際に句読点を破棄するため、`removepunct` はそれらには効果がありません。
+このフィルターは、句読点を個別のトークンとして保持する `jieba`、`lindera`、`icu` tokenizer と組み合わせたときに最も効果的です（例: `"Hello!"` → `["Hello", "!"]`）。`standard` や `whitespace` などの他の tokenizer はトークン化時に句読点を破棄するため、`removepunct` はそれらには効果がありません。
 
 </Admonition>
 
-## 設定\{#configuration}
+## Configuration\{#configuration}
 
-`removepunct` フィルタは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
+`removepunct` フィルターは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションにその名前を指定するだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -78,7 +78,8 @@ analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"removepun
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -87,17 +88,20 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`removepunct` フィルタはトークナイザーによって生成されたトークンに対して動作するため、トークナイザーと組み合わせて使用する必要があります。
+</TabItem>
+</Tabs>
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより Zilliz Cloud は、効率的なトークン化とフィルタリングのために、指定されたアナライザーを使用してそのフィールド内のテキストを処理できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`removepunct` フィルターは tokenizer が生成した用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。
 
-## 例\{#examples}
+`analyzer_params` を定義した後は、collection スキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより Zilliz Cloud は、そのフィールド内のテキストを指定した analyzer を使用して処理し、効率的なトークン化とフィルタリングを行えます。詳細は [使用例](./analyzer-overview#example-use) を参照してください。
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+## Examples\{#examples}
 
-### アナライザー設定\{#analyzer-configuration}
+analyzer の構成を collection スキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+### Analyzer configuration\{#analyzer-configuration}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -142,7 +146,8 @@ analyzerParams = map[string]any{"tokenizer": "icu", "filter": []string{"removepu
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -151,9 +156,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
+</TabItem>
+</Tabs>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+### `run_analyzer` を使用した確認\{#verification-using-runanalyzer}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -247,7 +255,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -272,7 +281,10 @@ if (!status.IsOk()) {
 }
 ```
 
-### 期待される出力\{#expected-output}
+</TabItem>
+</Tabs>
+
+### Expected output\{#expected-output}
 
 ```plaintext
 ['Привет', 'Как', 'дела']

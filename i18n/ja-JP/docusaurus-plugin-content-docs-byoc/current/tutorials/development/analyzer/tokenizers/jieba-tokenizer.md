@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`jieba` tokenizer は、中国語のテキストを構成する単語に分割して処理します。 | BYOC"
+description: "`jieba` tokenizer は中国語テキストを構成する単語に分割して処理します。 | BYOC"
 type: origin
 token: JGURwBQNOijp2DkspFFctbAGnLh
 sidebar_position: 3
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Jieba
 
-`jieba` tokenizer は、中国語のテキストを構成する単語に分割して処理します。
+`jieba` tokenizer は、中国語テキストを構成する単語に分割して処理します。
 
 <Admonition type="info" icon="📘" title="注意">
 
-`jieba` tokenizer は、句読点を出力内で独立した token として保持します。たとえば、`"你好！世界。"` は `["你好", "！", "世界", "。"]` になります。これらの独立した句読点 token を削除するには、[`removepunct`](./remove-punct-filter) filter を使用してください。
+`jieba` tokenizer は、句読点を出力内で個別の token として保持します。たとえば、`"你好！世界。"` は `["你好", "！", "世界", "。"]` になります。これらの単独の句読点 token を削除するには、[`removepunct`](./remove-punct-filter) filter を使用してください。
 
 </Admonition>
 
@@ -37,7 +37,7 @@ Milvus は、`jieba` tokenizer に対して 2 つの設定方法をサポート�
 
 シンプル設定では、tokenizer を `"jieba"` に設定するだけで済みます。例:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -86,7 +86,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -94,9 +95,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 このシンプル設定は、次のカスタム設定と同等です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -146,7 +150,8 @@ analyzerParams = map[string]any{"type": "jieba", "dict": []any{"_default_"}, "mo
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -157,13 +162,16 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 パラメータの詳細については、[Custom configuration](./jieba-tokenizer#custom-configuration) を参照してください。
 
 ### Custom configuration\{#custom-configuration}
 
-より細かく制御したい場合は、カスタム設定を指定できます。これにより、カスタム辞書の指定、分割モードの選択、Hidden Markov Model (HMM) の有効化または無効化が可能になります。例:
+より細かく制御するには、カスタム設定を指定できます。これにより、カスタム辞書の指定、分割モードの選択、Hidden Markov Model (HMM) の有効化または無効化が可能です。例:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -224,7 +232,8 @@ analyzerParams := map[string]interface{}{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzerParams = {                                                                                              
@@ -237,43 +246,46 @@ nlohmann::json analyzerParams = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 <table>
    <tr>
-     <th><p>Parameter</p></th>
+     <th><p>パラメータ</p></th>
      <th><p>説明</p></th>
      <th><p>デフォルト値</p></th>
    </tr>
    <tr>
      <td><p><code>type</code></p></td>
-     <td><p>tokenizer のタイプです。これは <code>"jieba"</code> に固定されています。</p></td>
+     <td><p>tokenizer の種類です。これは <code>"jieba"</code> に固定されています。</p></td>
      <td><p><code>"jieba"</code></p></td>
    </tr>
    <tr>
      <td><p><code>dict</code></p></td>
-     <td><p>analyzer が語彙ソースとして読み込む辞書のリストです。組み込みオプション:</p><ul><li><p><code>"_default_"</code>: エンジン組み込みの簡体字中国語辞書を読み込みます。詳細は <a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a> を参照してください。</p></li><li><p><code>"_extend_default_"</code>: <code>"_default_"</code> のすべてに加えて、繁体字中国語の追加辞書を読み込みます。詳細は <a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a> を参照してください。</p><p>組み込み辞書と任意個のカスタム辞書を組み合わせることもできます。例: <code>["_default_", "结巴分词器"]</code>。</p></li></ul></td>
+     <td><p>analyzer が語彙ソースとして読み込む辞書のリストです。組み込みオプション:</p><ul><li><p><code>"_default_"</code>: エンジンに組み込まれた簡体字中国語辞書を読み込みます。詳細は <a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a> を参照してください。</p></li><li><p><code>"_extend_default_"</code>: <code>"_default_"</code> のすべてに加えて、繁体字中国語の追加辞書を読み込みます。詳細は <a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a> を参照してください。</p><p>組み込み辞書は、任意の数のカスタム辞書と組み合わせることもできます。例: <code>["_default_", "结巴分词器"]</code>。</p></li></ul></td>
      <td><p><code>["_default_"]</code></p></td>
    </tr>
    <tr>
      <td><p><code>mode</code></p></td>
-     <td><p>分割モードです。指定可能な値:</p><ul><li><p><code>"exact"</code>: 文をできるだけ正確に分割しようとするため、テキスト分析に適しています。</p></li><li><p><code>"search"</code>: exact モードをベースに、長い単語をさらに分割して再現率を高めるため、検索エンジンの tokenization に適しています。</p><p>詳細は <a href="https://github.com/fxsjy/jieba">Jieba GitHub Project</a> を参照してください。</p></li></ul></td>
+     <td><p>分割モードです。指定可能な値:</p><ul><li><p><code>"exact"</code>: 文をできるだけ正確に分割しようとします。テキスト分析に適しています。</p></li><li><p><code>"search"</code>: exact モードをベースに長い単語をさらに分割して再現率を向上させるため、検索エンジンの tokenization に適しています。</p><p>詳細は <a href="https://github.com/fxsjy/jieba">Jieba GitHub Project</a> を参照してください。</p></li></ul></td>
      <td><p><code>"search"</code></p></td>
    </tr>
    <tr>
      <td><p><code>hmm</code></p></td>
-     <td><p>辞書に見つからない単語を確率的に分割するために、Hidden Markov Model (HMM) を有効にするかどうかを示す boolean フラグです。</p></td>
+     <td><p>辞書に存在しない単語を確率的に分割するために、Hidden Markov Model (HMM) を有効にするかどうかを示す boolean フラグです。</p></td>
      <td><p><code>true</code></p></td>
    </tr>
 </table>
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` field に適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してその field のテキストを処理し、効率的な tokenization と filtering を行えます。詳細は、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` field に適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してその field のテキストを処理し、効率的な tokenization と filtering を行えます。詳細は [Example use](./analyzer-overview#example-use) を参照してください。
 
 ## Examples\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` method を使用してその動作を確認してください。
+analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -333,7 +345,8 @@ analyzerParams := map[string]interface{}{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzerParams = {
@@ -346,9 +359,12 @@ nlohmann::json analyzerParams = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -446,7 +462,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -470,6 +487,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ### Expected output\{#expected-output}
 

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud cluster では、テキストの scalar データを `VARCHAR` フィールドおよび `TEXT` フィールドに保存できます。このページでは、名前、タグ、カテゴリ、外部 ID などの短く長さが制限された文字列メタデータ向けに設計された `VARCHAR` について説明します。 | BYOC"
+description: "Zilliz Cloud クラスターでは、テキストのスカラーデータを `VARCHAR` および `TEXT` フィールドに保存できます。このページでは、名前、タグ、カテゴリ、外部 ID などの短く長さが制限された文字列メタデータ向けに設計された `VARCHAR` について説明します。 | BYOC"
 type: origin
 token: QBXVwP7oiiuEovkprDnckJlEnoK
 sidebar_position: 6
@@ -21,9 +21,9 @@ import TabItem from '@theme/TabItem';
 
 # VarChar フィールド
 
-Zilliz Cloud cluster では、テキストの scalar データを `VARCHAR` フィールドおよび `TEXT` フィールドに保存できます。このページでは、名前、タグ、カテゴリ、外部 ID などの短く長さが制限された文字列メタデータ向けに設計された `VARCHAR` について説明します。
+Zilliz Cloud クラスターでは、テキストのスカラーデータを `VARCHAR` および `TEXT` フィールドに保存できます。このページでは、名前、タグ、カテゴリ、外部 ID などの短く長さが制限された文字列メタデータ向けに設計された `VARCHAR` について説明します。
 
-エンティティとともに保存および返却される、より長いソーステキスト、文書の段落、記事本文、チケット、またはログには、代わりに `TEXT` フィールドを使用してください。詳細については、[TEXT フィールド](./use-text-field)を参照してください。
+より長いソーステキスト、ドキュメントの一節、記事本文、チケット、またはログをエンティティとともに保存して返す必要がある場合は、代わりに `TEXT` フィールドを使用してください。詳細については、[TEXT フィールド](./use-text-field) を参照してください。
 
 `VARCHAR` フィールドを定義する際には、2 つのパラメータが必須です。
 
@@ -39,19 +39,19 @@ Zilliz Cloud は `VARCHAR` フィールドの null 値とデフォルト値を�
 
 ## VARCHAR フィールドを追加する\{#add-varchar-field}
 
-Zilliz Cloud cluster に短く長さが制限された文字列メタデータを保存するには、collection schema に `VARCHAR` フィールドを定義します。以下は、2 つの `VARCHAR` フィールドを持つ collection schema を定義する例です。
+Zilliz Cloud クラスターに短く長さが制限された文字列メタデータを保存するには、コレクションスキーマに `VARCHAR` フィールドを定義します。以下は、2 つの `VARCHAR` フィールドを持つコレクションスキーマを定義する例です。
 
-- `varchar_field1`: 最大 100 バイトを保存し、null 値を許可し、デフォルト値 `"Unknown"` を持ちます。
+- `varchar_field1`: 最大 100 バイトを保存し、null 値を許可し、デフォルト値として `"Unknown"` を持ちます。
 
 - `varchar_field2`: 最大 200 バイトを保存し、null 値を許可しますが、デフォルト値はありません。
 
 <Admonition type="info" icon="📘" title="注意">
 
-schema を定義するときに `enable_dynamic_fields=True` を設定すると、Zilliz Cloud は事前に定義されていない scalar フィールドの挿入を許可します。ただし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細については、[Dynamic Field](./enable-dynamic-field) を参照してください。
+スキーマ定義時に `enable_dynamic_fields=True` を設定すると、Zilliz Cloud は事前に定義されていないスカラーフィールドの挿入を許可します。ただし、これによりクエリや管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細については、[Dynamic Field](./enable-dynamic-field) を参照してください。
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -260,7 +260,8 @@ export schema="{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -280,13 +281,16 @@ schema->AddField(milvus::FieldSchema("varchar_field1", milvus::DataType::VARCHAR
 schema->AddField(milvus::FieldSchema("varchar_field2", milvus::DataType::VARCHAR).WithMaxLength(200).WithNullable(true));
 ```
 
+</TabItem>
+</Tabs>
+
 ## インデックスパラメータを設定する\{#set-index-params}
 
-インデックス作成は検索およびクエリのパフォーマンス向上に役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドに対するインデックス作成は必須ですが、スカラーフィールドに対しては任意です。
+インデックス作成は、検索およびクエリのパフォーマンス向上に役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドにはインデックス作成が必須ですが、スカラーフィールドでは任意です。
 
-次の例では、ベクトルフィールド `embedding` とスカラーフィールド `varchar_field1` の両方に、`AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。
+次の例では、ベクトルフィールド `embedding` とスカラーフィールド `varchar_field1` の両方に `AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -389,7 +393,8 @@ export indexParams='[
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 std::vector<milvus::IndexDesc> indexes = {
@@ -398,11 +403,14 @@ std::vector<milvus::IndexDesc> indexes = {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## コレクションを作成する\{#create-collection}
 
 スキーマとインデックスを定義したら、文字列フィールドを含むコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -472,7 +480,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
@@ -484,11 +493,14 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## データを挿入する\{#insert-data}
 
-コレクションを作成したら、スキーマに一致するエンティティを挿入します。
+コレクションを作成した後、スキーマに一致するエンティティを挿入します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -626,7 +638,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::EntityRows data = {{{"varchar_field1", "Product A"}, {"varchar_field2", "High quality product"}, {"pk", 1}, {"embedding", std::vector<float>{0.1, 0.2, 0.3}}},
@@ -647,13 +660,16 @@ if (!status.IsOk()) {
 }
 ```
 
-## フィルター式を使ってクエリする\{#query-with-filter-expressions}
+</TabItem>
+</Tabs>
+
+## フィルター式を使ったクエリ\{#query-with-filter-expressions}
 
 エンティティを挿入した後、`query` メソッドを使用して、指定したフィルター式に一致するエンティティを取得します。
 
-`varchar_field1` が文字列 `"Product A"` に一致するエンティティを取得するには:
+`varchar_field1` が文字列 `"Product A"` と一致するエンティティを取得するには、以下を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -749,7 +765,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto request = milvus::QueryRequest()
@@ -771,9 +788,12 @@ for (const auto& row : output_rows) {
 }
 ```
 
-`varchar_field2` が null のエンティティを取得するには:
+</TabItem>
+</Tabs>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+`varchar_field2` が null のエンティティを取得するには、以下を使用します。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -869,7 +889,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto request = milvus::QueryRequest()
@@ -891,9 +912,12 @@ for (const auto& row : output_rows) {
 }
 ```
 
-`varchar_field1` の値が `"Unknown"` のエンティティを取得するには、以下の式を使用します。`varchar_field1` のデフォルト値は `"Unknown"` であるため、期待される結果には、`varchar_field1` が明示的に `"Unknown"` に設定されているエンティティと、`varchar_field1` が null に設定されているエンティティの両方が含まれるはずです。
+</TabItem>
+</Tabs>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+`varchar_field1` の値が `"Unknown"` のエンティティを取得するには、以下の式を使用します。`varchar_field1` のデフォルト値は `"Unknown"` であるため、想定される結果には、`varchar_field1` が明示的に `"Unknown"` に設定されているエンティティ、または `varchar_field1` が null に設定されているエンティティが含まれます。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -988,7 +1012,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto request = milvus::QueryRequest()
@@ -1009,11 +1034,14 @@ for (const auto& row : output_rows) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## フィルター式を使ったベクトル検索\{#vector-search-with-filter-expressions}
 
-基本的なスカラーフィールドのフィルタリングに加えて、ベクトル類似度検索とスカラーフィールドのフィルターを組み合わせることもできます。たとえば、次のコードはベクトル検索にスカラーフィールドのフィルターを追加する方法を示しています。
+基本的なスカラーフィールドのフィルタリングに加えて、ベクトル類似度検索とスカラーフィールドフィルターを組み合わせることもできます。たとえば、以下のコードはベクトル検索にスカラーフィールドフィルターを追加する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1139,7 +1167,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 std::vector<float> query_vector = {0.3, -0.6, 0.1};
@@ -1167,3 +1196,6 @@ for (auto& result : search_results.Results()) {
     }
 }
 ```
+
+</TabItem>
+</Tabs>

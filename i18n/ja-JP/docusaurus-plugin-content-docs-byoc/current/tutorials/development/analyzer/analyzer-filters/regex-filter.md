@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`regex` フィルターは正規表現フィルターです。tokenizer によって生成された token のうち、指定した式に一致するものだけが保持され、それ以外はすべて破棄されます。 | BYOC"
+description: "`regex` フィルターは正規表現フィルターです。tokenizer によって生成されたトークンのうち、指定した式に一致するものだけが保持され、それ以外はすべて破棄されます。 | BYOC"
 type: origin
 token: AwmtwHGQii1j9Wk1W04cNxvBnth
 sidebar_position: 12
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # Regex
 
-`regex` フィルターは正規表現フィルターです。tokenizer によって生成された token のうち、指定した式に一致するものだけが保持され、それ以外はすべて破棄されます。
+`regex` フィルターは正規表現フィルターです。tokenizer によって生成されたトークンのうち、指定した式に一致するものだけが保持され、それ以外はすべて破棄されます。
 
 ## Configuration\{#configuration}
 
-`regex` フィルターは Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター設定で `"type": "regex"` を指定し、あわせて `expr` パラメーターで使用したい正規表現を指定します。
+`regex` フィルターは Zilliz Cloud のカスタムフィルターです。使用するには、フィルター設定で `"type": "regex"` を指定し、さらに `expr` パラメータで目的の正規表現を指定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -84,7 +84,8 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -95,15 +96,18 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`regex` フィルターは、以下の設定可能なパラメーターを受け付けます。
+</TabItem>
+</Tabs>
+
+`regex` フィルターは、以下の設定可能なパラメータを受け付けます。
 
 | Parameter | Description |
 | --- | --- |
-| `expr` | 各 token に適用される正規表現パターンです。一致した token は保持され、一致しないものは除外されます。<br/>正規表現の構文の詳細については、[Syntax](https://docs.rs/regex/latest/regex/#syntax) を参照してください。 |
+| `expr` | 各トークンに適用される正規表現パターンです。一致したトークンは保持され、一致しなかったものは破棄されます。<br/>正規表現の構文の詳細については、[Syntax](https://docs.rs/regex/latest/regex/#syntax) を参照してください。 |
 
-`regex` フィルターは tokenizer によって生成された term に対して動作するため、tokenizer と組み合わせて使用する必要があります。
+`regex` フィルターは tokenizer によって生成された用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後、collection スキーマを定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は指定した analyzer を使用してそのフィールド内のテキストを処理し、効率的な tokenization と filtering を行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、collection スキーマを定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、指定された analyzer を使用して効率的にトークン化およびフィルタリングできます。詳細は、[Example use](./analyzer-overview#example-use) を参照してください。
 
 ## Examples\{#examples}
 
@@ -111,7 +115,7 @@ analyzer 設定を collection スキーマに適用する前に、`run_analyzer`
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -167,7 +171,8 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -178,9 +183,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+</TabItem>
+</Tabs>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -274,7 +282,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -299,7 +308,10 @@ if (!status.IsOk()) {
 }
 ```
 
-### Expected output\{#expected-output}
+</TabItem>
+</Tabs>
+
+### 期待される出力\{#expected-output}
 
 ```python
 ['apple', 'banana']
