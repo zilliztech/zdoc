@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "外部ボリュームは、お客様自身のクラウドオブジェクトストレージ（AWS S3 や Google Cloud Storage など）のバケットまたはパスへの読み取り専用参照であり、Zilliz Cloud がデータをコピーまたは移動することなく、その場でアクセスできるようにします。 | Cloud"
+description: "外部ボリュームは、自身のクラウドオブジェクトストレージ（AWS S3 や Google Cloud Storage など）内のバケットまたはパスへの読み取り専用参照であり、データをコピーまたは移動することなく、その場で Zilliz Cloud がデータにアクセスできるようにします。 | Cloud"
 type: origin
 token: JaLdw76LPiX003kLpKHcA0n8n2d
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -31,25 +31,25 @@ import Procedures from '@site/src/components/Procedures';
 
 </FeatureNote>
 
-外部ボリュームは、お客様自身のクラウドオブジェクトストレージ（AWS S3 や Google Cloud Storage など）のバケットまたはパスへの読み取り専用参照であり、Zilliz Cloud がデータをコピーまたは移動することなく、その場でアクセスできるようにします。 
+外部ボリュームは、自身のクラウドオブジェクトストレージ（AWS S3 や Google Cloud Storage など）内のバケットまたはパスへの読み取り専用参照であり、データをコピーまたは移動することなく、その場で Zilliz Cloud がデータにアクセスできるようにします。 
 
-このページでは、Web コンソールおよび SDK を使用して外部ボリュームを作成および削除する方法を説明します。                      
+このページでは、Web コンソールおよび SDK を使用して外部ボリュームを作成および削除する方法について説明します。                      
 
 ## 考慮事項\{#considerations}
 
-- ボリュームは、プロジェクトのクラウドプロバイダーとリージョンに制限されます。たとえば、プロジェクトが AWS us-west-2 にある場合、作成できるボリュームも AWS us-west-2 内に限られます。
+- ボリュームは、プロジェクトのクラウドプロバイダーおよびリージョンに制限されます。たとえば、プロジェクトが AWS us-west-2 にある場合、作成できるボリュームも AWS us-west-2 内のみです。
 
-- クラスターでボリュームを使用するには、そのクラスターがボリュームと同じクラウドプロバイダーおよびリージョン内にある必要があります。
+- クラスターでボリュームを使用するには、そのクラスターがボリュームと同じクラウドプロバイダーおよびリージョンに存在している必要があります。
 
 - ボリュームを作成および管理するには、**Project Admin** である必要があります。
 
-- 一度作成したボリュームの設定は編集できません。ボリューム設定を変更したい場合は、代わりに希望する設定で新しいボリュームを作成してください。
+- ボリュームは作成後に設定を編集できません。ボリュームの設定を変更したい場合は、代わりに希望する設定で新しいボリュームを作成してください。
 
-- 外部ボリュームの場合、データはお客様のバケット内に保持されます。そのため、外部ボリューム上ではなく、お使いのクラウドオブジェクトストレージ内でデータファイルを管理する必要があります。
+- 外部ボリュームの場合、データは自身のバケット内に保持されます。そのため、データファイルは外部ボリューム上ではなく、クラウドオブジェクトストレージ内で管理する必要があります。
 
-- 各組織では、最大 **100 個の外部ボリューム** を作成できます。
+- 各組織は最大 **100 個の外部ボリューム** を作成できます。
 
-## 開始する前に\{#before-you-start}
+## 始める前に\{#before-you-start}
 
 外部ボリュームを作成する前に、[AWS S3 バケット](./integrate-with-aws-s3) または [Google GCS バケット](./integrate-with-gcp) を統合する必要があります。ストレージ統合は、作成したい外部ボリュームと同じクラウドプロバイダーおよびリージョン内にある必要があることに注意してください。
 
@@ -150,17 +150,17 @@ import Procedures from '@site/src/components/Procedures';
     </TabItem>
     </Tabs>
 
-    次の表は各パラメーターを説明しています。
+    次の表は、各パラメーターを説明しています。
 
     | **Parameter** | **Description** |
     | --- | --- |
     | `projectId` | ボリュームを作成したいプロジェクトの ID。 |
-    | `regionId` | 作成するボリュームのリージョンは、データのインポートまたは移行先として予定している対象クラスターのクラウドプロバイダーおよびリージョンと一致している必要があります。 |
-    | `volumeName` | 作成するボリューム名は組織全体で一意である必要があり、64 文字以下で、文字またはアンダースコアで始まり、文字、数字、ハイフン、アンダースコアのみを含めることができます。 |
+    | `regionId` | 作成するボリュームのリージョンは、データをインポートまたは移行する対象クラスターのクラウドプロバイダーおよびリージョンと一致している必要があります。 |
+    | `volumeName` | 作成するボリュームの名前は組織全体で一意である必要があり、64 文字以下で、文字またはアンダースコアで始まり、文字、数字、ハイフン、アンダースコアのみを含める必要があります。 |
     | `type` | 外部ボリュームを作成するには、このパラメーターを `EXTERNAL` に設定します。デフォルトは `MANAGED` です。 |
     | `storageIntegrationId` | 参照するストレージ統合の ID。`type=EXTERNAL` の場合は必須です。選択するストレージ統合は、作成したい外部ボリュームと同じ組織およびリージョンに属している必要があります。 |
     | `path` | ストレージパス。`type=EXTERNAL` の場合は必須です。 |
-    | `description`(optional) | 作成するボリュームの説明。255 文字以内。 |
+    | `description`(optional) | 作成するボリュームの説明。255 文字まで。 |
 
 - **Web コンソール経由**
 
@@ -172,17 +172,17 @@ import Procedures from '@site/src/components/Procedures';
 
     1. Volumes ページで **+ Volume** をクリックします。
 
-    1. ボリューム設定を行います。
+    1. ボリュームの設定を行います。
 
         次の表は、外部ボリューム作成時に使用される各パラメーターを説明しています。
 
         | **Parameter** | **Description** |
         | --- | --- |
-        | Name | ボリューム名は組織全体で一意である必要があり、64 文字以下で、文字またはアンダースコアで始まり、文字、数字、ハイフン、アンダースコアのみを含めることができます。 |
-        | Description | このパラメーターは任意です。255 文字以内。 |
-        | Volume Type | ボリュームタイプとして「External」を選択します。 |
-        | Cloud Provider & Region | ボリュームのクラウドプロバイダーとリージョンは、データのインポートまたは移行先として予定している対象クラスターのクラウドプロバイダーとリージョンに一致している必要があります。 |
-        | Storage Integration & Path | ストレージ統合（[AWS S3 バケット](./integrate-with-aws-s3) または [Google GCS バケット](./integrate-with-gcp)）は、クラウドストレージへのアクセス設定をカプセル化した認証情報オブジェクトです。<br/>Path はデータが配置されている場所を指すポインターです。（例: `folder/`） |
+        | Name | ボリューム名は組織全体で一意である必要があり、64 文字以下で、文字またはアンダースコアで始まり、文字、数字、ハイフン、アンダースコアのみを含める必要があります。 |
+        | Description | このパラメーターは任意です。255 文字まで。 |
+        | Volume Type | ボリュームタイプとして "External" を選択します。 |
+        | Cloud Provider & Region | ボリュームのクラウドプロバイダーおよびリージョンは、データをインポートまたは移行する対象クラスターのクラウドプロバイダーおよびリージョンと一致している必要があります。 |
+        | Storage Integration & Path | ストレージ統合（[AWS S3 バケット](./integrate-with-aws-s3) または [Google GCS バケット](./integrate-with-gcp)）は、クラウドストレージへのアクセス設定をカプセル化した認証情報オブジェクトです。<br/>Path は、データが配置されている場所を指すポインターです。（例: `folder/`） |
 
     1. **Create** をクリックします。
 
@@ -323,7 +323,7 @@ import Procedures from '@site/src/components/Procedures';
 
     ![PeL0wrKF1hTHvwbNAZBctTQonZf](https://zdoc-images.s3.us-west-2.amazonaws.com/PeL0wrKF1hTHvwbNAZBctTQonZf.png)
 
-## 外部ボリュームを記述する\{#describe-external-volume}
+## 外部ボリュームの詳細を表示する\{#describe-external-volume}
 
 特定のボリュームの詳細を確認できます。
 
@@ -441,7 +441,7 @@ import Procedures from '@site/src/components/Procedures';
 
 不要になった外部ボリュームはいつでも削除できます。
 
-外部ボリュームを削除しても、Zilliz Cloud から削除されるのはボリュームのメタデータのみであり、お客様のデータはクラウドオブジェクトストレージ内にそのまま保持されます。 
+外部ボリュームを削除すると、Zilliz Cloud からはボリュームのメタデータのみが削除され、データ自体はクラウドオブジェクトストレージ内にそのまま保持されます。 
 
 - **SDK 経由**
 
@@ -536,60 +536,60 @@ import Procedures from '@site/src/components/Procedures';
 
     </Procedures>
 
-## 課金\{#billing}
+## 請求\{#billing}
 
-外部ボリュームの作成および使用に対して、Zilliz Cloud の料金は発生しません。支払い方法の登録も不要です。
+外部ボリュームの作成と利用には、Zilliz Cloud の料金は発生しません。支払い方法の登録も不要です。
 
-ただし、インポートまたは移行時に Zilliz Cloud がお客様のバケットからデータを読み取る際、クラウドプロバイダーからデータリクエスト料金が請求される場合があります。詳細は、[Amazon S3 Pricing](https://aws.amazon.com/s3/pricing/) または [Google Cloud Storage Pricing](https://cloud.google.com/storage/pricing.) を参照してください。
+ただし、インポートまたは移行時に Zilliz Cloud がお使いの bucket から読み取る際、クラウドプロバイダーからデータリクエスト料金が請求される場合があります。詳細については、[Amazon S3 Pricing](https://aws.amazon.com/s3/pricing/) または [Google Cloud Storage Pricing](https://cloud.google.com/storage/pricing.) を参照してください。
 
 ## FAQ\{#faqs}
 
-**請求書の未払いにより組織が凍結された場合、ボリュームはどうなりますか？**
+**請求書の未払いにより organization が凍結された場合、私の volumes はどうなりますか？**
 
-組織が凍結されると、無料トライアルおよび従量課金制の両方を含むすべてのマネージドボリュームと、その中に保存されているすべてのファイルは削除され、復元できません。外部ボリュームも凍結され、新しい操作には使用できなくなりますが、お客様自身のバケット内のデータには影響しません。
+organization が凍結されると、無料トライアルと従量課金の両方を含むすべての管理対象 Volumes と、それらに保存されているすべてのファイルは削除され、復元できません。外部ボリュームも凍結され、新しい操作には使用できなくなりますが、ご自身の bucket 内のデータには影響しません。
 
-ボリュームの利用を継続するには、まず未払いの請求書をすべて精算してください。
+volumes を引き続き使用するには、まず未払いの請求書をすべて精算してください。
 
 **外部ボリュームと外部ストレージからの直接インポートの違いは何ですか？**
 
-どちらも、お客様自身の S3 または GCS バケットからデータをインポートできます。主な違いは次のとおりです。
+どちらも、ご自身の S3 または GCS bucket からデータをインポートできます。主な違いは次のとおりです。
 
-- 外部ボリュームでは、認証情報管理のために [AWS S3 バケット](./integrate-with-aws-s3)、[Google Cloud Storage バケット](./integrate-with-gcp)、または [Microsoft Azure Blob Storage コンテナー](./integrate-with-azure-blob-storage) を Zilliz Cloud と統合する必要があります。認証情報は一度設定すれば、複数のボリュームや操作で再利用できます。データエンジニアがクラウドストレージキーへ直接アクセスする必要はありません。
+- 外部ボリュームでは、認証情報を管理するために、[AWS S3 bucket](./integrate-with-aws-s3)、[Google Cloud Storage bucket](./integrate-with-gcp)、または [Microsoft Azure blob storage container](./integrate-with-azure-blob-storage) を Zilliz Cloud と連携する必要があります。認証情報は一度設定すれば、複数の volumes や操作で再利用できます。データエンジニアがクラウドストレージのキーに直接アクセスする必要はありません。
 
-- 直接の [外部ストレージインポート](./import-data-on-web-ui) では、インポート要求ごとに認証情報（アクセスキーとシークレットキー）を指定する必要があります。1 回限りのインポートにはより簡単ですが、認証情報の分離や再利用性は提供されません。
+- 直接の [external storage import](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) では、インポートリクエストごとに認証情報（access key と secret key）を指定する必要があります。これは一度限りのインポートには簡単ですが、認証情報の分離や再利用性は提供されません。
 
-**作成後に外部ボリュームのストレージ統合またはパスを変更できますか？**
+**外部ボリュームの作成後に、ストレージ連携またはパスを変更できますか？**
 
-いいえ。外部ボリュームの作成後に、ストレージ統合およびパスを変更することはできません。別のストレージ統合またはパスを使用したい場合は、新しい外部ボリュームを作成してください。
+いいえ。外部ボリュームの作成後は、ストレージ連携とパスを変更できません。別のストレージ連携またはパスを使用するには、新しい外部ボリュームを作成してください。
 
-**アクティブなジョブまたは外部コレクションから参照されている外部ボリュームを削除できますか？**
+**アクティブなジョブまたは external collection から参照されている外部ボリュームを削除できますか？**
 
-いいえ。下流の外部コレクションまたはアクティブなジョブがそのボリュームを参照している場合、削除はブロックされます。
+いいえ。下流の external collections またはアクティブなジョブがその volume を参照している場合、削除はブロックされます。
 
-**外部ボリュームを使用すると、データ転送料金は発生しますか？**
+**外部ボリュームを使用すると、データ転送料金は請求されますか？**
 
-いいえ。外部ボリュームは、お使いのクラスターと同じクラウドプロバイダーおよびリージョン内に存在する必要があります。すべてのデータアクセスは同一リージョン内で行われるため、Zilliz Cloud でクロスリージョンのデータ転送料金は発生しません。
+いいえ。外部ボリュームは、お使いの cluster と同じクラウドプロバイダーおよびリージョン内に存在する必要があります。すべてのデータアクセスは同じリージョン内で行われるため、Zilliz Cloud ではリージョン間のデータ転送料金は発生しません。
 
-**ボリュームステータスの意味は何ですか？**
+**volume のステータスは何を意味しますか？**
 
-次の表は、ボリュームの取り得るステータスを示しています。
+以下の表は、volume に設定される可能性のあるステータスを示しています。
 
 <table>
    <tr>
-     <th><p><strong>Status</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>ステータス</strong></p></th>
+     <th><p><strong>説明</strong></p></th>
    </tr>
    <tr>
      <td><p><strong>Available</strong></p></td>
-     <td><p>ボリュームは有効で、使用可能です。</p></td>
+     <td><p>この volume はアクティブで、利用可能です。</p></td>
    </tr>
    <tr>
      <td><p><strong>Frozen</strong></p></td>
-     <td><p>未払いの<a href="./view-invoice">請求書</a>により組織が凍結されています。このボリュームは新しい操作には使用できません。ボリュームの利用を継続するには、請求をお支払いください。</p></td>
+     <td><p>未払いの<a href="/docs/view-invoice">請求書</a>により organization が凍結されています。この volume は新しい操作には使用できません。volumes を引き続き使用するには、請求をお支払いください。</p></td>
    </tr>
    <tr>
      <td><p><strong>Error</strong></p></td>
-     <td><p>ストレージ統合の検証に失敗しました。設定を確認して再試行してください。</p><p>対象となるストレージ統合は次のとおりです。</p><ul><li><p><a href="./integrate-with-aws-s3">AWS S3 バケット</a>、</p></li><li><p><a href="./integrate-with-gcp">Google Cloud Storage バケット</a>、または</p></li><li><p><a href="./integrate-with-azure-blob-storage">Microsoft Azure Blob Storage コンテナー</a></p></li></ul></td>
+     <td><p>ストレージ連携の検証に失敗しました。設定を確認して再試行してください。</p><p>該当するストレージ連携は次のとおりです。</p><ul><li><p><a href="./integrate-with-aws-s3">AWS S3 bucket</a>、</p></li><li><p><a href="./integrate-with-gcp">Google Cloud Storage bucket</a>、または</p></li><li><p><a href="./integrate-with-azure-blob-storage">Microsoft Azure blob storage container</a></p></li></ul></td>
    </tr>
 </table>
 

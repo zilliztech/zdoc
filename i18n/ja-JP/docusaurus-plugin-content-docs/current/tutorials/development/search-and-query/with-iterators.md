@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ANN Search では、1 回のクエリでリコールできるエンティティ数に最大制限があり、基本的な ANN Search だけでは大規模検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することを推奨します。このセクションでは、SearchIterator の使用方法と関連する考慮事項を紹介します。 | Cloud"
+description: "ANN Search では、1 回のクエリでリコールできるエンティティ数に最大制限があり、基本的な ANN Search だけでは大規模検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することを推奨します。このセクションでは、SearchIterator の使い方と関連する注意事項を紹介します。 | Cloud"
 type: origin
 token: QVTnwVz2aifvSAkgomAc9KWRnHb
-sidebar_position: 18
+sidebar_position: 19
 displayed_sidebar: default
 
 ---
@@ -21,23 +21,23 @@ import TabItem from '@theme/TabItem';
 
 # Search Iterator
 
-ANN Search では、1 回のクエリでリコールできるエンティティ数に最大制限があり、基本的な ANN Search だけでは大規模検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することを推奨します。このセクションでは、SearchIterator の使用方法と関連する考慮事項を紹介します。
+ANN Search では、1 回のクエリでリコールできるエンティティ数に最大制限があり、基本的な ANN Search だけでは大規模検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することを推奨します。このセクションでは、SearchIterator の使い方と関連する注意事項を紹介します。
 
 ## 概要\{#overview}
 
-Search リクエストは検索結果を返しますが、SearchIterator は iterator を返します。この iterator の **next()** メソッドを呼び出すことで、検索結果を取得できます。
+Search リクエストは検索結果を返しますが、SearchIterator はイテレータを返します。このイテレータの **next()** メソッドを呼び出すことで、検索結果を取得できます。
 
 具体的には、SearchIterator は次のように使用できます。
 
-1. SearchIterator を作成し、**検索リクエストごとに返すエンティティ数** と **返すエンティティの総数** を設定します。
+1. SearchIterator を作成し、**1 回の検索リクエストごとに返すエンティティ数** と **返すエンティティの総数** を設定します。
 
-1. SearchIterator の **next()** メソッドをループ内で呼び出し、ページネーション方式で検索結果を取得します。
+1. SearchIterator の **next()** メソッドをループ内で呼び出し、ページ分割された形で検索結果を取得します。
 
-1. **next()** メソッドが空の結果を返した場合は、iterator の **close()** メソッドを呼び出してループを終了します。
+1. **next()** メソッドが空の結果を返した場合は、イテレータの **close()** メソッドを呼び出してループを終了します。
 
 ## SearchIterator を作成する\{#create-searchiterator}
 
-以下のコードスニペットは、SearchIterator を作成する方法を示しています。
+次のコードスニペットは、SearchIterator を作成する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -205,11 +205,11 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-上記の例では、検索ごとに返すエンティティ数（**batch_size**/**batchSize**）を 50 に設定し、返すエンティティの総数（**topK**）を 20,000 に設定しています。
+上記の例では、1 回の検索あたりに返すエンティティ数（**batch_size**/**batchSize**）を 50、返すエンティティの総数（**topK**）を 20,000 に設定しています。
 
 ## SearchIterator を使用する\{#use-searchiterator}
 
-SearchIterator の準備ができたら、その next() メソッドを呼び出して、ページネーション方式で検索結果を取得できます。
+SearchIterator の準備ができたら、その next() メソッドを呼び出して、ページ分割された形で検索結果を取得できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -312,4 +312,4 @@ while (true) {
 </TabItem>
 </Tabs>
 
-上記のコード例では、無限ループを作成し、そのループ内で **next()** メソッドを呼び出して検索結果を変数に格納し、**next()** が何も返さなくなった時点で iterator を閉じています。
+上記のコード例では、無限ループを作成し、そのループ内で **next()** メソッドを呼び出して検索結果を変数に格納し、**next()** が何も返さなくなった時点でイテレータを閉じています。

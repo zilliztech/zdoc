@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、スナップショットの作成と管理について学びます | Cloud"
+description: "このガイドでは、スナップショットの作成と管理の方法について学習します。内容には以下が含まれます | Cloud"
 type: origin
 token: J0jDwYQb8il1biknRo4cazHPn5d
 sidebar_position: 1
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # スナップショットの管理
 
-このガイドでは、以下を含むスナップショットの作成と管理について学びます。
+このガイドでは、以下を含むスナップショットの作成と管理方法を学びます。
 
 - [スナップショットの作成](./manage-snapshots#create-snapshot),
 
@@ -41,13 +41,16 @@ import TabItem from '@theme/TabItem';
 
 ## スナップショットの作成\{#create-snapshot}
 
-スナップショットを作成する前に、データ損失の可能性を避けるため、対象のコレクションへのデータ書き込みを停止し、`flush()` を呼び出すことを推奨します。
+スナップショットを作成する前に、データ損失の可能性を避けるため、対象の collection へのデータ書き込みを停止し、`flush()` を呼び出すことを推奨します。
 
-`flush()` の呼び出しは必須ではありませんが、データ損失を避けるために強く推奨されます。これを省略した場合、スナップショットにはすでに flush 済みのデータのみが含まれます。
+`flush()` の呼び出しは必須ではありませんが、データ損失を避けるため強く推奨されます。これをスキップした場合、スナップショットにはすでに flush 済みのデータのみが含まれます。
 
-スナップショットに名前を付ける際は、`"daily_backup_20240101"` や `"v2.1_production_release"` のような明確で説明的な名前を使用し、`"backup1"` や `"test"` のような一般的な名称は避けてください。バージョン、環境、ステージごとにスナップショットを区別できるよう、スナップショット名を適切に使用してください。
+スナップショットに名前を付ける際は、`"daily_backup_20240101"` や `"v2.1_production_release"` のような明確で説明的な名前を使用し、`"backup1"` や `"test"` のような汎用的な用語は避けてください。バージョン、環境、段階をまたいでスナップショットを区別できるよう、スナップショット名を適切に使用してください。
 
-以下のコード例では、すでに `my_collection` という名前のコレクションが存在することを前提としています。
+以下のコード例では、すでに `my_collection` という名前の collection が存在していることを前提としています。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
@@ -68,9 +71,17 @@ client.create_snapshot(
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
+
+</TabItem>
+
+<TabItem value='go'>
 
 ```go
 import (
@@ -96,30 +107,52 @@ createOpt := milvusclient.NewCreateSnapshotOption("backup_20240101", "my_collect
 err = client.CreateSnapshot(context.Background(), createOpt)
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # restful
 ```
 
+</TabItem>
+</Tabs>
+
 ## スナップショットの一覧表示\{#list-snapshots}
 
-既存のスナップショット名を一覧表示できます。
+既存のスナップショットの名前を一覧表示できます。
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 # List all snapshots for a collection
 snapshots = client.list_snapshots(
     collection_name="my_collection"
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 // List snapshots for collection
 listOpt := milvusclient.NewListSnapshotsOption().
     WithCollectionName("my_collection")
@@ -127,17 +160,31 @@ listOpt := milvusclient.NewListSnapshotsOption().
 snapshots, err := client.ListSnapshots(context.Background(), listOpt)
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # bash
 ```
+
+</TabItem>
+</Tabs>
 
 ## スナップショットの詳細表示\{#describe-snapshot}
 
 特定のスナップショットに関する詳細情報を取得できます。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 snapshot_info = client.describe_snapshot(
@@ -151,11 +198,19 @@ print(f"Created: {snapshot_info.create_ts}")
 print(f"Description: {snapshot_info.description}")
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 describeOpt := milvusclient.NewDescribeSnapshotOption("backup_20240101")
 resp, err := client.DescribeSnapshot(context.Background(), describeOpt)
 
@@ -163,21 +218,35 @@ fmt.Printf("Snapshot ID: %d\n", resp.GetSnapshotInfo().GetId())
 fmt.Printf("Collection: %s\n", resp.GetSnapshotInfo().GetCollectionName())
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # restful
 ```
 
+</TabItem>
+</Tabs>
+
 ## スナップショットデータの pin/unpin\{#pinunpin-snapshot-data}
 
-復元中は、スナップショットを pin してその基盤データをガベージコレクションから一時的に保護し、unpin してデータを解放できます。
+復元中は、スナップショットを pin して、その基盤となるデータをガベージコレクションから一時的に保護し、unpin してデータを解放できます。
 
-また、pin 操作に対して有効期限 (TTL) を設定することもでき、その期間が切れると pin されたデータは解放されます。
+また、pin 操作に対して有効期限（TTL）を設定することもでき、その期間が切れると pin されたデータは解放されます。
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 pin_id = client.pin_snapshot_data(
     snapshot_name="backup_20240101",
     collection_name="my_collection",
@@ -189,11 +258,19 @@ client.unpin_snapshot_data(
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 pinID, err := cli.PinSnapshotData(
     ctx,
     client.NewPinSnapshotDataOption("backup_20240101", "my_collection").WithTTLSeconds(3600),
@@ -210,31 +287,45 @@ defer func() {
 // do work with pinned snapshot data
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # restful
 ```
 
+</TabItem>
+</Tabs>
+
 ## スナップショットの復元\{#restore-snapshot}
 
-スナップショットを新しいコレクションに復元できます。この操作は非同期で実行され、復元の進行状況を追跡するためのジョブ ID が返されます。
+スナップショットを新しい collection に復元できます。この操作は非同期で実行され、復元の進行状況を追跡するためのジョブ ID が返されます。
 
-復元ではデータインポートではなく **copy-segment** メカニズムを使用します。これは、次の理由によりより効率的です。
+復元ではデータ import の代わりに **copy-segment** メカニズムを使用します。これは、以下の理由によりより効率的です。
 
-- スナップショットストレージからセグメントファイル（binlogs、deltalogs、インデックスファイル）を直接コピーする
+- スナップショットストレージから segment ファイル（binlogs、deltalogs、index ファイル）を直接コピーする
 
-- フィールド ID とインデックス ID を保持して、既存のデータファイルとの互換性を確保する
+- 既存のデータファイルとの互換性を確保するため、field ID と index ID を保持する
 
-- データの再書き込みやインデックスの再構築を回避することで、復元時間を大幅に短縮する
+- データの再書き込みや index の再構築を回避し、復元時間を大幅に短縮する、および
 
-- 従来のバックアップおよび復元方法と比較して、10 倍から 100 倍のパフォーマンス向上を実現する
+- 従来のバックアップおよび復元方法と比較して、10 倍から 100 倍の性能向上を実現する
 
-スナップショットを復元するには、以下を実行します。
+スナップショットを復元するには、以下の手順を実行します。
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 # Restore snapshot to new collection
 job_id = client.restore_snapshot(
     snapshot_name="backup_20240101",
@@ -242,11 +333,19 @@ job_id = client.restore_snapshot(
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 restoreOpt := milvusclient.NewRestoreSnapshotOption(
     "backup_20240101", 
     "restored_collection"
@@ -258,48 +357,84 @@ if err != nil {
 }
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # restful
 ```
 
-復元ジョブの進行状況を監視する方法の詳細については、「復元の進行状況を監視する」を参照してください。
+</TabItem>
+</Tabs>
+
+復元ジョブの進行状況の監視に関する詳細については、「Monitor restoration progress」を参照してください。
 
 ## スナップショットの削除\{#drop-snapshot}
 
 不要になったスナップショットは削除できます。ストレージを節約するため、古いスナップショットは定期的に削除することを推奨します。
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 client.drop_snapshot(
     snapshot_name="backup_20240101"
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 dropOpt := milvusclient.NewDropSnapshotOption("backup_20240101")
 err := client.DropSnapshot(context.Background(), dropOpt)
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # restful
 ```
 
+</TabItem>
+</Tabs>
+
 ## 復元ジョブの一覧表示\{#list-restoration-jobs}
 
-この API を使用すると、対象のコレクションに対してすでに作成されたスナップショットの一覧を取得できます。
+この API を使用して、対象の collection に対してすでに作成されたスナップショットの一覧を取得できます。
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 # List all restore jobs
 jobs = client.list_restore_snapshot_jobs()
 
@@ -311,11 +446,19 @@ for job in jobs:
 jobs = client.list_restore_snapshot_jobs(collection_name="my_collection")
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 // List all restore jobs
 listOpt := milvusclient.NewListRestoreSnapshotJobsOption()
 jobs, err := client.ListRestoreSnapshotJobs(context.Background(), listOpt)
@@ -336,17 +479,31 @@ listOpt = milvusclient.NewListRestoreSnapshotJobsOption().
 jobs, err = client.ListRestoreSnapshotJobs(context.Background(), listOpt)
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # restful
 ```
+
+</TabItem>
+</Tabs>
 
 ## 復元状態の取得\{#get-restoration-state}
 
 復元ジョブ ID を取得したら、それを使用して復元の進行状況を取得できます。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 state = client.get_restore_snapshot_state(job_id=12345)
@@ -361,11 +518,19 @@ if state.state == "RestoreSnapshotFailed":
 print(f"Time Cost: {state.time_cost}ms")
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 stateOpt := milvusclient.NewGetRestoreSnapshotStateOption(12345)
 state, err := client.GetRestoreSnapshotState(context.Background(), stateOpt)
 if err != nil {
@@ -383,10 +548,21 @@ if state.GetState() == milvuspb.RestoreSnapshotState_RestoreSnapshotFailed {
 fmt.Printf("Time Cost: %dms\n", state.GetTimeCost())
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # restful
 ```
+
+</TabItem>
+</Tabs>
