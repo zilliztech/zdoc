@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Apache Lucene 上に構築された Elasticsearch は、主要なオープンソース検索エンジンです。しかし、更新コストの高さ、リアルタイム性能の低さ、非効率なシャード管理、クラウドネイティブでない設計、過剰なリソース要求など、現代の AI アプリケーションでは課題に直面します。クラウドネイティブなベクトルデータベースである Milvus は、ストレージとコンピューティングの分離、高次元データ向けの効率的なインデックス作成、最新インフラストラクチャとのシームレスな統合によって、これらの問題を克服します。AI ワークロードに対して優れたパフォーマンスとスケーラビリティを提供します。 | Cloud"
 type: origin
 token: OFl9wHXpriM8aEkoONScpU1lnIf
-sidebar_position: 18
+sidebar_position: 17
 displayed_sidebar: default
 
 ---
@@ -24,9 +24,9 @@ Apache Lucene 上に構築された Elasticsearch は、主要なオープンソ
 
 この記事は、Elasticsearch から Milvus へのコードベース移行を容易にすることを目的としており、両者の間でクエリを変換するさまざまな例を示します。
 
-## Overview\{#overview}
+## 概要\{#overview}
 
-Elasticsearch では、query コンテキストでの操作は関連度スコアを生成しますが、filter コンテキストでの操作は生成しません。同様に、Milvus の search は類似度スコアを生成しますが、filter に似た query は生成しません。Elasticsearch から Milvus にコードベースを移行する際の重要な原則は、Elasticsearch の query コンテキストで使用されるフィールドを vector フィールドに変換し、類似度スコアを生成できるようにすることです。 
+Elasticsearch では、query コンテキストでの操作は関連度スコアを生成しますが、filter コンテキストでの操作は生成しません。同様に、Milvus の search は類似度スコアを生成しますが、filter に似た query は生成しません。Elasticsearch から Milvus にコードベースを移行する際の重要な原則は、Elasticsearch の query コンテキストで使用されるフィールドをベクトルフィールドに変換し、類似度スコアを生成できるようにすることです。
 
 以下の表は、いくつかの Elasticsearch クエリパターンと、それに対応する Milvus での等価表現を示しています。
 
@@ -92,7 +92,7 @@ Elasticsearch では、query コンテキストでの操作は関連度スコア
    </tr>
 </table>
 
-## Full-text queries\{#full-text-queries}
+## 全文検索クエリ\{#full-text-queries}
 
 Elasticsearch では、full text queries により、メール本文のような分析済みテキストフィールドを検索できます。クエリ文字列は、インデックス作成時にそのフィールドへ適用されたのと同じ analyzer を使用して処理されます。
 
@@ -129,7 +129,7 @@ res = client.search(
 
 この機能を使用するには、`message` フィールドで analyzer を有効にし、そこから `message_sparse` フィールドを導出する function を定義する必要があります。Milvus で analyzer を有効化し、派生 function を作成するための詳細な手順については、[Full Text Search](./full-text-search) を参照してください。
 
-## Term-level queries\{#term-level-queries}
+## Term-level クエリ\{#term-level-queries}
 
 Elasticsearch では、term-level queries は、日付範囲、IP アドレス、価格、商品 ID などの構造化データ内の正確な値に基づいてドキュメントを見つけるために使用されます。このセクションでは、いくつかの Elasticsearch term-level queries に対する Milvus での可能な等価表現を示します。このセクションのすべての例は、Milvus の機能に合わせるため、filter コンテキスト内で動作するよう調整されています。
 
@@ -390,11 +390,11 @@ res = client.query(
 )
 ```
 
-上記の例は、対象の collection に **VarChar** 型の `user` フィールドと、**Array** 型の `tags` フィールドがあることを前提としています。このクエリは、名前に `kimchy` を含み、`production` タグを持つユーザーを返します。
+上記の例は、対象のコレクションに **VarChar** 型の `user` フィールドと、**Array** 型の `tags` フィールドがあることを前提としています。このクエリは、名前に `kimchy` を含み、`production` タグを持つユーザーを返します。
 
-## Vector queries\{#vector-queries}
+## ベクトルクエリ\{#vector-queries}
 
-Elasticsearch では、vector queries は、vector フィールドに対して動作し、セマンティック検索を効率的に実行するための特殊なクエリです。
+Elasticsearch では、ベクトルクエリは、ベクトルフィールドに対して動作し、セマンティック検索を効率的に実行するための特殊なクエリです。
 
 ### Knn query\{#knn-query}
 
@@ -418,9 +418,9 @@ resp = client.search(
 )
 ```
 
-専用のベクトルデータベースである Milvus は、vector 検索を最適化するために index types を使用します。通常、高次元 vector データに対しては近似最近傍（ANN）検索を優先します。FLAT index type による総当たりの kNN 検索は正確な結果を提供しますが、時間がかかり、リソース消費も大きくなります。これに対して、AUTOINDEX やその他の index types を使用した ANN 検索は、速度と精度のバランスを取りつつ、kNN よりも大幅に高速でリソース効率の高いパフォーマンスを提供します。index types と AUTOINDEX の詳細については、[Indexes](./indexes) および [AUTOINDEX Explained](./autoindex-explained) を参照してください。
+専用のベクトルデータベースである Milvus は、ベクトル検索を最適化するためにインデックスタイプを使用します。通常、高次元ベクトルデータに対しては近似最近傍（ANN）検索を優先します。FLAT インデックスタイプによる総当たりの kNN 検索は正確な結果を提供しますが、時間がかかり、リソース消費も大きくなります。これに対して、AUTOINDEX やその他のインデックスタイプを使用した ANN 検索は、速度と精度のバランスを取りつつ、kNN よりも大幅に高速でリソース効率の高いパフォーマンスを提供します。インデックスタイプと AUTOINDEX の詳細については、[Indexes](./indexes) および [AUTOINDEX Explained](./autoindex-explained) を参照してください。
 
-上記の vector query に対する Milvus での類似の等価表現は次のようになります。
+上記のベクトルクエリに対する Milvus での類似の等価表現は次のようになります。
 
 ```python
 res = client.search(
@@ -511,9 +511,9 @@ res = client.hybrid_search(
 
 この例は、Milvus における次の組み合わせによるハイブリッド検索を示しています。
 
-1. **Dense vector search**: `vector` フィールドに対する近似最近傍（ANN）検索に inner product（IP）メトリックを使用します。
+1. **Dense ベクトル検索**: `vector` フィールドに対する近似最近傍（ANN）検索に inner product（IP）メトリックを使用します。
 
-1. **Sparse vector search**: `text_sparse` フィールドに対して BM25 類似度メトリックを使用します。
+1. **Sparse ベクトル検索**: `text_sparse` フィールドに対して BM25 類似度メトリックを使用します。
 
 これらの検索は個別に実行され、結果が結合された後、Reciprocal Rank Fusion（RRF）ranker を使って再ランク付けされます。このハイブリッド検索は、再ランク付けされたリストから上位 10 件の entity を返します。
 

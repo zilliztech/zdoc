@@ -21,9 +21,9 @@ import TabItem from '@theme/TabItem';
 
 # Array フィールド
 
-`ARRAY` フィールドは、同じデータ型の要素の順序付きリストを格納します。 
+ARRAY フィールドは、同じデータ型の要素の順序付きリストを格納します。
 
-以下は、`ARRAY` フィールドがデータを格納する方法の例です。
+以下は、ARRAY フィールドがデータを格納する方法の例です。
 
 ```json
 {
@@ -32,31 +32,31 @@ import TabItem from '@theme/TabItem';
 }
 ```
 
-## Limits\{#limits}
+## 制限事項\{#limits}
 
-- **デフォルト値**: `ARRAY` フィールドはデフォルト値をサポートしません。ただし、`nullable` 属性を `True` に設定することで null 値を許可できます。詳細は、[Nullable & Default](./nullable-fields) を参照してください。
+- **デフォルト値**: ARRAY フィールドはデフォルト値をサポートしていません。ただし、`nullable` 属性を `True` に設定すると、null 値を許可できます。詳細は、[Nullable とデフォルト](./nullable-fields) を参照してください。
 
-- **データ型:** `ARRAY` フィールド内のすべての要素は、`element_type` パラメータで定義される同じデータ型である必要があります。`element_type` が `VARCHAR` に設定されている場合は、配列要素の `max_length` も指定する必要があります。`element_type` は任意の scalar データ型、`JSON`、および `STRUCT` を受け入れます。
+- <strong>データ型:</strong> ARRAY フィールド内のすべての要素は、`element_type` パラメーターで定義される同じデータ型を共有する必要があります。`element_type` を `VARCHAR` に設定する場合は、配列要素の `max_length` も指定する必要があります。`element_type` は、任意のスカラーデータ型、`JSON`、および `STRUCT` を受け入れます。
 
-- **配列容量**: `ARRAY` フィールド内の要素数は、Array の作成時に `max_capacity` で指定した最大容量以下である必要があります。この値は **1** から **4096** の範囲の整数である必要があります。
+- **配列の容量**: ARRAY フィールド内の要素数は、`max_capacity` で指定される、Array の作成時に定義された最大容量以下である必要があります。この値は、**1** から **4096** までの範囲内の整数である必要があります。
 
-- **文字列の扱い**: Array フィールド内の文字列値は、意味的なエスケープや変換を行わず、そのまま格納されます。たとえば、`'a"b'`、`"a'b"`、`'a\'b'`、`"a\"b"` は入力どおりに格納されます。一方、`'a'b'` と `"a"b"` は無効な値と見なされます。
+- **文字列の扱い**: Array フィールド内の文字列値は、意味的なエスケープや変換を行わずにそのまま格納されます。たとえば、`'a"b'`、`"a'b"`、`'a\'b'`、および `"a\"b"` は入力どおりに格納されますが、`'a'b'` と `"a"b"` は無効な値と見なされます。
 
-## Add ARRAY field\{#add-array-field}
+## ARRAY フィールドを追加する\{#add-array-field}
 
-Zilliz Cloud cluster で `ARRAY` フィールドを使用するには、collection schema の作成時に関連するフィールド型を定義します。このプロセスには以下が含まれます。
+Zilliz Cloud クラスターで ARRAY フィールドを使用するには、コレクションスキーマの作成時に関連するフィールド型を定義します。このプロセスには以下が含まれます。
 
-1. `datatype` をサポートされている Array データ型 `ARRAY` に設定します。
+1. `datatype` を、サポートされている Array データ型である `ARRAY` に設定します。
 
-1. `element_type` パラメータを使用して、配列内の要素のデータ型を指定します。同じ配列内のすべての要素は同じデータ型である必要があります。
+1. `element_type` パラメーターを使用して、配列内の要素のデータ型を指定します。同じ配列内のすべての要素は同じデータ型である必要があります。
 
-1. `max_capacity` パラメータを使用して、配列の最大容量、つまり含めることができる要素数の上限を定義します。
+1. `max_capacity` パラメーターを使用して、配列の最大容量、つまり配列に含めることができる要素の最大数を定義します。
 
-以下は、`ARRAY` フィールドを含む collection schema を定義する方法です。
+以下は、ARRAY フィールドを含むコレクションスキーマを定義する方法です。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-schema の定義時に `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では事前に定義されていない scalar フィールドを挿入できます。ただし、これによりクエリや管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細は、[Dynamic Field](./enable-dynamic-field) を参照してください。
+スキーマを定義するときに `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では、事前に定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細は、[Dynamic Field](./enable-dynamic-field) を参照してください。
 
 </Admonition>
 
@@ -300,11 +300,11 @@ schema->AddField(milvus::FieldSchema("ratings", milvus::DataType::ARRAY)
 </TabItem>
 </Tabs>
 
-## Set index params\{#set-index-params}
+## インデックスパラメーターを設定する\{#set-index-params}
 
-index は、search と query のパフォーマンス向上に役立ちます。Zilliz Cloud cluster では、vector フィールドに対する index 作成は必須ですが、scalar フィールドに対しては任意です。
+インデックスは、検索とクエリのパフォーマンスを向上させるのに役立ちます。Zilliz Cloud クラスターでは、インデックスはベクトルフィールドには必須ですが、スカラーフィールドには任意です。
 
-以下の例では、vector フィールド `embedding` と `ARRAY` フィールド `tags` の両方に、`AUTOINDEX` index type を使用して index を作成します。この type では、Milvus がデータ型に基づいて最適な index を自動的に選択します。
+次の例では、`AUTOINDEX` インデックスタイプを使用して、ベクトルフィールド `embedding` と ARRAY フィールド `tags` にインデックスを作成します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -411,9 +411,9 @@ std::vector<milvus::IndexDesc> indexes = {
 </TabItem>
 </Tabs>
 
-## Create collection\{#create-collection}
+## コレクションを作成する\{#create-collection}
 
-schema と index を定義したら、`ARRAY` フィールドを含む collection を作成します。
+スキーマとインデックスを定義したら、ARRAY フィールドを含むコレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -498,9 +498,9 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## Insert data\{#insert-data}
+## データを挿入する\{#insert-data}
 
-collection を作成した後、`ARRAY` フィールドを含むデータを挿入できます。
+コレクションを作成したら、ARRAY フィールドを含むデータを挿入できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -672,15 +672,15 @@ if (!status.IsOk()) {
 
 <Admonition type="info" icon="📘" title="Notes">
 
-完全な配列を挿入するだけでなく、`ARRAY` フィールドは `upsert` API において `ARRAY_APPEND` および `ARRAY_REMOVE` の部分更新演算子もサポートしています。これにより、現在の値を最初に取得することなく、既存の配列に要素を追加したり、一致する要素を削除したりできます。そのため、クライアント側の read-modify-write パターンを回避できます。詳細は、[Upsert array fields in merge mode](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
+配列全体を挿入するだけでなく、`ARRAY` フィールドは `upsert` API 上で `ARRAY_APPEND` および `ARRAY_REMOVE` の部分更新演算子もサポートしています。これらを使用すると、既存の配列の現在の値を取得することなく、要素の追加や一致する要素の削除ができるため、クライアント側の read-modify-write パターンを回避できます。詳細は、[マージモードでの Array フィールドの Upsert](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
 
 </Admonition>
 
-## Query with filter expressions\{#query-with-filter-expressions}
+## フィルター式を使用したクエリ\{#query-with-filter-expressions}
 
-entity を挿入した後、`query` メソッドを使用して、指定した filter expression に一致する entity を取得します。
+エンティティを挿入したら、`query` メソッドを使用して、指定したフィルター式に一致するエンティティを取得します。
 
-`tags` が null ではない entity を取得するには、以下を使用します。
+`tags` が null でないエンティティを取得するには、次のとおりです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -802,7 +802,7 @@ for (const auto& row : output_rows) {
 </TabItem>
 </Tabs>
 
-`ratings` の最初の要素の値が 4 より大きい entity を取得するには、以下を使用します。
+`ratings` の最初の要素の値が 4 より大きいエンティティを取得するには、次のとおりです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -935,9 +935,9 @@ for (const auto& row : output_rows) {
 </TabItem>
 </Tabs>
 
-## Vector search with filter expressions\{#vector-search-with-filter-expressions}
+## フィルター式を使用したベクトル検索\{#vector-search-with-filter-expressions}
 
-基本的な scalar フィールドのフィルタリングに加えて、vector 類似度 search を scalar フィールドフィルタと組み合わせることができます。たとえば、以下のコードは vector search に scalar フィールドフィルタを追加する方法を示しています。
+基本的なスカラーフィールドのフィルタリングに加えて、ベクトル類似検索とスカラーフィールドフィルターを組み合わせることもできます。たとえば、次のコードは、ベクトル検索にスカラーフィールドフィルターを追加する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1092,4 +1092,4 @@ for (auto& result : search_results.Results()) {
 </TabItem>
 </Tabs>
 
-さらに、Zilliz Cloud は `ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH` のような高度な Array フィルタリング演算子をサポートしており、query 機能をさらに強化できます。詳細は、[ARRAY Operators](./array-filtering-operators) を参照してください。
+さらに、Zilliz Cloud は、クエリ機能をさらに強化するために、`ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH` などの高度な Array フィルタリング演算子をサポートしています。詳細は、[ARRAY 演算子](./array-filtering-operators) を参照してください。

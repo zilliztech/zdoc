@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "検索エンジンとも呼ばれる情報検索システムは、Retrieval-augmented generation (RAG)、ビジュアル検索、製品レコメンデーションなど、さまざまな AI アプリケーションに不可欠です。これらのシステムの中核には、情報を整理、インデックス化し、取得するための慎重に設計されたデータモデルがあります。 | Cloud"
+description: "検索エンジンとも呼ばれる情報検索システムは、Retrieval-augmented generation（RAG）、ビジュアル検索、製品レコメンデーションなど、さまざまな AI アプリケーションに不可欠です。これらのシステムの中核となるのは、情報を整理・インデックス化し、取得するために慎重に設計されたデータモデルです。 | Cloud"
 type: origin
 token: PV2bwNENViEjXWkOgzZcXoKHnce
 sidebar_position: 1
@@ -21,124 +21,124 @@ import TabItem from '@theme/TabItem';
 
 # 検索のためのデータモデル設計
 
-検索エンジンとも呼ばれる情報検索システムは、Retrieval-augmented generation (RAG)、ビジュアル検索、製品レコメンデーションなど、さまざまな AI アプリケーションに不可欠です。これらのシステムの中核には、情報を整理、インデックス化し、取得するための慎重に設計されたデータモデルがあります。
+情報検索システムは検索エンジンとも呼ばれ、Retrieval-augmented generation（RAG）、ビジュアル検索、製品レコメンデーションなど、さまざまな AI アプリケーションに不可欠です。これらのシステムの中核となるのは、情報を整理・インデックス化し、取得するために慎重に設計されたデータモデルです。
 
-Zilliz Cloud では、collection schema を通じて検索データモデルを指定し、非構造化データ、その dense または sparse vector 表現、および構造化メタデータを整理できます。テキスト、画像、その他のデータ型のいずれを扱う場合でも、このハンズオンガイドは、実践的に検索データモデルを設計するための主要な schema の概念を理解し、適用するのに役立ちます。
+Zilliz Cloud では、コレクションスキーマを通じて検索データモデルを指定し、非構造化データ、その dense または sparse なベクトル表現、および構造化メタデータを整理できます。テキスト、画像、その他のデータ型を扱う場合でも、このハンズオンガイドは、実践的な検索データモデルを設計するために、主要なスキーマの概念を理解して適用するのに役立ちます。
 
 ![Kc3Cweq1AhAmMGbrVgRcTlTKnUf](https://zdoc-images.s3.us-west-2.amazonaws.com/Kc3Cweq1AhAmMGbrVgRcTlTKnUf.png)
 
-## Data Model\{#data-model}
+## データモデル\{#data-model}
 
-検索システムのデータモデル設計では、ビジネスニーズを分析し、情報を schema で表現されたデータモデルへ抽象化します。適切に定義された schema は、データモデルをビジネス目標に整合させ、データの一貫性とサービス品質を確保するために重要です。さらに、適切なデータ型と index を選択することは、ビジネス目標を経済的に達成するうえで重要です。
+検索システムのデータモデル設計では、ビジネスニーズを分析し、情報をスキーマで表現されたデータモデルとして抽象化します。適切に定義されたスキーマは、データモデルをビジネス目標に合わせ、データの一貫性とサービス品質を確保するうえで重要です。さらに、適切なデータ型とインデックスを選択することは、ビジネス目標を経済的に達成するうえで重要です。
 
-### Analyzing Business Needs\{#analyzing-business-needs}
+### ビジネスニーズの分析\{#analyzing-business-needs}
 
-ビジネスニーズに効果的に対応するには、まずユーザーが実行するクエリの種類を分析し、最適な検索方法を決定することから始まります。
+ビジネスニーズに効果的に対応することは、ユーザーが実行するクエリの種類を分析し、最も適切な検索方法を決定することから始まります。
 
-- **User Queries:** ユーザーが実行すると想定されるクエリの種類を特定します。これにより、schema が実際のユースケースをサポートし、検索パフォーマンスを最適化できるようになります。これには以下が含まれます。
+- **ユーザークエリ:** ユーザーが実行すると想定されるクエリの種類を特定します。これにより、スキーマが実際のユースケースをサポートし、検索パフォーマンスを最適化できるようになります。たとえば、次のようなものがあります。
 
     - 自然言語クエリに一致するドキュメントの取得
 
-    - 参照画像に類似した画像、またはテキスト説明に一致する画像の検索
+    - 参照画像に類似する画像の検索、またはテキスト記述に一致する画像の検索
 
-    - 名前、カテゴリ、ブランドなどの属性による製品検索
+    - 名前、カテゴリ、ブランドなどの属性による商品の検索
 
-    - 構造化メタデータ（例: 公開日、タグ、評価）に基づくアイテムのフィルタリング
+    - 構造化メタデータ（公開日、タグ、評価など）に基づくアイテムのフィルタリング
 
-    - ハイブリッドクエリで複数条件を組み合わせること（例: ビジュアル検索において、画像とそのキャプションの両方の意味的類似性を考慮する）
+    - ハイブリッドクエリでの複数条件の組み合わせ（例：ビジュアル検索において、画像とそのキャプションの両方の意味的な類似性を考慮）
 
-- **Search Methods:** ユーザーが実行するクエリの種類に合った適切な検索技術を選択します。異なる手法は異なる目的に対応し、多くの場合より強力な結果のために組み合わせることができます。
+- <strong>検索方法:</strong> ユーザーが実行するクエリの種類に合った適切な検索手法を選択します。手法によって目的が異なり、多くの場合、組み合わせることでより強力な結果を得られます。
 
-    - **Semantic search**: dense vector の類似性を使用して意味が近いアイテムを見つける手法で、テキストや画像のような非構造化データに最適です。
+    - **セマンティック検索**: dense ベクトルの類似性を使用して、意味が類似するアイテムを見つけます。テキストや画像などの非構造化データに最適です。
 
-    - **Full-text search**: semantic search をキーワードマッチングで補完します。Full-text search では字句解析を利用して長い単語が断片的なトークンに分割されるのを防ぎ、検索時に特殊な用語を把握できます。
+    - **全文検索**: キーワードマッチングによってセマンティック検索を補完します。全文検索では字句解析を利用して、長い単語が断片化されたトークンに分割されるのを回避し、取得時に特殊な用語を捉えることができます。
 
-    - **Metadata filtering**: vector search に加えて、日付範囲、カテゴリ、タグなどの条件を適用します。
+    - **メタデータフィルタリング**: ベクトル検索に加えて、日付範囲、カテゴリ、タグなどの制約を適用します。
 
-### Translates Business Requirements into a Search Data Model\{#translates-business-requirements-into-a-search-data-model}
+### ビジネス要件を検索データモデルに変換する\{#translates-business-requirements-into-a-search-data-model}
 
-次のステップは、情報の中核となる要素とその検索方法を特定することで、ビジネス要件を具体的なデータモデルへ変換することです。
+次のステップでは、情報の主要な構成要素とその検索方法を特定することにより、ビジネス要件を具体的なデータモデルに変換します。
 
-- 保存する必要のあるデータを定義します。たとえば、生のコンテンツ（テキスト、画像、音声）、関連メタデータ（タイトル、タグ、著者情報）、文脈属性（タイムスタンプ、ユーザー行動など）です。
+- 保存する必要のあるデータを定義します。たとえば、生のコンテンツ（テキスト、画像、音声）、関連するメタデータ（タイトル、タグ、著者情報）、およびコンテキスト属性（タイムスタンプ、ユーザーの行動など）です。
 
-- 各要素に適したデータ型と形式を決定します。例:
+- 各要素に適切なデータ型と形式を決定します。たとえば、次のとおりです。
 
-    - テキスト説明 → string
+    - テキスト記述 → string
 
-    - 画像またはドキュメントの embeddings → dense または sparse vectors
+    - 画像またはドキュメントの埋め込み → dense または sparse のベクトル
 
     - カテゴリ、タグ、フラグ → string、array、bool
 
-    - 価格や評価のような数値属性 → integer または float
+    - 価格や評価などの数値属性 → integer または float
 
-    - 著者情報のような構造化情報 -> json
+    - 著者の詳細などの構造化情報 -> json
 
-これらの要素を明確に定義することで、データの一貫性、正確な検索結果、そして下流のアプリケーションロジックとの統合の容易さが確保されます。
+これらの要素を明確に定義することで、データの一貫性、正確な検索結果、およびダウンストリームのアプリケーションロジックとの統合の容易さが確保されます。
 
-## Schema Design\{#schema-design}
+## スキーマ設計\{#schema-design}
 
-Zilliz Cloud では、データモデルは collection schema を通じて表現されます。collection schema 内で適切な field を設計することが、効果的な検索を実現する鍵となります。各 field は collection に保存される特定の種類のデータを定義し、検索プロセスにおいて固有の役割を果たします。大まかには、Zilliz Cloud は **vector fields** と **scalar fields** の 2 つの主要な field タイプをサポートしています。
+Zilliz Cloud では、データモデルはコレクションスキーマで表現されます。コレクションスキーマ内の適切なフィールドを設計することが、効果的な取得を可能にする鍵となります。各フィールドは、コレクションに保存される特定の種類のデータを定義し、検索プロセスにおいて独自の役割を果たします。大まかに言うと、Zilliz Cloud は **ベクトルフィールド** と **スカラーフィールド** という 2 つの主要なフィールドタイプをサポートしています。
 
-これで、vector と補助的な scalar fields を含めて、データモデルを field の schema にマッピングできます。各 field がデータモデル内の属性と対応していることを確認し、特に vector タイプ（dense または spase）とその dimension に注意してください。
+ここで、データモデルを、ベクトルと補助的なスカラーフィールドを含むフィールドのスキーマにマッピングできます。各フィールドがデータモデルの属性と対応していることを確認し、特にベクトル型（dense または sparse）とその次元に注意してください。
 
-### Vector Field\{#vector-field}
+### ベクトルフィールド\{#vector-field}
 
-vector field は、テキスト、画像、音声などの非構造化データ型の embeddings を保存します。これらの embeddings は、データ型と使用する検索方法に応じて、dense、sparse、または binary のいずれかになります。通常、dense vector は semantic search に使用され、sparse vector は full-text または lexical matching により適しています。binary vector は、ストレージと計算リソースが限られている場合に有用です。collection には、マルチモーダルまたはハイブリッド検索戦略を可能にするために複数の vector field を含めることができます。このトピックの詳細なガイドについては、[Multi-Vector Hybrid Search](./hybrid-search) を参照してください。
+ベクトルフィールドには、テキスト、画像、音声などの非構造化データ型の埋め込みが保存されます。これらのベクトル埋め込みは、データ型と使用する取得方法に応じて、dense、sparse、または binary になります。一般に、dense ベクトルはセマンティック検索に使用され、sparse ベクトルは全文検索や字句マッチングに適しています。binary ベクトルは、ストレージと計算リソースが限られている場合に役立ちます。コレクションには複数のベクトルフィールドを含めることで、マルチモーダルまたはハイブリッドな取得戦略を実現できます。このトピックの詳細なガイドについては、[Multi-ベクトル Hybrid Search](./hybrid-search) を参照してください。
 
-Zilliz Cloud は、[Dense Vector](./use-dense-vector) 用の `FLOAT_VECTOR`、[Sparse Vector](./use-sparse-vector) 用の `SPARSE_FLOAT_VECTOR`、および [Binary Vector](./use-binary-vector) 用の `BINARY_VECTOR` という vector データ型をサポートしています。
+Zilliz Cloud は、[Dense ベクトル](./use-dense-vector) 用の `FLOAT_VECTOR`、[スパースベクトル](./use-sparse-vector) 用の `SPARSE_FLOAT_VECTOR`、[バイナリベクトル](./use-binary-vector) 用の `BINARY_VECTOR` というベクトルデータ型をサポートしています。
 
-### Scalar & Composite Fields\{#scalar-and-composite-fields}
+### スカラーフィールドと複合フィールド\{#scalar-and-composite-fields}
 
-scalar field は、数値、文字列、日付などのプリミティブで構造化された値（一般にメタデータと呼ばれる）を保存します。これらの値は vector search の結果とともに返すことができ、フィルタリングやソートに不可欠です。特定のカテゴリのドキュメントや定義済みの期間に結果を限定するなど、特定の属性に基づいて検索結果を絞り込むことができます。
+スカラーフィールドには、数値、文字列、日付など、一般にメタデータと呼ばれる原始的な構造化値が保存されます。これらのスカラー値はベクトル検索の結果とともに返すことができ、フィルタリングと並べ替えに不可欠です。これらを使用すると、ドキュメントを特定のカテゴリや定義された期間に限定するなど、特定の属性に基づいて検索結果を絞り込めます。
 
-Zilliz Cloud は、`BOOL`、`INT8/16/32/64`、`FLOAT`、`DOUBLE`、`VARCHAR` などの scalar 型に加え、`JSON` や `ARRAY` などの composite 型もサポートしており、非 vector データの保存とフィルタリングに利用できます。これらの型により、検索操作の精度とカスタマイズ性が向上します。
+Zilliz Cloud は、`BOOL`、`INT8/16/32/64`、`FLOAT`、`DOUBLE`、`VARCHAR` などのスカラー型に加えて、`JSON` や `ARRAY` などの複合型をサポートしており、非ベクトルデータの保存とフィルタリングに使用できます。これらの型は、検索操作の精度とカスタマイズ性を高めます。
 
-## Leverage Advanced Features in Schema Design\{#leverage-advanced-features-in-schema-design}
+## スキーマ設計で高度な機能を活用する\{#leverage-advanced-features-in-schema-design}
 
-schema を設計する際、サポートされているデータ型を使ってデータを field に単純にマッピングするだけでは不十分です。field 間の関係と、利用可能な構成戦略を十分に理解することが重要です。設計段階で主要な機能を意識することで、schema は当面のデータ処理要件を満たすだけでなく、将来のニーズに対してもスケーラブルで適応可能になります。これらの機能を慎重に統合することで、Zilliz Cloud の機能を最大限に活用し、より広範なデータ戦略と目標を支える強力なデータアーキテクチャを構築できます。以下は、collection schema を作成する際の主要機能の概要です。
+スキーマを設計する際には、サポートされているデータ型を使用してデータをフィールドにマッピングするだけでは十分ではありません。フィールド間の関係と、構成に利用できる戦略を十分に理解することが重要です。設計段階で主要な機能を念頭に置くことで、スキーマが当面のデータ処理要件を満たすだけでなく、将来のニーズにも拡張・適応できるようになります。これらの機能を慎重に統合することで、Zilliz Cloud の機能を最大限に活用し、より広範なデータ戦略と目標を支える強固なデータアーキテクチャを構築できます。ここでは、コレクションスキーマを作成する主要な機能の概要を説明します。
 
-### Primary Key\{#primary-key}
+### プライマリキー\{#primary-key}
 
-primary key field は schema の基本要素であり、collection 内の各エンティティを一意に識別します。primary key の定義は必須です。これは integer または string 型の scalar field であり、`is_primary=True` としてマークされている必要があります。オプションで、primary key に `auto_id` を有効にできます。これにより、collection にさらにデータが取り込まれるにつれて単調増加する整数値が自動的に割り当てられます。
+プライマリキーフィールドは、コレクション内の各エンティティを一意に識別するため、スキーマの基本的な構成要素です。プライマリキーの定義は必須です。整数型または文字列型のスカラーフィールドであり、`is_primary=True` としてマークする必要があります。オプションで、プライマリキーに `auto_id` を有効にできます。この場合、コレクションにデータが取り込まれるにつれて単調に増加する整数が自動的に割り当てられます。
 
-詳細については、[Primary Field & AutoID](./primary-field-auto-id) を参照してください。
+詳細については、[プライマリフィールドとAutoID](./primary-field-auto-id) を参照してください。
 
-### Partitioning\{#partitioning}
+### パーティショニング\{#partitioning}
 
-検索を高速化するために、オプションで partitioning を有効にできます。partitioning 用に特定の scalar field を指定し、検索時にこの field に基づくフィルタ条件を指定することで、検索範囲を関連する partitions のみに効果的に限定できます。この方法により、検索対象領域が縮小され、検索操作の効率が大幅に向上します。
+検索を高速化するために、オプションでパーティショニングを有効にできます。パーティショニング用に特定のスカラーフィールドを指定し、検索時にこのフィールドに基づいてフィルタリング条件を指定すると、検索範囲を関連するパーティションのみに効果的に限定できます。この方法は、検索対象の範囲を減らすことで、取得操作の効率を大幅に高めます。
 
-詳細については、[Use Partition Key](./use-partition-key) を参照してください。
+詳細については、[Partition Key を使用する](./use-partition-key) を参照してください。
 
-### Analyzer\{#analyzer}
+### アナライザー\{#analyzer}
 
-analyzer は、テキストデータを処理および変換するための重要なツールです。その主な機能は、生のテキストをトークンに変換し、インデックス作成と検索のために構造化することです。具体的には、文字列をトークン化し、stop words を除去し、個々の単語を stem 化してトークンにします。
+アナライザーは、テキストデータを処理して変換するための不可欠なツールです。その主な機能は、生のテキストをトークンに変換し、インデックス作成と取得のために構造化することです。これは、文字列をトークン化し、ストップワードを削除し、個々の単語をステミングしてトークンに変換することで行います。
 
 詳細については、[Analyzer Overview](./analyzer-overview) を参照してください。
 
-### Function\{#function}
+### 関数\{#function}
 
-Zilliz Cloud では、schema の一部として組み込み function を定義し、特定の field を自動的に導出できます。たとえば、`VARCHAR` field から sparse vector を生成して full-text search をサポートする組み込み BM25 function を追加できます。これらの function によって導出される field は、前処理を簡素化し、collection が自己完結型でクエリ可能な状態に保たれるようにします。
+Zilliz Cloud では、スキーマの一部として組み込み関数を定義し、特定のフィールドを自動的に導出できます。たとえば、`VARCHAR` フィールドから sparse ベクトルを生成して全文検索をサポートする組み込みの BM25 関数を追加できます。これらの関数によって導出されるフィールドは前処理を効率化し、コレクションが自己完結的でクエリ可能な状態を維持できるようにします。
 
 詳細については、[Full Text Search](./full-text-search) を参照してください。
 
-## A Real World Example\{#a-real-world-example}
+## 実例\{#a-real-world-example}
 
-このセクションでは、上の図に示したマルチメディア文書検索アプリケーションの schema 設計とコード例を紹介します。この schema は、以下の field にデータがマッピングされる記事を含むデータセットを管理するよう設計されています。
+このセクションでは、上の図に示すマルチメディアドキュメント検索アプリケーションのスキーマ設計とコード例を概説します。このスキーマは、次のフィールドにマッピングされるデータを含む記事のデータセットを管理するように設計されています。
 
-| **Field** | **Data Source** | **Used By Search Methods** | **Primary Key** | **Partition Key** | **Analyzer** | **Function Input/Output** |
+| **フィールド** | **データソース** | **使用する検索方法** | **プライマリキー** | **パーティションキー** | **アナライザー** | **Function Input/Output** |
 | --- | --- | --- | --- | --- | --- | --- |
-| article_id (`INT64`) | `auto_id` を有効にして自動生成 | [Query using Get](./get-and-scalar-query) | Y | N | N | N |
-| title (`VARCHAR`) | 記事タイトル | [Text Match](./text-match) | N | N | Y | N |
-| timestamp (`INT32`) | 公開日 | [Filter by Partition Key](./use-partition-key) | N | Y | N | N |
+| article_id (`INT64`) | `auto_id` を有効にして自動生成 | [Get を使用したクエリ](./get-and-scalar-query) | Y | N | N | N |
+| title (`VARCHAR`) | 記事のタイトル | [テキストマッチ](./text-match) | N | N | Y | N |
+| timestamp (`INT32`) | 公開日 | [パーティションキーによるフィルタリング](./use-partition-key) | N | Y | N | N |
 | text (`VARCHAR`) | 記事の生テキスト | [Multi-Vector Hybrid Search](./hybrid-search) | N | N | Y | input |
-| text_dense_vector (`FLOAT_VECTOR`) | テキスト埋め込みモデルによって生成された dense vector | [Basic Vector Search](./single-vector-search) | N | N | N | N |
-| text_sparse_vector (`SPARSE_FLOAT_VECTOR`) | 組み込み BM25 function によって自動生成された sparse vector | [Full Text Search](./full-text-search) | N | N | N | output |
+| text_dense_vector (`FLOAT_VECTOR`) | テキスト埋め込みモデルによって生成された dense ベクトル | [基本ベクトル検索](./single-vector-search) | N | N | N | N |
+| text_sparse_vector (`SPARSE_FLOAT_VECTOR`) | 組み込みの BM25 関数によって自動生成された sparse ベクトル | [Full Text Search](./full-text-search) | N | N | N | output |
 
-schema の詳細情報と、さまざまな種類の field を追加するための詳しいガイダンスについては、[Schema Explained](./schema-explained) を参照してください。
+スキーマの詳細と、さまざまな種類のフィールドを追加するための詳しいガイダンスについては、[スキーマの解説](./schema-explained) を参照してください。
 
-### Step 1: Initialize schema\{#step-1-initialize-schema}
+### ステップ 1: スキーマを初期化する\{#step-1-initialize-schema}
 
-まず、空の schema を作成する必要があります。このステップでは、データモデルを定義するための基礎構造を確立します。
+まず、空のスキーマを作成する必要があります。このステップでは、データモデルを定義するための基盤となる構造を確立します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -218,9 +218,9 @@ milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>(
 </TabItem>
 </Tabs>
 
-### Step 2: Add fields\{#step-2-add-fields}
+### ステップ 2: フィールドを追加する\{#step-2-add-fields}
 
-schema を作成したら、次のステップはデータを構成する field を指定することです。各 field は、それぞれのデータ型と属性に関連付けられます。
+スキーマを作成したら、次のステップでは、データを構成するフィールドを指定します。各フィールドは、それぞれのデータ型と属性に関連付けられます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -428,17 +428,17 @@ schema->AddField(milvus::FieldSchema("text_sparse_vector", milvus::DataType::SPA
 </TabItem>
 </Tabs>
 
-この例では、field に対して以下の属性が指定されています。
+この例では、フィールドに次の属性が指定されています。
 
-- Primary key: `article_id` は primary key として使用され、受信エンティティに対する primary key の自動割り当てを有効にします。
+- プライマリキー: `article_id` はプライマリキーとして使用され、受信するエンティティにプライマリキーが自動的に割り当てられるようにします。
 
-- Partition key: `timestamp` は partition key として割り当てられ、partition によるフィルタリングを可能にします。
+- パーティションキー: `timestamp` はパーティションキーとして割り当てられ、パーティションによるフィルタリングを可能にします。
 
-- Text analyzer: text analyzer は 2 つの string field `title` と `text` に適用され、それぞれ text match と full-text search をサポートします。
+- テキストアナライザー: テキストアナライザーは 2 つの文字列フィールド `title` と `text` に適用され、それぞれテキストマッチと全文検索をサポートします。
 
-### ステップ 3: （オプション）関数を追加する\{#step-3-optional-add-functions}
+### ステップ 3:（任意）関数を追加する\{#step-3-optional-add-functions}
 
-データクエリ機能を強化するために、schema に関数を組み込むことができます。たとえば、特定のフィールドに関連する処理を行う関数を作成できます。
+データクエリ機能を強化するために、関数をスキーマに組み込むことができます。たとえば、特定のフィールドに関連する処理を行う関数を作成できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -542,11 +542,11 @@ schema->AddFunction(function);
 </TabItem>
 </Tabs>
 
-この例では、schema に組み込みの BM25 関数を追加し、`text` フィールドを入力として使用して、生成された疎ベクトルを `text_sparse_vector` フィールドに格納します。
+この例では、スキーマに組み込みの BM25 関数を追加し、`text` フィールドを入力として使用して、生成された sparse ベクトルを `text_sparse_vector` フィールドに保存します。
 
 ## 次のステップ\{#next-steps}
 
-- [Collection を作成する](./manage-collections-sdks)
+- [コレクションの作成](./manage-collections-sdks)
 
-- [Collection Field を変更する](./alter-collection-field)
+- [コレクションのフィールドの変更](./alter-collection-field)
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "分散ベクトルデータベースである Zilliz Cloud は、読み取りおよび書き込み操作中に各ノードまたはレプリカが同じデータにアクセスできるようにするため、複数の整合性レベルを提供します。現在サポートされている整合性レベルには Strong、Bounded、Eventually、Session があり、デフォルトでは Bounded が使用されます。 | Cloud"
 type: origin
 token: Xx9EwWtekinLZfkWKqic37dDnFb
-sidebar_position: 22
+sidebar_position: 21
 displayed_sidebar: default
 
 ---
@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 ## 概要\{#overview}
 
-Zilliz Cloud は、ストレージと計算を分離したシステムです。このシステムでは、**DataNodes** がデータの永続化を担当し、最終的に MinIO/S3 のような分散オブジェクトストレージに保存します。**QueryNodes** は Search のような計算タスクを処理します。これらのタスクには、**バッチデータ** と **ストリーミングデータ** の両方の処理が含まれます。簡単に言えば、バッチデータはすでにオブジェクトストレージに保存されているデータ、ストリーミングデータはまだオブジェクトストレージに保存されていないデータとして理解できます。ネットワーク遅延のため、QueryNodes は最新のストリーミングデータを保持していないことがよくあります。追加の保護策がなければ、ストリーミングデータに対して直接 Search を実行すると、多くの未コミットのデータポイントが失われ、検索結果の精度に影響する可能性があります。
+Zilliz Cloud は、ストレージと計算を分離したシステムです。このシステムでは、**DataNodes** がデータの永続化を担当し、最終的に MinIO/S3. のような分散オブジェクトストレージに保存します。**QueryNodes** は Search のような計算タスクを処理します。これらのタスクには、**バッチデータ** と **ストリーミングデータ** の両方の処理が含まれます。簡単に言えば、バッチデータはすでにオブジェクトストレージに保存されているデータ、ストリーミングデータはまだオブジェクトストレージに保存されていないデータとして理解できます。ネットワーク遅延のため、QueryNodes は最新のストリーミングデータを保持していないことがよくあります。追加の保護策がなければ、ストリーミングデータに対して直接 Search を実行すると、多くの未コミットのデータポイントが失われ、検索結果の精度に影響する可能性があります。
 
 ![UlOJwpWuKhj5LAbGSp9cwMFznEb](https://zdoc-images.s3.us-west-2.amazonaws.com/UlOJwpWuKhj5LAbGSp9cwMFznEb.png)
 
@@ -63,11 +63,11 @@ Zilliz Cloud は、デフォルトの整合性レベルとして Bounded Stalene
 
 ## 整合性レベルの設定\{#set-consistency-level}
 
-collection を作成するとき、および Search や Query を実行するときに、異なる整合性レベルを設定できます。Search または Query に対して整合性レベルが指定されていない場合は、collection 作成時に指定した整合性レベルが適用されます。
+コレクションを作成するとき、および Search や Query を実行するときに、異なる整合性レベルを設定できます。Search または Query に対して整合性レベルが指定されていない場合は、コレクション作成時に指定した整合性レベルが適用されます。
 
-### collection 作成時に整合性レベルを設定する\{#set-consistency-level-upon-creating-collection}
+### コレクション作成時に整合性レベルを設定する\{#set-consistency-level-upon-creating-collection}
 
-collection を作成するとき、その collection 内での Search および Query に対する整合性レベルを設定できます。次のコード例では、整合性レベルを **Bounded** に設定しています。
+コレクションを作成するとき、そのコレクション内での Search および Query に対する整合性レベルを設定できます。次のコード例では、整合性レベルを **Bounded** に設定しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
