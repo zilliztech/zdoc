@@ -28,7 +28,7 @@ AWS Marketplace のプライベートオファーは、Zilliz がお客様の組
 
 Zilliz Cloud のプライベートオファーをご希望の場合は、[Zilliz のアカウントエグゼクティブにお問い合わせください](https://zilliz.com/contact-sales)。その際、オファーを受け取る AWS アカウント ID、ご希望の契約期間、利用要件、および組織で必要な調達や請求に関する要件をお知らせください。
 
-## 開始する前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
 AWS Marketplace でプライベートオファーに登録する前に、以下の条件を満たしていることを確認してください。
 
@@ -276,5 +276,5 @@ AWS Marketplace でプライベートオファーを更新するには、以下�
 
     - [新しい組織を作成](./organization-settings#create-an-organization)する。
 
-    - 他のユーザーに、自身の組織への[招待](./manage-platform-users#invite-organization-users)と Organization Owner ロールの付与を依頼する。
+    - 他のユーザーに、自身の組織への[招待](./manage-platform-users#invite-organization-members)と Organization Owner ロールの付与を依頼する。
 

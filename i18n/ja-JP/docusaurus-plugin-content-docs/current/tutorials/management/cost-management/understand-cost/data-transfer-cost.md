@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 データ転送は、Zilliz Cloud に入ってくるトラフィック、Zilliz Cloud からインターネットへ出ていくトラフィック、または Zilliz Cloud 内の 2 つのリソース間のトラフィックを指します。Zilliz Cloud のデータ転送コストは、転送されたデータ量に基づいて課金されます。 
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" icon="📘" title="Notes">
 
 各組織には毎月 &#36;10 のデータ転送割引が提供され、最初の 100 GB が対象となります。
 
@@ -43,8 +43,8 @@ import Admonition from '@theme/Admonition';
    </tr>
    <tr>
      <td><p><strong>クロスリージョン</strong></p></td>
-     <td><p>クロスリージョンデータ転送とは、同じクラウドプロバイダーの異なるリージョン間で移動されるデータを指します。これには以下が含まれます。</p><ul><li><p>クロスリージョンクラスター移行</p></li><li><p>クロスリージョンバックアップ</p><p>パブリックエンドポイント経由でアクセスされた、同じクラウドプロバイダーの他のリージョンにあるクラスターへのトラフィック。</p></li></ul></td>
-     <td><ul><li><p>AWS の場合、コストは送信元の大陸によって決まります。</p></li><li><p>Azure と Google Cloud の場合、コストは送信元と宛先の両方の大陸によって決まります。</p><p>詳細な料金については、<a href="https://zilliz.com/pricing/pricing-guide">Zilliz Cloud 料金ガイド</a>を参照してください。</p></li></ul></td>
+     <td><p>クロスリージョンデータ転送とは、同じクラウドプロバイダーの異なるリージョン間で移動されるデータを指します。これには以下が含まれます。</p><ul><li><p>クロスリージョンクラスター移行</p></li><li><p>クロスリージョンバックアップ</p></li></ul><p>パブリックエンドポイント経由でアクセスされた、同じクラウドプロバイダーの他のリージョンにあるクラスターへのトラフィック。</p></td>
+     <td><ul><li><p>AWS の場合、コストは送信元の大陸によって決まります。</p></li><li><p>Azure と Google Cloud の場合、コストは送信元と宛先の両方の大陸によって決まります。</p></li></ul><p>詳細な料金については、<a href="https://zilliz.com/pricing/pricing-guide">Zilliz Cloud 料金ガイド</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><strong>リージョン内</strong></p></td>
@@ -67,7 +67,7 @@ import Admonition from '@theme/Admonition';
 
 - [OpenAI](./openai)、[Voyage AI](./voyage-ai)、[Cohere](./cohere) などのサードパーティモデルプロバイダーを、データ取り込み、検索、クエリ、再ランキングに使用すること。
 
-<Admonition type="info" icon="📘" title="📘 注記">
+<Admonition type="info" icon="📘" title="📘 Note">
 
 データ転送が同じクラウドリージョン内で発生する場合、コストは &#36;0 になる可能性があります。
 
@@ -117,9 +117,9 @@ Data Transfer Cost = Data Transfer Unit Price × Transferred Data Size
 
 - **単価**: 
 
-    - 北米 (GCP us-west1) から北米 (GCP us-central1) へのデータ転送は、**&#36;0.02/GB** の料金で課金されます。
+    - 北米 (GCP us-west1) から北米 (GCP us-central1) へのデータ転送は、**&#36;0.02/GB**. の料金で課金されます。
 
-    - 北米 (GCP us-west1) からヨーロッパ (GCP europe-west3) へのデータ転送は、**&#36;0.05/GB** の料金で課金されます。
+    - 北米 (GCP us-west1) からヨーロッパ (GCP europe-west3) へのデータ転送は、**&#36;0.05/GB**. の料金で課金されます。
 
 データ転送コストは `$0.02 × 20 + $0.05 x 20 = $1.40` です。
 

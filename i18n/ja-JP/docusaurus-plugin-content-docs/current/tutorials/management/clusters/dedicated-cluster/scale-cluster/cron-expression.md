@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Cron 式は、スケジュールされたスケーリングタスクの実行タイミングを定義します。Zilliz Cloud は、分単位の粒度を持つ標準的な 5 フィールドの Unix cron 形式を使用します。Cron スケジュールは、選択したタイムゾーンに基づいて評価されます。 | Cloud"
 type: origin
 token: QUe4wFnNvifiufkXD9xcs0AAnSc
-sidebar_position: 4
+sidebar_position: 5
 displayed_sidebar: default
 
 ---
@@ -77,4 +77,3 @@ Cron 式は、スケジュールされたスケーリングタスクの実行タ
 | --- | --- | --- |
 | 毎週土曜日 00:00 にスケールダウン | `0 0 * * 6` | Query CU またはレプリカを週末用のターゲットに設定します。 |
 | 毎週月曜日 09:00 に復元 | `0 9 * * 1` | Query CU またはレプリカを平日用のターゲットに設定します。 |
-

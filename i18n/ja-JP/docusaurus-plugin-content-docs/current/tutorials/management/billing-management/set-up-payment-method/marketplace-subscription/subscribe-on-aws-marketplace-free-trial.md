@@ -28,13 +28,13 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 事前準備\{#before-you-start}
 
-- トライアルではなく正式版をご利用になる場合は、[パブリックオファー](./subscribe-on-aws-marketplace)または[プライベートオファー](./subscribe-on-aws-marketplace-private-offer)から再度サブスクリプションに登録する必要があります。
+- トライアルではなく正式版が必要な場合は、[パブリックオファー](./subscribe-on-aws-marketplace)または[プライベートオファー](./subscribe-on-aws-marketplace-private-offer)から再度サブスクリプション登録を行う必要があること。
 
-- AWS Marketplace アカウントをお持ちであることを確認してください。
+- AWS Marketplace アカウントを保有していること。
 
-- AWS Buyer ID のデフォルトの支払い方法を請求書プランに設定してください。詳細は「[デフォルトの支払い方法を変更する方法](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-payment-method.html)」をご覧ください。
+- AWS Buyer ID のデフォルトの支払い方法を Invoicing Plan に設定しておくこと。詳細については、[デフォルトの支払い方法の変更方法](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-payment-method.html) を参照してください。
 
-- AWS アカウントが組織に属している場合、購入を行うには `AWSMarketplaceManageSubscriptions` 管理ポリシーなどの権限が必要です。
+- AWS アカウントが組織に属している場合は、購入を行うために `AWSMarketplaceManageSubscriptions` 管理ポリシーなどの権限を保有していること。
 
 ## 無料トライアルに登録する\{#subscribe-to-a-free-trial}
 
@@ -66,11 +66,11 @@ import Procedures from '@site/src/components/Procedures';
 
 1.  新しく開いたタブで、以下の手順に従ってサブスクリプション登録を完了します。
 
-    1. すでに Zilliz Cloud アカウントをお持ちの場合はログインしてください。お持ちでない場合は、[サインアップオプション](./register-with-zilliz-cloud) を選択して手続きを進めます。AWS ID を Zilliz Cloud アカウントに紐付けるため、URL に含まれるすべてのクエリ文字列が保持されていることを確認してください。
+    1. すでに Zilliz Cloud アカウントをお持ちの場合はログインしてください。お持ちでない場合は、[サインアップオプション](./register-with-zilliz-cloud) を選択して手続きを進めます。AWS の ID 情報を Zilliz Cloud アカウントに紐付けるため、URL に含まれるすべてのクエリ文字列が保持されていることを確認してください。
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        AWS Marketplace は URL のクエリ文字列を使用して ID 情報を Zilliz Cloud に渡します。サインアップに失敗するとこれらのクエリ文字列が失われ、Zilliz Cloud が AWS ID をアカウントに関連付けられない場合があります。その際は AWS Marketplace に戻り、<b>Set up your account</b> を再度クリックしてください。
+        AWS Marketplace は、URL のクエリ文字列を使用して ID 情報を Zilliz Cloud に渡します。サインアップに失敗すると、これらのクエリ文字列が失われる可能性があります。その結果、Zilliz Cloud が AWS の ID 情報を当社に登録されているアカウントに関連付けられない場合があります。その場合は、AWS Marketplace に戻り、<b>Set up your account</b> を再度クリックしてください。
 
         </Admonition>
 
@@ -88,7 +88,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 有料サブスクリプションへのアップグレード\{#upgrade-to-paid-subscription}
 
-AWS Marketplace で Zilliz Cloud の無料トライアルを開始すると、通常の Zilliz Cloud 無料トライアルと同じ機能を利用できます。詳細は「[Try Zilliz Cloud For Free](./free-trials#free-trial)」をご覧ください。
+AWS Marketplace で Zilliz Cloud の無料トライアルを開始すると、通常の Zilliz Cloud 無料トライアルと同じ機能を利用できます。詳細については、[Zilliz Cloud を無料で試す](./free-trials#free-trial) を参照してください。
 
 無料トライアル期間中は、**Billing Overview** ページの AWS Marketplace Subscription の横に `Free Trial` タグが表示されます。
 
@@ -96,7 +96,7 @@ AWS Marketplace で Zilliz Cloud の無料トライアルを開始すると、�
 
 ![OJtZbGmhAoKOC7xlpQsceYtDn0c](https://zdoc-images.s3.us-west-2.amazonaws.com/ojtzbgmhaokoc7xlpqsceytdn0c.png "OJtZbGmhAoKOC7xlpQsceYtDn0c")
 
-より高度な機能をご利用になりたい場合は、いつでも有料の AWS サブスクリプションにアップグレードできます。[パブリックオファーに登録](./subscribe-on-aws-marketplace)するだけで、新しいサブスクリプションが自動的に無料トライアルのサブスクリプションと置き換わります。
+より高度な機能が必要な場合は、いつでも有料の AWS サブスクリプションにアップグレードできます。アップグレードするには、[パブリックオファーに登録](./subscribe-on-aws-marketplace)するだけです。新しいパブリックオファーのサブスクリプションは、以前の無料トライアルのサブスクリプションを自動的に置き換えます。
 
 <Procedures>
 
@@ -112,7 +112,7 @@ AWS Marketplace で Zilliz Cloud の無料トライアルを開始すると、�
 
 </Procedures>
 
-詳しい手順については、「[Subscribe to a Public Offer on AWS Marketplace](./subscribe-on-aws-marketplace)」をご覧ください。
+詳細な手順については、[AWS Marketplace でパブリックオファーにサブスクリプションする](./subscribe-on-aws-marketplace) を参照してください。
 
 アップグレードの成否は、**Billing Overview** ページの **Payment Method** カードで確認できます。AWS Marketplace Subscription の横にある `Free Trial` タグが消えていれば、アップグレードは成功です。
 
@@ -138,19 +138,19 @@ AWS Marketplace で Zilliz Cloud の無料トライアルを開始すると、�
 
 </Procedures>
 
-詳細については、「[Canceling product subscriptions](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html)」を参照してください。
+詳細については、[製品サブスクリプションのキャンセル](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html) を参照してください。
 
 ## FAQ\{#faq}
 
-**AWS Marketplace 無料トライアルは、有効期限切れ時に自動的にアップグレードされますか？**
+**AWS Marketplace の無料トライアルは、有効期限が切れると自動的にアップグレードされますか？**
 
-いいえ。AWS Marketplace 無料トライアル終了後も Zilliz Cloud を引き続きご利用いただくには、手動で有料サブスクリプションにアップグレードする必要があります。
+いいえ。AWS Marketplace の無料トライアルが終了した後も Zilliz Cloud を引き続き利用するには、手動で有料サブスクリプションにアップグレードする必要があります。
 
-**AWS Marketplace 無料トライアルの有効期限が近づくと通知が届きますか？**
+**AWS Marketplace の無料トライアルの有効期限が近づくと、通知は届きますか？**
 
-はい。AWS Marketplace から、無料トライアルの有効期限前にメール通知が送信されます。通知は、トライアルを開始した AWS アカウントに関連付けられたメールアドレス宛に送られます。
+はい。AWS Marketplace は、無料トライアルの有効期限が切れる前にメール通知を送信します。通知は、トライアルを開始した AWS アカウントに関連付けられているメールアドレスに送信されます。
 
-**マーケットプレイスサブスクリプションを Zilliz Cloud にリンクする際に、利用可能な組織が表示されない場合はどうすればよいですか？**
+**マーケットプレイスサブスクリプションを Zilliz Cloud にリンクする際に、利用可能な組織がない場合はどうすればよいですか？**
 
 いくつかの原因が考えられます。
 
@@ -174,15 +174,14 @@ AWS Marketplace で Zilliz Cloud の無料トライアルを開始すると、�
 
     - 異なる Marketplace サブスクリプション用に複数の組織が必要な場合は、[組織を作成](./organization-settings#create-an-organization)できます。
 
-- **リストに組織が表示されない**
+- **リストに組織がない**
 
-    - アカウントが閉鎖された場合や、すべての組織から脱退した場合などに発生します。UI は以下のようになります。
+    - アカウントが閉鎖されている場合や、すべての組織から脱退している場合などに発生します。UI は次のようになります。
 
     ![no-organization-during-subcription](https://zdoc-images.s3.us-west-2.amazonaws.com/no-organization-during-subcription.png "no-organization-during-subcription")
 
-    この場合、以下のいずれかの操作を行ってください。
+    この場合は、次のいずれかを実行します。
 
-    - [新しい組織を作成](./organization-settings#create-an-organization)する。
+    - [新しい組織を作成](./organization-settings#create-an-organization)します。
 
-    - 他のユーザーに依頼して、自身の組織にあなたを[招待](./manage-platform-users#invite-organization-users)してもらい、Organization Owner ロールを付与してもらう。
-
+    - 他のユーザーに依頼して、そのユーザーの組織に[招待](./manage-platform-users#invite-organization-members)してもらい、Organization Owner ロールを付与してもらいます。

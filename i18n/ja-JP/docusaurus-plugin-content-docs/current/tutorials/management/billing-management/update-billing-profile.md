@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 請求先プロファイルには、請求、請求書、税務記録に使用される組織情報と連絡先情報が含まれます。請求書が正しい会社名、住所、連絡先情報で発行されるよう、請求先プロファイルを最新の状態に保ってください。 
 
-<Admonition type="info" icon="📘" title="**注**">
+<Admonition type="info" icon="📘" title="Note">
 
 請求先プロファイルを管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 

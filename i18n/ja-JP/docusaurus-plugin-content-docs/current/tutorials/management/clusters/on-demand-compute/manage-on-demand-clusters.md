@@ -1,13 +1,13 @@
 ---
-title: "On-Demand Cluster を管理する | Cloud"
+title: "オンデマンドクラスターの管理 | Cloud"
 slug: /manage-on-demand-clusters
-sidebar_label: "Cluster を管理"
+sidebar_label: "クラスターの管理"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud で on-demand cluster を表示、確認、削除する方法について説明します。 | Cloud"
+description: "このガイドでは、Zilliz Cloud でオンデマンドクラスターを表示、確認、削除する方法について説明します。 | Cloud"
 type: origin
 token: L11Mw0GRTiKALikJaEycwj1wnKg
 sidebar_position: 3
@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 import Procedures from '@site/src/components/Procedures';
 
-# On-Demand Cluster を管理する
+# オンデマンドクラスターの管理
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
@@ -30,19 +30,19 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は現在、AWS us-west-2 および Azure East US リージョンでのみ利用できます。他のリージョンで on-demand cluster を使用するには、[お問い合わせください](http://zilliz.com/contact-sales)。
+現在、この機能は AWS us-west-2 および Azure East US リージョンでのみ利用可能です。他のリージョンでオンデマンドクラスターを使用するには、[お問い合わせください](http://zilliz.com/contact-sales)。
 
 </FeatureNote>
 
-このガイドでは、Zilliz Cloud で on-demand clusters を表示、確認、削除する方法について説明します。
+このガイドでは、Zilliz Cloud でオンデマンドクラスターを表示、確認、削除する方法について説明します。
 
-On-demand clusters は、オンデマンド検索ワークロード向けのコンピュートを提供します。リクエストが到着すると起動し、cluster 作成時に設定した auto-suspend タイムアウトに基づいて、アイドル時にはゼロまでスケールダウンします。
+オンデマンドクラスターは、オンデマンド検索ワークロード向けにコンピューティングリソースを提供します。リクエストが到着すると起動し、アイドル状態になると、クラスター作成時に設定された自動サスペンドタイムアウトに基づいてゼロまでスケールバックします。
 
-On-demand cluster を管理するには、対象プロジェクトの Project Admin である必要があります。ロールと権限の詳細については、[プロジェクトユーザーの管理](./project-users#project-role-and-access-comparison) を参照してください。
+オンデマンドクラスターを管理するには、対象プロジェクトの Project Admin である必要があります。ロールと権限の詳細については、[プラットフォームユーザーの管理](./manage-platform-users#project-users) を参照してください。
 
-## すべての on-demand clusters を表示する\{#view-all-on-demand-clusters}
+## すべてのオンデマンドクラスターを表示する\{#view-all-on-demand-clusters}
 
-この操作を使用して、プロジェクトおよびリージョン内の on-demand clusters を一覧表示します。
+この操作を使用して、プロジェクトおよびリージョン内のオンデマンドクラスターを一覧表示します。
 
 ### RESTful API を使用する場合\{#via-restful-api}
 
@@ -102,15 +102,15 @@ curl --request GET \
 
 1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
 
-1. **On-Demand Compute > Clusters** に移動します。
+1. **On-Demand Compute > クラスター** に移動します。
 
-1. cluster 名、cluster ID、ステータス、CU サイズ、endpoint、作成者、作成時刻を含む on-demand cluster の一覧を確認します。
+1. オンデマンドクラスターの一覧を確認します。ここにはクラスター名、クラスター ID、ステータス、CU サイズ、エンドポイント、作成者、作成日時が含まれます。
 
 </Procedures>
 
-## on-demand cluster の詳細を確認する\{#check-the-details-of-an-on-demand-cluster}
+## オンデマンドクラスターの詳細を確認する\{#check-the-details-of-an-on-demand-cluster}
 
-この操作を使用して、cluster ID によって 1 つの on-demand cluster を確認します。
+この操作を使用して、クラスター ID を指定して 1 つのオンデマンドクラスターを確認します。
 
 ### RESTful API を使用する場合\{#via-restful-api}
 
@@ -142,29 +142,29 @@ curl --request GET \
 
 1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
 
-1. **On-Demand Compute > Clusters** に移動します。
+1. **On-Demand Compute > クラスター** に移動します。
 
-1. 対象の cluster をクリックして詳細を表示します。
+1. 対象のクラスターをクリックして詳細を表示します。
 
 </Procedures>
 
-## cluster ステータスを理解する\{#understand-cluster-status}
+## クラスターのステータスを理解する\{#understand-cluster-status}
 
-On-demand cluster は、リクエストのアクティビティに応じて自動的にステータスが変化します。
+オンデマンドクラスターは、リクエストのアクティビティに基づいてステータスを自動的に変更します。
 
-| Status | Description |
+| ステータス | 説明 |
 | --- | --- |
-| `RUNNING` | cluster はアクティブなコンピュートリソースを持ち、検索またはクエリリクエストを処理できます。 |
-| `SUSPENDED` | cluster は設定されたアイドルタイムアウト後にゼロまでスケールダウンしています。停止中はコンピュートコストが発生しません。 |
-| `DELETING` | cluster は削除中であり、使用できません。 |
+| `RUNNING` | クラスターにアクティブなコンピューティングリソースがあり、検索またはクエリのリクエストを処理できます。 |
+| `SUSPENDED` | 設定されたアイドルタイムアウトの経過後にゼロまでスケールダウンした状態です。サスペンド中はコンピューティングコストが発生しなくなります。 |
+| `DELETING` | クラスターは削除中であり、使用できません。 |
 
-停止中の on-demand cluster にリクエストが到着すると、Zilliz Cloud はそのワークロードのためにコンピュートリソースを起動します。設定された `autoSuspend` 期間内にリクエストが受信されない場合、cluster は再びゼロまでスケールダウンします。
+サスペンド状態のオンデマンドクラスターにリクエストが到着すると、Zilliz Cloud はそのワークロード用のコンピューティングリソースを起動します。設定された `autoSuspend` 期間内にリクエストを受信しないと、クラスターはゼロまでスケールバックします。
 
-## on-demand cluster の名前を変更する\{#rename-an-on-demand-cluster}
+## オンデマンドクラスターの名前を変更する\{#rename-an-on-demand-cluster}
 
 - **RESTful API を使用する場合**
 
-    以下の例では cluster 名を変更します。詳細については、[Update On-Demand Cluster Info](/reference/restful/update-on-demand-cluster-info-v2) を参照してください。
+    以下の例では、クラスター名を変更します。詳細については、[Update On-Demand クラスター](/reference/restful/update-on-demand-cluster-v2) を参照してください。
 
     ```bash
     curl --request PATCH \
@@ -193,23 +193,23 @@ On-demand cluster は、リクエストのアクティビティに応じて自�
 
     <Procedures>
 
-    1. 対象の on-demand cluster に移動します。
+    1. 対象のオンデマンドクラスターに移動します。
 
     1. **Actions** をクリックし、**Rename** を選択します。
 
         ![IvU4bhPSfo7u76xC67DcESHpnfg](https://zdoc-images.s3.us-west-2.amazonaws.com/ivu4bhpsfo7u76xc67dceshpnfg.png "IvU4bhPSfo7u76xC67DcESHpnfg")
 
-    1. cluster の新しい名前を入力し、**Save** をクリックします。
+    1. クラスターの新しい名前を入力し、**Save** をクリックします。
 
         ![GPBzb78W3ojP0HxalhHc6M4Zn6c](https://zdoc-images.s3.us-west-2.amazonaws.com/gpbzb78w3ojp0hxalhhc6m4zn6c.png "GPBzb78W3ojP0HxalhHc6M4Zn6c")
 
     </Procedures>
 
-## on-demand cluster の説明を編集する\{#edit-the-description-of-an-on-demand-cluster}
+## オンデマンドクラスターの説明を編集する\{#edit-the-description-of-an-on-demand-cluster}
 
 - **RESTful API を使用する場合**
 
-    以下の例では cluster の説明を変更します。詳細については、[Update On-Demand Cluster Info](/reference/restful/update-on-demand-cluster-info-v2) を参照してください。
+    以下の例では、クラスターの説明を変更します。詳細については、[Update On-Demand クラスター](/reference/restful/update-on-demand-cluster-v2) を参照してください。
 
     ```bash
     curl --request PATCH \
@@ -238,40 +238,41 @@ On-demand cluster は、リクエストのアクティビティに応じて自�
 
     <Procedures>
 
-    1. 対象の on-demand cluster に移動します。
+    1. 対象のオンデマンドクラスターに移動します。
 
-    1. 説明にカーソルを合わせて **Edit description** アイコンをクリックします。
+    1. 説明欄にカーソルを合わせ、**Edit description** アイコンをクリックします。
 
         ![AbaibGQY5oI7hMx81F9cOBOlnAd](https://zdoc-images.s3.us-west-2.amazonaws.com/abaibgqy5oi7hmx81f9cobolnad.png "AbaibGQY5oI7hMx81F9cOBOlnAd")
 
-    1. cluster の新しい説明を入力し、**Save** をクリックします。
+    1. クラスターの新しい説明を入力し、**Save** をクリックします。
 
         ![HKlybJYCFo2uMHxmVZ0cBs7Gnid](https://zdoc-images.s3.us-west-2.amazonaws.com/hklybjycfo2umhxmvz0cbs7gnid.png "HKlybJYCFo2uMHxmVZ0cBs7Gnid")
 
     </Procedures>
 
-## on-demand cluster を変更する\{#modify-an-on-demand-cluster}
+## オンデマンドクラスターを変更する\{#modify-an-on-demand-cluster}
 
-名前、説明、auto-suspend 設定など、on-demand cluster の設定を変更できます。
+オンデマンドクラスターの名前、説明、自動サスペンド設定などの設定を変更できます。
 
 - **RESTful API を使用する場合**
 
-    既存の on-demand cluster の auto-suspend 時間を変更できます。
+    既存のオンデマンドクラスターの名前、説明、自動サスペンド時間、クエリ CU 数を変更できます。詳細については、[Update On-Demand クラスター](/reference/restful/update-on-demand-cluster-v2) を参照してください。
 
     ```bash
     export TOKEN="YOUR_API_KEY"
     export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
     
     curl --request PATCH \
-    --url "${BASE_URL}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
-    --header "Content-Type: application/json" \
-    -d '{
-        "clusterName": "New Cluster Name",
-        "description": "This is the new description of the cluster.",
-        "autoSuspend": "5m"
-    }'
+         --url "https://${BASE_URL}/v2/clusters/onDemandClusters/in07-7d6ac8697204a6a" \
+         --header "Authorization: Bearer ${API_KEY}" \
+         --header "Accept: application/json" \
+         --header "Content-Type: application/json" \
+         --data-raw '{
+            "autoSuspend": "5m",
+            "clusterName": "my-on-demand-updated",
+            "description": "Updated on-demand cluster description",
+            "cuSize": 32
+          }'
     ```
 
     以下は出力例です。
@@ -288,15 +289,137 @@ On-demand cluster は、リクエストのアクティビティに応じて自�
 
 - **Web コンソールを使用する場合**
 
-    Web コンソールでは、既存の on-demand cluster の cluster 名、説明、auto-suspend 時間を変更できます。
+    Web コンソールから、既存のオンデマンドクラスターのクラスター名、説明、自動サスペンド時間、クエリ CU 数を変更できます。
 
     ![M2XMwoWoih17BRbqhGhcb6i9njg](https://zdoc-images.s3.us-west-2.amazonaws.com/M2XMwoWoih17BRbqhGhcb6i9njg.png)
 
-## on-demand cluster を削除する\{#drop-an-on-demand-cluster}
+## Keep-warm スケジュールを構成する\{#configure-a-keep-warm-schedule}
 
-<Admonition type="danger" icon="🚧" title="危険">
+Keep-warm スケジュールは、毎週繰り返される時間帯にオンデマンドクラスターを稼働させ続けます。Keep-warm ウィンドウが開始されると、Zilliz Cloud はオンデマンドクラスターがサスペンド状態であれば再開します。ウィンドウ中は、`Auto Suspend` が抑制されます。ウィンドウが終了すると、オンデマンドクラスターは再び既存の自動サスペンドポリシーに従います。
 
-on-demand cluster を削除すると、即座に削除され、復元できません。この操作は元に戻せません。
+Keep-warm スケジュールは、`Auto Suspend` を恒久的に無効化するものではなく、Keep-warm ウィンドウの終了時にオンデマンドクラスターを能動的にサスペンドするものでもありません。
+
+<Admonition type="info" icon="📘" title="Note">
+
+Keep-warm ウィンドウ中にオンデマンドクラスターをサスペンドするには、先に Keep-warm スケジュールを無効化または削除してください。
+
+</Admonition>
+
+各オンデマンドクラスターは 1 つの Keep-warm スケジュールを持つことができます。スケジュールには 1～5 つの週次ルールを含めることができます。各ルールは組織のシステムタイムゾーンを使用し、曜日、開始時刻、終了時刻を含みます。
+
+### RESTful API を使用する場合\{#via-restful-api}
+
+オンデマンドクラスターの Keep-warm スケジュールは、作成、更新、表示、有効化、無効化、削除できます。
+
+#### Keep-warm スケジュールを作成または更新する\{#create-or-update-a-keep-warm-schedule}
+
+Keep-warm スケジュールを作成または更新する場合は、ルールの完全なリストを送信します。Zilliz Cloud は、既存のルールを送信されたルールで 1 回の操作で置き換えます。
+
+以下の例では、平日の `09:00` から `18:00` までの Keep-warm スケジュールを作成します。
+
+```bash
+
+```
+
+レスポンス例:
+
+```bash
+
+```
+
+#### Keep-warm スケジュールを表示する\{#view-a-keep-warm-schedule}
+
+以下の例では、オンデマンドクラスターの Keep-warm スケジュールを確認します。
+
+```bash
+
+```
+
+レスポンス例:
+
+```json
+
+```
+
+スケジュールが構成されていない場合、リクエストは成功し、`configured` として `false` を返します。
+
+#### Keep-warm スケジュールを有効化または無効化する\{#enable-or-disable-a-keep-warm-schedule}
+
+Keep-warm スケジュールを有効化または無効化するには、完全なルールセットと目的の `enabled` 値を指定して PUT リクエストを送信します。
+
+<Admonition type="info" icon="📘" title="Note">
+
+スケジュールを無効化しても、構成済みのすべてのルールは保持されます。オンデマンドクラスターが Keep-warm ウィンドウ内にある場合、Zilliz Cloud は即座に Keep-warm モードを終了します。スケジュールによってオンデマンドクラスターがサスペンドされることはありません。
+
+</Admonition>
+
+以下の例では、既存の Keep-warm スケジュールを無効化します。
+
+```bash
+
+```
+
+レスポンス例:
+
+```bash
+
+```
+
+#### Keep-warm スケジュールを削除する\{#delete-a-keep-warm-schedule}
+
+Keep-warm スケジュールを削除すると、スケジュールとすべてのルールが削除されます。オンデマンドクラスター、データ、イベント、監査レコードは削除されません。
+
+```bash
+
+```
+
+レスポンス例:
+
+```json
+
+```
+
+### Web コンソールを使用する場合\{#via-web-console}
+
+![EnHUwxZCUhT8hlbvMJRchiAQnfY](https://zdoc-images.s3.us-west-2.amazonaws.com/EnHUwxZCUhT8hlbvMJRchiAQnfY.png)
+
+<Procedures>
+
+1. 対象のオンデマンドクラスターに移動します。
+
+1. **Actions** メニューを開き、**Manage Keep-warm Schedule** をクリックします。
+
+1. **Enable Keep-warm Schedule** をオンにします。
+
+1. **Schedule Rules** で、1 つ以上の週次ルールを追加します。
+
+1. 各ルールについて、繰り返し曜日、開始時刻、終了時刻を構成します。
+
+1. 次回の切り替え時刻を確認します。
+
+1. **Save** をクリックします。
+
+</Procedures>
+
+クラスターの詳細ページには、Keep-warm スケジュールのステータスが **On**、**Off**、**Not configured**、または **Schedule unavailable** として表示されます。スケジュールが構成されている場合は、ルール数、システムタイムゾーン、次回の切り替え時刻も表示されます。
+
+オンデマンドクラスターが現在 Keep-warm ウィンドウ内にある場合、ページにはプライマリのクラスターステータスの横にセカンダリの **Keep-warm** タグが表示されます。
+
+![IF04w32RNhEbr7b8OBUcM8n3nnc](https://zdoc-images.s3.us-west-2.amazonaws.com/IF04w32RNhEbr7b8OBUcM8n3nnc.png)
+
+スケジュールを無効化しても、構成済みのすべてのルールは保持されます。オンデマンドクラスターが Keep-warm ウィンドウ内にある場合、Zilliz Cloud は即座に Keep-warm モードを終了します。スケジュールによってオンデマンドクラスターがサスペンドされることはありません。Keep-warm スケジュールを無効化するには、以下に示すように **Enable Keep-warm Schedule** をオフにして **Save** をクリックします。
+
+![OzydwQkLjhVsoBbckHzciUAbnmc](https://zdoc-images.s3.us-west-2.amazonaws.com/OzydwQkLjhVsoBbckHzciUAbnmc.png)
+
+スケジュールを削除すると、すべてのルールが完全に削除されます。Keep-warm スケジュールを削除するには、以下に示すように **Delete Schedule** をクリックして操作を確定します。
+
+![SBkEwV2bihQXhDbdTlIcnnYknSd](https://zdoc-images.s3.us-west-2.amazonaws.com/SBkEwV2bihQXhDbdTlIcnnYknSd.png)
+
+## オンデマンドクラスターを削除する\{#drop-an-on-demand-cluster}
+
+<Admonition type="danger" icon="🚧" title="Danger">
+
+オンデマンドクラスターを削除すると、即座に削除され、復元できません。この操作は元に戻せません。
 
 </Admonition>
 
@@ -329,17 +452,16 @@ curl --request DELETE \
 
 1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
 
-1. **On-Demand Compute > Clusters** に移動します。
+1. **On-Demand Compute > クラスター** に移動します。
 
-1. 対象の on-demand cluster を選択します。
+1. 対象のオンデマンドクラスターを選択します。
 
-1. cluster を削除し、操作を確認します。
+1. クラスターを削除し、操作を確認します。
 
 </Procedures>
 
 ## 関連トピック\{#related-topics}
 
-- On-demand cluster を作成するには、[Create On-Demand Cluster](./on-demand-cluster) を参照してください。
+- オンデマンドクラスターを作成するには、[オンデマンドクラスターの作成](./on-demand-cluster) を参照してください。
 
-- プロジェクト endpoint 経由で接続するには、[Connect for On-Demand Search](./connect-for-on-demand-search) を参照してください。
-
+- プロジェクトエンドポイント経由で接続するには、[オンデマンド検索のための接続](./connect-for-on-demand-search) を参照してください。

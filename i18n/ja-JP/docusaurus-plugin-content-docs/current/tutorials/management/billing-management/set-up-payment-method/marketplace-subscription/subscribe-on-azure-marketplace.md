@@ -1,7 +1,7 @@
 ---
 title: "Microsoft Marketplace でパブリックオファーにサブスクライブする | Cloud"
 slug: /subscribe-on-azure-marketplace
-sidebar_label: "Microsoft Marketplace (パブリックオファー)"
+sidebar_label: "Microsoft Marketplace（パブリックオファー）"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -36,7 +36,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Admonition>
 
-## 開始する前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
 Azure Marketplace でサブスクライブするには、[Azure Marketplace](https://learn.microsoft.com/en-us/marketplace/azure-marketplace-overview) アカウントと Azure の[請求先アカウント](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/view-all-accounts)が必要です。
 
@@ -352,5 +352,5 @@ Azure Marketplace でのサブスクリプションのキャンセル方法の�
 
     - [新しい組織を作成](./organization-settings#create-an-organization)する。
 
-    - 他のユーザーに、自身の組織への[招待](./manage-platform-users#invite-organization-users)と Organization Owner ロールの付与を依頼する。
+    - 他のユーザーに、自身の組織への[招待](./manage-platform-users#invite-organization-members)と Organization Owner ロールの付与を依頼する。
 

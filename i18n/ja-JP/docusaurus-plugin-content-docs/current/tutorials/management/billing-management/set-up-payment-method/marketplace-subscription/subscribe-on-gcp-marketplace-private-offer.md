@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 Google Cloud Marketplace のプライベートオファーは、Zilliz がお客様の組織向けに作成するカスタム購入オプションです。Google Cloud Marketplace の製品ページに記載された標準価格・条件が適用されるパブリックオファーとは異なり、プライベートオファーでは交渉済みの価格、カスタム契約条件、特定の契約期間、指定した支払いスケジュールなどを設定できます。
 
-Zilliz Cloud のプライベートオファーをご希望の場合は、[Zilliz のアカウントエグゼクティブにお問い合わせください](https://zilliz.com/contact-sales)。その際、オファーの受取先となる Google Cloud 請求先アカウント ID とメールアドレス、ご希望の契約期間、利用要件、および組織で必要な調達・請求関連の要件をお伝えください。
+Zilliz Cloud のプライベートオファーをご希望の場合は、[Zilliz のアカウントエグゼクティブにお問い合わせください](https://zilliz.com/contact-sales)。その際、オファーを受け取るための Google Cloud 請求先アカウント ID とメールアドレス、想定される契約期間、利用要件、および組織で必要な調達・請求関連の要件をお伝えください。
 
 このガイドでは、Google Cloud Marketplace で Zilliz Cloud のプライベートオファーを承諾し、Zilliz Cloud 組織にリンクする手順を説明します。
 
@@ -34,15 +34,15 @@ Zilliz Cloud のプライベートオファーをご希望の場合は、[Zilliz
 
 - 有料の Google Cloud 請求先アカウントを保有していること。無料トライアルの Google Cloud 請求先アカウントは使用できません。
 
-- Cloud 請求先アカウントに対して、次のいずれかの権限を持っていること。
+- Cloud 請求先アカウントに対して、次のいずれかの必要な権限を持っていること。
 
     - Billing Account Administrator（`roles/billing.admin`）
 
     - Billing Account User（`roles/billing.user`）および Consumer Procurement Order Administrator（`roles/consumerprocurement.orderAdmin`）
 
-    必要な権限がない場合は、請求管理者または組織管理者にアクセス権の付与、あるいはオファーの承諾を依頼してください。
+    必要な権限がない場合は、Billing Administrator または Organization Administrator に、アクセス権の付与またはオファーの承諾を依頼してください。
 
-- Zilliz Cloud の組織オーナーまたは組織請求管理者であること。これらの権限は、Marketplace サブスクリプションを Zilliz Cloud 組織にリンクするために必要です。
+- Zilliz Cloud で Organization Owner または Organization Billing Admin であること。これらの権限は、Marketplace サブスクリプションを Zilliz Cloud 組織にリンクするために必要です。
 
 ## プライベートオファーへの登録\{#subscribe-to-a-private-offer}
 
@@ -76,7 +76,7 @@ Zilliz Cloud のプライベートオファーをご希望の場合は、[Zilliz
 
 1. Zilliz にサインアップします。
 
-    オファーの購入が完了すると、**Accepted! Now sign up with Zilliz** というタイトルのダイアログボックスが表示されます。
+    オファーの購入が完了すると、**Accepted! Now sign up with Zilliz** というタイトルのダイアログボックスがページに表示されます。
 
     **Sign up** をクリックすると、Zilliz Cloud にリダイレクトされます。
 
@@ -248,7 +248,6 @@ Google Cloud Marketplace では、更新は既存のプライベートオファ�
 
     この場合は、以下のいずれかの操作を行えます。
 
-    - [新しい組織を作成](./organization-settings#create-an-organization)する。
+    - [新しい組織を作成](./organization-settings#create-an-organization)します。
 
-    - 他のユーザーに、自身の組織へ[招待](./manage-platform-users#invite-organization-users)してもらい、Organization Owner ロールを付与してもらうよう依頼する。
-
+    - 他のユーザーに、そのユーザーの組織へ[招待](./manage-platform-users#invite-organization-members)してもらい、Organization Owner ロールを付与してもらうよう依頼します。

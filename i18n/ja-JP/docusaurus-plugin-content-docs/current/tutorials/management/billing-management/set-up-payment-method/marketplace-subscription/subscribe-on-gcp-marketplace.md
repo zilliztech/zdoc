@@ -162,5 +162,5 @@ Marketplace からの登録完了後、必要に応じていつでもサブス�
 
     - [新しい組織を作成](./organization-settings#create-an-organization)する。
 
-    - 他のユーザーに、自身の組織への[招待](./manage-platform-users#invite-organization-users)と Organization Owner ロールの付与を依頼する。
+    - 他のユーザーに、自身の組織への[招待](./manage-platform-users#invite-organization-members)と Organization Owner ロールの付与を依頼する。
 
