@@ -1411,9 +1411,9 @@
       "translatedAt": "2026-07-11T11:42:17.427Z"
     },
     "docs/tutorials/ai-models/integrate-with-model-providers.md": {
-      "sourceHash": "23606bd048c1a833a709a20c23ab01054efc7bcd325ded0ad22a56ebfe51ff8f",
+      "sourceHash": "d72bc4f541734c30426702dcf2cb1ee1d3851079dbaa909eaedbb1fe3367a4cc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/ai-models/integrate-with-model-providers.md",
-      "translatedAt": "2026-07-21T18:54:35.797Z"
+      "translatedAt": "2026-07-22T03:31:36.156Z"
     },
     "docs/tutorials/architecture/best-practices/environment-isolation.md": {
       "sourceHash": "e63b2b79884b5fb0882076b6786e7db1d3e3989b95b558cbec7d1b5dc6b3819f",
