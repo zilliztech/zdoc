@@ -48,7 +48,7 @@ Query CU Cost = Query CU Unit Price × Number of Query CU × Active Runtime
 
     - 課金は、非アクティブ状態によりオンデマンドクラスターが自動的に一時停止される（**Suspending** または **Suspended** ステータス）と停止します。
 
-    - 最小課金単位は **1分** です。1分未満の使用も1分として課金されます。
+    - 最小課金単位は **1 分** です。1 分未満の使用も 1 分として課金されます。
 
 ## Indexing CU コスト\{#indexing-cu-cost}
 
@@ -72,9 +72,9 @@ Indexing CU Cost = Indexing CU Unit Price × Number of Indexing CU x Time
 
 - **Number of Indexing CU**: システムが最も適切な量の Indexing CU を自動的に割り当てます。使用する Indexing CU の数を指定することはできません。
 
-- **Time**: インデックス構築ジョブの完了にかかる時間です。ジョブの実行時間のみが計上される点に注意してください。キューでの待機時間と失敗したジョブは課金されません。最小課金単位は1分です。1分未満の使用も1分として課金されます。
+- **Time**: インデックス構築ジョブの完了にかかる時間です。ジョブの実行時間のみが計上される点に注意してください。キューでの待機時間と失敗したジョブは課金されません。最小課金単位は 1 分です。1 分未満の使用も 1 分として課金されます。
 
-<Admonition type="info" icon="📘" title="**注記**">
+<Admonition type="info" icon="📘" title="Note">
 
 [Usage](./analyze-cost) ページと [Invoice](./view-invoice) ページでは、Indexing CU コストは個々のジョブ単位ではなくデータベースごとの合計として表示されます。  
 
@@ -90,7 +90,7 @@ Indexing CU Cost = Indexing CU Unit Price × Number of Indexing CU x Time
 
 - **Query CU Quantity**: 8 CU
 
-- **On-demand cluster Runtime**: 30分
+- **On-demand クラスター Runtime**: 30 分
 
 - **Indexing Usage**: 120 CU-分
 
@@ -107,4 +107,3 @@ Indexing CU Cost = Indexing CU Unit Price × Number of Indexing CU x Time
 `Indexing CU Cost = (120 ÷ 60) x $0.41 = $0.82`
 
 `Total On-demand Compute Cost = $1.64 + $0.82 = $2.46`
-

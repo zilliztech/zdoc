@@ -10,7 +10,7 @@ notebook: FALSE
 description: "このページでは、Zilliz Cloud プラットフォームの制限事項に関する情報を提供します。これらの制限に関連する問題を報告する必要がある場合は、リクエストを送信してください。 | Cloud"
 type: origin
 token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
-sidebar_position: 18
+sidebar_position: 19
 displayed_sidebar: default
 
 ---
@@ -117,9 +117,9 @@ CU は、データの並列処理に使用されるコンピュートリソー�
 | Serverless | Zilliz Cloud の Serverless クラスターには容量制限がありません。 |
 | Dedicated (per CU) | Zilliz Cloud の Dedicated クラスターには容量制限がありません。 |
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-Dedicated クラスターの容量上限は、使用する CU タイプとサイズによって異なります。クラスターの容量が不足している場合は、CU タイプとサイズの調整を検討してください。詳細については、[Plan Cluster Scaling](./plan-cluster-scaling) を参照してください。
+Dedicated クラスターの容量上限は、使用する CU タイプとサイズによって異なります。クラスターの容量が不足している場合は、CU タイプとサイズの調整を検討してください。詳細については、[クラスタースケーリングの計画](./plan-cluster-scaling) を参照してください。
 
 </Admonition>
 
@@ -132,7 +132,7 @@ Dedicated クラスターの容量上限は、使用する CU タイプとサイ
 | レプリカ | 100 | 最大 100 個のレプリカを作成できます。 |
 | Query CU x Replica Count | 204,800 | クラスターのレプリカ数 x query CU は 204,800 を超えてはなりません。 |
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
 以前の Milvus リリースと互換性のある一部のクラスターでは、レプリカを追加するために少なくとも 12 CUs が必要になる場合があります。 
 
@@ -162,7 +162,7 @@ Zilliz Cloud クラスターにおけるコレクションとパーティショ�
 
 - 両方の条件を満たす必要があります。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
 **Free** および **Serverless** クラスターには、代わりに次の制限が適用されます。
 
@@ -270,7 +270,7 @@ insert および upsert 操作のレート制限は、クラスターのデプ�
 
 さらに、次の追加制限が適用されます。
 
-- 単一シャードの書き込みレートは **32 MB/s** を超えてはなりません。
+- 単一シャードの書き込みレートは **32 MB/s**. を超えてはなりません。
 
 - データを insert する際は、スキーマで定義されたすべてのフィールドを含めてください。コレクションで AutoID が有効な場合は、primary key を除外してください。
 
@@ -297,7 +297,7 @@ flush リクエストのレート制限は 1 秒あたり 0.1 リクエストで
 
 - Milvus v2.4.x 以降と互換性のある、beta バージョンにアップグレードされた Dedicated クラスター。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
 flush 操作を手動で実行することは推奨されません。Zilliz Cloud クラスターがこれを適切に処理します。
 
@@ -307,7 +307,7 @@ flush 操作を手動で実行することは推奨されません。Zilliz Clou
 
 load リクエストのレート制限は、クラスターあたり **20** req/s です。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
 すでに load 済みのコレクションについては、新しいデータがそれらのコレクションに入ってきている場合でも、コレクションの load を実行する必要はありません。
 
@@ -315,9 +315,9 @@ load リクエストのレート制限は、クラスターあたり **20** req/
 
 ### Search\{#search}
 
-各 search リクエスト/レスポンスは **64** MB を超えてはなりません。
+各 search request/response は **64** MB を超えてはなりません。
 
-各 search リクエストが保持する query vector の数（通常 **nq** と呼ばれます）は、サブスクリプションプランによって異なります。
+各 search リクエストが保持するクエリベクトルの数（通常 **nq** と呼ばれます）は、サブスクリプションプランによって異なります。
 
 - Free および Serverless クラスターでは、**nq** は **10** 以下です。
 
@@ -331,13 +331,13 @@ load リクエストのレート制限は、クラスターあたり **20** req/
 
 ### Query\{#query}
 
-各 query リクエスト/レスポンスは **64** MB を超えてはなりません。
+各 query request/response は **64** MB を超えてはなりません。
 
 各 query レスポンスが返すエンティティ数は 16,384 以下です（通常 **topK** と呼ばれます）。
 
 ### Delete\{#delete}
 
-各 delete リクエスト/レスポンスは **64** MB を超えてはなりません。
+各 delete request/response は **64** MB を超えてはなりません。
 
 delete リクエストのレート制限は、クラスターあたり **0.5** MB/s です。
 

@@ -56,9 +56,9 @@ Storage Cost = Storage Unit Price x Data Size x Duration
 
 クラスターおよびボリュームストレージの請求ルールは、バックアップストレージおよびコールドデータアクセスとは若干異なります。
 
-- **Dedicated & Serverless Cluster, Volume, and Database Storage:** 1 時間単位で請求され、最低請求時間は 1 時間です。
+- <strong>Dedicated & Serverless クラスター, Volume, and データベース Storage:</strong> 1 時間単位で請求され、最低請求時間は 1 時間です。
 
-- **Backup Storage:** 1 日単位で請求され、最低請求日数は 1 日です。
+- <strong>Backup Storage:</strong> 1 日単位で請求され、最低請求日数は 1 日です。
 
 ## 例\{#examples}
 
@@ -70,7 +70,7 @@ Serving クラスターの構成が次のとおりであるとします。
 
 - **Cloud Provider & Region**: AWS us-east-1 (Virginia)
 
-- **Cluster Type**: Performance-optimized
+- **クラスター Type**: Performance-optimized
 
 - **Data Size**: 500 GB
 
@@ -88,7 +88,7 @@ Serving クラスターの構成が次のとおりであるとします。
 
 - **Cloud Provider & Region**: AWS us-east-1 (Virginia)
 
-- **Cluster Type**: Performance-optimized
+- **クラスター Type**: Performance-optimized
 
 - **Backup File Size**: 20 GB
 
@@ -116,4 +116,3 @@ Serving クラスターの構成が次のとおりであるとします。
     - クラスターおよびボリュームストレージ: 最低 1 時間分の請求。
 
     - バックアップストレージ: 最低 1 日分の請求。
-

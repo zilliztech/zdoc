@@ -24,27 +24,27 @@ import Procedures from '@site/src/components/Procedures';
 
 # Okta を使用した SCIM プロビジョニングの設定
 
-このガイドでは、Okta から Zilliz Cloud への SCIM プロビジョニングの設定方法について説明します。SCIM プロビジョニングを使用すると、Okta から Zilliz Cloud 組織へユーザー、グループ、グループメンバーシップをプッシュできます。
+このガイドでは、Okta から Zilliz Cloud への SCIM プロビジョニングを設定する方法について説明します。SCIM プロビジョニングを使用すると、Okta はユーザー、グループ、グループメンバーシップを Zilliz Cloud 組織にプッシュできます。
 
-組織で SSO にすでに Okta を使用している場合は、ユーザーサインイン用に既存の Okta SSO アプリをそのまま使用してください。プロビジョニング用には、別途 Okta SCIM アプリを作成します。SSO、SCIM、同期グループ、アクセス制御の連携についての概要は、[SCIM プロビジョニング](/docs/scim-provisioning)を参照してください。
+組織ですでに Okta を SSO に使用している場合は、ユーザーサインイン用の既存の Okta SSO アプリをそのまま使用してください。プロビジョニングには、別途 Okta SCIM アプリを作成します。SSO、SCIM、同期グループ、Access Control が連携する仕組みの概要については、[SCIM プロビジョニングの概要](./scim-provisioning-overview) を参照してください。
 
-次の図に、Zilliz Cloud と Okta 間のセットアップフローを示します。
+次の図は、Zilliz Cloud と Okta 間のセットアップフローを示しています。
 
 ![Em1LwlYx9hETaKbeEU7c4SgSn0b](https://zdoc-images.s3.us-west-2.amazonaws.com/Em1LwlYx9hETaKbeEU7c4SgSn0b.png)
 
-## 前提条件\{#before-you-start}
+## 事前準備\{#before-you-start}
 
-- Zilliz Cloud 組織の SSO が設定および検証済みであること。
+- Zilliz Cloud 組織の SSO を設定および検証済みであること。
 
 - SCIM プロビジョニングを設定する Zilliz Cloud 組織の **Organization Owner** であること。
 
 - [Okta Admin Console](https://login.okta.com/) への管理者アクセス権限があること。
 
-## 手順 1: Zilliz Cloud で SCIM Base URL と API トークンを取得する\{#step-1-get-the-scim-base-url-and-api-token-in-zilliz-cloud}
+## ステップ 1: Zilliz Cloud で SCIM Base URL と API トークンを取得する\{#step-1-get-the-scim-base-url-and-api-token-in-zilliz-cloud}
 
-Zilliz Cloud の SCIM プロビジョニング設定には、Okta が Zilliz Cloud SCIM API を呼び出すために必要な接続情報が含まれています。
+Zilliz Cloud の SCIM プロビジョニング設定では、Okta が Zilliz Cloud SCIM API を呼び出すために必要な接続情報が提供されます。
 
-次のスクリーンショットに、Zilliz Cloud の SCIM プロビジョニング設定を示します。
+次のスクリーンショットは、Zilliz Cloud の SCIM プロビジョニング設定を示しています。
 
 <Supademo id="cmryemjll4vptqmblonpseggo" title=""  />
 
@@ -60,9 +60,9 @@ Zilliz Cloud の SCIM プロビジョニング設定には、Okta が Zilliz Clo
 
 </Procedures>
 
-## 手順 2: Okta Admin で SCIM アプリを作成する\{#step-2-create-a-scim-app-in-okta-admin}
+## ステップ 2: Okta Admin で SCIM アプリを作成する\{#step-2-create-a-scim-app-in-okta-admin}
 
-Okta Admin で専用の SCIM アプリを作成し、Zilliz Cloud に ID をプロビジョニングします。この手順では、Okta の **SCIM 2.0 Test App (OAuth Bearer Token)** 統合を追加し、アプリケーションのユーザー名形式をメールに設定します。これにより、プロビジョニングされたユーザーを Zilliz Cloud 上でメールアドレスによって照合できるようになります。Okta における一般的な SCIM アプリ作成ワークフローについては、[Okta ドキュメント](https://help.okta.com/oie/en-us/content/topics/apps/aiw_scim_entitlements.htm)を参照してください。
+Zilliz Cloud に ID をプロビジョニングするために、Okta Admin で専用の SCIM アプリを作成します。このステップでは、Okta の **SCIM 2.0 Test App (OAuth Bearer Token)** 統合を追加し、アプリケーションのユーザー名形式をメールに設定します。これにより、プロビジョニングされたユーザーを Zilliz Cloud でメールアドレスによって照合できるようになります。Okta における一般的な SCIM アプリの作成ワークフローについては、[Okta ドキュメント](https://help.okta.com/oie/en-us/content/topics/apps/aiw_scim_entitlements.htm) を参照してください。
 
 <Supademo id="cmqyl1i0z1x69qmecc4ph3mte" title=""  />
 
@@ -82,9 +82,9 @@ Okta Admin で専用の SCIM アプリを作成し、Zilliz Cloud に ID をプ�
 
 </Procedures>
 
-## 手順 3: Okta Admin で SCIM プロビジョニングを設定する\{#step-3-configure-scim-provisioning-in-okta-admin}
+## ステップ 3: Okta Admin で SCIM プロビジョニングを設定する\{#step-3-configure-scim-provisioning-in-okta-admin}
 
-Zilliz Cloud で取得した SCIM Base URL と SCIM API Token を使用して、Okta SCIM アプリを設定します。次に、Okta が Zilliz Cloud に送信するプロビジョニングアクションを設定します。
+Zilliz Cloud の SCIM Base URL と SCIM API Token を使用して Okta SCIM アプリを設定します。次に、Okta が Zilliz Cloud に送信するプロビジョニングアクションを設定します。
 
 <Supademo id="cmryffitn4wvtqmblv6htmug5" title=""  />
 
@@ -108,11 +108,11 @@ Zilliz Cloud で取得した SCIM Base URL と SCIM API Token を使用して、
 
 </Procedures>
 
-**Import Groups** は有効にしないでください。Zilliz Cloud はグループ定義のソースではありません。グループは Okta で管理し、Push Groups を使用して Zilliz Cloud にプロビジョニングしてください。
+**Import Groups** を有効にしないでください。Zilliz Cloud はグループ定義のソースではありません。グループは Okta で管理し、Push Groups を使用して Zilliz Cloud にプロビジョニングしてください。
 
-## 手順 4: Okta からユーザーとグループをプロビジョニングする\{#step-4-provision-users-and-groups-from-okta}
+## ステップ 4: Okta からユーザーとグループをプロビジョニングする\{#step-4-provision-users-and-groups-from-okta}
 
-SCIM アプリの設定が完了したら、Okta から Zilliz Cloud にプロビジョニングするユーザーとグループを選択します。
+SCIM アプリの設定後、Okta が Zilliz Cloud にプロビジョニングするユーザーとグループを選択します。
 
 ### 4.1 ユーザーまたはグループを Okta SCIM アプリに割り当てる\{#41-assign-users-or-groups-to-the-okta-scim-app}
 
@@ -134,11 +134,11 @@ SCIM アプリの設定が完了したら、Okta から Zilliz Cloud にプロ�
 
 </Procedures>
 
-割り当てにより、SCIM `/Users` エンドポイントを通じてユーザーがプロビジョニングされます。Okta グループをアプリに割り当てると、そのグループ内のユーザーはプロビジョニングされますが、グループオブジェクト自体は Zilliz Cloud の同期グループとしてはプロビジョニングされません。
+割り当ては、SCIM `/Users` エンドポイントを通じてユーザーをプロビジョニングします。Okta グループをアプリに割り当てると、そのグループ内のユーザーはプロビジョニングされますが、グループオブジェクト自体は Zilliz Cloud の同期グループとしてプロビジョニングされません。
 
-### 4.2 グループを Zilliz Cloud にプッシュする\{#42-push-groups-to-zilliz-cloud}
+### 4.2 Zilliz Cloud にグループをプッシュする\{#42-push-groups-to-zilliz-cloud}
 
-Push Groups を使用して、Okta のグループオブジェクトとグループメンバーシップを Zilliz Cloud にプロビジョニングします。Okta の一般的な Group Push ワークフローについては、[Okta ドキュメント](https://help.okta.com/en-us/content/topics/users-groups-profiles/usgp-enable-group-push.htm)を参照してください。
+Push Groups を使用して、Okta のグループオブジェクトとグループメンバーシップを Zilliz Cloud にプロビジョニングします。Okta における一般的なグループプッシュのワークフローについては、[Okta ドキュメント](https://help.okta.com/en-us/content/topics/users-groups-profiles/usgp-enable-group-push.htm) を参照してください。
 
 <Supademo id="cmryls4dy537tqmblismw3az5" title=""  />
 
@@ -152,15 +152,15 @@ Push Groups を使用して、Okta のグループオブジェクトとグルー
 
 1. **Save** をクリックします。
 
-1. **All** をクリックし、グループプッシュのステータスを確認します。
+1. **All** をクリックし、グループのプッシュステータスを確認します。
 
 </Procedures>
 
-Push Groups により、SCIM `/Groups` エンドポイントを通じてグループオブジェクトとグループメンバーシップがプロビジョニングされます。グループの同期後は、Okta でグループ名とメンバーシップを管理してください。
+Push Groups は、SCIM `/Groups` エンドポイントを通じてグループオブジェクトとグループメンバーシップをプロビジョニングします。グループの同期後は、グループ名とメンバーシップを Okta で管理してください。
 
-## 手順 5: Zilliz Cloud でプロビジョニングを確認する\{#step-5-verify-provisioning-in-zilliz-cloud}
+## ステップ 5: Zilliz Cloud でプロビジョニングを検証する\{#step-5-verify-provisioning-in-zilliz-cloud}
 
-Okta によるグループのプロビジョニング後、それらが Zilliz Cloud に表示されることを確認します。
+Okta がグループをプロビジョニングした後、それらが Zilliz Cloud に表示されることを確認します。
 
 <Supademo id="cmrylxo0y53gyqmblv1m72a7d" title=""  />
 
@@ -170,18 +170,18 @@ Okta によるグループのプロビジョニング後、それらが Zilliz C
 
 1. **Groups** タブを開きます。
 
-1. Okta からプッシュされたグループが同期グループとして表示されていることを確認します。
+1. Okta からプッシュされたグループが同期グループとして表示されることを確認します。
 
 </Procedures>
 
-ユーザーとグループの同期後、Zilliz Cloud Access Control でアクセス権を割り当てます。SCIM は ID データのみを同期するため、組織ロールやプロジェクトロールは自動的に付与されません。
+ユーザーとグループの同期後、Zilliz Cloud の Access Control でアクセス権を割り当てます。SCIM は ID データのみを同期し、組織ロールやプロジェクトロールを自動的に付与しません。
 
 ## トラブルシューティング\{#troubleshooting}
 
 | 問題 | 確認事項 |
 | --- | --- |
-| Okta API 資格情報テストが失敗する | **SCIM connector base URL** が Zilliz Cloud の SCIM Base URL と一致していることを確認してください。また、**OAuth Bearer Token** に Zilliz Cloud の SCIM API Token が正しく設定されていることを確認してください。 |
-| ユーザーは Okta で割り当てられているが、Zilliz Cloud に表示されない | ユーザーが Okta SCIM アプリに割り当てられていることを確認してください。また、Okta の **Provisioning > To App** 設定を確認してください。 |
+| Okta API 資格情報のテストが失敗する | **SCIM connector base URL** が Zilliz Cloud の SCIM Base URL と一致していることを確認してください。また、**OAuth Bearer Token** に Zilliz Cloud の SCIM API Token が設定されていることを確認してください。 |
+| ユーザーは Okta で割り当てられているが、Zilliz Cloud に表示されない | ユーザーが Okta SCIM アプリに割り当てられていることを確認してください。Okta の **Provisioning > To App** 設定を確認してください。 |
 | ユーザーは表示されるが、グループが Zilliz Cloud に表示されない | 割り当ては `/Users` を通じてユーザーをプロビジョニングします。グループオブジェクトとグループメンバーシップをプロビジョニングするには、**Push Groups** を設定してください。 |
-| グループメンバーシップが Okta と一致しない | Okta でグループメンバーシップを管理し、対象のグループが **Push Groups** で設定されていることを確認してください。 |
+| グループメンバーシップが Okta と一致しない | グループメンバーシップは Okta で管理し、グループが **Push Groups** で設定されていることを確認してください。 |
 | ユーザーが期待どおりに照合されない | Okta のユーザー名形式とマップされたメール値が、Zilliz Cloud で使用されているユーザーのメールアドレスと一致していることを確認してください。 |

@@ -38,7 +38,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 事前準備\{#before-you-start}
 
-- Zilliz Cloud 組織に、**Dedicated (Enterprise)** クラスターが少なくとも 1 つ存在すること。
+- Zilliz Cloud 組織に、<strong>Dedicated (Enterprise)</strong> クラスターが少なくとも 1 つ存在すること。
 
 - Okta コンソールへの管理者アクセス権限を持っていること。詳細については、[Okta 公式ドキュメント](https://help.okta.com/en-us/content/topics/security/administrators-learn-about-admins.htm) を参照してください。
 
@@ -156,7 +156,7 @@ SP である Zilliz Cloud は、Okta で OIDC アプリを設定する際に必�
 
 - **Organization Owner** が適切なプロジェクトにユーザーを招待する必要があります。
 
-- ユーザーをプロジェクトに招待する手順については、[Manage Platform Users](./manage-platform-users#invite-project-users) を参照してください。
+- ユーザーをプロジェクトに招待する手順については、[Manage Platform Users](./manage-platform-users#invite-project-members) を参照してください。
 
 プロジェクトへの招待後、**Organization** **Owner** はエンタープライズユーザーに対して Zilliz Cloud のログイン URL を共有し、SSO 経由でサインインできるように案内できます。
 
@@ -170,7 +170,7 @@ SP である Zilliz Cloud は、Okta で OIDC アプリを設定する際に必�
 
 ### タスク 3: （オプション）SSO 強制を有効にする\{#task-3-optional-enable-sso-enforcement}
 
-SSO 接続の設定とテストが完了したら、オプションで **SSO enforcement** を有効にして、すべての組織メンバーに SSO 経由でのログインを必須にすることができます。有効化すると、メール/password やサードパーティーアカウント（Google、GitHub）によるサインインはできなくなります。
+SSO 接続の設定とテストが完了したら、オプションで **SSO 強制** を有効にして、すべての組織メンバーに SSO 経由でのログインを必須にすることができます。有効化すると、メール/passwordやサードパーティーアカウント（Google、GitHub）によるサインインはできなくなります。
 
 <Admonition type="warning" icon="🚧" title="Warning">
 
@@ -186,11 +186,11 @@ SSO 接続の設定とテストが完了したら、オプションで **SSO enf
 
 ### SSO で初めてログインするユーザーにはどのロールが割り当てられますか？\{#what-role-is-assigned-to-users-who-log-in-via-sso-for-the-first-time}
 
-Zilliz Cloud アカウントを持たない新規ユーザーは、最初の SSO ログイン時にアカウントが自動作成されます。これらのユーザーにはデフォルトで **Organization Member** ロールが割り当てられます。ロールは後から Zilliz Cloud コンソールで変更可能です。詳細な手順については、[Manage Platform Users](./manage-platform-users#invite-project-users) を参照してください。
+Zilliz Cloud アカウントを持たない新規ユーザーは、最初の SSO ログイン時にアカウントが自動作成されます。これらのユーザーにはデフォルトで **Organization Member** ロールが割り当てられます。ロールは後から Zilliz Cloud コンソールで変更可能です。詳細な手順については、[Manage Platform Users](./manage-platform-users#invite-project-members) を参照してください。
 
 ### SSO ログイン後、ユーザーはプロジェクトにどのようにアクセスしますか？\{#how-do-users-access-projects-after-sso-login}
 
-SSO でログインすると、ユーザーにはデフォルトで **Organization Member** ロールが付与されます。特定のプロジェクトにアクセスするには、**Organization Owner** または **Project Admin** がそのユーザーをプロジェクトに招待する必要があります。詳細な手順については、[Manage Platform Users](./manage-platform-users#invite-project-users) を参照してください。
+SSO でログインすると、ユーザーにはデフォルトで **Organization Member** ロールが付与されます。特定のプロジェクトにアクセスするには、**Organization Owner** または **Project Admin** がそのユーザーをプロジェクトに招待する必要があります。詳細な手順については、[Manage Platform Users](./manage-platform-users#invite-project-members) を参照してください。
 
 ### SSO ログイン前にユーザーが既に Zilliz Cloud アカウントを持っている場合はどうなりますか？\{#what-happens-if-a-user-already-has-a-zilliz-cloud-account-before-logging-in-with-sso}
 
