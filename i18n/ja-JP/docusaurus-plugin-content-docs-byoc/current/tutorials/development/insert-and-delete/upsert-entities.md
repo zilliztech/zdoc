@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`upsert` 操作は、collection 内のエンティティを挿入または更新するための便利な方法を提供します。 | BYOC"
+description: "`upsert` 操作は、コレクション内のエンティティを挿入または更新する便利な方法を提供します。 | BYOC"
 type: origin
 token: YtJPwEVETiTaPMkWSfAccjXTnge
 sidebar_position: 2
@@ -21,103 +21,117 @@ import TabItem from '@theme/TabItem';
 
 # エンティティの Upsert
 
-`upsert` 操作は、collection 内のエンティティを挿入または更新するための便利な方法を提供します。 
+`upsert` 操作は、コレクション内のエンティティを挿入または更新する便利な方法を提供します。 
 
-## Overview\{#overview}
+## 概要\{#overview}
 
-`upsert` は、upsert リクエストで指定された主キーが collection 内に存在するかどうかに応じて、新しいエンティティを挿入することも、既存のエンティティを更新することもできます。主キーが見つからない場合は、insert 操作が実行されます。そうでない場合は、update 操作が実行されます。
+`upsert` を使用すると、upsert リクエストで指定した主キーがコレクション内に存在するかどうかに応じて、新しいエンティティを挿入するか、既存のエンティティを更新するかを選択できます。主キーが見つからない場合は insert 操作が実行されます。それ以外の場合は update 操作が実行されます。`autoID` コレクションに対する部分更新は例外であり、後述するように既存のエンティティのみを更新します。
 
-upsert リクエストは、insert と delete を組み合わせたものです。既存のエンティティに対する `upsert` リクエストを受信すると、Zilliz Cloud はリクエストペイロードに含まれるデータを挿入し、同時にデータ内で指定された元の主キーを持つ既存エンティティを削除します。 
+upsert リクエストは insert と delete を組み合わせたものです。既存のエンティティに対する `upsert` リクエストを受信すると、Zilliz Cloud はリクエストペイロードに含まれるデータを挿入し、同時にデータで指定された元の主キーを持つ既存エンティティを削除します。 
 
 ![Q3LawAQIKht1FKbsM3EcoQAHnvc](https://zdoc-images.s3.us-west-2.amazonaws.com/Q3LawAQIKht1FKbsM3EcoQAHnvc.png)
 
-対象の collection で主フィールドに `autoID` が有効になっている場合でも、`upsert` リクエストには対象エンティティの主キーを含める必要があります。Zilliz Cloud は提供された主キーを使用して置き換えるエンティティを特定し、挿入前にリクエストペイロード内のデータに対して新しい主キーを生成します。
+対象のコレクションで主フィールドに `autoID` が有効になっている場合でも、`upsert` リクエストには対象エンティティの主キーを含める必要があります。Zilliz Cloud は指定された主キーを使用して置き換えるエンティティを特定し、挿入する前にリクエストペイロードに含まれるデータに対して新しい主キーを生成します。
 
-`nullable` が有効になっているフィールドについては、更新が不要であれば `upsert` リクエスト内で省略できます。
+`nullable` が有効なフィールドは、更新が不要であれば `upsert` リクエストで省略できます。
 
 ### マージモードでの Upsert\{#upsert-in-merge-mode}
 
-`partial_update` フラグを使用して、upsert リクエストをマージモードで動作させることもできます。これにより、リクエストペイロードには更新が必要なフィールドのみを含めることができます。
+マージモードを使用すると、他のフィールドを変更せずに、既存エンティティの特定のフィールドを更新できます。
 
 ![NZNKwxm9ahmi87b487TcuCrNn4c](https://zdoc-images.s3.us-west-2.amazonaws.com/NZNKwxm9ahmi87b487TcuCrNn4c.png)
 
-マージを実行するには、`upsert` リクエストで `partial_update` を `True` に設定し、主キーと更新するフィールドおよびその新しい値を一緒に指定します。 
+`partial_update=True` を設定し、主キーと更新するフィールドを指定します。
 
-このようなリクエストを受信すると、Zilliz Cloud は strong consistency で query を実行してエンティティを取得し、リクエスト内のデータに基づいてフィールド値を更新し、変更されたデータを挿入した後、リクエストに含まれる元の主キーを持つ既存エンティティを削除します。
+Zilliz Cloud は strong consistency の query で既存のエンティティを取得し、変更内容を保存済みのデータとマージして、マージ後のエンティティを挿入し、古いエンティティを削除します。
 
-`ARRAY` フィールドについては、マージモードで `ARRAY_APPEND` と `ARRAY_REMOVE` の 2 つの演算子をサポートしています。これらの演算子を使うと、エンティティを最初に query して現在の値を取得しなくても、既存の `ARRAY` フィールドに要素を追加したり、一致する要素を削除したりできます。詳細については、[部分更新演算子を使った ARRAY フィールドの Upsert](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
+主キーが存在しない場合、結果は `autoID` が有効かどうかによって異なります。
+
+- **`autoID` が無効な場合**、Zilliz Cloud は指定した主キーで新しいエンティティの挿入を試みます。通常の挿入要件を満たしていれば、リクエストは成功します。必須フィールドが欠けている場合、リクエストは missing-field エラーで失敗します。nullable なフィールドとデフォルト値を持つフィールドは、通常の insert と同様に省略できます。
+
+- **`autoID` が有効な場合**、リクエスト内のすべての主キーがすでに存在している必要があります。挿入に必要なすべてのフィールドを指定していても、主キーが 1 つでも欠けていると Zilliz Cloud はリクエストを拒否します。既存のエンティティの場合、マージモードでは主キーは変更されません。
+
+部分更新が missing-field エラーで失敗した場合は、対象のエンティティが存在するかどうかを確認してください。既存のエンティティがなければ、Zilliz Cloud は省略したフィールドの値を取得できません。
+
+新しいエンティティには、`insert` または override モードでの upsert を使用します。個々のフィールドの後続の更新にはマージモードを使用します。
+
+`ARRAY` フィールドの場合、マージモードでは `ARRAY_APPEND` と `ARRAY_REMOVE` の 2 つの演算子をサポートしています。これらの演算子を使用すると、エンティティを query して現在の値を取得しなくても、既存の `ARRAY` フィールドに要素を追加したり、一致する要素を削除したりできます。詳細については、[部分更新演算子を使用した ARRAY フィールドの Upsert](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
 
 ### フィールド値の更新\{#update-field-values}
 
-既存エンティティのフィールド値を更新するには、[マージモードでの upsert](./upsert-entities#upsert-entities-in-merge-mode) を使用します。このモードでは、リクエストに含まれるフィールドのみが更新され、その他のすべてのフィールドは既存の値を保持します。
+既存エンティティのフィールド値を更新するには、[マージモードでの upsert](./upsert-entities#upsert-entities-in-merge-mode) を使用します。このモードでは、リクエストに含まれるフィールドのみが更新され、それ以外のすべてのフィールドは既存の値を保持します。
 
 ### Upsert の動作: 特記事項\{#upsert-behaviors-special-notes}
 
-マージ機能を使用する前に考慮すべき特記事項がいくつかあります。以下のケースでは、`title` と `issue` という名前の 2 つの scalar フィールド、`id` という主キー、そして `vector` という vector フィールドを持つ collection があると仮定しています。 
+マージ機能を使用する前に考慮すべき特記事項がいくつかあります。以下のケースでは、`title` と `issue` という 2 つのスカラーフィールド、主キー `id`、および `vector` というベクトルフィールドを持つコレクションを想定しています。 
 
 - **`nullable` が有効なフィールドの Upsert。**
 
-    `issue` フィールドが null を許容するとします。これらのフィールドを upsert する場合、次の点に注意してください。
+    `issue` フィールドが null を許容するとします。これらのフィールドを upsert する場合は、次の点に注意してください。
 
-    - `upsert` リクエストで `issue` フィールドを省略し、`partial_update` を無効にすると、`issue` フィールドは元の値を保持するのではなく `null` に更新されます。
+    - `upsert` リクエストで `issue` フィールドを省略し、`partial_update` を無効にすると、`issue` フィールドは元の値を保持せずに `null` に更新されます。
 
-    - `issue` フィールドの元の値を保持するには、`partial_update` を有効にして `issue` フィールドを省略するか、`upsert` リクエストに `issue` フィールドを元の値付きで含める必要があります。
+    - `issue` フィールドの元の値を保持するには、`partial_update` を有効にして `issue` フィールドを省略するか、`upsert` リクエストに `issue` フィールドを元の値とともに含める必要があります。
 
 - **dynamic field 内のキーの Upsert**。
 
-    サンプル collection で dynamic key を有効にしており、あるエンティティの dynamic field のキーと値のペアが `{"author": "John", "year": 2020, "tags": ["fiction"]}` のようなものだとします。 
+    サンプルのコレクションで dynamic key を有効にしていて、あるエンティティの dynamic field 内のキーと値のペアが `{"author": "John", "year": 2020, "tags": ["fiction"]}` のようなものだとします。 
 
-    `author`、`year`、`tags` のようなキーでエンティティを upsert したり、他のキーを追加したりする場合は、次の点に注意してください。
+    `author`、`year`、`tags` などのキーを指定してエンティティを upsert する場合、または他のキーを追加する場合は、次の点に注意してください。
 
-    - `partial_update` を無効にして upsert する場合、デフォルトの動作は **override** です。これは、dynamic field の値が、リクエストに含まれるスキーマ未定義のすべてのフィールドとその値で上書きされることを意味します。 
+    - `partial_update` を無効にして upsert する場合、デフォルトの動作は **override** です。これは、dynamic field の値が、リクエストに含まれるスキーマで定義されていないすべてのフィールドとその値で上書きされることを意味します。 
 
-        たとえば、リクエストに含まれるデータが `{"author": "Jane", "genre": "fantasy"}` の場合、対象エンティティの dynamic field 内のキーと値のペアはそれに更新されます。
+        たとえば、リクエストに含まれるデータが `{"author": "Jane", "genre": "fantasy"}` の場合、対象エンティティの dynamic field 内のキーと値のペアはその内容に更新されます。
 
-    - `partial_update` を有効にして upsert する場合、デフォルトの動作は **merge** です。これは、dynamic field の値が、リクエストに含まれるスキーマ未定義のすべてのフィールドとその値とマージされることを意味します。
+    - `partial_update` を有効にして upsert する場合、デフォルトの動作は **merge** です。これは、dynamic field の値が、リクエストに含まれるスキーマで定義されていないすべてのフィールドとその値とマージされることを意味します。
 
-        たとえば、リクエストに含まれるデータが `{"author": "John", "year": 2020, "tags": ["fiction"]}` の場合、upsert 後に dynamic field 内のキーと値のペアは `{"author": "John", "year": 2020, "tags": ["fiction"], "genre": "fantasy"}` になります。
+        たとえば、リクエストに含まれるデータが `{"author": "John", "year": 2020, "tags": ["fiction"]}` の場合、upsert 後に、対象エンティティの dynamic field 内のキーと値のペアは `{"author": "John", "year": 2020, "tags": ["fiction"], "genre": "fantasy"}` になります。
 
 - **JSON フィールドの Upsert。**
 
-    サンプル collection に `extras` というスキーマ定義済みの JSON フィールドがあり、あるエンティティのこの JSON フィールド内のキーと値のペアが `{"author": "John", "year": 2020, "tags": ["fiction"]}` のようなものだとします。
+    サンプルのコレクションに、`extras` というスキーマ定義済みの JSON フィールドがあり、あるエンティティのこの JSON フィールド内のキーと値のペアが `{"author": "John", "year": 2020, "tags": ["fiction"]}` のようなものだとします。
 
-    修正された JSON データでエンティティの `extras` フィールドを upsert する場合、JSON フィールドは全体として扱われ、個々のキーを選択的に更新することはできません。言い換えると、JSON フィールドは **merge** モードでの upsert を**サポートしません**。
+    変更した JSON データでエンティティの `extras` フィールドを upsert する場合、JSON フィールドは全体として扱われるため、個々のキーを選択的に更新することはできません。言い換えると、JSON フィールドは **merge** モードでの upsert を**サポートしません**。
 
 - **`ARRAY` フィールドの Upsert。**
 
-    デフォルトでは、マージモードの `ARRAY` フィールドは **REPLACE** セマンティクスに従います。つまり、リクエストに含まれる値が既存の配列を上書きします。より細かい更新のために、Zilliz Cloud は次の 2 つの演算子もサポートしています。
+    デフォルトでは、マージモードの `ARRAY` フィールドは **REPLACE** セマンティクスに従います。つまり、リクエストに含まれる値が既存の配列を上書きします。よりきめ細かな更新のために、Zilliz Cloud は次の 2 つの演算子もサポートしています。
 
     - `ARRAY_APPEND` は、リクエストペイロード内の要素を既存の配列に追加します。
 
     - `ARRAY_REMOVE` は、既存の配列から、リクエストペイロード内の値と一致するすべての要素を削除します。
 
-    演算子の構文、サポートされる要素型、その他の制約については、[部分更新演算子を使った array フィールドの Upsert](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
+    演算子の構文、サポートされる要素型、その他の制約については、[部分更新演算子を使用した ARRAY フィールドの Upsert](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
 
 - **StructArray フィールドの Upsert。**
 
-    エンティティ内の StructArray フィールドを upsert すると、そのフィールド値は上書きされます。これを行うには、マージモードで upsert を実行する場合でも、struct スキーマで定義されたすべてのサブフィールドを含む辞書のリストを指定する必要があります。
+    エンティティ内の StructArray フィールドを upsert すると、そのフィールドの値は上書きされます。そのためには、マージモードで upsert を実行する場合でも、struct スキーマで定義されたすべてのサブフィールドを含む辞書のリストを指定する必要があります。
 
     詳細については、[マージモードでの StructArray フィールドの Upsert](./upsert-entities#upsert-structarray-field-in-merge-mode) を参照してください。
 
-### 制限事項\{#limits-and-restrictions}
+### 制限と制約\{#limits-and-restrictions}
 
-上記の内容に基づき、従うべき制限事項がいくつかあります。
+上記の内容に基づき、従うべき制限と制約がいくつかあります。
 
-- `upsert` リクエストには、`autoID` が有効な場合でも、常に対象エンティティの主キーを含める必要があります。`autoID` collection では、リクエスト内の主キーは置き換える既存エンティティを識別します。Milvus は挿入される置換エンティティに対して新しい主キーを生成します。
+- `upsert` リクエストには、`autoID` が有効な場合でも、常に対象エンティティの主キーを含める必要があります。`autoID` コレクションでは、主キーの扱いは upsert モードによって異なります。
 
-- 対象の collection は load 済みで、query に利用可能である必要があります。
+    - override モードでは、主キーは置き換える既存エンティティを識別し、Milvus は置き換え後のエンティティに対して新しい主キーを生成します。
 
-- リクエストで指定されるすべてのフィールドは、対象 collection のスキーマ内に存在している必要があります。
+    - マージモードでは、主キーは更新する既存エンティティを識別し、変更されません。主キーが存在しない場合、リクエストは新しいエンティティを挿入せずに失敗します。
 
-- リクエストで指定されるすべてのフィールドの値は、スキーマで定義されたデータ型と一致している必要があります。
+- 対象のコレクションは load 済みで、query に利用可能である必要があります。
 
-- 関数を使って他のフィールドから派生したフィールドについては、再計算を可能にするため、Zilliz Cloud は upsert 中にその派生フィールドを削除します。
+- リクエストで指定するすべてのフィールドは、対象コレクションのスキーマに存在している必要があります。
 
-## collection 内のエンティティの Upsert\{#upsert-entities-in-a-collection}
+- リクエストで指定するすべてのフィールドの値は、スキーマで定義されたデータ型と一致している必要があります。
 
-このセクションでは、`my_collection` という名前の collection にエンティティを upsert します。この collection には、`id`、`vector`、`title`、`issue` という 2 つのフィールドのみがあります。`id` フィールドは主フィールドであり、`title` と `issue` フィールドは scalar フィールドです。
+- 関数を使用して他のフィールドから派生したフィールドについては、再計算を可能にするため、Zilliz Cloud は upsert 中にその派生フィールドを削除します。
 
-collection 内にこれら 3 つのエンティティが存在する場合、upsert リクエストに含まれるものによって上書きされます。
+## コレクション内のエンティティの Upsert\{#upsert-entities-in-a-collection}
+
+このセクションでは、`my_collection` という名前のコレクションにエンティティを upsert します。このコレクションには、`id`、`vector`、`title`、`issue` という 2 つのフィールドのみがあります。`id` フィールドは主フィールドであり、`title` と `issue` フィールドはスカラーフィールドです。
+
+これら 3 つのエンティティがコレクション内に存在する場合、upsert リクエストに含まれるエンティティによって上書きされます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -347,11 +361,11 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## partition 内のエンティティの Upsert\{#upsert-entities-in-a-partition}
+## パーティション内のエンティティの Upsert\{#upsert-entities-in-a-partition}
 
-指定した partition にエンティティを upsert することもできます。以下のコードスニペットでは、collection 内に **PartitionA** という名前の partition があることを前提としています。
+エンティティを指定したパーティションに upsert することもできます。以下のコードスニペットは、コレクション内に **PartitionA** という名前のパーティションがあることを前提としています。
 
-partition 内にこれら 3 つのエンティティが存在する場合、リクエストに含まれるものによって上書きされます。 
+これら 3 つのエンティティがパーティション内に存在する場合、リクエストに含まれるエンティティによって上書きされます。 
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -536,15 +550,13 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## マージモードでエンティティを Upsert する\{#upsert-entities-in-merge-mode}
+## マージモードでのエンティティの Upsert\{#upsert-entities-in-merge-mode}
 
-以下のコード例は、部分更新を使ってエンティティを upsert する方法を示しています。更新が必要なフィールドとその新しい値だけを、明示的な部分更新フラグとともに指定します。
-
-次の例では、upsert リクエストで指定されたエンティティの `issue` フィールドが、リクエストに含まれる値に更新されます。
+以下の例では、`my_collection` 内の主キー `1` と `2` を持つエンティティの `issue` フィールドのみを更新します。実行する前に、両方のエンティティがすでに存在することを確認してください。それ以外のフィールドは現在の値を保持します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-マージモードで upsert を実行する際は、リクエストに含まれるエンティティが同じフィールドセットを持っていることを確認してください。以下のコードスニペットのように upsert されるエンティティが 2 つ以上ある場合、エラーを防ぎ、データ整合性を維持するために、それらが同一のフィールドを含んでいることが重要です。
+マージモードで upsert を実行する場合は、リクエストに含まれるエンティティが同じフィールドのセットを持つことを確認してください。以下のコードスニペットに示すように、upsert するエンティティが 2 つ以上ある場合、エラーを防ぎデータ整合性を維持するために、それらが同一のフィールドを含むことが重要です。
 
 </Admonition>
 
@@ -714,11 +726,11 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## マージモードで ARRAY フィールドを Upsert する\{#upsert-array-fields-in-merge-mode}
+## マージモードでの ARRAY フィールドの Upsert\{#upsert-array-fields-in-merge-mode}
 
-部分更新演算子（`ARRAY_APPEND` と `ARRAY_REMOVE`）が導入される前は、`ARRAY` フィールドの一部を更新するには、クライアント側で読み取り・変更・書き戻しのフローが必要でした。つまり、既存の配列をクエリし、アプリケーションコード内で変更し、その完全な置換値を upsert する必要がありました。部分更新演算子を使うと、追加または削除する要素だけを送信できるため、クライアント側のロジックを減らし、upsert 前の追加読み取りも不要になります。
+部分更新演算子（`ARRAY_APPEND` と `ARRAY_REMOVE`）が導入される前は、`ARRAY` フィールドの一部を更新するにはクライアント側での read-modify-write フローが必要でした。つまり、既存の配列を query し、アプリケーションコードで変更し、完全な置き換え値を upsert する手順です。部分更新演算子を使用すると、追加または削除する要素のみを送信できるため、クライアント側のロジックを削減し、upsert 前の余分な読み取りを回避できます。
 
-主キー `1` を持つエンティティがすでに `tags = ["new", "trial"]` を持っているとします。部分更新演算子の導入前は、配列に `"premium"` 要素を追加するには、置換後の完全な配列を upsert する必要がありました。
+主キー `1` を持つエンティティに `tags = ["new", "trial"]` がすでに設定されているとします。部分更新演算子を使用する前は、配列に要素 `"premium"` を追加するには、完全な置き換え配列を upsert する必要がありました。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -778,7 +790,7 @@ client.upsert(UpsertReq.builder()
 </TabItem>
 </Tabs>
 
-`ARRAY_APPEND` を使うと、追加する要素だけを送信します。
+`ARRAY_APPEND` を使用する場合は、追加する要素のみを送信します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -845,23 +857,23 @@ client.upsert(UpsertReq.builder()
 
 <Admonition type="info" icon="📘" title="Notes">
 
-`field_ops` を介していずれかの演算子をフィールドに適用すると、部分更新のセマンティクスが暗黙的に有効になります。したがって、`field_ops` と一緒に `partial_update=True` を渡す必要は**ありません**。
+いずれかの演算子を `field_ops` でフィールドに指定すると、暗黙的に部分更新セマンティクスが有効になります。そのため、`field_ops` と一緒に `partial_update=True` を渡す必要は**ありません**。
 
 </Admonition>
 
-### 制限事項\{#limits}
+### 制限\{#limits}
 
-- ペイロード値は、対象の `ARRAY` フィールドの `element_type` と一致している必要があります。たとえば、対象フィールドが `ARRAY<VARCHAR>` の場合、ペイロードには文字列値を含める必要があります。
+- ペイロードの値は、対象の `ARRAY` フィールドの `element_type` と一致している必要があります。たとえば、対象フィールドが `ARRAY<VARCHAR>` の場合、ペイロードには文字列値を含める必要があります。
 
-- このリリースでは、`ARRAY_APPEND` と `ARRAY_REMOVE` は、`element_type` が `BOOL`、`INT8`、`INT16`、`INT32`、`INT64`、`FLOAT`、`DOUBLE`、または `VARCHAR` の `ARRAY` フィールドをサポートします。
+- 今回のリリースでは、`ARRAY_APPEND` と `ARRAY_REMOVE` は、`element_type` が `BOOL`、`INT8`、`INT16`、`INT32`、`INT64`、`FLOAT`、`DOUBLE`、または `VARCHAR` である `ARRAY` フィールドをサポートしています。
 
-- `ARRAY_APPEND` 操作後、結果の配列長はそのフィールドの `max_capacity` を超えてはなりません。
+- `ARRAY_APPEND` 操作の後、結果の配列の長さはフィールドの `max_capacity` を超えてはなりません。
 
-- 同じエンティティに対する同時 upsert は、リクエスト間でアトミックではありません。2 つのリクエストが同じ `ARRAY` フィールドを同時に更新した場合、後からの書き込みが先の書き込みを上書きすることがあります。すべての同時変更を保持する必要がある場合は、アプリケーションレベルで調整を行ってください。
+- 同じエンティティに対する同時 upsert は、リクエストをまたいでアトミックではありません。2 つのリクエストが同じ `ARRAY` フィールドを同時に更新する場合、後からの書き込みが先の書き込みを上書きする可能性があります。すべての同時変更を保持する必要がある場合は、アプリケーション側で調整してください。
 
 ### 例\{#example}
 
-以下の例では、小さな `users` collection を使用します。この collection には、主キー `pk`、`ARRAY<VARCHAR>` 型の `tags` フィールド、および `embedding` vector フィールドがあります。まず初期 `tags` 値を持つ 2 つのエンティティを挿入し、その後 `ARRAY_APPEND` と `ARRAY_REMOVE` を使って、各演算子が保存済み配列をどのように変更するかを示します。
+以下の例では、主キー `pk`、`ARRAY<VARCHAR>` 型の `tags` フィールド、および `embedding` ベクトルフィールドを持つ小さな `users` コレクションを使用します。最初に初期 `tags` 値を持つ 2 つのエンティティを挿入し、次に `ARRAY_APPEND` と `ARRAY_REMOVE` を使用して、各演算子が格納された配列をどのように変更するかを示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1129,11 +1141,11 @@ System.out.println(res);
 </TabItem>
 </Tabs>
 
-## マージモードで StructArray フィールドを Upsert する\{#upsert-structarray-field-in-merge-mode}
+## マージモードでの StructArray フィールドの Upsert\{#upsert-structarray-field-in-merge-mode}
 
-エンティティ内の StructArray フィールドを upsert すると、そのフィールド値は上書きされます。つまり、StructArray フィールドを upsert する際には、struct スキーマで定義されているすべてのサブフィールドを含める必要があります。
+エンティティ内の StructArray フィールドを upsert すると、そのフィールドの値は上書きされます。つまり、StructArray フィールドを upsert する際には、struct スキーマで定義されたすべてのサブフィールドを含める必要があります。
 
-以下の例は、マージモードで `chunks` フィールドを upsert する方法を示しています。これは 6 つのサブフィールドを持つ StructArray フィールドです。操作が完了すると、id 1 のエンティティの `chunks` フィールドは、リクエストで指定された 2 要素の struct 配列に設定されます。
+以下の例では、6 つのサブフィールドを持つ StructArray フィールドである `chunks` フィールドをマージモードで upsert する方法を示します。操作が完了すると、id 1 のエンティティの `chunks` フィールドは、リクエストで指定された 2 要素の構造体の配列に設定されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

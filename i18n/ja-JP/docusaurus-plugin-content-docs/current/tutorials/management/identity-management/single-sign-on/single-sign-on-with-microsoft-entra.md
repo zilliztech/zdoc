@@ -1,0 +1,199 @@
+---
+title: "Microsoft Entra (SAML 2.0) | Cloud"
+slug: /single-sign-on-with-microsoft-entra
+sidebar_label: "Microsoft Entra (SAML 2.0)"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
+notebook: FALSE
+description: "このトピックでは、SAML 2.0 プロトコルを使用して Microsoft Entra とのシングルサインオン（SSO）を構成する方法について説明します。 | Cloud"
+type: origin
+token: Qkm3wPF9Titu1MkQ0fgcENs4nZc
+sidebar_position: 4
+displayed_sidebar: default
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+import Supademo from '@site/src/components/Supademo';
+
+import Procedures from '@site/src/components/Procedures';
+
+# Microsoft Entra (SAML 2.0)
+
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+この機能は、Enterprise プラン以上および BYOC デプロイメントでのみ利用できます。
+
+</FeatureNote>
+
+このトピックでは、SAML 2.0 プロトコルを使用して Microsoft Entra とのシングルサインオン（SSO）を構成する方法について説明します。
+
+このガイドでは、Zilliz Cloud がサービスプロバイダー（SP）、Microsoft Entra がアイデンティティプロバイダー（IdP）として機能します。次の図は、Zilliz Cloud および Microsoft Entra 管理センターで必要な手順を示しています。
+
+![M3UywWSZHhlwTHbkjI8c6jTinGh](https://zdoc-images.s3.us-west-2.amazonaws.com/M3UywWSZHhlwTHbkjI8c6jTinGh.png)
+
+## 事前準備\{#before-you-start}
+
+- Zilliz Cloud 組織に、<strong>Dedicated (Enterprise)</strong> クラスターが少なくとも 1 つ存在すること。
+
+- Microsoft Entra 管理センターにアクセスできること。詳細については、[Microsoft Entra のドキュメント](https://learn.microsoft.com/en-us/entra/fundamentals/entra-admin-center) を参照してください。
+
+- SSO を構成する Zilliz Cloud 組織の Organization Owner であること。
+
+## 構成手順\{#configuration-steps}
+
+### 手順 1: Zilliz Cloud コンソールで SP の詳細を確認する\{#step-1-access-sp-details-in-zilliz-cloud-console}
+
+SP である Zilliz Cloud は、Microsoft Entra で SAML アプリケーションを設定する際に必要な **Identifier (Entity ID)** と **Reply URL (Assertion Consumer Service URL)** を提供します。
+
+ <Supademo id="cme7yk5zy38k0h3pyor6ovyvh" title="Step 1: Access service provider details in Zilliz Cloud console" />
+
+<Procedures>
+
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインし、SSO を構成する組織に移動します。
+
+1. 左側のナビゲーションペインで **Settings** をクリックします。
+
+1. **Settings** ページの **Single Sign-On (SSO)** セクションで **Configure** をクリックします。
+
+1. 表示されるダイアログボックスで、IdP およびプロトコルとして **Microsoft Entra (SAML 2.0)** を選択します。
+
+1. **Service Provider Details** カードで、**Identifier (Entity ID)** と **Reply URL (Assertion Consumer Service URL)** をコピーします。これらの値は、Microsoft Entra 管理センターでアプリケーションを設定する際、[手順 2](./single-sign-on-with-microsoft-entra#step-2-set-up-an-application-in-microsoft-entra-admin-center) で必要になります。
+
+1. 完了したら、[手順 2](./single-sign-on-with-microsoft-entra#step-2-set-up-an-application-in-microsoft-entra-admin-center) に進みます。
+
+</Procedures>
+
+### 手順 2: Microsoft Entra 管理センターでアプリケーションを設定する\{#step-2-set-up-an-application-in-microsoft-entra-admin-center}
+
+この手順では、Zilliz Cloud から取得した SP の詳細を使用して、Microsoft Entra（IdP）を構成します。
+
+<Supademo id="cme7ynp8r38ksh3pyaghg664m" title="Set up an application in Microsoft Entra admin center" />
+
+<Procedures>
+
+1. [Microsoft Entra 管理センター](https://aad.portal.azure.com/?ad=in-text-link) にログインします。
+
+1. 左側のナビゲーションペインで **Enterprise apps** をクリックします。
+
+1. 表示されるページで **New application** をクリックし、続いて **Create your own application** をクリックします。
+
+1. **Create your own application** パネルで、アプリケーション名を **zilliz** に設定し、**Integrate any other application you don't find in the gallery (Non-gallery)** オプションを選択します。
+
+1. 次に、**Create** をクリックします。アプリケーションが作成されると、アプリケーションの詳細ページにリダイレクトされます。
+
+1. アプリケーションの詳細ページで、**Single sign-on** > **SAML** を選択します。
+
+1. **Basic SAML Configuration** セクションで **Edit** をクリックします。
+
+1. **Identifier (Entity ID)** 欄で **Add identifier** をクリックし、続いて [手順 1](./single-sign-on-with-microsoft-entra#step-1-access-sp-details-in-zilliz-cloud-console) で Zilliz Cloud コンソールからコピーした **Identifier (Entity ID)** をテキストボックスに貼り付けます。
+
+1. **Reply URL (Assertion Consumer Service URL)** 欄で **Add reply URL** をクリックし、続いて [手順 1](./single-sign-on-with-microsoft-entra#step-1-access-sp-details-in-zilliz-cloud-console) で Zilliz Cloud コンソールからコピーした **Reply URL (Assertion Consumer Service URL)** をテキストボックスに貼り付けます。
+
+1. **Save** をクリックします。
+
+1. 完了したら、作成したアプリケーションの **Single sign-on** パネルに戻り、**App Federation Metadata Url** をコピーします。これは Zilliz Cloud コンソールの [手順 3](./single-sign-on-with-microsoft-entra#step-3-configure-idp-settings-in-zilliz-cloud-console) で必要になります。
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    または、以下の詳細を取得します。
+
+    - **SAML Certificates** セクションで **Download** をクリックして **Certificate (Base64)** を保存します。これは、[手順 3](./single-sign-on-with-microsoft-entra#step-3-configure-idp-settings-in-zilliz-cloud-console) で **Manual** モードを選択した場合に Zilliz Cloud コンソールで必要になります。
+
+    - **Set up zilliz** セクションで **Login URL** をコピーします。これは、[手順 3](./single-sign-on-with-microsoft-entra#step-3-configure-idp-settings-in-zilliz-cloud-console) で **Manual** モードを選択した場合に Zilliz Cloud コンソールで必要になります。
+
+    </Admonition>
+
+</Procedures>
+
+### 手順 3: Zilliz Cloud コンソールで IdP 設定を構成する\{#step-3-configure-idp-settings-in-zilliz-cloud-console}
+
+この手順では、Microsoft Entra の IdP 詳細を Zilliz Cloud に戻し、SAML の信頼関係を完了します。
+
+ <Supademo id="cme7yxwoh38qih3pycwf88tzi" title="Configure IdP settings in Zilliz Cloud console" />
+
+<Procedures>
+
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) に戻ります。
+
+1. **Configure Single Sign-On (SSO)** ダイアログボックスの **Identity Provider Details** カードで、[手順 2](./single-sign-on-with-microsoft-entra#step-2-set-up-an-application-in-microsoft-entra-admin-center) で Microsoft Entra 管理センターからコピーした **App Federation Metadata URL** を貼り付けます。
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    また、IdP 詳細の構成で **Manual** モードを選択した場合は、以下を構成します。
+
+    - **Login URL**: [手順 2](./single-sign-on-with-microsoft-entra#step-2-set-up-an-application-in-microsoft-entra-admin-center) で Microsoft Entra 管理センターからコピーした Login URL をここに貼り付けます。
+
+    - **Certificate (Base64)**: [手順 2](./single-sign-on-with-microsoft-entra#step-2-set-up-an-application-in-microsoft-entra-admin-center) で Microsoft Entra 管理センターからダウンロードした証明書をここにアップロードします。`-----BEGIN CERTIFICATE-----` で始まり `-----END CERTIFICATE-----` で終わる行を含め、証明書の内容全体を指定してください。
+
+    </Admonition>
+
+1. 完了したら、**Save** をクリックします。
+
+</Procedures>
+
+## 設定後の作業\{#post-configuration-tasks}
+
+### タスク 1: Microsoft Entra アプリケーションをユーザーに割り当てる\{#task-1-assign-microsoft-entra-application-to-users}
+
+ <Supademo id="cme7z3h7r38s8h3py95vf8g4m" title="Task 1: Assign Microsoft Entra application to users" />
+
+ユーザーが SSO 経由で Zilliz Cloud にアクセスできるようにするには、Microsoft Entra アプリケーションをユーザーに割り当てる必要があります。
+
+<Procedures>
+
+1. [Microsoft Entra 管理センター](https://aad.portal.azure.com/?ad=in-text-link) のアプリケーションページで、**Users and groups** > **+ Add user/group**. を選択します。
+
+1. アプリケーションへのアクセスを許可するユーザーまたはグループを選択します。
+
+</Procedures>
+
+詳細については、[Microsoft Entra のドキュメント](https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/assign-user-or-group-access-portal?pivots=portal) を参照してください。
+
+### タスク 2: プロジェクトにユーザーを招待する\{#task-2-invite-users-to-your-project}
+
+ユーザーが初めて SSO 経由で Zilliz Cloud にログインすると **Organization Member** として登録されますが、デフォルトではどのプロジェクトにもアクセスできません。
+
+- **Organization Owner** が該当するユーザーを適切なプロジェクトに招待する必要があります。
+
+- ユーザーをプロジェクトに招待する手順については、[Manage Platform Users](./manage-platform-users#invite-project-members) を参照してください。
+
+プロジェクトへの招待後、**Organization** **Owner** はエンタープライズユーザーに Zilliz Cloud のログイン URL を共有し、SSO 経由でサインインできるようにできます。
+
+セットアップやテストの過程で問題が発生した場合は、[Zilliz サポート](https://zilliz.com/contact-sales) にお問い合わせください。
+
+### タスク 3:（任意）SSO enforcement を有効にする\{#task-3-optional-enable-sso-enforcement}
+
+SSO 接続の設定とテストが完全に完了したら、オプションで **SSO enforcement** を有効にして、すべての組織メンバーに SSO 経由でのログインを必須にすることができます。有効にすると、メンバーはメール/password やサードパーティーアカウント（Google、GitHub）を使用してサインインできなくなります。
+
+<Admonition type="warning" icon="🚧" title="Warning">
+
+この機能を有効にすると、パスワードでサインインしているすべてのメンバーが即座にログアウトされ、SSO 以外のログイン方法がブロックされます。
+
+</Admonition>
+
+<Supademo id="cml4tlban34cozsadvi68n666" title=""  />
+
+詳細については、[Enforce SSO in Your Organization](./enforce-sso-in-your-organization) を参照してください。
+
+## FAQ\{#faq}
+
+### SSO で初めてログインするユーザーにはどのロールが割り当てられますか？\{#what-role-is-assigned-to-users-who-log-in-via-sso-for-the-first-time}
+
+Zilliz Cloud アカウントをまだ持っていない新規ユーザーは、最初の SSO ログイン時にアカウントが自動作成されます。これらのユーザーには、デフォルトで **Organization Member** ロールが割り当てられます。ロールは後から Zilliz Cloud コンソールで変更できます。詳しい手順については、[Manage Platform Users](./manage-platform-users#invite-project-members) を参照してください。
+
+### SSO ログイン後、ユーザーはプロジェクトにどのようにアクセスしますか？\{#how-do-users-access-projects-after-sso-login}
+
+SSO でログインしたユーザーには、デフォルトで **Organization Member** ロールが割り当てられます。特定のプロジェクトにアクセスするには、**Organization Owner** または **Project Admin** がそのユーザーをプロジェクトに招待する必要があります。詳しい手順については、[Manage Platform Users](./manage-platform-users#invite-project-members) を参照してください。
+
+### SSO ログイン前にユーザーがすでに Zilliz Cloud アカウントを持っている場合はどうなりますか？\{#what-happens-if-a-user-already-has-a-zilliz-cloud-account-before-logging-in-with-sso}
+
+メールアドレスに基づき、ユーザーがすでに Zilliz Cloud 組織に存在する場合は、SSO でログインしても元のロールと権限が維持されます。システムはメールアドレスでユーザーを照合し、既存のアカウントを上書きすることはありません。
+
+### 同じ組織に複数の SSO プロバイダーを設定できますか？\{#can-i-configure-multiple-sso-providers-for-the-same-organization}
+
+現在、各 Zilliz Cloud 組織では、同時に **1 つの有効な SAML SSO 構成** のみをサポートしています。
