@@ -1786,29 +1786,34 @@
       "translatedAt": "2026-08-25T05:37:09.692Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/openid-connect.md": {
-      "sourceHash": "9afba2994d913cdd15c686b7fd9bf4d25551367972131007b7ea67d4f174c67d",
+      "sourceHash": "3f7ab406b9cae5e6b92d5194bc4d49e5a6b20ea0198afa9090d3046f804df374",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/openid-connect.md",
-      "translatedAt": "2026-08-25T05:38:54.070Z"
+      "translatedAt": "2026-08-25T18:25:50.939Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace.md": {
-      "sourceHash": "22006827af586a88aadff93ac9734784165217b5e836d8e11a2400f242fefdf2",
+      "sourceHash": "874aa983b21f6a0b72baeec3bd978a6e4be1ed54008f90902e4536bd6cb2a934",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace.md",
-      "translatedAt": "2026-08-25T05:40:38.562Z"
+      "translatedAt": "2026-08-25T18:27:30.037Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md": {
-      "sourceHash": "505bd27cbb5bb9dfafbfabc1a27b793d4a4fd45ffaa2e7cfaac6b8b64bf9c95f",
+      "sourceHash": "7a47b70b3edf45d02dc56edb7db471c048b24bddd077523c410a57a173799582",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md",
-      "translatedAt": "2026-08-25T05:43:31.283Z"
+      "translatedAt": "2026-08-25T18:29:03.274Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md": {
-      "sourceHash": "159a930ac5a4748eab9ed1022f62e582184514c04c3c50c6e7091bffeb7e5854",
+      "sourceHash": "10ab5f82c6b2a7c551e3ec2c8f195e8205aef839a0d47256314c94b4b01f296b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md",
-      "translatedAt": "2026-08-25T05:45:12.015Z"
+      "translatedAt": "2026-08-25T18:30:32.661Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on.md": {
       "sourceHash": "84818a67dbc4f26172ad7d2f529792471d465c9ee67cb5023364c7036b185c73",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on.md",
       "translatedAt": "2026-08-25T05:45:24.533Z"
+    },
+    "content/en/guides/tutorials/management/ip-allowlists/setup-whitelist.md": {
+      "sourceHash": "5a2dc61cfc38b25776fdf684da72cd6eeede98b54f737d9c17c9d394f3f6a065",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/ip-allowlists/setup-whitelist.md",
+      "translatedAt": "2026-08-25T18:31:10.634Z"
     },
     "content/en/guides/tutorials/management/limits/limits.md": {
       "sourceHash": "fa5e1960a09fc39892c97df8e84ab2e0ed3a9bd590a735e3cd71c5333bbc5680",
@@ -1816,9 +1821,9 @@
       "translatedAt": "2026-08-04T05:08:16.757Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/manage-notification-channels.md": {
-      "sourceHash": "78663d619ef93a525fcd89b738a4a0504b192b9d1f7273ae35007d20876f1c24",
+      "sourceHash": "37551dbb2386f51ca9de8ea6749e73b62ab19f60693a53e34ba7d2909026ec01",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/manage-notification-channels.md",
-      "translatedAt": "2026-08-04T05:07:23.347Z"
+      "translatedAt": "2026-08-25T18:37:57.967Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/manage-organization-alerts.md": {
       "sourceHash": "beda7ac200946a9aa13d1a468b41bddf5af80505635c4b96cb12d57f54454599",
@@ -1895,10 +1900,15 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
       "translatedAt": "2026-08-25T09:24:49.503Z"
     },
+    "content/en/guides/tutorials/management/migrations/migrate-from-milvus/via-stage.md": {
+      "sourceHash": "4863cdb578ebbd4a734df1ff6c64ae356311dc300e244d1ce91edfc0156c16d8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-milvus/via-stage.md",
+      "translatedAt": "2026-08-25T18:41:04.985Z"
+    },
     "content/en/guides/tutorials/management/organizations/organization-settings.md": {
-      "sourceHash": "7fcf5ab4372f296a0dd0d10266c0e44ce5cc43bddb541ea6588d59aced0e6f84",
+      "sourceHash": "c6f3846944c2ca9989886ec4e15c52ce27a18a27b9c2f141aa1343612895c475",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/organizations/organization-settings.md",
-      "translatedAt": "2026-08-25T09:25:48.480Z"
+      "translatedAt": "2026-08-25T18:43:07.913Z"
     },
     "content/en/guides/tutorials/management/private-endpoint/setup-a-private-link-aws.md": {
       "sourceHash": "8acbb77a0564cc844103f7ba2600d3cb8b64ef6b8e457d8773baa9f52e31ce5c",

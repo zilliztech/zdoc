@@ -1,13 +1,13 @@
 ---
-title: "バックアップツールを使用して Milvus から Zilliz Cloud に移行 | Cloud"
+title: "バックアップ ツールを使用した Milvus から Zilliz Cloud への移行 | Cloud"
 slug: /via-stage
-sidebar_label: "バックアップツール経由"
+sidebar_label: "バックアップ ツールを使用"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、Milvus からのデータ移行のためのバックアップツールを提供しています。このバックアップツールにより、複雑な詳細を手動で処理する必要なく、より簡単かつ効率的にデータ移行を実行でき、使いやすさと成功率が大幅に向上します。 | Cloud"
+description: "Zilliz Cloud は、Milvus からのデータ移行用のバックアップ ツールを提供しています。このツールを利用することで、複雑な手動作業なしにデータ移行をより簡単かつ効率的に行え、使いやすさと成功率が大幅に向上します。 | Cloud"
 type: origin
 token: IxO5wZ1meiYrTckUPkQca9JOnbS
 sidebar_position: 3
@@ -20,37 +20,37 @@ import Admonition from '@theme/Admonition';
 
 import Procedures from '@site/src/components/Procedures';
 
-# バックアップツールを使用して Milvus から Zilliz Cloud に移行
+# バックアップ ツールを使用した Milvus から Zilliz Cloud への移行
 
-Zilliz Cloud は、Milvus からのデータ移行のためのバックアップツールを提供しています。このバックアップツールにより、複雑な詳細を手動で処理する必要なく、より簡単かつ効率的にデータ移行を実行でき、使いやすさと成功率が大幅に向上します。
+Zilliz Cloud は、Milvus からのデータ移行用のバックアップ ツールを提供しています。このツールを利用することで、複雑な手動作業なしにデータ移行をより簡単かつ効率的に行え、使いやすさと成功率が大幅に向上します。
 
 この機能により、以下のようなさまざまな移行シナリオにおける運用上の複雑さが解消されます。
 
-- ローカルのバックアップファイルを使用して移行する際のファイルサイズ制限。
+- ローカル バックアップ ファイルを使用した移行時のファイル サイズ制限。
 
-- bucket ベースの移行を使用する際に、異なるクラウドプロバイダーのクラウドストレージ bucket 設定を理解する必要があること。
+- バケットベースの移行を行う際に、クラウド プロバイダーごとに異なるストレージ バケット設定を理解する手間。
 
-- endpoint ベースの移行を実行する際に、Milvus インスタンスの endpoint へのネットワークアクセス性を確保する必要があること。
+- エンドポイントベースの移行を実行する際に、Milvus インスタンスのエンドポイントへのネットワーク接続性を確保する手間。
 
-## 開始前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
 - **Organization Owner** または **Project Admin** ロールが付与されている必要があります。必要な権限がない場合は、Zilliz Cloud の Organization Owner にお問い合わせください。
 
-- ターゲット cluster の query CU 数がソースデータを収容できることを確認してください。必要な query CU 数を見積もるには、[calculator](https://zilliz.com/pricing?_gl=1*qro801*_ga*MzkzNTY1NDM0LjE3Mjk1MDExNzQ.*_ga_Q1F8R2NWDP*MTc0NTQ4MzY1Ni4zMDEuMS4xNzQ1NDg0MTEzLjAuMC4w*_ga_KKMVYG8YF2*MTc0NTQ4MzY1Ni4yNTIuMS4xNzQ1NDg0MTEzLjAuMC4w#calculator) を使用してください。
+- 移行先クラスターのクエリ CU 数がソース データを収容できることを確認してください。必要なクエリ CU 数を見積もるには、[calculator](https://zilliz.com/pricing?_gl=1*qro801*_ga*MzkzNTY1NDM0LjE3Mjk1MDExNzQ.*_ga_Q1F8R2NWDP*MTc0NTQ4MzY1Ni4zMDEuMS4xNzQ1NDg0MTEzLjAuMC4w*_ga_KKMVYG8YF2*MTc0NTQ4MzY1Ni4yNTIuMS4xNzQ1NDg0MTEzLjAuMC4w#calculator) を使用します。
 
 ## 手順\{#procedure}
 
-この手順では、Milvus Backup を使用してバックアップファイルを準備し、それらを Zilliz Cloud にアップロードして、指定したターゲット Zilliz Cloud cluster に移行します。
+この手順では、Milvus Backup を使用してバックアップ ファイルを準備し、Zilliz Cloud にアップロードしてから、指定した移行先 Zilliz Cloud クラスターへ移行します。
 
 <Procedures>
 
-1. **[milvus-backup](https://github.com/zilliztech/milvus-backup/releases)** をダウンロードします。必ず最新リリースを使用してください。
+1. **[milvus-backup](https://github.com/zilliztech/milvus-backup/releases)** をダウンロードします。常に最新リリースを使用してください。
 
-    現在、Milvus 2.2 以降のバージョンから Zilliz Cloud cluster にデータを移行できます。互換性のあるソースおよびターゲットの Milvus バージョンの詳細については、[Milvus Backup Overview](https://milvus.io/docs/milvus_backup_overview.md) を参照してください。
+    現在、Milvus 2.2 以降のバージョンから Zilliz Cloud クラスターへのデータ移行が可能です。互換性のあるソースおよびターゲット Milvus バージョンの詳細については、[Milvus Backup Overview](https://milvus.io/docs/milvus_backup_overview.md) を参照してください。
 
-1. ダウンロードしたバイナリと同じ階層に **configs** フォルダを作成し、**[backup.yaml](https://raw.githubusercontent.com/zilliztech/milvus-backup/master/configs/backup.yaml)** を **configs** フォルダ内にダウンロードします。
+1. ダウンロードしたバイナリと同じ階層に **configs** フォルダーを作成し、その中に **[backup.yaml](https://raw.githubusercontent.com/zilliztech/milvus-backup/master/configs/backup.yaml)** をダウンロードします。
 
-    この手順が完了すると、ワークスペースフォルダの構成は以下のようになります。
+    この手順が完了すると、ワークスペース フォルダーの構造は次のようになります。
 
     ```plaintext
     workspace
@@ -61,7 +61,7 @@ Zilliz Cloud は、Milvus からのデータ移行のためのバックアップ
 
 1. **backup.yaml** をカスタマイズします。
 
-    1. 以下の設定項目を指定します。
+    1. 以下の設定項目を設定します。
 
         ```yaml
         ...
@@ -73,11 +73,11 @@ Zilliz Cloud は、Milvus からのデータ移行のためのバックアップ
 
         - `cloud.address`
 
-            `https://api.cloud.zilliz.com` である Zilliz Cloud Control Plane endpoint。
+            Zilliz Cloud Control Plane エンドポイント（`https://api.cloud.zilliz.com`）。
 
         - `cloud.apikey`
 
-            移行先ターゲット cluster を操作するための十分な権限を持つ、有効な Zilliz Cloud API key。詳細については、[API Keys](./manage-api-keys) を参照してください。
+            移行先クラスターを操作するための十分な権限を持つ有効な Zilliz Cloud API キー。詳細については、[API Keys](./manage-api-keys) を参照してください。
 
     1. 以下の設定項目が正しいか確認します。
 
@@ -104,9 +104,9 @@ Zilliz Cloud は、Milvus からのデータ移行のためのバックアップ
 
     <Admonition type="info" icon="📘" title="📘 Notes">
 
-    - Docker Compose を使用してインストールされた Milvus インスタンスでは、`minio.bucketName` のデフォルトは `a-bucket`、`rootPath` のデフォルトは `files` です。
+    - Docker Compose でインストールされた Milvus インスタンスの場合、`minio.bucketName` のデフォルト値は `a-bucket`、`rootPath` のデフォルト値は `files` です。
     
-    - Kubernetes 上にインストールされた Milvus インスタンスでは、`minio.bucketName` のデフォルトは `milvus-bucket`、`rootPath` のデフォルトは `file` です。
+    - Kubernetes にインストールされた Milvus インスタンスの場合、`minio.bucketName` のデフォルト値は `milvus-bucket`、`rootPath` のデフォルト値は `file` です。
 
     </Admonition>
 
@@ -119,7 +119,7 @@ Zilliz Cloud は、Milvus からのデータ移行のためのバックアップ
     # and will be used in the migrate command
     ```
 
-1. ターゲット Zilliz Cloud cluster を作成し、cluster ID を控えて、次のコマンドを実行して移行を開始します。
+1. 移行先 Zilliz Cloud クラスターを作成してクラスター ID を控え、次のコマンドを実行して移行を開始します。
 
     ```bash
     ./milvus-backup migrate --cluster_id inxx-xxxxxxxxxxxxxxx -n my_backup
@@ -132,11 +132,11 @@ Zilliz Cloud は、Milvus からのデータ移行のためのバックアップ
     # You can check the progress of the migration job in Zilliz Cloud console.
     ```
 
-    このコマンドを実行すると、Milvus Backup は準備したバックアップファイルを Zilliz Cloud プラットフォームにアップロードし、移行ジョブを作成して、そのジョブ ID をコマンド出力として返します。
+    このコマンドを実行すると、Milvus Backup が準備されたバックアップ ファイルを Zilliz Cloud プラットフォームにアップロードし、移行ジョブを作成して、コマンド出力としてジョブ ID を返します。
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    Zilliz Cloud プラットフォームにアップロードされたバックアップファイルは、アップロード後 **3** 日間保持され、その後削除されます。
+    Zilliz Cloud プラットフォームにアップロードされたバックアップ ファイルは、アップロード後 **3** 日間保持され、その後削除されます。
 
     </Admonition>
 
@@ -144,23 +144,23 @@ Zilliz Cloud は、Milvus からのデータ移行のためのバックアップ
 
 ## 移行プロセスの監視\{#monitor-the-migration-process}
 
-**Migrate** をクリックすると、移行ジョブが生成されます。[Jobs](./job-center) ページで移行の進行状況を確認できます。ジョブステータスが **In Progress** から **Successful** に切り替わると、移行は完了です。
+**Migrate** をクリックすると移行ジョブが生成されます。移行の進行状況は [Jobs](./job-center) ページで確認できます。ジョブのステータスが **In Progress** から **Successful** に変わると、移行完了です。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-移行後、ターゲット cluster 内の collection 数および entity 数がデータソースと一致していることを確認してください。不一致が見つかった場合は、不足している entity を持つ collection を削除して、再度移行してください。
+移行後、移行先クラスター内のコレクション数とエンティティ数が移行元と一致していることを確認します。不一致が見つかった場合は、エンティティが不足しているコレクションを削除して再移行してください。
 
 </Admonition>
 
-![verify_collection](https://zdoc-images.s3.us-west-2.amazonaws.com/verify_collection.png "verify_collection")
+![verify_collection](https://zdoc-images.s3.us-west-2.amazonaws.com/verifycollection.png "verify_collection")
 
-## 移行後\{#post-migration}
+## 移行後の作業\{#post-migration}
 
-移行ジョブの完了後は、以下の点に注意してください。
+移行ジョブ完了後は、以下の点にご注意ください。
 
-- **Index Creation**: 移行プロセスでは、移行された collection に対して [AUTOINDEX](./autoindex-explained) が自動的に作成されます。
+- **インデックス作成**: 移行プロセスにより、移行されたコレクションに対して [AUTOINDEX](./autoindex-explained) が自動的に作成されます。
 
-- **Manual Loading Required**: 自動インデックス作成が行われても、移行された collection はすぐには検索またはクエリ操作に使用できません。検索およびクエリ機能を有効にするには、Zilliz Cloud で collection を手動で load する必要があります。詳細については、[Load & Release](./load-release-collections) を参照してください。
+- **手動ロードが必要**: インデックスは自動で作成されますが、移行直後のコレクションは検索やクエリ操作に使用できません。検索およびクエリ機能を利用するには、Zilliz Cloud でコレクションを手動ロードする必要があります。詳細については、[Load & Release](./load-release-collections) を参照してください。
 
 ## 移行ジョブのキャンセル\{#cancel-migration-job}
 
@@ -168,8 +168,8 @@ Zilliz Cloud は、Milvus からのデータ移行のためのバックアップ
 
 <Procedures>
 
-1. [Jobs](./job-center) ページで、失敗した移行ジョブを特定してキャンセルします。
+1. [Jobs](./job-center) ページで失敗した移行ジョブを特定し、キャンセルします。
 
-1. **Actions** 列の **View Details** をクリックして、エラーログにアクセスします。
+1. **Actions** 列の **View Details** をクリックして、エラーログを確認します。
 
 </Procedures>

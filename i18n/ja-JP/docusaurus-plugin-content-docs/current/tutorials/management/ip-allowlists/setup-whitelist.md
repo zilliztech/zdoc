@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud のクラスター IP 許可リストは、プロジェクトレベルで堅牢なセキュリティレイヤーとして機能し、そのメリットを指定したプロジェクト内のすべてのクラスターに拡張します。IP 許可リストを実装することで、プロジェクトのクラスターへのアクセスを選択した IP アドレス群のみに効果的に絞り込み、悪意のある攻撃のリスクを大幅に軽減できます。 | Cloud"
+description: "Zilliz Cloud のクラスター IP 許可リストは、プロジェクトレベルで強力なセキュリティレイヤーとして機能し、指定したプロジェクト内のすべてのクラスターに適用されます。IP 許可リストを設定することで、プロジェクトのクラスターへのアクセスを特定の IP アドレスに限定でき、悪意のある攻撃のリスクを大幅に軽減できます。 | Cloud"
 type: origin
 token: FnS1wY0iuia4qgkMycVclZyHnOf
 sidebar_position: 2
@@ -22,36 +22,36 @@ import Procedures from '@site/src/components/Procedures';
 
 # クラスター IP 許可リストの設定
 
-Zilliz Cloud のクラスター IP 許可リストは、プロジェクトレベルで堅牢なセキュリティレイヤーとして機能し、そのメリットを指定したプロジェクト内のすべてのクラスターに拡張します。IP 許可リストを実装することで、プロジェクトのクラスターへのアクセスを選択した IP アドレス群のみに効果的に絞り込み、悪意のある攻撃のリスクを大幅に軽減できます。
+Zilliz Cloud のクラスター IP 許可リストは、プロジェクトレベルで強力なセキュリティレイヤーとして機能し、指定したプロジェクト内のすべてのクラスターに適用されます。IP 許可リストを設定することで、プロジェクトのクラスターへのアクセスを特定の IP アドレスに限定でき、悪意のある攻撃のリスクを大幅に軽減できます。
 
-## 始める前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
-先に進む前に、以下の前提条件を満たしていることを確認してください。
+作業を開始する前に、以下の前提条件を満たしていることを確認してください。
 
-- Zilliz Cloud にサインアップしていること。アカウント登録方法については、[Zilliz Cloud への登録](./register-with-zilliz-cloud)を参照してください。
+- Zilliz Cloud にサインアップ済みであること。アカウント登録の詳細については、[Zilliz Cloud への登録](./register-with-zilliz-cloud) を参照してください。
 
-- クラスター IP 許可リストを設定したい組織またはプロジェクトの所有者であること。ロールと権限については、[組織ユーザーの管理](./organization-users)および [プロジェクトユーザーの管理](./project-users)を参照してください。
+- クラスター IP 許可リストを設定する組織またはプロジェクトの所有者であること。ロールと権限の詳細については、[プラットフォームユーザーの管理](./manage-platform-users) を参照してください。
 
 ## 手順\{#procedure}
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインします。
 
-1. 許可リストを設定する対象の組織とプロジェクトに移動します。
+1. 許可リストを設定する組織およびプロジェクトに移動します。
 
-1. 左側のナビゲーションペインで、**Security** > **Cluster IP Allowlist** を選択します。
+1. 左側のナビゲーションペインで、**Security** > **クラスター IP 許可リスト** を選択します。
 
 1. **Add IP Address** をクリックします。
 
 1. 表示されるダイアログボックスで、**IP Address (CIDR)** と **Description** を指定します。
 
-    以下の表は各フィールドを説明しています。
+    各フィールドの説明は次のとおりです。
 
-    | **Field** | **Description** |
+    | **フィールド** | **説明** |
     | --- | --- |
-    | IP Address (CIDR) | 許可リストに追加する IP アドレスまたは CIDR ブロック。最大 100 個の CIDR ブロックを指定できます。例: 192.168.1.1/20。 |
-    | Description | 許可リストに追加する IP アドレスまたは CIDR ブロックの説明。 |
+    | IP Address (CIDR) | 許可リストに追加する IP アドレスまたは CIDR ブロックを指定します。CIDR ブロックは最大 100 個まで追加できます。値の例: 192.168.1.1/20. |
+    | Description | 許可リストに追加する IP アドレスまたは CIDR ブロックに関する説明を入力します。 |
 
 1. **Add** をクリックします。
 
@@ -59,11 +59,11 @@ Zilliz Cloud のクラスター IP 許可リストは、プロジェクトレベ
 
 <Admonition type="info" icon="📘" title="📘 Notes">
 
-- 許可リストにエントリがない場合、Zilliz Cloud は任意の IP アドレスからのアクセスを許可します。
+- 許可リストにエントリが登録されていない場合、Zilliz Cloud はすべての IP アドレスからのアクセスを許可します。
 
-- CIDR ブロックを追加すると、クラスターへのアクセスはそのブロック内の IP アドレスのみに制限されます。
+- CIDR ブロックを追加すると、クラスターへのアクセスはそのブロック内の IP アドレスからのみに制限されます。
 
-- 0.0.0.0/0 を追加することは、許可リストを空にしている状態と同じです。
+- 0.0.0.0/0 を追加した場合、許可リストが空の状態と同じ扱いになります。
 
 </Admonition>
 
@@ -71,9 +71,9 @@ Zilliz Cloud のクラスター IP 許可リストは、プロジェクトレベ
 
 ## 関連トピック\{#related-topics}
 
-- [API Keys](./manage-api-keys)
+- [API キー](./manage-api-keys)
 
-- [クラスター認証情報（コンソール）](./cluster-credentials)
+- [クラスターの認証情報（コンソール）](./cluster-credentials)
 
 - [PrivateLink の設定（AWS）](./setup-a-private-link-aws)
 
