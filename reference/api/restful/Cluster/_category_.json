@@ -1,0 +1,9 @@
+{
+    "label": "Cluster",
+    "position": 0,
+    "link": {
+        "type": "generated-index",
+        "title": "Cluster",
+        "slug": "/cluster-operations"
+    }
+}

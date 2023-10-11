@@ -1,0 +1,43 @@
+{
+    "servers": [
+        {
+          "url": "https://api.{cloud-region}.cloud.zilliz.com.cn/v1",
+          "variables": {
+            "cloud-region": {
+              "default": "ali-cn-hangzhou",
+              "description": "Indicates the cloud region that accommodates your vector databases."
+            }
+          }
+        },
+        {
+          "url": "https://{instance-id}.{cloud-region}.vectordb.zilliz.com.cn/v1",
+          "variables": {
+            "instance-id": {
+              "default": "vector-instance",
+              "description": "Indicates the instance ID of your vector database."
+            },
+            "cloud-region": {
+              "default": "ali-cn-hangzhou",
+              "description": "Indicates the cloud region that accommodates your vector databases."
+            },
+            "instance-port": {
+              "default": "80",
+              "description": "Indicates the port of your vector database."
+            }
+          }
+        }     
+      ],
+    "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer"
+        }
+      }
+    },
+    "security": [
+        {
+          "bearerAuth": []
+        }
+      ]
+}

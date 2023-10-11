@@ -1,0 +1,9 @@
+{
+    "label": "Vector Database 101",
+    "position": 5,
+    "link": {
+        "type": "generated-index",
+        "title": "Vector Database 101",
+        "slug": "vector-database-101"
+    }
+}
