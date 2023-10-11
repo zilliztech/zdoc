@@ -1,5 +1,5 @@
 const ErrorGenerator = require('./errGen.js')
-const RestI18n = require('./restI18n.js')
+const RestI18n = require('./resti18n.js')
 const nunjucks = require("nunjucks")
 const fs = require('node:fs')
 

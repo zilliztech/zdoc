@@ -7,7 +7,6 @@ ENV FIGMA_API_KEY=${FIGMA_API_KEY}
 ENV FEISHU_HOST="https://open.feishu.cn"
 ENV NPM_CONFIG_LOGLEVEL=warn
 ENV NPM_CONFIG_COLOR=false
-RUN npm install --global yarn
 WORKDIR /home/node/app
 COPY . /home/node/app
 
@@ -23,13 +22,13 @@ CMD ["yarn", "start"]
 FROM base as production
 WORKDIR /home/node/app
 COPY --from=development --chown=node:node /home/node/app/node_modules /home/node/app/node_modules
-RUN npm run build
+RUN yarn build
 
 ## deploy
 FROM nginx:stable-alpine as deploy
 ENV INSTALL_PATH /usr/share/nginx/html
 WORKDIR $INSTALL_PATH
-COPY ./site/default.conf /etc/nginx/conf.d
+COPY ./default.conf /etc/nginx/conf.d
 COPY --from=production /home/node/app/build /usr/share/nginx/html
 RUN set -x ; \
   addgroup -g 82 -S www-data ; \
