@@ -14,9 +14,8 @@ COPY . /home/node/app
 FROM base as development
 WORKDIR /home/node/app
 RUN yarn
-USER node
 EXPOSE 3000
-CMD ["yarn", "start"]
+CMD ["yarn", "start", "-h", "0.0.0.0"]
 
 ## production
 FROM base as production
