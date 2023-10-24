@@ -1,5 +1,7 @@
 ---
 slug: /faqs-migration
+beta: null
+notebook: null
 sidebar_position: 9
 ---
 

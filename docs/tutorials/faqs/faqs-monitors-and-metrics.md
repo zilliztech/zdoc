@@ -1,5 +1,7 @@
 ---
 slug: /faqs-monitors-and-metrics
+beta: null
+notebook: null
 sidebar_position: 5
 ---
 

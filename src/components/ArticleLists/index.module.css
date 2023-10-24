@@ -1,0 +1,249 @@
+.sections {
+    margin: 2rem 10rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.sectionContainer {
+    width: 100%;
+    display: inline-grid;
+    grid-template-columns: 25% 1fr;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.titleContainer {
+    display: inline-block;
+}
+
+.title {
+    display: inline-grid;
+    grid-template-columns: 2rem 1fr;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    text-wrap: nowrap;
+}
+
+.titleText {
+    display: inline-grid;
+    grid-template-columns: 1fr;
+    justify-content: space-between;
+    gap: 0.1rem 0.5rem;
+    width: 100%;
+}
+
+.titleText > span:first-child {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.titleIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.titleText > span:last-child {
+    padding-top: 0.2rem;
+    font-size: 0.8rem;
+    font-weight: 300;
+}
+
+.bodyContainer {
+    display: block;
+    border: 1px solid #E8EAEE;
+    border-radius: 10px;
+    padding: 1.5rem 0;
+    width: 100%;
+}
+
+.articleGroup {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem 2rem;
+    padding: 0 2rem;
+}
+
+.articleGroupTitle {
+    display: inline-grid;
+    grid-template-columns: 1.5rem 1fr;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    border-bottom: 2px solid #E8EAEE;
+}
+
+.articleGroupIcon {
+    width: 1.5rem;
+}
+
+.articleGroupText {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* .articleGroupBody {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem 5rem;
+} */
+
+.articleGroupBody {
+    width: 100%;
+    display: grid;
+    gap: 1rem 2.5rem;
+}
+
+.article {
+    display: flex;
+    flex-direction: row;
+    gap: 0.2rem;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.article-icons {
+    display: flex;
+    flex-direction: row;
+    gap: 0.2rem;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.articleTag {
+    color: #FFFFFF;
+    background-color: #7F47FF;
+    border-radius: 10px;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+    vertical-align: super;
+}
+
+.articleText {
+    text-wrap: nowrap
+}
+
+.articleText > div {
+    display: inline-block;
+}
+
+.articleIcon {
+    justify-content: center;
+    align-items: center;
+}
+
+.articleIcon > svg {
+    height: 14px;
+}
+
+@media (max-width: 1374px) {
+    .heroTitle {
+        font-size: 0.8rem;
+    }
+
+    .heroSubtitle {
+        font-size: 0.6rem;
+    }
+
+    .heroTextContainer {
+        padding: 0;
+    }
+
+    .sectionContainer {
+        width: 100%;
+        display: inline-grid;
+        grid-template-columns: 1fr;
+        gap: 1rem 0.5rem;
+    }
+
+    .titleText {
+        grid-template-columns: 1fr 1fr;
+        align-items: baseline;
+    }
+}
+
+@media (max-width: 936px) {
+    .hero {
+        min-height: 10vh;
+        padding: 2rem 2rem;
+    }
+
+    .heroContainer {
+        display: inline-grid;
+        width: 100%;
+        grid-template-columns: 1fr;
+    }
+
+    .heroTextContainer {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .heroImageContainer,
+    .heroSubtitle {
+        display: none;
+    }
+
+    .heroButtons {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .heroTitle {
+        display: block;
+        text-wrap: nowrap;
+        text-align: center;
+    }
+
+    .heroLogo {
+        display: inline-block;
+    }
+
+    .bodyContainer {
+        border: none;
+        padding-top: 0;
+    }
+
+    .articleGroupBody {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 1rem 0;
+        padding: 0 0.5rem;
+    }
+
+    .articleText > div {
+        display: list-item;
+        list-style-type: disc;
+        list-style-position: inside;
+        overflow-x: hidden;
+    }
+
+    .titleText {
+        display: inline-block;
+    }
+
+    .titleText > span:last-child {
+        margin-left: 0.5rem;
+    }
+}
+
+@media (max-width: 685px) {
+    .sections {
+        margin: 2rem 2rem;
+    }
+
+    .titleText > span:last-child {
+        display: none;
+    }
+}

@@ -1,5 +1,7 @@
 ---
 slug: /faqs-get-started
+beta: null
+notebook: null
 sidebar_position: 1
 ---
 

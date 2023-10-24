@@ -31,6 +31,8 @@ module.exports = function (context, options) {
                     let docs = scraper.docs
                     const slugify = new Slugify(docs)
                     docs = await slugify.slugify()
+
+                    fs.writeFileSync("docs.json", JSON.stringify(docs, null, 2))
                     let pages = new utils(docs, 'title', 'obj.obj_type === "docx"', true).instances
 
                     const writer = new docWriter(pages, null, opts.imageDir)
@@ -43,30 +45,40 @@ module.exports = function (context, options) {
                             return
                         }
 
-                        const page_slug = page.slug
-                        const file_path = opts.outputDir + '/' + page_slug + '.md'
-                        let sidebarPos = opts.sidebarPos
+                        const meta = await writer.__is_to_publish(opts.docTitle)
 
-                        if (fs.existsSync(file_path)) {
-                            const page = fs.readFileSync(file_path, 'utf8')
-                            sidebarPos = page.split('\n').filter(line => line.startsWith('sidebar_position'))[0]
-
-                            if (sidebarPos !== undefined) {
-                                sidebarPos = sidebarPos.split(':')[1].trim()
-                            } else if (opts.sidebarPos !== undefined) {
-                                console.log('Please provide a valid sidebar position for this doc')
-                                return
+                        if (meta['publish']) {
+                            const page_slug = meta['slug']
+                            const page_beta = meta['beta']
+                            const notebook = meta['notebook']
+                            const file_path = opts.outputDir + '/' + page_slug + '.md'
+                            let sidebarPos = opts.sidebarPos
+    
+                            if (fs.existsSync(file_path)) {
+                                const page = fs.readFileSync(file_path, 'utf8')
+                                sidebarPos = page.split('\n').filter(line => line.startsWith('sidebar_position'))[0]
+    
+                                if (sidebarPos !== undefined) {
+                                    sidebarPos = sidebarPos.split(':')[1].trim()
+                                } else if (opts.sidebarPos !== undefined) {
+                                    console.log('Please provide a valid sidebar position for this doc')
+                                    return
+                                }
                             }
+    
+                            const req = {
+                                path: opts.outputDir,
+                                page_title: opts.docTitle,
+                                page_slug: page_slug,
+                                page_beta: page_beta,
+                                notebook: notebook,
+                                sidebar_position: sidebarPos,
+                            }
+    
+                            writer.write_doc(req)
+                        } else {
+                            console.log('This page is not ready to publish!')
                         }
-
-                        const req = {
-                            path: opts.outputDir,
-                            page_title: opts.docTitle,
-                            page_token: opts.docToken,
-                            sidebar_position: sidebarPos,
-                        }
-
-                        writer.write_doc(req)
                     } else if (opts.faq) {
                         const path = opts.outputDir + '/faqs'
                         if (!fs.existsSync(path)) {
@@ -75,9 +87,6 @@ module.exports = function (context, options) {
 
                         await writer.write_faqs(path)
                     } else {
-                        fs.readdirSync(opts.outputDir, {recursive: true}).forEach(file => {
-                            fs.unlinkSync(opts.outputDir + '/' + file)
-                        })
                         await writer.write_docs({
                             path: opts.outputDir, 
                             children: docs.children,

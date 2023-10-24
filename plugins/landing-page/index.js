@@ -1,6 +1,6 @@
 const fs = require('node:fs')
 
-const iterate_dir = (dir) => {
+const iterate_dir = (dir, descriptions) => {
     const paths = fs.readdirSync(dir)
 
     return paths.map((path) => {
@@ -8,18 +8,22 @@ const iterate_dir = (dir) => {
 
             if (fs.existsSync(`${dir}/${path}/_category_.json`)) {
                 const category = JSON.parse(fs.readFileSync(`${dir}/${path}/_category_.json`))
-                const group = category.position
+                const idx = category.position
                 const title = category.link.title
                 const slug = category.link.slug
-                let members = iterate_dir(`${dir}/${path}`)
-                members = members.filter((member) => member !== undefined)
-                members.sort((a, b) => a.group - b.group)
+                const description = descriptions[title]
+                let articles = iterate_dir(`${dir}/${path}`)
+                articles = articles.filter((article) => article !== undefined)
+                articles.sort((a, b) => a.spos - b.spos)
 
                 return {
-                    group,
+                    idx,
                     title,
                     slug,
-                    members,
+                    description,
+                    groups: [{
+                        articles
+                    }]
                 }                
             } 
         }
@@ -28,27 +32,34 @@ const iterate_dir = (dir) => {
             const file = fs.readFileSync(`${dir}/${path}`).toString()
             const title = file.split('\n').filter((line) => line.startsWith('# '))[0].replace('#', '').trim()
             const slug = file.split('\n').filter((line) => line.startsWith('slug: '))[0].replace('slug: /', '').trim()
-            const group = parseInt(file.split('\n').filter((line) => line.startsWith('sidebar_position: '))[0].replace('sidebar_position: ', '').trim())
+            const tag = file.split('\n').filter((line) => line.startsWith('beta: '))[0].replace('beta: ', '').trim()
+            const colab = file.split('\n').filter((line) => line.startsWith('notebook: '))[0].replace('notebook: ', '').trim()
+            const github = colab
+            const spos = parseInt(file.split('\n').filter((line) => line.startsWith('sidebar_position: '))[0].replace('sidebar_position: ', '').trim())
 
             return {
-                group,
+                spos,
                 title,
                 slug,
+                colab: colab === 'FALSE' ? false : true,
+                github: github === 'FALSE' ? false : true,
+                tag: tag === 'FALSE' ? false : true,
             }
         }
-    }).sort((a, b) => a.group - b.group)
+    }).sort((a, b) => a.idx - b.idx)
 }
 
 module.exports = function (context, options) {
     return {
         name: 'landing-page',
         async loadContent() {
-            const pages = iterate_dir(`docs/tutorials`)
-            return pages 
+            const descriptions = JSON.parse(fs.readFileSync('./plugins/landing-page/meta/categories.json'))
+            const blocks = iterate_dir(`docs/tutorials`, descriptions)
+            return blocks 
         },
         async contentLoaded({content, actions}) {
             const { setGlobalData } = actions
-            setGlobalData( {pages: content });
+            setGlobalData( {blocks: content });
         }
     }
 }

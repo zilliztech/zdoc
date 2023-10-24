@@ -1,5 +1,7 @@
 ---
 slug: /faqs-connection-and-access-control
+beta: null
+notebook: null
 sidebar_position: 2
 ---
 

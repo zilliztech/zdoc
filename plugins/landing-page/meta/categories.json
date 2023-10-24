@@ -1,0 +1,18 @@
+{
+    "Get Started": "Starting with Zilliz Cloud",
+    "Cluster": "Understanding Zilliz Cloud Clusters",
+    "Collection": "CRUD Operations Explained",
+    "Data Import": "Importing Data to Zilliz Cloud",
+    "Integrations": "Popular Integration Options",
+    "Concepts": "Diving Deep into Vector Databases",
+    "Migrations": "Migrating Data to Zilliz Cloud",
+    "Resource Planning": "Determining Required Resources",
+    "Backup & Restore": "Backing Up and Restoring Clusters",
+    "Users & Roles": "Implementing Role-Based Access",
+    "Access Control": "Whitelists and Private Links Setup",
+    "Monitors & Metrics": "Resource Monitoring and Metrics",
+    "Payment & Billing": "Smart Budgeting Tips",
+    "Accounts": "Managing Your Account",
+    "Security": "Handling Credentials Safely",
+    "Limits & Restrictions": "Important Considerations"
+}

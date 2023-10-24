@@ -1,5 +1,7 @@
 ---
 slug: /faqs-accounts
+beta: null
+notebook: null
 sidebar_position: 8
 ---
 

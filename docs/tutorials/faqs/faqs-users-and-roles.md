@@ -1,5 +1,7 @@
 ---
 slug: /faqs-users-and-roles
+beta: null
+notebook: null
 sidebar_position: 6
 ---
 

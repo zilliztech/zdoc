@@ -180,14 +180,18 @@ class larkDocWriter {
                             await this.write_faqs(`${current_path}/faqs`)
                             break;
                         default:
-                            if (await this.__is_to_publish(child.title)) {
-                                if (!child.slug) {
-                                    child.slug = slugify(child.title, {lower: true, strict: true})
-                                }
-                                console.log(`${current_path}/${child.slug}.md`)
+                            const meta = await this.__is_to_publish(child.title)
+                            if (meta['publish']) {
+                                const slug = meta['slug']
+                                const beta = meta['beta']
+                                const notebook = meta['notebook']
+                                console.log(`${current_path}/${slug}.md`)
                                 await this.write_doc({
                                     path: current_path,
                                     page_title: child.title,
+                                    page_slug: slug,
+                                    page_beta: beta,
+                                    notebook: notebook,
                                     sidebar_position: index+1
                                 })
                             }
@@ -202,16 +206,17 @@ class larkDocWriter {
         path, 
         page_token, 
         page_title, 
+        page_slug,
+        page_beta,
+        notebook,
         sidebar_position
     }) {
         let obj;
         let blocks;
-        let slug;
         if (page_token) {
             obj = this.pages.filter(page => page.obj_token == page_token)[0]
             if (obj) {
                 blocks = obj.blocks.items
-                slug = obj.slug
             }
         } 
         
@@ -219,11 +224,10 @@ class larkDocWriter {
             obj = this.pages.filter(page => page.title == page_title)[0]
             if (obj) {
                 blocks = obj.blocks.items
-                slug = obj.slug
             }
         }
 
-        if (blocks.length == 0) {
+        if (blocks.length === 0) {
             blocks = this.page_blocks
         } else {
             this.page_blocks = blocks
@@ -235,7 +239,13 @@ class larkDocWriter {
             this.blocks = page.children.map(child => {
                 return this.__retrieve_block_by_id(child)
             })
-            await this.__write_page(slug, path=path, sidebar_position=sidebar_position)
+            await this.__write_page({
+                slug: page_slug,
+                beta: page_beta,
+                notebook: notebook,
+                path: path, 
+                sidebar_position: sidebar_position
+            })
         }
     }
 
@@ -269,7 +279,7 @@ class larkDocWriter {
             sub_pages.forEach((sub_page, index) => {
                 let title = sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
                 let slug = slugify(title, {lower: true, strict: true})
-                let front_matter = this.__front_matters("faqs-"+slug, index+1)
+                let front_matter = this.__front_matters("faqs-"+slug, null, null, index+1)
                 let links = []
 
                 sub_page = sub_page.map(line => {
@@ -332,41 +342,56 @@ class larkDocWriter {
 
         const result = this.records.filter(record => {
             if (record["fields"]["Docs"] && record["fields"]["Docs"] === title &&
-                record["fields"]["Progress"] && record["fields"]["Progress"] !== "Not Start Yet") {
+                record["fields"]["Progress"] && (record["fields"]["Progress"] === "Draft" || record["fields"]["Progress"] === "Publish")) {
                 return record
             }
         })
 
-
         if (result.length > 0) {
-            return true
+            return {
+                publish: true,
+                slug: result[0]["fields"]["Slug"],
+                beta: result[0]["fields"]["Beta"],
+                notebook: result[0]["fields"]["Notebook"],
+            }
+        } else {
+            return {
+                publish: false,
+            }
         }
         
     }
 
-    async __write_page(slug, path, sidebar_position=undefined) {
-        let front_matter = this.__front_matters(slug=slug, sidebar_position=sidebar_position)
-        let imports = this.__imports()
+    async __write_page({slug, beta, notebook, path, sidebar_position}) {
+        let front_matter = this.__front_matters(slug, beta, notebook, sidebar_position)
         let markdown = await this.__markdown()
+
+        let tabs = markdown.split('\n').filter(line => {
+            return line.startsWith("<Tab")
+        }).length
+
+        let imports = await this.__imports(tabs > 0)
 
         fs.writeFileSync(`${path}/${slug}.md`, front_matter + '\n\n' + imports + '\n\n' + markdown)
     }
 
-    __front_matters (slug, sidebar_position=undefined) {
+    __front_matters (slug, beta, notebook, sidebar_position=undefined) {
         let front_matter = '---\n' + 
         `slug: /${slug}` + '\n' +
+        `beta: ${beta}` + '\n' +
+        `notebook: ${notebook}` + '\n' +
         `sidebar_position: ${sidebar_position}` + '\n' +
         '---'
 
         return front_matter
     }
 
-    __imports () {
+    __imports (cond=null) {
         let block_types = this.blocks.map(block => {
             return this.block_types[block.block_type - 1]
         }).join('')
 
-        if (block_types.match(/(code){2,}/g)) {
+        if (block_types.match(/(code){2,}/g) || cond) {
             return ["import Tabs from '@theme/Tabs';",
             "import TabItem from '@theme/TabItem';"].join('\n')
         } else {
@@ -726,7 +751,7 @@ class larkDocWriter {
         return `[${title}](${url})`;
     }
 
-    __convert_link(url) {
+    async __convert_link(url) {
         if (url.includes('zilliverse')) {
             url = new URL(url);
             const token = url.pathname.split('/').pop();
@@ -749,11 +774,14 @@ class larkDocWriter {
 
                 if (header) {
                     const headerBlock = page['blocks']['items'].filter(x => x['block_id'] === header)[0];
-                    const blockType = this.block_types[headerBlock['block_type'] - 1];
-                    if (parseInt(blockType.slice(-1)) <= 9) {
-                        const title = this.__text_elements(headerBlock[blockType]['elements']);
-                        const slug = slugify(title, {strict: true, lower: true});
-                        newUrl += `#${slug}`;
+
+                    if (headerBlock) {
+                        const blockType = this.block_types[headerBlock['block_type'] - 1];
+                        if (parseInt(blockType.slice(-1)) <= 9) {
+                            const title = this.__text_elements(headerBlock[blockType]['elements']);
+                            const slug = slugify(title, {strict: true, lower: true});
+                            newUrl += `#${slug}`;
+                        }
                     }
                 }
 

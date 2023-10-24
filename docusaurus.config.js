@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Zilliz Cloud Developer Hub',
-  tagline: 'A place to find all information you need to work with Zilliz Cloud',
+  tagline: 'Find what you need to work with Zilliz Cloud',
   favicon: 'img/favicon.svg',
   trailingSlash: false,
 
@@ -66,6 +66,12 @@ const config = {
         path: 'reference',
         routeBasePath: 'reference',
         sidebarPath: require.resolve('./sidebarsReference.js'),
+      }
+    ],
+    [
+      'docusaurus-gtm-plugin',
+      {
+        id: 'GTM-MBBF2KR',
       }
     ],
     './plugins/lark-docs',
@@ -149,33 +155,41 @@ const config = {
         },
         links: [
           {
-            title: '文档',
+            title: 'Documents',
             items: [
               {
-                label: '开发指南',
+                label: 'Developer Guides',
                 to: '/docs/zilliz-cloud-101',
               },
               {
-                label: 'API 参考',
+                label: 'API Reference',
                 to: '/reference',
               },
             ],
           },
           {
-            title: '产品',
+            title: 'Product',
             items: [
               {
                 label: "Zilliz Cloud",
-                href: "https://zilliz.com.cn/cloud"
+                href: "https://zilliz.com/cloud"
               }
             ]
           },
           {
-            title: '关注我们',
+            title: 'Media',
             items: [
               {
-                label: 'Bilibili',
-                href: 'https://space.bilibili.com/1058892339/video',
+                label: 'YouTube',
+                href: 'https://www.youtube.com/c/MilvusVectorDatabase',
+              },
+              {
+                label: 'LinkedIn',
+                href: 'https://www.linkedin.com/company/zilliz',
+              },
+              {
+                label: 'Twitter',
+                href: 'https://twitter.com/zilliz_universe',
               },
               {
                 label: 'GitHub',
@@ -184,26 +198,41 @@ const config = {
             ],
           },
           {
-            title: '其它',
+            title: 'Resources',
             items: [
               {
-                label: '博客',
-                to: 'https://zilliz.com.cn/blog',
+                label: 'Blogs',
+                to: 'https://zilliz.com/blog',
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                label: 'Whitepapers',
+                href: 'https://zilliz.com/resources?tag=whitepapers',
+              },
+              {
+                label: 'Webinars',
+                href: 'https://zilliz.com/resources?tag=webinars',
+              },
+              {
+                label: 'Trainings',
+                href: 'https://zilliz.com/resources?tag=trainings',
+              },
+              {
+                label: 'Events',
+                href: 'https://zilliz.com/event',
               },
             ],
           },
         ],
-        copyright: `版权所有 © ${new Date().getFullYear()} 上海徐毓智能科技有限公司保留所有权利`,
+        copyright: `LF AI, LF AI & data, Milvus, and associated open-source project names are trademarks of the the Linux Foundation. <br/>© Zilliz ${new Date().getFullYear()} All rights reserved.`,
       },
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
         additionalLanguages: ['java', 'go'],
       },
+      colorMode: {
+        disableSwitch: true,
+      }
     }),
   themes: [
       // ... Your other themes.
@@ -220,7 +249,8 @@ const config = {
         // ```
       }),
     ],
-    ],
+    'docusaurus-theme-frontmatter'
+  ],
 };
 
 module.exports = config;

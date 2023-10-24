@@ -1,0 +1,143 @@
+.hero {
+    color: #FFFFFF;
+    background: linear-gradient(0deg, #171236, #171236), #FFFFFF;
+    min-height: 15vh;
+    padding: 2rem 10rem;
+}
+
+.heroContainer {
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center; 
+    align-items: center;
+    padding-bottom: 2rem;
+}
+
+.heroTextContainer {
+    padding: 3rem;
+}
+
+.heroLogo {
+    display: none;
+}
+
+.heroTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.heroSubtitle {
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.2;
+}
+
+.heroImageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.heroImage {
+    width: 80%;
+    height: auto;
+}
+
+.heroButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.releaseNotesBtn {
+    background-color: #FFFFFF;
+    border: none;
+    border-radius: 2px;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    display: inline-block;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.releaseNotesBtn > span > a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.releaseNotesBtn:hover {
+    background-color: #F5F5F5;
+}
+
+.faqsBtn {
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid #FFFFFF;
+    border-radius: 2px;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    display: inline-block;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.faqsBtn > span > a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+@media (max-width: 1374px) {
+    .heroTitle {
+        font-size: 1.5rem;
+    }
+
+    .heroSubtitle {
+        font-size: 0.8rem;
+    }
+
+    .heroTextContainer {
+        padding: 0;
+    }
+}
+
+@media (max-width: 936px) {
+    .hero {
+        min-height: 10vh;
+        padding: 2rem 2rem;
+    }
+
+    .heroContainer {
+        display: inline-grid;
+        width: 100%;
+        grid-template-columns: 1fr;
+    }
+
+    .heroTextContainer {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .heroImageContainer,
+    .heroSubtitle {
+        display: none;
+    }
+
+    .heroButtons {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .heroTitle {
+        display: block;
+        text-wrap: nowrap;
+        text-align: center;
+    }
+
+    .heroLogo {
+        display: inline-block;
+    }
+}

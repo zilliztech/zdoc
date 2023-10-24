@@ -1,5 +1,7 @@
 ---
 slug: /faqs-ai-model-integrations
+beta: null
+notebook: null
 sidebar_position: 4
 ---
 

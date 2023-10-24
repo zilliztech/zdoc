@@ -1,5 +1,7 @@
 ---
 slug: /faqs-pricing
+beta: null
+notebook: null
 sidebar_position: 7
 ---
 
