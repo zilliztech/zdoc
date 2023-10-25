@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: ali-test-env
+spec:
+  enableServiceLinks: false
+  containers:
+  - name: main
+    image: harbor-us-vdc.zilliz.cc/devops/krte:20211213-dcc15e9
+    env:
+    - name: DOCKER_IN_DOCKER_ENABLED
+      value: "true"
+    - name: DOCKER_VOLUME_DIRECTORY
+      value: "/mnt/disk/.docker"
+    tty: true
+    securityContext:
+      privileged: true
+    args: ["cat"]
+    volumeMounts:
+    - mountPath: /docker-graph
+      name: docker-graph
+    - mountPath: /var/lib/docker
+      name: docker-root
+    - mountPath: /lib/modules
+      name: modules
+      readOnly: true
+    - mountPath: /sys/fs/cgroup
+      name: cgroup
+  - name: deploy
+    image: harbor-us-vdc.zilliz.cc/devops/cd-base:20220923-a356c40
+    tty: true
+    args: ["cat"]
+    volumeMounts:
+      - name: kubeconfig
+        mountPath: /root/.kube/
+  volumes:
+  - emptyDir: {}
+    name: docker-graph
+  - emptyDir: {}
+    name: docker-root
+  - hostPath:
+      path: /lib/modules
+      type: Directory
+    name: modules
+  - hostPath:
+      path: /sys/fs/cgroup
+      type: Directory
+    name: cgroup
