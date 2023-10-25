@@ -7,6 +7,8 @@ sidebar_position: 9
 
 # Migration
 
+**Can I migrate data from a serverless cluster to a dedicated cluster?**
+
 ## Contents
 
 - [Can I migrate data from a serverless cluster to a dedicated cluster?](#can-i-migrate-data-from-a-serverless-cluster-to-a-dedicated-cluster)

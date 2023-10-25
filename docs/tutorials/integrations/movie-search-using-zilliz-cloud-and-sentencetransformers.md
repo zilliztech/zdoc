@@ -230,4 +230,4 @@ Wild Country ---- 0.9238440990447998
 
 - [Image Search with Zilliz Cloud and PyTorch](./image-search-with-zilliz-cloud-and-pytorch) 
 
-- [Documentation QA using Zilliz Cloud and LlamaIndex](./documentation-qa-using-zilliz-cloud-and-llamaindex) 
+- [Documentation QA using Zilliz Cloud and LlamaIndex](./undefined) 

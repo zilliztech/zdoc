@@ -15,19 +15,19 @@ This tutorial guides you through the process of importing data into an existing 
 
 Make sure the following conditions are met:
 
-- You have created a serverless or dedicated cluster. For details, see [Create Cluster](./create-cluster).
+- You have created a cluster. For details, see [Create Cluster](./create-cluster).
 
 - You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Use Customized Schema](./create-collection-with-schema).
+- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Use Customized Schema](./undefined).
 
 ## Prepare data files{#prepare-data-files}
 
-Zilliz Cloud allows you to import data from a local file or one or more remote files. The supported data types are JSON and NumPy. If your data is in a different format, you can first convert it using the BulkWriter conversion tool. For details, see [Use BulkWriter for Data Import](./prepare-data-import).
+Zilliz Cloud allows you to import data from a local file or one or more remote files. The supported data types are JSON and NumPy. If your data is in a different format, you can first convert it using the BulkWriter conversion tool. For details, see [Use BulkWriter for Data Import](./use-bulkwriter-for-data-import).
 
 ### Prepare a local JSON file{#prepare-a-local-json-file}
 
-Zilliz Cloud only supports importing data from local files in JSON format. You can upload only one JSON file per import. The maximum file size allowed varies depending on the cluster type. For a serverless cluster, the maximum file size is 512 MB. For a dedicated cluster, the maximum file size is 1 GB. For more information on cluster types, see [Cluster Types Explained](./cluster-types-explained).
+Zilliz Cloud only supports importing data from local files in JSON format. You can upload one JSON file per import. The maximum file size allowed varies depending on the cluster type. For a serverless cluster, the maximum file size is 512 MB. For a dedicated cluster, the maximum file size is 1 GB. For more information on cluster types, see [Cluster Types Explained](./cluster-types-explained).
 
 The [example dataset](./example-dataset-1) used in this tutorial is a row-based JSON file that can be directly imported locally.
 
@@ -68,9 +68,11 @@ with open('path/to/medium_articles_2020_dpr.json') as f:
 
 ## Import data on the web UI{#import-data-on-the-web-ui}
 
-Once the data files are ready, you can import them directly from your local drive or upload them to an object storage bucket, such as AWS S3 or Google Cloud GCS, for data imports.
+Once data files are ready, you can import them directly from your local drive or upload them to an object storage bucket, such as AWS S3 or Google Cloud GCS, for data imports.
 
 :::info Notes
+
+For successful data import, ensure that the object storage bucket you use is located in the same cloud as your cluster.
 
 :::
 
@@ -112,7 +114,7 @@ For more details, see [Share the object](https://cloud.google.com/storage/docs/d
 
 ## Verify the result{#verify-the-result}
 
-After you click **Import**, the process starts, and you can view the import progress in real-time.
+After you click **Import**, the process starts, and you can view the import progress in real time.
 
 ![data_import_progress](/img/data_import_progress.png)
 

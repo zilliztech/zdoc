@@ -2,7 +2,7 @@
 slug: /enable-dynamic-schema
 beta: FALSE
 notebook: 02_enable_dynamic_schema.ipynb
-sidebar_position: 9
+sidebar_position: 10
 ---
 
 import Tabs from '@theme/Tabs';
@@ -28,7 +28,7 @@ To create a collection using a dynamic schema, set `enable_dynamic_field` to `Tr
 
 With these dynamic fields, you can ask Zilliz Cloud to output dynamic fields in search/query results and include them in search and query filter expressions just as they are already defined in the collection schema.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -362,7 +362,7 @@ Once the collection is created, you can start inserting data, including the dyna
 
 Now we need to prepare a piece of applicable data out of the [Example Dataset](https://www.notion.so/Example-Dataset-2df10a1ffe454c52a2be0ec069f4424e?pvs=21).
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -542,7 +542,7 @@ type Row struct {
 
 Then you can safely insert the data into the collection.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -704,7 +704,7 @@ log.Println("Collection flushed")
 
 If you have created `medium_articles_with_dynamic` with dynamic field enabled,  and inserted data with dynamic fields into, index, and load the collection, you can use dynamic fields in the filter expression of a search or a query as follows:
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -939,8 +939,8 @@ output_fields='$meta["#key"]'
 
 ## Related topics{#related-topics}
 
-- [Use Customized Schema](./create-collection-with-schema) 
+- [Use Customized Schema](./undefined) 
 
 - [Use Partition Key](./use-partition-key) 
 
-- [JavaScript Object Notation (JSON)](./use-json-fields) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 

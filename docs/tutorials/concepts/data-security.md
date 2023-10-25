@@ -2,7 +2,7 @@
 slug: /data-security
 beta: FALSE
 notebook: FALSE
-sidebar_position: 10
+sidebar_position: 8
 ---
 
 
@@ -41,7 +41,7 @@ In many cases, authenticating users is far from enough. You also need a way to c
 
 To meet these needs, Zilliz Cloud enables access control, which allows you to restrict user permissions and authorize them to access only specific resources. With this mechanism, users can be granted one or more roles that determine the scope of their permissions on cluster resources and operations. This helps prevent unauthorized access beyond the defined permission scope.
 
-For details, see [Roles & Privileges](https://zilliverse.feishu.cn/wiki/SzFVwtUcYiB1ubkWA06c0N9hnNf).
+For details, see [Users & Roles](./undefined).
 
 ### Whitelists{#whitelists}
 
@@ -69,8 +69,8 @@ To safeguard data integrity, Zilliz Cloud offers reliable backup and restoration
 
 The platform features a recycle bin functionality with a maximum retention period of 30 days, allowing you to recover accidentally deleted data. Furthermore, you can schedule automatic backups to ensure regular and secure data backups.
 
-For details, see [Backup & Restore](./backup-and-restore).
+For details, see [Backup & Restore](./undefined).
 
-## Conclusion{#conclusion}
+## Summary{#summary}
 
 In summary, Zilliz Cloud prioritizes data security at every stage, employing encryption techniques, authentication protocols, access control, whitelists, private links, server-side encryption, audit logs, and backup and restoration mechanisms to ensure the confidentiality, integrity, and availability of your data.

@@ -149,5 +149,7 @@
     " Monitor CU Resources": "monitor-cu-resources",
     "Understand Organizations and Projects": "understand-organizations-and-projects",
     "Manage Organizations and Members": "manage-organizations-and-members",
-    "A Panorama View": "a-panorama-view"
+    "A Panorama View": "a-panorama-view",
+    "Organization Settings": "organization-settings",
+    "Authentication": "authentication"
 }

@@ -7,6 +7,8 @@ sidebar_position: 3
 
 # Bulk insertion
 
+**How to import data from Elasticsearch to Zilliz Cloud?**
+
 ## Contents
 
 - [How to import data from Elasticsearch to Zilliz Cloud?](#how-to-import-data-from-elasticsearch-to-zilliz-cloud)

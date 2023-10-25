@@ -26,19 +26,19 @@ This tutorial guides you through the following tasks in a serverless cluster:
 
 ## Before you start{#before-you-start}
 
-Throughout this guide, we will use Zilliz Cloud's SDKs ([Starter API]([object Promise])) and RESTful API. Before you begin, ensure that:
+Throughout this guide, we will use Zilliz Cloud's SDKs ([Starter API](./install-sdks#starter-apis-vs-advanced-apis)) and RESTful API. Before you begin, ensure that:
 
-- You have registered an account with Zilliz Cloud at [https://cloud.zilliz.com/signup]([object Promise]). For details, see [Register with Zilliz Cloud]([object Promise]).
+- You have registered an account with Zilliz Cloud at [https://cloud.zilliz.com/signup](https://cloud.zilliz.com/signup). For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
 
-- You have subscribed to the **Starter** plan and created a serverless cluster in a project. For details, see [Free Trials]([object Promise]) and [Create Cluster]([object Promise]).
+- You have subscribed to the **Starter** plan and created a serverless cluster in a project. For details, see [Free Trials](./free-trials) and [Create Cluster](./create-cluster).
 
-- You have installed the preferred SDKs. Currently, there are four SDKs available, and they are [Python]([object Promise]), [Java]([object Promise]), [Go]([object Promise]), or [Node.js]([object Promise]). For details, see [Install SDKs]([object Promise]).
+- You have installed the preferred SDKs. Currently, there are four SDKs available, and they are [Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), or [Node.js](./install-sdks#install-nodejs-sdk). For details, see [Install SDKs](./install-sdks).
 
-- You have downloaded the example dataset. For details, see [Example Dataset]([object Promise]).
+- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
 
 :::info Notes
 
-You can find the executable demos of this guide in [00_quick_start.ipynb]([object Promise]) and [00_quickstart_restful.ipynb]([object Promise]).
+You can find the executable demos of this guide in [00_quick_start.ipynb](https://colab.research.google.com/drive/1zuW-GHkdPCMKnmQkg1NV77C8sm8H4vfB?usp=sharing) and [00_quickstart_restful.ipynb](https://colab.research.google.com/drive/1zuW-GHkdPCMKnmQkg1NV77C8sm8H4vfB?usp=sharing).
 
 :::
 
@@ -50,24 +50,17 @@ If you want to create a collection in your cluster using the starter API, simply
 
 It's worth noting that the starter API has dynamic schema enabled by default. When you create a collection, it will only have two predefined fields: **id** and **vector.** These fields act as the primary and vector keys, respectively. Additionally, the **autoID** attribute is enabled by default for the primary key, which means that its value will automatically increase.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
 
 # Initialize a MilvusClient instance
-# Replace uri and token with your own
+# Replace uri and API key with your own
 client = MilvusClient(
-    uri="<CLUSTER-ENDPOINT>", # Cluster endpoint obtained from the console
-    token="<TOKEN>" # token="username:password" or token="your-api-key"
-)
-
-# Create a collection
-client.create_collection(
-    collection_name="medium_articles_2020",
-    dimension=768
-)
+    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
+    # - For a serverless cluster, use an API key as the token.
+    # - For a dedicated cluster, use the cluster credentials as the token
 ```
 
 </TabItem>
@@ -195,7 +188,7 @@ curl --location --request POST "${PUBLIC_ENDPOINT}/v1/vector/collections/create"
 </TabItem>
 </Tabs>
 
-If you need full control of your collection, such as schema definition and manual enabling of dynamic schema, refer to [Use Customized Schema]([object Promise]) and [Enable Dynamic Schema]([object Promise]).
+If you need full control of your collection, such as schema definition and manual enabling of dynamic schema, refer to [Use Customized Schema](./undefined) and [Enable Dynamic Schema](./enable-dynamic-schema).
 
 :::info Notes
 
@@ -207,7 +200,7 @@ Each serverless cluster contains a maximum of two collections with basic setting
 
 To view information about a collection, you can make **DescribeCollection** API calls. The **DescribeCollection** operation returns the details of a specific collection.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -396,13 +389,13 @@ curl --request GET \\
 
 ## Insert data{#insert-data}
 
-In this example, we have prepared a dataset containing over 5,000 articles from [Medium.com]([object Promise]) published from January through August in 2020. You can download the prepared dataset from [here]([object Promise]). To know more about the dataset, read [the introduction page on Kaggle]([object Promise]).
+In this example, we have prepared a dataset containing over 5,000 articles from [Medium.com](http://Medium.com) published from January through August in 2020. You can download the prepared dataset from [here](https://s3.us-west-2.amazonaws.com/publicdataset.zillizcloud.com/medium_articles_2020_dpr/medium_articles_2020_dpr.json). To know more about the dataset, read [the introduction page on Kaggle](https://www.kaggle.com/datasets/shiyu22chen/cleaned-medium-articles-dataset).
 
 Here are some examples of inserting one or multiple entities from the dataset into the collection. You can view the inserted entities on the Zilliz Cloud console.
 
 - Insert a single entity
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -586,7 +579,7 @@ curl --request POST \\
 
 - Insert multiple entities
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -829,7 +822,7 @@ The search, query, and get API operations are three different operations for dat
 
 In the dataset, the **vector** field contains vector embeddings of each article’s title. This example illustrates how to conduct an ANN search among these vectors (finding the closest titles with a query vector `data`).
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1013,7 +1006,7 @@ curl --request POST \\
 
 You can also conduct an ANN search in a limited scope by applying a filter condition.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1196,7 +1189,7 @@ All fields, except for the **vector** field, are scalar fields. You can define a
 
 Here is an example of a query.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1337,7 +1330,7 @@ Here are some examples of getting entities by IDs.
 
 - Get a single entity by its ID
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1449,7 +1442,7 @@ curl --request POST \\
 
 - Get multiple entities in a batch by their IDs
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1603,7 +1596,7 @@ Here are some examples of deleting entities.
 
 - Delete a single entity by its ID
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1702,7 +1695,7 @@ curl --request POST \\
 
 - Delete multiple entities in a batch by their IDs
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1803,7 +1796,7 @@ curl --request POST \\
 
 If a collection is no longer used, you can drop it from a cluster by collection name.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1884,14 +1877,14 @@ curl --request POST \\
 
 ## Related topics{#related-topics}
 
-- [Register with Zilliz Cloud]([object Promise])
+- [Register with Zilliz Cloud](./register-with-zilliz-cloud)
 
-- [Example Dataset]([object Promise])
+- [Example Dataset](./example-dataset-1)
 
-- [Connect to Cluster]([object Promise])
+- [Connect to Cluster](./connect-to-cluster)
 
-- [Drop Collection]([object Promise])
+- [Drop Collection](./drop-collection-1)
 
-- [Search and Query]([object Promise])
+- [Search and Query](./search-and-query)
 
-- [ANN Search Explained]([object Promise])
+- [ANN Search Explained](./ann-search-explained)

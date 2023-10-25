@@ -278,6 +278,7 @@ class larkDocWriter {
 
             sub_pages.forEach((sub_page, index) => {
                 let title = sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
+                let short_description = sub_page.filter(line => line.length > 0)[1]
                 let slug = slugify(title, {lower: true, strict: true})
                 let front_matter = this.__front_matters("faqs-"+slug, null, null, index+1)
                 let links = []
@@ -293,7 +294,7 @@ class larkDocWriter {
                     return line
                 })
 
-                const markdown = `${front_matter}\n\n# ${title}\n\n## Contents\n\n${links.join('\n')}\n\n## FAQs\n\n${sub_page.slice(1).join('\n')}`    
+                const markdown = `${front_matter}\n\n# ${title}\n\n${short_description}\n\n## Contents\n\n${links.join('\n')}\n\n## FAQs\n\n${sub_page.slice(1).join('\n')}`    
                 fs.writeFileSync(`${path}/faqs-${slug}.md`, markdown)
             })
         }
@@ -404,7 +405,7 @@ class larkDocWriter {
         const idt = " ".repeat(indent);
         if (blocks === null) {
             blocks = this.blocks;
-            markdown.push(this.__page(this.page_blocks[0]['page']));
+            markdown.push(await this.__page(this.page_blocks[0]['page']));
         }
     
         for (let idx = 0; idx < blocks.length; idx++) {
@@ -414,16 +415,16 @@ class larkDocWriter {
             const next_block = idx < blocks.length-1 ? blocks[idx+1] : null;
     
             if (this.block_types[block['block_type']-1] === 'text') {
-                markdown.push(idt + this.__text(block['text']));
+                markdown.push(idt + await this.__text(block['text']));
             } else if (this.block_types[block['block_type']-1].includes('heading')) {
                 const level = parseInt(this.block_types[block['block_type']-1].slice(-1));
-                markdown.push(idt + this.__heading(block[`heading${level}`], level));
+                markdown.push(idt + await this.__heading(block[`heading${level}`], level));
             } else if (this.block_types[block['block_type']-1] === 'bullet') {
                 markdown.push(await this.__bullet(block, indent));
             } else if (this.block_types[block['block_type']-1] === 'ordered') {
                 markdown.push(await this.__ordered(block, indent));
             } else if (this.block_types[block['block_type']-1] === 'code') {
-                markdown.push(this.__code(block['code'], indent, prev_block, next_block, blocks));
+                markdown.push(await this.__code(block['code'], indent, prev_block, next_block, blocks));
             } else if (this.block_types[block['block_type']-1] === 'quote_container') {
                 markdown.push(await this.__quote(block, indent));
             } else if (this.block_types[block['block_type']-1] === 'image') {
@@ -442,16 +443,16 @@ class larkDocWriter {
         return markdown.join('\n\n').replace(/\n{3,}/g, '\n\n').replace(/<br>/g, '<br/>');
     }
 
-    __page(page) {
-        return '# ' + this.__text_elements(page['elements']);
+    async __page(page) {
+        return '# ' + await this.__text_elements(page['elements']);
     }
 
-    __text(text) {
-        return this.__text_elements(text['elements']);
+    async __text(text) {
+        return await this.__text_elements(text['elements']);
     }
 
-    __heading(heading, level) {
-        let content = this.__text_elements(heading['elements'])
+    async __heading(heading, level) {
+        let content = await this.__text_elements(heading['elements'])
         let slug = slugify(content, {lower: true, strict: true})
         return '#'.repeat(level) + ' ' + content + '{#'+slug+'}';
     }
@@ -465,7 +466,7 @@ class larkDocWriter {
             children = await this.__markdown(children, indent+4)
         }
 
-        return ' '.repeat(indent) + '- ' + this.__text_elements(block['bullet']['elements']) + '\n' + children;
+        return ' '.repeat(indent) + '- ' + await this.__text_elements(block['bullet']['elements']) + '\n' + children;
     }
 
     async __ordered(block, indent) {
@@ -477,7 +478,7 @@ class larkDocWriter {
             children = await this.__markdown(children, indent+4)
         }
 
-        return ' '.repeat(indent) + '1. ' + this.__text_elements(block['ordered']['elements']) + '\n' + children;
+        return ' '.repeat(indent) + '1. ' + await this.__text_elements(block['ordered']['elements']) + '\n' + children;
     }
 
     async __callout(block, indent) {
@@ -508,12 +509,12 @@ class larkDocWriter {
         return ' '.repeat(indent) + type + '\n\n' + children.split('\n').slice(1).join(' '.repeat(indent) + '\n') + '\n\n' + ' '.repeat(indent) + ':::';
     }
 
-    __code(code, indent, prev, next, blocks) {
+    async __code(code, indent, prev, next, blocks) {
         const valid_langs = ['Python', 'JavaScript', 'Java', 'Go', 'Bash']
         let lang = code.style.language ? this.code_langs[code['style']['language']] : 'plaintext'
-        let elements = code['elements'].map( x => {
-            return this.__text_run(x, code['elements'])
-        }).join('') 
+        let elements = (await Promise.all(code['elements'].map( async x => {
+            return await this.__text_run(x, code['elements'])
+        }))).join('') 
 
         if (valid_langs.includes(lang)) {
             const prev_type = prev ? this.block_types[prev['block_type']-1] : null;
@@ -528,7 +529,7 @@ class larkDocWriter {
             ) {
                 console.log('first block')
                 let values = this.__code_tabs(code, prev, next, blocks);
-                let tabs = `${' '.repeat(indent)}<Tabs defaultValue='python' values={${JSON.stringify(values)}}>`;
+                let tabs = `${' '.repeat(indent)}<Tabs groupId="code" defaultValue='python' values={${JSON.stringify(values)}}>`;
                 let tab_item_start = `${' '.repeat(indent)}<TabItem value='${lang.toLowerCase()}'>\n`;
                 elements = `${' '.repeat(indent)}\`\`\`${lang.toLowerCase()}\n${' '.repeat(indent) + elements.split('\n').join('\n' + ' '.repeat(indent))}\n${' '.repeat(indent)}\`\`\`\n`;
                 let tab_item_end = `${' '.repeat(indent)}</TabItem>`;
@@ -679,7 +680,7 @@ class larkDocWriter {
         return this.page_blocks.find(x => x['block_id'] === block_id);
     }
 
-    __text_run(element, elements) {
+    async __text_run(element, elements) {
         let content = element['text_run']['content'];
         let style = element['text_run']['text_element_style'];
 
@@ -704,7 +705,7 @@ class larkDocWriter {
                 }
 
                 if ('link' in style) {
-                    content = `[${content}](${this.__convert_link(decodeURIComponent(style['link']['url']))})`;
+                    content = `[${content}](${await this.__convert_link(decodeURIComponent(style['link']['url']))})`;
                 }
             }
         }
@@ -744,9 +745,9 @@ class larkDocWriter {
         return content;
     }
 
-    __mention_doc(element) {
+    async __mention_doc(element) {
         let title = element['mention_doc']['title'];
-        let url = this.__convert_link(decodeURIComponent(element['mention_doc']['url']));
+        let url = await this.__convert_link(decodeURIComponent(element['mention_doc']['url']));
 
         return `[${title}](${url})`;
     }
@@ -761,14 +762,15 @@ class larkDocWriter {
 
             if (page) {
                 const title = page['title'];
-                let slug 
-                if (this.titles[title]) {
-                    slug = this.titles[title]
-                } else {
-                    slug = slugify(title, {strict: true, lower: true})
-                    this.titles[title] = slug
-                    fs.writeFileSync('plugins/lark-docs/meta/titles.json', JSON.stringify(this.titles, null, 4))
-                }
+                const meta = await this.__is_to_publish(title);
+                const slug = meta['slug'];
+                // if (this.titles[title]) {
+                //     slug = this.titles[title]
+                // } else {
+                //     slug = slugify(title, {strict: true, lower: true})
+                //     this.titles[title] = slug
+                //     fs.writeFileSync('plugins/lark-docs/meta/titles.json', JSON.stringify(this.titles, null, 4))
+                // }
 
                 let newUrl = `./${slug}`;
 
@@ -778,7 +780,7 @@ class larkDocWriter {
                     if (headerBlock) {
                         const blockType = this.block_types[headerBlock['block_type'] - 1];
                         if (parseInt(blockType.slice(-1)) <= 9) {
-                            const title = this.__text_elements(headerBlock[blockType]['elements']);
+                            const title = await this.__text_elements(headerBlock[blockType]['elements']);
                             const slug = slugify(title, {strict: true, lower: true});
                             newUrl += `#${slug}`;
                         }
@@ -792,14 +794,14 @@ class larkDocWriter {
         return url;
     }
 
-    __text_elements(elements) {
+    async __text_elements(elements) {
         let paragraph = "";
         for (let element of elements) {
             if ('text_run' in element) {
-                paragraph += this.__text_run(element, elements);
+                paragraph += await this.__text_run(element, elements);
             }
             if ('mention_doc' in element) {
-                paragraph += this.__mention_doc(element);
+                paragraph += await this.__mention_doc(element);
             }
         }
 

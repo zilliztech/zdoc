@@ -49,6 +49,10 @@ h2 {
   font-size: 1.5rem;
 }
 
+article.margin-top--lg {
+  margin-top: 4rem !important;
+}
+
 article > section {
   flex-direction: column;
   gap: 2rem;
@@ -56,8 +60,9 @@ article > section {
 }
 
 article > section > article.col {
+  margin-left: 2rem !important;
   margin-bottom: 0 !important;
-  min-width: 80% !important;
+  min-width: 90% !important;
   flex-grow: 2;
 }
 
@@ -81,12 +86,13 @@ article > section a.card:hover > h2 {
 article > section a.card > h2 {
   margin-bottom: 0;
   border-radius: none;
+  font-size: 1.2rem;
 }
 
 article > section a.card > p {
   overflow: visible;
   white-space: normal;
-  font-size: 1rem;
-  margin-left: 2rem;
+  font-size: 0.9rem;
+  margin-left: 1.5rem;
   font-weight: 400;
 }

@@ -2,7 +2,7 @@
 slug: /use-partition-key
 beta: FALSE
 notebook: 03_use_partition_key.ipynb
-sidebar_position: 10
+sidebar_position: 11
 ---
 
 import Tabs from '@theme/Tabs';
@@ -34,9 +34,9 @@ You can [download the source code](https://assets.zilliz.com/zdoc/zilliz_cloud_s
 
 To demonstrate the use of partition keys, we will continue to use the example dataset that contains over 5,000 articles, and `publication` will serve as the partition key.
 
-The schema of the collection to be created is similar to the one specified in [Use Customized Schema](./create-collection-with-schema) except for the settings of the `publication` field.
+The schema of the collection to be created is similar to the one specified in [Use Customized Schema](./undefined) except for the settings of the `publication` field.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -218,7 +218,7 @@ responses := entity.NewField().
 
 After you have defined the fields, create a schema for the collection.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -303,7 +303,7 @@ schema := &entity.Schema{
 
 Finally, you can create a collection using the collection schema just defined.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -372,7 +372,7 @@ if colerr != nil {
 
 ## Conduct ANN search using partition key{#conduct-ann-search-using-partition-key}
 
-Once you have indexed and loaded the collection as well as inserted data as described in [Use Customized Schema](./create-collection-with-schema), you can conduct an ANN search using the partition key. 
+Once you have indexed and loaded the collection as well as inserted data as described in [Use Customized Schema](./undefined), you can conduct an ANN search using the partition key. 
 
 To conduct an ANN search using the partition key, you should include either of the following in the boolean expression of the search request:
 
@@ -382,7 +382,7 @@ To conduct an ANN search using the partition key, you should include either of t
 
 Do replace `<partition_key>` with the name of the field that is designated as the partition key.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -622,9 +622,9 @@ To do this, you can assign a tenant-specific value as the partition key field fo
 
 ## Related topics{#related-topics}
 
-- [Use Customized Schema](./create-collection-with-schema) 
+- [Use Customized Schema](./undefined) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 
-- [JavaScript Object Notation (JSON)](./use-json-fields) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 
 

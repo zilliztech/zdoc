@@ -2,12 +2,12 @@
 slug: /select-zilliz-cloud-service-plans
 beta: FALSE
 notebook: FALSE
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 
 
-# Select Service Tiers
+# Select Cluster Plans
 
 The service plan that you choose has a significant impact on various aspects of your experience on Zilliz Cloud, including the billing model, scalability, and performance. Before setting up a cluster, you need to determine which service you require. Currently, Zilliz Cloud offers four distinct tiers that are tailored to meet different user needs:
 

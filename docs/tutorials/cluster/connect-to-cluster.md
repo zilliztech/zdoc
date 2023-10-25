@@ -32,7 +32,7 @@ If you prefer using RESTful APIs instead of SDKs, note that it's not possible to
 
 Once a cluster is up, you can connect to it using its public endpoint and a token. The token can either be an [API key](./manage-api-keys) or a [cluster credential](./manage-cluster-credentials) that consists of a username and password pair.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -107,6 +107,6 @@ curl --request GET \\
 
 - [Insert Entities](./insert-entities) 
 
-- [Search and Query](./search-query-and-get) 
+- [Search and Query](./search-and-query) 
 
 - [Drop Collection](./drop-collection-1) 

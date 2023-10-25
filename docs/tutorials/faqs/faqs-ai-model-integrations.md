@@ -7,6 +7,8 @@ sidebar_position: 4
 
 # AI model integrations
 
+**Does Zilliz Cloud support LangChain?**
+
 ## Contents
 
 - [Does Zilliz Cloud support LangChain?](#does-zilliz-cloud-support-langchain)

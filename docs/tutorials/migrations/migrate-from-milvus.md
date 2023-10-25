@@ -135,7 +135,7 @@ To prepare migration data for Milvus 2.x, do as follows:
 
 </Tabs>
 
-# **Migrate data to Zilliz Cloud**{#migrate-data-to-zilliz-cloud}
+## Migrate data to Zilliz Cloud{#migrate-data-to-zilliz-cloud}
 
 Once the migration data is ready, upload it to Zilliz Cloud.
 
@@ -145,7 +145,7 @@ If you have uploaded the prepared migration data to a personal S3 block storage 
 
 To upload a local folder to Zilliz Cloud, select **Import a local folder** and drag the folder to the drop zone. Note that you can upload a local folder of no more than 1 GB to Zilliz Cloud.
 
-# **Verify the migration results**{#verify-the-migration-results}
+## Verify the migration results{#verify-the-migration-results}
 
 After the status of the migration job changes from **MIGRATING** to **SUCCESSFUL**, the migration process ends.
 
@@ -161,8 +161,8 @@ After loading the collections, you can use the way of your choice to communicate
 
 - [AUTOINDEX Explained](./autoindex-explained) 
 
-- [CU Types Explained](./cu-types) 
+- [CU Types Explained](./cu-types-explained-1) 
 
-- [API Comparison](./api-availability) 
+- [API Comparison](./api-comparison) 
 
 - [Other Differences](https://zilliverse.feishu.cn/wiki/CvbnwjZ32iJmOrkX3I9ct46BnUe) 

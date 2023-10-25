@@ -26,7 +26,7 @@ curl <https://assets.zilliz.com/medium_articles_2020_dpr_a13e0377ae.json> \\
 # 100 60.4M  100 60.4M    0     0  12.8M      0  0:00:04  0:00:04 --:--:-- 12.9M
 ```
 
-To know more about the dataset, read [the introduction page on Kaggle]([object Promise]).
+To know more about the dataset, read [the introduction page on Kaggle](https://www.kaggle.com/datasets/shiyu22chen/cleaned-medium-articles-dataset).
 
 The downloaded dataset is a JSON file, and its structure looks similar to the following:
 
@@ -65,12 +65,12 @@ In the dataset, each data record has eight attributes. Use this table as a refer
 
 ## Related topics{#related-topics}
 
-- [Connect to Cluster]([object Promise]) 
+- [Connect to Cluster](./connect-to-cluster) 
 
-- [Create Collection]([object Promise]) 
+- [Create Collection](./create-collection-2) 
 
-- [Insert Entities]([object Promise]) 
+- [Insert Entities](./insert-entities) 
 
-- [Search and Query]([object Promise]) 
+- [Search and Query](./search-and-query) 
 
-- [Drop Collection]([object Promise]) 
+- [Drop Collection](./drop-collection-1) 

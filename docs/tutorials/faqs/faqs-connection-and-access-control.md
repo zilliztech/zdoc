@@ -7,6 +7,8 @@ sidebar_position: 2
 
 # Connection and access control
 
+**How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?**
+
 ## Contents
 
 - [How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?](#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud)

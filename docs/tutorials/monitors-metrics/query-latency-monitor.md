@@ -40,14 +40,14 @@ To enable the monitor, click the switch in the **Status** column. Clicking the s
 
 ## Related topics{#related-topics}
 
-- [CU Resource Monitor](./monitor-cu-resources) 
+- [CU Resource Monitor](./cu-resource-monitor) 
 
-- [QPS Resource Monitor](./monitor-qps) 
+- [QPS Resource Monitor](./qps-resource-monitor) 
 
-- [Load Capacity Resource Monitor](./monitor-load-capacity) 
+- [Load Capacity Resource Monitor](./load-capacity-resource-monitor) 
 
-- [Credit Card Expiration Monitor](./stay-informed-on-credit-card-expiration) 
+- [Credit Card Expiration Monitor](./credit-card-expiration-monitor) 
 
-- [View Cluster Metrics](./view-cluster-metrics) 
+- [View Cluster Metrics](./monitor-metrics) 
 
-- [Advance Pay Balance Monitor](./check-advance-pay-balance) 
+- [Advance Pay Balance Monitor](./advance-pay-balance-monitor) 

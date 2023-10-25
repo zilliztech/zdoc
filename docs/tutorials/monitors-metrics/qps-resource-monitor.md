@@ -40,14 +40,14 @@ To enable the monitor, click the switch in the **Status** column. Clicking the s
 
 ## Related topics{#related-topics}
 
-- [CU Resource Monitor](./monitor-cu-resources) 
+- [CU Resource Monitor](./cu-resource-monitor) 
 
-- [Query Latency Monitor](./monitor-query-latency) 
+- [Query Latency Monitor](./query-latency-monitor) 
 
-- [Load Capacity Resource Monitor](./monitor-load-capacity) 
+- [Load Capacity Resource Monitor](./load-capacity-resource-monitor) 
 
-- [Credit Card Expiration Monitor](./stay-informed-on-credit-card-expiration) 
+- [Credit Card Expiration Monitor](./credit-card-expiration-monitor) 
 
-- [View Cluster Metrics](./view-cluster-metrics) 
+- [View Cluster Metrics](./monitor-metrics) 
 
 - https://zilliverse.feishu.cn/wiki/Wlh2wJFuqiG3b7ke3Wpcy2Wdnmg

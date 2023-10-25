@@ -7,6 +7,8 @@ sidebar_position: 5
 
 # Monitors & metrics
 
+**What can I do if my cluster memory quota has been exhausted and I cannot insert data as a result?**
+
 ## Contents
 
 - [What can I do if my cluster memory quota has been exhausted and I cannot insert data as a result?](#what-can-i-do-if-my-cluster-memory-quota-has-been-exhausted-and-i-cannot-insert-data-as-a-result)

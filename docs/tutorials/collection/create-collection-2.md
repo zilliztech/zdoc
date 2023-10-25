@@ -26,7 +26,7 @@ Before creating a collection, ensure that
 
 :::info Notes
 
-The collection created in this guide series has a primary key named **id**, and a vector field named **vector**. If you prefer to take full control of the collection’s schema, refer to [Use Customized Schema](./create-collection-with-schema), [Enable Dynamic Schema](./enable-dynamic-schema), and [JavaScript Object Notation (JSON)](./use-json-fields).
+The collection created in this guide series has a primary key named **id**, and a vector field named **vector**. If you prefer to take full control of the collection’s schema, refer to [Use Customized Schema](./undefined), [Enable Dynamic Schema](./enable-dynamic-schema), and [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1).
 
 :::
 
@@ -34,19 +34,17 @@ The collection created in this guide series has a primary key named **id**, and 
 
 With dynamic schema enabled, Zilliz Cloud can refactor the schema of your collection while you insert entities. Zilliz Cloud enables a dynamic data model for serverless clusters by default. When creating a collection, you only need to provide a collection name and the dimension of your vector field:
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-res = client.create_collection(
-        collection_name="medium_articles_2020",
-        dimension=768
-)
 
-print(res)
-
-# Output:
-# None
+# Initialize a MilvusClient instance
+# Replace uri and API key with your own
+client = MilvusClient(
+    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
+    # - For a serverless cluster, use an API key as the token.
+    # - For a dedicated cluster, use the cluster credentials as the token
 ```
 
 </TabItem>
@@ -144,18 +142,18 @@ For your reference, Zilliz Cloud supports the following field data types:
 
 - Variable character (VARCHAR)
 
-- [JSON](./use-json-fields)
+- [JSON](./javascript-object-notation-json-1)
 
 ## Related topics{#related-topics}
 
 - [Insert Entities](./insert-entities) 
 
-- [Search and Query](./search-query-and-get) 
+- [Search and Query](./search-and-query) 
 
 - [Drop Collection](./drop-collection-1) 
 
-- [Use Customized Schema](./create-collection-with-schema) 
+- [Use Customized Schema](./undefined) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 
-- [JavaScript Object Notation (JSON)](./use-json-fields) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 

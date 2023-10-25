@@ -134,6 +134,16 @@
     text-wrap: nowrap
 }
 
+.articleText > div > a {
+    color: #000000;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.articleText > div > a:hover {
+    color: #175fff;
+}
+
 .articleText > div {
     display: inline-block;
 }
@@ -168,8 +178,11 @@
     }
 
     .titleText {
-        grid-template-columns: 1fr 1fr;
-        align-items: baseline;
+        display: inline-block;
+    }
+
+    .titleText > span:last-child {
+        margin-left: 0.5rem;
     }
 }
 

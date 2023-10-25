@@ -45,14 +45,14 @@ To adjust the size of the curve window, select an appropriate time range from th
 
 ## Related topics{#related-topics}
 
-- [CU Resource Monitor](./monitor-cu-resources) 
+- [CU Resource Monitor](./cu-resource-monitor) 
 
-- [QPS Resource Monitor](./monitor-qps) 
+- [QPS Resource Monitor](./qps-resource-monitor) 
 
-- [Query Latency Monitor](./monitor-query-latency) 
+- [Query Latency Monitor](./query-latency-monitor) 
 
-- [Load Capacity Resource Monitor](./monitor-load-capacity) 
+- [Load Capacity Resource Monitor](./load-capacity-resource-monitor) 
 
-- [Credit Card Expiration Monitor](./stay-informed-on-credit-card-expiration) 
+- [Credit Card Expiration Monitor](./credit-card-expiration-monitor) 
 
-- [Advance Pay Balance Monitor](./check-advance-pay-balance) 
+- [Advance Pay Balance Monitor](./advance-pay-balance-monitor) 

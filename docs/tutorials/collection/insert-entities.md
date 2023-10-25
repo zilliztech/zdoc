@@ -2,7 +2,7 @@
 slug: /insert-entities
 beta: FALSE
 notebook: 08_insert_and_upsert.ipynb
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 import Tabs from '@theme/Tabs';
@@ -24,7 +24,7 @@ Before you insert an entity into a collection, ensure that
 
 :::info Notes
 
-The collection created in this guide series has a primary key named **id**, and a vector field named **vector**. If you prefer to take full control of the collection’s schema, refer to [Use Customized Schema](./create-collection-with-schema), [Enable Dynamic Schema](./enable-dynamic-schema), and [JavaScript Object Notation (JSON)](./use-json-fields).
+The collection created in this guide series has a primary key named **id**, and a vector field named **vector**. If you prefer to take full control of the collection’s schema, refer to [Use Customized Schema](./undefined), [Enable Dynamic Schema](./enable-dynamic-schema), and [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1).
 
 :::
 
@@ -32,7 +32,7 @@ The collection created in this guide series has a primary key named **id**, and 
 
 In this section, you are going to insert the first record from the example dataset into our collection:
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -189,7 +189,7 @@ curl --request POST \\
 
 To insert multiple entities in a batch, prepare the data as follows.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -405,7 +405,7 @@ data="$(cat path/to/medium_articles_2020_dpr.json \\
 
 Once your data is ready, you can insert it as follows:
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -572,12 +572,12 @@ The `flush()` API seals data segments, making the inserted records ready to be r
 
 ## Related topics{#related-topics}
 
-- [Search and Query](./search-query-and-get) 
+- [Search and Query](./search-and-query) 
 
 - [Drop Collection](./drop-collection-1) 
 
-- [Use Customized Schema](./create-collection-with-schema) 
+- [Use Customized Schema](./undefined) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 
-- [JavaScript Object Notation (JSON)](./use-json-fields) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 

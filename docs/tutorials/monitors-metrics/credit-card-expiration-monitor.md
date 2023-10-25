@@ -35,14 +35,14 @@ Clicking the switch will toggle it on and off. Make sure the indicator of the sw
 
 ## Related topics{#related-topics}
 
-- [CU Resource Monitor](./monitor-cu-resources) 
+- [CU Resource Monitor](./cu-resource-monitor) 
 
-- [QPS Resource Monitor](./monitor-qps) 
+- [QPS Resource Monitor](./qps-resource-monitor) 
 
-- [Query Latency Monitor](./monitor-query-latency) 
+- [Query Latency Monitor](./query-latency-monitor) 
 
-- [Load Capacity Resource Monitor](./monitor-load-capacity) 
+- [Load Capacity Resource Monitor](./load-capacity-resource-monitor) 
 
-- [View Cluster Metrics](./view-cluster-metrics) 
+- [View Cluster Metrics](./monitor-metrics) 
 
-- [Advance Pay Balance Monitor](./check-advance-pay-balance) 
+- [Advance Pay Balance Monitor](./advance-pay-balance-monitor) 

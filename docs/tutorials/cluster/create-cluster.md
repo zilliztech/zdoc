@@ -19,7 +19,7 @@ Make sure the following conditions are met:
 
 - You have signed up for Zilliz Cloud. For information on how to register an account, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
 
-- You are the owner of the organization or project in which you want to create a cluster. For information on roles and permissions, see [Users & Roles](./users-roles).
+- You are the owner of the organization or project in which you want to create a cluster. For information on roles and permissions, see [Users & Roles](./undefined).
 
 ## Create a serverless cluster{#create-a-serverless-cluster}
 
@@ -90,7 +90,7 @@ After you create the cluster, you can check its status on the cluster list page.
 
 - [Insert Entities](./insert-entities) 
 
-- [Search and Query](./search-query-and-get) 
+- [Search and Query](./search-and-query) 
 
 - [Drop Collection](./drop-collection-1) 
 

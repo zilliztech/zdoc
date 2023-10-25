@@ -7,6 +7,8 @@ sidebar_position: 7
 
 # Pricing
 
+**Is the snapshot feature available in the standard plan?**
+
 ## Contents
 
 - [Is the snapshot feature available in the standard plan?](#is-the-snapshot-feature-available-in-the-standard-plan)

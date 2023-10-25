@@ -23,15 +23,15 @@ Both the **Starter** and **Standard** plans come with a free trial.
 
 The free trial of the **Starter** plan offers a free serverless cluster. You can create up to two collections. Each collection can hold approximately 500,000 768-dimensional vectors. We recommend choosing the **Starter plan** if you want to quickly get started with a vector database or swiftly build your AI application.
 
-Zilliz Cloud offers this free trial for every signup user. Select the **Starter** plan during cluster creation to obtain a free serverless cluster. For more information on creating a serverless cluster, see [Create Cluster]([object Promise]).
+Zilliz Cloud offers this free trial for every signup user. Select the **Starter** plan during cluster creation to obtain a free serverless cluster. For more information on creating a serverless cluster, see [Create Cluster](./create-cluster).
 
 Enjoy!
 
 ## Standard plan free trial{#standard-plan-free-trial}
 
-The **Standard** plan offers a 30-day free trial with $100 free credits. If you wish to use a dedicated cluster for a larger-scale Proof of Concept (PoC), we recommend choosing the free trial of the **Standard** plan. The maximum cluster size that can be self-provisioned during the free trial is 4 CUs. If this is insufficient to support your PoC, you can [contact us]([object Promise]) to enable a larger cluster or apply for additional credits.
+The **Standard** plan offers a 30-day free trial with $100 free credits. If you wish to use a dedicated cluster for a larger-scale Proof of Concept (PoC), we recommend choosing the free trial of the **Standard** plan. The maximum cluster size that can be self-provisioned during the free trial is 4 CUs. If this is insufficient to support your PoC, you can [contact us](https://zilliz.com/contact-sales) to enable a larger cluster or apply for additional credits.
 
-Zilliz Cloud provides $100 free credits for every signup users. You can use these credits to experience a dedicated cluster’s features by selecting the **Standard** plan during cluster creation. For more information on creating a dedicated cluster, see [Create Cluster]([object Promise]).
+Zilliz Cloud provides $100 free credits for every signup users. You can use these credits to experience a dedicated cluster’s features by selecting the **Standard** plan during cluster creation. For more information on creating a dedicated cluster, see [Create Cluster](./create-cluster).
 
 If you attach an AWS Marketplace account with Zilliz Cloud, we will offer you another $100 free credits. In addition, if you add a payment method (credit card or AWS Marketplace), we will extend the validity of your free credits to one year.
 
@@ -48,10 +48,10 @@ If you attach an AWS Marketplace account with Zilliz Cloud, we will offer you an
 
 ## Related topics{#related-topics}
 
-- [Connect to Cluster]([object Promise]) 
+- [Connect to Cluster](./connect-to-cluster) 
 
-- [Insert Entities]([object Promise]) 
+- [Insert Entities](./insert-entities) 
 
-- [Search and Query]([object Promise]) 
+- [Search and Query](./search-and-query) 
 
-- [Drop Collection]([object Promise]) 
+- [Drop Collection](./drop-collection-1) 

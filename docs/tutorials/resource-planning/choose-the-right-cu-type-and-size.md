@@ -2,7 +2,7 @@
 slug: /choose-the-right-cu-type-and-size
 beta: FALSE
 notebook: FALSE
-sidebar_position: 2
+sidebar_position: 4
 ---
 
 

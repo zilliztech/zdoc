@@ -76,7 +76,8 @@ const config = {
     ],
     './plugins/lark-docs',
     './plugins/apifox-docs',
-    './plugins/landing-page'
+    './plugins/landing-page',
+    './plugins/github-code'
   ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -120,7 +121,7 @@ const config = {
             items: [
               {
                 label: "Developers",
-                to: "/docs/zilliz-cloud-101",
+                to: "/docs/quick-start-1",
               },
               {
                 label: "Blogs",
@@ -159,7 +160,7 @@ const config = {
             items: [
               {
                 label: 'Developer Guides',
-                to: '/docs/zilliz-cloud-101',
+                to: '/docs/quick-start-1',
               },
               {
                 label: 'API Reference',

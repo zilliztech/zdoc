@@ -79,7 +79,7 @@ To establish a more secure connection to your cluster, you can create a private 
 
 On the **Collections** tab, you can manage the collections in the cluster. You can create collections, import data into them, load or release them, rename them, and drop them.
 
-For details on data import, refer to [Data Import](./data-import).
+For details on data import, refer to [Data Import](./undefined).
 
 ![manage-collections](/img/manage-collections.png)
 
@@ -99,11 +99,11 @@ You cannot drop **db_admin**. Zilliz Cloud grants access permissions to all coll
 
 ### Manage backups{#manage-backups}
 
-In the **Actions** drop-down button, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](./backup-and-restore).
+In the **Actions** drop-down button, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](./undefined).
 
 ### Manage data migrations{#manage-data-migrations}
 
-In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrations](./migrations).
+In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrations](./undefined).
 
 ### Drop cluster{#drop-cluster}
 
@@ -113,7 +113,7 @@ In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz
 
 In the **Summary** section, click **Scale** right to the CU **Size** to open the **Scale Cluster** dialog box. You can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. You can scale the size of a cluster up to 24 CUs in the dialog box. Contact us if you need a larger CU.
 
-For details on CU types and how to select an appropriate one, refer to [CU Types](./cu-types).
+For details on CU types and how to select an appropriate one, refer to [CU Types](./cu-types-explained-1).
 
 :::caution Warning
 
@@ -151,11 +151,11 @@ You can also use RESTful APIs to perform these actions. For details, refer to [S
 
 - [Set up a Private Link](./set-up-a-private-link)
 
-- [Backup & Restore](./backup-and-restore)
+- [Backup & Restore](./undefined)
 
-- [Migrations](./migrations)
+- [Migrations](./undefined)
 
-- [CU Types](./cu-types)
+- [CU Types](./cu-types-explained-1)
 
 - [Select the Right CU](./choose-the-right-cu-type-and-size)
 

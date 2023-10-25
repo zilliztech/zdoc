@@ -22,7 +22,7 @@ The tool offers two categories of writers: **LocalBulkWriter** and **RemoteBulkW
 To use **BulkWriter**, follow these steps:
 
 1. Install the latest PyMilvus and get your dataset.
-    - To install the latest PyMilvus or upgrade your PyMilvus to the latest version, refer to xx.
+    - To install the latest PyMilvus or upgrade your PyMilvus to the latest version, refer to [Install SDKs](./install-sdks).
 
     - To download the example dataset in CSV format from Kaggle, visit [this link](https://www.kaggle.com/datasets/shiyu22chen/cleaned-medium-articles-dataset), log in, and click the **Download** button in the upper right corner.
 
@@ -159,7 +159,17 @@ To use **BulkWriter**, follow these steps:
 
 ## Dynamic schema support{#dynamic-schema-support}
 
-To generate data
+To generate data for a collection that has dynamic schema enabled, change the `enable_dynamic_field` attribute of the `CollectionSchema` object to `True`.
+
+```python
+from pymilvus import FieldSchema, CollectionSchema
+
+fields = [
+    ...
+]
+
+schema = CollectionSchema(fields, enable_dynamic_field=True)
+```
 
 ## Verification{#verification}
 

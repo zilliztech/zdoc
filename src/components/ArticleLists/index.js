@@ -25,9 +25,9 @@ function SectionHeader ({title, slug, description}) {
 function GroupHeader ({title, Icon, articles}) {
     const max_length = Math.max(...(articles.map((props) => props.title.length)))
     let style = ''
-    if (max_length <= 40) {
+    if (max_length <= 35) {
         style = '1fr 1fr 1fr'
-    } else if (max_length > 40 && max_length < 50) {
+    } else if (max_length > 35 && max_length < 45) {
         style = '1fr 1fr'
     } else {
         style = '1fr'
@@ -146,6 +146,7 @@ export default function ArticleLists() {
     return (
         <div className={styles.sections}>
             {pages.map((props, idx) => (
+                props.groups.length > 0 && props.groups.filter(props => props.articles.length > 0).length > 0 &&
                 <div className={styles.sectionContainer}>
                     <SectionHeader key={idx} title={props.title} slug={props.slug} description={props.description} />
                     <div className={styles.bodyContainer}>

@@ -1,7 +1,7 @@
 ---
 slug: /question-answering-using-zilliz-cloud-and-cohere
 beta: FALSE
-notebook: 82_integrations_cohere.ipynb
+notebook: 82_integrations_with_cohere.ipynb
 sidebar_position: 3
 ---
 
@@ -223,6 +223,6 @@ Answer, Distance, Original Question
 
 - [Image Search with Zilliz Cloud and PyTorch](./image-search-with-zilliz-cloud-and-pytorch) 
 
-- [Documentation QA using Zilliz Cloud and LlamaIndex](./documentation-qa-using-zilliz-cloud-and-llamaindex) 
+- [Documentation QA using Zilliz Cloud and LlamaIndex](./undefined) 
 
 - [Movie Search Using Zilliz Cloud and SentenceTransformers](./movie-search-using-zilliz-cloud-and-sentencetransformers) 

@@ -2,7 +2,7 @@
 slug: /drop-collection-1
 beta: FALSE
 notebook: 00_quick_start.ipynb
-sidebar_position: 13
+sidebar_position: 14
 ---
 
 import Tabs from '@theme/Tabs';
@@ -12,8 +12,6 @@ import TabItem from '@theme/TabItem';
 
 This guide walks you through dropping a collection from a cluster.
 
-## Before you start{#before-you-start}
-
 Dropping a collection deletes all information associated with it, including data, metadata, and indexes. Exercise caution before dropping a collection because this operation is irreversible.
 
 :::info Notes
@@ -22,11 +20,9 @@ The collection created in this guide series has a primary key named **id**, and 
 
 :::
 
-## Procedure{#procedure}
-
 To drop a collection from a cluster, use the following code:
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python

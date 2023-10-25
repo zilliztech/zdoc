@@ -2,7 +2,7 @@
 slug: /pricing-calculator
 beta: FALSE
 notebook: FALSE
-sidebar_position: 3
+sidebar_position: 5
 ---
 
 
@@ -19,7 +19,7 @@ sidebar_position: 3
 
 :::info Notes
 
-Our pricing calculator is user-friendly and designed to estimate the cost of clusters with up to 32 [CUs](./cu-types). If your requirements exceed this upper limit, please contact our dedicated customer service team. They will be happy to provide you with detailed pricing information tailored to your specific needs.
+Our pricing calculator is user-friendly and designed to estimate the cost of clusters with up to 32 [CUs](./cu-types-explained-1). If your requirements exceed this upper limit, please contact our dedicated customer service team. They will be happy to provide you with detailed pricing information tailored to your specific needs.
 
 :::
 

@@ -27,7 +27,7 @@ In this release, users are empowered with a streamlined ability to migrate data 
 
 - Real-time Monitoring: An intuitive UI for users to monitor migration progress and receive status updates instantaneously.
 
-See details at [Migrate Between Clusters](./migrate-between-clusters).
+See details at [Migrate Between Clusters](./migrate-beween-clusters).
 
 ## Easy Migration from ElasticSearch to Zilliz Cloud{#easy-migration-from-elasticsearch-to-zilliz-cloud}
 
@@ -45,4 +45,4 @@ We've revolutionized the way you import data into Zilliz Cloud:
 
 - Import Task Monitoring: Oversee your data import tasks in real-time via the Zilliz Cloud Web Console, ensuring transparency and control over your data uploads.
 
-Check for the details at [Prepare Data Import](./prepare-data-import).
+Check for the details at [Prepare Data Import](./use-bulkwriter-for-data-import).

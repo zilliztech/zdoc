@@ -13,6 +13,7 @@
     "Monitors & Metrics": "Resource Monitoring and Metrics",
     "Payment & Billing": "Smart Budgeting Tips",
     "Accounts": "Managing Your Account",
-    "Security": "Handling Credentials Safely",
+    "Authentication": "Handling Credentials Safely",
+    "Organization Settings": "Editing Organization Settings",
     "Limits & Restrictions": "Important Considerations"
 }

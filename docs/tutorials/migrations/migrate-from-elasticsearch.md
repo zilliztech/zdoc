@@ -45,7 +45,7 @@ For each migration, you can select only one `dense_vector` field and one or more
 
 - The vector field `dense_vector` in an Elasticsearch index is mapped to `FloatVector` in a Zilliz Cloud collection. As a supplement, you can determine the metric type that applies to the `FloatVector` field. Available values are **Euclidean (L2)** and **Inner Product (IP)**.
 
-- The dimension of vector data is determined by that in the source index. If your Zilliz Cloud cluster is of the capacity- or cost-optimized CU type, make sure the dimension of the `dense_vector` field you select to migrate is no less than 32. Otherwise, an error will occur and the data cannot be migrated. For more information, see [CU Types Explained](./cu-types).
+- The dimension of vector data is determined by that in the source index. If your Zilliz Cloud cluster is of the capacity- or cost-optimized CU type, make sure the dimension of the `dense_vector` field you select to migrate is no less than 32. Otherwise, an error will occur and the data cannot be migrated. For more information, see [CU Types Explained](./cu-types-explained-1).
 
 :::info Notes
 
@@ -86,10 +86,10 @@ The table below provides details on how fields in an Elasticsearch index are map
 
 ## Related topics{#related-topics}
 
-- [Search and Query](./search-query-and-get)
+- [Search and Query](./search-and-query)
 
 - [Insert Entities](./insert-entities)
 
 - [AUTOINDEX Explained](./autoindex-explained)
 
-- [CU Types Explained](./cu-types)
+- [CU Types Explained](./cu-types-explained-1)

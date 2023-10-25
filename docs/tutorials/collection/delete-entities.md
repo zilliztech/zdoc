@@ -2,7 +2,7 @@
 slug: /delete-entities
 beta: FALSE
 notebook: 00_quick_start.ipynb
-sidebar_position: 12
+sidebar_position: 13
 ---
 
 import Tabs from '@theme/Tabs';
@@ -12,11 +12,9 @@ import TabItem from '@theme/TabItem';
 
 Entities on Zilliz Cloud refer to data objects stored in a cluster, containing data for processing, search, and queries. If an entity is no longer needed, you can perform operations to delete it.
 
-This topic describes how to delete one or more entities from a collection.
-
 :::info Notes
 
-The collection created in this guide series has a primary key named **id**, and a vector field named **vector**. If you prefer to take full control of the collection’s schema, refer to [Use Customized Schema](./create-collection-with-schema), [Enable Dynamic Schema](./enable-dynamic-schema), and [JavaScript Object Notation (JSON)](./use-json-fields).
+The collection created in this guide series has a primary key named **id**, and a vector field named **vector**. If you prefer to take full control of the collection’s schema, refer to [Use Customized Schema](./undefined), [Enable Dynamic Schema](./enable-dynamic-schema), and [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1).
 
 :::
 
@@ -24,7 +22,7 @@ The collection created in this guide series has a primary key named **id**, and 
 
 If an entity is outdated or no longer needed, you can run the following sample code to delete it:
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -133,7 +131,7 @@ Deleting an entity is an irreversible operation. Make sure you have a backup or 
 
 Zilliz Cloud allows you to delete multiple entities at a time. To do this, run the following sample code:
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -246,4 +244,4 @@ Deleting entities is an irreversible operation. Make sure you have a backup or t
 
 - [Insert Entities](./insert-entities) 
 
-- [Search and Query](./search-query-and-get) 
+- [Search and Query](./search-and-query) 

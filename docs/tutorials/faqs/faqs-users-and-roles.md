@@ -7,6 +7,8 @@ sidebar_position: 6
 
 # Users & roles
 
+**Can I leave my organization?**
+
 ## Contents
 
 - [Can I leave my organization?](#can-i-leave-my-organization)

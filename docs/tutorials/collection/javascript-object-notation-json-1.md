@@ -2,7 +2,7 @@
 slug: /javascript-object-notation-json-1
 beta: FALSE
 notebook: 04_use_json_field.ipynb
-sidebar_position: 11
+sidebar_position: 12
 ---
 
 import Tabs from '@theme/Tabs';
@@ -40,7 +40,7 @@ You can [download the source code](https://assets.zilliz.com/zdoc/zilliz_cloud_s
 
 To define a JSON field, simply follow the same procedure as defining fields of other types.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -402,7 +402,7 @@ To accomplish the task described above, you'll need to create a `FieldSchema` ob
 
 After creating a collection from the `CollectionSchema` object, dictionaries such as the one above can be inserted into it.
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -718,7 +718,7 @@ func (sp searchParams) Params() map[string]interface{} {
 
 Once all of your data has been added, you can conduct searches using the keys in the JSON field in the same manner as you would with a standard scalar field. Simply follow these steps:
 
-<Tabs defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -945,7 +945,7 @@ The following table assumes that the value of a JSON field named `json_key` has 
 
 ## Related topics{#related-topics}
 
-- [Use Customized Schema](./create-collection-with-schema) 
+- [Use Customized Schema](./undefined) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 

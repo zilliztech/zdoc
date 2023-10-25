@@ -43,7 +43,7 @@ The action of deleting an account cannot be undone. Please take extra caution wi
 
 ## Related topics{#related-topics}
 
-- [Organizations & Projects](./understand-organizations-and-projects) 
+- [Organizations & Projects](./undefined) 
 
 - [Roles & Privileges](https://zilliverse.feishu.cn/wiki/SzFVwtUcYiB1ubkWA06c0N9hnNf) 
 
@@ -51,8 +51,8 @@ The action of deleting an account cannot be undone. Please take extra caution wi
 
 - [Remove Members](https://zilliverse.feishu.cn/wiki/F1kQw4qRfi6v3UkOc2AcENBXnbe) 
 
-- [Manage Organization Information](./manage-organizations-and-members) 
+- [Manage Organization Information](./undefined) 
 
-- [Delete Your Organization](./delete-your-organization) 
+- [Delete Your Organization](./undefined) 
 
-- [View Activities](./view-activities) 
+- [View Activities](./undefined) 

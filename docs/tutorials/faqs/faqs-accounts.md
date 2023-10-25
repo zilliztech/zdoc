@@ -7,6 +7,8 @@ sidebar_position: 8
 
 # Accounts
 
+**How can I change my account email address?**
+
 ## Contents
 
 - [How can I change my account email address?](#how-can-i-change-my-account-email-address)

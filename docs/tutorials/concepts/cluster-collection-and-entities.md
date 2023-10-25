@@ -2,7 +2,7 @@
 slug: /cluster-collection-and-entities
 beta: FALSE
 notebook: FALSE
-sidebar_position: 4
+sidebar_position: 2
 ---
 
 
@@ -13,7 +13,7 @@ A Zilliz Cloud cluster is a managed Milvus instance associated with certain comp
 
 ## Cluster{#cluster}
 
-When creating a cluster on Zilliz Cloud, you must specify the type of CU associated with the cluster. There are three types of CUs available: performance-optimized, capacity-optimized, and cost-optimized. You can learn how to choose among these types in [CU Types Explained](./cu-types).
+When creating a cluster on Zilliz Cloud, you must specify the type of CU associated with the cluster. There are three types of CUs available: performance-optimized, capacity-optimized, and cost-optimized. You can learn how to choose among these types in [CU Types Explained](./cu-types-explained-1).
 
 After determining the CU type, you must also specify its size. Note that the number of collections a cluster can hold varies based on its CU size. A cluster with less than 8 CUs can hold no more than 32 collections, while a cluster with more than 8 CUs can hold as many as 256 collections.
 
@@ -55,7 +55,7 @@ For your reference, Zilliz Cloud supports the following field data types:
 
 - Variable character (VARCHAR)
 
-- [JSON](./use-json-fields)
+- [JSON](./javascript-object-notation-json-1)
 
 Zilliz Cloud provides three types of CUs, each of which have its own application scenarios, and they are also the factor that impacts search performance.
 
@@ -73,6 +73,6 @@ Unlike Milvus instances, Zilliz Cloud clusters only support the **AUTOINDEX** al
 
 Entities in a collection are data records sharing the same set of fields, like a book in a library or a gene in a genome. As to an entity, the data stored in each field forms the entity.
 
-By specifying a query vector, search metrics, and optional filtering conditions, you can conduct vector searches among the entities in a collection. For example, if you search with the keyword "Interesting Python demo", any article whose title implies such semantic meaning will be returned as a relevant result. During this process, the search is actually conducted on the vector field **title_vector** to retrieve the top K nearest results. For details on vector searches, see [Search and Query](./search-query-and-get).
+By specifying a query vector, search metrics, and optional filtering conditions, you can conduct vector searches among the entities in a collection. For example, if you search with the keyword "Interesting Python demo", any article whose title implies such semantic meaning will be returned as a relevant result. During this process, the search is actually conducted on the vector field **title_vector** to retrieve the top K nearest results. For details on vector searches, see [Search and Query](./search-and-query).
 
 You can add as many entities to a collection as you want. However, the size that an entity takes grows along with the increase of the dimensions of the vectors in the entity, reversely affecting the performance of searches within the collection. Therefore, plan your collection wisely on Zilliz Cloud by referring to [Schema Explained](./data-models-explained).

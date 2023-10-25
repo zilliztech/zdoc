@@ -32,7 +32,7 @@ module.exports = function (context, options) {
                     const slugify = new Slugify(docs)
                     docs = await slugify.slugify()
 
-                    fs.writeFileSync("docs.json", JSON.stringify(docs, null, 2))
+                    // fs.writeFileSync("docs.json", JSON.stringify(docs, null, 2))
                     let pages = new utils(docs, 'title', 'obj.obj_type === "docx"', true).instances
 
                     const writer = new docWriter(pages, null, opts.imageDir)

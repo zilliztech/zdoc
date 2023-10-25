@@ -19,11 +19,11 @@ Make sure the following conditions are met:
 
 - You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Use Customized Schema](./create-collection-with-schema).
+- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Use Customized Schema](./undefined).
 
 ## Prepare data files{#prepare-data-files}
 
-Using the RESTful API, you can import data from a single JSON file or multiple NumPy files. If your data is in a different format, you can first convert it using the BulkWriter conversion tool. For details, see [Use BulkWriter for Data Import](./prepare-data-import).
+Using the RESTful API, you can import data from a single JSON file or multiple NumPy files. If your data is in a different format, you can first convert it using the BulkWriter conversion tool. For details, see [Use BulkWriter for Data Import](./use-bulkwriter-for-data-import).
 
 When preparing data files, note that:
 
@@ -61,6 +61,8 @@ with open('path/to/medium_articles_2020_dpr.json') as f:
 To import data, you must first upload them to an object storage bucket, such as AWS S3 or Google Cloud Storage (GCS). Once uploaded, obtain the file path and bucket credentials for Zilliz Cloud to pull data from your bucket. For supported object paths, see [Supported object paths](./import-data-via-restful-api#supported-object-paths).
 
 :::info Notes
+
+For successful data import, ensure that the object storage bucket you use is located in the same cloud as your cluster.
 
 :::
 

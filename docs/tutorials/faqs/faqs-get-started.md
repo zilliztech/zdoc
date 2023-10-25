@@ -7,6 +7,8 @@ sidebar_position: 1
 
 # Get started
 
+This topic lists the possible issues that you may encounter while you get started with Zilliz Cloud and corresponding solutions.
+
 ## Contents
 
 - [Is there any performance comparison between Zilliz Cloud and other competitors?](#is-there-any-performance-comparison-between-zilliz-cloud-and-other-competitors)

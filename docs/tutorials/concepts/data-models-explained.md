@@ -2,7 +2,7 @@
 slug: /data-models-explained
 beta: FALSE
 notebook: FALSE
-sidebar_position: 5
+sidebar_position: 3
 ---
 
 
@@ -16,20 +16,17 @@ Data modeling is the process of creating a clear and organized data model for st
 In a Zilliz Cloud cluster, collections may have schemas that represent different data models. It's essential to define the data models properly to represent the structure of your dataset. To define a data model, you need to consider the following components:
 
 - **Entity**
+    An entity in a collection is similar to a row in a tabular database. Each property of an entity corresponds to a column in that tabular database. When determining the dataset to be inserted into a collection, identify the entities and the properties that are shared among them.
 
-- An entity in a collection is similar to a row in a tabular database. Each property of an entity corresponds to a column in that tabular database. When determining the dataset to be inserted into a collection, identify the entities and the properties that are shared among them.
-
-- For example, a book can be an entity in a collection, and its properties can include title, author, ISBN, and language.
+    For example, a book can be an entity in a collection, and its properties can include title, author, ISBN, and language.
 
 - **Data types**
+    Each property of an entity has its own data type. Set an appropriate data type to define a property.
 
-- Each property of an entity has its own data type. Set an appropriate data type to define a property.
-
-- For instance, the data type for title should be **VarChar**.
+    For instance, the data type for title should be **VarChar**.
 
 - **Constraints on entity property values**
-
-- Different data types may have their own constraints. For example, a vector field has a constraint on the number of dimensions, and a VarChar field has a constraint on the maximum number of characters.
+    Different data types may have their own constraints. For example, a vector field has a constraint on the number of dimensions, and a VarChar field has a constraint on the maximum number of characters.
 
 Data modeling for a collection is sometimes time-consuming, especially when there are many properties to define. Zilliz Cloud clusters support both dynamic and fixed data modeling to facilitate the process.
 
@@ -146,12 +143,12 @@ For your reference, Zilliz Cloud supports the following field data types:
 
 - Variable character (VARCHAR)
 
-- [JSON](./use-json-fields)
+- [JSON](./javascript-object-notation-json-1)
 
 ## What’s next{#whats-next}
 
-- [Use Customized Schema](./create-collection-with-schema) 
+- [Use Customized Schema](./undefined) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 
-- [JavaScript Object Notation (JSON)](./use-json-fields) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 

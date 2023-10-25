@@ -2,7 +2,7 @@
 slug: /subscribe-by-adding-credit-card
 beta: FALSE
 notebook: FALSE
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 
@@ -11,7 +11,7 @@ sidebar_position: 2
 
 This guide walks you through how to add a payment method that you and your organization can use for Zilliz Cloud.
 
-## Add payment method{#add-payment-method}
+## Add a payment method{#add-a-payment-method}
 
 After registering an account and logging in, select **Billing** from the navigation pane on the left. In the right-hand view, you will see an overview of your account.
 
@@ -49,7 +49,7 @@ Once you have registered a credit card with us, you can view your payment method
 
 ![payment-overivew](/img/payment-overivew.png)
 
-If your credit card is about to expire, you will receive alerts from our [credit card expiration monitor](./stay-informed-on-credit-card-expiration). You can either update the payment card or switch to AWS Marketplace subscription at any time that you see fit.
+If your credit card is about to expire, you will receive alerts from our [credit card expiration monitor](./credit-card-expiration-monitor). You can either update the payment card or switch to AWS Marketplace subscription at any time that you see fit.
 
 ### **Update a payment card**{#update-a-payment-card}
 
