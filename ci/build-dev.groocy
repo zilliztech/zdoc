@@ -71,7 +71,7 @@ pipeline {
                             git clone https://${GITHUB_USER}:${GITHUB_TOKEN}@${devops_cd_git} /opt/devops-cd
                             cd /opt/devops-cd
                             git pull
-                            cd /opt/devops-cd/zdocs/${env.TEST_ENVIRONMENT}
+                            cd /opt/devops-cd/zdocs/overlays/${env.TEST_ENVIRONMENT}
                             kustomize edit set image zdocs=harbor-us-vdc.zilliz.cc/vdc/zilliz-docs:${image_tag}
                             git commit -am "[automated]Update zdocs image for uat3 environment" --allow-empty
                             git push origin master
