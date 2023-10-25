@@ -30,9 +30,6 @@ spec:
     image: harbor-us-vdc.zilliz.cc/devops/cd-base:20220923-a356c40
     tty: true
     args: ["cat"]
-    volumeMounts:
-      - name: kubeconfig
-        mountPath: /root/.kube/
   volumes:
   - emptyDir: {}
     name: docker-graph
