@@ -12,18 +12,16 @@ const iterate_dir = (dir, descriptions) => {
                 const title = category.link.title
                 const slug = category.link.slug
                 const description = descriptions[title]
-                let articles = iterate_dir(`${dir}/${path}`)
-                articles = articles.filter((article) => article !== undefined)
-                articles.sort((a, b) => a.spos - b.spos)
+                let groups = iterate_dir(`${dir}/${path}`, descriptions)
+                groups = groups.filter((group) => group !== undefined)
+                groups.sort((a, b) => a.spos - b.spos)
 
                 return {
                     idx,
                     title,
                     slug,
                     description,
-                    groups: [{
-                        articles
-                    }]
+                    groups: [...groups]
                 }                
             } 
         }

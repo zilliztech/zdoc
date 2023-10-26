@@ -9,29 +9,29 @@ sidebar_position: 7
 
 # View Cluster Metrics
 
-Zilliz Cloud provides a dashboard where you can view cluster-specific metrics. To access it, go to the Metrics tab in one of your cluster, as shown in the following figure.
+Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To access this feature, navigate to the **Metrics** tab within one of your clusters, as illustrated in the figure below.
 
 ![view_system_metrics](/img/view_system_metrics.png)
 
-## Metrics explained{#metrics-explained}
+## Understanding Metrics{#understanding-metrics}
 
-On the **Metrics** tab, you can find the following curves:
+The **Metrics** tab presents various graphical representations, including:
 
-- CU usage
-    This metric displays the percentage fluctuation of either CPU or memory usage, whichever is greater, per second during a specified time duration.
+- **CU**
+    This graph depicts fluctuations in usage, measured as a percentage per second, of either CPU or memory—whichever is higher—over a chosen time frame.
 
-- Storage usage
-    This metric displays the variation in consumed block storage size, measured in gigabytes per second, over a specified time period.
+- **Storage Use**
+    This chart shows changes in block storage consumption, calculated in gigabytes per second, throughout a selected time period.
 
-- Queries per second (QPS)
-    This metric displays the fluctuation in the number of queries per second during a specified time duration.
+- **QPS**
+    This curve illustrates variations in the number of queries processed per second during a defined time interval.
 
-- Query latency
-    This metric displays the fluctuation of query latency, measured in milliseconds, over a specified time period.
+- **Query Latency**
+    This graph represents shifts in query latency, measured in milliseconds, over a chosen duration.
 
-## Adjust curve window size{#adjust-curve-window-size}
+## Modify Curve Window Size{#modify-curve-window-size}
 
-To adjust the size of the curve window, select an appropriate time range from the drop-down menu located in the upper-right corner of the **All Metrics** area. The available options are:
+To alter the curve window size, opt for a suitable time range from the drop-down menu positioned in the upper-right corner of the **All Metrics** area. Your choices include:
 
 - Last 10 minutes
 
@@ -53,6 +53,6 @@ To adjust the size of the curve window, select an appropriate time range from th
 
 - [Load Capacity Resource Monitor](./load-capacity-resource-monitor) 
 
-- [Credit Card Expiration Monitor](./credit-card-expiration-monitor) 
+- [Credit Card Expiration Monitor](./undefined) 
 
 - [Advance Pay Balance Monitor](./advance-pay-balance-monitor) 

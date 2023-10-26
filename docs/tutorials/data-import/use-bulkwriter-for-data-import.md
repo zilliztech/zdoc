@@ -9,22 +9,24 @@ sidebar_position: 1
 
 # Prepare Data Import
 
-This guide explains how to use **BulkWriter** in PyMilvus to prepare for data import into Zilliz Cloud.
+This guide walks you through the process of preparing your data for import into Zilliz Cloud using the **BulkWriter** tool in PyMilvus.
 
 ## Overview{#overview}
 
-**BulkWriter** is a PyMilvus script that converts datasets into a format suitable for importing data via various methods such as the Zilliz Cloud console, the **BulkInsert** APIs of Milvus SDKs, or the **Import** API in RESTful flavor.
+**BulkWriter** in PyMilvus is a script designed to convert datasets into a format suitable for importing data via various methods such as the Zilliz Cloud console, the **BulkInsert** APIs of Milvus SDKs, or the **Import** API in RESTful flavor. It offers two types of writers:
 
-The tool offers two categories of writers: **LocalBulkWriter** and **RemoteBulkWriter**. A **LocalBulkWriter** reads the designated dataset and transforms it into a format that is easy to use. On the other hand, a **RemoteBulkWriter** carries out the same task but also transfers the converted data files to the designated object storage bucket. The following table compares these two writers.
+- **LocalBulkWriter**: Reads the designated dataset and transforms it into an easy-to-use format.
+
+- **RemoteBulkWriter**: Performs the same task as the **LocalBulkWriter** but additionally transfers the converted data files to a specified object storage bucket.
+
+The following table compares the two writers.
 
 ## Procedure{#procedure}
 
-To use **BulkWriter**, follow these steps:
+1. **Set up:**
+    - Install the latest version of PyMilvus. For instructions on installation, refer to [Install SDKs](./install-sdks).
 
-1. Install the latest PyMilvus and get your dataset.
-    - To install the latest PyMilvus or upgrade your PyMilvus to the latest version, refer to [Install SDKs](./install-sdks).
-
-    - To download the example dataset in CSV format from Kaggle, visit [this link](https://www.kaggle.com/datasets/shiyu22chen/cleaned-medium-articles-dataset), log in, and click the **Download** button in the upper right corner.
+    - Download the example dataset from Kaggle. Visit [this link](https://www.kaggle.com/datasets/shiyu22chen/cleaned-medium-articles-dataset), log in, and click the **Download** button in the upper right corner.
 
     :::info Notes    
     
@@ -33,8 +35,8 @@ To use **BulkWriter**, follow these steps:
 
     :::
 
-1. Determine the schema of the collection you wish to import your dataset into.
-    To determine a collection schema, you must select which fields to include from the dataset.
+1. **Determine the schema:**
+    Decide on the schema for the collection you wish to import your dataset into. This involves selecting which fields to include from the dataset.
 
     ```python
     from pymilvus import FieldSchema, CollectionSchema
@@ -53,12 +55,16 @@ To use **BulkWriter**, follow these steps:
     schema = CollectionSchema(fields)
     ```
 
-1. Use the collection schema as a blueprint to process your dataset so that you can feed the rows in the dataset to the **BulkWriter** one after another.
+1. **Process your dataset:**
+    Process your dataset to match the collection schema you've defined.
+
     You can manipulate your dataset in any way you prefer, but the final output must be a list of dictionaries with each dictionary representing a row.
 
     This guide uses the Pandas library to process the example dataset in the following steps.
 
-1. Choose between a **LocalBulkWriter** and a **RemoteBulkWriter**, depending on your needs. 
+1. **Choose a writer:**
+    Opt between a **LocalBulkWriter** and a **RemoteBulkWriter** based on your needs. 
+
     - A **LocalBulkWriter** generates files in two types, either JSON or NumPy.
 
     ```python
@@ -171,7 +177,7 @@ fields = [
 schema = CollectionSchema(fields, enable_dynamic_field=True)
 ```
 
-## Verification{#verification}
+## Verify the result{#verify-the-result}
 
 To check the results, you can do as follows:
 

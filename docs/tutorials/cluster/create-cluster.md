@@ -9,78 +9,82 @@ sidebar_position: 1
 
 # Create Cluster
 
-To meet the business needs of different users, Zilliz Cloud offers different plan tiers of clusters. For information on how to choose an appropriate cluster type, see [Free Trials](./free-trials) and [Cluster Types Explained](./cluster-types-explained) .
+Zilliz Cloud provides various cluster plan tiers to accommodate the distinct business needs of users. For guidance on selecting an appropriate cluster type, consult [Free Trials](./free-trials) and [Cluster Types](https://zilliverse.feishu.cn/wiki/UpwhwMwf2iqnYiktreNcZwkTn4s).
 
-There are two types of clusters available, namely the serverless cluster and the dedicated cluster. This guide series introduces how to create a serverless cluster.
+## Prerequisites{#prerequisites}
 
-## Before you start{#before-you-start}
+Ensure:
 
-Make sure the following conditions are met:
+- Registration with Zilliz Cloud. Refer to [Register with Zilliz Cloud](./register-with-zilliz-cloud) for instructions.
 
-- You have signed up for Zilliz Cloud. For information on how to register an account, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
+- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [Users & Roles](./a-panorama-view).
 
-- You are the owner of the organization or project in which you want to create a cluster. For information on roles and permissions, see [Users & Roles](./undefined).
+## Set up a serverless cluster{#set-up-a-serverless-cluster}
 
-## Create a serverless cluster{#create-a-serverless-cluster}
+1. Navigate to [Zilliz Cloud console](https://cloud.zilliz.com/login) and log in.
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+1. Select the appropriate organization and project.
 
-1. Enter the organization and project in which you want to create a cluster.
-
-1. On the page that appears, click **+ Create Cluster**.
+1. Click **+ Create Cluster**.
     ![create_cluster_01](/img/create_cluster_01.png)
 
-1. On the **Create New Cluster** page, select the **Starter** plan and configure the following parameters. Currently, each user can create one serverless cluster for free. If you require additional clusters, we recommend subscribing to either our **Standard** or **Enterprise** plan.
+1. In the **Create New Cluster** section, choose the **Starter** plan and fill in the required parameters. 
 
-    |  **Parameter**           |  **Description**                                                                                                                                  |
-    | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-    |  Cluster Name            |  The name of the cluster.                                                                                                                         |
-    |  Cloud Provider & Region |  The cluster's location and the cloud provider it is hosted on. At present, our serverless clusters are available on Google Cloud Platform (GCP). |
+::: info Notes
 
-    ![create_cluster_02](/img/create_cluster_02.png)
+    Each user is permitted one free serverless cluster. For additional clusters, opt for the Standard or Enterprise plans.
 
-1. Click **Next: Create Collection** to proceed. In this step, you can create your first collection in the cluster.
+:::
 
-1. In the **Create Collection for Your New Cluster** step, you have to choose **New Collection** to follow this guide.
+|  **Parameter**               |  **Description**                                                                                                                                                                                                                        |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  **Cluster Name**            |  Name of the cluster.                                                                                                                                                                                                                   |
+|  **Cloud Provider & Region** |  The cluster's location and the cloud provider it is hosted on. At present, our serverless clusters are available on Google Cloud Platform (GCP). For more information, see [Cloud Providers & Regions](./cloud-providers-and-regions). |
+
+![create_cluster_02](/img/create_cluster_02.png)
+
+1. Process with **Next: Create Collection**. 
+
+1. In the **Create Collection for Your New Cluster** section, select **New Collection**.
     ![create_cluster_03](/img/create_cluster_03.png)
 
-    Below are the parameter descriptions for creating a new collection:
+    Specify the parameters for the new collection as below:
 
-    |  **Parameter**   |  **Description**                                                                                                                                                                                                                                                                                                                       |
-    | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    |  Collection name |  The name of the collection.                                                                                                                                                                                                                                                                                                           |
-    |  Dimension       |  The dimension of the vector data in the collection. The default value is 768.                                                                                                                                                                                                                                                         |
-    |  Metric Type     |  The metric type measures the similarity between vectors. Valid values:<br/> <br/>  - Euclidean: measures the distance between two vectors in a plane. The smaller the result, the more similar the two vectors.<br/> <br/>  - Inner product: multiplies two vectors. The more positive the result, the more similar the two vectors.<br/>  |
-    |  Description     |  The description of the collection. This parameter is optional.                                                                                                                                                                                                                                                                        |
+    |  **Parameter**       |  **Description**                                                                                                                                                                                                                                                                                                                       |
+    | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    |  **Collection name** |  The name of the collection.                                                                                                                                                                                                                                                                                                           |
+    |  **Dimension**       |  The dimension of the vector data in the collection. The default value is 768.                                                                                                                                                                                                                                                         |
+    |  **Metric Type**     |  The metric type measures the similarity between vectors. Valid values:<br/> <br/>  - Euclidean: measures the distance between two vectors in a plane. The smaller the result, the more similar the two vectors.<br/> <br/>  - Inner product: multiplies two vectors. The more positive the result, the more similar the two vectors.<br/>  |
+    |  **Description**     |  The description of the collection. This parameter is optional.                                                                                                                                                                                                                                                                        |
 
-1. Click **Create Collection and Cluster**. After this step, you will be redirected to a dialog box that displays the public endpoint and API key of your cluster. Be sure to take note of these details, as you will need them to access the cluster.
+1. Click **Create Collection and Cluster**.  A dialog box will display the public endpoint and API key for the cluster. Record these details for future access.
 
 ## Create a dedicated cluster{#create-a-dedicated-cluster}
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
-1. Enter the organization and project in which you want to create a cluster.
+1. Select the desired organization and project.
 
-1. On the page that appears, click **+ Create Cluster**.
+1. Click **+ Create Cluster**.
     ![create_cluster_01](/img/create_cluster_01.png)
 
-1. On the **Create New Cluster** page, select the **Standard** or **Enterprise** plan and configure the corresponding parameters instead.
+1. On the **Create New Cluster** page, opt for the **Standard** or **Enterprise** plan and fill out the relevant parameters.
 
-    |  **Parameter**                     |  **Description**                                                                                                                                  |
-    | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-    |  **Cluster Name**                  |  The name of the cluster.                                                                                                                         |
-    |  **Cluster Username and Password** |  Credentials for access to this cluster.                                                                                                          |
-    |  **Cloud Provider & Region**       |  The cluster's location and the cloud provider it is hosted on. At present, our serverless clusters are available on Google Cloud Platform (GCP). |
-    |  **CU Type & Size**                |  The compute resource to be allocated to this cluster.                                                                                            |
-    |  **Cloud Backup**                  |  Whether to enable cloud backup for the data in this cluster.                                                                                     |
+    |  **Parameter**                     |  **Description**                                                                                                                                      |
+    | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+    |  **Cluster Name**                  |  The name of the cluster.                                                                                                                             |
+    |  **Cluster Username and Password** |  Credentials for access to this cluster.                                                                                                              |
+    |  **Cloud Provider & Region**       |  The cluster's location and the cloud provider it is hosted on. For more information, see [Cloud Providers & Regions](./cloud-providers-and-regions). |
+    |  **CU Type & Size**                |  The compute resource to be allocated to this cluster.                                                                                                |
+    |  **Cloud Backup**                  |  Whether to enable cloud backup for the data in this cluster.                                                                                         |
 
     ![create-dedicated_cluster](/img/create-dedicated_cluster.png)
 
-1. Click **Create Cluster**. After this step, you will be redirected to a dialog box that displays the public endpoint and token for the access to your cluster. Be sure to take note of these details, as you will need them to access the cluster.
+1. Click **Create Cluster**. You'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
 
 ## Verification{#verification}
 
-After you create the cluster, you can check its status on the cluster list page. If the cluster enters the **Running** state, the cluster is created.
+After you create the cluster, you can check its status on the cluster list page. A cluster in the **Running** state indicates successful creation.
 
 ## Related topics{#related-topics}
 

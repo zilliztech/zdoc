@@ -9,32 +9,31 @@ sidebar_position: 2
 
 # Monitor QPS
 
-To ensure timely fine tuning queries per second (QPS) to your Zilliz Cloud cluster, consider enabling the QPS resource monitor.
+To optimize your Zilliz Cloud cluster’s performance through timely adjustments of queries per second (QPS), it is advisable to activate the QPS resource monitor.
 
 :::info Notes
 
-This is a feature available only to clusters in the Standard and Enterprise plans.
+This is a feature exclusively available to clusters in the Standard and Enterprise plans.
 
 :::
 
 ## Set alert condition{#set-alert-condition}
 
-To set the alert condition for the QPS to your cluster in a project, follow these steps:
+To configure the alert conditions for QPS within a project, follow the steps below:
 
-1. From the left navigation pane in the project, choose **Monitoring**.
+1. Select **Monitoring** from the project’s left navigation pane.
 
-1. Open the **Monitor Settings** tab.
+1. Navigate to the **Monitor Settings** tab.
 
-1. In the **Resource Alerts** card, locate the second condition.
-    By default, we will send you notifications when the QPS is over 10 for more than 10 minutes.
+1. Find the second condition in the** Resource Alerts** card. By default, notifications are set to be sent when **QPS** exceeds **10** for a duration of more than **10 minutes**.
 
-1. Click **…** in the **Actions** column, and choose **Edit**.
+1. Click **…** in the **Actions** column, and select **Edit**.
 
-1. To customize the alert condition, adjust the threshold for **QPS** and **Duration** in the prompted dialog box. Once you have set your preferences, click **Save** to apply the condition.
+1. Adjust the **QPS** threshold and **Duration** settings as per your requirements in the dialog box that appears. Click **Save** to apply your customized alert condition.
 
 ## Enable the monitor{#enable-the-monitor}
 
-To enable the monitor, click the switch in the **Status** column. Clicking the switch will toggle it on and off. Make sure the indicator of the switch is on the right side, and the background color changes to blue.
+To activate the monitor, click the switch in the **Status** column. This action toggles the monitor’s state on or off. Verification of activation is confirmed when the switch’s indicator is positioned to the right, complemented by a change in background color to blue.
 
 ![qps-monitor](/img/qps-monitor.png)
 
@@ -46,7 +45,7 @@ To enable the monitor, click the switch in the **Status** column. Clicking the s
 
 - [Load Capacity Resource Monitor](./load-capacity-resource-monitor) 
 
-- [Credit Card Expiration Monitor](./credit-card-expiration-monitor) 
+- [Credit Card Expiration Monitor](./undefined) 
 
 - [View Cluster Metrics](./monitor-metrics) 
 

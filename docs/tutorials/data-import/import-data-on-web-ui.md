@@ -9,7 +9,7 @@ sidebar_position: 2
 
 # Import Data on Web UI
 
-This tutorial guides you through the process of importing data into an existing collection on the web UI.
+This tutorial guides you through the process of importing data into an existing collection on the Zilliz Cloud web UI.
 
 ## Before you start{#before-you-start}
 
@@ -23,25 +23,39 @@ Make sure the following conditions are met:
 
 ## Prepare data files{#prepare-data-files}
 
-Zilliz Cloud allows you to import data from a local file or one or more remote files. The supported data types are JSON and NumPy. If your data is in a different format, you can first convert it using the BulkWriter conversion tool. For details, see [Use BulkWriter for Data Import](./use-bulkwriter-for-data-import).
-
-### Prepare a local JSON file{#prepare-a-local-json-file}
-
-Zilliz Cloud only supports importing data from local files in JSON format. You can upload one JSON file per import. The maximum file size allowed varies depending on the cluster type. For a serverless cluster, the maximum file size is 512 MB. For a dedicated cluster, the maximum file size is 1 GB. For more information on cluster types, see [Cluster Types Explained](./cluster-types-explained).
+Zilliz Cloud supports data import from local or remote files in JSON or NumPy formats. If your data is in a different format, convert it using the **BulkWriter** tool. For details, see [Prepare Data Import](./use-bulkwriter-for-data-import).
 
 The [example dataset](./example-dataset-1) used in this tutorial is a row-based JSON file that can be directly imported locally.
 
-However, in real-world scenarios, you may need to import multiple files simultaneously or import larger data files. In such cases, we recommend preparing remote files.
+### Local JSON file{#local-json-file}
 
-### Prepare remote files{#prepare-remote-files}
+- Only JSON format is supported for local file import.
 
-Importing data from remote files supports both JSON and NumPy formats. When preparing remote files, note that:
+- Maximum file size: 512 MB for serverless clusters, 1 GB for dedicated clusters. For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
-- When importing JSON data, each import only supports one JSON file. This means that you cannot upload multiple JSON files at once.
+- One JSON file can be uploaded per import.
 
-- For NumPy data, you have the option to upload multiple files at once or organize these files into a folder with no more than two subfolders and upload them in a batch. Note that each subfolder cannot exceed 10 GB in size, and the maximum size for the parent folder is 100 GB.
+### Remote files{#remote-files}
 
-- When organizing multiple files in a folder, ensure that data types are consistent for all files inside the folder, and that the folder contains no more than two subfolders. If a folder contains both JSON and NumPy data, or more than two subfolders, an error will occur during data import. If a folder contains NumPy files and other unsupported data types, Zilliz Cloud will only import the NumPy files and ignore the unsupported files. For example, you can specify a valid path similar to **/dataset1/** or **/dataset2/sub/**.
+When importing data from remote files, consider the following based on the file format:
+
+- **JSON data**
+    Each import supports one JSON file, prohibiting simultaneous multiple JSON file uploads.
+
+- **NumPy data**
+    - Allows uploading multiple files at once or organizing these files into a folder for batch uploading.
+
+    - The folder may have up to two subfolders, each subfolder must not exceed 10 GB, and the parent folder's maximum size is 100 GB.
+
+- **Folder organization**
+    - Ensure data type consistency within the folder, allowing a maximum of two subfolders.
+
+    - In cases where a folder contains:
+        - Both JSON and NumPy data or more than two subfolders, an error will occur during data import.
+
+        - NumPy files along with unsupported data types, only the NumPy files will be imported, ignoring the unsupported files.
+
+    - Example of valid paths: `/dataset1/` or `/dataset2/sub/`.
 
 To convert the example dataset into multiple NumPy files, use the following code:
 
@@ -76,13 +90,13 @@ For successful data import, ensure that the object storage bucket you use is loc
 
 :::
 
-### Import the local JSON file{#import-the-local-json-file}
+### Local JSON file{#local-json-file}
 
 To import data, you can either drag and drop a local file into the upload area, or click **upload a file** and select the file.
 
 ![import_data_from_local_files](/img/import_data_from_local_files.png)
 
-### Import remote files from an object storage bucket{#import-remote-files-from-an-object-storage-bucket}
+### Remote files from an object storage bucket{#remote-files-from-an-object-storage-bucket}
 
 To import remote files, you must first upload them to the bucket. You can upload a JSON file or a group of NumPy files to the bucket. Once uploaded, fill in the file path and bucket credentials for Zilliz Cloud to pull data from your bucket.
 

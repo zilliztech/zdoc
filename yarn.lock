@@ -1973,10 +1973,22 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@jupyterlab/nbformat@^4.0.7":
+  version "4.0.7"
+  resolved "https://registry.npmmirror.com/@jupyterlab/nbformat/-/nbformat-4.0.7.tgz#650669512f86fe57c6a77c3a6fbb891839b58025"
+  integrity sha512-nC5kAqgc/6m2ApEBVUnRjPO4yJyDyX0b4wpUl7QjCcr/qcnIPV23yYCKFeV7wjk/8nj6ZvXRIuMgRaTE8jHoGw==
+  dependencies:
+    "@lumino/coreutils" "^2.1.2"
+
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.4"
   resolved "https://registry.npmmirror.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz#b2ac626d6cb9c8718ab459166d4bb405b8ffa78b"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
+
+"@lumino/coreutils@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.npmmirror.com/@lumino/coreutils/-/coreutils-2.1.2.tgz#354e658353e99969329c9ee33b0692ecd97abe1f"
+  integrity sha512-vyz7WzchTO4HQ8iVAxvSUmb5o/8t3cz1vBo8V4ZIaPGada0Jx0xe3tKQ8bXp4pjHc+AEhMnkCnlUyVYMWbnj4A==
 
 "@mdx-js/mdx@^1.6.22":
   version "1.6.22"

@@ -9,93 +9,67 @@ sidebar_position: 3
 
 # Install SDKs
 
-This guide will show you how to install Milvus SDKs for connecting to Zilliz Cloud clusters.
+Discover how to seamlessly install Milvus SDKs, allowing efficient connections to Zilliz Cloud clusters.
 
-Zilliz Cloud offers a managed Milvus vector database as a service. To connect to a cluster, you can install one of four available SDKs: [Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), or [Node.js](./install-sdks#install-nodejs-sdk).
+## Overview{#overview}
+
+Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK options exist to facilitate cluster connections: [Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), or [Node.js](./install-sdks#install-nodejs-sdk).
 
 :::info Notes
 
-At Zilliz Cloud, we regularly upgrade your clusters to their latest compatible version. If you need more information, please visit our [Set up Maintenance Window](./set-up-maintenance-window) page. If you cannot connect to your Zilliz Cloud cluster with the latest version of an SDK, follow the prompted messages to downgrade your SDK to a compatible version. You will receive an email from us when the maintenance is complete, and you can then safely upgrade your SDK.
+Zilliz Cloud consistently upgrades clusters to ensure version compatibility. For details, visit the [Set up Maintenance Window](./set-up-maintenance-window) page. If connection issues arise due to SDK version discrepancies, heed the provided prompts to revert to a compatible SDK version. We'll notify you post-maintenance, post which you can upgrade your SDK without concerns.
 
 :::
-
-## Starter APIs v.s. Advanced APIs{#starter-apis-vs-advanced-apis}
-
-The code examples in [Quick Start](./quick-start-1) demonstrate the starter APIs. On the other hand, the advanced APIs are used in the [Use Customized Schema](./undefined), [Enable Dynamic Schema](./enable-dynamic-schema), [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1), and [Use Partition Key](./use-partition-key) sections.
-
-To put it simply, the starter API is ideal for quickly creating collections, with default values applied. After using the starter API to create a collection, only two fields: **id** and **vector**, will be available as the primary key and vector field, respectively. Dynamic schema is enabled by default, so any fields other than the primary key and vector field in your data will be dynamic fields for your convenience.
-
-The advanced API provides complete control over your collection schema. You can define the attributes of each field in the collection, choose whether to enable dynamic schema, and select whether to enable partition key, among other options.
 
 ## Install PyMilvus: Python SDK{#install-pymilvus-python-sdk}
 
-PyMilvus is a Python SDK of Milvus. You can find its source code on [GitHub](https://github.com/milvus-io/pymilvus).
+PyMilvus is Milvus's Python SDK. Access its [source code on GitHub](https://github.com/milvus-io/pymilvus).
 
 :::info Notes
 
-Before installing, ensure that your **Python** version is above **3.7**.
+Ensure your **Python** version exceeds **3.7** prior to installation.
 
 :::
 
-- Install a specific version of PyMilvus.
-
 ```bash
+# Install specific PyMilvus version
 python -m pip install pymilvus==2.2.15
-```
 
-- Upgrade PyMilvus to the latest version.
-
-```bash
+# Update PyMilvus to the newest version
 python -m pip install --upgrade pymilvus
-```
 
-- Check whether the installation succeeds, run
-
-```bash
+# Verify installation success
 python -m pip list | grep pymilvus
-
-# Output:
-# pymilvus        2.2.15
 ```
 
 ## Install Node.js SDK{#install-nodejs-sdk}
 
-To get started using the Milvus Node.js SDK, it is recommended that you use `npm` (Node package manager) or `yarn` to install the dependency in your project. You can find its source code on [GitHub](https://github.com/milvus-io/milvus-sdk-node).
+For Milvus's Node.js SDK, employ **npm** or **yarn**. Access its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-node).
 
 :::info Notes
 
-Before installing, ensure that your **Node.js** version is above **14**.
+Ensure your **Node.js** version is **14** or above prior to installation.
 
 :::
 
-- Install a specific version
-
 ```bash
+# Installing a specific version
 npm install @zilliz/milvus2-sdk-node@2.2.23
-# or ...
+# Alternatively,
 yarn add @zilliz/milvus2-sdk-node@2.2.23
-```
 
-- Upgrade to the latest version.
-
-```bash
+# Upgrade to the latest version
 npm update @zilliz/milvus2-sdk-node
-# or ...
+# Alternatively,
 yarn upgrade @zilliz/milvus2-sdk-node
-```
 
-- Check whether the installation succeeds, run
-
-```bash
+# Verify installation
 npm list | grep @zilliz/milvus2-sdk-node
 # or
 yarn list | grep @zilliz/milvus2-sdk-node
-
-# Output
-# └── @zilliz/milvus2-sdk-node@2.2.23
 ```
 
-You can import the SDK into your project as either a CommonJS module or an ES6 module. Generally, if you initialize your project using `npm init`, you should use the SDK as a CommonJS module. If you initialize your project using `npm init es6`, you should use the SDK as an ES6 module.
+You can use this SDK as either a CommonJS or an ES6 module. Typically, for `npm init` projects, use CommonJS. For `npm init es6` ones, ES6 is preferable.
 
 ```javascript
 // Import the SDK as a CommonJS module
@@ -107,11 +81,9 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node"
 
 ## Install Java SDK{#install-java-sdk}
 
-You can use Apache Maven or Gradle/Grails to download the SDK. Its source code is hosted on [GitHub](https://github.com/milvus-io/milvus-sdk-java).
+Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on GitHub](https://github.com/milvus-io/milvus-sdk-java).
 
-- Apache Maven
-
-- Simply add the following to the dependencies in `pom.xml`.
+- For Apache Maven, append this to the `pom.xml` dependencies:
 
 ```xml
 <dependency>
@@ -121,9 +93,7 @@ You can use Apache Maven or Gradle/Grails to download the SDK. Its source code i
  </dependency>
 ```
 
-- Gradle/Grails
-
-- Run the following in your shell.
+- For Gradle/Grails, execute:
 
 ```bash
 compile 'io.milvus:milvus-sdk-java:2.2.7'
@@ -131,7 +101,7 @@ compile 'io.milvus:milvus-sdk-java:2.2.7'
 
 ## Install Go SDK{#install-go-sdk}
 
-You can install the Go SDK via `go get`. Its source code can be found on [GitHub](https://github.com/milvus-io/milvus-sdk-go).
+The Go SDK is available via `go get`. Explore its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-go).
 
 ```go
 go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.2.7

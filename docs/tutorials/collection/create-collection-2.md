@@ -18,7 +18,7 @@ If your cluster is a serverless cluster, note that each serverless cluster can h
 
 Before creating a collection, ensure that
 
-- You have a blueprint of your data model (i.e. schema). For details, see [Schema Explained](./data-models-explained).
+- You have a blueprint of your schema. For details, see [Schema Explained](./data-models-explained).
 
 - You have connected to a cluster. For details, see [Connect to Cluster](./connect-to-cluster).
 
@@ -38,13 +38,15 @@ With dynamic schema enabled, Zilliz Cloud can refactor the schema of your collec
 <TabItem value='python'>
 
 ```python
+res = client.create_collection(
+        collection_name="medium_articles_2020",
+        dimension=768
+)
 
-# Initialize a MilvusClient instance
-# Replace uri and API key with your own
-client = MilvusClient(
-    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
-    # - For a serverless cluster, use an API key as the token.
-    # - For a dedicated cluster, use the cluster credentials as the token
+print(res)
+
+# Output:
+# None
 ```
 
 </TabItem>

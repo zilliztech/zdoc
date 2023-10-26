@@ -2,7 +2,7 @@
 slug: /drop-collection-1
 beta: FALSE
 notebook: 00_quick_start.ipynb
-sidebar_position: 14
+sidebar_position: 7
 ---
 
 import Tabs from '@theme/Tabs';

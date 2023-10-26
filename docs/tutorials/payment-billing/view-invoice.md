@@ -9,30 +9,33 @@ sidebar_position: 5
 
 # View Invoice
 
-The total cost of Zilliz Cloud services includes the costs of compute, storage, backup, and migration costs. To check your expenses for the current and past billing cycles, view your invoices. Free credits are included in your invoices.
+The total cost for using Zilliz Cloud services is determined by several components: compute, storage, backup, and migration costs. To help you monitor and manage your expenditures, you can access detailed invoices for both current and past billing cycles.
+
+Please note that access to view invoices is restricted to organization owners.
+
+![billing_breakdown](/img/billing_breakdown.png)
 
 ## View invoices{#view-invoices}
 
-To view your billing records, click on **Billing** in the left navigation pane, then switch to the **Invoices** tab. There are four billing status in Zilliz Cloud. Refer to the following table for the definition of each type of status.
+To view your billing records, navigate to **Billing** in the left sidebar and select the **Invoices** tab. Within Zilliz Cloud, there are five possible billing statuses, each representing a different state of your payment. The table below outlines these statuses:
 
-|  **Status**   |  **Definition**                                                                                                                                                                    |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  **Unbilled** |  Transactions are made after the billing cycle but before the statement generation. This amount is not immediately due for payment but will be included in the next billing cycle. |
-|  **Paid**     |  Payment completed. No overdue payments.                                                                                                                                           |
-|  **Overdue**  |  The invoice is billed but not timely paid.                                                                                                                                        |
-|  **Free**     |  All amounts due are paid with credits.                                                                                                                                            |
+|  **Status**   |  **Definition**                                                                                                                                                               |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  **Paid**     |  Payment has been completed with no outstanding amounts.                                                                                                                      |
+|  **Free**     |  All amounts due are paid with credits.                                                                                                                                       |
+|  **Overdue**  |  The invoice is billed but not paid within the due timeframe.                                                                                                                 |
+|  **Unbilled** |  Transactions that occur after the billing cycle but before the statement is generated. These amounts are not immediately due but will be included in the next billing cycle. |
+|  **Unpaid**   |  The invoice is billed and is within the due timeframe.                                                                                                                       |
 
 ![view-invoices](/img/view-invoices.png)
 
-To view the details of an invoice, click the billing period of this invoice record.
+To view specific details for an invoice, click on the respective billing period entry. This will bring you to a detailed page where you have the options to download the invoice as a PDF file or print the invoice directly.
 
 ![billing-details-en](/img/billing-details-en.png)
 
-On this page, you can download the invoice in PDF format, or print the invoice directly.
-
 ## View payment method{#view-payment-method}
 
-On the Billing Overview page, you can view your current payment method, remaining credits, and Advance Pay balance.
+On the **Billing Overview** page, you can view your current payment method, check remaining credits, and see your Advance Pay balance.
 
 ![payment-method-en](/img/payment-method-en.png)
 

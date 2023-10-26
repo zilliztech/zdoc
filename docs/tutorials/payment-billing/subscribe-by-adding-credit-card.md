@@ -9,28 +9,28 @@ sidebar_position: 1
 
 # Subscribe by Adding Credit Card
 
-This guide walks you through how to add a payment method that you and your organization can use for Zilliz Cloud.
+This guide provides comprehensive instructions on how to add a payment credit card for your organizational on Zilliz Cloud.
 
 ## Add a payment method{#add-a-payment-method}
 
-After registering an account and logging in, select **Billing** from the navigation pane on the left. In the right-hand view, you will see an overview of your account.
+After registering an account and logging in, navigate to **Billing** from the left-side menu to access your account overview.
 
 ![add_payment_method](/img/add_payment_method.png)
 
-You can simply click on **Add a New Card** in the **Payment Method** section located at the lower-right corner to add your credit card.
+In the **Payment** **Method** section found at the lower-right corner of your screen, click on **Add a New Card**.
 
 ![add-payment-method](/img/add-payment-method.png)
 
-In the prompted **Add Payment Method** dialog box, you need to provide
+ A dialog box will appear prompting you to enter:
 
-- Information about your credit card 
+- Credit Card Information:
     - **Card number**
 
     - **Expiration**
 
     - **CVC**
 
-- Information about you 
+- Billing Information:
     - **Address Line**
 
     - **Country / Region**
@@ -41,32 +41,32 @@ In the prompted **Add Payment Method** dialog box, you need to provide
 
     - **Postal Code**
 
-All fields listed above are mandatory. Once you have filled out all required fields, the **Add** button will be activated. Click on **Add** to save your payment method.
+All fields above are mandatory. Upon completion, the **Add** button will be activated, allowing you to save your payment method.
 
 ## Edit your payment method{#edit-your-payment-method}
 
-Once you have registered a credit card with us, you can view your payment method in your billing overview. To access it, simply navigate to the billing overview page.
+Your payment method can be viewed and edited at any time from the **Billing** **Overview** page.
 
 ![payment-overivew](/img/payment-overivew.png)
 
-If your credit card is about to expire, you will receive alerts from our [credit card expiration monitor](./credit-card-expiration-monitor). You can either update the payment card or switch to AWS Marketplace subscription at any time that you see fit.
+Should your credit card approach its expiration date, you will be notified by our [credit card expiration monitor](./undefined). You may choose to update your payment information or switch to an [AWS Marketplace subscription](./subscribe-on-aws-marketplace) at your convenience.
 
 ### **Update a payment card**{#update-a-payment-card}
 
-To update the payment credit card, click **Edit** in the **Payment Method** area, a prompted dialog box appears as follows.
+To update your credit card information, click on **Edit** in the Payment Method area.
 
 ![update-payment-method](/img/update-payment-method.png)
 
-In the prompted **Update Payment Method** dialog box, you need to provide
+ A dialog box will appear prompting you to enter:
 
-- Information about your credit card 
+- Credit Card Information:
     - **Card number**
 
     - **Expiration**
 
     - **CVC**
 
-- Information about you 
+- Billing information:
     - **Address Line**
 
     - **Country / Region**
@@ -77,19 +77,23 @@ In the prompted **Update Payment Method** dialog box, you need to provide
 
     - **Postal Code**
 
-All fields listed above are mandatory. Once you have filled out all required fields, the **Update** button will be activated. Click on **Update** to update your payment method.
+All fields above are mandatory. Upon completion, the **Update** button will be activated, allowing you to save your payment method.
 
 ### **Switch to AWS Marketplace subscription**{#switch-to-aws-marketplace-subscription}
 
-If you want to change your payment method from a credit card to AWS Marketplace subscription, you can directly visit AWS Marketplace and subscribe to Zilliz Cloud services. Please refer to [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace) for more details.
+For those who prefer to transition from a credit card payment method to an AWS Marketplace subscription, visit the AWS Marketplace and subscribe to Zilliz Cloud services. Reference our guide on [Subscribing on AWS Marketplace](https://chat.openai.com/c/0b1274aa-d87a-4104-9a5f-b0daeb3fee59#) for detailed instructions.
 
-Once you have successfully subscribed on AWS Marketplace, your original payment credit card will be automatically replaced by AWS Marketplace subscription. You can check out your current payment method in your billing overview.
+Upon successful subscription via AWS Marketplace, your existing credit card information will be automatically replaced. You can verify the update in your **Billing Overview** page.
 
 :::info Notes
 
-It may take a few minutes for the change of payment method to be reflected in the billing overview.
+Please allow a few minutes for the billing overview to reflect the changes.
 
 :::
+
+## Remove payment credit card{#remove-payment-credit-card}
+
+Currently, Zilliz Cloud does not support removing payment credit card on the web console. Should you need to remove a linked credit card, please contact us and submit a ticket at the Zilliz Cloud [support portal](https://support.zilliz.com/hc/en-us).
 
 ## Related topics{#related-topics}
 

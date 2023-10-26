@@ -22,9 +22,45 @@ function SectionHeader ({title, slug, description}) {
     )
 }
 
-function GroupHeader ({title, Icon, articles}) {
-    const max_length = Math.max(...(articles.map((props) => props.title.length)))
+function GroupHeader (props) {
     let style = ''
+    if (props.groups) {
+        const max_length = Math.max(...(props.groups.map((props) => props.title.length)))
+
+        if (max_length <= 35) {
+            style = '1fr 1fr 1fr'
+        } else if (max_length > 35 && max_length < 45) {
+            style = '1fr 1fr'
+        } else {
+            style = '1fr'
+        }
+    }
+
+    const Icon = require(`@site/static/icons/1F4D1.svg`).default;
+    
+    return (
+        <div className={styles.articleGroup}>
+            <div className={styles.articleGroupTitle}>
+                <div className={styles.articleGroupIcon}>
+                    <Icon />
+                </div>
+                <div className={styles.articleGroupText}>
+                    <span>{props.title}</span>
+                </div>    
+            </div> 
+            <div className={styles.articleGroupBody} style={{ gridTemplateColumns: style }}>
+                {props.groups.map((props, idx) => (
+                    <Article key={`group-${idx}`} {...props} />
+                ))}
+            </div>
+        </div>
+    )
+}
+
+function Articles (props) {
+    let style = ''
+    const max_length = Math.max(...(props.groups.map((props) => props.title.length)))
+
     if (max_length <= 35) {
         style = '1fr 1fr 1fr'
     } else if (max_length > 35 && max_length < 45) {
@@ -35,22 +71,15 @@ function GroupHeader ({title, Icon, articles}) {
 
     return (
         <div className={styles.articleGroup}>
-            { Icon && title && <div className={styles.articleGroupTitle}>
-                <div className={styles.articleGroupIcon}>
-                    <Icon />
-                </div>
-                <div className={styles.articleGroupText}>
-                    <span>{title}</span>
-                </div>    
-            </div>}
             <div className={styles.articleGroupBody} style={{ gridTemplateColumns: style }}>
-                {articles.map((props, idx) => (
-                    <Article key={idx} {...props} />
+                {props.groups.map((props, idx) => (!props.groups &&
+                    <Article key={`article-${idx}`} {...props} />
                 ))}
             </div>
         </div>
     )
 }
+
 
 function Article ({title, slug, colab, github, tag}) {
     const ColabIcon = require('@site/static/icons/colab-icon.svg').default;
@@ -78,82 +107,21 @@ function Article ({title, slug, colab, github, tag}) {
 export default function ArticleLists() {
     const { blocks } = usePluginData('landing-page');
     const pages = blocks.filter((block) => block.title !== 'FAQs' && block.title !== 'Release Notes')
-    // const pages = [{
-    //     title: 'Getting Started',
-    //     slug: "quick-start",
-    //     description: 'Quickly start using Zilliz Cloud.',
-    //     groups: [{
-    //         articles: [{
-    //             title: 'Quick Start',
-    //             slug: "quick-start-1",
-    //             colab: true,
-    //             github: true,
-    //             tag: true,
-    //         }, {
-    //             title: 'Register with Zilliz Cloud',
-    //             slug: "register-with-zilliz-cloud",
-    //             colab: true,
-    //             github: true,
-    //             tag: false,
-    //         }, {
-    //             title: 'Free Trials',
-    //             slug: "free-trials",
-    //             colab: true,
-    //             github: true,
-    //             tag: false,
-    //         }, {
-    //             title: 'Install SDKs',
-    //             slug: "install-sdks",
-    //             colab: true,
-    //             github: true,
-    //             tag: false,
-    //         }, {
-    //             title: 'Example Datasets',
-    //             slug: "example-datasets",
-    //             colab: true,
-    //             github: true,
-    //             tag: false,
-    //         }]
-    //     }]
-    // }, {
-    //     title: 'Cluster',
-    //     slug: "cluster",
-    //     description: 'Get started with Zilliz Cloud.',
-    //     groups: [{
-    //         articles: [{
-    //             title: "Create Cluster",
-    //             slug: "create-cluster",
-    //             colab: false,
-    //             github: false,
-    //             tag: false
-    //         },{
-    //             title: "Connect to Cluster",
-    //             slug: "connect-to-cluster",
-    //             colab: false,
-    //             github: false,
-    //             tag: false
-    //         },
-    //         {
-    //             title: "Manage Cluster",
-    //             slug: "manage-cluster",
-    //             colab: false,
-    //             github: false,
-    //             tag: false
-    //         }]
-    //     }]
-    // }]
+    console.log(pages)
 
     return (
         <div className={styles.sections}>
             {pages.map((props, idx) => (
-                props.groups.length > 0 && props.groups.filter(props => props.articles.length > 0).length > 0 &&
+                props.groups.length > 0 &&
                 <div className={styles.sectionContainer}>
                     <SectionHeader key={idx} title={props.title} slug={props.slug} description={props.description} />
                     <div className={styles.bodyContainer}>
                         <div className={styles.articleGroups}>
-                            {props.groups.map((props, idx) => (
-                                <GroupHeader key={idx} {...props} />                               
-                            ))}
+                            {props.groups.map((props, idx) => ( props.groups &&
+                                    <GroupHeader key={`group-${idx}`} {...props} />
+                                )
+                            )}
+                            {!props.groups.groups && <Articles key={`articles-${idx}`} {...props}></Articles>}
                         </div>
                     </div>
                 </div>    

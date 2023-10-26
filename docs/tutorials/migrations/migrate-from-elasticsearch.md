@@ -17,7 +17,7 @@ Make sure the following steps are performed:
 
 - You have registered an account with Zilliz Cloud. For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
 
-- You have created a **Dedicated** cluster on Zilliz Cloud. For details, see [Create Cluster](./create-cluster) and [Cluster Types Explained](./cluster-types-explained).
+- You have created a **Dedicated** cluster on Zilliz Cloud. For details, see [Create Cluster](./create-cluster) and [Cluster Types Explained](https://zilliverse.feishu.cn/wiki/UpwhwMwf2iqnYiktreNcZwkTn4s).
 
 - You have created an Elasticsearch cluster running on version 7.x or later. For details, see [Installing Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html).
 
@@ -45,7 +45,7 @@ For each migration, you can select only one `dense_vector` field and one or more
 
 - The vector field `dense_vector` in an Elasticsearch index is mapped to `FloatVector` in a Zilliz Cloud collection. As a supplement, you can determine the metric type that applies to the `FloatVector` field. Available values are **Euclidean (L2)** and **Inner Product (IP)**.
 
-- The dimension of vector data is determined by that in the source index. If your Zilliz Cloud cluster is of the capacity- or cost-optimized CU type, make sure the dimension of the `dense_vector` field you select to migrate is no less than 32. Otherwise, an error will occur and the data cannot be migrated. For more information, see [CU Types Explained](./cu-types-explained-1).
+- The dimension of vector data is determined by that in the source index. If your Zilliz Cloud cluster is of the capacity- or cost-optimized CU type, make sure the dimension of the `dense_vector` field you select to migrate is no less than 32. Otherwise, an error will occur and the data cannot be migrated. For more information, see [CU Types Explained](https://zilliverse.feishu.cn/wiki/RkNSwoi5AiD2DBkgptxcbz3anGc).
 
 :::info Notes
 
@@ -92,4 +92,4 @@ The table below provides details on how fields in an Elasticsearch index are map
 
 - [AUTOINDEX Explained](./autoindex-explained)
 
-- [CU Types Explained](./cu-types-explained-1)
+- [CU Types Explained](https://zilliverse.feishu.cn/wiki/RkNSwoi5AiD2DBkgptxcbz3anGc)

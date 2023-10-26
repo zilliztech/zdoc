@@ -10,11 +10,11 @@ import TabItem from '@theme/TabItem';
 
 # Connect to Cluster
 
-This guide provides step-by-step instructions on how to connect to a cluster.
+This article offers a systematic guide on connecting to a cluster.
 
 ## Before you start{#before-you-start}
 
-Before proceeding, ensure that you have completed the following steps:
+Ensure the following prerequisites are met before proceeding:
 
 - You have registered an account with Zilliz Cloud. For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud) .
 
@@ -24,25 +24,31 @@ Before proceeding, ensure that you have completed the following steps:
 
 :::info Notes
 
-If you prefer using RESTful APIs instead of SDKs, note that it's not possible to establish a persistent connection due to the unidirectional communication mechanism of the HTTP protocol.
+For those leaning towards the utilization of RESTful APIs over SDKs, it's important to understand that a continuous connection cannot be established. This is attributed to the HTTP protocol's unidirectional communication mode.
 
 :::
 
 ## Connect to a cluster{#connect-to-a-cluster}
 
-Once a cluster is up, you can connect to it using its public endpoint and a token. The token can either be an [API key](./manage-api-keys) or a [cluster credential](./manage-cluster-credentials) that consists of a username and password pair.
+Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. This token can either be an [API key](./manage-cluster-credentials) or a [cluster credential](./manage-cluster-credentials) comprised of a username-password duo.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Initialize a MilvusClient instance
-# Replace uri and token with your own
 from pymilvus import MilvusClient
 
+CLUSTER_ENDPOINT = "replace-this-with-your-cluster-endpoint"
+TOKEN = "replace-this-with-your-token"
+
+# Initialize a MilvusClient instance
+# Replace uri and API key with your own
 client = MilvusClient(
-        uri="<PUBLIC_ENDPOINT>", # Cluster endpoint obtained from the console
-        token="<TOKEN>" # token="username:password" or token="your-api-key"
+    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
+    # - For a serverless cluster, use an API key as the token.
+    # - For a dedicated cluster, use the cluster credentials as the token
+    # in the format of 'user:password'.
+    token=TOKEN
 )
 ```
 

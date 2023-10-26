@@ -161,7 +161,7 @@ After loading the collections, you can use the way of your choice to communicate
 
 - [AUTOINDEX Explained](./autoindex-explained) 
 
-- [CU Types Explained](./cu-types-explained-1) 
+- [CU Types Explained](https://zilliverse.feishu.cn/wiki/RkNSwoi5AiD2DBkgptxcbz3anGc) 
 
 - [API Comparison](./api-comparison) 
 

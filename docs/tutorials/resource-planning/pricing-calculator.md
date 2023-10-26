@@ -2,45 +2,57 @@
 slug: /pricing-calculator
 beta: FALSE
 notebook: FALSE
-sidebar_position: 5
+sidebar_position: 3
 ---
 
 
 
 # Pricing Calculator
 
-[Zilliz Cloud Pricing Calculator](https://zilliz.com/pricing#estimate_your_cost) helps you estimate budgets and make optimal selections. To use the calculator, you need to provide a blueprint of your data, including:
+Our [Zilliz Cloud Pricing Calculator](https://zilliz.com/pricing#estimate_your_cost) is here to assist you in budgeting effectively and making optimal selections. To get started, you need to share some details about your data:
 
-- Number of entities
-    Entities are data objects stored and processed in Zilliz Cloud clusters. Using the pricing calculator, you have the flexibility to seamlessly scale the slide bar, allowing you to adjust the number of entities anywhere between 0 and a staggering 10 billion. It's worth noting that the storage of entities will be metered at a granularity of 1 million, ensuring accurate measurement and efficient management of your data.
+- **Number of Entities**
+    Entities are data objects stored and processed in Zilliz Cloud clusters. With our calculator, you can easily adjust the number of entities anywhere between 0 to an impressive 10 billion by sliding the bar. Note that entity storage is metered in blocks of 1 million for precise measurement and efficient data management.
 
-- Vector dimensions
-    Vector dimensions refer to the number of elements that define your vector data. Using the pricing calculator, you can scale vector dimensions from 32 to 32,768.
+- **Vector Dimensions**
+    Vector dimensions indicate the number of elements defining your vector data. Adjust the vector dimensions between 32 to 32,768 using the calculator.
 
 :::info Notes
 
-Our pricing calculator is user-friendly and designed to estimate the cost of clusters with up to 32 [CUs](./cu-types-explained-1). If your requirements exceed this upper limit, please contact our dedicated customer service team. They will be happy to provide you with detailed pricing information tailored to your specific needs.
+Our calculator is designed to estimate costs for clusters up to 32 [CUs](./choose-the-right-cu-type-and-size). If your needs surpass this, feel free to [contact us](https://zilliz.com/contact-sales) for a tailored pricing breakdown.
 
 :::
 
-With a blueprint of your dataset, you can compare the prices of different combinations in the following aspects:
+Once you've outlined your dataset, you can explore price estimates for various setups considering:
 
-- CU types
-    - **Performance-optimized CU** supports high throughput and low latency, suitable for high-performance scenarios.
+- **CU Types**
+    - Performance-optimized CU: Ideal for high-performance scenarios with its high throughput and low latency.
 
-    - **Capacity-optimized CU** applies to scenarios with data volumes five times larger than performance-optimized scenarios, suitable for increased storage capacity.
+    - Capacity-optimized CU: Best for larger data volumes, offering five times the storage capacity of performance-optimized CUs.
 
-    - **Cost-optimized CU** provides the same large capacity as the capacity-optimized scenarios, at a lower cost with compromised performance.
+    - Cost-optimized CU: Delivers the same large capacity as capacity-optimized CUs, but at a lower cost, albeit with reduced performance.
 
-- Cloud providers
-    Currently, Zilliz Cloud supports Amazon Web Services (AWS) and Google Cloud Platform (GCP). You can choose where to host your clusters.
+    Explore further details under [Select the Right CU](./choose-the-right-cu-type-and-size).
 
-- Cloud regions
-    Depending on the cloud providers you choose to work with, Zilliz Cloud provides a range of cloud region options that cater to various geographic locations and infrastructural preferences across the globe.
+- **Cloud Providers**
+    We support hosting on Amazon Web Services (AWS) and Google Cloud Platform (GCP).
 
-    For AWS, available regions include **us-west-2 (Oregon)**, **us-east-2 (Ohio)**, and **ap-southeast-1 (Singapore)**. For GCP, available regions include **us-west-1 (Oregon)** and **asia-southeast1 (Singapore)**. For more information, see [Cloud Providers & Regions](./cloud-providers-and-regions).
+- **Cloud Regions**
+    Select from a variety of cloud region options based on your chosen cloud provider, catering to different geographic and infrastructural preferences.
 
-- Plan tiers
-    - **Standard**: provides a dedicated cluster for small and mid-sized teams with complex workloads. This tier works for users who need a cost-efficient solution to process large-scale data.
+    Explore further details under [Cloud Providers & Regions](./cloud-providers-and-regions).
 
-    - **Enterprise**: provides a dedicated cluster for at-scale organizations with advanced features, high availability and security, and 24/7/365 support.
+- **Pricing Plan**
+    - **Standard**: A dedicated cluster for small to mid-sized teams with complex workloads, offering a cost-efficient solution for large-scale data processing.
+
+    - **Enterprise**: A dedicated cluster for larger organizations, featuring advanced capabilities, high availability, security, and round-the-clock support.
+
+    Explore further details under [Select Cluster Plans](./select-zilliz-cloud-service-plans).
+
+## Related topics{#related-topics}
+
+- [Select Cluster Plans](./select-zilliz-cloud-service-plans)
+
+- [Select the Right CU](./choose-the-right-cu-type-and-size)
+
+- [Cloud Providers & Regions](./cloud-providers-and-regions)

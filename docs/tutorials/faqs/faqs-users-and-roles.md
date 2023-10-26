@@ -2,12 +2,12 @@
 slug: /faqs-users-and-roles
 beta: null
 notebook: null
-sidebar_position: 6
+sidebar_position: 8
 ---
 
-# Users & roles
+# Users & Roles
 
-**Can I leave my organization?**
+This topic lists the possible issues about users, roles, and access that you may encounter on Zilliz Cloud and the corresponding solution.
 
 ## Contents
 
@@ -17,6 +17,8 @@ sidebar_position: 6
 
 ## FAQs
 
+
+This topic lists the possible issues about users, roles, and access that you may encounter on Zilliz Cloud and the corresponding solution.
 
 ### Can I leave my organization?{#can-i-leave-my-organization}
 
@@ -30,7 +32,7 @@ If you are an organization owner, you can only leave the organization when you a
 
 1. Click **Settings** on the left navigation.
 
-1. Under the **Summary** section on the **Organization** **Settings** Page, click **Edit**.
+1. Under the **Organization Information** section on the **Organization** **Settings** Page, click **Edit**.
 
 1. Enter the new organization name and click **Confirm**.
 

@@ -413,8 +413,10 @@ class larkDocWriter {
             console.log(block['block_id'], this.block_types[block['block_type']-1], block['block_type']);
             const prev_block = idx > 0 ? blocks[idx-1] : null;
             const next_block = idx < blocks.length-1 ? blocks[idx+1] : null;
-    
-            if (this.block_types[block['block_type']-1] === 'text') {
+
+            if (this.block_types[block['block_type']-1] === undefined) {
+                markdown.push('[Unsupported block type]');
+            } else if (this.block_types[block['block_type']-1] === 'text') {
                 markdown.push(idt + await this.__text(block['text']));
             } else if (this.block_types[block['block_type']-1].includes('heading')) {
                 const level = parseInt(this.block_types[block['block_type']-1].slice(-1));

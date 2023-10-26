@@ -60,12 +60,18 @@
     width: 100%;
 }
 
+.bodyContainer > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
 .articleGroup {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 1.5rem 2rem;
+    gap: 1.5rem 1.5rem;
     padding: 0 2rem;
 }
 

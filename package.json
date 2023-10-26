@@ -18,6 +18,7 @@
     "@docusaurus/plugin-content-docs": "2.4.1",
     "@docusaurus/preset-classic": "2.4.1",
     "@easyops-cn/docusaurus-search-local": "^0.35.0",
+    "@jupyterlab/nbformat": "^4.0.7",
     "@mdx-js/react": "^1.6.22",
     "bottleneck": "^2.19.5",
     "clsx": "^1.2.1",

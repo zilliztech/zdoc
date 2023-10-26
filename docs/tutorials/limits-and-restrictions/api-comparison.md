@@ -83,6 +83,6 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 
 - [AUTOINDEX Explained](./autoindex-explained) 
 
-- [CU Types Explained](./cu-types-explained-1) 
+- [CU Types Explained](https://zilliverse.feishu.cn/wiki/RkNSwoi5AiD2DBkgptxcbz3anGc) 
 
 - [Other Differences](https://zilliverse.feishu.cn/wiki/CvbnwjZ32iJmOrkX3I9ct46BnUe) 

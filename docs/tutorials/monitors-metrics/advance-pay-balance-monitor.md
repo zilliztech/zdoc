@@ -9,33 +9,33 @@ sidebar_position: 6
 
 # Check Advance Pay Balance
 
-Zilliz Cloud has an Advance Pay balance monitor that is disabled by default. If you have added funds to your Advance Pay via bank transfer, you can choose to enable it. This will allow you to receive notifications from us when your Advance Pay balance is less than the amount you specified.
+Zilliz Cloud provides an Advance Pay balance monitor, which is disabled by default. In the event that you have deposited funds into your Advance Pay account using a bank transfer, you have the option to activate this monitor. Once enabled, it ensures that you will receive notifications from us whenever your Advance Pay balance drops below a predefined threshold specified by you.
 
 :::info Notes
 
-This is a feature available only to clusters in the Standard and Enterprise plans.
+This is a feature exclusively available to clusters in the Standard and Enterprise plans.
 
 :::
 
 ## Set Alert Condition{#set-alert-condition}
 
-To set the alert condition for advance pay balance monitor, follow these steps:
+To configure the alert conditions for remaining Advance Pay funds within a project, follow the steps below:
 
-1. From the left navigation pane in a project, choose **Monitoring**.
+1. Select **Monitoring** from the project’s left navigation pane.
 
-1. Open the **Monitor Settings** tab.
+1. Navigate to the **Monitor Settings** tab.
 
-1. Locate the second line in the **Billing Monitor** area.
+1. Find the second condition in the** Billing Monitor** card.
 
-1. Click **…** in the **Actions** column, and choose **Edit**.
+1. Click **…** in the **Actions** column, and select **Edit**.
 
-1. In the pop-up window, specify the minimum amount of advance pay balance for alerting. Once the remaining advance pay balance is less than the amount you specified, you will receive a total of 3 emails, 1 every hour.
+1. In the dialog box that appears, set the minimum threshold for your Advance Pay balance that will trigger alerts. If your remaining Advance Pay balance falls below the specified amount, you will receive a series of three emails, distributed at a rate of one per hour.
 
 ![advance-pay-monitor-edit-en](/img/advance-pay-monitor-edit-en.png)
 
 ## Enable Advance Pay Balance Monitor{#enable-advance-pay-balance-monitor}
 
-To enable the monitor, look for the switch in the **Status** column and click it. Clicking the switch will toggle it on and off. Make sure the indicator of the switch is on the right side, and the background color changes to blue.
+To activate the monitor, click the switch in the **Status** column. This action toggles the monitor’s state on or off. Verification of activation is confirmed when the switch’s indicator is positioned to the right, complemented by a change in background color to blue.
 
 ![advance-pay-monitor-enable-en](/img/advance-pay-monitor-enable-en.png)
 

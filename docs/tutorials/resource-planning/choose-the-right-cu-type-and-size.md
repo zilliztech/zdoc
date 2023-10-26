@@ -2,97 +2,98 @@
 slug: /choose-the-right-cu-type-and-size
 beta: FALSE
 notebook: FALSE
-sidebar_position: 4
+sidebar_position: 2
 ---
 
 
 
 # Select the Right CU
 
-A Compute Unit (CU) is the physical resource unit for database deployment. Different CU types comprise varying combinations of CPU, memory, and storage. When creating a cluster, selecting the appropriate type of CU is critical. To meet various business requirements, Zilliz Cloud offers these CU options: **Performance-optimized**, **Capacity-optimized**, and **Cost-optimized**.
+Selecting the right Compute Unit (CU) is a crucial step when creating a cluster in Zilliz Cloud. A CU is the basic unit of compute resources used for parallel processing of data, and different CU types comprise varying combinations of CPU, memory, and storage.
 
-## **Performance-optimized CU**{#performance-optimized-cu}
+## Available CU types{#available-cu-types}
 
-A performance-optimized CU is best suited for similarity search scenarios that require low latency and high throughput. It is designed for critical workloads where latency and throughput play a crucial role, especially for those who need real-time responses:
+Zilliz Cloud offers three CU types: [Performance-optimized](./choose-the-right-cu-type-and-size#performance-optimized-cu), [Capacity-optimized](./choose-the-right-cu-type-and-size#capacity-optimized-cu), and [Cost-optimized](./choose-the-right-cu-type-and-size#cost-optimized-cu).
 
-- Generative AI,
+|  CU Type               |  Latency |  Throughput |  Capacity |  Cost                 |
+| ---------------------- | -------- | ----------- | --------- | --------------------- |
+|  Performance-optimized |  Low     |  High       |  Low      |  Start from $99/month |
+|  Capacity-optimized    |  Medium  |  Medium     |  High     |  Start from $99/month |
+|  Cost-optimized        |  High    |  Low        |  High     |  Start from $65/month |
 
-- Recommendation system,
+### Performance-optimized CU{#performance-optimized-cu}
 
-- Search engine,
+- Ideal for similarity search scenarios requiring low latency and high throughput.
 
-- Chatbot,
+- Well-suited for real-time responses in applications like generative AI, recommendation systems, chatbots, and more.
 
-- Content moderation,
+### Capacity-optimized CU{#capacity-optimized-cu}
 
-- Knowledgebase, and
+- Designed for applications handling a large dataset, offering **five times more** data capacity than **Performance-optimized** CU with a trade-off of lower search performance.
 
-- Anti-fraud.
+- Suitable for large-scale unstructured data search, copyright detection, and identity verification.
 
-## Capacity-optimized CU{#capacity-optimized-cu}
+### Cost-optimized CU{#cost-optimized-cu}
 
-If your application involves a large set of data, you can consider a capacity-optimized CU. This type of CU can hold five times larger data than performance-optimized CU, with a trade-off of lower search performance. Capacity-optimized CU is suitable (but not limited to) the following scenarios:
+- A budget-friendly option for applications not sensitive to response time.
 
-- Large-scale unstructured data (text, image, video, molecular structure, etc.) search,
+- Offers the **same data capacity** as **Capacity-optimized** CU but with higher search latency.
 
-- Copyright detection, and
+- Ideal for offline tasks such as data labeling and deduplication.
 
-- Identity verification.
+## Determine the optimal CU type{#determine-the-optimal-cu-type}
 
-## Cost-optimized CU{#cost-optimized-cu}
+Consider the data volume, performance requirements, and budget while choosing the CU type. The amount of vector data, including the number of vectors and their dimensions, significantly impacts the resources of a cluster.
 
-If your application is not sensitive to response time and you want a budget-friendly solution, the cost-optimized CU must be the right choice. Each cost-optimized CU can hold the same amount of data as a capacity-optimized CU does, but the search latency is much higher. This CU type is especially suitable for offline tasks:
+### Capacity assessment{#capacity-assessment}
 
-- Data labeling,
+The table below illustrates the load capacity per CU based on CU types, vector dimensions, and the number of vectors.
 
-- Data deduplication,
+|  <br/> <br/>  Vector Dimensions<br/> <br/>   |  <br/> <br/>  Number of Vectors per CU (Million)<br/> <br/>   |                        |                    |
+| ---------------------------------------- | --------------------------------------------------------- | ---------------------- | ------------------ |
+|                                          |  Performance-optimized CU                                 |  Capacity-optimized CU |  Cost-optimized CU |
+|  128                                     |  5                                                        |  25                    |  25                |
+|  256                                     |  2.96                                                     |  14.87                 |  14.87             |
+|  512                                     |  1.63                                                     |  8.22                  |  8.22              |
+|  768                                     |  1.2                                                      |  5.6                   |  5.6               |
+|  1024                                    |  0.86                                                     |  4.34                  |  4.34              |
 
-- Data clustering, and
+:::info Notes
 
-- Dataset outlier detection or class balancing.
+In testing, only the primary key and vectors are considered. If your data has additional scalar fields (e.g., id, label, keywords), the actual capacity may vary, so personal testing is recommended for accurate assessment.
 
-## General **Comparisons**{#general-comparisons}
+:::
 
-Here is a quick comparison of the three types of CUs:
+### Performance evaulation{#performance-evaulation}
 
-|  **CU Type**           |  **Latency** |  **Throughput** |  **Capacity** |  **Cost**             |
-| ---------------------- | ------------ | --------------- | ------------- | --------------------- |
-|  Performance-optimized |  Low         |  High           |  Low          |  Start from $99/month |
-|  Capacity-optimized    |  Medium      |  Medium         |  High         |  Start from $99/month |
-|  Cost-optimized        |  High        |  Low            |  High         |  Start from $65/month |
+Performance metrics such as latency and queries per second (QPS) are crucial. The performance-optimized CU significantly surpasses the other two CU types in terms of latency and throughput, especially with typical `top-k` values (from 10-250).
 
-## Performance Comparisons{#performance-comparisons}
+|  `top_k`             |                           |            |  10  |  100 |  250 |  1000 |
+| -------------------- | ------------------------- | ---------- | ---- | ---- | ---- | ----- |
+|  QPS (ms)<br/> <br/>   |  Performance-optimized CU |  1M 768dim |  520 |  440 |  270 |  150  |
+|                      |  Capacity-optimized CU    |  5M 768dim |  100 |  80  |  60  |  40   |
+|                      |  Cost-optimized CU        |  5M 768dim |  30  |  25  |  20  |  10   |
 
-Users often pay close attention to key performance indicators such as search latency and throughput. To illustrate this, we provide a set of test results using two datasets, one containing 1,000,000 vectors of 768-dimension, and the other containing 5,000,000 vectors of 768-dimension. In the experiment, we verified performance under different top-k values (10, 100, 250, 1000).
+## Example scenario{#example-scenario}
 
-The performance-optimized CU significantly surpasses the other two CU types in terms of performance. With typical top-k values (from 10-250), its latency is kept under 10 milliseconds, exhibiting a speed that's five and ten times faster than that of the capacity-optimized and cost-optimized CU, respectively. When assessing thousand-scale top-k, the latency associated with each CU type diverges: performance-optimized CU ranges between 10-20 ms, capacity-optimized CU fluctuates within 50-100 ms, and the cost-optimized CU varies between 100-200 ms. It's important to note that even though the performance-optimized CU exhibits a lower speed, the search latency it offers is still suitable for a wide range of real-time applications.
+Imagine you have an image recommendation application with a library of 10 million images. Each image has a 768-dimensional embedding vector. The goal is to handle 1,000 recommendation requests per second, delivering the top 100 recommendations within 30 milliseconds.
 
-![JNobbfAgKoSGSDxiMK3cOkVsnyf](/img/JNobbfAgKoSGSDxiMK3cOkVsnyf.png)
+- **Latency**: Only the performance-optimized CU meets the latency requirement.
 
-In terms of throughput, the performance-optimized CU outperforms the capacity-optimized CU by a factor of 4 to 5 and surpasses the cost-optimized CU by a factor of 15 to 18.
+- **Capacity**: A single performance-optimized CU holds 1.2 million 768-dimensional vectors, so to accommodate 10 million vectors, you need at least nine CUs.
 
-## Capacity Comparisons{#capacity-comparisons}
+- **Throughput**: With the `top-k` set at `100`, the performance-optimized CU achieves a peak QPS of 440. To maintain 1,000 QPS, three replicas are required.
 
-We conducted a comprehensive evaluation of the full capacities of three different CU types, utilizing a standard set of vector dimensions, namely 128, 256, 512, 768, and 1024. This assessment allowed us to derive some significant findings:
+In summary, the performance-optimized CU is the best fit for this scenario, requiring three replicas, each with nine CUs.
 
-- The capacity of the capacity-optimized CU and cost-optimized CU are identical.
+## Related topics{#related-topics}
 
-- The capacity-optimized CU and cost-optimized CU have five times larger capacity than performance-optimized CU.
+- [Select Cluster Plans](./select-zilliz-cloud-service-plans)
 
-- Within the same CU type, there exists an inverse correlation between the maximum number of vectors it can hold and the vector dimension. As an illustrative example, a CU can hold approximately double the number of 512-dimensional vectors compared to 1024-dimensional vectors.
+- [Pricing Calculator](./pricing-calculator)
 
-![URSvbRCwvoKkF0x29ndc8QW9nVe](/img/URSvbRCwvoKkF0x29ndc8QW9nVe.png)
+- [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card) 
 
-Note that in this experiment, no scalar fields are introduced; only the primary key and vectors are taken into consideration. If there are numerous scalar fields in addition to the vector field (for example, id, label, keywords, summary, URL, etc.), the actual capacity could deviate from the table above, and thus empirical measurement should be relied upon for accuracy.
+- [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace) 
 
-## Example{#example}
-
-Suppose your application is for recommending images, with an inventory of 10 million images. Each image is associated with a 768-dimensional embedding vector. The application needs to support 1,000 recommendation requests per second, retrieving the top 100 recommendations with an end-to-end latency not exceeding 30 milliseconds.
-
-Starting from the latency indicators, only the performance-optimized CU can meet the requirement.
-
-Next, in terms of capacity, a single performance-optimized CU can accommodate 1.2 million 768-dimensional vectors. Thus, to handle 10 million 768-dimensional vectors, you would need a minimum of nine CUs.
-
-Looking at throughput, the performance-optimized CU reaches a peak QPS of 440 when the top-k is set at 100. As a result, to sustain 1,000 QPS, you would require three replicas.
-
-Summing up, for this particular scenario, it would be best to opt for the performance-optimized CU, with three replicas, each containing nine CUs.
+- [Register with Zilliz Cloud](./register-with-zilliz-cloud)
