@@ -74,6 +74,7 @@ const config = {
         id: 'GTM-MBBF2KR',
       }
     ],
+    'docusaurus-plugin-hotjar',
     './plugins/lark-docs',
     './plugins/apifox-docs',
     './plugins/landing-page',
@@ -233,6 +234,9 @@ const config = {
       },
       colorMode: {
         disableSwitch: true,
+      },
+      hotjar: {
+        applicationId: 3711906
       }
     }),
   themes: [
