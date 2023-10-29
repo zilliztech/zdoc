@@ -104,7 +104,7 @@ print(res)
 
 ## Related topics{#related-topics}
 
-- [Use Customized Schema](./undefined)
+- [Use Customized Schema](./create-collection-with-schema)
 
 - [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1)
 

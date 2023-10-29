@@ -13,7 +13,7 @@ Snapshots are point-of-time backup copies of a managed cluster on Zilliz Cloud. 
 
 :::info Notes
 
-Snapshots are supported only for the **Standard** and **Enterprise** tiers. If your cluster runs on the **Serverless** tier, upgrade it first. For more information on cluster types, see [Cluster Types Explained](https://zilliverse.feishu.cn/wiki/UpwhwMwf2iqnYiktreNcZwkTn4s).
+Snapshots are supported only for the **Standard** and **Enterprise** tiers. If your cluster runs on the **Serverless** tier, upgrade it first. For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
 :::
 

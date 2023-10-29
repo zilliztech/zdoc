@@ -147,7 +147,7 @@ For your reference, Zilliz Cloud supports the following field data types:
 
 ## What’s next{#whats-next}
 
-- [Use Customized Schema](./undefined) 
+- [Use Customized Schema](./create-collection-with-schema) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 

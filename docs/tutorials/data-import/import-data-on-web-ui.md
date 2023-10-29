@@ -19,13 +19,13 @@ Make sure the following conditions are met:
 
 - You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Use Customized Schema](./undefined).
+- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Use Customized Schema](./create-collection-with-schema).
 
 ## Prepare data files{#prepare-data-files}
 
 Zilliz Cloud supports data import from local or remote files in JSON or NumPy formats. If your data is in a different format, convert it using the **BulkWriter** tool. For details, see [Prepare Data Import](./use-bulkwriter-for-data-import).
 
-The [example dataset](./example-dataset-1) used in this tutorial is a row-based JSON file that can be directly imported locally.
+The [example dataset](./example-dataset-1) used in this tutorial is a row-based JSON file that can be directly [imported locally](./import-data-on-web-ui#local-json-file).
 
 ### Local JSON file{#local-json-file}
 
@@ -33,14 +33,14 @@ The [example dataset](./example-dataset-1) used in this tutorial is a row-based 
 
 - Maximum file size: 512 MB for serverless clusters, 1 GB for dedicated clusters. For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
-- One JSON file can be uploaded per import.
+- Only one JSON file can be uploaded per import.
 
 ### Remote files{#remote-files}
 
 When importing data from remote files, consider the following based on the file format:
 
 - **JSON data**
-    Each import supports one JSON file, prohibiting simultaneous multiple JSON file uploads.
+    - Each import supports one JSON file, prohibiting simultaneous multiple JSON file uploads.
 
 - **NumPy data**
     - Allows uploading multiple files at once or organizing these files into a folder for batch uploading.
@@ -136,3 +136,10 @@ After the import is complete, you will receive the following information. At thi
 
 ![data_import_complete](/img/data_import_complete.png)
 
+## Related topics{#related-topics}
+
+- [Prepare Data Import](./use-bulkwriter-for-data-import)
+
+- [Import Data via RESTful API](./import-data-via-restful-api)
+
+- [Import Data via SDKs](./import-data-via-sdks)

@@ -34,7 +34,7 @@ You can [download the source code](https://assets.zilliz.com/zdoc/zilliz_cloud_s
 
 To demonstrate the use of partition keys, we will continue to use the example dataset that contains over 5,000 articles, and `publication` will serve as the partition key.
 
-The schema of the collection to be created is similar to the one specified in [Use Customized Schema](./undefined) except for the settings of the `publication` field.
+The schema of the collection to be created is similar to the one specified in [Use Customized Schema](./create-collection-with-schema) except for the settings of the `publication` field.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
@@ -372,7 +372,7 @@ if colerr != nil {
 
 ## Conduct ANN search using partition key{#conduct-ann-search-using-partition-key}
 
-Once you have indexed and loaded the collection as well as inserted data as described in [Use Customized Schema](./undefined), you can conduct an ANN search using the partition key. 
+Once you have indexed and loaded the collection as well as inserted data as described in [Use Customized Schema](./create-collection-with-schema), you can conduct an ANN search using the partition key. 
 
 To conduct an ANN search using the partition key, you should include either of the following in the boolean expression of the search request:
 
@@ -622,7 +622,7 @@ To do this, you can assign a tenant-specific value as the partition key field fo
 
 ## Related topics{#related-topics}
 
-- [Use Customized Schema](./undefined) 
+- [Use Customized Schema](./create-collection-with-schema) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 

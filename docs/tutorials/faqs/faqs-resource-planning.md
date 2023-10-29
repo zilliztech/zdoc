@@ -71,4 +71,4 @@ If you want to ensure a smooth transition between plans with data retained, you 
 
 ### How can I save costs on using Zilliz Cloud if I have a limited budget?{#how-can-i-save-costs-on-using-zilliz-cloud-if-i-have-a-limited-budget}
 
-To reduce cost, we suggest trying our cost-optimized CU type. This type of CU provides the same large capacity as the "Capacity-optimized" option, but at a lower cost with slightly reduced search performance. Refer to [Select the Right CU](./choose-the-right-cu-type-and-size) for more details.
+To reduce cost, we suggest trying our cost-optimized CU type. This type of CU provides the same large capacity as the "Capacity-optimized" option, but at a lower cost with slightly reduced search performance. Refer to [Select the Right CU](./cu-types-explained-1) for more details.

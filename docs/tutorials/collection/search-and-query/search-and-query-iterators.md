@@ -33,7 +33,7 @@ Before searching or querying with an iterator, make sure the following condition
 
 - You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
 
-- You have created a collection with a schema matching the example dataset and inserted data into the collection. For details, see [Use Customized Schema](./undefined).
+- You have created a collection with a schema matching the example dataset and inserted data into the collection. For details, see [Use Customized Schema](./create-collection-with-schema).
 
 ## Search with an iterator{#search-with-an-iterator}
 
@@ -106,7 +106,7 @@ while True:
 
 ## Related topics{#related-topics}
 
-- [Use Customized Schema](./undefined)
+- [Use Customized Schema](./create-collection-with-schema)
 
 - [Use Partition Key](./use-partition-key)
 

@@ -490,7 +490,7 @@ class larkDocWriter {
                 return this.__retrieve_block_by_id(child)
             })
 
-            children = await this.__markdown(children, indent+4)
+            children = await this.__markdown(children, indent)
         }
 
         let emoji = block['callout']['emoji_id']
@@ -498,13 +498,13 @@ class larkDocWriter {
 
         switch (emoji) {
             case 'blue_book':
-                type = '::: info Notes'
+                type = ':::info Notes'
                 break;
             case 'construction':
-                type = '::: caution Warning'
+                type = ':::caution Warning'
                 break;
             default:
-                type = '::: info Notes'
+                type = ':::info Notes'
                 break; 
         }               
         

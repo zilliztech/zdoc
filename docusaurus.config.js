@@ -78,7 +78,8 @@ const config = {
     './plugins/lark-docs',
     './plugins/apifox-docs',
     './plugins/landing-page',
-    './plugins/github-code'
+    './plugins/github-code',
+    './plugins/sdk-versions',
   ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */

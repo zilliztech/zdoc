@@ -12,23 +12,17 @@ import TabItem from '@theme/TabItem';
 
 Entities on Zilliz Cloud refer to data objects stored in a cluster, containing data for processing, search, and queries. If an entity is no longer needed, you can perform operations to delete it.
 
-:::info Notes
-
-The collection created in this guide series has a primary key named **id**, and a vector field named **vector**. If you prefer to take full control of the collection’s schema, refer to [Use Customized Schema](./undefined), [Enable Dynamic Schema](./enable-dynamic-schema), and [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1).
-
-:::
-
 ## Delete a single entity{#delete-a-single-entity}
 
 If an entity is outdated or no longer needed, you can run the following sample code to delete it:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 res = client.delete(
-        collection_name="medium_articles_2020", # Collection name
-        pks=253 # Entity ID
+    collection_name="medium_articles_2020", # Collection name
+    pks=253 # Entity ID
 )
 
 print(res)
@@ -99,6 +93,22 @@ public class QuickStart
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// Delete a single entity
+IDs := make([]int64, 0, 1)
+IDs = IDs.append(IDs, int64(253))
+
+err = conn.DeleteByPks(context.Background(), "medium_articles_2020", "", IDs)
+
+if err != nil {
+    log.Fatal("Failed to drop collection:", err.Error())
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -131,7 +141,7 @@ Deleting an entity is an irreversible operation. Make sure you have a backup or 
 
 Zilliz Cloud allows you to delete multiple entities at a time. To do this, run the following sample code:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -204,6 +214,23 @@ public class QuickStart
 
         System.out.println("Successfully deleted " + deleteRes.getData().getDeleteIds() + " records");
     }
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// Delete multiple entities
+IDs := make([]int64, 0, 1)
+IDs = IDs.append(IDs, int64(253))
+IDs = IDs.append(IDs, int64(236))
+
+err = conn.DeleteByPks(context.Background(), "medium_articles_2020", "", IDs)
+
+if err != nil {
+    log.Fatal("Failed to drop collection:", err.Error())
 }
 ```
 

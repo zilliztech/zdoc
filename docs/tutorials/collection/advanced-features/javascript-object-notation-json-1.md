@@ -945,7 +945,7 @@ The following table assumes that the value of a JSON field named `json_key` has 
 
 ## Related topics{#related-topics}
 
-- [Use Customized Schema](./undefined) 
+- [Use Customized Schema](./create-collection-with-schema) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 

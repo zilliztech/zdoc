@@ -109,17 +109,13 @@ Zilliz Cloud also accepts advance pay (bank transfer) as the payment method. For
 
 Your free trial will end when you have no registered payment method on Zilliz Cloud and the credits run out or expire.  If your free trial comes to an end, you can still use your Starter plan clusters. However, all your Standard plan clusters will be moved to the recycle bin and will be permanently deleted after 30 days. If you still need your Starter plan clusters, you can add a payment method and recover them within 30 days.
 
-::: info Notes
+:::info Notes
 
     - https://docs.aws.amazon.com/marketplace/latest/buyerguide/buyer-paying-for-products.html
 
     - https://www.alibabacloud.com/help/en/mongodb/product-overview/billing-methods
 
     - https://www.mongodb.com/docs/atlas/billing/
-
-:::
-
-::: info Notes
 
 :::
 

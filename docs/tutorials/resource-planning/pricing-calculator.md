@@ -19,7 +19,7 @@ Our [Zilliz Cloud Pricing Calculator](https://zilliz.com/pricing#estimate_your_c
 
 :::info Notes
 
-Our calculator is designed to estimate costs for clusters up to 32 [CUs](./choose-the-right-cu-type-and-size). If your needs surpass this, feel free to [contact us](https://zilliz.com/contact-sales) for a tailored pricing breakdown.
+Our calculator is designed to estimate costs for clusters up to 32 [CUs](./cu-types-explained-1). If your needs surpass this, feel free to [contact us](https://zilliz.com/contact-sales) for a tailored pricing breakdown.
 
 :::
 
@@ -32,7 +32,7 @@ Once you've outlined your dataset, you can explore price estimates for various s
 
     - Cost-optimized CU: Delivers the same large capacity as capacity-optimized CUs, but at a lower cost, albeit with reduced performance.
 
-    Explore further details under [Select the Right CU](./choose-the-right-cu-type-and-size).
+    Explore further details under [Select the Right CU](./cu-types-explained-1).
 
 - **Cloud Providers**
     We support hosting on Amazon Web Services (AWS) and Google Cloud Platform (GCP).
@@ -53,6 +53,6 @@ Once you've outlined your dataset, you can explore price estimates for various s
 
 - [Select Cluster Plans](./select-zilliz-cloud-service-plans)
 
-- [Select the Right CU](./choose-the-right-cu-type-and-size)
+- [Select the Right CU](./cu-types-explained-1)
 
 - [Cloud Providers & Regions](./cloud-providers-and-regions)

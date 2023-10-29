@@ -7,92 +7,81 @@ sidebar_position: 1
 
 
 
-# Select Cluster Plans
+# Select the Right Cluster Plan
 
-Zilliz Cloud provides a variety of subscription plans and cluster types, each designed to cater to different user requirements and scenarios. Choosing the right cluster plan is key to optimizing performance, scalability, and cost-efficiency according to your specific needs.
+Zilliz Cloud provides a range of cluster types and plans to suit diverse requirements. Whether you're new to vector databases or require robust solutions for enterprise-level tasks, making the right choice ensures optimal performance, scalability, and cost-efficiency. This guide will help you make an informed decision.
 
-## Determine the cluster type{#determine-the-cluster-type}
+## Understand cluster types{#understand-cluster-types}
 
-Zilliz Cloud offers two types of clusters: [Serverless](./select-zilliz-cloud-service-plans#serverless-cluster) and [Dedicated](./select-zilliz-cloud-service-plans#dedicated-cluster).
+At its core, Zilliz Cloud offers two fundamental types of clusters: **Serverless** and **Dedicated**.
 
-### Serverless cluster{#serverless-cluster}
+|  Cluster Type             |  Description                                                      |  Resource Allocation                                                                            |  Best Suited For                                                             |
+| ------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+|  **Serverless**           |  Simple, fully managed vector database cluster                    |  - Dynamic provisioning<br/> <br/>  - Shared resources with other users<br/>                       |  - Vector database newcomers<br/> <br/>  - Hassle-free experience seekers<br/>  |
+|  **Dedicated**<br/> <br/>   |  - Full feature set<br/> <br/>  - High availability & security<br/>  |  - Dedicated [Compute Units (CUs)](./cu-types-explained-1)<br/> <br/>  - Optimal performance<br/>  |  - Enterprise setups<br/> <br/>  - Strict performance & security needs<br/>     |
 
-- Simple, fully-managed vector database clusters.
+For more in-depth details on cluster configurations, explore the [Free Trials](./free-trials) and [Pricing Calculator](./pricing-calculator).
 
-- Dynamically provisioned resources shared among users.
+## Select a cluster plan{#select-a-cluster-plan}
 
-- Ideal for newcomers to vector databases.
+Zilliz Cloud categorizes its offerings into four distinct plans: **Starter**, **Standard**, **Enterprise**, and **Self-Hosted**.
 
-### Dedicated cluster{#dedicated-cluster}
+|  Feature                        |  Starter              |  Standard                                                 |  Enterprise                                                       |  Self-Hosted             |
+| ------------------------------- | --------------------- | --------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------ |
+|  **Cluster Type**               |  Serverless           |  Dedicated                                                |  Dedicated                                                        |  Dedicated               |
+|  **Pricing**                    |  Free                 |  Customizable                                             |  Customizable                                                     |  Customizable            |
+|  **Cloud Provider & Region**    |  GCP Exclusive        |  AWS & GCP                                                |  AWS & GCP                                                        |  User's VPC              |
+|  **CU Size Options**<br/> <br/>   |  Single CU<br/> <br/>   |  Up to 24 CUs (Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24) |  Up to 32 CUs (Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32) |  Customizable<br/> <br/>   |
+|  **Max. Collections**           |  2                    |  Customizable                                             |  Customizable                                                     |  Customizable            |
+|  **Private Link**               |  Not Available        |  Available                                                |  Available                                                        |  Available               |
+|  **Cloud Backup**               |  Not Available        |  Available                                                |  Available                                                        |  Available               |
+|  **Migration**                  |  Not Available        |  Available                                                |  Available                                                        |  Available               |
 
-- Full feature set with high availability and security.
+### Starter plan{#starter-plan}
 
-- Dedicated CUs for optimal performance and control.
+- Ideal for individuals or initial testing phases.
 
-- Often used in enterprise environments with strict performance and security requirements.
-
-For more information on cluster configurations, see [Free Trials](./free-trials) and [Pricing Calculator](./pricing-calculator).
-
-## Determine the cluster plan{#determine-the-cluster-plan}
-
-Zilliz Cloud provides four distinct cluster plans: [Starter](./select-zilliz-cloud-service-plans#starter), [Standard](./select-zilliz-cloud-service-plans#standard), [Enterprise](./select-zilliz-cloud-service-plans#enterprise), and [Self-hosted](./select-zilliz-cloud-service-plans#self-hosted).
-
-|  Feature                    |  Starter              |  Standard                                                 |  Enterprise                                                       |  Self-Hosted          |
-| --------------------------- | --------------------- | --------------------------------------------------------- | ----------------------------------------------------------------- | --------------------- |
-|  Cluster Type               |  Serverless           |  Dedicated                                                |  Dedicated                                                        |  Dedicated            |
-|  Pricing                    |  Free                 |  On Demand                                                |  On Demand                                                        |  On Demand            |
-|  Cloud Provider & Region    |  GCP Only             |  AWS & GCP                                                |  AWS & GCP                                                        |  User's VPC           |
-|  CU Size Options<br/> <br/>   |  Single CU<br/> <br/>   |  Up to 24 CUs (Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24) |  Up to 32 CUs (Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32) |  On Demand<br/> <br/>   |
-|  Max. Collections           |  2                    |  On Demand                                                |  On Demand                                                        |  On Demand            |
-|  Private Link               |  Not Supported        |  Supported                                                |  Supported                                                        |  Supported            |
-|  Cloud Backup               |  Not Supported        |  Supported                                                |  Supported                                                        |  Supported            |
-|  Migration                  |  Not Supported        |  Supported                                                |  Supported                                                        |  Supported            |
-
-### Starter{#starter}
-
-- Ideal for individuals or testing workloads, offering a user-friendly way to explore Zilliz Cloud services.
-
-- Supports up to two collections with a max. of 500,000, 768-dimensional vectors.
+- Supports up to two collections, maxing at 500,000, 768-dimensional vectors.
 
 - Free serverless cluster with dynamic resource provisioning.
 
-### Standard{#standard}
+### Standard plan{#standard-plan}
 
-- Suitable for small businesses or non-critical operations, with the flexibility to choose your preferred [cloud provider and region](./cloud-providers-and-regions).
+- Designed for SMEs or operations not mission-critical, with the flexibility to choose your preferred [cloud provider and region](./cloud-providers-and-regions).
 
-- Access to three types of [Compute Units (CUs)](./choose-the-right-cu-type-and-size): **Cost-optimized**, **Capacity-optimized**, and **Performance-optimized**.
+- Choice of three types of [CUs](./cu-types-explained-1): Cost-optimized, Capacity-optimized, and Performance-optimized.
 
-- Supports up to 24 CUs, handling a max. of 30 million 768-dimensional vectors.
+- Supports up to 24 CUs, maxing at 30 million 768-dimensional vectors.
 
-### Enterprise{#enterprise}
+### Enterprise plan{#enterprise-plan}
 
-- Designed for business-critical use cases, with a Service Level Agreement (SLA) guarantee of 99.9% availability.
+- Crafted for crucial business operations, boasting a 99.9% SLA guarantee.
 
-- Supports up to 256 CUs per cluster, scalable to thousands as needed.
+- Supports up to 256 CUs per cluster, with scalability options to thousands.
 
-- Features like multi-availability zone disaster recovery, private links, and automatic backup.
+- Premium features like disaster recovery across multiple availability zones, private links, and automatic backup.
 
-### Self-hosted{#self-hosted}
+### Self-Hosted plan{#self-hosted-plan}
 
-- Allows deployment within your own Virtual Private Cloud (VPC).
+- Deployment within your proprietary VPC.
 
-- Suitable for high security, compliance requirements, or specific customizations.
+- Ideal for heightened security, compliance requirements, or tailored customizations.
 
-- Offered to users with a scale of 128 CUs or more.
+- Available for users operating on a scale of 128 CUs or more.
 
-Visit the [Pricing Page](https://zilliz.com/pricing) or contact [support@zilliz.com](mailto:support@zilliz.com) for more details.
+Visit the [Pricing Page](https://zilliz.com/pricing) or reach out to [support@zilliz.com](mailto:support@zilliz.com) for more details.
 
-## Limits{#limits}
+## Plan limitations{#plan-limitations}
 
--  **Starter (Serverless)**: Limited to one per user on GCP, supporting up to two collections with basic parameter configurations.
+-  **Starter**: Limited to one cluster per user on GCP, accommodating up to two collections with basic settings.
 
-- **Standard** & **Enterprise**: CUs and collections are scalable based on plan selection, with a maximum of 30 million and 300 million 768-dimensional vectors, respectively.
+- **Standard** & **Enterprise**: Scalability of CUs and collections is defined by the selected plan, with max capacities of 30 million and 300 million 768-dimensional vectors, respectively.
 
-- **Self-Hosted**: Offered to users with a scale of 128 CUs or more, with the ability to deploy within their own VPC for enhanced security and compliance.
+- **Self-Hosted**: Exclusive to users requiring 128 CUs or more, offering enhanced security and compliance features via private VPC deployment.
 
 ## Related topics{#related-topics}
 
-- [Select the Right CU](./choose-the-right-cu-type-and-size)
+- [Select the Right CU](./cu-types-explained-1)
 
 - [Pricing Calculator](./pricing-calculator)
 

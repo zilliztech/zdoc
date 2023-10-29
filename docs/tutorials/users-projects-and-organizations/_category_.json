@@ -1,9 +1,9 @@
 {
-    "label": "Organizations & Projects",
+    "label": "Users, Projects & Organizations",
     "position": 9,
     "link": {
         "type": "generated-index",
-        "title": "Organizations & Projects",
+        "title": "Users, Projects & Organizations",
         "slug": "users-projects-and-organizations"
     }
 }

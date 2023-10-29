@@ -939,7 +939,7 @@ output_fields='$meta["#key"]'
 
 ## Related topics{#related-topics}
 
-- [Use Customized Schema](./undefined) 
+- [Use Customized Schema](./create-collection-with-schema) 
 
 - [Use Partition Key](./use-partition-key) 
 

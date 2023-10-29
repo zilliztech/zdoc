@@ -21,6 +21,7 @@
     "@jupyterlab/nbformat": "^4.0.7",
     "@mdx-js/react": "^1.6.22",
     "bottleneck": "^2.19.5",
+    "cheerio": "^1.0.0-rc.12",
     "clsx": "^1.2.1",
     "docusaurus-gtm-plugin": "^0.0.2",
     "docusaurus-plugin-hotjar": "^0.0.2",

@@ -154,5 +154,9 @@
     "Authentication": "authentication",
     "Understanding Basics": "understanding-basics",
     "Users, Projects & Organizations": "users-projects-and-organizations",
-    "Account & Security": "account-and-security"
+    "Account & Security": "account-and-security",
+    "Collection & Index": "collection-and-index",
+    "Insert, Update & Delete": "insert-update-and-delete",
+    "Search & Query": "search-and-query",
+    "Advanced Features": "advanced-features"
 }

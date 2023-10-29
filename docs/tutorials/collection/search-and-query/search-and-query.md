@@ -1,5 +1,5 @@
 ---
-slug: /search-and-query
+slug: /search-query-and-get
 beta: FALSE
 notebook: 09_search_and_query.ipynb
 sidebar_position: 1
@@ -28,7 +28,7 @@ Before performing ANN searches and queries, ensure that
 
 :::info Notes
 
-The collection created in this guide series has a primary key named **id**, and a vector field named **vector**. If you prefer to take full control of the collection’s schema, refer to [Use Customized Schema](./undefined), [Enable Dynamic Schema](./enable-dynamic-schema), and [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1).
+The collection created in this guide series has a primary key named **id**, and a vector field named **vector**. If you prefer to take full control of the collection’s schema, refer to [Use Customized Schema](./create-collection-with-schema), [Enable Dynamic Schema](./enable-dynamic-schema), and [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1).
 
 :::
 
@@ -38,7 +38,7 @@ A single-vector search request involves using only one vector and asking for the
 
 Here is an example of a single-vector search.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -226,6 +226,80 @@ public class QuickStart
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+type SearchParameters struct {
+    nprobe float64
+}
+
+func (s SearchParameters) Params() map[string]interface{} {
+    parameters := make(map[string]interface{})
+    parameters["nprobe"] = s.nprobe
+
+    return parameters
+}
+
+func (s SearchParameters) AddRadius(radius float64) {
+}
+
+func (s SearchParameters) AddRangeFilter(rangeFilter float64) {
+}
+
+// ===
+
+func main() {
+    ...
+
+    vectors := []entity.Vector{}
+
+    for _, row := range data.Rows[:1] {
+        vector := make(entity.FloatVector, 0, 768)
+        vector = append(vector, row.TitleVector...)
+        vectors = append(vectors, vector)
+    }
+
+    var sp entity.SearchParam = SearchParameters{1024}
+
+    limit := client.WithLimit(10)
+    offset := client.WithOffset(0)
+
+    res, err := conn.Search(
+        context.Background(),               // context
+        COLLNAME,                           // collectionName
+        []string{},                         // partitionNames
+        "claps > 30 and reading_time < 10", // expr
+        []string{"claps", "reading_time"},  // outputFields
+        vectors,                            // vectors
+        "title_vector",                     // vectorField
+        entity.MetricType("L2"),            // metricType
+        5,                                  // topK
+        sp,                                 // sp
+        limit,                              // opts
+        offset,                             // opts
+    )
+
+    if err != nil {
+        log.Fatal("Failed to insert rows:", err.Error())
+    }
+
+    for i, result := range res {
+        log.Println("Result counts", i, ":", result.ResultCount)
+
+        ids := result.IDs.FieldData().GetScalars().GetLongData().GetData()
+        scores := result.Scores
+        titles := result.Fields.GetColumn("title").FieldData().GetScalars().GetStringData().GetData()
+        publications := result.Fields.GetColumn("publication").FieldData().GetScalars().GetStringData().GetData()
+
+        for i, record := range ids {
+            log.Println("ID:", record, "Score:", scores[i], "Title:", titles[i], "Publication:", publications[i])
+        }
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -272,7 +346,7 @@ You can conduct a bulk search by providing multiple query vectors in a single re
 
 Note that RESTful API does not support Bulk search. You can use an iteration to iterate over the rows in the dataset and send a search request per row.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -434,6 +508,79 @@ public class QuickStart
 ```
 
 </TabItem>
+
+<TabItem value='go'>
+
+```go
+type SearchParameters struct {
+    nprobe float64
+}
+
+func (s SearchParameters) Params() map[string]interface{} {
+    parameters := make(map[string]interface{})
+    parameters["nprobe"] = s.nprobe
+
+    return parameters
+}
+
+func (s SearchParameters) AddRadius(radius float64) {
+}
+
+func (s SearchParameters) AddRangeFilter(rangeFilter float64) {
+}
+
+// ===
+
+func main() {
+    ...
+
+    vectors := []entity.Vector{}
+
+    for _, row := range data.Rows[:2] {
+        vector := make(entity.FloatVector, 0, 768)
+        vectors = append(vectors, vector)
+    }
+
+    var sp entity.SearchParam = SearchParameters{1024}
+
+    limit := client.WithLimit(10)
+    offset := client.WithOffset(0)
+
+    res, err := conn.Search(
+        context.Background(),               // context
+        COLLNAME,                           // collectionName
+        []string{},                         // partitionNames
+        "claps > 30 and reading_time < 10", // expr
+        []string{"claps", "reading_time"},  // outputFields
+        vectors,                            // vectors
+        "title_vector",                     // vectorField
+        entity.MetricType("L2"),            // metricType
+        5,                                  // topK
+        sp,                                 // sp
+        limit,                              // opts
+        offset,                             // opts
+    )
+
+    if err != nil {
+        log.Fatal("Failed to insert rows:", err.Error())
+    }
+
+    for i, result := range res {
+        log.Println("Result counts", i, ":", result.ResultCount)
+
+        ids := result.IDs.FieldData().GetScalars().GetLongData().GetData()
+        scores := result.Scores
+        titles := result.Fields.GetColumn("title").FieldData().GetScalars().GetStringData().GetData()
+        publications := result.Fields.GetColumn("publication").FieldData().GetScalars().GetStringData().GetData()
+
+        for i, record := range ids {
+            log.Println("ID:", record, "Score:", scores[i], "Title:", titles[i], "Publication:", publications[i])
+        }
+    }
+}
+```
+
+</TabItem>
 </Tabs>
 
 The number of hits objects in a bulk search result equals the number of query vectors in the search request. You can access the hits object of a query vector using its index in the query vector list.
@@ -460,7 +607,7 @@ The following are some example ANN searches with filters:
 
 - Filter articles that readers can finish within 10 to 15 minutes.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -547,6 +694,50 @@ public class QuickStart
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+func main() {
+    ...
+    
+    limit := client.WithLimit(10)
+    offset := client.WithOffset(0)
+    
+    res, err := conn.Search(
+        context.Background(),               // context
+        COLLNAME,                           // collectionName
+        []string{},                         // partitionNames
+        "10 < reading_time < 15",           // expr
+        []string{"title", "reading_time"},  // outputFields
+        vectors,                            // vectors
+        "title_vector",                     // vectorField
+        entity.MetricType("L2"),            // metricType
+        5,                                  // topK
+        sp,                                 // sp
+        limit,                              // opts
+        offset,                             // opts
+    )
+
+    if err != nil {
+        log.Fatal("Failed to insert rows:", err.Error())
+    }
+
+    for i, result := range res {
+        log.Println("Result counts", i, ":", result.ResultCount)
+
+        ids := result.IDs.FieldData().GetScalars().GetLongData().GetData()
+        titles := result.Fields.GetColumn("title").FieldData().GetScalars().GetStringData().GetData()
+        readingTimes := result.Fields.GetColumn("reading_time").FieldData().GetScalars().GetLongData().GetData()
+
+        for i, record := range ids {
+            log.Println("ID:", record, "Title:", titles[i], "Reading time:", readingTimes[i])
+        }
+    }    
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -576,7 +767,7 @@ curl --request POST \\
 
 - Filter articles that have more than 1500 claps and 15 responses.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -664,6 +855,51 @@ public class QuickStart
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+func main() {
+    ...
+    
+    limit := client.WithLimit(10)
+    offset := client.WithOffset(0)
+    
+    res, err := conn.Query(
+        context.Background(),                       // context
+        COLLNAME,                                   // collectionName
+        []string{},                                 // partitionNames
+        "claps > 1500 and responses > 15",          // expr
+        []string{"title", "claps", "responses"},    // outputFields
+        vectors,                            // vectors
+        "title_vector",                     // vectorField
+        entity.MetricType("L2"),            // metricType
+        5,                                  // topK
+        sp,                                 // sp
+        limit,                              // opts
+        offset,                             // opts
+    )
+
+    if err != nil {
+        log.Fatal("Failed to insert rows:", err.Error())
+    }
+
+    for i, result := range res {
+        log.Println("Result counts", i, ":", result.ResultCount)
+
+        ids := result.IDs.FieldData().GetScalars().GetLongData().GetData()
+        titles := result.Fields.GetColumn("title").FieldData().GetScalars().GetStringData().GetData()
+        claps := result.Fields.GetColumn("claps").FieldData().GetScalars().GetLongData().GetData()
+        responses := result.Fields.GetColumn("response").FieldData().GetScalars().GetLongData().GetData()
+
+        for i, record := range ids {
+            log.Println("ID:", record, "Title:", titles[i], "Claps:", claps[i], "Responses:", responses[i])
+        }
+    }    
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -693,7 +929,7 @@ curl --request POST \\
 
 - Filter articles published by **Towards Data Science**.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -780,6 +1016,50 @@ public class QuickStart
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+func main() {
+    ...
+    
+    limit := client.WithLimit(10)
+    offset := client.WithOffset(0)
+    
+    res, err := conn.Query(
+        context.Background(),                       // context
+        COLLNAME,                                   // collectionName
+        []string{},                                 // partitionNames
+        "publication == \"Towards Data Science\"",  // expr
+        []string{"title", "publication"},           // outputFields
+        vectors,                            // vectors
+        "title_vector",                     // vectorField
+        entity.MetricType("L2"),            // metricType
+        5,                                  // topK
+        sp,                                 // sp
+        limit,                              // opts
+        offset,                             // opts
+    )
+
+    if err != nil {
+        log.Fatal("Failed to insert rows:", err.Error())
+    }
+
+    for i, result := range res {
+        log.Println("Result counts", i, ":", result.ResultCount)
+
+        ids := result.IDs.FieldData().GetScalars().GetLongData().GetData()
+        titles := result.Fields.GetColumn("title").FieldData().GetScalars().GetStringData().GetData()
+        publications := result.Fields.GetColumn("publication").FieldData().GetScalars().GetStringData().GetData()
+
+        for i, record := range ids {
+            log.Println("ID:", record, "Title:", titles[i], "Publication:", publications[i])
+        }
+    }    
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -809,7 +1089,7 @@ curl --request POST \\
 
 - Filter articles published by authors rather than **Towards Data Science** or **Personal Growth**.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -896,6 +1176,50 @@ public class QuickStart
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+func main() {
+    ...
+    
+    limit := client.WithLimit(10)
+    offset := client.WithOffset(0)
+    
+    res, err := conn.Query(
+        context.Background(),                       // context
+        COLLNAME,                                   // collectionName
+        []string{},                                 // partitionNames
+        "publication not in [\"Towards Data Science\", \"Personal Growth\"]",  // expr
+        []string{"title", "publication"},           // outputFields
+        vectors,                            // vectors
+        "title_vector",                     // vectorField
+        entity.MetricType("L2"),            // metricType
+        5,                                  // topK
+        sp,                                 // sp
+        limit,                              // opts
+        offset,                             // opts
+    )
+
+    if err != nil {
+        log.Fatal("Failed to insert rows:", err.Error())
+    }
+
+    for i, result := range res {
+        log.Println("Result counts", i, ":", result.ResultCount)
+
+        ids := result.IDs.FieldData().GetScalars().GetLongData().GetData()
+        titles := result.Fields.GetColumn("title").FieldData().GetScalars().GetStringData().GetData()
+        publications := result.Fields.GetColumn("publication").FieldData().GetScalars().GetStringData().GetData()
+
+        for i, record := range ids {
+            log.Println("ID:", record, "Title:", titles[i], "Publication:", publications[i])
+        }
+    }    
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -925,7 +1249,7 @@ curl --request POST \\
 
 - Filter articles whose titles start with **Top**.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1011,6 +1335,49 @@ public class QuickStart
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+func main() {
+    ...
+    
+    limit := client.WithLimit(10)
+    offset := client.WithOffset(0)
+    
+    res, err := conn.Query(
+        context.Background(),                       // context
+        COLLNAME,                                   // collectionName
+        []string{},                                 // partitionNames
+        "title like \"Top%\"",                      // expr
+        []string{"title"},                          // outputFields
+        vectors,                            // vectors
+        "title_vector",                     // vectorField
+        entity.MetricType("L2"),            // metricType
+        5,                                  // topK
+        sp,                                 // sp
+        limit,                              // opts
+        offset,                             // opts
+    )
+
+    if err != nil {
+        log.Fatal("Failed to insert rows:", err.Error())
+    }
+
+    for i, result := range res {
+        log.Println("Result counts", i, ":", result.ResultCount)
+
+        ids := result.IDs.FieldData().GetScalars().GetLongData().GetData()
+        titles := result.Fields.GetColumn("title").FieldData().GetScalars().GetStringData().GetData()
+
+        for i, record := range ids {
+            log.Println("ID:", record, "Title:", titles[i])
+        }
+    }    
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1040,7 +1407,7 @@ curl --request POST \\
 
 - Filter articles from **Towards Data Science** that readers can finish within 10 to 15 minutes or have more than 1500 responses and 15 claps.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1130,6 +1497,53 @@ public class QuickStart
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+func main() {
+    ...
+    
+    limit := client.WithLimit(10)
+    offset := client.WithOffset(0)
+    
+    res, err := conn.Query(
+        context.Background(),                       // context
+        COLLNAME,                                   // collectionName
+        []string{},                                 // partitionNames
+        "(publication == \"Towards Data Science\") and ((claps > 1500 and responses > 15) or (10 < reading_time < 15))",                      // expr
+        []string{"title", "publication", "claps", "responses", "reading_time"},                          // outputFields
+        vectors,                            // vectors
+        "title_vector",                     // vectorField
+        entity.MetricType("L2"),            // metricType
+        5,                                  // topK
+        sp,                                 // sp
+        limit,                              // opts
+        offset,                             // opts
+    )
+
+    if err != nil {
+        log.Fatal("Failed to insert rows:", err.Error())
+    }
+
+    for i, result := range res {
+        log.Println("Result counts", i, ":", result.ResultCount)
+
+        ids := result.IDs.FieldData().GetScalars().GetLongData().GetData()
+        titles := result.Fields.GetColumn("title").FieldData().GetScalars().GetStringData().GetData()
+        publications := result.Fields.GetColumn("publication").FieldData().GetScalars().GetStringData().GetData()
+        claps := result.Fields.GetColumn("claps").FieldData().GetScalars().GetLongData().GetData()
+        responses := result.Fields.GetColumn("response").FieldData().GetScalars().GetLongData().GetData()
+        readingTimes := result.Fields.GetColumn("reading_time").FieldData().GetScalars().GetLongData().GetData()
+        
+        for i, record := range ids {
+            log.Println("ID:", record, "Title:", titles[i])
+        }
+    }    
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1161,7 +1575,7 @@ curl --request POST \\
 
 A query filters entities in a collection based on a defined condition using boolean expressions. The query result is a set of matching entities. Unlike a search that finds the closest vector to a given vector in a collection, queries filter entities based on specific criteria.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1275,6 +1689,43 @@ public class QuickStart
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+func main() {
+    ...
+
+    res, err := conn.Query(
+        context.Background(),               // context
+        COLLNAME,                           // collectionName
+        []string{},                         // partitionNames
+        "10 < reading_time < 15",           // expr
+        []string{"title", "reading_time"},  // outputFields
+        limit,                              // opts
+        offset,                             // opts
+    )
+
+    if err != nil {
+        log.Fatal("Failed to insert rows:", err.Error())
+    }
+
+    for i, result := range res {
+        log.Println("Result counts", i, ":", result.ResultCount)
+
+        ids := result.IDs.FieldData().GetScalars().GetLongData().GetData()
+        titles := result.Fields.GetColumn("title").FieldData().GetScalars().GetStringData().GetData()
+        readingTimes := result.Fields.GetColumn("reading_time").FieldData().GetScalars().GetLongData().GetData()
+
+        for i, record := range ids {
+            log.Println("ID:", record, "Title:", titles[i], "Reading time:", readingTimes[i])
+        }
+    }
+
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1317,7 +1768,7 @@ As demonstrated in the example above, the query result is a list of dictionaries
 
 - [Drop Collection](./drop-collection-1) 
 
-- [Use Customized Schema](./undefined) 
+- [Use Customized Schema](./create-collection-with-schema) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 

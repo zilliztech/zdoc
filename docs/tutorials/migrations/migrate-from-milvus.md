@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 
 # Migrate from Milvus
 
-Zilliz Cloud provides a cutting-edge data infrastructure for optimized search across vector embeddings, making it easy to bring your AI applications to life. As a Milvus user who wants to take advantage of this infrastructure, you are advised to migrate your data to Zilliz Cloud.
+Zilliz Cloud provides a cutting-edge data infrastructure for optimized search across vector embeddings, making it easy to bring your AI applications to life. If you are using Milvus and wish to leverage this advanced infrastructure, migrating your data to Zilliz Cloud is a recommended step.
 
 This guide will walk you through the process of preparing the migration data, performing the migration, and verifying the results.
 
@@ -147,13 +147,13 @@ To upload a local folder to Zilliz Cloud, select **Import a local folder** and d
 
 ## Verify the migration results{#verify-the-migration-results}
 
-After the status of the migration job changes from **MIGRATING** to **SUCCESSFUL**, the migration process ends.
+Once the migration job status switches from **MIGRATING** to **SUCCESSFUL**, the migration is complete.
 
 ![verify_collection](/img/verify_collection.png)
 
-Zilliz Cloud only supports [AUTOINDEX](./autoindex-explained), an optimized indexing algorithm, and will automatically index your migrated collection using this algorithm.
+Note that Zilliz Cloud exclusively supports [AUTOINDEX](./autoindex-explained) for optimized indexing, and will automatically index your migrated collection using this algorithm.
 
-After loading the collections, you can use the way of your choice to communicate with them.
+Once the collections are loaded, you are free to interact with them using your preferred method.
 
 ## Related topics{#related-topics}
 

@@ -13,7 +13,7 @@ Zilliz Cloud provides an Advance Pay balance monitor, which is disabled by defau
 
 :::info Notes
 
-This is a feature exclusively available to clusters in the Standard and Enterprise plans.
+To use this feature, please [contact sales](https://zilliz.com/contact-sales).
 
 :::
 

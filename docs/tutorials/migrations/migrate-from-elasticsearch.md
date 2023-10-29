@@ -23,66 +23,72 @@ Make sure the following steps are performed:
 
 ## Connect to your Elasticsearch cluster{#connect-to-your-elasticsearch-cluster}
 
-To interact with your Elasticsearch cluster on Zilliz Cloud, connect to it first. Depending on deployment modes, Zilliz Cloud provides the following connection methods:
+To interact with your Elasticsearch cluster on Zilliz Cloud, establish a connection using either of the methods based on your deployment:
 
 - **Connect via Cloud ID**: applies to an Elasticsearch cluster that runs on Elastic Cloud. If this is the case, specify the cloud ID and API key of the Elasticsearch cluster.
 
-- **Connect via URL**: applies to an Elasticsearch cluster that runs on premises. If this is the case, specify the cluster URL and a pair of username and password.
+- **Connect via URL**: applies to an Elasticsearch cluster that runs on premises. If this is the case, specify the cluster URL and a username and password credential.
 
-For information on how to obtain the connection details of your Elasticsearch cluster, see [Connect to your cluster](https://www.elastic.co/guide/en/cloud-enterprise/current/ece-connect.html#ece-connect) and [Get API key information](https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-get-api-key.html).
+[Connect to your cluster](https://www.elastic.co/guide/en/cloud-enterprise/current/ece-connect.html#ece-connect) and [Get API key information](https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-get-api-key.html) can guide you on obtaining the required information.
 
 ![connect_to_es](/img/connect_to_es.png)
 
-## Migrate an Elasticsearch index to a Zilliz Cloud collection{#migrate-an-elasticsearch-index-to-a-zilliz-cloud-collection}
+## Transition from Elasticsearch index to Zilliz Cloud collection{#transition-from-elasticsearch-index-to-zilliz-cloud-collection}
 
-In Zilliz Cloud, a collection is similar to an index in Elasticsearch. To migrate data from an Elasticsearch index to a Zilliz Cloud collection, first connect to an Elasticsearch cluster, and then choose a source index and specific fields from the left frame. The selected items will appear in the Zilliz Cloud collection on the right frame.
+In Zilliz Cloud, collections are analogous to Elasticsearch indexes. To migrate:
+
+1. Connect to your Elasticsearch cluster.
+
+1. Select a source index and desired fields from the left frame; they will appear in the Zilliz Cloud collection on the right frame.
 
 ![migrate_index](/img/migrate_index.png)
 
-By default, the collection follows the naming convention **Collection_n**, where *n* represents a numerical value assigned to distinguish it from other collections on Zilliz Cloud.
+New collections are named `Collection_n` by default, where `n` is a unique numerical identifier.
 
-For each migration, you can select only one `dense_vector` field and one or more other fields in the source index. When selecting the fields to migrate, note that:
+During migration, you can select:
 
-- The vector field `dense_vector` in an Elasticsearch index is mapped to `FloatVector` in a Zilliz Cloud collection. As a supplement, you can determine the metric type that applies to the `FloatVector` field. Available values are **Euclidean (L2)** and **Inner Product (IP)**.
+- One `dense_vector` field
 
-- The dimension of vector data is determined by that in the source index. If your Zilliz Cloud cluster is of the capacity- or cost-optimized CU type, make sure the dimension of the `dense_vector` field you select to migrate is no less than 32. Otherwise, an error will occur and the data cannot be migrated. For more information, see [CU Types Explained](https://zilliverse.feishu.cn/wiki/RkNSwoi5AiD2DBkgptxcbz3anGc).
+- Multiple other fields from the source index
 
-:::info Notes
+Considerations:
 
-For more information on field mappings, see [Field mappings](./migrate-from-elasticsearch#field-mappings).
+- Elasticsearch's `dense_vector` field maps to `FloatVector` in Zilliz Cloud. Choose either **Euclidean (L2)** or **Inner Product (IP)** as the metric type for the `FloatVector` field.
 
-:::
+- The vector data dimension is retained from the source index. Ensure the `dense_vector` field dimension is at least 32 for capacity- or cost-optimized CU type clusters to prevent migration errors. See [Select the Right CU](./cu-types-explained-1) for details.
+
+- See [Field mapping reference](./migrate-from-elasticsearch#field-mapping-reference) for details on field mappings.
 
 In the **Primary Key** section, select a field as the primary key for the collection. You can select the metadata field `_id` or any other field from the source Elasticsearch index as the primary key. If you use `_id`, set its data type to either **Int64** or **VarChar**.
 
-In the **Dynamic Schema** section, determine whether to enable a dynamic schema for the collection. For more information, see [Enable Dynamic Schema](./enable-dynamic-schema).
+In the **Dynamic Schema** section, decide if you want to enable dynamic schema for the collection. For more information, see [Enable Dynamic Schema](./enable-dynamic-schema).
 
 ## Verify the migration results{#verify-the-migration-results}
 
-After the status of the migration job changes from **MIGRATING** to **SUCCESSFUL**, the migration process ends.
+Once the migration status switches from **MIGRATING** to **SUCCESSFUL**, the migration is complete.
 
 :::info Notes
 
-During the migration process, you can insert data into the source index in Elasticsearch. However, the newly inserted data may not be migrated in a synchronous manner.
+Data inserted into the Elasticsearch source index during migration may not synchronously migrate.
 
 :::
 
 ![verify_collection_es](/img/verify_collection_es.png)
 
-## Field mappings{#field-mappings}
+## Field mapping reference{#field-mapping-reference}
 
-The table below provides details on how fields in an Elasticsearch index are mapped to fields in a Zilliz Cloud collection.
+Review the table below to understand how Elasticsearch field types map to Zilliz Cloud field types.
 
-|  **Field Type in Elasticsearch** |  **Field Type in Zilliz Cloud** |  **Description**                                                                                                                                              |
-| -------------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  dense_vector                    |  FloatVector                    |  The dimension of vectors remains the same as that in the source index. You can specify a metric type between **L2** and **IP**.                              |
-|  keyword                         |  VarChar                        |  Specify the maximum data length with a valid value for Max Length between 1 to 65,535. If any string exceeds the limit, an error can occur during migration. |
-|  text                            |  VarChar                        |  Specify the maximum data length with a valid value for Max Length between 1 to 65,535. If any string exceeds the limit, an error can occur during migration. |
-|  long                            |  Int64                          |  -                                                                                                                                                            |
-|  integer                         |  Int32                          |  -                                                                                                                                                            |
-|  double                          |  Double                         |  -                                                                                                                                                            |
-|  float                           |  Float                          |  -                                                                                                                                                            |
-|  boolean                         |  Bool                           |  -                                                                                                                                                            |
+|  **Elasticsearch Field Type** |  **Zilliz Cloud Field Type** |  **Description**                                                                         |
+| ----------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------- |
+|  dense_vector                 |  FloatVector                 |  Vector dimensions remain unchanged. Specify **L2** or **IP** as the metric type.        |
+|  keyword                      |  VarChar                     |  Set Max Length (1 to 65,535). Strings exceeding the limit can trigger migration errors. |
+|  text                         |  VarChar                     |  Set Max Length (1 to 65,535). Strings exceeding the limit can trigger migration errors. |
+|  long                         |  Int64                       |  -                                                                                       |
+|  integer                      |  Int32                       |  -                                                                                       |
+|  double                       |  Double                      |  -                                                                                       |
+|  float                        |  Float                       |  -                                                                                       |
+|  boolean                      |  Bool                        |  -                                                                                       |
 
 ## Related topics{#related-topics}
 
@@ -91,5 +97,3 @@ The table below provides details on how fields in an Elasticsearch index are map
 - [Insert Entities](./insert-entities)
 
 - [AUTOINDEX Explained](./autoindex-explained)
-
-- [CU Types Explained](https://zilliverse.feishu.cn/wiki/RkNSwoi5AiD2DBkgptxcbz3anGc)

@@ -32,23 +32,17 @@ For those leaning towards the utilization of RESTful APIs over SDKs, it's import
 
 Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. This token can either be an [API key](./manage-cluster-credentials) or a [cluster credential](./manage-cluster-credentials) comprised of a username-password duo.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+# Initialize a MilvusClient instance
 from pymilvus import MilvusClient
 
-CLUSTER_ENDPOINT = "replace-this-with-your-cluster-endpoint"
-TOKEN = "replace-this-with-your-token"
-
-# Initialize a MilvusClient instance
-# Replace uri and API key with your own
 client = MilvusClient(
-    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
-    # - For a serverless cluster, use an API key as the token.
-    # - For a dedicated cluster, use the cluster credentials as the token
-    # in the format of 'user:password'.
-    token=TOKEN
+    #  Public endpoint obtained from Zilliz Cloud
+    uri=CLUSTER_ENDPOINT,
+    token=TOKEN,
 )
 ```
 
@@ -60,6 +54,7 @@ client = MilvusClient(
 const { MilvusClient } = require("@zilliz/milvus2-sdk-node")
 
 const address = "<PUBLIC_ENDPOINT>";
+// token="username:password" or token="your-api-key" 
 const token = "<TOKEN>";
 
 const client = new MilvusClient({ address, token });
@@ -73,21 +68,41 @@ const client = new MilvusClient({ address, token });
 import io.milvus.client.MilvusServiceClient;
 import io.milvus.param.ConnectParam;
 
-public class QuickStart 
-{
-    public static void main( String[] args )
-    {
-        // 1. Connect to Zilliz Cloud
-        ConnectParam connectParam = ConnectParam.newBuilder()
-            .withUri(PUBLIC-ENDPOINT)
-            .withToken(TOKEN)
-            .build();
+// 1. Connect to Zilliz Cloud
+ConnectParam connectParam = ConnectParam.newBuilder()
+    .withUri(PUBLIC-ENDPOINT)
+    // TOKEN="username:password" or TOKEN="your-api-key" 
+    .withToken(TOKEN)
+    .build();
 
-        MilvusServiceClient client = new MilvusServiceClient(connectParam);
+MilvusServiceClient client = new MilvusServiceClient(connectParam);
 
-        System.out.println("Connected to Zilliz Cloud!");
+System.out.println("Connected to Zilliz Cloud!");
+```
 
-     }
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+
+CLUSTER_ENDPOINT := "YOUR_CLUSTER_ENDPOINT"
+// token="username:password" or token="your-api-key" 
+TOKEN := "YOUR_CLUSTER_TOKEN"
+COLLNAME := "medium_articles_2020"
+
+// 1. Connect to cluster
+
+connParams := client.Config{
+    Address:       CLUSTER_ENDPOINT,
+    APIKey:        TOKEN,
+    EnableTLSAuth: true,
+}
+
+conn, err := client.NewClient(context.Background(), connParams)
+
+if err != nil {
+    log.Fatal("Failed to connect to Zilliz Cloud:", err.Error())
 }
 ```
 
@@ -96,7 +111,7 @@ public class QuickStart
 <TabItem value='bash'>
 
 ```bash
-# Replace uri and API key with your own
+# token="username:password" or token="your-api-key"
 curl --request GET \\
     --url "${PUBLIC_ENDPOINT}/v1/vector/collections" \\
     --header "Authorization: Bearer ${TOKEN}" \\

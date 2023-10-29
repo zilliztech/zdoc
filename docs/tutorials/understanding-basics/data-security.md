@@ -2,7 +2,7 @@
 slug: /data-security
 beta: FALSE
 notebook: FALSE
-sidebar_position: 8
+sidebar_position: 7
 ---
 
 

@@ -27,6 +27,8 @@ In the [organization and project](./a-panorama-view) hierarchy, you can manage y
 
 After joining an organization, you become an organization member and have permission to view system settings.
 
+For additional details on organization settings, see [Organization Settings](./undefined).
+
 ![view-organization](/img/view-organization.png)
 
 ## Edit organization name{#edit-organization-name}

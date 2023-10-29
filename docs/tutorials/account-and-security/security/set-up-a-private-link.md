@@ -5,8 +5,7 @@ notebook: FALSE
 sidebar_position: 2
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
 
 # Set up a Private Link
 
@@ -36,9 +35,11 @@ Setting up a private link is project-level. When you configure a private link fo
 
 To continue setting up a private link, follow these steps as needed:
 
-<Tabs defaultValue="aws" values={[{"label":"AWS","value":"aws"},{"label":"GCP","value":"gcp"}]}>
+- [Set up a private link for a cluster on Amazon Web Service (AWS)](./set-up-a-private-link#select-a-cloud-provider-and-region)
 
-<TabItem value="aws">
+- [Set up a private link for a cluster on Google Cloud Platform (GCP)](./set-up-a-private-link#set-up-a-private-link-for-a-cluster-on-gcp)
+
+## Set up a private link for a cluster on AWS{#set-up-a-private-link-for-a-cluster-on-aws}
 
 ### Select a cloud provider and region{#select-a-cloud-provider-and-region}
 
@@ -123,72 +124,40 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
 Amazon Route 53 is a web-based DNS service. Create a hosted DNS zone so that you can add DNS records to it.
 
-Run the following script in your AWS Cloushell to create a hosted DNS zone. Note that you need to set `VPCE_DNS` to the DNS name of your VPC endpoint and `VPC_ID` to the ID of your VPC.
+![Xy3db8HiHoZBaux9SnScIurSnmg](/img/Xy3db8HiHoZBaux9SnScIurSnmg.png)
 
-```bash
-# Use the value you have copied from the output of the previous step.
-# The value is similar to 
-# vpce-0ce90d01341533a5c-ngbqfdnj.vpce-svc-0b62964bfd0edfb74.us-west-2.vpce.amazonaws.com
-VPCE_DNS=vpce-xxxxxxxx.vpce-svc-xxxxxxxx.<region_name>.vpce.amazonaws.com
+1. Log into your AWS account and go to [__Hosted zones__](https://us-east-1.console.aws.amazon.com/route53/v2/hostedzones#).
 
-ROOT_DNS='vectordb.zillizcloud.com'
+1. Click **Create hosted zone**.
 
-# Variable for AWS Region
-REGION_ID='us-east-1'
+1. In the **Hosted zone configuration** section, set the following parameters.
 
-# Variable for VPC ID
-VPC_ID='vpc-xxxxxxxxxxxx'
+    |  **Parameter name** |  **Parameter Description**                                      |
+    | ------------------- | --------------------------------------------------------------- |
+    |  **Domain name**    |  Private Link allocated by Zilliz Cloud for the target cluster. |
+    |  **Description**    |  Description used to distinguish hosted zones.                  |
+    |  **Type**           |  Select **Private hosted zone**.                                |
 
-# Create a private Route 53 hosted zone
-aws route53 create-hosted-zone \\
-  --name ${ROOT_DNS} \\
-  --vpc VPCRegion=${REGION_ID},VPCId=${VPC_ID} \\
-  --caller-reference $(date +"%s")
-```
+1. In the VPCs to associate with the hosted zone section, add your VPC ID to associate it with the hosted zone.
 
-**Create a CNAME record in the hosted zone**
+**Create an alias record in the hosted zone**
 
-A CNAME record is a type of DNS record that maps an alias name to a true or canonical domain name. Create a CNAME record to map the private link allocated by Zilliz Cloud to the DNS name of your VPC endpoint. Then you can use the private link to access your cluster privately.
+An alias record is a type of DNS record that maps an alias name to a true or canonical domain name. Create an alias record to map the private link allocated by Zilliz Cloud to the DNS name of your VPC endpoint. Then, you can use the private link to access your cluster privately.
 
-Run the following script in your AWS Cloushell to create a CNAME record in the hosted DNS zone. Note that you need to set `ZONE_ID` to the ID of the hosted DNS zone created in the previous step and `SFC_PL_Data_DNS` to the private link listed on the details tab of your cluster.
+![HHGZbpSyooxvajxZcsicrgaUnZB](/img/HHGZbpSyooxvajxZcsicrgaUnZB.png)
 
-```bash
-# Variable for the hosted zone ID returned in the output for the Route 53 zone
-ZONE_ID='/hosted_zone/xxxxxx'
+1. In the created hosted zone, click **Create record**.
 
-# Variable for PrivateLink DNS hostname.
-# Such as in0001-vpcexxxx.aws-us-west-2.vectordb.zillizcloud.com 
-SFC_PL_Data_DNS='in0001-vpcexxxx.${REGION_ID}.vectordb.zillizcloud.com '
+1. On the **Create record** page, switch on **Alias**, and select Route traffic to as follows:
+    1. Select **Alias to VPC endpoint** in the first drop-down list.
 
-# Create a CNAME record and modify the Route 53 zone to use it
-# Create CNAME records for PrivateLink DNS and then modify the Route 53 zone to use it.
-dns_record='{
-  "Comment": "Create CNAME records for PrivateLink",
-  "Changes": [
-    {
-      "Action": "CREATE",
-      "ResourceRecordSet": {
-        "Name": "'${SFC_PL_Data_DNS}'",
-        "Type": "CNAME",
-        "TTL": 300,
-        "ResourceRecords": [
-          {
-            "Value": "'${VPCE_DNS}'"
-          }
-        ]
-      }
-    }
-  ]
-}'
+    1. Select the cloud region in the second drop-down list.
 
-aws route53 change-resource-record-sets \\
-  --hosted-zone-id ${ZONE_ID} \\
-  --change-batch "${dns_record}"
-```
+    1. Enter the name of the endpoint that has been created above.
 
-</TabItem>
+1. Click **Create records**.
 
-<TabItem value="gcp">
+## Set up a private link for a cluster on GCP{#set-up-a-private-link-for-a-cluster-on-gcp}
 
 ### Select a cloud provider and region{#select-a-cloud-provider-and-region}
 
@@ -297,10 +266,6 @@ ENDPOINT_IP={{endpoint-ip}};
 
 gcloud dns --project=$PROJECT_ID record-sets create $PRIVATE_LINK_DOMAIN_PREFIX.$PRIVATE_LINK_DOMAIN_SUFFIX. --zone="$PRIVATE_DNS_ZONE_NAME" --type="A" --ttl="60" --rrdatas="$ENDPOINT_IP"
 ```
-
-</TabItem>
-
-</Tabs>
 
 ## **Verify the connection**{#verify-the-connection}
 

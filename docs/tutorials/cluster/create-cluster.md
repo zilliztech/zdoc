@@ -30,9 +30,9 @@ Ensure:
 
 1. In the **Create New Cluster** section, choose the **Starter** plan and fill in the required parameters. 
 
-::: info Notes
+:::info Notes
 
-    Each user is permitted one free serverless cluster. For additional clusters, opt for the Standard or Enterprise plans.
+Each user is permitted one free serverless cluster. For additional clusters, opt for the Standard or Enterprise plans.
 
 :::
 

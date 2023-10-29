@@ -2,7 +2,7 @@
 slug: /drop-collection-1
 beta: FALSE
 notebook: 00_quick_start.ipynb
-sidebar_position: 7
+sidebar_position: 4
 ---
 
 import Tabs from '@theme/Tabs';
@@ -12,20 +12,15 @@ import TabItem from '@theme/TabItem';
 
 This guide walks you through dropping a collection from a cluster.
 
-Dropping a collection deletes all information associated with it, including data, metadata, and indexes. Exercise caution before dropping a collection because this operation is irreversible.
+Dropping a collection eradicates all linked data, encompassing data, metadata, and indexes. Exercise caution before dropping a collection because this operation is irreversible.
 
-:::info Notes
-
-The collection created in this guide series has a primary key named **id**, and a vector field named **vector**. If you prefer to take full control of the collection’s schema, refer to [Use Customized Schema](https://www.notion.so/Use-Customized-Schema-c74dda39712041a589a2e378386e142b?pvs=21), [Enable Dynamic Schema](https://www.notion.so/353bcaa305154240aa15baad91e7549f?pvs=21), and [JavaScript Object Notation](https://www.notion.so/5ba1d65c243d4c5c8ff08f7188efeb25?pvs=21).
-
-:::
-
-To drop a collection from a cluster, use the following code:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+# Drop a collection that is created using a MilvusClient object
+from pymilvus import MilvusClient
+
 res = client.drop_collection(collection_name="medium_articles_2020")
 
 print(res)
@@ -56,7 +51,6 @@ console.log(res)
 ```java
 import io.milvus.param.R;
 import io.milvus.param.RpcStatus;
-
 import io.milvus.param.collection.DropCollectionParam;
 
 public class QuickStart 
@@ -75,6 +69,19 @@ public class QuickStart
             return;            
         }
     }
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// Drop collection
+err = conn.DropCollection(context.Background(), COLLNAME)
+
+if err != nil {
+    log.Fatal("Failed to drop collection:", err.Error())
 }
 ```
 
@@ -99,7 +106,7 @@ curl --location --request POST "${PUBLIC_ENDPOINT}/v1/vector/collections/drop" \
 
 ## Limits{#limits}
 
-When using a Zilliz Cloud cluster, be aware that you can create only one vector field in each collection.
+On the Zilliz Cloud cluster, each collection can accommodate only one vector field.
 
 ## Related topics{#related-topics}
 

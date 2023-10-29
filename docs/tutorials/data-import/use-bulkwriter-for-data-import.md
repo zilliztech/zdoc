@@ -21,6 +21,11 @@ This guide walks you through the process of preparing your data for import into 
 
 The following table compares the two writers.
 
+|                          |  **LocalBulkWriter**        |  **RemoteBulkWriter**       |
+| ------------------------ | --------------------------- | --------------------------- |
+|  Acceptable data format  |  A data row as a dictionary |  A data row as a dictionary |
+|  Output data file format |  JSON or NumPy files        |  NumPy files                |
+
 ## Procedure{#procedure}
 
 1. **Set up:**
@@ -36,7 +41,7 @@ The following table compares the two writers.
     :::
 
 1. **Determine the schema:**
-    Decide on the schema for the collection you wish to import your dataset into. This involves selecting which fields to include from the dataset.
+    - Decide on the schema for the collection you wish to import your dataset into. This involves selecting which fields to include from the dataset.
 
     ```python
     from pymilvus import FieldSchema, CollectionSchema
@@ -56,14 +61,27 @@ The following table compares the two writers.
     ```
 
 1. **Process your dataset:**
-    Process your dataset to match the collection schema you've defined.
+    Process your dataset to match the collection schema you've defined. You can manipulate your dataset in any way you prefer, but the final output must be a list of dictionaries with each dictionary representing a row. This guide uses the Pandas library to process the example dataset in the following steps.
 
-    You can manipulate your dataset in any way you prefer, but the final output must be a list of dictionaries with each dictionary representing a row.
+    1. First, the example dataset is read into a data frame.
 
-    This guide uses the Pandas library to process the example dataset in the following steps.
+    1. Then, a specific row in the data frame is located by its index and converted into a dictionary for the **BulkWriter** to consume later.
+
+    1. Finally, the vector field is loaded to ensure that it is correctly parsed as a list of floats.
+
+    ```python
+    import pandas as pd
+    
+    # Read the dataset into a data frame
+    dataset = pd.read_csv("New_Medium_data.csv")
+    
+    # To retrieve a row from the dataset, do as follows:
+    row = dataset.iloc[0].to_dict()
+    row["title_vector"] = json.loads(row["title_vector"])
+    ```
 
 1. **Choose a writer:**
-    Opt between a **LocalBulkWriter** and a **RemoteBulkWriter** based on your needs. 
+    - Opt between a **LocalBulkWriter** and a **RemoteBulkWriter** based on your needs. 
 
     - A **LocalBulkWriter** generates files in two types, either JSON or NumPy.
 
@@ -195,3 +213,11 @@ To check the results, you can do as follows:
     [2023-09-07 16:58:05 CST] 366KiB STANDARD title.npy
     [2023-09-07 16:58:05 CST] 4.7MiB STANDARD title_vector.npy
     ```
+
+## Related topics{#related-topics}
+
+- [Import Data on Web UI](./import-data-on-web-ui)
+
+- [Import Data via RESTful API](./import-data-via-restful-api)
+
+- [Import Data via SDKs](./import-data-via-sdks)
