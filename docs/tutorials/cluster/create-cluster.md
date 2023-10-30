@@ -94,7 +94,7 @@ After you create the cluster, you can check its status on the cluster list page.
 
 - [Insert Entities](./insert-entities) 
 
-- [Search and Query](./search-and-query) 
+- [Search and Query](./search-query-and-get) 
 
 - [Drop Collection](./drop-collection-1) 
 

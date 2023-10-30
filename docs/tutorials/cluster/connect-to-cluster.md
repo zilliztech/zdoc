@@ -128,6 +128,6 @@ curl --request GET \\
 
 - [Insert Entities](./insert-entities) 
 
-- [Search and Query](./search-and-query) 
+- [Search and Query](./search-query-and-get) 
 
 - [Drop Collection](./drop-collection-1) 

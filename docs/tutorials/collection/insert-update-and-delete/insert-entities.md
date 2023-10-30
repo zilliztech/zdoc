@@ -701,7 +701,7 @@ But remember, for most users and most scenarios, there's no rush to call `flush(
 
 ## Related topics{#related-topics}
 
-- [Search and Query](./search-and-query) 
+- [Search and Query](./search-query-and-get) 
 
 - [Drop Collection](./drop-collection-1) 
 

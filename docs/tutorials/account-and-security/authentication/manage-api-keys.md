@@ -13,6 +13,18 @@ On Zilliz Cloud, every project comes with its own set of API keys, serving as au
 
 To ensure security, only users with [Owner](./a-panorama-view) status, either at the organization or project level, are allowed to create and oversee these API keys. For more information, see [Users & Roles](./undefined).
 
+## Comparative overview: API keys vs username and password pairs{#comparative-overview-api-keys-vs-username-and-password-pairs}
+
+The following table compares API keys and username and password pairs, highlighting their scope, ease of use, creation, and management in accessing resources.
+
+|  Feature                                 |  API Keys                                                                                               |  Username and Password Pairs                                                                                                         |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+|  **Usage Scope**                         |  - Project-level resources;<br/> <br/>  - Manage all clusters and associated resources in a project.<br/>  |  - Cluster-level resources; <br/> <br/>  - Manage collections and associated resources in a cluster.<br/>                               |
+|  **Authentication**                      |  Authenticate RESTful API or SDK calls.                                                                 |  Authenticate RESTful API or SDK calls.                                                                                              |
+|  **Ease of Use**                         |  - User-friendly with a lower learning curve;<br/> <br/>  - No need to manage SDK versions.<br/>           |  - Suited for advanced features, role-based access control (RBAC) for cluster users;<br/> <br/>  - Require managing SDK versions.<br/>  |
+|  **Creation**                            |  Create API keys on the project page.                                                                   |  Add cluster users on the cluster management page.                                                                                   |
+|  **Management of Collections/Resources** |  - Create, drop collections;<br/> <br/>  - Manage indexes.<br/>                                            |  - Create, drop collections; <br/> <br/>  - Manage indexes;<br/> <br/>  - Access advanced collection features.<br/>                       |
+
 ## Create an API key{#create-an-api-key}
 
 To create an API key, you must be an [Organization Owner](./a-panorama-view#organization-roles) or a [Project Owner](./a-panorama-view#project-roles).

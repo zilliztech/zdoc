@@ -36,3 +36,4 @@ By default, monitoring for advance pay balance is disabled. However, you can ena
 ## Refund Advance Pay funds{#refund-advance-pay-funds}
 
 Currently, Zilliz Cloud does not support refunds on the web console. To get a refund, please contact us and submit a request at the Zilliz Cloud [support portal](https://support.zilliz.com/hc/en-us).
+

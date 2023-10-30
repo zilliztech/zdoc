@@ -115,5 +115,5 @@ go get -u github.com/milvus-io/milvus-sdk-go/v2@v{versions.go.version}
 
 - [Insert Entities](./insert-entities) 
 
-- [Search and Query](./search-and-query) 
+- [Search and Query](./search-query-and-get) 
 

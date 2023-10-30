@@ -1682,6 +1682,6 @@ curl --request POST \\
 
 - [Drop Collection](./drop-collection-1)
 
-- [Search and Query](./search-and-query)
+- [Search and Query](./search-query-and-get)
 
 - [ANN Search Explained](./ann-search-explained)

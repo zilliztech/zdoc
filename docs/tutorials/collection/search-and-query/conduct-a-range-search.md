@@ -106,7 +106,7 @@ params: {
 </TabItem>
 </Tabs>
 
-For the **IP** metric type, the situation is somewhat different. In **IP** distance, larger distances represent greater similarity. Therefore, the values of `radius` and `range_filter` in IP distance are reversed compared to **L2** distance. That being said, in **IP** distance, if you use `range_filter` to filter out part of the most similar vectors, a valid `range_filter` value must be greater than `radius`, and the result vectors should be with a distance greater than `radius` but smaller than or equal to `range_filter`.
+For the **IP** metric type, the situation is somewhat different. In **IP** distance, larger distances represent greater similarity. Therefore, the values of `radius` and `range_filter` in **IP** distance are reversed compared to **L2** distance. That being said, in **IP** distance, if you use `range_filter` to filter out part of the most similar vectors, a valid `range_filter` value must be greater than `radius`, and the result vectors should be with a distance greater than `radius` but smaller than or equal to `range_filter`.
 
 When `metric_type` is set to `IP`, filter vectors whose distance to a query vector is between `0.8` and `1.0`:
 
@@ -309,7 +309,7 @@ A range search in Zilliz Cloud can return similar vector results with a distance
 
 ## Related topics{#related-topics}
 
-- [Search, Query, and Get](./search-and-query)
+- [Search, Query, and Get](./search-query-and-get)
 
 - [[Beta] Search and Query with Iterators](./search-and-query-iterators)
 

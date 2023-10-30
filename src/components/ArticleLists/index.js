@@ -113,8 +113,8 @@ export default function ArticleLists() {
         <div className={styles.sections}>
             {pages.map((props, idx) => (
                 props.groups.length > 0 &&
-                <div className={styles.sectionContainer}>
-                    <SectionHeader key={idx} title={props.title} slug={props.slug} description={props.description} />
+                <div key={`section-container-${idx}`} className={styles.sectionContainer}>
+                    <SectionHeader key={`section-${idx}`} title={props.title} slug={props.slug} description={props.description} />
                     <div className={styles.bodyContainer}>
                         <div className={styles.articleGroups}>
                             {props.groups.map((props, idx) => ( props.groups &&

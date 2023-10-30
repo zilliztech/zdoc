@@ -99,11 +99,12 @@ Once you have created a dedicated cluster, you will see the following in the con
 
     ![manage-users](/img/manage-users.png)
 
-:::info Notes
+    :::info Notes
 
-You cannot drop **db_admin**. Zilliz Cloud grants access permissions to all collections in the cluster to any added users.
+    
+    You cannot drop **db_admin**. Zilliz Cloud grants access permissions to all collections in the cluster to any added users.
 
-:::
+    :::
 
 - **Whitelist**
     In the **Summary** section, click on the IP address in **Network Address** to add IP address segments to the whitelist. Once an IP address segment, other than a full-zero one (**0.0.0.0/0**), is added to the whitelist, Zilliz Cloud only permits access from IP addresses within the listed IP address segments.
@@ -119,11 +120,12 @@ You cannot drop **db_admin**. Zilliz Cloud grants access permissions to all coll
 
     For details on CU types and how to select an appropriate one, refer to [CU Types](https://zilliverse.feishu.cn/wiki/RkNSwoi5AiD2DBkgptxcbz3anGc).
 
-:::caution Warning
+    :::caution Warning
 
-Scaling up a cluster may cause several minutes of downtime. Please exercise caution.
+    
+    Scaling up a cluster may cause several minutes of downtime. Please exercise caution.
 
-:::
+    :::
 
 - **Upgrade service plan**
     For standard users, click **Upgrade** right to the service **Plan** in the **Summary** section to upgrade your plan to **Enterprise**. Zilliz Cloud upgrades your service plan only after you confirm this operation in the **Upgrade to Enterprise Plan** dialog box.

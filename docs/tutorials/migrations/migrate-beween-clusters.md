@@ -62,7 +62,7 @@ This feature is accessible to users on the Standard or Enterprise plans.
 
 ## Related topics{#related-topics}
 
-- [Search, Query, and Get](./search-and-query)
+- [Search, Query, and Get](./search-query-and-get)
 
 - [Insert Entities](./insert-entities)
 

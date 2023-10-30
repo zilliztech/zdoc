@@ -271,4 +271,4 @@ Deleting entities is an irreversible operation. Make sure you have a backup or t
 
 - [Insert Entities](./insert-entities) 
 
-- [Search and Query](./search-and-query) 
+- [Search and Query](./search-query-and-get) 

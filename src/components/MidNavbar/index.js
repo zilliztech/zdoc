@@ -19,11 +19,11 @@ const MidNavbarItems = [
         Svg: require('@site/static/icons/apiref.svg').default,
         link: "/reference",
     },
-    {
-        caption: "Discussion",
-        Svg: require('@site/static/icons/discussion.svg').default,
-        link: "/discussion",
-    }
+    // {
+    //     caption: "Discussion",
+    //     Svg: require('@site/static/icons/discussion.svg').default,
+    //     link: "/discussion",
+    // }
 
 ]
 

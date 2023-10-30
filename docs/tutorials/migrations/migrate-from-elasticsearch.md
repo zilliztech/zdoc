@@ -92,7 +92,7 @@ Review the table below to understand how Elasticsearch field types map to Zilliz
 
 ## Related topics{#related-topics}
 
-- [Search and Query](./search-and-query)
+- [Search and Query](./search-query-and-get)
 
 - [Insert Entities](./insert-entities)
 

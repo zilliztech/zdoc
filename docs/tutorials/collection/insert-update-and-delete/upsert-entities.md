@@ -213,7 +213,7 @@ Once the data is ready, use the following code to upsert it to the collection:
 # upsert entities
 from pymilvus import connections, Collection
 
-connections.conn(
+connections.connect(
     alias="default",
     uri="CLUSTER_ENDPOINT",
     token="TOKEN"

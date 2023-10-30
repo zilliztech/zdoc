@@ -111,11 +111,15 @@ Your free trial will end when you have no registered payment method on Zilliz Cl
 
 :::info Notes
 
-    - https://docs.aws.amazon.com/marketplace/latest/buyerguide/buyer-paying-for-products.html
+- https://docs.aws.amazon.com/marketplace/latest/buyerguide/buyer-paying-for-products.html
 
-    - https://www.alibabacloud.com/help/en/mongodb/product-overview/billing-methods
+- https://www.alibabacloud.com/help/en/mongodb/product-overview/billing-methods
 
-    - https://www.mongodb.com/docs/atlas/billing/
+- https://www.mongodb.com/docs/atlas/billing/
+
+:::
+
+:::info Notes
 
 :::
 

@@ -127,7 +127,7 @@ For a serverless cluster, you can create up to two collections. For a dedicated 
 
 - [Insert Entities](./insert-entities) 
 
-- [Search and Query](./search-and-query) 
+- [Search and Query](./search-query-and-get) 
 
 - [Drop Collection](./drop-collection-1) 
 

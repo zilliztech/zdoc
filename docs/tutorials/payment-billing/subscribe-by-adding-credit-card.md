@@ -9,7 +9,7 @@ sidebar_position: 1
 
 # Subscribe by Adding Credit Card
 
-This guide provides comprehensive instructions on how to add a payment credit card for your organizational on Zilliz Cloud.
+This guide provides comprehensive instructions on how to add a payment credit card for your organization on Zilliz Cloud.
 
 ## Add a payment method{#add-a-payment-method}
 
