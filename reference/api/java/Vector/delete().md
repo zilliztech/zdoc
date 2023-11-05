@@ -1,68 +1,56 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 4
-slug: /java/delete
----
-
 # delete()
 
-调用接口按主键删除 Collection 中的 Entity。
+Deletes one or more entities from a collection by filtering primary key fields with boolean expressions.
 
 ```Java
-R<DeleteResponse> delete(DeleteIdsParam requestParam);
+R<MutationResult> delete(DeleteParam requestParam);
 ```
 
-## 请求示例
+## Examples
 
 ```Java
-import io.milvus.param.highlevel.*;
-import io.milvus.response.MutationResultWrapper;
+import io.milvus.param.*;
 import io.milvus.grpc.MutationResult;
 
-List<String> ids = Lists.newArrayList("441966745769900131", "441966745769900133");
-DeleteIdsParam param = DeleteIdsParam.newBuilder()
-        .withCollectionName(COLLECTION_NAME)
-        .withPrimaryIds(ids)
+DeleteParam param = DeleteParam.newBuilder()
+        .withCollectionName(collectionName)
+        .withPartitionName(partitionName)
+        .withExpr("id in [100, 200, 300]")
         .build();
-        
-R<DeleteResponse> response = client.delete(param);
+R<MutationResult> response = milvusClient.delete(param);
 if (response.getStatus() != R.Status.Success.getCode()) {
     System.out.println(response.getMessage());
 }
-
-for (Object deleteId : response.getData().getDeleteIds()) {
-    System.out.println(deleteId);
-}
 ```
 
-## DeleteIdsParam
+## DeleteParam
 
-使用 `DeleteIdsParam.Builder` 构建 `DeleteIdsParam` 对象。
+Use the `DeleteParam.Builder` to construct a `DeleteParam` object.
 
 ```Java
-import io.milvus.param.highlevel.dml.DeleteIdsParam;
-DeleteIdsParam.Builder builder = DeleteIdsParam.newBuilder();
+import io.milvus.param.DeleteParam;
+DeleteParam.Builder builder = DeleteParam.newBuilder();
 ```
 
-`DeleteIdsParam.Builder` 方法：
+Methods of `DeleteParam.Builder`:
 
-| 方法 | 描述 | 参数 |
-| --- | --- | --- |
-| `withCollectionName(String collectionName)` | 设置 Collection 名称。<br/>Collection 名称不能为空。 | `collectionName`：目标 Collection 名称。 |
-| `withPrimaryIds(List<T> primaryIds)` | 设置待删除 Entity 的 ID。<br/>该值不能为空。 | `primaryIds`：待删除 Entity 的 ID。 |
-| `addPrimaryId(T primaryId)` | 设置待删除 Entity 的 ID。<br/>该值不能为空。<br/>目前只支持指定主键值。 | `primaryId`：待删除 Entity 的 ID。 |
-| `build()` | 构建 `DeleteIdsParam` 对象。 | N/A |
+| Method                                    | Description                                                  | Parameter                                                   |
+| ----------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `withCollectionName(String collectionName)` | Sets the collection name. The collection name cannot be empty or null. | `collectionName`: The name of the collection to delete the entity or entities from. |
+| `withPartitionName(String partitionName)` | Sets the target partition name (Optional).                   | `partitionName`: The name of the partition to delete the entity or entities from. |
+| `withExpr(String expr)`                   | Sets the expression filtering to pick out the entities to be deleted. Currently, only expression in the format of "pk_field in [1, 2, ...]" is supported. | `expr`: The expression used for filtering the primary key field.                   |
+| `build()`                                 | Constructs a `DeleteParam` object.                           | N/A                                                          |
 
-`DeleteIdsParam.Builder.build()` 可能会抛出以下异常：
+The `DeleteParam.Builder.build()` can throw the following exceptions:
 
-- `ParamException`：如果指定参数为无效参数则抛出此异常。
+- `ParamException`: error if the parameter is invalid.
 
-## 返回结果
+## Returns
 
-此方法捕获所有异常并返回 `R<DeleteResponse>` 对象。
+This method catches all the exceptions and returns an `R<MutationResult>` object.
 
-- 如果 API 调用在服务器端失败，会从服务器返回错误代码和消息。
+- If the API fails on the server side, it returns the error code and message from the server.
 
-- 如果 API 调用因 RPC 异常而失败，则会返回 `R.Status.Unknow` 和异常的错误消息。
+- If the API fails by RPC exception, it returns `R.Status.Unknow` and the error message of the exception.
 
-- 如果 API 调用成功，返回 `DeleteResponse`。
+- If the API succeeds, it returns a valid `MutationResult` held by the R template. You can use `MutationResultWrapper` to get the returned information. See the corresponding section in [insert()](insert().md#MutationResultWrapper) for more information about `MutationResultWrapper`.

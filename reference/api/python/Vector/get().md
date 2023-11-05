@@ -1,12 +1,6 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 3
-slug: /python/get
----
-
 # get()
 
-调用接口按主键获取 Entity。如果请求中指定了 `output_fields`，则返回结果只包含指定字段相关信息。
+Grabs entities by primary keys. If `output_fields` is specified, this operation returns the specified field value only.
 
 ```python
 get(
@@ -17,9 +11,9 @@ get(
 )
 ```
 
-## 请求示例
+## Examples
 
-- 获取主键类型为 String 的 Entity：
+- Grab an entity by a primary key of a string:
 
     ```python
     from pymilvus import MilvusClient
@@ -32,7 +26,7 @@ get(
     )
     ```
 
-- 获取主键类型为 Integer 的 Entity：
+- Grab an entity by a primary key of an integer:
 
     ```python
     from pymilvus import MilvusClient
@@ -45,7 +39,7 @@ get(
     )
     ```
 
-- 批量获取 Entity，并返回指定字段值：
+- Grab multiple entities and return specified fields:
 
     ```python
     from pymilvus import MilvusClient
@@ -59,19 +53,19 @@ get(
     )
     ```
 
-## 请求参数
+## Parameters
 
-| 参数      | 描述                                                                                         | 类型   | 是否必选 |
-|-----------|--------------------------------------------------------------------------------------------|--------|---------|
-| `collection_name` | 待获取 Entity 所在的 Collection 的名称。 | String | 是    |
-| `ids` | 待获取 Entity 的主键值。 | Union[list, str, int] | 是     |
-|`output_fields`| 指定返回字段。 | String or INT64 | 否
-| `timeout` | 客户端等待的超时时间，单位为秒。如果设置为 None，客户端会一直等待，直到服务器响应或发生错误。 | Float | 否     |
+| Parameter          | Description                          | Type     | Required |
+|--------------------|--------------------------------------|----------|----------|
+| `collection_name` | Name of the collection where data is to grab. | String | True    |
+| `ids` | Primary keys of the vectors to grab. | Union[list, str, int] | True     |
+|`output_fields`| Fields that are specified to return. | String or INT64 | False
+| `timeout` | An optional duration of time in seconds to allow for the RPC. If it is set to None, the client keeps waiting until the server responds or error occurs. | Float | False     |
 
-## 抛出
+## Raises
 
-`ValueError`：接口调用失败则抛出此异常。
+`ValueError`: Error if failed to grab vectors.
 
-## 返回结果
+## Returns
 
-结果以字典列返回，包含主键和向量字段等信息。
+A list of dictionaries with primary keys and vector fields.

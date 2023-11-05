@@ -1,12 +1,6 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 1
-slug: /nodejs/describe_collection
----
-
 # describeCollection()
 
-调用接口获取指定 Collection 的详细信息，包括 Collection 名称和 Schema 等。
+Describes the details of a collection, including its name, schema, and other relevant information.
 
 ```javascript
 describeCollection(
@@ -15,7 +9,7 @@ describeCollection(
 )
 ```
 
-## 请求示例
+## Examples
 
 ```javascript
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
@@ -25,7 +19,7 @@ new milvusClient(ADDRESS).describeCollection({
 });
 ```
 
-成功回显：
+Success response:
 
 ```javascript
 {
@@ -64,17 +58,17 @@ new milvusClient(ADDRESS).describeCollection({
 }
 ```
 
-## 请求参数
+## Parameters
 
-| 参数      | 描述                                                                                                                                                                       | 类型   |
+| Parameter      | Description                                                                                                                                                                       | Type   |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| `collection_name` | 目标 Collection 的名称。                                                                                                                                                   | String |
-| `timeout`        | 客户端等待的超时时间，单位为秒。如果设置为 None，客户端会一直等待，直到服务器响应或发生错误。 | Number |
+| `collection_name` | Name of the collection to describe.                                                                                                                                                   | String |
+| `timeout`        | Length of time, in milliseconds, that the Remote Procedure Call (RPC) is allowed to run. If no value is provided, the default is undefined. | Number |
 
-## 抛出
+## Raises
 
 None
 
-## 返回结果
+## Returns
 
-以字典列返回结果。
+A list of dictionaries.

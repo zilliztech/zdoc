@@ -1,7 +1,7 @@
 ---
 slug: /manage-index
 beta: FALSE
-notebook: 10_manage_index.ipynb
+notebook: 01_use_customized_schema.ipynb
 sidebar_position: 3
 ---
 

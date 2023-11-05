@@ -1,18 +1,12 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 5
-slug: /python/drop_collection
----
-
 # drop_collection()
 
-调用接口删除 Collection。
+Drops a collection.
 
 ```python
 drop_collection(collection_name)
 ```
 
-## 请求示例
+## Examples
 
 ```python
 from pymilvus import MilvusClient
@@ -22,16 +16,16 @@ client = MilvusClient(uri, token)
 client.drop_collection(collection_name='my-collection')
 ```
 
-## 请求参数
+## Parameters
 
-| 参数      | 描述                                                                                         | 类型   | 是否必选 |
-|-----------|--------------------------------------------------------------------------------------------|--------|---------|
-| `collection_name` | 目标 Collection 的名称。 | String | 是     |
+| Parameter          | Description                          | Type     | Required |
+|--------------------|--------------------------------------|----------|----------|
+| `collection_name` | Name of the collection to drop. | String | True     |
 
-## 抛出
+## Raises
 
 None
 
-## 返回结果
+## Returns
 
 None

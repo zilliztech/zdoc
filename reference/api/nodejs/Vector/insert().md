@@ -1,16 +1,10 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 0
-slug: /nodejs/insert
----
-
 # insert()
 
-调用接口将 Entity 插入到 Collection。
+Inserts entities into a collection.
 
 > 📘 Note
 >
-> 如果字段类型为二进制，则向量数据的长度等于向量维度值除以 8。
+> If the field type is binary, the length of the vector data is equal to the dimension value divided by 8.
 
 ```javascript
 insert(
@@ -21,7 +15,7 @@ insert(
 )
 ```
 
-## 请求示例
+## Examples
 
 ```javascript
 const vectorsData = Array.from({ length: 10 }).map(() => ({
@@ -36,7 +30,7 @@ new milvusClient(ADDRESS).insert({
 });
 ```
 
-成功回显：
+Success response:
 
 ```javascript
 {
@@ -63,19 +57,19 @@ new milvusClient(ADDRESS).insert({
 }
 ```
 
-## 请求参数
+## Parameters
 
-| 参数      | 描述                                                                                                                                                                       | 类型                   |
+| Parameter      | Description                                                                                                                                                                       | Type                   |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `collection_name` | 待插入数据的 Collection 名称。                                                                                                                                        | String                 |
-| `data`            | 待插入数据，以字典的形式插入数据。                                                                                                                                                                       | list[Dictionary] |
-| `partition_name` | 待插入数据的分片名称。                                                                                                                                         | String                 |
-| `timeout`        | 客户端等待的超时时间，单位为秒。如果设置为 None，客户端会一直等待，直到服务器响应或发生错误。 | Number                 |
+| `collection_name` | Name of the collection where data is to be inserted.                                                                                                                                        | String                 |
+| `data`            | A list of dictionaries to insert.                                                                                                                                                                       | list[Dictionary] |
+| `partition_name` | Name of the partition where data is to be inserted.                                                                                                                                         | String                 |
+| `timeout`        | Length of time, in milliseconds, that the Remote Procedure Call (RPC) is allowed to run. If no value is provided, the default is undefined. | Number                 |
 
-## 抛出
+## Raises
 
 None
 
-## 返回结果
+## Returns
 
-以字典的形式返回结果。
+A list of dictionaries.

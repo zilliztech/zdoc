@@ -1,92 +1,96 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 0
-slug: /java/insert
----
-
 # insert()
 
-调用接口将 Entity 插入到 Collection。
+Inserts entities into a specified collection.
 
 ```Java
-R<InsertResponse> insert(InsertRowsParam requestParam);
+R<MutationResult> insert(InsertParam requestParam);
 ```
 
-## 请求示例
+## Examples
 
 ```Java
 import io.milvus.param.*;
-import io.milvus.response.MutationResultWrapper;
 import io.milvus.grpc.MutationResult;
 
-List<JSONObject> rowsData = new ArrayList<>();
-Random ran = new Random();
+List<InsertParam.Field> fields = new ArrayList<>();
+int rowCount = 10000;
+List<Long> ids = new ArrayList<>();
 for (long i = 0L; i < rowCount; ++i) {
-    JSONObject row = new JSONObject();
-    row.put(AGE_FIELD, ran.nextInt(99));
-    row.put(VECTOR_FIELD, generateFloatVector());
-
-    // $meta if collection EnableDynamicField, you can input this field not exist in schema, else deny
-    row.put(INT32_FIELD_NAME, ran.nextInt());
-    row.put(INT64_FIELD_NAME, ran.nextLong());
-    row.put(VARCHAR_FIELD_NAME, "测试varchar");
-    row.put(FLOAT_FIELD_NAME, ran.nextFloat());
-    row.put(DOUBLE_FIELD_NAME, ran.nextDouble());
-    row.put(BOOL_FIELD_NAME, ran.nextBoolean());
-
-    // $json
-    JSONObject jsonObject = new JSONObject();
-    jsonObject.put(INT32_FIELD_NAME, ran.nextInt());
-    jsonObject.put(INT64_FIELD_NAME, ran.nextLong());
-    jsonObject.put(VARCHAR_FIELD_NAME, "测试varchar");
-    jsonObject.put(FLOAT_FIELD_NAME, ran.nextFloat());
-    jsonObject.put(DOUBLE_FIELD_NAME, ran.nextDouble());
-    jsonObject.put(BOOL_FIELD_NAME, ran.nextBoolean());
-    row.put(USER_JSON_FIELD, jsonObject);
-
-    rowsData.add(row);
+    ids.add(i);
 }
+List<List<Float>> vectors = generateFloatVectors(rowCount);
 
-InsertRowsParam param = InsertRowsParam.newBuilder()
-        .withCollectionName(COLLECTION_NAME)
-        .withRows(rowsData)
+List<InsertParam.Field> fieldsInsert = new ArrayList<>();
+fieldsInsert.add(new InsertParam.Field("id", ids));
+fieldsInsert.add(new InsertParam.Field("vec", vectors));
+
+InsertParam param = InsertParam.newBuilder()
+        .withCollectionName(collectionName)
+        .withFields(fieldsInsert)
         .build();
-R<InsertResponse> response = client.insert(param);
+R<MutationResult> response = client.insert(param);
 if (response.getStatus() != R.Status.Success.getCode()) {
     System.out.println(response.getMessage());
 }
-
-System.out.println("insertCount: " + response.getData().getInsertCount());
-System.out.println("insertIds: " + response.getData().getInsertIds());
 ```
 
-## InsertRowsParam
+## InsertParam
 
-使用 `InsertRowsParam.Builder` 构建 `InsertRowsParam` 对象。
+Use the `InsertParam.Builder` to construct an `InsertParam` object.
 
 ```Java
-import io.milvus.param.highlevel.dml.InsertRowsParam;
-InsertRowsParam.Builder builder = InsertRowsParam.newBuilder();
+import io.milvus.param.InsertParam;
+InsertParam.Builder builder = InsertParam.newBuilder();
 ```
 
-`InsertRowsParam.Builder` 方法：
+Methods of `InsertParam.Builder`:
 
-| 方法 | 描述 | 参数 |
-| --- | --- | --- |
-| `withCollectionName(String collectionName)` | 设置待插入数据的 Collection 名称。<br/>Collection 名称不能为空。 | `collectionName`：待插入数据的 Collection 名称。数据将以行来插入。 |
-| `withRows(List<JSONObject> rows)` | 以行来准备待插入数据。<br/>该值不能为空。<br/>如果已启用自动 ID，则无需包含主键。| `rows`：`JSONObject` 对象，每个对象代表数据集中的一行数据。 |
-| `build()` | 构建 `InsertRowsParam` 对象。 | N/A |
+| Method                                       | Description                                                  | Parameter                                                   |
+| -------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `withCollectionName(String collectionName)`  | Sets the target collection name. The collection name cannot be empty or null. | `collectionName`: The name of the collection to insert data into. |
+| `withPartitionName(String partitionName)`    | Sets the target partition name (optional).                    | `partitionName`: The name of the partition to insert data into. |
+| `withFields(List<InsertParam.Field> fields)` | Sets the data to be inserted. The field list cannot be empty.  Note that no input is required for the primary key field if auto-ID is enabled. | `fields`: a list of `Field` objects, each representing a field. |
+| `build()`                                    | Constructs an `InsertParam` object.                          |  N/A                                                         |
 
-`InsertRowsParam.Builder.build()` 可能会抛出以下异常：
+The `InsertParam.Builder.build()` can throw the following exceptions:
 
-- `ParamException`：如果指定参数为无效参数则抛出此异常。
+- `ParamException`: error if the parameter is invalid.
 
-## 返回结果
+## Field
 
-此方法捕获所有异常并返回 `R<InsertResponse>` 对象。
+A tool class to hold a data field.
 
-- 如果 API 调用在服务器端失败，会从服务器返回错误代码和消息。
+Methods of `InsertParam.Field`:
 
-- 如果 API 调用因 RPC 异常而失败，则会返回 `R.Status.Unknow` 和异常的错误消息。
+| Method                           | Description                                             | Parameter                                              |
+| ------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `Field(String name, List<?> values)` | This class only provides a `Constructor`to create a `Field` object. | `name`: The name of the data field. <br/>`values`: <br/><ul><li>If data type is Bool, `values` is List of Boolean;</li><li>If data type is Int64, `values` is List of Long;</li><li>If data type is Float, `values` is List of Float;</li><li>If data type is Double, `values` is List of Double;</li><li>If data type is VARCHAR, `values` is List of String;</li><li>If data type is FloatVector, `values` is List of List Float;</li><li>If data type is BinaryVector, `values` is List of ByteBuffer.</li></ul>|
 
-- 如果 API 调用成功，返回 `InsertResponse`。
+## Returns
+
+This method catches all the exceptions and returns an `R<MutationResult>` object.
+
+- If the API fails on the server side, it returns the error code and message from the server.
+
+- If the API fails by RPC exception, it returns `R.Status.Unknow` and the error message of the exception.
+
+- If the API succeeds, it returns a valid `MutationResult` held by the R template. You can use `MutationResultWrapper` to get the returned information.
+
+## MutationResultWrapper
+
+A tool class to encapsulate the `MutationResult`. 
+
+```Java
+import io.milvus.response.MutationResultWrapper;
+MutationResultWrapper wrapper = new MutationResultWrapper(mutationResult);
+```
+
+Methods of `MutationResultWrapper`:
+
+| Method         | Description                                              | Return  |
+| ------------------ | ------------------------------------------------------------ | ------------ |
+| `getInsertCount()` | Gets the row count of the inserted entities.                 | long         |
+| `getLongIDs()`     | Gets the long ID array returned by the `insert()` interface if the primary key field is int64 type. Throws `ParamException` if the primary key type is not int64. | `List<Long>`   |
+| `getStringIDs()`   | Gets the string ID array returned by the `insert()` interface if the primary key field is VARCHAR type. Throws `ParamException` if the primary key type is not VARCHAR type. | `List<String>` |
+| `getDeleteCount()` | Gets the row count of the deleted entities. Currently, this value is always equal to the input row count. | long         |
+| `getOperationTs()` | Gets the timestamp of the operation marked by the server. You can use this timestamp as the guarantee timestamp of query/search APIs. Note that the timestamp is not an absolute timestamp, but rather a hybrid value combined by UTC time and internal flags. | long         |

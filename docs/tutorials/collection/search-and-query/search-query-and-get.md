@@ -1,7 +1,7 @@
 ---
 slug: /search-query-and-get
 beta: FALSE
-notebook: 09_search_and_query.ipynb
+notebook: 01_use_customized_schema.ipynb
 sidebar_position: 1
 ---
 

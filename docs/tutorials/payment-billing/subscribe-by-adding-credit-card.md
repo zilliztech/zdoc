@@ -49,7 +49,7 @@ Your payment method can be viewed and edited at any time from the **Billing** **
 
 ![payment-overivew](/img/payment-overivew.png)
 
-Should your credit card approach its expiration date, you will be notified by our [credit card expiration monitor](./undefined). You may choose to update your payment information or switch to an [AWS Marketplace subscription](./subscribe-on-aws-marketplace) at your convenience.
+Should your credit card approach its expiration date, you will be notified by our [credit card expiration monitor](./credit-card-expiration-monitor). You may choose to update your payment information or switch to an [AWS Marketplace subscription](./subscribe-on-aws-marketplace) at your convenience.
 
 ### **Update a payment card**{#update-a-payment-card}
 

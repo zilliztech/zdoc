@@ -1,18 +1,12 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 2
-slug: /nodejs/show_collection
----
-
 # showCollections()
 
-调用接口查询当前已创建的所有 Collection。
+Lists all collections or gets the loading status of collections.
 
 ```javascript
 showCollections()
 ```
 
-## 请求示例
+## Examples
 
 ```javascript
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
@@ -20,7 +14,7 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 new milvusClient(ADDRESS).showCollections();
 ```
 
-成功回显：
+Success response:
 
 ```javascript
 {
@@ -38,14 +32,14 @@ new milvusClient(ADDRESS).showCollections();
 }
 ```
 
-## 请求参数
+## Parameters
 
 None
 
-## 抛出
+## Raises
 
 None
 
-## 返回结果
+## Returns
 
-以字典列返回结果。
+A list of collections.

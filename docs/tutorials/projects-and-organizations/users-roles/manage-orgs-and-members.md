@@ -9,7 +9,7 @@ sidebar_position: 2
 
 # Manage Organizations and Members
 
-In the [organization and project](./a-panorama-view) hierarchy, you can manage your organization through the following actions:
+In the [organization and project](./a-panorama-view) hierarchy, you can manage your organization and members through the following actions:
 
 - [Viewing system settings](./manage-orgs-and-members#view-system-settings)
 

@@ -1,18 +1,12 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 2
-slug: /go/search
----
-
 # Search()
 
-调用接口基于一个或多个向量执行近似最近邻（Approximate Nearest Neighbor，ANN）检索。Zilliz Cloud 支持在检索中指定布尔表达式。
+Conducts an approximate nearest neighbor (ANN) search on a vector field and pairs up with boolean expressions to conduct filtering on scalar fields before searching.
 
 ```go
 client.Search(ctx, collName, partitions, expr, outputFields, vectors, vectorField, metricType, topK, sp, opts)
 ```
 
-## 请求示例
+## Examples
 
 ```go
 ctx := context.Background()
@@ -54,28 +48,28 @@ for _, sr := range searchResult {
 }
 ```
 
-## 请求参数
+## Parameters
 
-| 参数  |   描述                                  |  类型        |
+| Parameter          | Description                          | Type     |
 |--------------------|--------------------------------------|----------|
-| `ctx` | 控制 API 调用进程的上下文。 | context.Context |
-| `collName` | 待检索的 Collection 名称。 | String |
-| `partitions` | 待检索的分片名称。 | list[String] |
-| `expr` | 过滤表达式。 | String |
-| `outputFields` | 指定返回字段。如果留空，则返回除向量字段外的其他所有字段。 | list[String] |
-| `vectors` | 指定的向量值。 | entity.Vector |
-| `vectorField` | 向量字段的名称。 | String |
-| `metricType` | Collection 使用的相似度类型。 | entity.MetricType |
-| `topK` | 要返回的最近邻记录数。 | Integer |
-| `sp` | 搜索参数。 | entity.SearchParam |
-| `opts` | 其他选项。 | ...SearchQueryOptionFunc |
+| `ctx` | Context to control API invocation process. | context.Context |
+| `collName` | Name of the collection to search. | String |
+| `partitions` | Names of the partitions to search. | list[String] |
+| `expr` | Filter expression used to search data. | String |
+| `outputFields` | A list of fields to return. If you leave this parameter empty, all fields excluding the vector field will be returned. | list[String] |
+| `vectors` | Vectors to search with. | entity.Vector |
+| `vectorField` | Name of the vector field to search on. | String |
+| `metricType` | Metric type to calculate distance with. | entity.MetricType |
+| `topK` | Number of nearest records to return. | Integer |
+| `sp` | Specific search parameters of the index on the vector field. | entity.SearchParam |
+| `opts` | Additional options. | ...SearchQueryOptionFunc |
 
-## 抛出
+## Raises
 
-- `ErrClientNotReady`：客户端连接失败则抛出此异常。
+- `ErrClientNotReady`: Error if the client is not connected.
 
-- `ErrCollectionNotExists`: 指定 Collection 不存在则抛出此异常。
+- `ErrCollectionNotExists`: Error if the collection with the specified name does not exist.
 
-## 返回结果
+## Returns
 
-包含搜索结果的 SearchResult。
+A slice of SearchResult that contains the search result.

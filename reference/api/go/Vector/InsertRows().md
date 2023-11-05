@@ -1,18 +1,12 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 1
-slug: /go/insert_rows
----
-
 # InsertRows()
 
-调用接口将 Entity 以行的形式插入到 Collection。
+Inserts entities into a specified collection in a list of rows.
 
 ```go
 client.InsertRows(ctx, collName, partitionName, rows)
 ```
 
-## 请求示例
+## Examples
 
 ```go
 ctx := context.Background()
@@ -37,22 +31,22 @@ if err != nil {
 log.Printf(result)
 ```
 
-## 请求参数
+## Parameters
 
-| 参数          | 描述                          | 类型     |
+| Parameter          | Description                          | Type     |
 |--------------------|--------------------------------------|----------|
-| `ctx` | 控制 API 调用进程的上下文。 | context.Context |
-| `collName` | 待插入数据所在的 Collection 名称。 | String |
-| `partitionName` | 待插入数据所在的分片名称。 | String |
-| `rows` | 以行的形式来表示的待插入数据。 | Any |
+| `ctx` | Context to control API invocation process. | context.Context |
+| `collName` | Name of the collection to insert. | String |
+| `partitionName` | Name of the partition to insert. | String |
+| `rows` | Data rows to be inserted. | Any |
 
-## 抛出
+## Raises
 
-- `ErrClientNotReady`：客户端连接失败则抛出此异常。
+- `ErrClientNotReady`: Error if the client is not connected.
 
-- `ErrCollectionNotExists`: 指定 Collection 不存在则抛出此异常。
+- `ErrCollectionNotExists`: Error if the collection with the specified name does not exist.
 
 
-## 返回结果
+## Returns
 
-已插入 Entity 的主键值。
+Primary keys of the inserted data records.

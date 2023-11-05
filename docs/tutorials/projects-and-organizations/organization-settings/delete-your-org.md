@@ -21,6 +21,10 @@ Make sure the following conditions are met:
 
 - You are granted the [Organization Owner](./a-panorama-view#organization-roles) role in the target organization.
 
+- All remaining advance pay funds need to be refunded.
+
+- Third-party [marketplace subscription needs to be cancelled](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription).
+
 ## Delete organization{#delete-organization}
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
@@ -44,8 +48,6 @@ The action of deleting an organization cannot be undone. Please take extra cauti
 ## Related topics{#related-topics}
 
 - [A Panorama View](./a-panorama-view)
-
-- [Organizations & Projects](https://zilliverse.feishu.cn/wiki/BAvrw3PkDixq7UkzUcacCrFQnrb) 
 
 - [Manage Organizations and Members](./manage-orgs-and-members)
 

@@ -1,7 +1,7 @@
 ---
 slug: /drop-collection-1
 beta: FALSE
-notebook: 00_quick_start.ipynb
+notebook: 01_use_customized_schema.ipynb
 sidebar_position: 4
 ---
 
@@ -25,8 +25,10 @@ res = client.drop_collection(collection_name="medium_articles_2020")
 
 print(res)
 
-# Output:
-# None
+# Drop a collection that is created using a Collection object
+from pymilvus import utility
+
+res = utility.drop_collection(collection_name="medium_articles_2020")
 ```
 
 </TabItem>

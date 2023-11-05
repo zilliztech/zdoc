@@ -1,18 +1,12 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 1
-slug: /python/describe_collection
----
-
 # describe_collection()
 
-调用接口获取指定 Collection 的详细信息。
+Describes details on a specific collection.
 
 ```python
 describe_collection(collection_name)
 ```
 
-## 请求示例
+## Examples
 
 ```python
 from pymilvus import MilvusClient
@@ -22,16 +16,16 @@ client = MilvusClient(uri, token)
 client.describe_collection(collection_name='medium_articles')
 ```
 
-## 请求参数
+## Parameters
 
-| 参数      | 描述                                                                                         | 类型   | 是否必选 |
-|-----------|--------------------------------------------------------------------------------------------|--------|---------|
-| `collection_name` | 目标 Collection 的名称。 | String | 是     |
+| Parameter          | Description                          | Type     | Required |
+|--------------------|--------------------------------------|----------|----------|
+| `collection_name` | Name of the collection to describe. | String | True     |
 
-## 抛出
+## Raises
 
-`ValueError`：如果指定的 Collection 不存在，抛出此异常。
+`ValueError`: Error if the collection is missing.
 
-## 返回结果
+## Returns
 
-以字典列返回调用结果。
+A list of dictionaries.

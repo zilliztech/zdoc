@@ -1,12 +1,6 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 3
-slug: /nodejs/get
----
-
 # get()
 
-调用接口按 ID 获取 Entity。
+Gets entities by IDs.
 
 ```javascript
 get(
@@ -18,7 +12,7 @@ get(
 )
 ```
 
-## 请求示例
+## Examples
 
 ```javascript
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
@@ -30,7 +24,7 @@ new milvusClient(ADDRESS).get({
 });
 ```
 
-成功回显：
+Success response:
 
 ```javascript
 {
@@ -42,20 +36,20 @@ new milvusClient(ADDRESS).get({
 }
 ```
 
-## 请求参数
+## Parameters
 
-| 参数        | 描述                                                                                                                                                                       | 类型                 |
+| Parameter        | Description                                                                                                                                                                       | Type                 |
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
-| `collection_name`   | 待获取 Entity 所在的 Collection 的名称。                                                                                                                                               | String               |
-| `output_fields`     | 指定返回字段。                                                                                                                                            | String[]             |
-| `ids`               | 待获取 Entity 的 ID。                                                                                                                                                                          | String[] or Number[] |
-| `partitions_names` | 待获取 Entity 所在的分片名称。                                                                                                                             | String[]             |
-| `timeout`          | 客户端等待的超时时间，单位为秒。如果设置为 None，客户端会一直等待，直到服务器响应或发生错误。 | Number               |
+| `collection_name`   | Name of the collection to search on.                                                                                                                                               | String               |
+| `output_fields`     | Vector or scalar fields to return.                                                                                                                                            | String[]             |
+| `ids`               | IDs of entities to get.                                                                                                                                                                          | String[] or Number[] |
+| `partitions_names` | An array of the names of the partitions to search on.                                                                                                                             | String[]             |
+| `timeout`          | Length of time, in milliseconds, that the Remote Procedure Call (RPC) is allowed to run. If no value is provided, the default is undefined. | Number               |
 
-## 抛出
+## Raises
 
 None
 
-## 返回结果
+## Returns
 
-结果以字典列返回，包含指定输出字段。
+A list of dictionaries with output fields.

@@ -1,47 +1,56 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 0
-slug: /python/milvus-client
----
-
-
 # MilvusClient()
 
-调用接口创建 MilvusClient 实例。
+Creates a Milvus client for a cluster.
 
 ```python
 MilvusClient(
-    uri="PUBLIC_ENDPOINT", # 从 Zilliz Cloud 控制台获取的集群公网地址
-    token="USER:PASSWORD", # 创建集群时指定的用户名和密码
+    uri="PUBLIC_ENDPOINT",
+    token="API-KEY", # for serverless clusters, or
+    # token="USER:PASSWORD" # for dedicated clusters
     timeout
 )
 ```
 
-## 请求示例
+> 📘 Note
+>
+> If you’re running a serverless cluster, specify an API key as `token`. If you’re running a dedicated cluster, use `token='user:password'` to establish the connection.
 
-使用用户名和密码为集群创建 MilvusClient 实例：
+## Examples
 
-```python
+- Create a Milvus client for a cluster using an API key:
+
+    ```python
+    from pymilvs import MilvusClient
+
+    client = MilvusClient(
+    uri='https://<CLUSTER-ID>.<CLOUD-REGION>.vectordb.zillizcloud.com',
+    token='<API-KEY>',
+    )
+    ```
+
+- Create a Milvus client for a cluster using `user` and `password`:
+
+    ```python
     from pymilvs import MilvusClient
 
     client = MilvusClient(
     uri='https://<CLUSTER-ID>.<CLOUD-REGION>.vectordb.zillizcloud.com:<ACCESS-PORT>',
     token='<USER:PASSWORD>',
     )
-```
+    ```
 
-## 请求参数
+## Parameters
 
-| 参数      | 描述                                                                                         | 类型   | 是否必选 |
-|-----------|--------------------------------------------------------------------------------------------|--------|---------|
-| `uri`     | 用于连接到集群的公网地址。                                                                    | String | 是       |
-| `token`   | 用于鉴权的集群凭证，由用户名和密码组成。                                                       | String | 是       |
-| `timeout` | 客户端等待的超时时间，单位为秒。如果设置为 None，客户端会一直等待，直到服务器响应或发生错误。 | Float  | 否       |
+| Parameter          | Description                          | Type     | Required |
+|--------------------|--------------------------------------|----------|----------|
+| `uri` | Endpoint used to connect to your cluster. | String | True     |
+| `token` | Credentials used to connect to your cluster. It can be an API key or a pair of username and password depending on cluster types. | String | True     |
+| `timeout` | An optional duration of time in seconds to allow for the RPC. If it is set to None, the client keeps waiting until the server responds or error occurs. | Float | False     |
 
-## 抛出
+## Raises
 
 None
 
-## 返回结果
+## Returns
 
-MilvusClient 实例。
+A MilvusClient instance.

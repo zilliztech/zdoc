@@ -6,7 +6,7 @@ slug: /java/get
 
 # get()
 
-调用接口按主键获取 Entity。目前暂时无法保证 Entity 的返回顺序。
+Grabs entities by primary keys. If `output_fields` is specified, this operation returns the specified field value only.
 
 ```Java
 R<GetResponse> get(GetIdsParam requestParam);
@@ -39,33 +39,33 @@ for (QueryResultsWrapper.RowRecord rowRecord : response.getData().getRowRecords(
 
 ## GetIdsParam
 
-使用 `GetIdsParam.Builder` 构建 `GetIdsParam` 对象。
+Use `GetIdsParam.Builder` to construction a `GetIdsParam` object.
 
 ```Java
 import io.milvus.param.highlevel.dml.GetIdsParam;
 GetIdsParam.Builder builder = GetIdsParam.newBuilder();
 ```
 
-`GetIdsParam.Builder` 方法：
+Methods of `GetIdsParam.Builder`：
 
-| 方法 | 描述 | 参数 |
+| Method | Description | Argument |
 | --- | --- | --- |
-| `withCollectionName(String collectionName)` | 设置 Collection 名称。<br/>Collection 名称不能为空。 | `collectionName`：待查询的 Collection 的名称。 |
-| `withPrimaryIds(List<T> primaryIds)` | 设置待查询的 Entity 的 ID。<br/>该值不能为空。 | `primaryIds`：待查询的 Entity 的 ID。 |
-| `addPrimaryId(T primaryId)` | 设置待查询的 Entity 的 ID。<br/>该值不能为空。<br/>目前只支持指定主键值。 | `primaryId`：待查询的 Entity 的 ID。 |
-| `withOutputFields(List<String> outputFields)` | （可选）设置指定输出字段。 | `outputFields`：指定输出字段。 |
-| `build()` | 构建 `GetIdsParam` 对象。 | N/A |
+| `withCollectionName(String collectionName)` | Sets a collection name.<br/>The value is mandatory. | `collectionName`：Name of the collection to get entities from. |
+| `withPrimaryIds(List<T> primaryIds)` | Sets the IDs of the entities to get.<br/>The value is mandatory | `primaryIds`：IDs of the entities to get |
+| `addPrimaryId(T primaryId)` | Sets the ID of an entity to be added to the list.<br/>The value is mandatory.<br/>Add a primary key only. | `primaryId`：ID of the entity to get. |
+| `withOutputFields(List<String> outputFields)` | (Optional) Sets the fields to include in the result. | `outputFields`：Fields to include in the result. |
+| `build()` | Builds `GetIdsParam` object. | N/A |
 
-`GetIdsParam.Builder.build()` 可能会抛出以下异常：
+`GetIdsParam.Builder.build()` can throw the following exceptions::
 
-- `ParamException`：如果指定参数为无效参数则抛出此异常。
+- `ParamException`：error if the parameter is invalid.
 
-## 返回结果
+## Returns
 
-此方法捕获所有异常并返回 `R<GetResponse>` 对象。
+This method catches all the exceptions and returns an `R<GetResponse>` object.
 
-- 如果 API 调用在服务器端失败，会从服务器返回错误代码和消息。
+- If the API fails on the server side, it returns the error code and message from the server.
 
-- 如果 API 调用因 RPC 异常而失败，则会返回 `R.Status.Unknow` 和异常的错误消息。
+- If the API fails by RPC exception, it returns `R.Status.Unknow` and the error message of the exception.
 
-- 如果 API 调用成功，返回 `GetResponse`。
+- If the API succeeds, it returns a valid `GetResponse`.

@@ -1,18 +1,16 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 3
-slug: /go/query
----
-
 # Query()
 
-调用接口查询 Collection 中满足指定条件的 Entity。
+Queries one or more entities based on scalar fields filtered by boolean expressions.
+
+> 📘 Note
+>
+> The order of the returned entities cannot be guaranteed.
 
 ```go
 client.Query(ctx, collectionName, partitionNames, expr, outputFields, opts)
 ```
 
-## 请求示例
+## Examples
 
 ```go
 ctx := context.Background()
@@ -42,23 +40,23 @@ for _, sr := range queryResult {
 }
 ```
 
-## 请求参数
+## Parameters
 
-| 参数  |   描述                                  |  类型        |
+| Parameter          | Description                          | Type     |
 |--------------------|--------------------------------------|----------|
-| `ctx` | 控制 API 调用进程的上下文。 | context.Context |
-| `collectionName` | 待查询的 Collection 名称。 | String |
-| `partitionNames` | 待查询的分片名称。 | list[String] |
-| `expr` | 过滤表达式。 | String |
-| `outputFields` | 指定返回字段。如果留空，则返回除向量字段外的其他所有字段。 | list[String] |
-| `opts` | 查询数据时的其他选项。 | ...SearchQueryOptionFunc |
+| `ctx` | Context to control API invocation process. | context.Context |
+| `collectionName` | Name of the collection to query data. | String |
+| `partitionNames` | Names of the partitions to query data. | list[String] |
+| `expr` | Filter expression used to query data. | String |
+| `outputFields` | A list of fields to return. If you leave this parameter empty, all fields excluding the vector field will be returned. | list[String] |
+| `opts` | Additional options to query data. | ...SearchQueryOptionFunc |
 
-## 抛出
+## Raises
 
-- `ErrClientNotReady`：客户端连接失败则抛出此异常。
+- `ErrClientNotReady`: Error if the client is not connected.
 
-- `ErrCollectionNotExists`: 指定 Collection 不存在则抛出此异常。
+- `ErrCollectionNotExists`: Error if the collection with the specified name does not exist.
 
-## 返回结果
+## Returns
 
-返回满足查询条件的数据记录。
+Data records that meet specific criteria.

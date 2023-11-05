@@ -1,19 +1,13 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 5
-slug: /go/delete_by_pks
----
-
 # DeleteByPks()
 
-调用接口按主键删除 Collection 中的 Entity。您也可以在请求中指定布尔表达式。
+Deletes one or more entities from a collection by filtering primary key fields with boolean expressions.
 
 ```go
 client.DeleteByPks(ctx, collName, partitionName, ids)
 ```
 
-## 请求示例
-
+## Examples
+<!-- to check -->
 ```go
 ctx := context.Background()
 
@@ -39,21 +33,21 @@ if err != nil {
 }
 ```
 
-## 请求参数
+## Parameters
 
-| 参数          | 描述                          | 类型     |
+| Parameter          | Description                          | Type     |
 |--------------------|--------------------------------------|----------|
-| `ctx` | 控制 API 调用进程的上下文。 | context.Context |
-| `collName` | 待删除 Entity 所在的 Collection 的名称。 | String |
-| `partitionName` | 待删除 Entity 所在的分片名称。 | String |
-| `ids` | 待删除 Entity 的主键值。 | entity.Column |
+| `ctx` | Context to control API invocation process. | context.Context |
+| `collName` | Name of the collection from which data is to be deleted. | String |
+| `partitionName` | Name of the partition from which data is to be deleted. | String |
+| `ids` | Primary keys of the entities to be deleted. | entity.Column |
 
-## 抛出
+## Raises
 
-- `ErrClientNotReady`: ：客户端连接失败则抛出此异常。
+- `ErrClientNotReady`: Error if the client is not connected.
 
-- `ErrCollectionNotExists`: 指定 Collection 不存在则抛出此异常。
+- `ErrCollectionNotExists`: Error if the collection with the specified name does not exist.
 
-## 返回结果
+## Returns
 
 None

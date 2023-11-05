@@ -1,22 +1,16 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 4
-slug: /java/drop_collection
----
-
 # dropCollection()
 
-调用接口删除 Collection。
+Drops a specified collection.
 
-> 📘 说明
+> 📘 Note
 >
-> 此调用会删除 Collection 中的所有数据。
+> This method drops all data in a collection.
 
 ```Java
 R<RpcStatus> dropCollection(DropCollectionParam requestParam);
 ```
 
-## 请求示例
+## Examples
 
 ```Java
 import io.milvus.param.*;
@@ -33,30 +27,30 @@ if (response.getStatus() != R.Status.Success.getCode()) {
 
 ## DropCollectionParam
 
-使用 `DropCollectionParam.Builder` 构建 `DropCollectionParam` 对象。
+Use the `DropCollectionParam.Builder` to construct a `DropCollectionParam` object.
 
 ```Java
 import io.milvus.param.DropCollectionParam;
 DropCollectionParam.Builder builder = DropCollectionParam.newBuilder();
 ```
 
-`DropCollectionParam.Builder` 方法：
+Methods of `DropCollectionParam.Builder`:
 
-| 方法                                      | 描述                                                  | 参数                                            |
+| Method                                      | Description                                                  | Parameter                                            |
 | ------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------------- |
-| `withCollectionName(String collectionName)` | 设置 Collection 名称。 Collection 名称不能为空。 | `collectionName`：目标 Collection 名称。 |
-| `build()`                                   | 构建 `DropCollectionParam` 对象。                   | N/A                                                   |
+| `withCollectionName(String collectionName)` | Sets the collection name. The collection name cannot be empty or null. | `collectionName`: The name of the collection to drop. |
+| `build()`                                   | Constructs a `DropCollectionParam` object.                    | N/A                                                   |
 
-`DropCollectionParam.Builder.build()` 可能会抛出以下异常：
+The `DropCollectionParam.Builder.build()` can throw the following exceptions:
 
-- `ParamException`：如果指定参数为无效参数则抛出此异常。
+- `ParamException`: error if the parameter is invalid.
 
-## 返回结果
+## Returns
 
-此方法捕获所有异常并返回 `R<RpcStatus>` 对象。
+This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
-- 如果 API 调用在服务器端失败，会从服务器返回错误代码和消息。
+- If the API fails on the server side, it returns the error code and message from the server.
 
-- 如果 API 调用因 RPC 异常而失败，则会返回 `R.Status.Unknow` 和异常的错误消息。
+- If the API fails by RPC exception, it returns `R.Status.Unknow` and the error message of the exception.
 
-- 如果 API 调用成功，返回 `R.Status.Success`。
+- If the API succeeds, it returns `R.Status.Success`.

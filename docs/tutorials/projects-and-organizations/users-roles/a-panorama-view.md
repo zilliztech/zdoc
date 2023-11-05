@@ -62,12 +62,12 @@ At the project level, two roles are introduced to enable finer-grained access co
 |  Recycle bin                                                                      |  ✔︎                       |  ✘                        |  ✘              |
 |  Managing system settings                                                         |  ✔︎                       |  ✘                        |  ✘              |
 |  Viewing activities                                                               |  ✔︎                       |  ✘                        |  ✘              |
+|  Monitoring                                                                       |  ✔︎                       |  ✔︎                       |  ✔︎             |
 |  Other (docs, support, account settings)                                          |  ✔︎                       |  ✘                        |  ✘              |
 |  **Project Level**                                                                |                           |                           |                 |
 |  Managing project collaborators                                                   |  ✔︎                       |  ✔︎                       |  ✘              |
 |  Managing security settings<br/> <br/>  - Whitelists<br/> <br/>  - Private links<br/>  |  <br/> <br/>  ✔︎<br/> <br/>   |  <br/> <br/>  ✔︎<br/> <br/>   |  <br/> <br/>  ✘   |
 |  Managing API keys                                                                |  ✔︎                       |  ✔︎                       |  ✘              |
-|  Monitoring                                                                       |  ✔︎                       |  ✔︎                       |  ✘              |
 |  Playground                                                                       |  ✔︎                       |  ✔︎                       |  ✔︎             |
 |  **Cluster Level**                                                                |                           |                           |                 |
 |  Managing clusters                                                                |  ✔︎                       |  ✔︎                       |  ✘              |

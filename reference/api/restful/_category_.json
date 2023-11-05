@@ -1,9 +1,9 @@
 {
-    "label": "RESTful API 参考",
+    "label": "RESTful API Reference",
     "position": 0,
     "link": {
         "type": "generated-index",
-        "title": "RESTful API 参考",
+        "title": "RESTful API Reference",
         "slug": "/restful"
     }
 }

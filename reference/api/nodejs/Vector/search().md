@@ -1,40 +1,34 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 1
-slug: /nodejs/search
----
-
 # search()
 
-调用接口基于一个或多个向量执行近似最近邻（Approximate Nearest Neighbor，ANN）检索。
+Performs Approximate Nearest Neighbor (ANN) searches based on one or more vectors in a collection.
 
 ```javascript
 search(
   collection_name,
-  vector, // 或 `vectors`
-  limit, // 或 `topk`
+  vector, // or `vectors`
+  limit, // or `topk`
   offset,
   output_fields,
   partitions_names,
   metric_type,
-  filter, // 或 `expr`
+  filter, // or `expr`
   params,
   timeout
 )
 ```
 
-## 请求示例
+## Examples
 
 ```javascript
 import { MilvusClient, DataType, MetricType } from "@zilliz/milvus2-sdk-node";
 
-// 简单检索示例
+// simple search example
 new milvusClient(ADDRESS).search({
   collection_name: "my_collection",
   vector: [1, 2, 3, 4],
 });
 
-// 复杂检索示例
+// complex search example
 new milvusClient(ADDRESS).search({
   collection_name: "my_collection",
   vector: [1, 2, 3, 4],
@@ -45,7 +39,7 @@ new milvusClient(ADDRESS).search({
   param: { nprobe: 1024 },
 });
 
-// 混合检索示例
+// batch search example
 new milvusClient(ADDRESS).search({
   collection_name: "my_collection",
   vectors: [
@@ -56,9 +50,10 @@ new milvusClient(ADDRESS).search({
 });
 ```
 
-成功回显：
+Success response:
 
 ```javascript
+// search returns
 {
   status: { error_code: 'Success', reason: '' },
   results: [
@@ -70,33 +65,33 @@ new milvusClient(ADDRESS).search({
 }
 ```
 
-## 请求参数（Node SDK v2.2.7 及以后）
+## Parameters since Node SDK v2.2.7
 
-| 参数          | 描述                                                                                                                                                                       | 类型                   |
+| Parameter          | Description                                                                                                                                                                       | Type                   |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `collection_name`     | 待检索的 Collection 名称。                                                                                                                                               | String                 |
-| `vector` 或 `vectors` |指定的向量值。                                                                                                                                                       | Number[] 或 Number[][] |
-| `limit` 或 `topk`     | 每次检索最多返回的数据条数。默认值：**10**。                                                                                                                                                              | Number                 |
-| `offset`             | 搜索结果中要跳过的 Entity 数。默认值：**0**.                                                                                                                                                             | Number                 |
-| `output_fields`      | 指定返回字段。默认返回所有字段。                                                                                   | String[]               |
-| `partitions_names`   | 待检索的分片名称。                                                                                                                              | String[]               |
-| `metric_type`        | 相似度类型。 默认值：**L2**.                                                                                                                                         | String                 |
-| `filter` 或 `expr`    | 用于过滤数据的布尔表达式。                                                                                                                                             | String                 |
-| `params`             | 可选搜索参数。                                                                                                    | Object                 |
-| `timeout`            | 客户端等待的超时时间，单位为秒。如果设置为 None，客户端会一直等待，直到服务器响应或发生错误。 | Number                 |
+| `collection_name`     | Name of the collection to search.                                                                                                                                               | String                 |
+| `vector` or `vectors` |Vectors to search with.                                                                                                                                                       | Number[] or Number[][] |
+| `limit` or `topk`     | Number of nearest records to return. Default value: **10**.                                                                                                                                                              | Number                 |
+| `offset`             | Number of entities to skip in the search results. Default value: **0**.                                                                                                                                                             | Number                 |
+| `output_fields`      | Vector or scalar fields to return. By default, all fields in the collection are returned.                                                                                   | String[]               |
+| `partitions_names`   | Names of the partitions to search.                                                                                                                              | String[]               |
+| `metric_type`        | Metric type to calculate distance with. Default value: **L2**.                                                                                                                                         | String                 |
+| `filter` or `expr`    | Boolean expression to filter data.                                                                                                                                             | String                 |
+| `params`             | Optional search parameters.                                                                                                    | Object                 |
+| `timeout`            | Length of time, in milliseconds, that the Remote Procedure Call (RPC) is allowed to run. If no value is provided, the default is undefined. | Number                 |
 
 ## SearchParam
 
-SearchParam 是由键值对组成的 JSON 字符串。
+SearchParam is a JSON string, consisting of key-value pairs. For more information, see https://milvus.io/docs/index.md.
 
 ```javascript
 JSON.stringify({ nprobe: 1024 });
 ```
 
-## 抛出
+## Raises
 
 None
 
-## 返回结果
+## Returns
 
-以字典的形式返回结果。
+A list of dictionaries.

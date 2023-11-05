@@ -1,12 +1,6 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 0
-slug: /java/milvus_service_client
----
-
 # MilvusServiceClient
 
-调用接口创建 MilvusClient 实例。
+Creates a Milvus client.
 
 ```java
 package io.milvus.client;
@@ -14,9 +8,9 @@ package io.milvus.client;
 MilvusServiceClient(ConnectParam connectParam)
 ```
 
-## 请求示例
+## Examples
 
-- 调用接口创建 MilvusClient 实例：
+- Without timeout setting for RPC call:
 
     ```java
     import io.milvus.param.*;
@@ -35,7 +29,7 @@ MilvusServiceClient(ConnectParam connectParam)
     client.close(1);
     ```
 
-- 调用接口创建 MilvusClient 实例，并指定超时时间：
+- With timeout setting for RPC call:
 
     ```java
     import io.milvus.param.*;
@@ -57,27 +51,27 @@ MilvusServiceClient(ConnectParam connectParam)
 
 ## ConnectParam
 
-使用 `ConnectParam.Builder` 为 `MilvusServiceClient` 构造 `ConnectParam` 对象。
+Use `ConnectParam.Builder` to construct a `ConnectParam` object for `MilvusServiceClient`.
 
 ```java
 import io.milvus.param.ConnectParam;
 ConnectParam.Builder builder = ConnectParam.newBuilder();
 ```
 
-`ConnectParam.Builder` 方法：
+`ConnectParam.Builder` methods:
 
-| 方法                                                       | 描述                                                  | 参数                                                   |
+| Method                                                       | Description                                                  | Parameter                                                   |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `withHost(String host)`                                      | 设置主机名称或地址。                               | `host`：主机名称或地址。                     |
-| `withPort(int port)`                                         | 设置连接端口。 该值必须大于 0 且小于 65536。 | `port`：连接端口。                                 |
-| `withConnectTimeout(long connectTimeout, TimeUnit timeUnit)` | 设置客户端通道的连接超时值。 超时值必须大于 0。 | <li>`connectTimeout`：连接超时值。</li> <li>`timeUnit`：超时单位。</li> |
-| `withKeepAliveTime(long keepAliveTime, TimeUnit timeUnit)`   | 设置客户端通道的保活超时值。 超时值必须大于 0。 | <li><code>keepAliveTime</code>: 保活超时值。</li><li><code>timeUnit</code>：保活超时值。</li> |
-| `keepAliveWithoutCalls(boolean enable)`                      | 启用客户端通道保活功能。      | 是否启用保活功能。 如果该值设置为 `true`，则启用保活功能。 |
-| `secure(boolean enable) withSecure(boolean enable)`          | 启用客户端通道的安全性。                     | 如果该值设置为 `true`，则启用安全性。 |
-| `withIdleTimeout(long idleTimeout, TimeUnit timeUnit)`       | 设置客户端通道的空闲超时值。 超时值必须大于 0。 | <li>`idleTimeout`：客户端通道空闲超时时间。</li> <li>`timeUnit`：超时单位。</li> |
-| `withAuthorization(String username, String password)`        | 设置此连接的用户名和密码。          | <li><code>username</code>：当前用户的用户名。</li><li><code>password</code>：当前用户的用户名密码。</li> |
-| `build()`                                                    | 构建 `ConnectParam` 对象。                         | N/A                                                          |
+| `withHost(String host)`                                      | Sets the host name or address.                               | `host`: The name or address of the host.                     |
+| `withPort(int port)`                                         | Sets the connection port. The value must be greater than zero and less than 65536. | `port`: The connection port.                                 |
+| `withConnectTimeout(long connectTimeout, TimeUnit timeUnit)` | Sets the connection timeout value of client channel. The timeout value must be greater than zero. | `connectTimeout`: The connection timeout period. timeUnit: The unit of timeout. |
+| `withKeepAliveTime(long keepAliveTime, TimeUnit timeUnit)`   | Sets the keep-alive timeout value of the client channel. The timeout value must be greater than zero. | <li><code>keepAliveTime</code>: The keep-alive timeout period.</li><li><code>timeUnit</code>: The unit of timeout.</li> |
+| `keepAliveWithoutCalls(boolean enable)`                      | Enables the keep-alive function for the client channel.      | `enable`: A boolean value to indicate if the keep-alive function is enabled. The keep-alive function is enabled if the value is set to `true`. |
+| `secure(boolean enable) withSecure(boolean enable)`          | Enables security for the client channel.                     | `enable`: Security is enabled if the value is set to `true`. |
+| `withIdleTimeout(long idleTimeout, TimeUnit timeUnit)`       | Sets the value of idle timeout of the client channel. The timeout value must be greater than zero. | `idleTimeout`: The idle timeout period of the client channel. `timeUnit`: The unit of timeout. |
+| `withAuthorization(String username, String password)`        | Sets the username and password for this connection.          | <li><code>username</code>: The username of the current user.</li><li><code>password</code>: The password corresponding to the username.</li> |
+| `build()`                                                    | Constructs a `ConnectParam` object.                          | N/A                                                          |
 
-`ConnectParam.Builder.build()` 可能抛出以下异常：
+The `ConnectParam.Builder.build()` can throw the following exceptions:
 
-- `ParamException`：如果指定参数为无效参数则抛出此异常。
+- `ParamException`: error if the parameter is invalid.

@@ -1,16 +1,10 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 2
-slug: /nodejs/query
----
-
 # query()
 
-调用接口查询 Collection 中满足指定条件的 Entity。
+Queries entities that meet specific criteria in a collection.
 
-> 📘 说明
+> 📘 Note
 >
-> 执行查询或检索前，您需要加载 Collection。
+> You must load the collection before searching or querying data.
 
 ```javascript
 query(
@@ -22,7 +16,7 @@ query(
 )
 ```
 
-## 请求示例
+## Examples
 
 ```javascript
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
@@ -34,7 +28,7 @@ new milvusClient(ADDRESS).query({
 });
 ```
 
-成功回显：
+Success response:
 
 ```javascript
 {
@@ -46,12 +40,12 @@ new milvusClient(ADDRESS).query({
 }
 ```
 
-## 请求参数
+## Parameters
 
-| 参数        | 描述                                                                                                                                                                       | 类型     |
+| Parameters        | Description                                                                                                                                                                       | Type     |
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `collection_name`   | 待查询的 Collection 名称。                                                                                                                                               | String   |
-| `output_fields`     | 指定返回字段。                                                                                                                                            | String[] |
-| `filter`            | 过滤表达式。                                                                                                                                 | String   |
-| `partitions_names` | 待查询的分片名称。                                                                                                                             | String[] |
-| `timeout`          | 客户端等待的超时时间，单位为秒。如果设置为 None，客户端会一直等待，直到服务器响应或发生错误。 | Number   |
+| `collection_name`   | Name of the collection to query.                                                                                                                                               | String   |
+| `output_fields`     | Vector or scalar fields to return.                                                                                                                                            | String[] |
+| `filter`            | Boolean expression to filter data.                                                                                                                                 | String   |
+| `partitions_names` | Names of the partitions to query.                                                                                                                             | String[] |
+| `timeout`          | Length of time, in milliseconds, that the Remote Procedure Call (RPC) is allowed to run. If no value is provided, the default is undefined. | Number   |

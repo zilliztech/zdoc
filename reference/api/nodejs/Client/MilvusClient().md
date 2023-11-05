@@ -1,12 +1,6 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 0
-slug: /nodejs/milvus-client
----
-
 # MilvusClient()
 
-调用接口创建 MilvusClient 实例。
+Creates a Milvus client.
 
 ```javascript
 MilvusClient(
@@ -19,31 +13,31 @@ MilvusClient(
 )
 ```
 
-## 请求示例
+## Examples
 
 ```javascript
 const address = "cluster-endpoint";
-const username = "username"; // 创建集群时指定的用户名
-const password = "password"; // 创建集群时指定的用户名密码
+const username = "username"; // Username specified when you created the cluster
+const password = "password"; // Password specified when you created the cluster
 
 const client = new MilvusClient({ address, username, password });
 ```
 
-## 请求参数
+## Parameters
 
-| 参数      | 描述                                                                                                              | 类型   | 示例值             |
+| Parameters      | Description                                                                                                              | Type   | Example             |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------ | ------ | ------------------- |
-| `address`         |  用于连接到集群的公网地址。                                                                                                    | String | 'https://in03-81d60685a921326.api.aws-us-west-2.cloud-sit.zilliz.com' |
-| `username`       | 用于连接集群的用户名称。                                                                                   | String | `db_admin`              |
-| `password`        | 用于连接集群的用户密码。                                                                                    | String | `mypassword`              |
-| `maxRetries`     | 最大重试次数。默认值：**3**。                                                               | Number | 3                   |
-| `retryDelay`     | 尝试重试的 gRPC 方法间的延迟（以毫秒为单位）。默认值：**3**。                                        | Number | 30                  |
-| `channelOptions` | 创建连接到 gRPC 服务器的通道时可以传递给客户端的可选配置对象。 | Number | 30                  |
+| `address`         |  Endpoint used to connect to your cluster.                                                                                                    | String | 'https://in03-81d60685a921326.api.aws-us-west-2.cloud-sit.zilliz.com' |
+| `username`       | Username used to connect to your cluster.                                                                                   | String | `db_admin`              |
+| `password`        | Password used to connect to your cluster.                                                                                    | String | `mypassword`              |
+| `maxRetries`     | Max. number of retries for the gRPC method. Default value: **3**.                                                               | Number | 3                   |
+| `retryDelay`     | Delay between attempts to retry a failed gRPC method, in milliseconds. Default value: **30**.                                        | Number | 30                  |
+| `channelOptions` | Optional configuration object that can be passed to a gRPC client when creating a channel to connect to a gRPC server. | Number | 30                  |
 
-## 抛出
+## Raises
 
 None
 
-## 返回结果
+## Returns
 
-MilvusClient 实例。
+A MilvusClient.

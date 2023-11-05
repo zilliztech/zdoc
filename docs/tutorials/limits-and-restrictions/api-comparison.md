@@ -72,7 +72,7 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 |                                   |  selectGrantForRoleAndObject() |  ✘              |  ✘                |  ✘                               |
 |                                   |  selectRole()                  |  ✘              |  ✘                |  ✘                               |
 |                                   |  selectUser()                  |  ✘              |  ✘                |  ✘                               |
-|  System                           |  getVersion()                  |  ✘              |  ✘                |  ✘                               |
+|  System                           |  getVersion()                  |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  checkHealth()                 |  ✘              |  ✔︎               |  ✔︎                              |
 
 ## Related topics{#related-topics}

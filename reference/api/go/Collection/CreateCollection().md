@@ -1,18 +1,12 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 0
-slug: /go/create_collection
----
-
 # CreateCollection()
 
-调用接口创建 Collection。
+Creates a collection with a specified schema.
 
 ```go
 client.CreateCollection(ctx, collSchema, shardNum, opts)
 ```
 
-## 请求示例
+## Examples
 
 ```go
 var (
@@ -53,49 +47,49 @@ if err != nil {
 }
 ```
 
-## 请求参数
+## Parameters
 
-| 参数          | 描述                          | 类型     |
+| Parameter          | Description                          | Type     |
 |--------------------|--------------------------------------|----------|
-| `ctx` | 控制 API 调用进程的上下文。 | context.Context |
-| `collSchema` | 待创建 Collection 的 Schema。 | Schema 对象指针|
-| `shardNum` | 待创建 Collection 的分片数。 | INT32 |
-| `opts` | 用于创建 Collection 的其他选项。 您可以设置要创建的 Collection 的一致性级别。 | ...CreateCollectionOption |
+| `ctx` | Context to control API invocation process. | context.Context |
+| `collSchema` | Schema of the collection to create. | Pointer to a Schema object that specifies the schema of the collection.|
+| `shardNum` | Shard number of the collection to create. | INT32 |
+| `opts` | Additional options for creating the collection. As to this method, you can set the consistency level of the collection to be created. | ...CreateCollectionOption |
 
 ## Schema
 
-Schema 定义了要创建的 Collection 的结构和包含字段。
+A schema specifies the features of the collection to create and the fields within the collection.
 
-### Collection Schema
+### Collection schema
 
-Collection Schema 是 Collection 的逻辑定义。
+A collection schema is the logical definition of a collection.
 
-| 参数 |   描述 |  类型 |
+| Parameter |   Description |  Type |
 | --------- | ------ | ---------- |
-| `Collection Name` | 待创建的 Collection 的名称。 | String |
-| `Description` | 待创建的 Collection 的描述信息。 | String |
-| `AutoID` | 如果设置为 `true`，则会自动为 Collection 中的 Entity 分配 ID。 | Boolean |
-| `Fields` | 定义 Collection 中的字段。  | 详见 [Field Schema of Milvus](https://github.com/milvus-io/milvus-sdk-go/blob/7410632233597d4af58df727682ffb29f1d1d51d/entity/schema.go#L54-L63) |
+| `Collection Name` | Name of the collection to create. | String |
+| `Description` | Description of the collection to create. | String |
+| `AutoID` | Automatically assigns IDs to entities in the collection if it is set to `true`. | Boolean |
+| `Fields` | Defines the fields in the collection.  | See [Field Schema of Milvus](https://github.com/milvus-io/milvus-sdk-go/blob/7410632233597d4af58df727682ffb29f1d1d51d/entity/schema.go#L54-L63) for more information. |
 
-### Field Schema
+### Field schema
 
-Field Schema 是字段的逻辑定义。
+A field schema is the logical definition of a field.
 
-| 参数  |   描述                                  |  类型        |
+| Parameter  |   Description                                  |  Type        |
 | ---------- | ---------------------------------------------- | ------------ |
-|  `ID`      | 创建 Collection 时生成的字段 ID。 | INT64        |
-| `Name`     | 字段名称。                            | INT64        |
-| `PrimaryKey` | 是否启用主键。      | Boolean      |
-| `AutoID`   | 是否自动生成 ID。  | Boolean |
-| `Description` | 字段描述信息。                   | String       |
-| `DataType` | 字段数据类型。 | 详见 [FieldType](https://github.com/milvus-io/milvus-sdk-go/blob/9a7ab65299b4281cc24ad9da7834f6e25866f435/entity/schema.go#L116) |
-| `TypeParams` | 字段类型参数。               | 键值对 |
-| `IndexParams` | 索引参数。             | 键值对 |
+|  `ID`      | Field ID generated when collection is created. | int64        |
+| `Name`     | Name of the field.                             | int64        |
+| `PrimaryKey` | Switch value of primary key enablement.      | Boolean      |
+| `AutoID`   | Switch value of auto-generated ID enablement.  | Boolean |
+| `Description` | Description of the field.                   | String       |
+| `DataType` | Data type of the field. | See [FieldType](https://github.com/milvus-io/milvus-sdk-go/blob/9a7ab65299b4281cc24ad9da7834f6e25866f435/entity/schema.go#L116) for more information. |
+| `TypeParams` | Type parameters for the field.               | Map of key string value string |
+| `IndexParams` | Index parameters for the field.             | Map of key string value string |
 
-## 抛出
+## Raises
 
-`ErrClientNotReady`：客户端连接失败则抛出此异常。
+`ErrClientNotReady`: Error if the client is not connected.
 
-## 返回结果
+## Returns
 
 None

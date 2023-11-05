@@ -1,12 +1,6 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 0
-slug: /python/create_collection
----
-
 # create_collection()
 
-调用接口创建 Collection。
+Creates a collection.
 
 ```python
 create_collection(
@@ -20,9 +14,9 @@ create_collection(
 )
 ```
 
-## 请求示例
+## Examples
 
-- 使用动态 Schema 创建 Collection：
+- Create a collection with a dynamic schema:
 
     ```python
     from pymilvus import MilvusClient
@@ -35,7 +29,7 @@ create_collection(
     )
     ```
 
-- 使用定制 Schema 创建 Collection：
+- Create a collection with a custom schema:
 
     ```python
     from pymilvus import MilvusClient
@@ -51,22 +45,22 @@ create_collection(
     )
     ```
 
-## 请求参数
+## Parameters
 
-| 参数      | 描述                                                                                         | 类型   | 是否必选 |
-|-----------|--------------------------------------------------------------------------------------------|--------|---------|
-| `collection_name` | 待创建的 Collection 的名称。 | String | 是     |
-| `dimension` | 向量维度。 | Integer | 是     |
-| `primary_field_name` | 主键名称。默认值：**id**。 | String | 否     |
-| `id_type` | 主键的数据类型。有效值：**int64** 或 **string**。 | String | 否     |
-| `vector_field_name` | 向量字段名称。 | String | 否     |
-| `metric_type` | Collection 使用的相似度类型。 | String | 否     |
-| `timeout` | 客户端等待的超时时间，单位为秒。如果设置为 None，客户端会一直等待，直到服务器响应或发生错误。 | Float | 否     |
+| Parameter          | Description                          | Type     | Required |
+|--------------------|--------------------------------------|----------|----------|
+| `collection_name` | Name of the collection to create. | String | True     |
+| `dimension` | Vector dimension. | Integer | True     |
+| `primary_field_name` | Name of the primary key. Default value: **id**. | String | False     |
+| `id_type` | Data type of the primary key. Valid values: **int64** or **string**. | String | False     |
+| `vector_field_name` | Name of the vector field. | String | False     |
+| `metric_type` | Metric type for the collection. | String | False     |
+| `timeout` | An optional duration of time in seconds to allow for the RPC. If it is set to None, the client keeps waiting until the server responds or error occurs. | Float | False     |
 
-## 抛出
+## Raises
 
 None
 
-## 返回结果
+## Returns
 
 None

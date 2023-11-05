@@ -1,12 +1,6 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 4
-slug: /python/delete
----
-
 # delete()
 
-调用接口按主键删除 Collection 中的 Entity。
+Deletes entities from a collection by primary keys.
 
 ```python
 delete(
@@ -16,9 +10,9 @@ delete(
 )
 ```
 
-## 请求示例
+## Examples
 
-- 删除主键类型为 String 的 Entity：
+- Delete an entity by a primary key of a string:
 
     ```python
     from pymilvus import MilvusClient
@@ -31,7 +25,7 @@ delete(
     )
     ```
 
-- 删除主键类型为 Integer 的 Entity：
+- Delete an entity by a primary key of an integer:
 
     ```python
     from pymilvus import MilvusClient
@@ -44,7 +38,7 @@ delete(
     )
     ```
 
-- 批量删除 Entity：
+- Delete multiple entities by primary keys:
 
     ```python
     from pymilvus import MilvusClient
@@ -57,18 +51,18 @@ delete(
     )
     ```
 
-## 请求参数
+## Parameters
 
-| 参数      | 描述                                                                                         | 类型   | 是否必选 |
-|-----------|--------------------------------------------------------------------------------------------|--------|---------|
-| `collection_name` | 待删除 Entity 所在的 Collection 的名称。 | String | 是    |
-| `pks` | 待删除 Entity 的主键值。 | Union[list, str, int] | 是    |
-| `timeout` | 客户端等待的超时时间，单位为秒。如果设置为 None，客户端会一直等待，直到服务器响应或发生错误。 | Float | 否     |
+| Parameter           | Description                                                                          | Type    | Required |
+|---------------------|--------------------------------------------------------------------------------------|---------|----------|
+| `collection_name` | Name of the collection from which data is deleted. | String | True    |
+| `pks` | Primary keys of the entities to delete. | Union[list, str, int] | True    |
+| `timeout` | An optional duration of time in seconds to allow for the RPC. If it is set to None, the client keeps waiting until the server responds or error occurs. | Float | False     |
 
-## 抛出
+## Raises
 
 None
 
-## 返回结果
+## Returns
 
 None

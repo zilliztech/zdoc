@@ -1,18 +1,12 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 1
-slug: /go/describe_collection
----
-
 # DescribeCollection()
 
-调用接口获取指定 Collection 的详细信息，包括 Collection 名称和 Schema 等。
+Shows the details of a collection, including the collection name, schema, and more.
 
 ```go
 client.DescribeCollection(ctx, collName)
 ```
 
-## 请求示例
+## Examples
 
 ```go
 ctx := context.Background()
@@ -28,18 +22,18 @@ if err != nil {
 log.Printf("%v\n", collDesc)
 ```
 
-## 请求参数
+## Parameters
 
-| 参数          | 描述                          | 类型     |
+| Parameter          | Description                          | Type     |
 |--------------------|--------------------------------------|----------|
-| `ctx` | 控制 API 调用进程的上下文。 | context.Context |
-| `collName` | 目标 Collection 的名称。 | String |
+| `ctx` | Context to control API invocation process. | context.Context |
+| `collName` | Name of the collection to describe. | String |
 
-## 抛出
+## Raises
 
-- `ErrClientNotReady`：客户端连接失败则抛出此异常。
-- `ErrCollectionNotExists`：指定 Collection 不存在则抛出此异常。
+- `ErrClientNotReady`: Error if the client is not connected.
+- `ErrCollectionNotExists`: Error if the collection with the specified name does not exist.
 
-## 返回结果
+## Returns
 
-Collection 对象，包含 Collection 的 Schema 等信息。
+Pointer to a Collection object that contains the schema and other information for the specified collection.

@@ -1,22 +1,16 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 3
-slug: /go/drop_collection
----
-
 # DropCollection()
 
-调用接口删除 Collection。
+Drops a specified collection.
 
-> 📘 说明
+> 📘 Note
 >
-> 此调用会删除 Collection 中的所有数据。
+> This method drops all data in a collection.
 
 ```go
 client.DropCollection(ctx, collName)
 ```
 
-## 请求示例
+## Examples
 
 ```go
 ctx := context.Background()
@@ -30,19 +24,19 @@ if err != nil {
 }
 ```
 
-## 请求参数
+## Parameters
 
-| 参数          | 描述                          | 类型     |
+| Parameter          | Description                          | Type     |
 |--------------------|--------------------------------------|----------|
-| `ctx` | 控制 API 调用进程的上下文。 | context.Context |
-| `collName` | 目标 Collection 的名称。 | String |
+| `ctx` | Context to control API invocation process. | context.Context |
+| `collName` | Name of the collection to drop. | String |
 
-## 抛出
+## Raises
 
-- `ErrClientNotReady`：客户端连接失败则抛出此异常。
+- `ErrClientNotReady`: Error if the client is not connected.
 
-- `ErrCollectionNotExists`: 指定 Collection 不存在则抛出此异常。
+- `ErrCollectionNotExists`: Error if the collection with the specified name does not exist.
 
-## 返回结果
+## Returns
 
 None

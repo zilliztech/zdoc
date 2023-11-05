@@ -1,30 +1,25 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 0
-slug: /go/new-client
----
-
 # NewClient()
 
-调用接口创建 MilvusClient 实例。
+Creates a Milvus client.
 
 ```go
 client.NewClient(ctx, config)
 ```
 
-## 请求示例
+## Examples
 
 ```go
 ctx := context.Background()
 
 config := Config{
-    Address: "endpoint", // 从 Zilliz Cloud 控制台获取的集群公网地址
-    Username: "myuser", // 用于连接到集群的用户名
-    Password: "mypassword", // 用于连接到集群的用户名密码
-    Identifier: "myconnection", // 本次连接的标识符
-    EnableTLSAuth: true, // 是否启用 TLS 身份验证以确保传输安全
-    DialOptions: []grpc.DialOption{...}, // GRPC 拨号选项
-    DisableConn: false, // 是否包含已筛选或未导出的字段
+    Address: "endpoint", // Cluster endpoint.
+    Username: "myuser", // Username for auth.
+    Password: "mypassword", // Password for auth.
+    Identifier: "myconnection", // Identifier for this connection.
+    EnableTLSAuth: true, // Enable TLS Auth for transport security.
+    APIKey: "myapikey", // API key.
+    DialOptions: []grpc.DialOption{...}, // Dial options for GRPC.
+    DisableConn: false, // Whether to contain filtered or unexported fields.
   }
 
 milvusClient, err := client.NewClient(ctx, config)
@@ -34,29 +29,30 @@ if err != nil {
 }
 ```
 
-## 请求参数
+## Parameters
 
-| 参数          | 描述                          | 类型     |
+| Parameter          | Description                          | Type     |
 |--------------------|--------------------------------------|----------|
-| `ctx` | 控制 API 调用进程的上下文。 | context.Context |
-| `config` | Milvus 客户端的配置选项。 | Config |
+| `ctx` | Context to control API invocation process. | context.Context |
+| `config` | Configuration options for the Milvus client. | Config |
 
-## 配置
+## Config
 
-| 参数          | 描述                          | 类型     |
+| Parameter          | Description                          | Type     |
 |--------------------|--------------------------------------|----------|
-| `Address` | 用于连接到集群的公网地址。 | String |
-| `Username` | 用于鉴权的用户名。 | String |
-| `Password` | 用于鉴权的用户名密码。 | String |
-| `Identifier` | 本次连接的标识符。| String |
-| `EnableTLSAuth` | 是否启用 TLS 身份验证以确保传输安全。 | Boolean |
-| `DialOptions` | GRPC 拨号选项。 | grpc.DialOption |
-| `DisableConn` | 是否包含已筛选或未导出的字段。| Boolean |
+| `Address` | Endpoint of the cluster to connect. | String |
+| `Username` | Username for cluster authentication. | String |
+| `Password` | Password for cluster authentication. | String |
+| `Identifier` | Identifier for the connection. | String |
+| `EnableTLSAuth` | Whether to enable TLS Auth for transport security. | Boolean |
+| `APIKey` | API key used to connect to the cluster. | String |
+| `DialOptions` | Dial options for GRPC. | grpc.DialOption |
+| `DisableConn` | Whether to contain filtered or unexported fields. | Boolean |
 
-## 抛出
+## Raises
 
 None
 
-## 返回结果
+## Returns
 
-MilvusClient 实例。
+A Milvus client instance.

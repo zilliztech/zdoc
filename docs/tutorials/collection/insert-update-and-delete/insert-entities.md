@@ -1,7 +1,7 @@
 ---
 slug: /insert-entities
 beta: FALSE
-notebook: 08_insert_and_upsert.ipynb
+notebook: 01_use_customized_schema.ipynb
 sidebar_position: 1
 ---
 

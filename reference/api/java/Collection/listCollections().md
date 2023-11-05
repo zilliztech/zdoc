@@ -6,13 +6,13 @@ slug: /java/list_collection
 
 # listCollections()
 
-调用接口查询当前已创建的所有 Collection。
+Lists all created collections.
 
 ```Java
 R<ListCollectionsResponse> listCollections(ListCollectionsParam requestParam);
 ```
 
-## 请求示例
+## Examples
 
 ```Java
 import io.milvus.param.highlevel.collection.*;
@@ -31,29 +31,29 @@ for (String collectionName : response.getData().collectionNames) {
 
 ## ListCollectionsParam
 
-使用 `ListCollectionsParam.Builder` 构建 `ListCollectionsParam` 对象。
+Use `ListCollectionsParam.Builder` to build a `ListCollectionsParam` object.
 
 ```Java
 import io.milvus.param.highlevel.collection.ListCollectionsParam;
 ListCollectionsParam.Builder builder = ListCollectionsParam.newBuilder();
 ```
 
-`ListCollectionsParam.Builder` 方法：
+Methods of `ListCollectionsParam.Builder`:
 
-| 方法 | 描述 | 参数 |
+| Method | Description | Arguments |
 | --- | --- | --- |
-| `build()` | 构建 `ListCollectionsParam` 对象。 | N/A |
+| `build()` | Builds a `ListCollectionsParam` object. | N/A |
 
-`ListCollectionsParam.Builder.build()` 可能会抛出以下异常：
+`ListCollectionsParam.Builder.build()` can throw the following exceptions:
 
-- `ParamException`：如果指定参数为无效参数则抛出此异常。
+- `ParamException`: error if the parameter is invalid.
 
-## 返回结果
+## Returns
 
-此方法捕获所有异常并返回 `R<ListCollectionsResponse>` 对象。
+This method catches all the exceptions and returns an `R<ListCollectionsResponse>` object.
 
-- 如果 API 调用在服务器端失败，会从服务器返回错误代码和消息。
+- If the API fails on the server side, it returns the error code and message from the server.
 
-- 如果 API 调用因 RPC 异常而失败，则会返回 `R.Status.Unknow` 和异常的错误消息。
+- If the API fails by RPC exception, it returns `R.Status.Unknow` and the error message of the exception.
 
-- 如果 API 调用成功，返回 `ListCollectionsResponse`。
+- If the API succeeds, it returns `ListCollectionsResponse`.

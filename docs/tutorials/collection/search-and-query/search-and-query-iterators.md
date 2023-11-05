@@ -1,7 +1,7 @@
 ---
 slug: /search-and-query-iterators
 beta: TRUE
-notebook: 09_search_and_query.ipynb
+notebook: 09_search_query_iterators.ipynb
 sidebar_position: 3
 ---
 

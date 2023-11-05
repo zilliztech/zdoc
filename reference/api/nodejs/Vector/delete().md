@@ -1,12 +1,6 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 4
-slug: /nodejs/delete
----
-
 # delete()
 
-调用接口按 ID 删除 Collection 中的 Entity。
+Deletes entities from a collection by IDs.
 
 ```javascript
 delete(
@@ -15,7 +9,7 @@ delete(
 )
 ```
 
-## 请求示例
+## Examples
 
 ```javascript
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
@@ -26,7 +20,7 @@ new milvusClient(ADDRESS).delete({
 });
 ```
 
-成功回显：
+Success response:
 
 ```javascript
 {
@@ -34,17 +28,17 @@ new milvusClient(ADDRESS).delete({
 }
 ```
 
-## 请求参数
+## Parameters
 
-| 参数        | 描述                                                                                                                                                                       | 类型                 |
+| Parameter        | Description                                                                                                                                                                       | Type                 |
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
-| `collection_name`   | 待删除 Entity 所在的 Collection 的名称。                                                                                                                                               | String               |
-| `ids`               | 待删除 Entity 的 ID。                                                                                                                                                                          | String[] or Number[] |
+| `collection_name`   | Name of the collection from which entities are to be deleted.                                                                                                                                               | String               |
+| `ids`               | IDs of entities to delete.                                                                                                                                                                          | String[] or Number[] |
 
-## 抛出
+## Raises
 
 None
 
-## 返回结果
+## Returns
 
 None

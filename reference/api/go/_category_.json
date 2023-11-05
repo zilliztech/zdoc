@@ -1,9 +1,9 @@
 {
-    "label": "Go SDK 参考",
+    "label": "Go SDK Reference",
     "position": 3,
     "link": {
         "type": "generated-index",
-        "title": "Go SDK 参考",
+        "title": "Go SDK Reference",
         "slug": "/go"
     }
 }

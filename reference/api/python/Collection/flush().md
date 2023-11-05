@@ -1,12 +1,6 @@
----
-displayed_sidebar: referenceSidebar
-sidebar_position: 4
-slug: /python/flush
----
-
 # flush()
 
-调用接口将 Collection 中的所有 Entity 写入盘。 Flush 操作后，任何新插入的数据都会生成新的数据段。 只有写入盘后的数据才能被索引。
+Seals all entities in the current collection. Any insertion after a flush operation results in generating new segments. Note that only sealed segments can be indexed.
 
 ```python
 flush(
@@ -15,7 +9,7 @@ flush(
 )
 ```
 
-## 请求示例
+## Examples
 
 ```python
 from pymilvus import MilvusClient
@@ -25,17 +19,17 @@ client = MilvusClient(uri, token)
 client.flush(collection_name='my-collection')
 ```
 
-## 请求参数
+## Parameters
 
-| 参数      | 描述                                                                                         | 类型   | 是否必选 |
-|-----------|--------------------------------------------------------------------------------------------|--------|---------|
-| `collection_name` | 目标 Collection 的名称。 | String | 是     |
-| `timeout` | 客户端等待的超时时间，单位为秒。如果设置为 None，客户端会一直等待，直到服务器响应或发生错误。 | Float | 否     |
+| Parameter          | Description                          | Type     | Required |
+|--------------------|--------------------------------------|----------|----------|
+| `collection_name` | Name of the collection to flush. | String | True     |
+| `timeout` | An optional duration of time in seconds to allow for the RPC. If it is set to None, the client keeps waiting until the server responds or error occurs. | Float | False     |
 
-## 抛出
+## Raises
 
 None
 
-## 返回结果
+## Return
 
 None

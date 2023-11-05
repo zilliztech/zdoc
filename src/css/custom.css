@@ -96,3 +96,11 @@ article > section a.card > p {
   margin-left: 1.5rem;
   font-weight: 400;
 }
+
+#exec > a {
+  color: #000000 !important;
+}
+
+#exec > a:hover {
+  color: #175fff !important;
+}

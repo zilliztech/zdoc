@@ -9,7 +9,7 @@ sidebar_position: 3
 
 # Manage Projects and Collaborators
 
-In the [organization and project](./a-panorama-view) hierarchy, you can manage projects through the following actions:
+In the [organization and project](./a-panorama-view) hierarchy, you can manage projects and collaborators through the following actions:
 
 - [Creating a project](./manage-projects-and-collaborator#create-a-project)
 

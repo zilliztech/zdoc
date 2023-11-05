@@ -74,11 +74,11 @@ export default function HeadingWrapper(props) {
   
         {
           props.as === 'h1' && notebook && (
-            <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '1rem' }}>
-              <Link to={"https://colab.research.google.com/github/zilliztech/zdoc-demos/blob/master/python/" + notebook}>
+            <div id="exec" style={{ marginBottom: '1.5rem', display: 'flex', gap: '1rem' }}>
+              <Link to={"https://colab.research.google.com/github/zilliztech/zdoc-demos/blob/master/python/" + notebook} style={{ color: "#000000"}}>
                 <OpenInButtonComponent caption="colab" icon={<Colab />} />
               </Link>
-              <Link to="https://codespaces.new/zilliztech/zdoc-demos">
+              <Link to="https://codespaces.new/zilliztech/zdoc-demos" style={{ color: "#000000"}}>
                 <OpenInButtonComponent caption="github codespaces" icon={<Github />} />
               </Link>
             </div>

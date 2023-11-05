@@ -1,7 +1,7 @@
 ---
 slug: /use-bulkwriter-for-data-import
 beta: FALSE
-notebook: 07_use_bulk_import.ipynb
+notebook: 06_use_remote-bulk-writer.ipynb
 sidebar_position: 1
 ---
 
