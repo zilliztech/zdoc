@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 3
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Manage Cluster
@@ -17,11 +18,11 @@ After creating a serverless cluster, you will see the following in the console.
 
 ![serverless-cluster-lifecycle](/img/serverless-cluster-lifecycle.png)
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 You have the option to create one serverless cluster without charge. In addition, you can create up to two collections within the cluster.
 
-:::
+</Admonition>
 
 ### Connect to cluster{#connect-to-cluster}
 
@@ -53,11 +54,11 @@ After you complete the form and click on **Migrate Cluster**, Zilliz Cloud creat
 
 The dedicated cluster status will switch from **CREATING** to **RESTORING**, and finally to **RUNNING**. Once this is complete, you can connect to the dedicated cluster and manipulate the restored data.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 This feature is available once you set up your payment method.
 
-:::
+</Admonition>
 
 ## Dedicated cluster{#dedicated-cluster}
 
@@ -80,15 +81,15 @@ Once you have created a dedicated cluster, you will see the following in the con
 - **Collections**
     On the **Collections** tab, you can manage the collections in the cluster. You can create collections, import data into them, load or release them, rename them, and drop them.
 
-    For details on data import, refer to [Data Import](./undefined).
+    For details on data import, refer to [Data Import](https://docs.zilliz.com/docs/data-import).
 
     ![manage-collections](/img/manage-collections.png)
 
 - **Backups**
-    In the **Actions** drop-down button, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](./undefined).
+    In the **Actions** drop-down button, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](https://docs.zilliz.com/docs/backup-and-restore).
 
 - **Data migrations**
-    In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrations](./undefined).
+    In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrate Between Clusters](./migrate-beween-clusters#from-dedicated-to-another-dedicated-cluster).
 
 ### Users and access control{#users-and-access-control}
 
@@ -99,12 +100,12 @@ Once you have created a dedicated cluster, you will see the following in the con
 
     ![manage-users](/img/manage-users.png)
 
-    :::info Notes
-
+    <Admonition type="info" icon="📘" title="Notes">    
     
-    You cannot drop **db_admin**. Zilliz Cloud grants access permissions to all collections in the cluster to any added users.
+    
+    You cannot drop <b>db_admin</b>. Zilliz Cloud grants access permissions to all collections in the cluster to any added users.
 
-    :::
+    </Admonition>
 
 - **Whitelist**
     In the **Summary** section, click on the IP address in **Network Address** to add IP address segments to the whitelist. Once an IP address segment, other than a full-zero one (**0.0.0.0/0**), is added to the whitelist, Zilliz Cloud only permits access from IP addresses within the listed IP address segments.
@@ -120,12 +121,12 @@ Once you have created a dedicated cluster, you will see the following in the con
 
     For details on CU types and how to select an appropriate one, refer to [CU Types](https://zilliverse.feishu.cn/wiki/RkNSwoi5AiD2DBkgptxcbz3anGc).
 
-    :::caution Warning
-
+    <Admonition type="caution" icon="🚧" title="Warning">    
+    
     
     Scaling up a cluster may cause several minutes of downtime. Please exercise caution.
 
-    :::
+    </Admonition>
 
 - **Upgrade service plan**
     For standard users, click **Upgrade** right to the service **Plan** in the **Summary** section to upgrade your plan to **Enterprise**. Zilliz Cloud upgrades your service plan only after you confirm this operation in the **Upgrade to Enterprise Plan** dialog box.
@@ -155,11 +156,9 @@ Once you have created a dedicated cluster, you will see the following in the con
 
 - [Set up a Private Link](./set-up-a-private-link)
 
-- [Backup & Restore](./undefined)
+- [Backup & Restore](https://docs.zilliz.com/docs/backup-and-restore)
 
-- [Migrations](./undefined)
-
-- [CU Types](https://zilliverse.feishu.cn/wiki/RkNSwoi5AiD2DBkgptxcbz3anGc)
+- [Migrate Between Clusters](./migrate-beween-clusters#from-dedicated-to-another-dedicated-cluster)
 
 - [Select the Right CU](./cu-types-explained-1)
 

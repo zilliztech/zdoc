@@ -5,17 +5,18 @@ notebook: FALSE
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Monitor QPS
 
 To optimize your Zilliz Cloud cluster’s performance through timely adjustments of queries per second (QPS), it is advisable to activate the QPS resource monitor.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 This is a feature exclusively available to clusters in the Standard and Enterprise plans.
 
-:::
+</Admonition>
 
 ## Set alert condition{#set-alert-condition}
 

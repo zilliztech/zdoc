@@ -5,6 +5,7 @@ notebook: 01_use_customized_schema.ipynb
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Create Collection with Schema
@@ -30,11 +31,26 @@ In production settings, it's best practice to utilize a custom schema over a dyn
     <TabItem value='python'>
 
     ```python
-    # 2. Define fields
+    from pymilvus import connections, FieldSchema, CollectionSchema, DataType, Collection, utility
+    
+    CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" # Set your cluster endpoint
+    TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
+    COLLECTION_NAME="medium_articles_2020" # Set your collection name
+    DATASET_PATH="../medium_articles_2020_dpr.json" # Set your dataset path
+    
+    connections.connect(
+      alias='default', 
+      #  Public endpoint obtained from Zilliz Cloud
+      uri=CLUSTER_ENDPOINT,
+      # API key or a colon-separated cluster username and password
+      token=TOKEN, 
+    )
+    
+    # 1. Define fields
     fields = [
         FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
         FieldSchema(name="title", dtype=DataType.VARCHAR, max_length=512),   
-        FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=768),
+        FieldSchema(name="title_vector", dtype=DataType.FLOAT_VECTOR, dim=768),
         FieldSchema(name="link", dtype=DataType.VARCHAR, max_length=512),
         FieldSchema(name="reading_time", dtype=DataType.INT64),
         FieldSchema(name="publication", dtype=DataType.VARCHAR, max_length=512),
@@ -48,49 +64,56 @@ In production settings, it's best practice to utilize a custom schema over a dyn
     <TabItem value='javascript'>
 
     ```javascript
-    // 2. Define Fields
+    const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
     
-    // You should include the following in the async function declaration.
+    async function main() {
     
-    const fields = [
-        {
-            name: "id",
-            data_type: DataType.Int64,
-            is_primary_key: true
-        },
-        {
-            name: "title",
-            data_type: DataType.VarChar,
-            max_length: 512,
-        },
-        {
-            name: "vector",
-            data_type: DataType.FloatVector,
-            dim: 768,
-        },
-        {
-            name: "link",
-            data_type: DataType.VarChar,
-            max_length: 512,
-        },
-        {
-            name: "reading_time",
-            data_type: DataType.Int64,
-        },
-        {
-            name: "publication",
-            data_type: DataType.VarChar,
-            max_length: 512,
-        },
-        {
-            name: "claps",
-            data_type: DataType.Int64,
-        },
-        {
-            name: "responses",
-            data_type: DataType.Int64,
-        },
-    ];
+        // 1. Connect to the cluster
+        const client = new MilvusClient({address, token})
+        
+        // 2. Define fields
+        fields = [
+            {
+                name: "id",
+                data_type: DataType.Int64,
+                is_primary_key: true,
+                auto_id: true
+            },
+            {
+                name: "title",
+                data_type: DataType.VarChar,
+                max_length: 512
+            },
+            {
+                name: "title_vector",
+                data_type: DataType.FloatVector,
+                dim: 768
+            },
+            {
+                name: "link",
+                data_type: DataType.VarChar,
+                max_length: 512
+            },
+            {
+                name: "reading_time",
+                data_type: DataType.Int64
+            },
+            {
+                name: "publication",
+                data_type: DataType.VarChar,
+                max_length: 512
+            },
+            {
+                name: "claps",
+                data_type: DataType.Int64
+            },
+            {
+                name: "responses",
+                data_type: DataType.Int64
+            }
+        ]
+    
+    }
     ```
 
     </TabItem>
@@ -98,55 +121,78 @@ In production settings, it's best practice to utilize a custom schema over a dyn
     <TabItem value='java'>
 
     ```java
-    // 2. Define fields
+    public final class UseCustomizedSchemaDemo  {
+        public static void main(String[] args) {
+            String clusterEndpoint = "YOUR_CLUSTER_ENDPOINT";
+            String token = "YOUR_CLUSTER_TOKEN";
+            String collectionName = "medium_articles";
+            String data_file = System.getProperty("user.dir") + "/medium_articles_2020_dpr.json";
     
-    // You should include the following in the main function
+            // 1. Connect to Zilliz Cloud cluster
+            ConnectParam connectParam = ConnectParam.newBuilder()
+                .withUri(clusterEndpoint)
+                .withToken(token)
+                .build();
     
-    FieldType id = FieldType.newBuilder()
-        .withName("id")
-        .withDataType(DataType.Int64)
-        .withPrimaryKey(true)
-        .withAutoID(true)
-        .build();
+            MilvusServiceClient client = new MilvusServiceClient(connectParam);
     
-    FieldType title = FieldType.newBuilder()
-        .withName("title")
-        .withDataType(DataType.VarChar)
-        .withMaxLength(512)
-        .build();
+            System.out.println("Connected to Zilliz Cloud!");
     
-    FieldType title_vector = FieldType.newBuilder()
-        .withName("vector")
-        .withDataType(DataType.FloatVector)
-        .withDimension(768)
-        .build();
     
-    FieldType link = FieldType.newBuilder()
-        .withName("link")
-        .withDataType(DataType.VarChar)
-        .withMaxLength(512)
-        .build();
+            // Output:
+            // Connected to Zilliz Cloud!
     
-    FieldType reading_time = FieldType.newBuilder()
-        .withName("reading_time")
-        .withDataType(DataType.Int64)
-        .build();
     
-    FieldType publication = FieldType.newBuilder()
-        .withName("publication")
-        .withDataType(DataType.VarChar)
-        .withMaxLength(512)
-        .build();
     
-    FieldType claps = FieldType.newBuilder()
-        .withName("claps")
-        .withDataType(DataType.Int64)
-        .build();
+            // 2. Define fields
     
-    FieldType responses = FieldType.newBuilder()
-        .withName("responses")
-        .withDataType(DataType.Int64)
-        .build();
+            FieldType id = FieldType.newBuilder()
+                .withName("id")
+                .withDataType(DataType.Int64)
+                .withPrimaryKey(true)
+                .withAutoID(true)
+                .build();
+    
+            FieldType title = FieldType.newBuilder()
+                .withName("title")
+                .withDataType(DataType.VarChar)
+                .withMaxLength(512)
+                .build();
+    
+            FieldType title_vector = FieldType.newBuilder()
+                .withName("title_vector")
+                .withDataType(DataType.FloatVector)
+                .withDimension(768)
+                .build();
+    
+            FieldType link = FieldType.newBuilder()
+                .withName("link")
+                .withDataType(DataType.VarChar)
+                .withMaxLength(512)
+                .build();
+    
+            FieldType reading_time = FieldType.newBuilder()
+                .withName("reading_time")
+                .withDataType(DataType.Int64)
+                .build();
+    
+            FieldType publication = FieldType.newBuilder()
+                .withName("publication")
+                .withDataType(DataType.VarChar)
+                .withMaxLength(512)
+                .build();
+    
+            FieldType claps = FieldType.newBuilder()
+                .withName("claps")
+                .withDataType(DataType.Int64)
+                .build();
+    
+            FieldType responses = FieldType.newBuilder()
+                .withName("responses")
+                .withDataType(DataType.Int64)
+                .build();
+        }
+    }
     ```
 
     </TabItem>
@@ -154,46 +200,68 @@ In production settings, it's best practice to utilize a custom schema over a dyn
     <TabItem value='go'>
 
     ```go
-    // 2. Define fields
+    import "github.com/milvus-io/milvus-sdk-go/v2/client"
     
-    // You should include the following in the main function
+    func main() {
+            CLUSTER_ENDPOINT := "YOUR_CLUSTER_ENDPOINT"
+            TOKEN := "YOUR_CLUSTER_TOKEN"
+            COLLNAME := "medium_articles_2020"
     
-    id := entity.NewField().
-            WithName("id").
-            WithDataType(entity.FieldTypeInt64).
-            WithIsPrimaryKey(true)
+            // 1. Connect to cluster
     
-    title := entity.NewField().
-            WithName("title").
-            WithDataType(entity.FieldTypeVarChar).
-            WithMaxLength(512)
+            connParams := client.Config{
+                    Address: CLUSTER_ENDPOINT,
+                    APIKey:  TOKEN,
+            }
     
-    title_vector := entity.NewField().
-            WithName("vector").
-            WithDataType(entity.FieldTypeFloatVector).
-            WithDim(768)
+            conn, err := client.NewClient(context.Background(), connParams)
     
-    link := entity.NewField().
-            WithName("link").
-            WithDataType(entity.FieldTypeVarChar).
-            WithMaxLength(512)
+            if err != nil {
+                    log.Fatal("Failed to connect to Zilliz Cloud:", err.Error())
+            }
     
-    reading_time := entity.NewField().
-            WithName("reading_time").
-            WithDataType(entity.FieldTypeInt64)
+            // 2. Create collection
     
-    publication := entity.NewField().
-            WithName("publication").
-            WithDataType(entity.FieldTypeVarChar).
-            WithMaxLength(512)
+            // Define fields
     
-    claps := entity.NewField().
-            WithName("claps").
-            WithDataType(entity.FieldTypeInt64)
+            id := entity.NewField().
+                    WithName("id").
+                    WithDataType(entity.FieldTypeInt64).
+                    WithIsPrimaryKey(true)
     
-    responses := entity.NewField().
-            WithName("responses").
-            WithDataType(entity.FieldTypeInt64)
+            title := entity.NewField().
+                    WithName("title").
+                    WithDataType(entity.FieldTypeVarChar).
+                    WithMaxLength(512)
+    
+            title_vector := entity.NewField().
+                    WithName("title_vector").
+                    WithDataType(entity.FieldTypeFloatVector).
+                    WithDim(768)
+    
+            link := entity.NewField().
+                    WithName("link").
+                    WithDataType(entity.FieldTypeVarChar).
+                    WithMaxLength(512)
+    
+            reading_time := entity.NewField().
+                    WithName("reading_time").
+                    WithDataType(entity.FieldTypeInt64)
+    
+            publication := entity.NewField().
+                    WithName("publication").
+                    WithDataType(entity.FieldTypeVarChar).
+                    WithMaxLength(512)
+    
+            claps := entity.NewField().
+                    WithName("claps").
+                    WithDataType(entity.FieldTypeInt64)
+    
+            responses := entity.NewField().
+                    WithName("responses").
+                    WithDataType(entity.FieldTypeInt64)
+                    
+    }
     ```
 
     </TabItem>
@@ -204,19 +272,12 @@ In production settings, it's best practice to utilize a custom schema over a dyn
     <TabItem value='python'>
 
     ```python
-    # 3. Build the schema
+    # 2. Build the schema
     schema = CollectionSchema(
         fields,
         description="Schema of Medium articles",
         enable_dynamic_field=False
     )
-    
-    # 4. Set index parameters
-    index_params = {
-        "index_type": "AUTOINDEX",
-        "metric_type": "L2",
-        "params": {"nlist": 128}
-    }
     ```
 
     </TabItem>
@@ -224,16 +285,7 @@ In production settings, it's best practice to utilize a custom schema over a dyn
     <TabItem value='javascript'>
 
     ```javascript
-    // 3. Build the request for creating a collection
-    
-    // You should include the following in the async function declaration.
-    
-    const collection_name = "medium_articles";
-    
-    const req = {
-        collection_name,
-        fields
-    }
+    // The list of fields in the previous step suffice.
     ```
 
     </TabItem>
@@ -241,23 +293,27 @@ In production settings, it's best practice to utilize a custom schema over a dyn
     <TabItem value='java'>
 
     ```java
-    // 3. Build the schema
+    public final class UseCustomizedSchemaDemo  {
+        public static void main(String[] args) {
+            
+            // (Continued)
+            
+            // 3. Create collection
     
-    // You should include the following in the main function
-    
-    CreateCollectionParam createCollectionParam = CreateCollectionParam.newBuilder()
-        .withCollectionName("medium_articles")
-        .withDescription("Schema of Medium articles")
-        .addFieldType(id)
-        .addFieldType(title)
-        .addFieldType(vector)
-        .addFieldType(link)
-        .addFieldType(reading_time)
-        .addFieldType(publication)
-        .addFieldType(claps)
-        .addFieldType(responses)
-        .withEnableDynamicField(true)
-        .build();
+            CreateCollectionParam createCollectionParam = CreateCollectionParam.newBuilder()
+                .withCollectionName("medium_articles")
+                .withDescription("Schema of Medium articles")
+                .addFieldType(id)
+                .addFieldType(title)
+                .addFieldType(title_vector)
+                .addFieldType(link)
+                .addFieldType(reading_time)
+                .addFieldType(publication)
+                .addFieldType(claps)
+                .addFieldType(responses)
+                .build();     
+        }
+    }
     ```
 
     </TabItem>
@@ -265,24 +321,24 @@ In production settings, it's best practice to utilize a custom schema over a dyn
     <TabItem value='go'>
 
     ```go
-    // 3. Build the schema
-    
-    // You should include the following in the main function
-    
-    schema := &entity.Schema{
-            CollectionName: "medium_articles",
-            Description:    "Medium articles published between Jan and August in 2020 in prominent publications",
-            AutoID:         true,
-            Fields: []*entity.Field{
-                    id,
-                    title,
-                    vector,
-                    link,
-                    reading_time,
-                    publication,
-                    claps,
-                    responses,
-            },
+    func main() {
+        // (Continued)
+        
+        // Define schema
+        schema := &entity.Schema{
+             CollectionName: COLLNAME,
+             AutoID:         true,
+             Fields: []*entity.Field{
+                  id,
+                  title,
+                  title_vector,
+                  link,
+                  reading_time,
+                  publication,
+                  claps,
+                  responses,
+             },
+         }              
     }
     ```
 
@@ -294,17 +350,12 @@ In production settings, it's best practice to utilize a custom schema over a dyn
     <TabItem value='python'>
 
     ```python
-    # 4. Create collection
-    
-    client.create_collection_with_schema(
-        collection_name="medium_articles",
+    # 3. Create collection
+    collection = Collection(
+        name=COLLECTION_NAME, 
         description="Medium articles published between Jan and August in 2020 in prominent publications",
-        schema=schema,
-        index_params=index_params
+        schema=schema
     )
-    
-    # Till now, you have created a collection with customized schema.
-    # Zilliz Cloud also creates an index file and loads it into memory.
     
     ```
 
@@ -313,16 +364,24 @@ In production settings, it's best practice to utilize a custom schema over a dyn
     <TabItem value='javascript'>
 
     ```javascript
-    // 4. Create collection
+    async function main() {
     
-    // You should include the following in the async function declaration
+        // (Continued)
     
-    let res = await client.createCollection(req);
+        // 3. Create collection
+        res = await client.createCollection({
+            collection_name: collectionName,
+            fields: fields
+        })
     
-    console.log(res)
+        console.log(res)
     
-    // Output
-    // { error_code: 'Success', reason: '' }
+        // Output
+        // 
+        // { error_code: 'Success', reason: '', code: 0 }
+        // 
+    
+    }
     ```
 
     </TabItem>
@@ -330,18 +389,24 @@ In production settings, it's best practice to utilize a custom schema over a dyn
     <TabItem value='java'>
 
     ```java
-    // 4. Create collection
+    public final class UseCustomizedSchemaDemo  {
+        public static void main(String[] args) {
+            
+            // (Continued)
     
-    // You should include the following in the main function
+            R<RpcStatus> collection = client.createCollection(createCollectionParam);
     
-    R<RpcStatus> collection = client.createCollection(createCollectionParam);
+            if (collection.getException() != null) {
+                System.err.println("Failed to create collection: " + collection.getException().getMessage());
+                return;
+            }
     
-    if (collection.getException() != null) {
-        System.out.println("Failed to create collection: " + collection.getException().getMessage());
-        return;
+            System.out.println("Collection created!");
+    
+            // Output:
+            // Collection created!        
+        }
     }
-    
-    System.out.println("Collection created!");
     ```
 
     </TabItem>
@@ -349,14 +414,14 @@ In production settings, it's best practice to utilize a custom schema over a dyn
     <TabItem value='go'>
 
     ```go
-    // 4. Create collection
+    func main() {
+        // (Continued)
+        
+        err = conn.CreateCollection(context.Background(), schema, 2)
     
-    // You should include the following in the main function
-    
-    colerr := conn.CreateCollection(context.Background(), schema, 2)
-    
-    if colerr != nil {
-            log.Fatal("Failed to create collection:", colerr.Error())
+        if err != nil {
+            log.Fatal("Failed to create collection:", err.Error())
+        }              
     }
     ```
 
@@ -377,7 +442,7 @@ To aid in your schema design, here are the data types Zilliz Cloud can accommoda
 
 - **Characters**: VARCHAR
 
-- **Structured data types**: [JSON](./javascript-object-notation-json-1) and [Array](./undefined)
+- **Structured data types**: [JSON](./javascript-object-notation-json-1)
 
 Harness these types as building blocks for your collection's schema.
 

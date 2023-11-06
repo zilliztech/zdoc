@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Set up a Private Link
@@ -45,11 +46,11 @@ To continue setting up a private link, follow these steps as needed:
 
 To create a private link for a cluster deployed in an AWS region, select **AWS** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers and Regions](./cloud-providers-and-regions).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Once you have created a private link in a project, it applies immediately to its member clusters that have been deployed in the specified region. For those clusters that undergo maintenance then, such as scaling or patch-fixing, the private link applies to them after maintenance.
 
-:::
+</Admonition>
 
 ![setup_private_link_02](/img/setup_private_link_02.png)
 
@@ -163,11 +164,11 @@ An alias record is a type of DNS record that maps an alias name to a true or can
 
 To create a private link for a cluster deployed in a Google Cloud region, select **Google Cloud** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers and Regions](https://www.notion.so/Cloud-Providers-and-Regions-17c1d3ebb5eb4c6f8bf682a0f6ad4148?pvs=21).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Once you have created a private link in a project, it applies immediately to its member clusters that have been deployed in the specified region. For those clusters that undergo maintenance then, such as scaling or patch-fixing, the private link applies to them after maintenance.
 
-:::
+</Admonition>
 
 ![enter_vpc_endpoint_gcp](/img/enter_vpc_endpoint_gcp.png)
 
@@ -279,14 +280,52 @@ Once you complete the preceding steps, you can verify the connection as follows:
 
 ## Troubleshooting{#troubleshooting}
 
-**Why does it always report `Name or service not known` when I ping the private link?**
+### **Why does it always report a timeout when connecting to the private link on AWS?**{#why-does-it-always-report-a-timeout-when-connecting-to-the-private-link-on-aws}
+
+A timeout usually occurs for the following reasons:
+
+- No private DNS records exist.
+    If a DNS record exists, you can ping the private link as follows:
+
+    ![DeBvbtVz9otRBNxuC3UcdRIqnhc](/img/DeBvbtVz9otRBNxuC3UcdRIqnhc.png)
+
+    ![ZCCMbMhS6oXmXWxZkEQcOKOBn5e](/img/ZCCMbMhS6oXmXWxZkEQcOKOBn5e.png)
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    
+    If the IP address of the VPC endpoint has been resolved correctly in the output of the ping request, the DNS record works. 
+
+    </Admonition>
+
+    If you see the following, you need to [set up the DNS record](./set-up-a-private-link#set-up-a-dns-record).
+
+    ![MxXVbXo7woTHRZxEeXAcAhmGnjg](/img/MxXVbXo7woTHRZxEeXAcAhmGnjg.png)
+
+- No or invalid security group rules exist.
+    You need to properly set the security group rules for the traffic from your EC2 instance to your VPC endpoint in the AWS console. A proper security group within your VPC should allow inbound access from your EC2 instances on the port suffixed to your private link.
+
+    ![Tp1gbtlQroQABBxfR30c99rUnfb](/img/Tp1gbtlQroQABBxfR30c99rUnfb.png)
+
+    You can use a `curl` command to test the connectivity of the private link. In a normal case, it returns a 400 response.
+
+    ![IXc2bqVxtoMa2NxDza1cx8SZnFc](/img/IXc2bqVxtoMa2NxDza1cx8SZnFc.png)
+
+    If the `curl` command hangs without any response as in the following screenshot, you need to set up proper security group rules by referring to step 9 in [Create a VPC endpoint](https://docs.amazonaws.cn/en_us/vpc/latest/privatelink/create-interface-endpoint.html).
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    
+    Two security groups must be configured: one for the EC2 instance, which must allow traffic on the port associated with your private link, and another for the VPC endpoint, which must permit traffic from the IP address of the EC2 instance and target the specified port number.
+
+    </Admonition>
+
+### **Why does it always report `Name or service not known` when I ping the private link on GCP?**{#why-does-it-always-report-name-or-service-not-known-when-i-ping-the-private-link-on-gcp}
 
 Check your DNS settings by referring to [Set up firewall rules and a DNS record](https://zilliz.com/doc/setup_private_link-gcp#Set-up-firewall-rules-and-a-DNS-record).
 
 - If the configuration is correct, when you ping your private link, you should see
     ![private_link_gcp_ts_01](/img/private_link_gcp_ts_01.png)
-
-    
 
 - If the configuration is incorrect, when you ping your private link, you may see
     ![private_link_gcp_ts_02](/img/private_link_gcp_ts_02.png)

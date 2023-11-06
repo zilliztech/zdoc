@@ -5,6 +5,7 @@ notebook: 02_enable_dynamic_schema.ipynb
 sidebar_position: 1
 ---
 
+import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -16,11 +17,11 @@ Dynamic schema enables users to insert entities with new fields into a collectio
 
 Dynamic schema also provides flexibility in data processing, enabling users to store and retrieve complex data structures in their collections. This includes nested data, arrays, and other complex data types.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 You can [download the source code](https://www.notion.so/fe9cfe916ecc4487b107d70f34192028?pvs=21) of this guide for your reference while reading this guide.
 
-:::
+</Admonition>
 
 ## Create collection with dynamic schema enabled{#create-collection-with-dynamic-schema-enabled}
 

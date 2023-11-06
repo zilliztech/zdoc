@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 1
 ---
 
+import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -89,14 +90,14 @@ To prepare migration data for Milvus 2.x, do as follows:
 
     - `rootPath`
 
-    :::info Notes    
+    <Admonition type="info" icon="📘" title="Notes">    
     
     
     - For a Milvus instance installed using Docker Compose, `minio.bucketName` defaults to `a-bucket` and `rootPath` defaults to `files`.    
     
     - For a Milvus instance installed on Kubernetes, `minio.bucketName` defaults to `milvus-bucket` and `rootPath` defaults to `file`.    
 
-    :::
+    </Admonition>
 
 1. Create a backup of your Milvus installation.
 

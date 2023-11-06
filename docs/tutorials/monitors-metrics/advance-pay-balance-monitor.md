@@ -5,17 +5,18 @@ notebook: FALSE
 sidebar_position: 6
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Check Advance Pay Balance
 
 Zilliz Cloud provides an Advance Pay balance monitor, which is disabled by default. In the event that you have deposited funds into your Advance Pay account using a bank transfer, you have the option to activate this monitor. Once enabled, it ensures that you will receive notifications from us whenever your Advance Pay balance drops below a predefined threshold specified by you.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 To use this feature, please [contact sales](https://zilliz.com/contact-sales).
 
-:::
+</Admonition>
 
 ## Set Alert Condition{#set-alert-condition}
 

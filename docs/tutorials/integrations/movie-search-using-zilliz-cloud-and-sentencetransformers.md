@@ -5,6 +5,7 @@ notebook: 86_integrations_sentencetransformers.ipynb
 sidebar_position: 7
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Movie Search Using Zilliz Cloud and SentenceTransformers

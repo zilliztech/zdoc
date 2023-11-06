@@ -5,17 +5,18 @@ notebook: FALSE
 sidebar_position: 4
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Monitor Load Capacity
 
 To effectively keep track of the load capacity of your collections, it is advisable to turn on the load capacity resource monitor. This monitor assesses the memory size occupied by the loaded data in percentage.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 This is a feature exclusively available to clusters in the Standard and Enterprise plans.
 
-:::
+</Admonition>
 
 ## Set alert condition{#set-alert-condition}
 

@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 3
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Pricing Calculator
@@ -17,11 +18,11 @@ Our [Zilliz Cloud Pricing Calculator](https://zilliz.com/pricing#estimate_your_c
 - **Vector Dimensions**
     Vector dimensions indicate the number of elements defining your vector data. Adjust the vector dimensions between 32 to 32,768 using the calculator.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Our calculator is designed to estimate costs for clusters up to 32 [CUs](./cu-types-explained-1). If your needs surpass this, feel free to [contact us](https://zilliz.com/contact-sales) for a tailored pricing breakdown.
 
-:::
+</Admonition>
 
 Once you've outlined your dataset, you can explore price estimates for various setups considering:
 

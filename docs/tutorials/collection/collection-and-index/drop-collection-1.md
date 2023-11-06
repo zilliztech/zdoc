@@ -5,6 +5,7 @@ notebook: 01_use_customized_schema.ipynb
 sidebar_position: 4
 ---
 
+import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -25,6 +26,8 @@ res = client.drop_collection(collection_name="medium_articles_2020")
 
 print(res)
 
+# =====
+
 # Drop a collection that is created using a Collection object
 from pymilvus import utility
 
@@ -36,14 +39,24 @@ res = utility.drop_collection(collection_name="medium_articles_2020")
 <TabItem value='javascript'>
 
 ```javascript
-res = await client.dropCollection({
-    collection_name: "medium_articles_2020"
-});
+async function main() {
 
-console.log(res)
+    // (Continued)
+    
+    // 8. Drop collection
 
-// Output
-// { error_code: 'Success', reason: '' }
+    res = await client.dropCollection({
+        collection_name: collectionName
+    })     
+    
+    console.log(res);
+
+    // Output
+    // 
+    // { error_code: 'Success', reason: '', code: 0 }
+    // 
+
+}
 ```
 
 </TabItem>
@@ -55,11 +68,12 @@ import io.milvus.param.R;
 import io.milvus.param.RpcStatus;
 import io.milvus.param.collection.DropCollectionParam;
 
-public class QuickStart 
+public class UseCustomizedSchemaDemo 
 {
     public static void main( String[] args )
     {
-        ...
+        // (Continued)
+        
         DropCollectionParam dropCollectionParam = DropCollectionParam.newBuilder()
             .withCollectionName(collectionName)
             .build();
@@ -79,11 +93,15 @@ public class QuickStart
 <TabItem value='go'>
 
 ```go
-// Drop collection
-err = conn.DropCollection(context.Background(), COLLNAME)
+func main() {
+        // (Continued)
+    
+        // 9. Drop collection
+        err = conn.DropCollection(context.Background(), COLLNAME)
 
-if err != nil {
-    log.Fatal("Failed to drop collection:", err.Error())
+        if err != nil {
+                log.Fatal("Failed to drop collection:", err.Error())
+        }       
 }
 ```
 

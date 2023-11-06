@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 3
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Migrate Between Clusters
@@ -13,11 +14,11 @@ Zilliz Cloud supports migrating data between Zilliz Cloud clusters. You can seam
 
 ## From serverless to dedicated cluster{#from-serverless-to-dedicated-cluster}
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Ensure your payment method is set up to access this feature.
 
-:::
+</Admonition>
 
 In the **Actions** drop-down button, select **Migrate to Dedicated Cluster.**
 
@@ -39,11 +40,11 @@ The dedicated cluster status will switch from **CREATING** to **RESTORING**, and
 
 ## From dedicated to another dedicated cluster{#from-dedicated-to-another-dedicated-cluster}
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 This feature is accessible to users on the Standard or Enterprise plans.
 
-:::
+</Admonition>
 
 1. Navigate to your target cluster. On the **Cluster Details** page, click **Actions in the upper right corner, then click **Migrate From**. Select** Dedicated Cluster**.
 

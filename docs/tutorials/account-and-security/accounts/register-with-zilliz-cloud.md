@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 1
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Register with Zilliz Cloud
@@ -17,15 +18,17 @@ Navigate to the signup page by clicking on [this link](https://cloud.zilliz.com/
 
 ![sign_up](/img/sign_up.png)
 
-## Registration Options{#registration-options}
+## Registration options{#registration-options}
 
-Currently, there are several options available to register an account with Zilliz Cloud:
+You can use one and only one of the following options to register with and log in to Zilliz Cloud.
 
-- With a work email and password
+- Your email address and password
 
-- Linking to a Google Account
+- Your Google account
 
-- Linking to a GitHub Account
+- Your GitHub account
+
+Maintain consistency with your chosen registration method for login purposes. If necessary, you can alter your login method at a later stage. For further details, refer to [Manage Your Account](./delete-your-account#switch-login-method).
 
 ### With work email and password{#with-work-email-and-password}
 
@@ -44,17 +47,17 @@ Follow the steps below to create a Zilliz Cloud account using your work email an
 1. Input the received confirmation code in the dialog box, then click **Verify**.
     If the confirmation code is not received, click **Resend Code** to attempt again.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
-Upon your initial login using the verified credentials, we request that you provide additional information about yourself and your intended workload. This aids us in better understanding your specific needs and enhances our ability to serve you effectively.
+On your first login, we will ask for more information to better tailor our services to your needs.
 
-:::
+</Admonition>
 
 ### Linking to Google account{#linking-to-google-account}
 
 To link your Google account with Zilliz Cloud, follow the steps below.
 
-1. Click the button with the Google logo.
+1. Click the Google logo button.
 
 1. Select the checkbox for **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy**](https://zilliz.com/privacy-policy) and click **Submit**.
 
@@ -62,11 +65,33 @@ To link your Google account with Zilliz Cloud, follow the steps below.
 
 1. Upon successful authentication, you will be redirected back to Zilliz Cloud, and a success notification will appear.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+[Disable your Google-managed MFA](https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP) before linking to ensure a smooth registration.
+
+</Admonition>
+
 ### Linking to GitHub account{#linking-to-github-account}
+
+#### Prerequisites{#prerequisites}
+
+If you try to register with Github, you must have a public email address associated with your GitHub account. Follow the steps below to set your email address public on GitHub:
+
+1. Log into GitHub, click **Settings** on your profile menu.
+
+1. Click **Emails** from the left side navigation.
+
+1. Untick the **Keep my email addresses private** box.
+
+1. Click **Public Profile** on the left side navigation and select the email address you just set public from the **Public email** dropdown.
+
+1. Click **Update profile** to save the changes.
+
+#### Procedures{#procedures}
 
 To link your GitHub account with us, follow the steps below.
 
-1. Click the button with the GitHub logo.
+1. Click the GitHub logo button.
 
 1. Select the checkbox for **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy**](https://zilliz.com/privacy-policy) and click **Submit**.
 
@@ -74,11 +99,15 @@ To link your GitHub account with us, follow the steps below.
 
 1. Upon successful authentication, you will be redirected back to Zilliz Cloud, and a success notification will appear.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
-Before linking your GitHub account, ensure that your email address is verified with GitHub and set to public. Failure to do so may result in unsuccessful registration.
+[Disable your GitHub-managed MFA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account) before linking to ensure a smooth registration.
 
-:::
+</Admonition>
+
+### Log in to your Zilliz Cloud account{#log-in-to-your-zilliz-cloud-account}
+
+Always use the same method you chose for registration when logging in to your Zilliz Cloud account.
 
 ## What’s next{#whats-next}
 

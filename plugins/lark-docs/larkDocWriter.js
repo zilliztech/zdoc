@@ -393,10 +393,10 @@ class larkDocWriter {
         }).join('')
 
         if (block_types.match(/(code){2,}/g) || cond) {
-            return ["import Tabs from '@theme/Tabs';",
+            return ["import Admonition from '@theme/Admonition';", "import Tabs from '@theme/Tabs';",
             "import TabItem from '@theme/TabItem';"].join('\n')
         } else {
-            return ''
+            return "import Admonition from '@theme/Admonition';" + "\n"
         }
     }
 
@@ -498,17 +498,17 @@ class larkDocWriter {
 
         switch (emoji) {
             case 'blue_book':
-                type = ':::info Notes'
+                type = '<Admonition type="info" icon="📘" title="Notes">'
                 break;
             case 'construction':
-                type = ':::caution Warning'
+                type = '<Admonition type="danger" icon="🚧" title="Caution">'
                 break;
             default:
-                type = ':::info Notes'
+                type = '<Admonition type="info" icon="📘" title="Notes">'
                 break; 
         }               
         
-        return ' '.repeat(indent) + type + '\n\n' + children.split('\n').slice(1).join(' '.repeat(indent) + '\n') + '\n\n' + ' '.repeat(indent) + ':::';
+        return ' '.repeat(indent) + type + '\n\n' + children.split('\n').slice(1).join(' '.repeat(indent) + '\n') + '\n\n' + ' '.repeat(indent) + '</Admonition>';
     }
 
     async __code(code, indent, prev, next, blocks) {
@@ -607,16 +607,16 @@ class larkDocWriter {
         let res = (await this.__markdown(quotes, indent)).split('\n');
 
         let type = 'info Notes';
-        if (res[0].includes('Notes')) {
-            type = 'info Notes';
+        if (res[0].includes('Notes') || res[0].includes('Note')) {
+            type = 'info 📘 Notes';
         } else if (res[0].includes('Warning')) {
-            type = 'caution Warning';
+            type = 'caution 🚧 Warning';
         }
 
-        res[0] = `:::${type}`;
+        res[0] = `<Admonition type="${type.split(' ')[0]}" icon="${type.split(' ')[1]}" title="${type.split(' ')[2]}">`;
         res.splice(1, 0, "");
 
-        return ' '.repeat(indent) + res.join(' '.repeat(indent) + '\n') + '\n\n' + ' '.repeat(indent) + ':::';
+        return ' '.repeat(indent) + res.join(' '.repeat(indent) + '\n') + '\n\n' + ' '.repeat(indent) + '</Admonition>';
     }  
     
     async __image(image) {

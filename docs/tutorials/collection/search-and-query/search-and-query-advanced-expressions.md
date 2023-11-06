@@ -5,6 +5,7 @@ notebook: 10_search_query_advanced_ops.ipynb
 sidebar_position: 4
 ---
 
+import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -20,11 +21,11 @@ Zilliz Cloud now includes Beta support for advanced expressions `count()` and `j
 
 - `json_contains()`: Determines if a JSON key includes a certain element.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 The support for advanced expressions `count()` and `json_contains()` is available as a Beta feature. The feature and the documentation may change anytime during the Beta stage.
 
-:::
+</Admonition>
 
 ## Before you start{#before-you-start}
 
@@ -42,6 +43,12 @@ Before using `json_contains()`, you'll need to define a JSON field, here referre
 <TabItem value='python'>
 
 ```python
+# 0. Connect to cluster
+connections.connect(
+    uri=CLUSTER_ENDPOINT, # Public endpoint obtained from Zilliz Cloud
+    token=TOKEN, # API key or a colon-separated cluster username and password
+)
+
 # 1. Define fields
 fields = [
     FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True, max_length=100),

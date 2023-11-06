@@ -5,17 +5,18 @@ notebook: FALSE
 sidebar_position: 3
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Monitor Query Latency
 
 To optimize your Zilliz Cloud cluster’s performance through timely adjustments of query latency, it is advisable to activate the query latency resource monitor.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 This is a feature exclusively available to clusters in the Standard and Enterprise plans.
 
-:::
+</Admonition>
 
 ## Set alert condition{#set-alert-condition}
 

@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 1
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Set up Whitelist
@@ -37,7 +38,7 @@ Ensure the following prerequisites are met before proceeding:
 
 1. Click **Add**.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 - Without any entries in the whitelist, Zilliz Cloud allows access from any IP address.
 
@@ -45,7 +46,7 @@ Ensure the following prerequisites are met before proceeding:
 
 - Adding 0.0.0.0/0 equates to having an empty whitelist.
 
-:::
+</Admonition>
 
 ![whitelist-ip-access](/img/whitelist-ip-access.png)
 

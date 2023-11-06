@@ -5,6 +5,7 @@ notebook: 08_upsert_entities.ipynb
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -18,11 +19,11 @@ Upserting data is a combination of update and insert operations. In Zilliz Cloud
 
 - If the primary key does not exist in the collection, a new entity will be inserted.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 The support for data upsert is available as a Beta feature. The feature and the documentation may change anytime during the Beta stage.
 
-:::
+</Admonition>
 
 ## Before you start{#before-you-start}
 
@@ -36,53 +37,57 @@ Before upserting data, make sure the following conditions are met:
 
 ## Prepare data{#prepare-data}
 
-In this example, we upsert the first 100 entities in the example dataset. You can use the following code to process data:
+In this example, we upsert the entities in the example dataset. You can use the following code to process data:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# retrieve the first 100 entities in the example dataset
+# (Continued)
+
 import json
+
+DATASET_PATH="../medium_articles_2020_dpr.json" # Set your dataset path
 
 with open('medium_articles_2020_dpr.json') as f:
     data = json.load(f)
     data_to_upsert = data["rows"][:100]
 
-display(data_to_upsert[:1])
+print(rows[0])
 
-# Output:
-# [{'id': 0,
-#   'title': 'The Reported Mortality Rate of Coronavirus Is Not Important',
-#   'title_vector': [0.041732933,
-#    0.013779674,
-#    -0.027564144,
-#    -0.013061441,
-#    0.009748648,
-#    0.00082446384,
-#    -0.00071647146,
-#    0.048612226,
-#    -0.04836573,
-#    -0.04567751,
-#    0.018008126,
-#    0.0063936645,
-#    -0.011913628,
-#    0.030776596,
-#    -0.018274948,
-#    0.019929802,
-#    0.020547243,
-#    0.032735646,
-#    -0.031652678,
-#    -0.033816382,
-#    -0.051087562,
-#    -0.033748355,
-#    0.0039493158,
-# ...
-#   'link': 'https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912',
-#   'reading_time': 13,
-#   'publication': 'The Startup',
-#   'claps': 1100,
-#   'responses': 18}]
+# Prepare a list of rows
+with open(DATASET_PATH) as f:
+    data = json.load(f)
+    rows = data['rows']
+
+print(rows[:3])
+
+# Output
+#
+# [
+#     {
+#         "id": 0,
+#         "title": "The Reported Mortality Rate of Coronavirus Is Not Important",
+#         "title_vector": [
+#             0.041732933,
+#             0.013779674,
+#             -0.027564144,
+#             -0.013061441,
+#             0.009748648,
+#             0.00082446384,
+#             -0.00071647146,
+#             0.048612226,
+#             -0.04836573,
+#             -0.04567751,
+#             "(758 more items hidden)"
+#         ],
+#         "link": "https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912",
+#         "reading_time": 13,
+#         "publication": "The Startup",
+#         "claps": 1100,
+#         "responses": 18
+#     }
+# ]
 ```
 
 </TabItem>
@@ -90,12 +95,36 @@ display(data_to_upsert[:1])
 <TabItem value='javascript'>
 
 ```javascript
-const fs = require("node:fs")
+const fs = require('fs');
+const data_file = `./medium_articles_2020_dpr.json`
 
-const data = JSON.parse(fs.readFileSync('path/to/medium_articles_2020_dpr.json'))
-const rows = data["rows"]
-const row = rows[0]
-console.log("Data: ", Object.keys(row))   
+async function main () {
+
+    // (Continued)
+    
+    const data = JSON.parse(fs.readFileSync(data_file, "utf8"))
+
+    // read rows
+    const rows = data["rows"]
+    const row = rows[0]
+
+    console.log(Object.keys(row))
+
+    // Output
+    // 
+    // [
+    //   'id',
+    //   'title',
+    //   'title_vector',
+    //   'link',
+    //   'reading_time',
+    //   'publication',
+    //   'claps',
+    //   'responses'
+    // ]
+    //     
+
+}
 ```
 
 </TabItem>
@@ -103,84 +132,86 @@ console.log("Data: ", Object.keys(row))
 <TabItem value='java'>
 
 ```java
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
+public final class UseCustomizedSchemaDemo  {
+    public static void main(String[] args) {
+        
+        // (Continued)
+        
+        String data_file = "../medium_articles_2020_dpr.json";
+        
+        String content;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+        // read a local file
+        Path file = Path.of(data_file);
+        try {
+            content = Files.readString(file);
+        } catch (Exception e) {
+            System.err.println("Failed to read file: " + e.getMessage());
+            return;
+        }
 
-String content;
+        System.out.println("Successfully read file");
 
-Path file = Path.of("path/to/medium_articles_2020_dpr.json");
-try {
-    content = Files.readString(file);
-} catch (Exception e) {
-    System.out.println("Failed to read file: " + e.getMessage());
-    return;
-}
+        // Output:
+        // Successfully read file
+        
+        // Load dataset
+        JSONObject dataset = JSON.parseObject(content);
+        List<JSONObject> rows = getRows(dataset.getJSONArray("rows"), 5979);
+        
+        // Also, you can get fields from dataset and insert them
+        // List<Field> fields = getFields(dataset.getJSONArray("rows"), 5979);
+    }
+    
+    public static List<JSONObject> getRows(JSONArray dataset, int counts) {
+        List<JSONObject> rows = new ArrayList<JSONObject>();
+        for (int i = 0; i < counts; i++) {
+            JSONObject row = dataset.getJSONObject(i);
+            List<Float> vectors = row.getJSONArray("title_vector").toJavaList(Float.class);
+            Long reading_time = row.getLong("reading_time");
+            Long claps = row.getLong("claps");
+            Long responses = row.getLong("responses");
+            row.put("title_vector", vectors);
+            row.put("reading_time", reading_time);
+            row.put("claps", claps);
+            row.put("responses", responses);
+            row.remove("id");
+            rows.add(row);
+        }
+        return rows;
+    }
 
-System.out.println("Successfully read file");  
+    public static List<Field> getFields(JSONArray dataset, int counts) {
+        List<Field> fields = new ArrayList<Field>();
+        List<String> titles = new ArrayList<String>();
+        List<List<Float>> title_vectors = new ArrayList<List<Float>>();
+        List<String> links = new ArrayList<String>();
+        List<Long> reading_times = new ArrayList<Long>();
+        List<String> publications = new ArrayList<String>();
+        List<Long> claps_list = new ArrayList<Long>();
+        List<Long> responses_list = new ArrayList<Long>();
 
-// Load dataset
-JSONObject dataset = JSON.parseObject(content);
+        for (int i = 0; i < counts; i++) {
+            JSONObject row = dataset.getJSONObject(i);
+            titles.add(row.getString("title"));
+            title_vectors.add(row.getJSONArray("title_vector").toJavaList(Float.class));
+            links.add(row.getString("link"));
+            reading_times.add(row.getLong("reading_time"));
+            publications.add(row.getString("publication"));
+            claps_list.add(row.getLong("claps"));
+            responses_list.add(row.getLong("responses"));
+        }
 
-// Change the second argument of the `getRows` function to limit the number of rows obtained from the dataset.
-List<JSONObject> rows = getRows(dataset.getJSONArray("rows"), 5979);
+        fields.add(new Field("title", titles));
+        fields.add(new Field("title_vector", title_vectors));
+        fields.add(new Field("link", links));
+        fields.add(new Field("reading_time", reading_times));
+        fields.add(new Field("publication", publications));
+        fields.add(new Field("claps", claps_list));
+        fields.add(new Field("responses", responses_list));
 
-System.out.println(rows.get(0).toString());
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import (
-    "context"
-    "encoding/json"
-    "fmt"
-    "log"
-    "os"
-
-    "github.com/milvus-io/milvus-sdk-go/v2/client"
-    "github.com/milvus-io/milvus-sdk-go/v2/entity"
-)
-
-type Row struct {
-    ID          int64     `json:"id" milvus:"name:id"`
-    Title       string    `json:"title" milvus:"name:title"`
-    TitleVector []float32 `json:"title_vector" milvus:"name:title_vector"`
-    Link        string    `json:"link" milvus:"name:link"`
-    ReadingTime int64     `json:"reading_time" milvus:"name:reading_time"`
-    Publication string    `json:"publication" milvus:"name:publication"`
-    Claps       int64     `json:"claps" milvus:"name:claps"`
-    Responses   int64     `json:"responses" milvus:"name:responses"`
-}
-
-type Dataset struct {
-    Rows []Row `json:"rows"`
-}
-
-// ====
-
-// Read the dataset
-file, err := os.ReadFile("path/to/medium_articles_2020_dpr.json")
-if err != nil {
-    log.Fatal("Failed to read file:", err.Error())
-}
-
-var data Dataset
-
-   if err := json.Unmarshal(file, &data); err != nil {
-    log.Fatal(err.Error())
-}
-
-rows := make([]interface{}, 0, 1)
-
-for i := 0; i < len(data.Rows); i++ {
-    rows = append(rows, data.Rows[i])
+        return fields;        
+    }
 }
 ```
 
@@ -190,10 +221,10 @@ for i := 0; i < len(data.Rows); i++ {
 
 ```bash
 # read the first 100 records from the dataset
-data="$(cat path/to/medium_articles_2020_dpr.json \\
-        | jq '.rows' \\
-        | jq '.[1:100]' \\
-        | jq -r '.[] | . + {"vector": .title_vector} | del(.title_vector) | del(.id)' \\
+data="$(cat path/to/medium_articles_2020_dpr.json \
+        | jq '.rows' \
+        | jq '.[1:100]' \
+        | jq -r '.[] | . + {"vector": .title_vector} | del(.title_vector) | del(.id)' \
         | jq -s -c '.')"
         
  
@@ -206,23 +237,13 @@ data="$(cat path/to/medium_articles_2020_dpr.json \\
 
 Once the data is ready, use the following code to upsert it to the collection:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 # upsert entities
-from pymilvus import connections, Collection
-
-connections.connect(
-    alias="default",
-    uri="CLUSTER_ENDPOINT",
-    token="TOKEN"
-    secure=True
-)
-
-# get existing collection
-collection = Collection("medium_articles")
-
+# MilvusClient does not support upsert yet.
+from pymilvus import Collection
 # upsert data
 result = collection.upsert(data_to_upsert)
 
@@ -240,14 +261,45 @@ print(f"Data upserted successfully! Upserted rows: {result.upsert_count}")
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node")
+async function main () {
 
-res = await client.upsert({
-    collection_name: "medium_articles",
-    entities: rows
-})
+    // (Continued)
+    
+    //insert vectors
+    res = await client.upsert({
+        collection_name: collectionName,
+        data: rows.slice(1, 1000)
+    })
 
-console.log("Insert vectors: ", res)
+    console.log(res)
+
+    // Output
+    // 
+    // {
+    //   succ_index: [
+    //      0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11,
+    //     12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+    //     24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
+    //     36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
+    //     48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
+    //     60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71,
+    //     72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83,
+    //     84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95,
+    //     96, 97, 98, 99,
+    //     ... 899 more items
+    //   ],
+    //   err_index: [],
+    //   status: { error_code: 'Success', reason: '', code: 0 },
+    //   IDs: { int_id: { data: [Array] }, id_field: 'int_id' },
+    //   acknowledged: false,
+    //   insert_cnt: '999',
+    //   delete_cnt: '999',
+    //   upsert_cnt: '999',
+    //   timestamp: '445315186586025986'
+    // }
+    // 
+
+}
 ```
 
 </TabItem>
@@ -255,47 +307,36 @@ console.log("Insert vectors: ", res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.param.dml.UpsertParam;
+import io.milvus.param.*;
+import io.milvus.response.MutationResultWrapper;
 import io.milvus.grpc.MutationResult;
 
-UpsertParam upsertParam = UpsertParam.newBuilder()
-    .withCollectionName("medium_articles")
-    .withRows(rows)
-    .build();
-    
-R<MutationResult> res = client.upsert(upsertParam);
+public class UseCustomizedSchemaDemo 
+{
+    public static void main( String[] args )
+    {
+        // (Continued)
+        
+        UpsertParam upsertParam = UpsertParam.newBuilder()
+            .withCollectionName(collectionName)
+            .withRows(rows)
+            // .withFields(fields)
+            .build();
 
-if (res.getException() != null) {
-    System.out.println("Failed to insert: " + res.getException().getMessage());
-    return;
+        R<MutationResult> upsertResponse = client.upsert(upsertParam);
+
+        if (upsertResponse.getStatus() != R.Status.Success.getCode()) {
+            System.err.println(upsertResponse.getMessage());
+        }
+
+        MutationResultWrapper mutationResultWrapper = new MutationResultWrapper(upsertResponse.getData());
+
+        System.out.println("Successfully insert entities: " + mutationResultWrapper.getInsertCount());  
+
+        // Output:
+        // Successfully insert entities: 100
+    }
 }
-
-System.out.println("Successfully inserted " + res.getData().getUpsertCnt() + " records");
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import (
-    "context"
-    "encoding/json"
-    "fmt"
-    "log"
-    "os"
-
-    "github.com/milvus-io/milvus-sdk-go/v2/client"
-    "github.com/milvus-io/milvus-sdk-go/v2/entity"
-)
-
-col, err := conn.Upsert(context.Background(), COLLNAME, "", rows)
-
-if err != nil {
-    log.Fatal("Failed to insert rows:", err.Error())
-}
-
-fmt.Println("Upserted entities: ", col.Len())
 ```
 
 </TabItem>
@@ -304,14 +345,14 @@ fmt.Println("Upserted entities: ", col.Len())
 
 ```bash
 # insert record 
-curl --request POST \\
-     --url "${PUBLIC_ENDPOINT}/v1/vector/upsert" \\
-     --header "Authorization: Bearer ${TOKEN}" \\
-     --header 'accept: application/json' \\
-     --header 'content-type: application/json' \\
+curl --request POST \
+     --url "${PUBLIC_ENDPOINT}/v1/vector/upsert" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header 'accept: application/json' \
+     --header 'content-type: application/json' \
      --data "{
-        \\"collectionName\\": \\"medium_articles_2020\\",
-        \\"data\\": ${data}
+        \"collectionName\": \"medium_articles_2020\",
+        \"data\": ${data}
     }"
 
 # Response

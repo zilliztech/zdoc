@@ -5,11 +5,12 @@ notebook: FALSE
 sidebar_position: 1
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Create Cluster
 
-Zilliz Cloud provides various cluster plan tiers to accommodate the distinct business needs of users. For guidance on selecting an appropriate cluster type, consult [Free Trials](./free-trials) and [Cluster Types](https://zilliverse.feishu.cn/wiki/UpwhwMwf2iqnYiktreNcZwkTn4s).
+Zilliz Cloud provides various cluster plan tiers to accommodate the distinct business needs of users. For guidance on selecting an appropriate cluster type, consult [Free Trials](./free-trials) and [Understand Cluster Types](./select-zilliz-cloud-service-plans#understand-cluster-types).
 
 ## Prerequisites{#prerequisites}
 
@@ -29,19 +30,19 @@ Ensure:
     ![create_cluster_01](/img/create_cluster_01.png)
 
 1. In the **Create New Cluster** section, choose the **Starter** plan and fill in the required parameters. 
+    <Admonition type="info" icon="📘" title="Notes">    
+    
+    
+    Each user is permitted one free serverless cluster. For additional clusters, opt for the Standard or Enterprise plans.
 
-:::info Notes
+    </Admonition>
 
-Each user is permitted one free serverless cluster. For additional clusters, opt for the Standard or Enterprise plans.
+    |  **Parameter**               |  **Description**                                                                                                                                                                                                                        |
+    | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    |  **Cluster Name**            |  Name of the cluster.                                                                                                                                                                                                                   |
+    |  **Cloud Provider & Region** |  The cluster's location and the cloud provider it is hosted on. At present, our serverless clusters are available on Google Cloud Platform (GCP). For more information, see [Cloud Providers & Regions](./cloud-providers-and-regions). |
 
-:::
-
-|  **Parameter**               |  **Description**                                                                                                                                                                                                                        |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  **Cluster Name**            |  Name of the cluster.                                                                                                                                                                                                                   |
-|  **Cloud Provider & Region** |  The cluster's location and the cloud provider it is hosted on. At present, our serverless clusters are available on Google Cloud Platform (GCP). For more information, see [Cloud Providers & Regions](./cloud-providers-and-regions). |
-
-![create_cluster_02](/img/create_cluster_02.png)
+    ![create_cluster_02](/img/create_cluster_02.png)
 
 1. Process with **Next: Create Collection**. 
 

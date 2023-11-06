@@ -5,6 +5,7 @@ notebook: 06_use_remote-bulk-writer.ipynb
 sidebar_position: 1
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Prepare Data Import
@@ -33,12 +34,12 @@ The following table compares the two writers.
 
     - Download the example dataset from Kaggle. Visit [this link](https://www.kaggle.com/datasets/shiyu22chen/cleaned-medium-articles-dataset), log in, and click the **Download** button in the upper right corner.
 
-    :::info Notes    
+    <Admonition type="info" icon="📘" title="Notes">    
     
     
     This guide uses the example dataset to demonstrate a common roadmap for data processing. The ultimate goal is to generate a list of dictionaries so that you can feed them to **BulkWriter**.
 
-    :::
+    </Admonition>
 
 1. **Determine the schema:**
     - Decide on the schema for the collection you wish to import your dataset into. This involves selecting which fields to include from the dataset.

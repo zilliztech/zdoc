@@ -5,6 +5,7 @@ notebook: 03_use_partition_key.ipynb
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -24,11 +25,11 @@ Before creating a collection, ensure that
 
 - You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 You can [download the source code](https://assets.zilliz.com/zdoc/zilliz_cloud_sdk_examples.zip) of this guide for your reference while reading this guide.
 
-:::
+</Admonition>
 
 ## Create collection with partition key enabled{#create-collection-with-partition-key-enabled}
 

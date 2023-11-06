@@ -5,13 +5,14 @@ notebook: FALSE
 sidebar_position: 1
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Manage API Keys
 
 On Zilliz Cloud, every project comes with its own set of API keys, serving as authentication tokens. These keys are pivotal for initiating RESTful API or SDK interactions. Whether you create a new API key for a project or use the default one provided by Zilliz Cloud, you gain access to manage all the clusters and associated resources within that project.
 
-To ensure security, only users with [Owner](./a-panorama-view) status, either at the organization or project level, are allowed to create and oversee these API keys. For more information, see [Users & Roles](./undefined).
+To ensure security, only users with [Owner](./a-panorama-view) status, either at the organization or project level, are allowed to create and oversee these API keys. For more information, see [Users & Roles](https://docs.zilliz.com/docs/users-and-roles).
 
 ## Comparative overview: API keys vs username and password pairs{#comparative-overview-api-keys-vs-username-and-password-pairs}
 
@@ -37,11 +38,11 @@ With your project's API key in hand, you can now connect to any cluster within t
 
 To view API keys created for a project, you must be an [Organization Owner](./a-panorama-view#organization-roles) or a [Project Owner](./a-panorama-view#project-roles).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 To prevent unauthorized access, you should never share your API keys or store them in publicly accessible locations. If you suspect that your API keys have been compromised, you should immediately delete them and create new ones.
 
-:::
+</Admonition>
 
 ![view-api-keys](/img/view-api-keys.png)
 
@@ -51,11 +52,11 @@ If an API key is no longer needed, you can delete it.
 
 To delete an API key, you must be an [Organization Owner](./a-panorama-view#organization-roles) or a [Project Owner](./a-panorama-view#project-roles).
 
-:::caution Warning
+<Admonition type="caution" icon="🚧" title="Warning">
 
 Exercise caution when deleting an API key. Doing so will immediately revoke access to any resources that were using the key.
 
-:::
+</Admonition>
 
 ![delete-api-key](/img/delete-api-key.png)
 

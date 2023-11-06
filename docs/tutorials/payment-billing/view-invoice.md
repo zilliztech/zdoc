@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 5
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # View Invoice

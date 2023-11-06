@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 7
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # View Cluster Metrics

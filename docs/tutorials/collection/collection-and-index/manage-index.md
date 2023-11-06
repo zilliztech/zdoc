@@ -5,6 +5,7 @@ notebook: 01_use_customized_schema.ipynb
 sidebar_position: 3
 ---
 
+import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -26,20 +27,25 @@ Zilliz Cloud currently supports the AUTOINDEX type exclusively. If any other ind
 <TabItem value='python'>
 
 ```python
-# 5. Create index
-
-# Your collection is loaded already.
-
+# 4. Index collection
+# 'index_type' defines the index algorithm to be used.
+#    AUTOINDEX is the only option.
+#
+# 'metric_type' defines the way to measure the distance 
+#    between vectors. Possible values are L2, IP, and Cosine,
+#    and defaults to Cosine.
 index_params = {
     "index_type": "AUTOINDEX",
     "metric_type": "L2",
-    "params": {"nlist": 128}
+    "params": {}
 }
 
-# This is the index parameter set used in the request to create a collection.
-# You do not need to create the index file manually. 
-# Zilliz Cloud automatically creates and loads an index file 
-# upon creating your collection.
+# To name the index, do as follows:
+collection.create_index(
+    field_name="title_vector", 
+    index_params=index_params,
+    index_name='title_vector_index' # Optional
+)
 
 ```
 
@@ -48,26 +54,29 @@ index_params = {
 <TabItem value='javascript'>
 
 ```javascript
-// 5. Create index
+async function main() {
 
-// You should include the following in the async function declaration
+    // (Continued)
+    
+    // 4. Create index
+    res = await client.createIndex({
+        collection_name: collectionName,
+        field_name: "title_vector",
+        index_type: "IVF_FLAT",
+        metric_type: "L2",
+        params: {
+            nlist: 1024
+        }
+    })
 
-index_param = {
-    index_type: "AUTOINDEX",
-    metric_type: "L2",
-    params: {}
+    console.log(res)
+
+    // Output
+    // 
+    // { error_code: 'Success', reason: '', code: 0 }
+    // 
+
 }
-
-res = await client.createIndex({
-    collection_name,
-    field_name: "vector",
-    index_param
-});
-
-console.log(res);
-
-// Output:
-// { error_code: 'Success', reason: '' }
 ```
 
 </TabItem>
@@ -75,26 +84,34 @@ console.log(res);
 <TabItem value='java'>
 
 ```java
-// 5. Create index
+public final class UseCustomizedSchemaDemo  {
+    public static void main(String[] args) {
+        
+        // (Continued)
+        
+        // 4. Create index
 
-// You should include the following in the main function.
+        CreateIndexParam createIndexParam = CreateIndexParam.newBuilder()
+            .withCollectionName(collectionName)
+            .withFieldName("title_vector")
+            .withIndexName("title_vector_index")
+            .withIndexType(IndexType.AUTOINDEX)
+            .withMetricType(MetricType.L2)
+            .build();
 
-CreateIndexParam createIndexParam = CreateIndexParam.newBuilder()
-    .withCollectionName("medium_articles")
-    .withFieldName("vector")
-    .withIndexName("vector_index")
-    .withIndexType(IndexType.AUTOINDEX)
-    .withMetricType(MetricType.L2)
-    .build();
+        R<RpcStatus> res = client.createIndex(createIndexParam);
 
-R<RpcStatus> res = client.createIndex(createIndexParam);
+        if (res.getException() != null) {
+            System.err.println("Failed to create index: " + res.getException().getMessage());
+            return;
+        }
 
-if (res.getException() != null) {
-    System.out.println("Failed to create index: " + res.getException().getMessage());
-    return;
+        System.out.println("Index created!");
+
+        // Output:
+        // Index created! 
+    }
 }
-
-System.out.println("Index created!");
 ```
 
 </TabItem>
@@ -102,22 +119,23 @@ System.out.println("Index created!");
 <TabItem value='go'>
 
 ```go
-// 5. Create index
+func main() {
+        // (Continued)
+    
+        // 3. Create index for cluster
+        index, err := entity.NewIndexAUTOINDEX(entity.MetricType("L2"))
 
-// You should include the following in the main function.
+        if err != nil {
+                log.Fatal("Failed to prepare the index:", err.Error())
+        }
 
-index, err := entity.NewIndexAUTOINDEX(entity.MetricType("L2"))
+        fmt.Println(index.Name())
 
-if err != nil {
-        log.Fatal("Failed to prepare the index:", err.Error())
-}
+        err = conn.CreateIndex(context.Background(), COLLNAME, "title_vector", index, false)
 
-println(index.Name())
-
-err = conn.CreateIndex(context.Background(), "medium_articles", "title_vector", index, false)
-
-if err != nil {
-        log.Fatal("Failed to create the index:", err.Error())
+        if err != nil {
+                log.Fatal("Failed to create the index:", err.Error())
+        }          
 }
 ```
 
@@ -132,14 +150,19 @@ Before conducting any searches or queries within a collection, the index file as
 <TabItem value='python'>
 
 ```python
-# 6. Load collection
+# 5. Load collection
+collection.load()
 
-# Your collection is loaded already.
+# Get loading progress
+progress = utility.loading_progress(COLLECTION_NAME)
 
-# This is the index parameter set used in the request to create a collection.
-# You do not need to create the index file manually. 
-# Zilliz Cloud automatically creates and loads an index file 
-# upon creating your collection.
+print(progress)
+
+# Output
+#
+# {
+#     "loading_progress": "100%"
+# }
 ```
 
 </TabItem>
@@ -147,27 +170,22 @@ Before conducting any searches or queries within a collection, the index file as
 <TabItem value='javascript'>
 
 ```javascript
-// 6. Load collection
+async function main() {
 
-// You should include the following in the async function declaration
+    // (Continued)
+    
+    res = await client.loadCollection({
+        collection_name: collectionName
+    })
 
-res = await client.loadCollection({
-    collection_name
-});
+    console.log(res)
 
-console.log(res);
+    // Output
+    // 
+    // { error_code: 'Success', reason: '', code: 0 }
+    // 
 
-// Output
-// { error_code: 'Success', reason: '' }
-
-res = await client.getLoadingProgress({
-    collection_name
-});
-
-console.log(res);
-
-// Output:
-// { status: { error_code: 'Success', reason: '' }, progress: '0' }
+}
 ```
 
 </TabItem>
@@ -175,27 +193,30 @@ console.log(res);
 <TabItem value='java'>
 
 ```java
-// 6. Load collection
+public final class UseCustomizedSchemaDemo  {
+    public static void main(String[] args) {
+        
+        // (Continued)
+        
+        // 5. Load collection
 
-// You should include the following in the main function
+        LoadCollectionParam loadCollectionParam = LoadCollectionParam.newBuilder()
+            .withCollectionName(collectionName)
+            .build();
 
-LoadCollectionParam loadCollectionParam = LoadCollectionParam.newBuilder()
-    .withCollectionName("medium_articles")
-    .build();
+        R<RpcStatus> loadCollectionRes = client.loadCollection(loadCollectionParam);
 
-R<RpcStatus> loadCollectionRes = client.loadCollection(loadCollectionParam);
+        if (loadCollectionRes.getException() != null) {
+            System.err.println("Failed to load collection: " + loadCollectionRes.getException().getMessage());
+            return;
+        }
 
-// Get loading progress
-GetLoadingProgressParam getLoadingProgressParam = GetLoadingProgressParam.newBuilder()
-    .withCollectionName("medium_articles")
-    .build();
+        System.out.println("Collection loaded!");
 
-R<GetLoadingProgressResponse> getLoadingProgressRes = client.getLoadingProgress(getLoadingProgressParam);
-
-System.out.println("Loading progress: " + getLoadingProgressRes.getData().getProgress());
-
-// Output:
-// Loading progress: 100
+        // Output:
+        // Collection loaded!
+    }
+}
 ```
 
 </TabItem>
@@ -203,24 +224,25 @@ System.out.println("Loading progress: " + getLoadingProgressRes.getData().getPro
 <TabItem value='go'>
 
 ```go
-// 6. Load collection
+func main() {
+        // (Continued)
+    
+        // 4. Load collection
+        loadCollErr := conn.LoadCollection(context.Background(), COLLNAME, false)
 
-// You should include the following in the main function
+        if loadCollErr != nil {
+                log.Fatal("Failed to load collection:", loadCollErr.Error())
+        }
 
-loadCollErr := conn.LoadCollection(context.Background(), "medium_articles", false)
+        // 5. Get load progress
+        progress, err := conn.GetLoadingProgress(context.Background(), COLLNAME, nil)
 
-if loadCollErr != nil {
-        log.Fatal("Failed to load collection:", loadCollErr.Error())
+        if err != nil {
+                log.Fatal("Failed to get loading progress:", err.Error())
+        }
+
+        fmt.Println("Loading progress:", progress)        
 }
-
-// Load progress
-progress, err := conn.GetLoadingProgress(context.Background(), "medium_articles", nil)
-
-if err != nil {
-        log.Fatal("Failed to get loading progress:", err.Error())
-}
-
-println("Loading progress:", progress)
 ```
 
 </TabItem>
@@ -234,7 +256,7 @@ You can also release the index file if the collections are not needed temporaril
 <TabItem value='python'>
 
 ```python
-# You can go to the Zilliz Cloud console to release the index, instead.
+collection.release()
 ```
 
 </TabItem>
@@ -242,16 +264,20 @@ You can also release the index file if the collections are not needed temporaril
 <TabItem value='javascript'>
 
 ```javascript
-// You should include the following in the async function declaration
+async function main() {
 
-res = await client.releaseCollection({
-    collection_name
-});
+    // (Continued)
+    
+    res = await client.releaseCollection({
+        collection_name: collectionName
+    })
 
-console.log(res);
+    // Output
+    // 
+    // { error_code: 'Success', reason: '', code: 0 }
+    // 
 
-// Output
-// { error_code: 'Success', reason: '' }
+}
 ```
 
 </TabItem>
@@ -259,11 +285,23 @@ console.log(res);
 <TabItem value='java'>
 
 ```java
-ReleaseCollectionParam releaseCollectionParam = ReleaseCollectionParam.newBuilder()
-    .withCollectionName("medium_articles")
-    .build();
+public final class UseCustomizedSchemaDemo  {
+    public static void main(String[] args) {
+        
+        // (Continued)
 
-R<RpcStatus> releaseCollectionRes = client.releaseCollection(releaseCollectionParam);
+        ReleaseCollectionParam releaseCollectionParam = ReleaseCollectionParam.newBuilder()
+            .withCollectionName(collectionName)
+            .build();
+
+        R<RpcStatus> releaseCollectionRes = client.releaseCollection(releaseCollectionParam);
+
+        if (releaseCollectionRes.getException() != null) {
+            System.err.println("Failed to release collection: " + releaseCollectionRes.getException().getMessage());
+            return;
+        }
+    }
+}
 ```
 
 </TabItem>
@@ -271,10 +309,14 @@ R<RpcStatus> releaseCollectionRes = client.releaseCollection(releaseCollectionPa
 <TabItem value='go'>
 
 ```go
-releaseCollErr := conn.ReleaseCollection(context.Background(), "medium_articles")
+func main() {
+    // (Continued)
+    
+    releaseColErr := conn.ReleaseCollection(context.Background(), COLLNAME)
 
-if releaseCollErr != nil {
-        log.Fatal("Failed to release collection:", releaseCollErr.Error())
+    if releaseColErr != nil {
+        log.Fatal("Failed to release collection:", releaseColErr.Error())
+    }       
 }
 ```
 

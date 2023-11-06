@@ -5,17 +5,18 @@ notebook: FALSE
 sidebar_position: 5
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Monitor Credit Card Expiration
 
 Zilliz Cloud offers a credit card expiration monitor, which is turned off by default. If you've linked a credit card to your account, you have the option to activate this feature. Enabling it ensures that you will receive timely notifications from us prior to your credit card’s expiration date.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 This is a feature exclusively available to clusters in the Standard and Enterprise plans.
 
-:::
+</Admonition>
 
 ## Enable Credit Card Expiration Monitor{#enable-credit-card-expiration-monitor}
 

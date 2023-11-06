@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Import Data on Web UI
@@ -84,11 +85,11 @@ with open('path/to/medium_articles_2020_dpr.json') as f:
 
 Once data files are ready, you can import them directly from your local drive or upload them to an object storage bucket, such as AWS S3 or Google Cloud GCS, for data imports.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 For successful data import, ensure that the object storage bucket you use is located in the same cloud as your cluster.
 
-:::
+</Admonition>
 
 ### Local JSON file{#local-json-file}
 

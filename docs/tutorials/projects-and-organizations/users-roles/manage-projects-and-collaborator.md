@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 3
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Manage Projects and Collaborators
@@ -29,11 +30,11 @@ In the [organization and project](./a-panorama-view) hierarchy, you can manage p
 
 To create a project, you must be an [Organization Owner](./a-panorama-view#organization-roles).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 When you create a project, you are also a [Project Owner](./a-panorama-view#project-roles) for the project.
 
-:::
+</Admonition>
 
 ![create-project](/img/create-project.png)
 
@@ -41,11 +42,11 @@ When you create a project, you are also a [Project Owner](./a-panorama-view#proj
 
 To rename a project, you must be an [Organization Owner](./a-panorama-view#organization-roles).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Each organization contains a default project. The name of the default project cannot be modified.
 
-:::
+</Admonition>
 
 ![rename-project](/img/rename-project.png)
 
@@ -53,11 +54,11 @@ Each organization contains a default project. The name of the default project ca
 
 To delete a project, you must be an [Organization Owner](./a-panorama-view#organization-roles).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Each organization contains a default project. The default project cannot be deleted.
 
-:::
+</Admonition>
 
 ![delete-project](/img/delete-project.png)
 
@@ -65,11 +66,11 @@ Each organization contains a default project. The default project cannot be dele
 
 To invite a user to join a project, you must be an [Organization Owner](./a-panorama-view#organization-roles) or a [Project Owner](./a-panorama-view#project-roles).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Each time you can invite one or more users with the same role to join the project.
 
-:::
+</Admonition>
 
 ![invite-user-to-project](/img/invite-user-to-project.png)
 
@@ -79,11 +80,11 @@ When you invite an existing organization member to a project within the same org
 
 To revoke or resend the invitation, you must be an [Organization Owner](./a-panorama-view#organization-roles) or a [Project Owner](./a-panorama-view#project-roles).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 You can revoke or resend an invitation before the user accepts it.
 
-:::
+</Admonition>
 
 ![revoke-or-cancel-invitation-to-project](/img/revoke-or-cancel-invitation-to-project.png)
 
@@ -101,11 +102,11 @@ When you no longer belong to a project, you have the option to leave it.
 
 Note that if you are the only owner of a project, you cannot leave it as each project must have at least one project owner at all times.
 
-:::caution Warning
+<Admonition type="caution" icon="🚧" title="Warning">
 
 Once you leave a project, your access to the project and associated resources will be revoked.
 
-:::
+</Admonition>
 
 ![leave-project](/img/leave-project.png)
 

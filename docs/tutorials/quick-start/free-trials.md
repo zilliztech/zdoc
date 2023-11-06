@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Free Trials

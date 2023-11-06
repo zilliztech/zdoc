@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 3
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Import Data via RESTful API
@@ -72,11 +73,11 @@ with open('path/to/medium_articles_2020_dpr.json') as f:
 
 To import data, you must first upload them to an object storage bucket, such as AWS S3 or Google Cloud Storage (GCS). Once uploaded, obtain the file path and bucket credentials for Zilliz Cloud to pull data from your bucket. For supported object paths, see [Supported object paths](./import-data-via-restful-api#supported-object-paths).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 For successful data import, ensure that the object storage bucket you use is located in the same cloud as your cluster.
 
-:::
+</Admonition>
 
 Once the object path and bucket credentials are obtained, call the API as follows:
 

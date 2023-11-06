@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 1
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Subscribe by Adding Credit Card
@@ -85,11 +86,11 @@ For those who prefer to transition from a credit card payment method to an AWS M
 
 Upon successful subscription via AWS Marketplace, your existing credit card information will be automatically replaced. You can verify the update in your **Billing Overview** page.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Please allow a few minutes for the billing overview to reflect the changes.
 
-:::
+</Admonition>
 
 ## Remove payment credit card{#remove-payment-credit-card}
 

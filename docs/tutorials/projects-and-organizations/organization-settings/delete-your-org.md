@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 3
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Delete Your Organization
@@ -37,11 +38,11 @@ Make sure the following conditions are met:
 
 1. Follow the instructions in the pop-up window and click the button to complete deleting the organization.
 
-:::caution Warning
+<Admonition type="caution" icon="🚧" title="Warning">
 
 The action of deleting an organization cannot be undone. Please take extra caution with this action.
 
-:::
+</Admonition>
 
 ![delete-organization-en](/img/delete-organization-en.png)
 

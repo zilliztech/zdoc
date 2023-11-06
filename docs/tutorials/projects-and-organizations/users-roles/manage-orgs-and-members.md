@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Manage Organizations and Members
@@ -27,7 +28,7 @@ In the [organization and project](./a-panorama-view) hierarchy, you can manage y
 
 After joining an organization, you become an organization member and have permission to view system settings.
 
-For additional details on organization settings, see [Organization Settings](./undefined).
+For additional details on organization settings, see [Organization Settings](https://docs.zilliz.com/docs/organization-settings).
 
 ![view-organization](/img/view-organization.png)
 
@@ -43,11 +44,11 @@ To invite a user to join your organization, you can either be an [Organization O
 
 As an Organization Owner, you can assign invitees as either Organization Owners or Members. However, as an Organization Member, invitees can only be designated as Organization Members.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Each time you can invite one or more users with the same role to the organization. Each organization can have up to 1,000 members.
 
-:::
+</Admonition>
 
 ![invite-user-to-org](/img/invite-user-to-org.png)
 
@@ -71,11 +72,11 @@ When you no longer belong to an organization, you have the option to leave it.
 
 Note that if you are the only owner of an organization, you cannot leave it as each organization must have at least one organization owner at all times.
 
-:::caution Warning
+<Admonition type="caution" icon="🚧" title="Warning">
 
 Once you leave an organization, your access to the organization and associated resources will be revoked.
 
-:::
+</Admonition>
 
 ![leave-organization](/img/leave-organization.png)
 

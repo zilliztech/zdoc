@@ -5,17 +5,18 @@ notebook: FALSE
 sidebar_position: 1
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Create Snapshot
 
 Snapshots are point-of-time backup copies of a managed cluster on Zilliz Cloud. You can use it as a baseline for new clusters or just for data backup.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Snapshots are supported only for the **Standard** and **Enterprise** tiers. If your cluster runs on the **Serverless** tier, upgrade it first. For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
-:::
+</Admonition>
 
 ## Create snapshot{#create-snapshot}
 
@@ -29,11 +30,11 @@ You can take a snapshot of your cluster based on the following figure. Your clus
 
 You can determine how long Zilliz Cloud keeps your snapshot by setting **Retention Period** in days. Currently, the default retention period is 7 days, with a maximum of 30 days.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Data transfer used to create the snapshots is separately charged at the rate of **$0.025/GB**. For example, a 20 GB snapshot will incur a one-time data transfer charge of **$0.025 x 20 = $0.5**. Currently, a snapshot can live on Zilliz Cloud for up to 30 days free of charge.
 
-:::
+</Admonition>
 
 ## Related topics{#related-topics}
 

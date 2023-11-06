@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 3
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Schema Explained
@@ -84,11 +85,11 @@ The inferred schema according to the above piece of data should be similar to th
 |  claps          |  Int64                  |
 |  responses      |  Int64                  |
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Dynamic data modeling may not always be the preferred method, especially when the inserted data is complex and difficult to parse. In such cases, consider using fixed data modeling instead, especially when dynamic data modeling fails to produce the expected results.
 
-:::
+</Admonition>
 
 ### Fixed data modeling{#fixed-data-modeling}
 

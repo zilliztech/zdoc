@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Manage Cluster Credentials
@@ -21,11 +22,11 @@ Beyond the default `db_admin` user, Zilliz Cloud provides the ability to add and
 
 To add a cluster user, you must be an [Organization Owner](./a-panorama-view#organization-roles) or a [Project Owner](./a-panorama-view#project-roles).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 The password will not be displayed again, so it's crucial to note it down and securely store it in an appropriate location.
 
-:::
+</Admonition>
 
 ![add-cluster-user](/img/add-cluster-user.png)
 
@@ -35,11 +36,11 @@ Having added a cluster user, you can now connect to the cluster using its userna
 
 To reset the password of a cluster user, navigate to the cluster details page and access the **Users** tab.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 The password will not be displayed again, so it's crucial to note it down and securely store it in an appropriate location.
 
-:::
+</Admonition>
 
 ![reset-cluster-user-password](/img/reset-cluster-user-password.png)
 
@@ -47,11 +48,11 @@ The password will not be displayed again, so it's crucial to note it down and se
 
 To drop a cluster user, you must be an [Organization Owner](./a-panorama-view#organization-roles) or a [Project Owner](./a-panorama-view#project-roles).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 The default user **db_admin **cannot be dropped.
 
-:::
+</Admonition>
 
 ![drop-cluster-user](/img/drop-cluster-user.png)
 

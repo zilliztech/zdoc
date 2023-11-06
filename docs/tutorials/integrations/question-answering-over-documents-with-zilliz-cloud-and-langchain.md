@@ -5,6 +5,7 @@ notebook: 83_integrations_langchain.ipynb
 sidebar_position: 4
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Question Answering over Documents with Zilliz Cloud and LangChain
@@ -105,13 +106,13 @@ The output should be similar to the following:
 
 After preparing the documents, you can set up a chain to include them in a prompt. This will allow LLM to use the docs as a reference when preparing answers.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 LangChain offers four types of chains for question-answering with sources: **stuff**, **map_reduce**, **refine**, and **map-rerank**.
 
 In simple terms, a **stuff** chain includes the document as a whole, which is only suitable for small documents. As most LLMs have restrictions on the maximum number of tokens a prompt can contain, it is recommended to use the other three types of chains. These chains split the input document into smaller pieces and feed them to the LLM in different ways. For more information, refer to the [Index-related chains](https://docs.langchain.com/docs/components/chains/index_related_chains) section in LangChain's documentation.
 
-:::
+</Admonition>
 
 The following code snippet sets up a chain using OpenAI as the LLM and **map-reduce** the chain type.
 

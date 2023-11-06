@@ -5,6 +5,7 @@ notebook: 81_integrations_huggingface.ipynb
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Question Answering Using Zilliz Cloud and HuggingFace

@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Migrate from Elasticsearch
@@ -67,11 +68,11 @@ In the **Dynamic Schema** section, decide if you want to enable dynamic schema f
 
 Once the migration status switches from **MIGRATING** to **SUCCESSFUL**, the migration is complete.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Data inserted into the Elasticsearch source index during migration may not synchronously migrate.
 
-:::
+</Admonition>
 
 ![verify_collection_es](/img/verify_collection_es.png)
 

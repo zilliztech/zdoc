@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 5
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Similarity Metrics Explained
@@ -25,11 +26,11 @@ where **a = (a<sub>0</sub>, a<sub>1</sub>,..., a<sub>n-1</sub>)** and **b = (b<s
 
 It's the most commonly used distance metric and is very useful when the data are continuous.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Zilliz Cloud only calculates the value before applying the square root when Euclidean distance is chosen as the distance metric.
 
-:::
+</Admonition>
 
 ## Inner product (IP){#inner-product-ip}
 
@@ -39,11 +40,11 @@ The IP distance between two embeddings is defined as follows:
 
 IP is more useful if you need to compare non-normalized data or when you care about magnitude and angle.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 If you use IP to calculate similarities between embeddings, you must normalize your embeddings. After normalization, the inner product equals cosine similarity.
 
-:::
+</Admonition>
 
 Suppose X' is normalized from embedding X:
 
@@ -65,8 +66,8 @@ The cosine similarity is always in the interval **[-1, 1]**. For example, two pr
 
 By subtracting their cosine similarity from 1, you can get the cosine distance between two vectors.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 This is currently in beta. Upgrade your cluster to the beta version to utilize this new similarity metric.
 
-:::
+</Admonition>

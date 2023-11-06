@@ -5,6 +5,7 @@ notebook: 80_integrations_openai.ipynb
 sidebar_position: 1
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Similarity Search with Zilliz Cloud and OpenAI
@@ -53,11 +54,11 @@ OPENAI_ENGINE = 'text-embedding-ada-002'  # Which engine to use
 openai.api_key = ''  # Use your own Open AI API Key here
 ```
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Since the embedding process for a free OpenAI account can be time-consuming, we use a small dataset to balance the execution time of the script and the precision of the search results. You can adjust the value of the `COUNT` constant to your liking.
 
-:::
+</Admonition>
 
 The following snippet deals with Zilliz Cloud and setting up the cluster for this use case. Within Zilliz Cloud, we need to set up a collection and index it. For more information on how to set up and use Zilliz Cloud, refer to this [link](https://www.notion.so/Quick-Start-b0941a3615e440a5996cd7da45b5bee1?pvs=21).
 

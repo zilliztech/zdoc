@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 3
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Install SDKs
@@ -15,21 +16,21 @@ Discover how to seamlessly install Milvus SDKs, allowing efficient connections t
 
 Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK options exist to facilitate cluster connections: [Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), or [Node.js](./install-sdks#install-nodejs-sdk).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Zilliz Cloud consistently upgrades clusters to ensure version compatibility. For details, visit the [Set up Maintenance Window](./set-up-maintenance-window) page. If connection issues arise due to SDK version discrepancies, heed the provided prompts to revert to a compatible SDK version. We'll notify you post-maintenance, post which you can upgrade your SDK without concerns.
 
-:::
+</Admonition>
 
 ## Install PyMilvus: Python SDK{#install-pymilvus-python-sdk}
 
 PyMilvus is Milvus's Python SDK. Access its [source code on GitHub](https://github.com/milvus-io/pymilvus).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Ensure your **Python** version exceeds **3.7** prior to installation.
 
-:::
+</Admonition>
 
 ```bash
 # Install specific PyMilvus version
@@ -46,11 +47,11 @@ python -m pip list | grep pymilvus
 
 For Milvus's Node.js SDK, employ **npm** or **yarn**. Access its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-node).
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Ensure your **Node.js** version is **14** or above prior to installation.
 
-:::
+</Admonition>
 
 ```bash
 # Installing a specific version

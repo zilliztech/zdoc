@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 8
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # View Activities
@@ -28,12 +29,12 @@ To enhance your control and ease in navigating through the organization activiti
 - **Filter by time range**
     Choose a start and end date to display activities occurring within a specific time frame. After setting your desired time range, click **Apply** to view all activities within this period.
 
-    :::info Notes    
+    <Admonition type="info" icon="📘" title="Notes">    
     
     
     Ensure that the time span between your chosen start date and end date does not exceed 30 days.
 
-    :::
+    </Admonition>
 
     ![filter-by-time-range](/img/filter-by-time-range.png)
 

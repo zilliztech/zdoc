@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Subscribe on AWS Marketplace
@@ -37,13 +38,12 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
     ![aws_flash_message](/img/aws_flash_message.png)
 
 1. If you already have a Zilliz Cloud account, simply log in. If not, choose a [sign-up option](./register-with-zilliz-cloud) and follow the process. Ensure all query strings in the URL are retained to link your AWS identity to your Zilliz Cloud account.
-    :::info Notes    
+    <Admonition type="info" icon="📘" title="Notes">
 
-    :::
+    
+    AWS Marketplace uses query strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.
 
-    :::info Notes    
-
-    :::
+    </Admonition>
 
 1. Fill out the required information to access $100 in long-term credits and decide if you want to receive updates from Zilliz Cloud.
 
@@ -59,12 +59,12 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 1. Sign in to AWS Marketplace with the original AWS account you used for the subscription.
 
 1. Cancel your Zilliz Cloud subscription. Refer to [Cancel your product subscription](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription) for more details.
-    :::info Notes    
+    <Admonition type="info" icon="📘" title="Notes">    
     
     
     It takes a few minutes for AWS Marketplace to complete the cancellation process.
 
-    :::
+    </Admonition>
 
 1. Sign out of your original AWS account.
 
@@ -77,12 +77,12 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 1. Sign in to AWS Marketplace with the original AWS account you used for the subscription.
 
 1. Cancel your Zilliz Cloud subscription. Refer to [Cancel your product subscription](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription) for more details.
-    :::info Notes    
+    <Admonition type="info" icon="📘" title="Notes">    
     
     
     It takes a few minutes for AWS Marketplace to complete the cancellation process.
 
-    :::
+    </Admonition>
 
 1. Follow the steps in [Add a payment method](https://www.notion.so/7939e50c76bb473eb121f1feff57d4c8?pvs=21) to add a payment credit card.
 

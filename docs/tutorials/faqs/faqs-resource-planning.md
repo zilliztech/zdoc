@@ -11,6 +11,7 @@ This topic lists the possible issues that you may encounter while planning your 
 
 ## Contents
 
+- [What is a Compute Unit (CU)?](#what-is-a-compute-unit-cu)
 - [How can I avoid expenses on unused clusters?](#how-can-i-avoid-expenses-on-unused-clusters)
 - [How can I estimate the cost of using Zilliz Cloud?](#how-can-i-estimate-the-cost-of-using-zilliz-cloud)
 - [Does Zilliz Cloud support deployment on Azure?](#does-zilliz-cloud-support-deployment-on-azure)
@@ -24,6 +25,12 @@ This topic lists the possible issues that you may encounter while planning your 
 
 
 This topic lists the possible issues that you may encounter while planning your resources on Zilliz Cloud and the corresponding solution.
+
+### What is a Compute Unit (CU)?{#what-is-a-compute-unit-cu}
+
+A compute unit (CU) is a group of hardware resources for serving your indexes and search requests. You can simply consider a CU as a fully-managed physical node for deploying search service.
+
+For more details, see [Choose the Right CU Type and Size](https://docs.zilliz.com/docs/choose-the-right-cu-type-and-size).
 
 ### How can I avoid expenses on unused clusters?{#how-can-i-avoid-expenses-on-unused-clusters}
 

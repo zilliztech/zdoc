@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Select the Right CU
@@ -57,11 +58,11 @@ The table below illustrates the load capacity for each CU type, taking into acco
 |  768               |  1.2 million                                 |  5.6 million                              |  5.6 million                          |
 |  1024              |  0.86 million                                |  4.34 million                             |  4.34 million                         |
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 The above metrics are based on tests considering only primary keys and vectors. If your dataset has extra scalar fields (e.g., id, label, keywords), the actual capacity may deviate. It's prudent to conduct personal tests for a precise evaluation.
 
-:::
+</Admonition>
 
 ### Evaluate performance{#evaluate-performance}
 

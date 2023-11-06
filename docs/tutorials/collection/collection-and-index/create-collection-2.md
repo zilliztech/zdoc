@@ -5,6 +5,7 @@ notebook: 00_quick_start.ipynb
 sidebar_position: 1
 ---
 
+import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,21 +23,63 @@ If the idea of jumping right into the creation process without pre-defining ever
 ```python
 from pymilvus import MilvusClient
 
-# Initialize a MilvusClient instance
-client = MilvusClient(
-    uri=CLUSTER_ENDPOINT,
-    # token="username:password" or token="your-api-key" 
-    token=TOKEN
+CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" # Set your cluster endpoint
+TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
+COLLECTION_NAME="medium_articles_2020" # Set your collection name
+DATASET_PATH="../medium_articles_2020_dpr.json" # Set your dataset path
 
-res = client.create_collection(
-    collection_name="medium_articles_2020",
+# Initialize a MilvusClient instance
+# Replace uri and API key with your own
+client = MilvusClient(
+    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
+    token=TOKEN # API key or a colon-separated cluster username and password
+)
+
+# Create a collection
+client.create_collection(
+    collection_name=COLLECTION_NAME,
     dimension=768
+)
+
+res = client.describe_collection(
+    collection_name=COLLECTION_NAME
 )
 
 print(res)
 
-# Output:
-# None
+# Output
+#
+# {
+#     "collection_name": "medium_articles_2020",
+#     "auto_id": false,
+#     "num_shards": 1,
+#     "description": "",
+#     "fields": [
+#         {
+#             "field_id": 100,
+#             "name": "id",
+#             "description": "",
+#             "type": 5,
+#             "params": {},
+#             "is_primary": true
+#         },
+#         {
+#             "field_id": 101,
+#             "name": "vector",
+#             "description": "",
+#             "type": 101,
+#             "params": {
+#                 "dim": 768
+#             }
+#         }
+#     ],
+#     "aliases": [],
+#     "collection_id": 443943328732839733,
+#     "consistency_level": 2,
+#     "properties": [],
+#     "num_partitions": 1,
+#     "enable_dynamic_field": true
+# }
 ```
 
 </TabItem>
@@ -44,16 +87,65 @@ print(res)
 <TabItem value='javascript'>
 
 ```javascript
-// create a collection
-res = await client.createCollection({
-    collection_name: "medium_articles_2020",
-    dimension: 768
-});
+const { MilvusClient } = require("@zilliz/milvus2-sdk-node")
 
-console.log(res)
+const address = "YOUR_CLUSTER_ENDPOINT"
+const token = "YOUR_CLUSTER_TOKEN"
+const collectionName = "medium_articles_2020"
+const data_file = `./medium_articles_2020_dpr.json`
 
-// Output:
-// { error_code: 'Success', reason: '' }
+async function main() {
+
+    // Connect to the cluster
+    const client = new MilvusClient({address, token})
+
+    // Create a collection
+    let res = await client.createCollection({
+        collection_name: collectionName,
+        dimension: 768,
+    });
+
+    console.log(res)
+
+    // Output
+    // 
+    // { error_code: 'Success', reason: '', code: 0 }
+    // 
+
+    // Describe the created collection
+    res = await client.describeCollection({
+        collection_name: collectionName
+    });
+   
+    console.log(res)
+
+    // Output
+    // 
+    // {
+    //   virtual_channel_names: [ 'by-dev-rootcoord-dml_0_445337000187266398v0' ],
+    //   physical_channel_names: [ 'by-dev-rootcoord-dml_0' ],
+    //   aliases: [],
+    //   start_positions: [],
+    //   properties: [],
+    //   status: { error_code: 'Success', reason: '', code: 0 },
+    //   schema: {
+    //     fields: [ [Object], [Object] ],
+    //     name: 'medium_articles_2020',
+    //     description: '',
+    //     autoID: false,
+    //     enable_dynamic_field: true
+    //   },
+    //   collectionID: '445337000187266398',
+    //   created_timestamp: '445337085300965381',
+    //   created_utc_timestamp: '1698826161579',
+    //   shards_num: 1,
+    //   consistency_level: 'Bounded',
+    //   collection_name: 'medium_articles_2020',
+    //   db_name: 'default',
+    //   num_partitions: '1'
+    // }
+    // 
+}
 ```
 
 </TabItem>
@@ -61,24 +153,67 @@ console.log(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.param.R;
-import io.milvus.param.RpcStatus;
-import io.milvus.param.highlevel.collection.CreateSimpleCollectionParam;
+public final class QuickStartDemo {
 
-// 2. Create collection
+    public static void main(String[] args) {
+    
+        String clusterEndpoint = "YOUR_CLUSTER_ENDPOINT";
+        String token = "YOUR_CLUSTER_TOKEN";
+        String collectionName = "medium_articles";
+        String data_file = System.getProperty("user.dir") + "/medium_articles_2020_dpr.json";
+        
 
-CreateSimpleCollectionParam createCollectionParam = CreateSimpleCollectionParam.newBuilder()
-    .withCollectionName("medium_articles_2020")
-    .withDimension(768)
-    .build();
+        // 1. Connect to Zilliz Cloud
 
-R<RpcStatus> createCollection = client.createCollection(createCollectionParam);
+        ConnectParam connectParam = ConnectParam.newBuilder()
+            .withUri(clusterEndpoint)
+            .withToken(token)
+            .build();   
+            
+        MilvusServiceClient client = new MilvusServiceClient(connectParam);
 
-if (createCollection.getException() != null) {
-    System.out.println("Failed to create collection: " + createCollection.getException().getMessage());
-        return;            
+        System.out.println("Connected to Zilliz Cloud!");
+
+        // Output:
+        // Connected to Zilliz Cloud!
+    
+        // 2. Create collection
+
+        CreateSimpleCollectionParam createCollectionParam = CreateSimpleCollectionParam.newBuilder()
+            .withCollectionName(collectionName)
+            .withDimension(768)
+            .build();
+
+        R<RpcStatus> createCollection = client.createCollection(createCollectionParam);
+
+        if (createCollection.getException() != null) {
+            System.err.println("Failed to create collection: " + createCollection.getException().getMessage());
+            return;            
+        }
+
+        // 3. Describe collection
+
+        DescribeCollectionParam describeCollectionParam = DescribeCollectionParam.newBuilder()
+            .withCollectionName(collectionName)
+            .build();
+
+        R<DescribeCollectionResponse> collectionInfo = client.describeCollection(describeCollectionParam);
+
+        if (collectionInfo.getException() != null) {
+            System.err.println("Failed to describe collection: " + collectionInfo.getException().getMessage());
+            return;            
+        }
+
+        DescCollResponseWrapper descCollResponseWrapper = new DescCollResponseWrapper(collectionInfo.getData());
+
+        System.out.println(descCollResponseWrapper);
+
+        // Output:
+        // Collection Description{name:'medium_articles', description:'', id:445337000188271120, shardNumber:1, createdUtcTimestamp:1698906291178, aliases:[], fields:[FieldType{name='id', type='Int64', elementType='None', primaryKey=true, partitionKey=false, autoID=false, params={}}, FieldType{name='vector', type='FloatVector', elementType='None', primaryKey=false, partitionKey=false, autoID=false, params={dim=768}}], isDynamicFieldEnabled:true}
     }
+    
 }
+    
 ```
 
 </TabItem>
@@ -87,10 +222,10 @@ if (createCollection.getException() != null) {
 
 ```bash
 # token="username:password" or token="your-api-key"
-curl --location --request POST "${PUBLIC_ENDPOINT}/v1/vector/collections/create" \\
-    --header "Authorization: Bearer ${TOKEN}" \\
-    --header "Content-Type: application/json" \\
-    --header "Accept: */*" \\
+curl --location --request POST "${PUBLIC_ENDPOINT}/v1/vector/collections/create" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: */*" \
     --data '{
         "collectionName": "medium_articles_2020",
         "dimension": 768

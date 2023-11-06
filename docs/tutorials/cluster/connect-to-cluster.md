@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,11 +23,11 @@ Ensure the following prerequisites are met before proceeding:
 
 - You have installed a Milvus SDK applicable to your use case. For details, see [Install SDKs](./install-sdks) .
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 For those leaning towards the utilization of RESTful APIs over SDKs, it's important to understand that a continuous connection cannot be established. This is attributed to the HTTP protocol's unidirectional communication mode.
 
-:::
+</Admonition>
 
 ## Connect to a cluster{#connect-to-a-cluster}
 
@@ -36,13 +37,16 @@ Once your cluster is operational, connect to it utilizing its public endpoint an
 <TabItem value='python'>
 
 ```python
-# Initialize a MilvusClient instance
 from pymilvus import MilvusClient
 
+CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" # Set your cluster endpoint
+TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
+
+# Initialize a MilvusClient instance
+# Replace uri and API key with your own
 client = MilvusClient(
-    #  Public endpoint obtained from Zilliz Cloud
-    uri=CLUSTER_ENDPOINT,
-    token=TOKEN,
+    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
+    token=TOKEN # API key or a colon-separated cluster username and password
 )
 ```
 
@@ -53,11 +57,15 @@ client = MilvusClient(
 ```javascript
 const { MilvusClient } = require("@zilliz/milvus2-sdk-node")
 
-const address = "<PUBLIC_ENDPOINT>";
-// token="username:password" or token="your-api-key" 
-const token = "<TOKEN>";
+const address = "YOUR_CLUSTER_ENDPOINT"
+const token = "YOUR_CLUSTER_TOKEN"
 
-const client = new MilvusClient({ address, token });
+async function main () {
+
+    // Connect to the cluster
+    const client = new MilvusClient({address, token})
+    
+}
 ```
 
 </TabItem>
@@ -68,16 +76,30 @@ const client = new MilvusClient({ address, token });
 import io.milvus.client.MilvusServiceClient;
 import io.milvus.param.ConnectParam;
 
-// 1. Connect to Zilliz Cloud
-ConnectParam connectParam = ConnectParam.newBuilder()
-    .withUri(PUBLIC-ENDPOINT)
-    // TOKEN="username:password" or TOKEN="your-api-key" 
-    .withToken(TOKEN)
-    .build();
+public final class QuickStartDemo {
 
-MilvusServiceClient client = new MilvusServiceClient(connectParam);
+    public static void main(String[] args) {
+        String clusterEndpoint = "YOUR_CLUSTER_ENDPOINT";
+        String token = "YOUR_CLUSTER_TOKEN";
 
-System.out.println("Connected to Zilliz Cloud!");
+        // 1. Connect to Zilliz Cloud
+
+        ConnectParam connectParam = ConnectParam.newBuilder()
+            .withUri(clusterEndpoint)
+            .withToken(token)
+            .build();   
+            
+        MilvusServiceClient client = new MilvusServiceClient(connectParam);
+
+        System.out.println("Connected to Zilliz Cloud!");
+
+        // Output:
+        // Connected to Zilliz Cloud!
+        
+    }
+    
+ }
+
 ```
 
 </TabItem>
@@ -85,24 +107,25 @@ System.out.println("Connected to Zilliz Cloud!");
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus-sdk-go/v2/client"
 
-CLUSTER_ENDPOINT := "YOUR_CLUSTER_ENDPOINT"
-// token="username:password" or token="your-api-key" 
-TOKEN := "YOUR_CLUSTER_TOKEN"
-COLLNAME := "medium_articles_2020"
+func main() {
+    CLUSTER_ENDPOINT := "YOUR_CLUSTER_ENDPOINT"
+    TOKEN := "YOUR_CLUSTER_TOKEN"
+    COLLNAME := "medium_articles_2020"
 
-// 1. Connect to cluster
+    // 1. Connect to cluster
 
-connParams := client.Config{
-    Address:       CLUSTER_ENDPOINT,
-    APIKey:        TOKEN,
-    EnableTLSAuth: true,
-}
+    connParams := client.Config{
+        Address: CLUSTER_ENDPOINT,
+        APIKey:  TOKEN,
+    }
 
-conn, err := client.NewClient(context.Background(), connParams)
+    conn, err := client.NewClient(context.Background(), connParams)
 
-if err != nil {
-    log.Fatal("Failed to connect to Zilliz Cloud:", err.Error())
+    if err != nil {
+        log.Fatal("Failed to connect to Zilliz Cloud:", err.Error())
+    }
 }
 ```
 

@@ -5,6 +5,7 @@ notebook: 11_conduct_a_range_search.ipynb
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -12,11 +13,11 @@ import TabItem from '@theme/TabItem';
 
 Understanding how to filter your search results by the proximity of entities is crucial in vector operations. A range search serves this exact purpose by narrowing down results according to the distance between a query vector and vectors. This guide will walk you through the process of conducting a range search in Zilliz Cloud, which consists of a vector similarity search followed by distance-based filtering.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 The support for range search is available as a Beta feature. The feature and the documentation may change anytime during the Beta stage.
 
-:::
+</Admonition>
 
 ## Before you start{#before-you-start}
 
@@ -38,11 +39,11 @@ Before conducting a range search, make sure the following conditions are met:
 
 1. **Review your results**: The vectors returned will be within the range you specified, tailored to the distance metrics you have chosen.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Zilliz Cloud may return fewer results than your set `limit` if not enough vectors meet the specified distance criteria after range filtering.
 
-:::
+</Admonition>
 
 ## Step 1: Load collection{#step-1-load-collection}
 

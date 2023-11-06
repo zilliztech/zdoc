@@ -5,6 +5,7 @@ notebook: 01_use_customized_schema.ipynb
 sidebar_position: 3
 ---
 
+import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -12,7 +13,7 @@ import TabItem from '@theme/TabItem';
 
 Entities on Zilliz Cloud refer to data objects stored in a cluster, containing data for processing, search, and queries. If an entity is no longer needed, you can perform operations to delete it.
 
-## Delete a single entity{#delete-a-single-entity}
+## Delete entities{#delete-entities}
 
 If an entity is outdated or no longer needed, you can run the following sample code to delete it:
 
@@ -20,15 +21,27 @@ If an entity is outdated or no longer needed, you can run the following sample c
 <TabItem value='python'>
 
 ```python
+# Delete a single entity using a MilvusClient object
+from pymilvus import MilvusClient
+
 res = client.delete(
     collection_name="medium_articles_2020", # Collection name
-    pks=253 # Entity ID
+    pks=253 # Entity ID, Use a list for multiple entities, such as [246, 253]
 )
 
 print(res)
 
 # Output:
 # [253]
+
+# =======
+
+# Delete a single entity using a Collection object
+from pymilvus import Collection
+
+collection.delete(expr="id in [253]") 
+
+# Include the IDs of all entities to delete in the expr, such as 'id in [246, 253]'
 ```
 
 </TabItem>
@@ -36,25 +49,31 @@ print(res)
 <TabItem value='javascript'>
 
 ```javascript
-res = await client.delete({
-    collection_name: "medium_articles_2020",
-    ids: [253]
-});
+async function main () {
 
-console.log(res)
+    // Continued
 
-// Output
-//  {
-//   succ_index: [],
-//   err_index: [],
-//   status: { error_code: 'Success', reason: '' },
-//   IDs: { int_id: { data: [Array] }, id_field: 'int_id' },
-//   acknowledged: false,
-//   insert_cnt: '0',
-//   delete_cnt: '1',
-//   upsert_cnt: '0',
-//   timestamp: '442192913812684801'
-// }
+    res = await client.delete({
+        collection_name: "medium_articles_2020",
+        ids: [253] // Include the IDs of all entities to delete, such as [246, 253]
+    });
+    
+    console.log(res)
+    
+    // Output
+    //  {
+    //   succ_index: [],
+    //   err_index: [],
+    //   status: { error_code: 'Success', reason: '' },
+    //   IDs: { int_id: { data: [Array] }, id_field: 'int_id' },
+    //   acknowledged: false,
+    //   insert_cnt: '0',
+    //   delete_cnt: '1',
+    //   upsert_cnt: '0',
+    //   timestamp: '442192913812684801'
+    // }
+    
+}
 ```
 
 </TabItem>
@@ -67,13 +86,38 @@ import java.util.List;
 import io.milvus.param.highlevel.dml.DeleteIdsParam;
 import io.milvus.param.highlevel.dml.response.DeleteResponse;
 
-public class QuickStart 
+public class UseCustomizedSchemaDemo 
 {
     public static void main( String[] args )
     {
-        ...
-        List<String> ids = Lists.newArrayList("253");
+        // (Continued)
+        String data_file = "/medium_articles_2020_dpr.json";
+        String content;
 
+        // read a local file
+        Path file = Path.of(data_file);
+        try {
+            content = Files.readString(file);
+        } catch (Exception e) {
+            System.err.println("Failed to read file: " + e.getMessage());
+            return;
+        }
+
+        System.out.println("Successfully read file");
+
+        // Output:
+        // Successfully read file
+
+        // Load dataset
+        JSONObject dataset = JSON.parseObject(content);
+
+        // Insert your data in rows, all the fields not pre-defined in the schema 
+        // are recognized as pre-defined schema
+        List<JSONObject> rows = getRows(dataset.getJSONArray("rows"), 1000);
+        
+        List<String> ids = Lists.newArrayList("1");
+        // List<String> ids = Lists.newArrayList("1", "2", "3");
+        
         DeleteIdsParam deleteParam = DeleteIdsParam.newBuilder()
                 .withCollectionName(collectionName)
                 .withPrimaryIds(ids)
@@ -82,11 +126,14 @@ public class QuickStart
         R<DeleteResponse> deleteRes = client.delete(deleteParam);
 
         if (deleteRes.getException() != null) {
-            System.out.println("Failed to delete: " + deleteRes.getException().getMessage());
+            System.err.println("Failed to delete: " + deleteRes.getException().getMessage());
             return;
         }
 
-        System.out.println("Successfully deleted " + deleteRes.getData().getDeleteIds() + " records");
+        System.out.println(deleteRes.getData().toString());
+
+        // Output:
+        // deleteIds=[]
     }
 }
 ```
@@ -96,14 +143,16 @@ public class QuickStart
 <TabItem value='go'>
 
 ```go
-// Delete a single entity
-IDs := make([]int64, 0, 1)
-IDs = IDs.append(IDs, int64(253))
+func main() {
 
-err = conn.DeleteByPks(context.Background(), "medium_articles_2020", "", IDs)
+    // (Continued)
+    
+    err = conn.Delete(context.Background(), COLLNAME, "", "id in [253]")
+    // err = conn.Delete(context.Background(), COLLNAME, "", "id in [253, 254]")
 
-if err != nil {
-    log.Fatal("Failed to drop collection:", err.Error())
+    if err != nil {
+        log.Fatal("Failed to delete rows:", err.Error())
+    }
 }
 ```
 
@@ -112,14 +161,14 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
-curl --request POST \\
-     --url "${PUBLIC_ENDPOINT}/v1/vector/delete" \\
-     --header "Authorization: Bearer ${API_KEY}" \\
-     --header 'accept: application/json' \\
-     --header 'content-type: application/json' \\
+curl --request POST \
+     --url "${PUBLIC_ENDPOINT}/v1/vector/delete" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header 'accept: application/json' \
+     --header 'content-type: application/json' \
      --data "{
-        \\"collectionName\\": \\"medium_articles_2020\\",
-        \\"id\\": 253
+        \"collectionName\": \"medium_articles_2020\",
+        \"id\": 253
       }"
 
 # Output:
@@ -131,139 +180,11 @@ curl --request POST \\
 
 The preceding code deletes an entity with ID `253` from collection `medium_articles_2020`.
 
-:::caution Warning
-
-Deleting an entity is an irreversible operation. Make sure you have a backup or the data is no longer needed before proceeding with the operation.
-
-:::
-
-## Delete multiple entities at a time{#delete-multiple-entities-at-a-time}
-
-Zilliz Cloud allows you to delete multiple entities at a time. To do this, run the following sample code:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-
-res = client.delete(
-        collection_name="medium_articles_2020", # Collection name
-        pks=[252, 236] # Entity IDs
-)
-
-print(res)
-
-# Output:
-# [252, 236]
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-res = await client.delete({
-    collection_name: "medium_articles_2020",
-    ids: [252, 236]
-});
-
-console.log(res)
-
-// Output
-//  {
-//   succ_index: [],
-//   err_index: [],
-//   status: { error_code: 'Success', reason: '' },
-//   IDs: { int_id: { data: [Array] }, id_field: 'int_id' },
-//   acknowledged: false,
-//   insert_cnt: '0',
-//   delete_cnt: '2',
-//   upsert_cnt: '0',
-//   timestamp: '44219291381268543'
-// }
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-import java.util.List;
-
-import io.milvus.param.highlevel.dml.DeleteIdsParam;
-import io.milvus.param.highlevel.dml.response.DeleteResponse;
-
-public class QuickStart 
-{
-    public static void main( String[] args )
-    {
-        ...
-        List<String> ids = Lists.newArrayList("252", "236");
-
-        DeleteIdsParam deleteParam = DeleteIdsParam.newBuilder()
-                .withCollectionName(collectionName)
-                .withPrimaryIds(ids)
-                .build();
-
-        R<DeleteResponse> deleteRes = client.delete(deleteParam);
-
-        if (deleteRes.getException() != null) {
-            System.out.println("Failed to delete: " + deleteRes.getException().getMessage());
-            return;
-        }
-
-        System.out.println("Successfully deleted " + deleteRes.getData().getDeleteIds() + " records");
-    }
-}
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// Delete multiple entities
-IDs := make([]int64, 0, 1)
-IDs = IDs.append(IDs, int64(253))
-IDs = IDs.append(IDs, int64(236))
-
-err = conn.DeleteByPks(context.Background(), "medium_articles_2020", "", IDs)
-
-if err != nil {
-    log.Fatal("Failed to drop collection:", err.Error())
-}
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-curl --request POST \\
-     --url "${PUBLIC_ENDPOINT}/v1/vector/delete" \\
-     --header "Authorization: Bearer ${API_KEY}" \\
-     --header 'accept: application/json' \\
-     --header 'content-type: application/json' \\
-     --data "{
-        \\"collectionName\\": \\"medium_articles_2020\\",
-        \\"id\\": [252, 236]
-      }"
-
-# Output:
-#
-# {"code":200,"data":{}}
-```
-
-</TabItem>
-</Tabs>
-
-The preceding code deletes entities with IDs `252` and `236` from collection `medium_articles_2020` at a time.
-
-:::caution Warning
+<Admonition type="caution" icon="🚧" title="Warning">
 
 Deleting entities is an irreversible operation. Make sure you have a backup or the data is no longer needed before proceeding with the operation.
 
-:::
+</Admonition>
 
 ## Related topics{#related-topics}
 

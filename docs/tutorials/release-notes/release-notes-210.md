@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 4
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Release Notes v2.1.0

@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 4
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Use Advance Pay
@@ -15,13 +16,13 @@ Zilliz Cloud also accepts advance pay (bank transfer) as the payment method in a
 
 Currently, you can only [contact us](https://zilliz.com/contact-sales) to add funds to your Advance Pay balance.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 The payment method priority is:  Credits > Advance Pay > Credit card /AWS marketplace subscription.
 
 This means if there are still remaining credits, and you have added funds and added a credit card or subscribed on AWS Marketplace, your credits will be deducted first to cover your usage fee. If the credits are not sufficient, we will deduct your Advance Pay funds. If the funds and credits are still not enough to cover the fee, we will resort to charging your credit card or AWS Marketplace account.
 
-:::
+</Admonition>
 
 ## View Advance Pay history{#view-advance-pay-history}
 

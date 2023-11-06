@@ -5,6 +5,7 @@ notebook: 82_integrations_with_cohere.ipynb
 sidebar_position: 3
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Question Answering Using Zilliz Cloud and Cohere
@@ -151,11 +152,11 @@ collection.flush()
 
 Once all the data is inserted into the Zilliz Cloud collection, we can ask the system questions by taking our question phrase, embedding it with Cohere, and searching with Zilliz Cloud.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 Searches performed on data right after insertion might be a little slower as searching unindexed data is done in a brute-force manner. Once the new data is automatically indexed, the searches will speed up.
 
-:::
+</Admonition>
 
 ```python
 # Search the cluster for an answer to a question text

@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 2
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Cluster, Collection & Entities
@@ -59,11 +60,11 @@ For your reference, Zilliz Cloud supports the following field data types:
 
 Zilliz Cloud provides three types of CUs, each of which have its own application scenarios, and they are also the factor that impacts search performance.
 
-:::info Notes
+<Admonition type="info" icon="📘" title="Notes">
 
 **FLOAT_VECTOR** is the only data type that supports vector embeddings in Zilliz Cloud clusters.
 
-:::
+</Admonition>
 
 ### Index{#index}
 

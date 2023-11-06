@@ -5,6 +5,7 @@ notebook: FALSE
 sidebar_position: 6
 ---
 
+import Admonition from '@theme/Admonition';
 
 
 # Consistency Level
