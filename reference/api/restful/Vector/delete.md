@@ -2,162 +2,112 @@
 displayed_sidebar: referenceSidebar
 sidebar_position: 0
 slug: /delete
-title: 删除 Entity
+title: Delete
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-从 Collection 中删除一条或多条数据。
+Deletes one or more entities from a collection.
 
-<RestHeader method="post" endpoint="https://{public_endpoint}/v1/vector/delete" />
+<RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/delete" />
 
 ---
 
-## 示例
+## Example
+
+# RESTful API Examples
 
 
-:::info 说明
+## Request
 
-此处请使用由冒号（:）连接的集群用户名和密码做为 Token，如 `user:password`。
+### Parameters
 
-:::
+- No query parameters required
 
-- 删除一个 ID 为整数的 Entity.
+- Path parameters
 
-```shell
-curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "collectionName": "medium_articles",
-       "id": 1
-     }'
-```
-
-- 删除一个 ID 为字符串的 Entity.
-
-```shell
-curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "collectionName": "medium_articles",
-       "id": "id1"
-     }'
-```
-
-- 删除一组 ID 为整数的 Entity.
-
-```shell
-curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-        "collectionName": "medium_articles",
-        "id": [1,2,3,4]
-      }'
-```
-
-- 删除一组 ID 为字符串的 Entity.
-
-```shell
-curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-        "collectionName": "medium_articles",
-        "id": ["id1", "id2", "id3","id4"]
-      }'
-```
-
-
-
-## 请求
-
-### 参数
-
-- 无查询参数。
-
-- 路径参数
-
-    | 参数名称        | 参数说明                                                                             |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `public-endpoint`  | **string**（必选）<br/>目标集群的 Endpoint。|
+    | `public-endpoint`  | **string**(required)<br/>|
 
-### 请求体
+### Request Body
 
 ```json
 {
+    "dbName": "string",
     "collectionName": "string",
     "id": "string"
 }
 ```
 
-| 参数名称        | 参数描述                                                                               |
+| Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `collectionName`  | **string**（必选）<br/>目标 Collection 名称。|
-| `id`  | **string**（必选）<br/>目标 Entity ID。|
+| `dbName`  | **string**<br/>The name of the database.|
+| `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
+| `id`  | **string**(required)<br/>The ID of the entity to be retrieved|
 
 ```json
 {
+    "dbName": "string",
     "collectionName": "string",
-    "id": []
+    "id": [
+        {}
+    ]
 }
 ```
 
-| 参数名称        | 参数描述                                                                               |
+| Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `collectionName`  | **string**（必选）<br/>目标 Collection 名称。|
-| `id`  | **array**（必选）<br/>一组 Entity ID。|
+| `dbName`  | **string**<br/>The name of the database.|
+| `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
+| `id`  | **array**(required)<br/>An array of IDs of the entities to be retrieved|
 
 ```json
 {
+    "dbName": "string",
     "collectionName": "string",
     "id": "integer"
 }
 ```
 
-| 参数名称        | 参数描述                                                                               |
+| Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `collectionName`  | **string**（必选）<br/>目标 Collection 名称。|
-| `id`  | **integer**（必选）<br/>目标 Entity ID。|
+| `dbName`  | **string**<br/>The name of the database.|
+| `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
+| `id`  | **integer**(required)<br/>The ID of the entity to be retrieved|
 
 ```json
 {
+    "dbName": "string",
     "collectionName": "string",
-    "id": []
+    "id": [
+        {}
+    ]
 }
 ```
 
-| 参数名称        | 参数描述                                                                               |
+| Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `collectionName`  | **string**（必选）<br/>目标 Collection 名称。|
-| `id`  | **array**（必选）<br/>一组 Entity ID。|
+| `dbName`  | **string**<br/>The name of the database.|
+| `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
+| `id`  | **array**(required)<br/>An array of IDs of the entities to be retrieved|
 
-## 响应
+## Response
 
-返回空对象。
+Returns an empty object.
 
-### 响应体
+### Response Bodies
 
-- 处理请求成功后返回
+- Response body if we process your request successfully
 
 ```json
 {
-    "code": 200,
+    "code": "integer",
     "data": {}
 }
 ```
 
-- 处理请求失败后返回
+- Response body if we failed to process your request
 
 ```json
 {
@@ -166,19 +116,19 @@ curl --request POST \
 }
 ```
 
-### 属性
+### Properties
 
-下表罗列了响应包含的所有属性。
+The properties in the returned response are listed in the following table.
 
-| 属性名称  | 属性描述                                                                                                                               |
+| Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>表示请求是否成功。<br/><ul><li>`200`：请求成功。</li><li>其它：存在错误。</li></ul> |
-| `data`    | **object**<br/>表示响应中携带的数据对象。 |
-| `message`  | **string**<br/>具体描述请示错误的原因。 |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| `data`    | **object**<br/>A data object. |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
-## 错误码清单
+## Possible Errors
 
-| 错误码 | 错误消息 |
+| Code | Error Message |
 | ---- | ------------- |
 | 80000 | Incorrect parameter: xxx |
 | 80001 | The token is illegal |
@@ -190,11 +140,12 @@ curl --request POST \
 | 90102 | The cluster does not exist in current region. |
 | 90103 | The clusterId parameter is empty in the request path. |
 | 90110 | No filter key field. |
-| 90123 | The inputted ID value does not match the field xxx, expecting xxx but received xxx instead. |
-| 90124 | no id key field, please check your request. |
-| 90127 | Please use xxx in (a,b,c) filtering in the expression. |
-| 90128 | Not contains data to filter, please check the filter field |
-| 90129 | Filter dataType not support, please check the filter field |
+| 90123 | "The inputted ID value does not match the field xxx |
+| 90124 | "no id key field |
+| 90127 | "Please use xxx in (a |
+| 90128 | "Not contains data to filter |
+| 90129 | "Filter dataType not support |
 | 90132 | No delete content provided. |
-| 90139 | Type mismatch for field 'xxx'. expected type:xxx, but received input:xxx. |
+| 90139 | "Type mismatch for field 'xxx'. expected type:xxx |
 | 90140 | The number of elements in parameter 'id' should not exceed 100. |
+

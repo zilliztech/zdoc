@@ -2,107 +2,77 @@
 displayed_sidebar: referenceSidebar
 sidebar_position: 0
 slug: /list-clusters
-title: 查看集群
+title: List Clusters
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-列出指定云区域中的所有集群。
+Lists all clusters in the specified cloud region.
 
-<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.cloud.zilliz.com.cn/v1/clusters" />
+<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters" />
 
 ---
 
-## 示例
+## Example
+
+# RESTful API Examples
 
 
-列出指定云服务提供商的所有可用云区域。
+## Request
 
-:::info 说明
+### Parameters
 
-此处请使用您的 API Key 做为 Token。
+- Query parameters
 
-:::
-
-```shell
-curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.cloud.zilliz.com.cn/v1/clusters?pageSize=&current=" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
-```
-
-成功响应示例：
-
-```shell
-{
-    "code": 200,
-    "data": {
-        "count": 0,
-        "currentPage": 1,
-        "pageSize": 10,
-        "clusters": []
-    }
-}
-```
-
-
-
-## 请求
-
-### 参数
-
-- 查询参数
-
-    | 参数名称          | 参数说明                                                                               |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `pageSize`  | **integer**<br/>每页返回的记录数。|
-    | `current`  | **integer**<br/>当前页码。|
+    | `pageSize`  | **integer**<br/>The number of records to return on each page.|
+    | `current`  | **integer**<br/>The current page number.|
 
-- 路径参数
+- Path parameters
 
-    | 参数名称        | 参数说明                                                                             |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `CLOUD_REGION_ID`  | **string**（必选）<br/>一组可用的云服务提供商和云服务区域，如“ali-cn-hangzhou”。|
+    | `CLOUD_REGION_ID`  | **string**(required)<br/>|
 
-### 请求体
+### Request Body
 
-无请求体。
+No request body required
 
-## 响应
+## Response
 
-返回集群列表。
+Returns a list of your clusters.
 
-### 响应体
+### Response Bodies
 
-- 处理请求成功后返回
+- Response body if we process your request successfully
 
 ```json
 {
-    "code": 200,
+    "code": "integer",
     "data": {
+        "count": "integer",
+        "currentPage": "integer",
+        "pageSize": "integer",
         "clusters": [
             {
                 "clusterId": "string",
                 "clusterName": "string",
-                "clusterType": "string",
-                "connectAddress": "string",
-                "createTime": "string",
-                "cuSize": "integer",
                 "description": "string",
-                "privateLinkAddress": "string",
                 "regionId": "string",
-                "status": "string"
+                "clusterType": "string",
+                "cuSize": "integer",
+                "status": "string",
+                "connectAddress": "string",
+                "privateLinkAddress": "string",
+                "createTime": "string"
             }
-        ],
-        "count": "integer",
-        "currentPage": "integer",
-        "pageSize": "integer"
+        ]
     }
 }
 ```
 
-- 处理请求失败后返回
+- Response body if we failed to process your request
 
 ```json
 {
@@ -111,36 +81,37 @@ curl --request GET \
 }
 ```
 
-### 属性
+### Properties
 
-下表罗列了响应包含的所有属性。
+The properties in the returned response are listed in the following table.
 
-| 属性名称  | 属性描述                                                                                                                               |
+| Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>表示请求是否成功。<br/><ul><li>`200`：请求成功。</li><li>其它：存在错误。</li></ul> |
-| `data`    | **object**<br/>表示响应中携带的数据对象。 |
-| `data.count`   | **integer**<br/>返回的集群总数。 |
-| `data.currentPage`   | **integer**<br/>当前页码。 |
-| `data.pageSize`   | **integer**<br/>结果中每页显示的集群数。 |
-| `data.clusters`   | **array**<br/>集群信息，以数组形式返回。 |
-| `data.clusters[].clusterId`   | **string**<br/>集群 ID。 |
-| `data.clusters[].clusterName`   | **string**<br/>集群名称。 |
-| `data.clusters[].description`   | **string**<br/>（可选）集群描述信息。 |
-| `data.clusters[].regionId`   | **string**<br/>集群所在的地域 ID。 |
-| `data.clusters[].clusterType`   | **string**<br/>集群使用的 CU 类型。有效值：**性能型**、 **容量型**和**经济型**。 |
-| `data.clusters[].cuSize`   | **integer**<br/>集群使用的 CU 大小。 |
-| `data.clusters[].status`   | **string**<br/>集群当前状态。有效值：**创建中**、**运行中**、**挂起中**和**恢复中**。 |
-| `data.clusters[].connectAddress`   | **string**<br/>集群的公共 Endpoint。您可以通过此地址从公网连接到集群。 |
-| `data.clusters[].privateLinkAddress`   | **string**<br/>集群的私有 Endpoint。您可以为集群设置私有链接，允许同一云区域中的 VPS 访问集群。 |
-| `data.clusters[].createTime`   | **string**<br/>集群创建时间 |
-| `message`  | **string**<br/>具体描述请示错误的原因。 |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| `data`    | **object**<br/>A data object. |
+| `data.count`   | **integer**<br/>The total number of clusters returned. |
+| `data.currentPage`   | **integer**<br/>The current page in the results. |
+| `data.pageSize`   | **integer**<br/>The number of clusters per page in the results. |
+| `data.clusters`   | **array**<br/>An array of clusters in detail. |
+| `data.clusters[].clusterId`   | **string**<br/>The ID of the cluster. |
+| `data.clusters[].clusterName`   | **string**<br/>The name of the cluster. |
+| `data.clusters[].description`   | **string**<br/>An optional description about the cluster. |
+| `data.clusters[].regionId`   | **string**<br/>The ID of the region where the cluster exists. |
+| `data.clusters[].clusterType`   | **string**<br/>The type of CU associated with the cluster. Possible values are **Performance-optimized** and **Capacity-optimized**. |
+| `data.clusters[].cuSize`   | **integer**<br/>The size of the CU associated with the cluster. |
+| `data.clusters[].status`   | **string**<br/>The current status of the cluster. Possible values are **INITIALIZING**, **RUNNING**, **SUSPENDING**, and **RESUMING**. |
+| `data.clusters[].connectAddress`   | **string**<br/>The public endpoint of the cluster. You can connect to the cluster using this endpoint from the public network. |
+| `data.clusters[].privateLinkAddress`   | **string**<br/>The private endpoint of the cluster. You can set up a private link to allow your VPS in the same cloud region to access your cluster. |
+| `data.clusters[].createTime`   | **string**<br/>The time at which the cluster has been created. |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
-## 错误码清单
+## Possible Errors
 
-| 错误码 | 错误消息 |
+| Code | Error Message |
 | ---- | ------------- |
 | 80001 | The token is illegal |
 | 80002 | The token is invalid |
 | 80003 | The parameter value for 'pageSize' should be between 5 and 100. |
 | 80004 | The parameter 'currentPage' should have a value between 1 and the maximum value of Int. |
-| 90117 | Invalid domain name used, please check the domain name you're using. |
+| 90117 | "Invalid domain name used |
+

@@ -2,69 +2,55 @@
 displayed_sidebar: referenceSidebar
 sidebar_position: 0
 slug: /list-import-jobs
-title: 查看数据导入任务
+title: List Import Jobs
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-列出指定集群上的数据导入任务。
+List all import jobs specific to a cluster.
 
-<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.cloud.zilliz.com.cn/v1/vector/collections/import/list" />
+<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/vector/collections/import/list" />
 
 ---
 
-## 示例
+## Example
+
+# RESTful API Examples
 
 
-列出指定集群上的数据导入任务。
+## Request
 
-:::info 说明
+### Parameters
 
-此处请使用您的 API Key 做为 Token。
+- Query parameters
 
-:::
-
-```shell
-curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import/list?clusterId=${CLUSTERID}" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-```
-
-## 请求
-
-### 参数
-
-- 查询参数
-
-    | 参数名称          | 参数说明                                                                               |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `clusterId`  | **string**（必选）<br/>Zilliz Cloud 集群 ID。|
-    | `pageSize`  | **string**<br/>每次返回的导入任务数量。|
-    | `currentPage`  | **string**<br/>当前页码。|
+    | `clusterId`  | **string**(required)<br/>The ID of a specific cluster on Zilliz Cloud.|
+    | `pageSize`  | **string**<br/>The number of records to return at each request.|
+    | `currentPage`  | **string**<br/>The current page number.|
 
-- 路径参数
+- Path parameters
 
-    | 参数名称        | 参数说明                                                                             |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `CLOUD_REGION_ID`  | **string**（必选）<br/>|
+    | `CLOUD_REGION_ID`  | **string**(required)<br/>|
 
-### 请求体
+### Request Body
 
-无请求体。
+No request body required
 
-## 响应
+## Response
 
-返回一个导入任务列表。
+Returns a list of import jobs.
 
-### 响应体
+### Response Bodies
 
-- 处理请求成功后返回
+- Response body if we process your request successfully
 
 ```json
 {
-    "code": 200,
+    "code": "string",
     "data": {
         "count": "string",
         "currentPage": "string",
@@ -80,7 +66,7 @@ curl --request GET \
 }
 ```
 
-- 处理请求失败后返回
+- Response body if we failed to process your request
 
 ```json
 {
@@ -89,26 +75,26 @@ curl --request GET \
 }
 ```
 
-### 属性
+### Properties
 
-下表罗列了响应包含的所有属性。
+The properties in the returned response are listed in the following table.
 
-| 属性名称  | 属性描述                                                                                                                               |
+| Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>表示请求是否成功。<br/><ul><li>`200`：请求成功。</li><li>其它：存在错误。</li></ul> |
-| `data`    | **object**<br/>表示响应中携带的数据对象。 |
-| `data.count`   | **string**<br/>当前响应中包含的导入任务数量。 |
-| `data.currentPage`   | **string**<br/>当前页码。 |
-| `data.pageSize`   | **string**<br/>每次返回的最大记录数量。 |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| `data`    | **object**<br/>A data object. |
+| `data.count`   | **string**<br/>Total number of records listed in this response. |
+| `data.currentPage`   | **string**<br/>The current page number for your reference. |
+| `data.pageSize`   | **string**<br/>The maximum number of records to be included in each return. |
 | `data.records`   | **array**<br/> |
-| `data.records[].collectionName`   | **string**<br/>当前导入任务对应的目标 Collection 名称。 |
-| `data.records[].jobId`   | **string**<br/>当前导入任务的 ID。 |
-| `data.records[].state`   | **string**<br/>当前导入任务的状态。可能的取值有： <b>ImportRunning</b>、<b>ImportCompleted</b> 和 <b>ImportFailed</b>. |
-| `message`  | **string**<br/>具体描述请示错误的原因。 |
+| `data.records[].collectionName`   | **string**<br/>The target collection name of a import task. |
+| `data.records[].jobId`   | **string**<br/>The ID of an import task. |
+| `data.records[].state`   | **string**<br/>The corresponding status of the import task. Possible values are <b>ImportRunning</b>, <b>ImportCompleted</b> and <b>ImportFailed</b>. |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
-## 错误码清单
+## Possible Errors
 
-| 错误码 | 错误消息 |
+| Code | Error Message |
 | ---- | ------------- |
 | 40021 | The cluster ID does not exist. |
 | 40022 | No access to this cluster. Please request access from your admin. |
@@ -118,4 +104,5 @@ curl --request GET \
 | 80020 | Invalid clusterId or you do not have permission to access that Cluster. |
 | 90102 | The cluster does not exist in current region. |
 | 90104 | The clusterId parameter is empty in the request parameter. |
-| 90117 | Invalid domain name used, please check the domain name you're using. |
+| 90117 | "Invalid domain name used |
+

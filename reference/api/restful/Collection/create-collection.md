@@ -2,107 +2,74 @@
 displayed_sidebar: referenceSidebar
 sidebar_position: 0
 slug: /create-collection
-title: 创建 Collection
+title: Create Collection
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-在集群中创建 Collection。
+Creates a collection in a cluster.
 
-<RestHeader method="post" endpoint="https://{public_endpoint}/v1/vector/collections/create" />
+<RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/collections/create" />
 
 ---
 
-## 示例
+## Example
+
+# RESTful API Examples
 
 
-在集群中创建 Collection。本示例将创建一个名为 `medium_articles` 的 Collection。
+## Request
 
-:::info 说明
+### Parameters
 
-此处请使用由冒号（:）连接的集群用户名和密码做为 Token，如 `user:password`。
+- No query parameters required
 
-:::
+- Path parameters
 
-```shell
-curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/collections/create" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "dbName": "default",   
-       "collectionName": "medium_articles",
-       "dimension": 256,
-       "metricType": "L2",
-       "primaryField": "id",
-       "vectorField": "vector"
-      }'
-```
-
-成功响应示例：
-
-```shell
-{
-    "code": 200,
-    "data": {}
-}
-```
-
-
-
-## 请求
-
-### 参数
-
-- 无查询参数。
-
-- 路径参数
-
-    | 参数名称        | 参数说明                                                                             |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `CLUSTER_ENDPOINT`  | **string**（必选）<br/>目标集群的 Endpoint。|
+    | `CLUSTER_ENDPOINT`  | **string**(required)<br/>The endpoint of your cluster.|
 
-### 请求体
+### Request Body
 
 ```json
 {
-    "collectionName": "string",
     "dbName": "string",
-    "description": "string",
+    "collectionName": "string",
     "dimension": "integer",
     "metricType": "string",
     "primaryField": "string",
-    "vectorField": "string"
+    "vectorField": "string",
+    "description": "string"
 }
 ```
 
-| 参数名称        | 参数描述                                                                               |
+| Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `dbName`  | **string**<br/>待创建的 Collection 所属数据库名称。|
-| `collectionName`  | **string**（必选）<br/>待创建的 Collection 名称。 <zilliz>此参数仅适用于 Dedicated 集群。</zilliz>|
-| `dimension`  | **integer**（必选）<br/>指定 Collection 的向量维度。<br/>参数取值在 **1** 和 **32768** 之间.|
-| `metricType`  | **string**<br/>指定 Collection 的距离度量类型。<br/>默认值为 **L2**.|
-| `primaryField`  | **string**<br/>主键字段。<br/>默认值为 **id**.|
-| `vectorField`  | **string**<br/>向量字段。<br/>默认值为 **vector**.|
-| `description`  | **string**<br/>Collection 描述信息。|
+| `dbName`  | **string**<br/>The name of the database. <zilliz>This parameter applies only to dedicated clusters.</zilliz>|
+| `collectionName`  | **string**(required)<br/>The name of the collection to create.|
+| `dimension`  | **integer**(required)<br/>The number of dimensions for the vector field of the collection. For performance-optimized CUs, this value ranges from 1 to 32768. For capacity-optimized and cost-optimized CUs, this value ranges from 32 to 32768.<br/>The value ranges from **1** to **32768**.|
+| `metricType`  | **string**<br/>The distance metric used for the collection.<br/>The value defaults to **L2**.|
+| `primaryField`  | **string**<br/>The primary key field.<br/>The value defaults to **id**.|
+| `vectorField`  | **string**<br/>The vector field.<br/>The value defaults to **vector**.|
+| `description`  | **string**<br/>The description of the collection|
 
-## 响应
+## Response
 
-返回空对象。
+Returns an empty object.
 
-### 响应体
+### Response Bodies
 
-- 处理请求成功后返回
+- Response body if we process your request successfully
 
 ```json
 {
-    "code": 200,
+    "code": "integer",
     "data": {}
 }
 ```
 
-- 处理请求失败后返回
+- Response body if we failed to process your request
 
 ```json
 {
@@ -111,25 +78,25 @@ curl --request POST \
 }
 ```
 
-### 属性
+### Properties
 
-下表罗列了响应包含的所有属性。
+The properties in the returned response are listed in the following table.
 
-| 属性名称  | 属性描述                                                                                                                               |
+| Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>表示请求是否成功。<br/><ul><li>`200`：请求成功。</li><li>其它：存在错误。</li></ul> |
-| `data`    | **object**<br/>表示响应中携带的数据对象。 |
-| `message`  | **string**<br/>具体描述请示错误的原因。 |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| `data`    | **object**<br/>A data object. |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
-## 错误码清单
+## Possible Errors
 
-| 错误码 | 错误消息 |
+| Code | Error Message |
 | ---- | ------------- |
 | 80000 | Incorrect parameter: xxx |
 | 80001 | The token is illegal |
 | 80002 | The token is invalid |
-| 80007 |  This CU Size requires significant resource consumption. If you want to use it, please complete the card binding on the Billing page first. |
-| 80010 | Duplicated ClusterName. You have already created a running Cluster with the same name. To avoid complexity in management, please modify the name and create a new one. |
+| 80007 | " This CU Size requires significant resource consumption. If you want to use it |
+| 80010 | "Duplicated ClusterName. You have already created a running Cluster with the same name. To avoid complexity in management |
 | 80014 | Your input cuSize value is not supported yet. |
 | 80022 | Dedicated cluster not support this operation. |
 | 90013 | The parameter shardsNum should have a value range between 1 and 32. |
@@ -152,4 +119,5 @@ curl --request POST \
 | 90114 | The index field name can only be added to a vector field. |
 | 90122 | No dimension key field. |
 | 90136 | No create collection content provided. |
-| 90139 | Type mismatch for field 'xxx'. expected type:xxx, but received input:xxx. |
+| 90139 | "Type mismatch for field 'xxx'. expected type:xxx |
+

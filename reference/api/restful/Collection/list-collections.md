@@ -2,84 +2,60 @@
 displayed_sidebar: referenceSidebar
 sidebar_position: 0
 slug: /list-collections
-title: 查看 Collection
+title: List Collections
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-列出集群中已创建的 Collection。
+Lists collections in a cluster.
 
-<RestHeader method="get" endpoint="https://{public_endpoint}/v1/vector/collections" />
+<RestHeader method="get" endpoint="https://{cluster_endpoint}/v1/vector/collections" />
 
 ---
 
-## 示例
+## Example
+
+# RESTful API Examples
 
 
-列出集群中已创建的 Collection。
+## Request
 
-:::info 说明
+### Parameters
 
-此处请使用由冒号（:）连接的集群用户名和密码做为 Token，如 `user:password`。
+- Query parameters
 
-:::
-
-```shell
-curl --request GET \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/collections" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
-```
-
-成功响应示例：
-
-```shell
-{
-   code: 200,
-   data: [
-         "collection1",
-         "collection2",
-         ...
-         "collectionN",
-         ]
-}
-```
-
-
-
-## 请求
-
-### 参数
-
-- 无查询参数。
-
-- 路径参数
-
-    | 参数名称        | 参数说明                                                                             |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `CLUSTER_ENDPOINT`  | **string**（必选）<br/>目标集群的 Endpoint。|
+    | `dbName`  | **string**<br/>The name of the database|
 
-### 请求体
+- Path parameters
 
-无请求体。
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | `CLUSTER_ENDPOINT`  | **string**(required)<br/>The endpoint of your cluster.|
 
-## 响应
+### Request Body
 
-返回指定集群中已创建的 Collection。
+No request body required
 
-### 响应体
+## Response
 
-- 处理请求成功后返回
+Returns a list of collections in the specified cluster.
+
+### Response Bodies
+
+- Response body if we process your request successfully
 
 ```json
 {
-    "code": 200,
-    "data": {}
+    "code": "integer",
+    "data": [
+        {}
+    ]
 }
 ```
 
-- 处理请求失败后返回
+- Response body if we failed to process your request
 
 ```json
 {
@@ -88,19 +64,19 @@ curl --request GET \
 }
 ```
 
-### 属性
+### Properties
 
-下表罗列了响应包含的所有属性。
+The properties in the returned response are listed in the following table.
 
-| 属性名称  | 属性描述                                                                                                                               |
+| Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>表示请求是否成功。<br/><ul><li>`200`：请求成功。</li><li>其它：存在错误。</li></ul> |
-| `data`  | **array**<br/>表示响应中携带的 string 数组. |
-| `message`  | **string**<br/>具体描述请示错误的原因。 |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| `data`  | **array**<br/>A data array of strings. |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
-## 错误码清单
+## Possible Errors
 
-| 错误码 | 错误消息 |
+| Code | Error Message |
 | ---- | ------------- |
 | 80000 | Incorrect parameter: xxx |
 | 80001 | The token is illegal |
@@ -110,3 +86,4 @@ curl --request GET \
 | 90011 | Invalid CollectionName. Reason: Name contains only alphanumeric letters and underscores |
 | 90102 | The cluster does not exist in current region. |
 | 90103 | The clusterId parameter is empty in the request path. |
+

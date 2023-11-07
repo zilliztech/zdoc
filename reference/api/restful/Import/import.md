@@ -2,95 +2,72 @@
 displayed_sidebar: referenceSidebar
 sidebar_position: 0
 slug: /import
-title: 导入
+title: Import
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-从指定的对象存储桶中的文件导入数据。该对象存储桶须与目标集群处于同一公有云网络。
+Imports data from files stored in a specified object storage bucket. Note that the bucket should be in the same cloud as the target cluster of the import.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.cloud.zilliz.com.cn/v1/vector/collections/import" />
+<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/vector/collections/import" />
 
 ---
 
-## 示例
+## Example
+
+# RESTful API Examples
 
 
-从指定的对象存储桶中的文件导入数据。该对象存储桶须与目标集群处于同一公有云网络。
+## Request
 
-:::info 说明
+### Parameters
 
-此处请使用您的 API Key 做为 Token。
+- No query parameters required
 
-:::
+- Path parameters
 
-```shell
-curl --request POST \
-     --url "https://controller.api.${CLOUD_REGION_ID}.cloud.zilliz.com.cn/v1/vector/collections/import" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "clusterId": "in03-181766e3f9556b7",
-       "collectionName": "medium_articles",
-       "objectUrl": "gs://publicdataset-zillizcloud-com/medium_articles_2020.json"
-       "accessKey": "your-access-key"
-       "secretKey": "your-secret-key"
-     }'
-```
-
-
-
-## 请求
-
-### 参数
-
-- 无查询参数。
-
-- 路径参数
-
-    | 参数名称        | 参数说明                                                                             |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `CLOUD_REGION_ID`  | **string**（必选）<br/>一组可用的云服务提供商和云服务区域，如“ali-cn-hangzhou”。|
+    | `CLOUD_REGION_ID`  | **string**(required)<br/>|
 
-### 请求体
+### Request Body
 
 ```json
 {
-    "accessKey": "string",
     "clusterId": "string",
     "collectionName": "string",
     "objectUrl": "string",
+    "accessKey": "string",
     "secretKey": "string"
 }
 ```
 
-| 参数名称        | 参数描述                                                                               |
+| Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `clusterId`  | **string**（必选）<br/>目标集群 ID。|
-| `collectionName`  | **string**（必选）<br/>目标 Collection 名称。|
-| `objectUrl`  | **string**（必选）<br/>用于存储待导入数据的对象的 URL。|
-| `accessKey`  | **string**<br/>用于访问指定对象的访问密钥（AK）。|
-| `secretKey`  | **string**<br/>用于访问指定对象的访问密钥（SK）。|
+| `clusterId`  | **string**(required)<br/>The ID of a cluster to which this operation applies.|
+| `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
+| `objectUrl`  | **string**(required)<br/>The URL of the object that stores the data to be imported.|
+| `accessKey`  | **string**<br/>The access key used to access the specified object.|
+| `secretKey`  | **string**<br/>The access secret key used to access the specified object.|
 
-## 响应
+## Response
 
-创建导入任务并返回该任务的Job ID。
+Returns a import task job ID.
 
-### 响应体
+### Response Bodies
 
-- 处理请求成功后返回
+- Response body if we process your request successfully
 
 ```json
 {
-    "code": 200,
+    "code": "integer",
     "data": {
         "jobId": "string"
     }
 }
 ```
 
-- 处理请求失败后返回
+- Response body if we failed to process your request
 
 ```json
 {
@@ -99,20 +76,20 @@ curl --request POST \
 }
 ```
 
-### 属性
+### Properties
 
-下表罗列了响应包含的所有属性。
+The properties in the returned response are listed in the following table.
 
-| 属性名称  | 属性描述                                                                                                                               |
+| Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>表示请求是否成功。<br/><ul><li>`200`：请求成功。</li><li>其它：存在错误。</li></ul> |
-| `data`    | **object**<br/>表示响应中携带的数据对象。 |
-| `data.jobId`   | **string**<br/>已提交的导入任务 ID。 |
-| `message`  | **string**<br/>具体描述请示错误的原因。 |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| `data`    | **object**<br/>A data object. |
+| `data.jobId`   | **string**<br/>The ID of the import task that has been submitted |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
-## 错误码清单
+## Possible Errors
 
-| 错误码 | 错误消息 |
+| Code | Error Message |
 | ---- | ------------- |
 | 10003 | Invalid s3 ObjectUrl. [xxx] |
 | 40003 | Action not available given the current status of the cluster. |
@@ -137,6 +114,7 @@ curl --request POST \
 | 90102 | The cluster does not exist in current region. |
 | 90103 | The clusterId parameter is empty in the request path. |
 | 90104 | The clusterId parameter is empty in the request parameter. |
-| 90117 | Invalid domain name used, please check the domain name you're using. |
+| 90117 | "Invalid domain name used |
 | 90142 | No import content provided. |
 | 90145 | No ObjectUrl key field. |
+

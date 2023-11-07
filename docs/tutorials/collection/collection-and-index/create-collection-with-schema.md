@@ -2,7 +2,7 @@
 slug: /create-collection-with-schema
 beta: FALSE
 notebook: 01_use_customized_schema.ipynb
-sidebar_position: 0
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';

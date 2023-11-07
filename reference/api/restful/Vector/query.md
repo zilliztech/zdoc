@@ -2,93 +2,76 @@
 displayed_sidebar: referenceSidebar
 sidebar_position: 0
 slug: /query
-title: 按条件查询
+title: Query
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-在 Collection 按指定条件执行查询操作。
+Conducts a vector query in a collection.
 
-<RestHeader method="post" endpoint="https://{public_endpoint}/v1/vector/query" />
+<RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/query" />
 
 ---
 
-## 示例
+## Example
+
+# RESTful API Examples
 
 
-:::info 说明
+## Request
 
-此处请使用由冒号（:）连接的集群用户名和密码做为 Token，如 `user:password`。
+### Parameters
 
-:::
+- No query parameters required
 
-在 Collection 按指定条件执行查询操作。
+- Path parameters
 
-```shell
-curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/query" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "collectionName": "medium_articles",
-       "outputFields": ["id", "title", "link"],
-       "filter": "id in [443300716234671427, 443300716234671426]",
-       "limit": 100,
-       "offset": 0
-     }'
-```
-
-
-
-## 请求
-
-### 参数
-
-- 无查询参数。
-
-- 路径参数
-
-    | 参数名称        | 参数说明                                                                             |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `public-endpoint`  | **string**（必选）<br/>目标集群的 Endpoint。|
+    | `public-endpoint`  | **string**(required)<br/>|
 
-### 请求体
+### Request Body
 
 ```json
 {
+    "dbName": "string",
     "collectionName": "string",
     "filter": "string",
     "limit": "integer",
     "offset": "integer",
-    "outputFields": []
+    "outputFields": [
+        {}
+    ]
 }
 ```
 
-| 参数名称        | 参数描述                                                                               |
+| Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
-| `collectionName`  | **string**（必选）<br/>目标 Collection 名称。|
-| `filter`  | **string**（必选）<br/>查询时使用的过滤条件。|
-| `limit`  | **integer**<br/>要返回的最大 Entity 数。<br/>本参数值和 `offset` 参数值的和不能大于 **16384**。<br/>默认值为 **100**.<br/>参数取值在 **1** 和 **100** 之间.|
-| `offset`  | **integer**<br/>表示从第几个 Entity 开始返回搜索结果。<br/>本参数值和 `limit` 参数值的和不能大于 **16384**。<br/>最大值为 **16384**.|
-| `outputFields`  | **array**<br/>返回字段，以数组形式表示。|
+| `dbName`  | **string**<br/>The name of the database.|
+| `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
+| `filter`  | **string**(required)<br/>The filter used to find matches for the search.|
+| `limit`  | **integer**<br/>The maximum number of entities to return.<br/>The sum of this value and that of `offset` should be less than **16384**.<br/>The value defaults to **100**.<br/>The value ranges from **1** to **100**.|
+| `offset`  | **integer**<br/>The number of entities to skip in the search results.<br/>The sum of this value and that of `limit` should be less than **16384**.<br/>The maximum value is **16384**.|
+| `outputFields`  | **array**<br/>An array of fields to return along with the search results.|
 
-## 响应
+## Response
 
-返回查询结果。
+Returns the search results.
 
-### 响应体
+### Response Bodies
 
-- 处理请求成功后返回
+- Response body if we process your request successfully
 
 ```json
 {
-    "code": 200,
-    "data": {}
+    "code": "integer",
+    "data": [
+        {}
+    ]
 }
 ```
 
-- 处理请求失败后返回
+- Response body if we failed to process your request
 
 ```json
 {
@@ -97,19 +80,19 @@ curl --request POST \
 }
 ```
 
-### 属性
+### Properties
 
-下表罗列了响应包含的所有属性。
+The properties in the returned response are listed in the following table.
 
-| 属性名称  | 属性描述                                                                                                                               |
+| Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>表示请求是否成功。<br/><ul><li>`200`：请求成功。</li><li>其它：存在错误。</li></ul> |
-| `data`  | **array**<br/>表示响应中携带的 object 数组. |
-| `message`  | **string**<br/>具体描述请示错误的原因。 |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| `data`  | **array**<br/>A data array of objects. |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
-## 错误码清单
+## Possible Errors
 
-| 错误码 | 错误消息 |
+| Code | Error Message |
 | ---- | ------------- |
 | 80000 | Incorrect parameter: xxx |
 | 80001 | The token is illegal |
@@ -124,4 +107,5 @@ curl --request POST \
 | 90103 | The clusterId parameter is empty in the request path. |
 | 90110 | No filter key field. |
 | 90134 | No query content provided. |
-| 90139 | Type mismatch for field 'xxx'. expected type:xxx, but received input:xxx. |
+| 90139 | "Type mismatch for field 'xxx'. expected type:xxx |
+

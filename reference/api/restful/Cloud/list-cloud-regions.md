@@ -2,97 +2,64 @@
 displayed_sidebar: referenceSidebar
 sidebar_position: 0
 slug: /list-cloud-regions
-title: 查看云服务区域
+title: List Cloud Regions
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-列出指定云服务提供商的所有可用云区域。
+Lists all available cloud regions of a specific cloud provider.
 
-<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.cloud.zilliz.com.cn/v1/regions" />
+<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/regions" />
 
 ---
 
-## 示例
+## Example
+
+# RESTful API Examples
 
 
-列出指定云服务提供商的所有可用云区域。
+## Request
 
-:::info 说明
+### Parameters
 
-此处请使用您的 API Key 做为 Token。
+- Query parameters
 
-:::
-
-```shell
-curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.cloud.zilliz.com.cn/v1/regions?cloudId=ali" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
-```
-
-您可以使用 `ListClouds` 接口获取 `cloudId`。
-
-成功响应示例：
-
-```shell
-{
-    "code": 200,
-    "data": [
-        {
-            "apiBaseUrl": "https://api.ali-cn-hangzhou.cloud.zilliz.com.cn",
-            "cloudId": "ali",
-            "regionId": "ali-cn-hangzhou"
-        }
-    ]
-}
-```
-
-
-
-## 请求
-
-### 参数
-
-- 查询参数
-
-    | 参数名称          | 参数说明                                                                               |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `cloudId`  | **string**<br/>云服务提供商 ID。|
+    | `cloudId`  | **string**<br/>The ID of a valid cloud provider.|
 
-- 路径参数
+- Path parameters
 
-    | 参数名称        | 参数说明                                                                             |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `CLOUD_REGION_ID`  | **string**（必选）<br/>一组可用的云服务提供商和云服务区域，如“ali-cn-hangzhou”。|
+    | `CLOUD_REGION_ID`  | **string**(required)<br/>|
 
-### 请求体
+### Request Body
 
-无请求体。
+No request body required
 
-## 响应
+## Response
 
-返回指定云服务提供商的所有可用云区域。
+Returns a list of all available regions that the specified cloud provider offers.
 
-### 响应体
+### Response Bodies
 
-- 处理请求成功后返回
+- Response body if we process your request successfully
 
 ```json
 {
-    "code": 200,
+    "code": "integer",
     "data": [
         {
-            "apiBaseUrl": "string",
             "cloudId": "string",
-            "regionId": "string"
+            "regionId": "string",
+            "apiBaseUrl": "string"
         }
     ]
 }
 ```
 
-- 处理请求失败后返回
+- Response body if we failed to process your request
 
 ```json
 {
@@ -101,23 +68,24 @@ curl --request GET \
 }
 ```
 
-### 属性
+### Properties
 
-下表罗列了响应包含的所有属性。
+The properties in the returned response are listed in the following table.
 
-| 属性名称  | 属性描述                                                                                                                               |
+| Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>表示请求是否成功。<br/><ul><li>`200`：请求成功。</li><li>其它：存在错误。</li></ul> |
-| `data`  | **array**<br/>表示响应中携带的 object 数组. |
-| `data.cloudId`   | **string**<br/>云服务提供商的 ID。 |
-| `data.regionId`   | **string**<br/>可用云区域的 ID。 |
-| `data.apiBaseUrl`   | **string**<br/>公共 API Endpoint 的 Base URL。 |
-| `message`  | **string**<br/>具体描述请示错误的原因。 |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| `data`  | **array**<br/>A data array of objects. |
+| `data.cloudId`   | **string**<br/>The ID of a cloud provider |
+| `data.regionId`   | **string**<br/>The ID of a cloud region |
+| `data.apiBaseUrl`   | **string**<br/>The base URL of an Zilliz Cloud open API endpiont |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
-## 错误码清单
+## Possible Errors
 
-| 错误码 | 错误消息 |
+| Code | Error Message |
 | ---- | ------------- |
 | 80001 | The token is illegal |
 | 80002 | The token is invalid |
-| 90117 | Invalid domain name used, please check the domain name you're using. |
+| 90117 | "Invalid domain name used |
+

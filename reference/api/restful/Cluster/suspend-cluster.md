@@ -2,78 +2,50 @@
 displayed_sidebar: referenceSidebar
 sidebar_position: 0
 slug: /suspend-cluster
-title: 挂起集群
+title: Suspend Cluster
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-挂起集群。本操作会中断集群运行，不会影响集群数据完整性。
+Suspend a specified cluster. This operation will only stop the cluster and your data will remain intact.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.cloud.zilliz.com.cn/v1/clusters/{clusterId}/suspend" />
+<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters/{clusterId}/suspend" />
 
 ---
 
-## 示例
+## Example
+
+# RESTful API Examples
 
 
-挂起集群。本操作会中断集群运行，不会影响集群数据完整性。
+## Request
 
-:::info 说明
+### Parameters
 
-此处请使用您的 API Key 做为 Token。
-请在添加支付方式后使用该功能。
+- No query parameters required
 
-:::
+- Path parameters
 
-```shell
-curl --request POST \ "https://controller.${CLOUD_REGION_ID}.cloud.zilliz.com.cn/v1/clusters/<Cluster-ID>/suspend" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
-```
-
-成功响应示例：
-
-```shell
-{
-  code: 200,
-  data: {
-     "clusterId": "cluster01",
-     "prompt": "Submission successful. Your vector database computing cost is free until you Resume the Cluster, and only storage costs will be charged."
-  }
-}
-```
-
-
-
-## 请求
-
-### 参数
-
-- 无查询参数。
-
-- 路径参数
-
-    | 参数名称        | 参数说明                                                                             |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `CLOUD_REGION_ID`  | **string**（必选）<br/>一组可用的云服务提供商和云服务区域，如“ali-cn-hangzhou”。|
-    | `clusterId`  | **string**（必选）<br/>目标集群 ID。|
+    | `CLOUD_REGION_ID`  | **string**(required)<br/>|
+    | `clusterId`  | **string**(required)<br/>The ID of a cluster to which this operation applies.|
 
-### 请求体
+### Request Body
 
-无请求体。
+No request body required
 
-## 响应
+## Response
 
-集群 ID。
+Returns the ID of the affected cluster.
 
-### 响应体
+### Response Bodies
 
-- 处理请求成功后返回
+- Response body if we process your request successfully
 
 ```json
 {
-    "code": 200,
+    "code": "integer",
     "data": {
         "clusterId": "string",
         "prompt": "string"
@@ -81,7 +53,7 @@ curl --request POST \ "https://controller.${CLOUD_REGION_ID}.cloud.zilliz.com.cn
 }
 ```
 
-- 处理请求失败后返回
+- Response body if we failed to process your request
 
 ```json
 {
@@ -90,21 +62,21 @@ curl --request POST \ "https://controller.${CLOUD_REGION_ID}.cloud.zilliz.com.cn
 }
 ```
 
-### 属性
+### Properties
 
-下表罗列了响应包含的所有属性。
+The properties in the returned response are listed in the following table.
 
-| 属性名称  | 属性描述                                                                                                                               |
+| Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>表示请求是否成功。<br/><ul><li>`200`：请求成功。</li><li>其它：存在错误。</li></ul> |
-| `data`    | **object**<br/>表示响应中携带的数据对象。 |
-| `data.clusterId`   | **string**<br/>集群 ID。 |
-| `data.prompt`   | **string**<br/>操作成功的回显信息。 |
-| `message`  | **string**<br/>具体描述请示错误的原因。 |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| `data`    | **object**<br/>A data object. |
+| `data.clusterId`   | **string**<br/>The ID of a cluster. |
+| `data.prompt`   | **string**<br/>The statement indicating that the current operation succeeds. |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
-## 错误码清单
+## Possible Errors
 
-| 错误码 | 错误消息 |
+| Code | Error Message |
 | ---- | ------------- |
 | 80001 | The token is illegal |
 | 80002 | The token is invalid |
@@ -112,4 +84,5 @@ curl --request POST \ "https://controller.${CLOUD_REGION_ID}.cloud.zilliz.com.cn
 | 80021 | Serverless cluster not support this operation. |
 | 90102 | The cluster does not exist in current region. |
 | 90103 | The clusterId parameter is empty in the request path. |
-| 90117 | Invalid domain name used, please check the domain name you're using. |
+| 90117 | "Invalid domain name used |
+

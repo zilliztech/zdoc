@@ -2,104 +2,57 @@
 displayed_sidebar: referenceSidebar
 sidebar_position: 0
 slug: /describe-collection
-title: 查看 Collection 详情
+title: Describe Collection
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-描述 Collection 的详细信息。
+Describes the details of a collection.
 
-<RestHeader method="get" endpoint="https://{public_endpoint}/v1/vector/collections/describe" />
+<RestHeader method="get" endpoint="https://{cluster_endpoint}/v1/vector/collections/describe" />
 
 ---
 
-## 示例
+## Example
+
+# RESTful API Examples
 
 
-描述 Collection 的详细信息。本示例将查看一个名为 `medium_articles` 的 Collection。
+## Request
 
-:::info 说明
+### Parameters
 
-此处请使用由冒号（:）连接的集群用户名和密码做为 Token，如 `user:password`。
+- Query parameters
 
-:::
-
-```shell
-curl --request GET \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/collections/describe?collectionName=medium_articles" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
-```
-
-成功响应示例：
-
-```shell
-{
-    "code": 200,
-    "data": {
-        "collectionName": "string",
-        "description": "string",
-        "fields": [
-            {
-                "autoId": true,
-                "description": "string",
-                "name": "string",
-                "primaryKey": true,
-                "type": "string"
-            }
-        ],
-        "indexes": [
-            {
-                "fieldName": "string",
-                "indexName": "string",
-                "metricType": "string"
-            }
-        ],
-        "load": "string",
-        "shardsNum": 0,
-        "enableDynamicField": true
-    }
-}
-```
-
-
-
-## 请求
-
-### 参数
-
-- 查询参数
-
-    | 参数名称          | 参数说明                                                                               |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `collectionName`  | **string**（必选）<br/>目标 Collection 名称。|
+    | `collectionName`  | **string**(required)<br/>The name of the collection to describe.|
+    | `dbName`  | **string**<br/>The name of the database.|
 
-- 路径参数
+- Path parameters
 
-    | 参数名称        | 参数说明                                                                             |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `CLUSTER_ENDPOINT`  | **string**（必选）<br/>目标集群的 Endpoint。|
+    | `CLUSTER_ENDPOINT`  | **string**(required)<br/>The endpoint of your cluster.|
 
-### 请求体
+### Request Body
 
-无请求体。
+No request body required
 
-## 响应
+## Response
 
-返回指定 Collection 的详细信息。
+Returns the specified collection in detail.
 
-### 响应体
+### Response Bodies
 
-- 处理请求成功后返回
+- Response body if we process your request successfully
 
 ```json
 {
-    "code": 200,
+    "code": "integer",
     "data": {
         "collectionName": "string",
         "description": "string",
-        "enableDynamicField": "boolean",
         "fields": [
             {
                 "autoId": "boolean",
@@ -117,12 +70,13 @@ curl --request GET \
             }
         ],
         "load": "string",
-        "shardsNum": "integer"
+        "shardsNum": "integer",
+        "enableDynamicField": "boolean"
     }
 }
 ```
 
-- 处理请求失败后返回
+- Response body if we failed to process your request
 
 ```json
 {
@@ -131,34 +85,34 @@ curl --request GET \
 }
 ```
 
-### 属性
+### Properties
 
-下表罗列了响应包含的所有属性。
+The properties in the returned response are listed in the following table.
 
-| 属性名称  | 属性描述                                                                                                                               |
+| Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>表示请求是否成功。<br/><ul><li>`200`：请求成功。</li><li>其它：存在错误。</li></ul> |
-| `data`    | **object**<br/>表示响应中携带的数据对象。 |
-| `data.collectionName`   | **string**<br/>Collection 名称。 |
-| `data.description`   | **string**<br/>（可选）Collection 描述信息。 |
-| `data.fields`   | **array**<br/>字段数组。 |
-| `data.fields[].autoId`   | **boolean**<br/>是否为主键启用自动 ID。 |
-| `data.fields[].description`   | **string**<br/>（可选）字段描述。 |
-| `data.fields[].name`   | **string**<br/>字段名称。 |
-| `data.fields[].primaryKey`   | **boolean**<br/>是否为主键。 |
-| `data.fields[].type`   | **string**<br/>该字段的数据类型。 |
-| `data.indexes`   | **array**<br/>索引数组。 |
-| `data.indexes[].fieldName`   | **string**<br/>索引字段名称。 |
-| `data.indexes[].indexName`   | **string**<br/>生成的索引文件名称。 |
-| `data.indexes[].metricType`   | **string**<br/>索引类型。 |
-| `data.load`   | **string**<br/>Collection 的加载状态。有效值：**未加载**、**加载中**和**已加载**。 |
-| `data.shardsNum`   | **integer**<br/>Collection 的分片数量。 |
-| `data.enableDynamicField`   | **boolean**<br/>Collection 是否启用了动态 Schema。 |
-| `message`  | **string**<br/>具体描述请示错误的原因。 |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| `data`    | **object**<br/>A data object. |
+| `data.collectionName`   | **string**<br/>The name of the collection. |
+| `data.description`   | **string**<br/>An optional description of the collection. |
+| `data.fields`   | **array**<br/>An field array |
+| `data.fields[].autoId`   | **boolean**<br/>Whether the primary key automatically increments. |
+| `data.fields[].description`   | **string**<br/>An optional description of the field. |
+| `data.fields[].name`   | **string**<br/>The name of the field. |
+| `data.fields[].primaryKey`   | **boolean**<br/>Whether the field is a primary field. |
+| `data.fields[].type`   | **string**<br/>The data type of the values in this field. |
+| `data.indexes`   | **array**<br/>An index array |
+| `data.indexes[].fieldName`   | **string**<br/>The name of the indexed field. |
+| `data.indexes[].indexName`   | **string**<br/>The name of the generated index files. |
+| `data.indexes[].metricType`   | **string**<br/>The metric type used in the index process. |
+| `data.load`   | **string**<br/>The load status of the collection. Possible values are **unload**, **loading**, and **loaded**. |
+| `data.shardsNum`   | **integer**<br/>The number of shards in the collection. |
+| `data.enableDynamicField`   | **boolean**<br/>Whether the dynamic JSON feature is enabled for this collection. |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
-## 错误码清单
+## Possible Errors
 
-| 错误码 | 错误消息 |
+| Code | Error Message |
 | ---- | ------------- |
 | 80000 | Incorrect parameter: xxx |
 | 80001 | The token is illegal |
@@ -169,3 +123,4 @@ curl --request GET \
 | 90011 | Invalid CollectionName. Reason: Name contains only alphanumeric letters and underscores |
 | 90102 | The cluster does not exist in current region. |
 | 90103 | The clusterId parameter is empty in the request path. |
+

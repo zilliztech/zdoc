@@ -2,79 +2,49 @@
 displayed_sidebar: referenceSidebar
 sidebar_position: 0
 slug: /list-cloud-providers
-title: 查看云服务提供商
+title: List Cloud Providers
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-列出 Zilliz Cloud 上所有可用的云服务提供商。
+Lists all cloud providers available on Zilliz Cloud.
 
-<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.cloud.zilliz.com.cn/v1/clouds" />
+<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clouds" />
 
 ---
 
-## 示例
+## Example
+
+# RESTful API Examples
 
 
-列出 Zilliz Cloud 上所有可用的云服务提供商。
+## Request
 
-:::info 说明
+### Parameters
 
-此处请使用您的 API Key 做为 Token。
+- No query parameters required
 
-:::
+- Path parameters
 
-```shell
-curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.cloud.zilliz.com.cn/v1/clouds" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
-```
-
-成功响应示例：
-
-```shell
-{
-    code: 200,
-    data: [
-     {
-        "cloudId": "ali",
-        "description": "alibaba cloud"
-     }
-    ]
-}
-```
-
-
-
-## 请求
-
-### 参数
-
-- 无查询参数。
-
-- 路径参数
-
-    | 参数名称        | 参数说明                                                                             |
+    | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `CLOUD_REGION_ID`  | **string**（必选）<br/>一组可用的云服务提供商和云服务区域，如“ali-cn-hangzhou”。|
+    | `CLOUD_REGION_ID`  | **string**(required)<br/>|
 
-### 请求体
+### Request Body
 
-无请求体。
+No request body required
 
-## 响应
+## Response
 
-返回 Zilliz Cloud 上所有可用的云服务提供商。
+Returns a list of all available cloud providers on Zilliz Cloud.
 
-### 响应体
+### Response Bodies
 
-- 处理请求成功后返回
+- Response body if we process your request successfully
 
 ```json
 {
-    "code": 200,
+    "code": "integer",
     "data": [
         {
             "cloudId": "string",
@@ -84,7 +54,7 @@ curl --request GET \
 }
 ```
 
-- 处理请求失败后返回
+- Response body if we failed to process your request
 
 ```json
 {
@@ -93,23 +63,24 @@ curl --request GET \
 }
 ```
 
-### 属性
+### Properties
 
-下表罗列了响应包含的所有属性。
+The properties in the returned response are listed in the following table.
 
-| 属性名称  | 属性描述                                                                                                                               |
+| Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `code`   | **integer**<br/>表示请求是否成功。<br/><ul><li>`200`：请求成功。</li><li>其它：存在错误。</li></ul> |
-| `data`  | **array**<br/>表示响应中携带的 object 数组. |
-| `data.cloudId`   | **string**<br/>云服务提供商的 ID。 |
-| `data.description`   | **string**<br/>云服务提供商的描述信息。 |
-| `message`  | **string**<br/>具体描述请示错误的原因。 |
+| `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
+| `data`  | **array**<br/>A data array of objects. |
+| `data.cloudId`   | **string**<br/>The ID of a cloud provider. |
+| `data.description`   | **string**<br/>The description of the cloud provider. |
+| `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
-## 错误码清单
+## Possible Errors
 
-| 错误码 | 错误消息 |
+| Code | Error Message |
 | ---- | ------------- |
 | 63032 | CloudId not exists. |
 | 80001 | The token is illegal |
 | 80002 | The token is invalid |
-| 90117 | Invalid domain name used, please check the domain name you're using. |
+| 90117 | "Invalid domain name used |
+

@@ -1,15 +1,15 @@
 ---
 displayed_sidebar: referenceSidebar
 sidebar_position: 0
-slug: /drop-collection
-title: Drop Collection
+slug: /upsert
+title: Upsert
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-Drops a collection. This operation erases your collection data. Exercise caution when performing this operation.
+Inserts one or more entities into a collection.
 
-<RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/collections/drop" />
+<RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/upsert" />
 
 ---
 
@@ -28,25 +28,43 @@ Drops a collection. This operation erases your collection data. Exercise caution
 
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `CLUSTER_ENDPOINT`  | **string**(required)<br/>The endpoint of your cluster.|
+    | `public-endpoint`  | **string**(required)<br/>|
 
 ### Request Body
 
 ```json
 {
     "dbName": "string",
-    "collectionName": "string"
+    "collectionName": "string",
+    "data": {}
 }
 ```
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
 | `dbName`  | **string**<br/>The name of the database.|
-| `collectionName`  | **string**(required)<br/>The name of the collection to delete.|
+| `collectionName`  | **string**(required)<br/>The name of the collection to which entities will be inserted.|
+| `data`  | **object**(required)<br/>An entity object. Note that the keys in the entity should match the collection schema.|
+
+```json
+{
+    "dbName": "string",
+    "collectionName": "string",
+    "data": [
+        {}
+    ]
+}
+```
+
+| Parameter        | Description                                                                               |
+|------------------|-------------------------------------------------------------------------------------------|
+| `dbName`  | **string**<br/>The name of the database.|
+| `collectionName`  | **string**(required)<br/>The name of the collection to which entities will be inserted.|
+| `data`  | **array**(required)<br/>An array of entity objects. Note that the keys in an entity object should match the collection schema|
 
 ## Response
 
-Returns an empty object.
+Returns the number of inserted entities and an array of their IDs.
 
 ### Response Bodies
 
@@ -55,7 +73,12 @@ Returns an empty object.
 ```json
 {
     "code": "integer",
-    "data": {}
+    "data": {
+        "upsertCount": "integer",
+        "upsertIds": [
+            {}
+        ]
+    }
 }
 ```
 
@@ -76,21 +99,13 @@ The properties in the returned response are listed in the following table.
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | `data`    | **object**<br/>A data object. |
+| `data.upsertCount`   | **integer**<br/>The number of inserted entities. |
+| `data.upsertIds`   | **array**<br/>An array of the IDs of inserted entities. |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 
 | Code | Error Message |
 | ---- | ------------- |
-| 80000 | Incorrect parameter: xxx |
-| 80001 | The token is illegal |
-| 80002 | The token is invalid |
-| 80020 | Invalid clusterId or you do not have permission to access that Cluster. |
-| 80022 | Dedicated cluster not support this operation. |
-| 90001 | The collection xxx does not exist. You can use ListCollections to view the list of existing collections. |
-| 90011 | Invalid CollectionName. Reason: Name contains only alphanumeric letters and underscores |
-| 90102 | The cluster does not exist in current region. |
-| 90103 | The clusterId parameter is empty in the request path. |
-| 90138 | No drop collection content provided. |
-| 90139 | "Type mismatch for field 'xxx'. expected type:xxx |
+|  | (to be added) |
 
