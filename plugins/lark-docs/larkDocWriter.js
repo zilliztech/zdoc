@@ -368,7 +368,7 @@ class larkDocWriter {
         let markdown = await this.__markdown()
 
         let tabs = markdown.split('\n').filter(line => {
-            return line.startsWith("<Tab")
+            return line.trim().startsWith("<Tab")
         }).length
 
         let imports = await this.__imports(tabs > 0)

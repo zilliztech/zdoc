@@ -2,11 +2,12 @@
 slug: /create-collection-with-schema
 beta: FALSE
 notebook: 01_use_customized_schema.ipynb
-sidebar_position: 2
+sidebar_position: 0
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Create Collection with Schema
 
