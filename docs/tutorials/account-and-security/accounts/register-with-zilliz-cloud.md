@@ -39,7 +39,7 @@ Follow the steps below to create a Zilliz Cloud account using your work email an
 1. Enter a password in the **Password** field.
     Ensure that your password does not exceed 128 characters and includes at least one uppercase letter, one lowercase letter, one numeral, and one special character.
 
-1. Check the box next to **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy**](https://zilliz.com/privacy-policy).
+1. Check the box next to **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**.
     We encourage you to read through our [Terms of Service](https://chat.openai.com/c/0b1274aa-d87a-4104-9a5f-b0daeb3fee59#) and [Privacy Policy](https://chat.openai.com/c/0b1274aa-d87a-4104-9a5f-b0daeb3fee59#) before proceeding.
 
 1. Click **Continue**. A confirmation code will be sent to the provided email address.
