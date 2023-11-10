@@ -16,7 +16,7 @@ The release of Zilliz Cloud 2.0.0 sets a new standard in vector database managem
 
 We are excited to announce the launch of Zilliz Cloud's Serverless Vector Database Service. This new offering provides an even more effortless vector data search experience compared to our dedicated cluster solutions.
 
-To support early-stage ventures, we are offering two free collections as part of our Serverless Service. Each collection has the capacity to handle 500,000 vectors on a 768-dimensional scale, providing substantial data handling capabilities without the need for extensive infrastructure. Try our innovative new feature and boost your data processing capabilities today. [Learn more about the free trial](https://www.notion.so/Free-Trials-0bb0c284aedf4a2dbae67ea9ced8bc85?pvs=21).
+To support early-stage ventures, we are offering two free collections as part of our Serverless Service. Each collection has the capacity to handle 500,000 vectors on a 768-dimensional scale, providing substantial data handling capabilities without the need for extensive infrastructure. Try our innovative new feature and boost your data processing capabilities today. [Free Trials](./free-trials).
 
 ## Zilliz Cloud's Plan Tiers: Starter, Standard, Enterprise, and Self-hosted{#zilliz-clouds-plan-tiers-starter-standard-enterprise-and-self-hosted}
 

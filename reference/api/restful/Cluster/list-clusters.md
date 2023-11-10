@@ -15,7 +15,32 @@ Lists all clusters in the specified cloud region.
 
 ## Example
 
-# RESTful API Examples
+
+Lists all clusters in a cloud region.
+
+```shell
+Request Example:
+
+curl --request GET \
+     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters?pageSize=&current=" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json"
+```
+
+Success response:
+
+```shell
+{
+    "code": 200,
+    "data": {
+        "count": 0,
+        "currentPage": 1,
+        "pageSize": 10,
+        "clusters": []
+    }
+}
+```
 
 
 ## Request

@@ -15,7 +15,27 @@ Resume a suspended cluster.
 
 ## Example
 
-# RESTful API Examples
+
+Resume a cluster that has been suspended.
+
+```shell
+curl --request POST \ "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/resume" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json"
+```
+
+Success response:
+
+```shell
+{
+  code: 200,
+  data: {
+     "clusterId": "cluster01",
+     "prompt": "Submission successful. Cluster is currently resuming, which typically takes several minutes. You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster's status is RUNNING, you can access your vector database using the SDK."
+  }
+}
+```
 
 
 ## Request

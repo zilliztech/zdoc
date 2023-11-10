@@ -15,7 +15,28 @@ Drops a collection. This operation erases your collection data. Exercise caution
 
 ## Example
 
-# RESTful API Examples
+
+Drop a collection named `medium_articles`.
+
+```shell
+curl --request POST \
+     --url "${CLUSTER_ENDPOINT}/v1/vector/collections/drop" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json" \
+     -d '{
+        "collectionName": "medium_articles"
+      }'
+```
+
+Success response:
+
+```shell
+{
+    "code": 200,
+    "data": {}
+}
+```
 
 
 ## Request

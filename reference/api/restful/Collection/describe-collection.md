@@ -15,7 +15,47 @@ Describes the details of a collection.
 
 ## Example
 
-# RESTful API Examples
+
+Describe the details of a collection named `medium_articles`.
+
+```shell
+curl --request GET \
+     --url "${CLUSTER_ENDPOINT}/v1/vector/collections/describe?collectionName=medium_articles" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json"
+```
+
+Success response:
+
+```shell
+{
+    "code": 200,
+    "data": {
+        "collectionName": "string",
+        "description": "string",
+        "fields": [
+            {
+                "autoId": true,
+                "description": "string",
+                "name": "string",
+                "primaryKey": true,
+                "type": "string"
+            }
+        ],
+        "indexes": [
+            {
+                "fieldName": "string",
+                "indexName": "string",
+                "metricType": "string"
+            }
+        ],
+        "load": "string",
+        "shardsNum": 0,
+        "enableDynamicField": true
+    }
+}
+```
 
 
 ## Request

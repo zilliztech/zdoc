@@ -46,7 +46,7 @@ This feature is accessible to users on the Standard or Enterprise plans.
 
 </Admonition>
 
-1. Navigate to your target cluster. On the **Cluster Details** page, click **Actions in the upper right corner, and then click **Migrate From**. Select **Dedicated Cluster**.
+1. Navigate to your target cluster. On the **Cluster Details** page, click **Actions** in the upper right corner, and then click **Migrate From**. Select **Dedicated Cluster**.
 
 1. In the dialogue box,
     1. Select your **Source Project**, **Source Cluster**, and **Source Collection**.

@@ -15,7 +15,23 @@ Imports data from files stored in a specified object storage bucket. Note that t
 
 ## Example
 
-# RESTful API Examples
+
+Imports data from files stored in a specified object storage bucket. Note that the bucket should be in the same cloud as the target cluster of the import.
+
+```shell
+curl --request POST \
+     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json" \
+     -d '{
+       "clusterId": "in03-181766e3f9556b7",
+       "collectionName": "medium_articles",
+       "objectUrl": "gs://publicdataset-zillizcloud-com/medium_articles_2020.json"
+       "accessKey": "your-access-key"
+       "secretKey": "your-secret-key"
+     }'
+```
 
 
 ## Request

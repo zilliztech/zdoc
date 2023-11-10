@@ -15,7 +15,30 @@ Lists collections in a cluster.
 
 ## Example
 
-# RESTful API Examples
+
+List all collections in a cluster.
+
+```shell
+curl --request GET \
+     --url "${CLUSTER_ENDPOINT}/v1/vector/collections" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json"
+```
+
+Sample response:
+
+```shell
+{
+   code: 200,
+   data: [
+         "collection1",
+         "collection2",
+         ...
+         "collectionN",
+         ]
+}
+```
 
 
 ## Request

@@ -15,7 +15,66 @@ Gets entities by the specified IDs.
 
 ## Example
 
-# RESTful API Examples
+
+- Get a specified entity whose ID is an integer.
+
+```shell
+curl --request POST \
+     --url "${CLUSTER_ENDPOINT}/v1/vector/get" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json" \
+     -d '{
+       "collectionName": "medium_articles",
+       "outputFields": ["id", "title", "link"],
+       "id": 1
+     }'
+```
+
+- Get a specified entity whose ID is a string:
+
+```shell
+curl --request POST \
+     --url "${CLUSTER_ENDPOINT}/v1/vector/get" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json" \
+     -d '{
+       "collectionName": "medium_articles",
+       "outputFields": ["id", "title", "link"],
+       "id": "id1"
+     }'
+```
+
+- Get a list of entities whose IDs are integers:
+
+```shell
+curl --request POST \
+     --url "${CLUSTER_ENDPOINT}/v1/vector/get" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json" \
+     -d '{
+       "collectionName": "medium_articles",
+       "outputFields": ["id", "title", "link"],
+       "id": [1, 2]
+     }'
+```
+
+- Get a list of entities whose IDs are strings:
+
+```shell
+curl --request POST \
+     --url "${CLUSTER_ENDPOINT}/v1/vector/get" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json" \
+     -d "{
+       "collectionName": "medium_articles",
+       "outputFields": ["id", "title", "link"],
+       "id": ["id1", "id2"]
+     }"
+```
 
 
 ## Request

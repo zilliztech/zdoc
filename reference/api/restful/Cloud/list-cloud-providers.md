@@ -15,7 +15,34 @@ Lists all cloud providers available on Zilliz Cloud.
 
 ## Example
 
-# RESTful API Examples
+
+Lists all cloud providers available on Zilliz Cloud.
+
+```shell
+curl --request GET \
+     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clouds" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json"
+```
+
+Success response:
+
+```shell
+{
+    code: 200,
+    data: [
+     {
+        "cloudId": "aws",
+        "description": "amazon cloud"
+     },
+     {
+        "cloudId": "gcp",
+        "description": "google cloud"
+     }
+    ]
+}
+```
 
 
 ## Request
