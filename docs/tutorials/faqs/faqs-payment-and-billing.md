@@ -18,7 +18,7 @@ This topic lists the possible issues about payment and billing on Zilliz Cloud a
 ## FAQs
 
 
-This topic lists the possible issues about payment and billing on Zilliz Cloud and the corresponding solution.
+
 
 ### After adding a credit card, can I continue to use the expired credits left in my account?{#after-adding-a-credit-card-can-i-continue-to-use-the-expired-credits-left-in-my-account}
 
@@ -30,4 +30,4 @@ You will receive $100 credits to spend within 30 days upon your first registrati
 
 ### Is data in the Recycle Bin charged?{#is-data-in-the-recycle-bin-charged}
 
-No. We do not charge you for deleted data in the **Recycle Bin**.
+No. We do not charge you for deleted data in the Recycle Bin.

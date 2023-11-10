@@ -25,7 +25,7 @@ Once you have created an account on Zilliz Cloud, you can manage your account in
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Direct modification of the account's email address is not available. If you need to change your email, refer to our guide: [How to Change My Account Email Address?](https://docs.zilliz.com/docs/faqs-account#how-can-i-change-my-account-email-address)
+Direct modification of the account's email address is not available. If you need to change your email, refer to our guide in [FAQs](https://docs.zilliz.com/docs/faqs-account).
 
 </Admonition>
 

@@ -16,7 +16,7 @@ This topic lists the possible issues that you may encounter while backing up and
 ## FAQs
 
 
-This topic lists the possible issues that you may encounter while backing up and restoring data on Zilliz Cloud and the corresponding solution.
+
 
 ### Is the snapshot feature available in the standard plan?{#is-the-snapshot-feature-available-in-the-standard-plan}
 

@@ -44,7 +44,7 @@ We are excited to announce that Zilliz Cloud now offers sophisticated organizati
 
 This major update is supported by the integration of Role-Based Access Control (RBAC), which allows fine-grained control over who can access specific resources. This ensures both security and flexibility, enabling teams to work together more efficiently while maintaining a high degree of data protection.
 
-This enhancement not only offers greater control over project access but also streamlines the collaborative process, making it easier for teams to manage their vector database in a more secure and organized environment. Dive into this feature today and experience a new level of collaborative efficiency with Zilliz Cloud. [Learn more](https://www.notion.so/Organizations-Projects-1a6991afff6e4c5a81eb52bdd412389b?pvs=21).
+This enhancement not only offers greater control over project access but also streamlines the collaborative process, making it easier for teams to manage their vector database in a more secure and organized environment. Dive into this feature today and experience a new level of collaborative efficiency with Zilliz Cloud. [Learn more](https://docs.zilliz.com/docs/users-roles).
 
 ## Partition Key{#partition-key}
 
@@ -58,7 +58,7 @@ We are excited to announce that Zilliz Cloud now supports Dynamic Schema startin
 
 For advanced users, we have incorporated a hybrid approach to collection creation by blending Dynamic and Static Schema. This allows users to designate "required" fields in the schema design and activate advanced indexing optimizations. Meanwhile, "optional" fields are supported by the dynamic schema mechanism. This novel approach boosts query performance while maintaining schema flexibility.
 
-Explore this feature in Zilliz Cloud 2.0.0 and witness a significant uplift in your database schema's adaptability. [Learn more about this feature](https://www.notion.so/Enable-Dynamic-Schema-353bcaa305154240aa15baad91e7549f?pvs=21).
+Explore this feature in Zilliz Cloud 2.0.0 and witness a significant uplift in your database schema's adaptability. [Learn more about this feature](./enable-dynamic-schema).
 
 ## JSON Type Support{#json-type-support}
 
@@ -68,4 +68,4 @@ JSON, or JavaScript Object Notation, is a crucial data interchange format that h
 
 The real power lies in the innovative coupling of this with our existing ANN Search feature. This combination means you can now perform complex queries that combine the flexibility of JSON data structure with the precision of ANN search, offering a significant leap forward in database querying capabilities.
 
-Experience the synergistic benefits of these two powerful technologies in one place, and unlock a new level of efficiency and precision in your data management and querying tasks. Step into the future of database technology with Zilliz Cloud today. [Learn more about this feature](https://www.notion.so/JavaScript-Object-Notation-JSON-5ba1d65c243d4c5c8ff08f7188efeb25?pvs=21).
+Experience the synergistic benefits of these two powerful technologies in one place, and unlock a new level of efficiency and precision in your data management and querying tasks. Step into the future of database technology with Zilliz Cloud today. [Learn more about this feature](./javascript-object-notation-json-1).

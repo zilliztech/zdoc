@@ -24,7 +24,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 ## FAQs
 
 
-This topic lists the possible issues that you may encounter while you use Zilliz Cloud collections and the corresponding solution.
+
 
 ### How many collections are allowed in a single cluster?{#how-many-collections-are-allowed-in-a-single-cluster}
 
@@ -38,7 +38,7 @@ You can view the status of dynamic schema via Zilliz Cloud web console. Choose t
 
 ### If dynamic schema was disabled when the collection was created, can I enable it later?{#if-dynamic-schema-was-disabled-when-the-collection-was-created-can-i-enable-it-later}
 
-No. Once you have enabled/disabled dynamic schema when creating a collection, you cannot modify the status of dynamic schema later. For more details, see [Enable Dynamic Schema](https://www.notion.so/Enable-Dynamic-Schema-353bcaa305154240aa15baad91e7549f?pvs=21).
+No. Once you have enabled/disabled dynamic schema when creating a collection, you cannot modify the status of dynamic schema later. For more details, see [Enable Dynamic Schema](./enable-dynamic-schema).
 
 ### What are the indexing metric types supported by Zilliz Cloud?{#what-are-the-indexing-metric-types-supported-by-zilliz-cloud}
 
@@ -76,4 +76,4 @@ Yes. You can have a maximum of 64 fields in 1 collection.
 
 ### Can I migrate data from a serverless cluster to a dedicated cluster?{#can-i-migrate-data-from-a-serverless-cluster-to-a-dedicated-cluster}
 
-Yes. Zilliz Cloud supports migrating data from a serverless cluster to a dedicated cluster. For more information about how to migrate data, please refer to [Migrate to Dedicated Cluster](https://docs.zilliz.com/docs/manage-cluster#migrate-to-dedicated-cluster).
+Yes. Zilliz Cloud supports migrating data from a serverless cluster to a dedicated cluster. For more information about how to migrate data, please refer to [Migrate Between Clusters](./migrate-beween-clusters).

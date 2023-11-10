@@ -291,6 +291,10 @@ class larkDocWriter {
                         links.push(`- [${qtext}](#${qslug})`)
                     }
 
+                    if (line == short_description) {
+                        line = ''
+                    }
+
                     return line
                 })
 

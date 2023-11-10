@@ -5,7 +5,7 @@ notebook: null
 sidebar_position: 1
 ---
 
-# Get started
+# Get Started
 
 This topic lists the possible issues that you may encounter while you get started with Zilliz Cloud and the corresponding solution.
 
@@ -22,7 +22,7 @@ This topic lists the possible issues that you may encounter while you get starte
 ## FAQs
 
 
-This topic lists the possible issues that you may encounter while you get started with Zilliz Cloud and the corresponding solution.
+
 
 ### Is there any performance comparison between Zilliz Cloud and other vector search solutions?{#is-there-any-performance-comparison-between-zilliz-cloud-and-other-vector-search-solutions}
 
@@ -40,7 +40,7 @@ The search latency depends on the CU type and data volume.
 
 ![ObhQbbImLoKHdexbeD0cBMSWngh](/img/ObhQbbImLoKHdexbeD0cBMSWngh.png)
 
-For more details about the test result, see [Performance Comparisons](https://docs.zilliz.com/docs/choose-the-right-cu-type-and-size#performance-comparisons).
+For more details about the test result, see [Select the Right CU](./cu-types-explained-1).
 
 ### Is pricing the same in every region?{#is-pricing-the-same-in-every-region}
 
@@ -52,7 +52,7 @@ Once the free trial ends, you can still access your serverless clusters. However
 
 ### What is the pricing of Zilliz Cloud on AWS marketplace?{#what-is-the-pricing-of-zilliz-cloud-on-aws-marketplace}
 
-Please refer to [this](./subscribe-on-aws-marketplace) for more about the pricing of Zilliz Cloud on AWS Marketplace.
+Please refer to [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace#aws-marketplace-pricing-terms)for more about the pricing of Zilliz Cloud on AWS Marketplace.
 
 ### How can I get further technical support?{#how-can-i-get-further-technical-support}
 

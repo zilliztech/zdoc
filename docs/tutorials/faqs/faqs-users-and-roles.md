@@ -18,7 +18,7 @@ This topic lists the possible issues about users, roles, and access that you may
 ## FAQs
 
 
-This topic lists the possible issues about users, roles, and access that you may encounter on Zilliz Cloud and the corresponding solution.
+
 
 ### Can I leave my organization?{#can-i-leave-my-organization}
 

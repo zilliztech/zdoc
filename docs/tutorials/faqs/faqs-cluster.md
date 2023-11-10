@@ -25,7 +25,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 ## FAQs
 
 
-This topic lists the possible issues that you may encounter while you use Zilliz Cloud clusters and the corresponding solution.
+
 
 ### Can I change the CU type after my dedicated cluster is created?{#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created}
 
@@ -49,7 +49,7 @@ No. Currently, Zilliz Cloud only supports deploying a serverless cluster on GCP.
 
 ### Do serverless clusters in the starter plan support customized schema?{#do-serverless-clusters-in-the-starter-plan-support-customized-schema}
 
-No. The free serverless clusters do not support customized schema. However, dynamic schema is enabled by default, meaning you can always insert data with fields that are not pre-defined. Refer to this [documentation](https://docs.zilliz.com/docs/enable-dynamic-schema) for more details about dynamic schema.
+No. The free serverless clusters do not support customized schema. However, dynamic schema is enabled by default, meaning you can always insert data with fields that are not pre-defined. Refer to [Enable Dynamic Schema](./enable-dynamic-schema) for more details about dynamic schema.
 
 ### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 

@@ -82,7 +82,7 @@ All fields above are mandatory. Upon completion, the **Update** button will be a
 
 ### **Switch to AWS Marketplace subscription**{#switch-to-aws-marketplace-subscription}
 
-For those who prefer to transition from a credit card payment method to an AWS Marketplace subscription, visit the AWS Marketplace and subscribe to Zilliz Cloud services. Reference our guide on [Subscribing on AWS Marketplace](https://chat.openai.com/c/0b1274aa-d87a-4104-9a5f-b0daeb3fee59#) for detailed instructions.
+For those who prefer to transition from a credit card payment method to an AWS Marketplace subscription, visit the AWS Marketplace and subscribe to Zilliz Cloud services. Reference our guide on [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace) for detailed instructions.
 
 Upon successful subscription via AWS Marketplace, your existing credit card information will be automatically replaced. You can verify the update in your **Billing Overview** page.
 

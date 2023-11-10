@@ -16,7 +16,7 @@ This topic lists the possible issues that you may encounter while you migrate da
 ## FAQs
 
 
-This topic lists the possible issues that you may encounter while you migrate data on Zilliz Cloud and the corresponding solution.
+
 
 ### How to migrate data from Elasticsearch to Zilliz Cloud?{#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud}
 
@@ -61,4 +61,4 @@ You can follow the steps below to import data from Elasticsearch to Zilliz Cloud
     print(f"Number of entities in Milvus: {hello_milvus.num_entities}")
     ```
 
-Alternatively, you can also import data from Elasticsearch on the Zilliz Cloud web console. For more information, see [Migrate from Elasticsearch](./migrate-from-elasticsearch).
+Alternatively, you can also import data from Elasticsearch on the Zilliz Cloud web console. For more information, see [Migrate from Elasticsearch](./migrate-from-elasticsearch) .

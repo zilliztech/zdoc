@@ -21,7 +21,7 @@ This topic lists the possible issues about accounts that you may encounter on Zi
 ## FAQs
 
 
-This topic lists the possible issues about accounts that you may encounter on Zilliz Cloud and the corresponding solution.
+
 
 ### How can I change my account email address?{#how-can-i-change-my-account-email-address}
 

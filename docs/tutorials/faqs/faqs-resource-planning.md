@@ -5,7 +5,7 @@ notebook: null
 sidebar_position: 6
 ---
 
-# Resource planning
+# Resource Planning
 
 This topic lists the possible issues that you may encounter while planning your resources on Zilliz Cloud and the corresponding solution.
 
@@ -24,13 +24,13 @@ This topic lists the possible issues that you may encounter while planning your 
 ## FAQs
 
 
-This topic lists the possible issues that you may encounter while planning your resources on Zilliz Cloud and the corresponding solution.
+
 
 ### What is a Compute Unit (CU)?{#what-is-a-compute-unit-cu}
 
 A compute unit (CU) is a group of hardware resources for serving your indexes and search requests. You can simply consider a CU as a fully-managed physical node for deploying search service.
 
-For more details, see [Choose the Right CU Type and Size](https://docs.zilliz.com/docs/choose-the-right-cu-type-and-size).
+For more details, see [Select the Right CU](./cu-types-explained-1).
 
 ### How can I avoid expenses on unused clusters?{#how-can-i-avoid-expenses-on-unused-clusters}
 
@@ -68,7 +68,7 @@ The "Capacity-optimized Compute Unit" suits data volumes that are five times lar
 
 The "Cost-optimized Compute Unit" provides the same large capacity as the "Capacity-optimized" option, but at a lower cost with reduced search performance. This option is ideal for budget-conscious projects that need ample storage without high-performance demands.
 
-For more details, see [Choose the Right CU Type and Size](https://docs.zilliz.com/docs/choose-the-right-cu-type-and-size). 
+For more details, see [Select the Right CU](./cu-types-explained-1). 
 
 ### How can I downgrade from Enterprise plan to Standard plan?{#how-can-i-downgrade-from-enterprise-plan-to-standard-plan}
 

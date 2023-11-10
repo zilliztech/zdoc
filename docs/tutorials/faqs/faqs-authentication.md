@@ -16,7 +16,7 @@ This topic lists the possible issues that you may encounter while authenticating
 ## FAQs
 
 
-This topic lists the possible issues that you may encounter while authenticating your identity on Zilliz Cloud and the corresponding solution.
+
 
 ### What can I do if I forget the password used to connect to my Zilliz Cloud cluster?{#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster}
 

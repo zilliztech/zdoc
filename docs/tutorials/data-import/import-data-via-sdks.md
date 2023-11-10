@@ -20,7 +20,7 @@ Ensure that
 
 - You have created a cluster on Zilliz Cloud. For details, refer to [Create Cluster](./create-cluster).
 
-- You have downloaded [__the example dataset in CSV format__](https://drive.google.com/file/d/12RkoDPAlk-sclXdjeXT6DMFVsQr4612w/view?usp=sharing). To learn more about the dataset, read [__the introduction here__](https://www.kaggle.com/datasets/shiyu22chen/cleaned-medium-articles-dataset).
+- You have downloaded [the example dataset in CSV format](https://drive.google.com/file/d/12RkoDPAlk-sclXdjeXT6DMFVsQr4612w/view?usp=sharing). To learn more about the dataset, read [the introduction here](https://www.kaggle.com/datasets/shiyu22chen/cleaned-medium-articles-dataset).
 
 ## Procedure{#procedure}
 

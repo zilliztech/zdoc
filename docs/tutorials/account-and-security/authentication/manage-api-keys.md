@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 On Zilliz Cloud, every project comes with its own set of API keys, serving as authentication tokens. These keys are pivotal for initiating RESTful API or SDK interactions. Whether you create a new API key for a project or use the default one provided by Zilliz Cloud, you gain access to manage all the clusters and associated resources within that project.
 
-To ensure security, only users with [Owner](./a-panorama-view) status, either at the organization or project level, are allowed to create and oversee these API keys. For more information, see [Users & Roles](https://docs.zilliz.com/docs/users-and-roles).
+To ensure security, only users with [Owner](./a-panorama-view) status, either at the organization or project level, are allowed to create and oversee these API keys. For more information, see [A Panorama View](./a-panorama-view).
 
 ## Comparative overview: API keys vs username and password pairs{#comparative-overview-api-keys-vs-username-and-password-pairs}
 

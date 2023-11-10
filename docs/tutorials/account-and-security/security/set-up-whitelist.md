@@ -18,7 +18,7 @@ Ensure the following prerequisites are met before proceeding:
 
 - You have signed up for Zilliz Cloud. For information on how to register an account, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
 
-- You are the owner of the organization or project in which you want to set up a whitelist. For information on roles and permissions, see [Roles & Privileges](https://zilliverse.feishu.cn/wiki/SzFVwtUcYiB1ubkWA06c0N9hnNf).
+- You are the owner of the organization or project in which you want to set up a whitelist. For information on roles and permissions, see [A Panorama View](./a-panorama-view).
 
 ## Procedure{#procedure}
 
