@@ -139,8 +139,8 @@ On the Zilliz Cloud cluster, each collection can accommodate only one vector fie
 
 ## Related topics{#related-topics}
 
-- [Insert Entities](https://zilliverse.feishu.cn/wiki/WGTMwSYudigg0WkoiqAcfheNnHe)
+- [Insert Entities](./insert-entities) 
 
-- [Search, Query, and Get](https://zilliverse.feishu.cn/wiki/U8vOwDsYkif3WHkaWjZcanUjnIg)
+- [Search, Query, and Get](./search-query-and-get) 
 
-- [Delete Entities](https://zilliverse.feishu.cn/wiki/FaZTw9Ht9iLUv9kIYBmcTmwCnGe)
+- [Delete Entities](./delete-entities) 

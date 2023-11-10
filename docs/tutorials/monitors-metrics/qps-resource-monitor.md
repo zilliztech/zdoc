@@ -40,7 +40,7 @@ To activate the monitor, click the switch in the **Status** column. This action 
 
 ## Related topics{#related-topics}
 
-- [CU Resource Monitor](./cu-resource-monitor) 
+- [CU Resource Monitor](./undefined) 
 
 - [Query Latency Monitor](./query-latency-monitor) 
 
@@ -48,6 +48,6 @@ To activate the monitor, click the switch in the **Status** column. This action 
 
 - [Credit Card Expiration Monitor](./credit-card-expiration-monitor) 
 
-- [View Cluster Metrics](./monitor-metrics) 
+- [Check Advance Pay Balance](./advance-pay-balance-monitor) 
 
-- https://zilliverse.feishu.cn/wiki/Wlh2wJFuqiG3b7ke3Wpcy2Wdnmg
+- [View Cluster Metrics](./monitor-metrics) 

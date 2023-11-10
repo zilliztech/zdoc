@@ -32,7 +32,7 @@ A serverless cluster can have 2 collections at most. However, the maximum number
 
 ### How can I know if dynamic schema is enabled for my collection?{#how-can-i-know-if-dynamic-schema-is-enabled-for-my-collection}
 
-You can view the status of dynamic schema via Zilliz Cloud web console. Choose the collection and navigate to the **Schema** tab. You can see if dynamic schema is enabled or not in the upper right corner. For more details, see [Enable Dynamic Schema](https://zilliverse.feishu.cn/wiki/IXavwmXcdivihCkUfmccGytAnif).
+You can view the status of dynamic schema via Zilliz Cloud web console. Choose the collection and navigate to the **Schema** tab. You can see if dynamic schema is enabled or not in the upper right corner. For more details, see [Enable Dynamic Schema](./enable-dynamic-schema).
 
 ![faq_dynamic_schema_enabled](/img/faq_dynamic_schema_enabled.png)
 

@@ -77,6 +77,8 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 1. Sign in to AWS Marketplace with the original AWS account you used for the subscription.
 
 1. Cancel your Zilliz Cloud subscription. Refer to [Cancel your product subscription](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription) for more details.
+    
+
     <Admonition type="info" icon="📘" title="Notes">    
     
     
@@ -84,7 +86,7 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
     </Admonition>
 
-1. Follow the steps in [Add a payment method](https://www.notion.so/7939e50c76bb473eb121f1feff57d4c8?pvs=21) to add a payment credit card.
+1. Follow the steps in [Add a payment method](./subscribe-by-adding-credit-card#add-a-payment-method) to add a payment credit card.
 
 1. Check out your current payment method in your billing overview.
 

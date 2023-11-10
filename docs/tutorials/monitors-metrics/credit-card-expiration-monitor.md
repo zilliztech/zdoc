@@ -34,7 +34,7 @@ To turn on the credit card expiration monitor, follow the steps below:
 
 ## Related topics{#related-topics}
 
-- [CU Resource Monitor](./cu-resource-monitor) 
+- [CU Resource Monitor](./undefined) 
 
 - [QPS Resource Monitor](./qps-resource-monitor) 
 

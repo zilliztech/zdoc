@@ -190,7 +190,7 @@ for x in question_dataset:
         print(x)
 ```
 
-The output would vary with the subset of data you have downloaded if you leave [the ](https://zilliz.com/doc/integrate_with_hugging-face#Insert-data)`seed`[ parameter of the ](https://zilliz.com/doc/integrate_with_hugging-face#Insert-data)`train_test_split()` [method](https://www.notion.so/Question-Answering-Using-Zilliz-Cloud-and-Hugging-Face-e97086355e054fbbb5a10730dc2300a7?pvs=21) unspecified, and should be similar to the following:
+The output would vary with the subset of data you have downloaded if you leave [the ](./question-answering-using-zilliz-cloud-and-hugging-face#insert-data)`seed`[ parameter of the ](./question-answering-using-zilliz-cloud-and-hugging-face#insert-data)`train_test_split()`[ method](./question-answering-using-zilliz-cloud-and-hugging-face#insert-data) unspecified, and should be similar to the following:
 
 ```python
 Question:

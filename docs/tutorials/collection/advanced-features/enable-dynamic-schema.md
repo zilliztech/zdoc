@@ -421,7 +421,7 @@ Once the collection is created, you can start inserting data, including the dyna
 
 ### Prepare data{#prepare-data}
 
-Now we need to prepare a piece of applicable data out of the [Example Dataset](https://www.notion.so/Example-Dataset-2df10a1ffe454c52a2be0ec069f4424e?pvs=21).
+Now we need to prepare a piece of applicable data out of the [Example Dataset](./example-dataset-1).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>

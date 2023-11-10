@@ -80,10 +80,6 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 
 - [Migrate from Milvus 1.x](./migrate-from-milvus) 
 
-- [Migrate from Milvus 2.x](https://zilliverse.feishu.cn/wiki/RGndwk5HoiIl71k1KHZcz7mEnYd) 
-
 - [AUTOINDEX Explained](./autoindex-explained) 
 
-- [CU Types Explained](https://zilliverse.feishu.cn/wiki/RkNSwoi5AiD2DBkgptxcbz3anGc) 
-
-- [Other Differences](https://zilliverse.feishu.cn/wiki/CvbnwjZ32iJmOrkX3I9ct46BnUe) 
+- [Select the Right CU](./cu-types-explained-1) 

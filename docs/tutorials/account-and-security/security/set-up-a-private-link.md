@@ -26,7 +26,7 @@ Make sure the following conditions are met:
 
 - You have signed up for Zilliz Cloud.
 
-- A cluster has been created. For information on how to create a cluster, see [Create Cluster](./create-cluster)[.](https://www.notion.so/Create-Cluster-c46973ff29754741a82d67471551897f?pvs=21)
+- A cluster has been created. For information on how to create a cluster, see [Create Cluster](./create-cluster).
 
 ## Add a private link{#add-a-private-link}
 
@@ -44,7 +44,7 @@ To continue setting up a private link, follow these steps as needed:
 
 ### Select a cloud provider and region{#select-a-cloud-provider-and-region}
 
-To create a private link for a cluster deployed in an AWS region, select **AWS** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers and Regions](./cloud-providers-and-regions).
+To create a private link for a cluster deployed in an AWS region, select **AWS** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -162,7 +162,7 @@ An alias record is a type of DNS record that maps an alias name to a true or can
 
 ### Select a cloud provider and region{#select-a-cloud-provider-and-region}
 
-To create a private link for a cluster deployed in a Google Cloud region, select **Google Cloud** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers and Regions](https://www.notion.so/Cloud-Providers-and-Regions-17c1d3ebb5eb4c6f8bf682a0f6ad4148?pvs=21).
+To create a private link for a cluster deployed in a Google Cloud region, select **Google Cloud** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers and Regions](./cloud-providers-and-regions).
 
 <Admonition type="info" icon="📘" title="Notes">
 

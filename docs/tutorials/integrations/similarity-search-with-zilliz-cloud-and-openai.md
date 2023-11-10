@@ -60,7 +60,7 @@ Since the embedding process for a free OpenAI account can be time-consuming, we 
 
 </Admonition>
 
-The following snippet deals with Zilliz Cloud and setting up the cluster for this use case. Within Zilliz Cloud, we need to set up a collection and index it. For more information on how to set up and use Zilliz Cloud, refer to this [link](https://www.notion.so/Quick-Start-b0941a3615e440a5996cd7da45b5bee1?pvs=21).
+The following snippet deals with Zilliz Cloud and setting up the cluster for this use case. Within Zilliz Cloud, we need to set up a collection and index it. For more information on how to set up and use Zilliz Cloud, refer to this [link](./quick-start-1).
 
 ```python
 # Connect to Zilliz Cloud
