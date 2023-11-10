@@ -289,8 +289,6 @@ A timeout usually occurs for the following reasons:
 
     ![DeBvbtVz9otRBNxuC3UcdRIqnhc](/img/DeBvbtVz9otRBNxuC3UcdRIqnhc.png)
 
-    ![ZCCMbMhS6oXmXWxZkEQcOKOBn5e](/img/ZCCMbMhS6oXmXWxZkEQcOKOBn5e.png)
-
     <Admonition type="info" icon="📘" title="Notes">
 
     

@@ -45,12 +45,21 @@ The following table compares the two writers.
     - Decide on the schema for the collection you wish to import your dataset into. This involves selecting which fields to include from the dataset.
 
     ```python
-    from pymilvus import FieldSchema, CollectionSchema
+    import os, json
     
+    import pandas as pd
+    
+    from pymilvus import (
+        FieldSchema,
+        CollectionSchema,
+        DataType
+    )
+    
+    # You need to work out a collection schema out of your dataset.
     fields = [
         FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
-        FieldSchema(name="title", dtype=DataType.VARCHAR, max_length=512),   
-        FieldSchema(name="title_vector", dtype=DataType.FLOAT_VECTOR, dim=768),
+        FieldSchema(name="title", dtype=DataType.VARCHAR, max_length=512),
+        FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=768),
         FieldSchema(name="link", dtype=DataType.VARCHAR, max_length=512),
         FieldSchema(name="reading_time", dtype=DataType.INT64),
         FieldSchema(name="publication", dtype=DataType.VARCHAR, max_length=512),
@@ -71,14 +80,12 @@ The following table compares the two writers.
     1. Finally, the vector field is loaded to ensure that it is correctly parsed as a list of floats.
 
     ```python
-    import pandas as pd
-    
-    # Read the dataset into a data frame
-    dataset = pd.read_csv("New_Medium_data.csv")
+    # Load the dataset
+    dataset = pd.read_csv(Path(DATASET_PATH))
     
     # To retrieve a row from the dataset, do as follows:
-    row = dataset.iloc[0].to_dict()
-    row["title_vector"] = json.loads(row["title_vector"])
+    # row = dataset.iloc[0].to_dict()
+    # row["title_vector"] = json.loads(row["title_vector"])
     ```
 
 1. **Choose a writer:**
@@ -90,30 +97,45 @@ The following table compares the two writers.
     # Use LocalBulkWriter
     import json
     from pymilvus import LocalBulkWriter, BulkFileType
+    from pathlib import Path
+    DATASET_PATH = "{}/../New_Medium_Data.csv".format(os.path.dirname(__file__))
+    OUTPUT_PATH = "{}/../output".format(os.path.dirname(__file__))
     
-    # Instantiate a writer
-    writer = LocalBulkWriter(
-        schema=schema, # Schema of the target collection
-        local_path='/tmp/output', # Output folder
-        segment_size=4*1024*1024, # Maximum size of a generated data file in bytes
-        file_type=BulkFileType.JSON_RB # Output file type
+    # Rewrite the above dataset into a JSON file
+    local_writer = LocalBulkWriter(
+        schema=schema,
+        local_path=Path(OUTPUT_PATH).joinpath('json'),
+        segment_size=4*1024*1024,
+        file_type=BulkFileType.JSON_RB
     )
     
-    # Feed data rows to the writer
-    for i in range(len(dataset)):
-        try:
-            row = dataset.iloc[i].to_dict()
-            row["title_vector"] = json.loads(row["title_vector"])
-            writer.append_row(row)
-        except Exception as e:
-            print(e)
-            break;
+    for i in range(0, len(dataset)):
+      row = dataset.iloc[i].to_dict()
+      row["vector"] = json.loads(row["vector"])
+      local_writer.append_row(row)
     
-    writer.commit()
-    print(writer.data_path)
+    local_writer.commit()
+    print("test local writer done!")
     
     # Output
-    # /tmp/output/8f808cdc-ce4d-4aed-89b9-2f343d44b2e0
+    #
+    # test local writer done!
+    
+    
+    print(os.path.relpath(local_writer.data_path))
+    
+    # Output
+    #
+    # output/json/09ce63fa-9fd8-4ac6-b915-5e6b0ded2ff5
+    
+    
+    
+    # Check what you have in the `output` folder
+    print(os.listdir(local_writer.data_path))
+    
+    # Output
+    #
+    # ["1.json", "2.json", "3.json", "4.json", "5.json"]
     ```
 
     - A **RemoteBulkWriter** generates only NumPy files and uploads them to the designated object storage bucket.
@@ -121,65 +143,57 @@ The following table compares the two writers.
 
         ```python
         # Use RemoteBulkWriter
-        import json
-        from pymilvus import RemoteBulkWriter
+        from pathlib import Path
+        import os, json
         
-        # Connection parameters
-        # The object storage bucket should be compatible with the MinIO Python SDK.
+        import pandas as pd
+        from minio import Minio
+        
+        from pymilvus import (
+            FieldSchema, CollectionSchema, DataType,
+            RemoteBulkWriter,
+        )
+        
+        ACCESS_KEY = "YOUR_OBJECT_STORAGE_ACCESS_KEY"
+        SECRET_KEY = "YOUR_OBJECT_STORAGE_SECRET_KEY"
+        BUCKET_NAME = "YOUR_OBJECT_STORAGE_BUCKET_NAME"
+        REMOTE_PATH = "DATA_FILES_PATH_IN_BLOCK_STORAGE"
+        DATASET_PATH = "{}/../New_Medium_Data.csv".format(os.path.dirname(__file__))
+        
+        # Extract the ID from the share link of the dataset file.
+        # For a file at https://drive.google.com/file/d/12RkoDPAlk-sclXdjeXT6DMFVsQr4612w/view?usp=drive_link, the ID should be 12RkoDPAlk-sclXdjeXT6DMFVsQr4612w.
+        # Concatenate the file ID to the end of the url as follows:
+        
+        url = Path(DATASET_PATH)
+        dataset = pd.read_csv(url)
+        
         connect_param = RemoteBulkWriter.ConnectParam(
-            endpoint=MINIO_ADDRESS,
-            access_key=MINIO_ACCESS_KEY,
-            secret_key=MINIO_SECRET_KEY,
-            bucket_name=YOUR_BUCKET_NAME,
+            endpoint="storage.googleapis.com", # use 's3.amazonaws.com' for GCS
+            access_key=ACCESS_KEY,
+            secret_key=SECRET_KEY,
+            bucket_name=BUCKET_NAME,
+            secure=True
         )
         
-        # To connect to AWS S3
-        # For details on creating IAM keys, refer to 
-        # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey
-        #
-        # connect_param = RemoteBulkWriter.ConnectParam(
-        #     endpoint="s3.amazonaws.com",
-        #     access_key=IAM_ACCESS_KEY,
-        #     secret_key=IAM_SECRET_KEY,
-        #     bucket_name=YOUR_BUCKET_NAME,
-        # )
-        
-        # To connect to Google Cloud Storage
-        # For details on creating HMAC keys, refer to 
-        # https://cloud.google.com/storage/docs/authentication/managing-hmackeys#create
-        #
-        # connect_param = RemoteBulkWriter.ConnectParam(
-        #     endpoint="storage.googleapis.com",
-        #     access_key=HMAC_ACCESS_KEY,
-        #     secret_key=HMAC_SECRET_KEY,
-        #     bucket_name=YOUR_BUCKET_NAME,
-        # )
-        
-        # Instantiate a writer
-        writer = RemoteBulkWriter(
-            schema=schema, # Schema of the target collection
-            remote_path="bulk_data", # Remote output folder relative to the root of the specified bucket
-            local_path="/tmp/output", # Local output folder 
-            segment_size=50*1024*1024, # Maximum size of a generated data file in bytes
-            connect_param=connect_param, # Bucket connection
+        remote_writer = RemoteBulkWriter(
+            schema=schema,
+            remote_path=REMOTE_PATH,
+            segment_size=50*1024*1024,
+            connect_param=connect_param,
         )
         
-        # Feed data rows to the writer
-        for i in range(len(dataset)):
-            try:
-                row = dataset.iloc[i].to_dict()
-                row["title_vector"] = json.loads(row["title_vector"])
-                writer.append_row(row)
-            except Exception as e:
-                print(e)
-                break;
+        for i in range(0, len(dataset)):
+          row = dataset.iloc[i].to_dict()
+          row["vector"] = json.loads(row["vector"])
+          remote_writer.append_row(row)
         
-        writer.commit()
-        print(writer.data_path)
+        remote_writer.commit()
+        
+        print(remote_writer.data_path)
         
         # Output
-        # A path relative to the designated bucket
-        # /bulk_data/8f808cdc-ce4d-4aed-89b9-2f343d44b2e0
+        #
+        # /DATA_FILES_PATH_IN_BLOCK_STORAGE/62391da7-e40f-439a-ba11-ddddb936223b
         ```
 
 ## Dynamic schema support{#dynamic-schema-support}
@@ -202,17 +216,36 @@ To check the results, you can do as follows:
 
 - For a **LocalBulkWriter**, use `writer.data_path` to get the path to the generated files.
 
-- For a **RemoteBulkWriter**, use `writer.data_path` to get the path to the generated files. Note that the path is relative to the designated object storage bucket. Take a MinIO instance as an example, you can use the following command to check the generated files.
+- For a **RemoteBulkWriter**, use `remote_writer.data_path` to get the path to the generated files. Note that the path is relative to the designated object storage bucket. Take a MinIO instance as an example, you can use the following command to check the generated files.
     ```python
-    > mc ls my-minio/a-bucket/bulk_data/8f808cdc-ce4d-4aed-89b9-2f343d44b2e0
-    [2023-09-07 16:58:05 CST] 6.4KiB STANDARD claps.npy
-    [2023-09-07 16:58:05 CST] 6.4KiB STANDARD id.npy
-    [2023-09-07 16:58:05 CST] 441KiB STANDARD link.npy
-    [2023-09-07 16:58:05 CST]  63KiB STANDARD publication.npy
-    [2023-09-07 16:58:05 CST] 6.4KiB STANDARD reading_time.npy
-    [2023-09-07 16:58:05 CST] 6.4KiB STANDARD responses.npy
-    [2023-09-07 16:58:05 CST] 366KiB STANDARD title.npy
-    [2023-09-07 16:58:05 CST] 4.7MiB STANDARD title_vector.npy
+    # To check the files in the remote folder
+    
+    client = Minio(
+        endpoint="storage.googleapis.com", # use 's3.amazonaws.com' for AWS
+        access_key=ACCESS_KEY,
+        secret_key=SECRET_KEY,
+        secure=True)
+    
+    objects = client.list_objects(
+        bucket_name=BUCKET_NAME,
+        prefix=str(remote_writer.data_path)[1:],
+        recursive=True
+    )
+    
+    print([obj.object_name for obj in objects])
+    
+    # Output
+    #
+    # [
+    #     "DATA_FILES_PATH_IN_BLOCK_STORAGE/62391da7-e40f-439a-ba11-ddddb936223b/1/claps.npy",
+    #     "DATA_FILES_PATH_IN_BLOCK_STORAGE/62391da7-e40f-439a-ba11-ddddb936223b/1/id.npy",
+    #     "DATA_FILES_PATH_IN_BLOCK_STORAGE/62391da7-e40f-439a-ba11-ddddb936223b/1/link.npy",
+    #     "DATA_FILES_PATH_IN_BLOCK_STORAGE/62391da7-e40f-439a-ba11-ddddb936223b/1/publication.npy",
+    #     "DATA_FILES_PATH_IN_BLOCK_STORAGE/62391da7-e40f-439a-ba11-ddddb936223b/1/reading_time.npy",
+    #     "DATA_FILES_PATH_IN_BLOCK_STORAGE/62391da7-e40f-439a-ba11-ddddb936223b/1/responses.npy",
+    #     "DATA_FILES_PATH_IN_BLOCK_STORAGE/62391da7-e40f-439a-ba11-ddddb936223b/1/title.npy",
+    #     "DATA_FILES_PATH_IN_BLOCK_STORAGE/62391da7-e40f-439a-ba11-ddddb936223b/1/vector.npy"
+    # ]
     ```
 
 ## Related topics{#related-topics}

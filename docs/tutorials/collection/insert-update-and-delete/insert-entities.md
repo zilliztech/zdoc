@@ -308,6 +308,9 @@ Once your data is ready, you can insert it as follows:
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
+<Tabs groupId="python" defaultValue='python' values={[{"label":"Starter API","value":"python"},{"label":"Advanced API","value":"python_1"}]}>
+<TabItem value='python'>
+
 ```python
 # Insert data using a MilvusClient object
 from pymilvus import MilvusClient
@@ -324,8 +327,12 @@ print(res)
 #
 # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, "(5959 more items hidden)"]
 
-# =====
+```
 
+</TabItem>
+<TabItem value='python_1'>
+
+```python
 # Insert data using a Collection object
 from pymilvus import Collection
 
@@ -338,6 +345,8 @@ print(res.insert_count)
 # 5979
 ```
 
+</TabItem>
+</Tabs>
 </TabItem>
 
 <TabItem value='javascript'>

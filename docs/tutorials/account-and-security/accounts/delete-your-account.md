@@ -25,7 +25,7 @@ Once you have created an account on Zilliz Cloud, you can manage your account in
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Direct modification of the account's email address is not available. If you need to change your email, refer to our guide: [How to Change My Account Email Address?](https://chat.openai.com/c/0b1274aa-d87a-4104-9a5f-b0daeb3fee59#)
+Direct modification of the account's email address is not available. If you need to change your email, refer to our guide: [How to Change My Account Email Address?](https://docs.zilliz.com/docs/faqs-account#how-can-i-change-my-account-email-address)
 
 </Admonition>
 
@@ -67,7 +67,7 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 ![unlink_from_google](/img/unlink_from_google.png)
 
-### Unlink from your Github account{#unlink-from-your-github-account}
+### Unlink from your GitHub account{#unlink-from-your-github-account}
 
 1. Go to your **Profile** and click **Account Settings**.
 
@@ -112,14 +112,6 @@ Ensure you meet the following criteria before proceeding:
 ![delete-account-en](/img/delete-account-en.png)
 
 ## Related topics{#related-topics}
-
-- [Organizations & Projects](https://zilliverse.feishu.cn/wiki/BAvrw3PkDixq7UkzUcacCrFQnrb) 
-
-- [Roles & Privileges](https://zilliverse.feishu.cn/wiki/SzFVwtUcYiB1ubkWA06c0N9hnNf) 
-
-- [Add Organization Members](https://zilliverse.feishu.cn/wiki/UEnNwf5z1iU0BekXyHOcVzn9nmc) 
-
-- [Remove Members](https://zilliverse.feishu.cn/wiki/F1kQw4qRfi6v3UkOc2AcENBXnbe) 
 
 - [Manage Organization Information](./manage-orgs-and-members) 
 

@@ -51,14 +51,6 @@ To enhance your control and ease in navigating through the organization activiti
 
 ## Related topics{#related-topics}
 
-- [Organizations & Projects](https://zilliverse.feishu.cn/wiki/BAvrw3PkDixq7UkzUcacCrFQnrb) 
-
-- [Roles & Privileges](https://zilliverse.feishu.cn/wiki/SzFVwtUcYiB1ubkWA06c0N9hnNf) 
-
-- [Add Organization Members](https://zilliverse.feishu.cn/wiki/UEnNwf5z1iU0BekXyHOcVzn9nmc) 
-
-- [Remove Members](https://zilliverse.feishu.cn/wiki/F1kQw4qRfi6v3UkOc2AcENBXnbe) 
-
 - [Manage Organization Information](./manage-orgs-and-members) 
 
 - [Delete Your Organization](./delete-your-org) 

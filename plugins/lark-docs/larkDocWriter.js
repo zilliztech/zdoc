@@ -530,12 +530,8 @@ class larkDocWriter {
                 (next && next_type === 'code' && valid_langs.includes(next_lang) && next_lang !== lang)
             ) {
                 console.log('first block')
-                let values = this.__code_tabs(code, prev, next, blocks);
-                let tabs = `${' '.repeat(indent)}<Tabs groupId="code" defaultValue='python' values={${JSON.stringify(values)}}>`;
-                let tab_item_start = `${' '.repeat(indent)}<TabItem value='${lang.toLowerCase()}'>\n`;
-                elements = `${' '.repeat(indent)}\`\`\`${lang.toLowerCase()}\n${' '.repeat(indent) + elements.split('\n').join('\n' + ' '.repeat(indent))}\n${' '.repeat(indent)}\`\`\`\n`;
-                let tab_item_end = `${' '.repeat(indent)}</TabItem>`;
-                return [tabs, tab_item_start, elements, tab_item_end].join('\n');
+                const values = this.__code_tabs(code, prev, next, blocks);
+                return this.__code_block_split(elements, indent, lang, 'first', values);
             }
             
             // last block
@@ -543,20 +539,13 @@ class larkDocWriter {
                 (!next || (next && next_type !== 'code') || 
                 (next && next_type === 'code' && (!valid_langs.includes(next_lang) || next_lang === lang)))) {
                 console.log('last block')
-                let tab_item_start = `${' '.repeat(indent)}<TabItem value='${lang.toLowerCase()}'>\n`;
-                elements = `${' '.repeat(indent)}\`\`\`${lang.toLowerCase()}\n${' '.repeat(indent) + elements.split('\n').join('\n' + ' '.repeat(indent))}\n${' '.repeat(indent)}\`\`\`\n`;
-                let tab_item_end = `${' '.repeat(indent)}</TabItem>`;
-                let tabs_end = `${' '.repeat(indent)}</Tabs>`;
-                return [tab_item_start, elements, tab_item_end, tabs_end].join('\n');
+                return this.__code_block_split(elements, indent, lang, 'last');
             }
             
             // middle block
             if (prev && prev_type === 'code' && valid_langs.includes(next_lang) && prev_lang !== lang && next && next_type === 'code' && valid_langs.includes(next_lang) && next_lang !== code['style']['language']) {
                 console.log('middle block')
-                let tab_item_start = `${' '.repeat(indent)}<TabItem value='${lang.toLowerCase()}'>\n`;
-                elements = `${' '.repeat(indent)}\`\`\`${lang.toLowerCase()}\n${' '.repeat(indent) + elements.split('\n').join('\n' + ' '.repeat(indent))}\n${' '.repeat(indent)}\`\`\`\n`;
-                let tab_item_end = `${' '.repeat(indent)}</TabItem>`;
-                return [tab_item_start, elements, tab_item_end].join('\n');
+                return this.__code_block_split(elements, indent, lang, 'middle');
             } 
 
             // only block
@@ -566,13 +555,68 @@ class larkDocWriter {
                 !next || (next && next_type !== 'code')
             ) {
                 console.log('only block')           
-                return `${' '.repeat(indent)}\`\`\`${lang.toLowerCase()}\n${' '.repeat(indent) + elements.split('\n').join('\n' + ' '.repeat(indent))}\n${' '.repeat(indent)}\`\`\``;
+                return this.__code_block_split(elements, indent, lang);
             }             
         } else {
-            console.log('not valid')
-            return `\n${' '.repeat(indent)}\`\`\`${lang.toLowerCase()}\n${' '.repeat(indent) + elements.split('\n').join('\n' + ' '.repeat(indent))}\n${' '.repeat(indent)}\`\`\``;
+            console.log('not valid lang')
+            return this.__code_block_split(elements, indent, lang);
         }
-    } 
+    }
+
+    __code_block_split(elements, indent, lang, position, values=null) {
+        elements = elements.split('\n');
+        var divider = elements.indexOf(elements.filter(x => x.match(/^[#\/]\/* ==*/))[0]);
+        var tab_item_start = `${' '.repeat(indent)}<TabItem value='${lang.toLowerCase()}'>\n`;
+        var tab_item_end = `${' '.repeat(indent)}</TabItem>`
+        var tabs_end = `${' '.repeat(indent)}</Tabs>`
+        if (divider === -1) {
+            elements = `${' '.repeat(indent)}\`\`\`${lang.toLowerCase()}\n${' '.repeat(indent) + elements.join('\n' + ' '.repeat(indent))}\n${' '.repeat(indent)}\`\`\`\n`
+            switch (position) {
+                case 'first':
+                    var tabs_start = `${' '.repeat(indent)}<Tabs groupId="code" defaultValue='${values[0].value}' values={${JSON.stringify(values)}}>`;
+                    return [tabs_start, tab_item_start, elements, tab_item_end].join('\n');
+                case 'last':
+                    return [tab_item_start, elements, tab_item_end, tabs_end].join('\n');
+                case 'middle':
+                    return [tab_item_start, elements, tab_item_end].join('\n');
+                default:
+                    return elements;
+            }
+        } else {
+            var comment_mark = lang === 'Python' ? '# ' : '// '
+            var half_1 = elements.slice(0, divider)
+            var half_1_label = half_1[0].replace(comment_mark, '') 
+            var half_2 = elements.slice(divider)
+            var half_2_label = half_2[1].replace(comment_mark, '')
+
+            lang = lang.toLowerCase()
+
+            var inner_values = []
+            inner_values.push({label: half_1_label, value: lang})
+            inner_values.push({label: half_2_label, value: `${lang}_1`})
+
+            var inner_tabs_start = `${' '.repeat(indent)}<Tabs groupId="${lang}" defaultValue='${inner_values[0].value}' values={${JSON.stringify(inner_values)}}>`;
+            var inner_tab_item_start_1 = `${' '.repeat(indent)}<TabItem value='${inner_values[0].value}'>\n`;
+            var inner_tab_item_start_2 = `${' '.repeat(indent)}<TabItem value='${inner_values[1].value}'>\n`;
+            var inner_tab_item_end = `${' '.repeat(indent)}</TabItem>`
+            var inner_tabs_end = `${' '.repeat(indent)}</Tabs>`
+            
+            half_1 = `${' '.repeat(indent)}\`\`\`${lang.toLowerCase()}\n${' '.repeat(indent) + half_1.slice(1).join('\n' + ' '.repeat(indent))}\n${' '.repeat(indent)}\`\`\`\n`
+            half_2 = `${' '.repeat(indent)}\`\`\`${lang.toLowerCase()}\n${' '.repeat(indent) + half_2.slice(3).join('\n' + ' '.repeat(indent))}\n${' '.repeat(indent)}\`\`\`\n`
+
+            switch (position) {
+                case 'first':
+                    var tabs_start = `${' '.repeat(indent)}<Tabs groupId="code" defaultValue='${values[0].value}' values={${JSON.stringify(values)}}>`;
+                    return [tabs_start, tab_item_start, inner_tabs_start, inner_tab_item_start_1, half_1, inner_tab_item_end, inner_tab_item_start_2, half_2, inner_tab_item_end, inner_tabs_end, tab_item_end ].join('\n');
+                case 'last':
+                    return [tab_item_start, inner_tabs_start, inner_tab_item_start_1, half_1, inner_tab_item_end, inner_tab_item_start_2, half_2, inner_tab_item_end, inner_tabs_end, tab_item_end, tabs_end].join('\n');
+                case 'middle':
+                    return [tab_item_start, inner_tabs_start, inner_tab_item_start_1, half_1, inner_tab_item_end, inner_tab_item_start_2, half_2, inner_tab_item_end, inner_tabs_end, tab_item_end].join('\n');
+                default:
+                    return [inner_tabs_start, inner_tab_item_start_1, half_1, inner_tab_item_end, inner_tab_item_start_2, half_2, inner_tab_item_end, inner_tabs_end].join('\n');
+            }
+        }
+    }
 
     __code_tabs(code, prev, next, blocks) {
         let values = [];

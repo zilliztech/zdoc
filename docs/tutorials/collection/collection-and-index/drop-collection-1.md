@@ -18,6 +18,9 @@ Dropping a collection eradicates all linked data, encompassing data, metadata, a
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
+<Tabs groupId="python" defaultValue='python' values={[{"label":"Starter API","value":"python"},{"label":"Advanced API","value":"python_1"}]}>
+<TabItem value='python'>
+
 ```python
 # Drop a collection that is created using a MilvusClient object
 from pymilvus import MilvusClient
@@ -26,14 +29,20 @@ res = client.drop_collection(collection_name="medium_articles_2020")
 
 print(res)
 
-# =====
+```
 
+</TabItem>
+<TabItem value='python_1'>
+
+```python
 # Drop a collection that is created using a Collection object
 from pymilvus import utility
 
 res = utility.drop_collection(collection_name="medium_articles_2020")
 ```
 
+</TabItem>
+</Tabs>
 </TabItem>
 
 <TabItem value='javascript'>
@@ -130,8 +139,8 @@ On the Zilliz Cloud cluster, each collection can accommodate only one vector fie
 
 ## Related topics{#related-topics}
 
-- [Insert Entities](https://www.notion.so/Insert-Entities-375dd098632d4a5297617a51c69c7967?pvs=21)
+- [Insert Entities](https://zilliverse.feishu.cn/wiki/WGTMwSYudigg0WkoiqAcfheNnHe)
 
-- [Search and Query](https://www.notion.so/Search-and-Query-40930370867642c6b8b65249cfb58c5b?pvs=21)
+- [Search, Query, and Get](https://zilliverse.feishu.cn/wiki/U8vOwDsYkif3WHkaWjZcanUjnIg)
 
-- [Delete Entities](https://www.notion.so/Delete-Entities-cd0af9c2006b4726b0c46ba9b1590078?pvs=21)
+- [Delete Entities](https://zilliverse.feishu.cn/wiki/FaZTw9Ht9iLUv9kIYBmcTmwCnGe)

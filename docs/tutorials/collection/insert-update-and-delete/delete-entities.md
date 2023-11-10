@@ -20,6 +20,9 @@ If an entity is outdated or no longer needed, you can run the following sample c
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
+<Tabs groupId="python" defaultValue='python' values={[{"label":"Starter API","value":"python"},{"label":"Advanced API","value":"python_1"}]}>
+<TabItem value='python'>
+
 ```python
 # Delete a single entity using a MilvusClient object
 from pymilvus import MilvusClient
@@ -34,8 +37,12 @@ print(res)
 # Output:
 # [253]
 
-# =======
+```
 
+</TabItem>
+<TabItem value='python_1'>
+
+```python
 # Delete a single entity using a Collection object
 from pymilvus import Collection
 
@@ -44,6 +51,8 @@ collection.delete(expr="id in [253]")
 # Include the IDs of all entities to delete in the expr, such as 'id in [246, 253]'
 ```
 
+</TabItem>
+</Tabs>
 </TabItem>
 
 <TabItem value='javascript'>

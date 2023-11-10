@@ -80,7 +80,7 @@ article > section a.card:hover {
 }
 
 article > section a.card:hover > h2 {
-  color: #3372ff;
+  color: var(--ifm-color-primary-light);
 }
 
 article > section a.card > h2 {
@@ -102,5 +102,41 @@ article > section a.card > p {
 }
 
 #exec > a:hover {
-  color: #175fff !important;
+  color: var(--ifm-color-primary) !important;
 }
+
+div[role="tabpanel"] .margin-top--md {
+  margin-top: 0 !important;
+}
+ 
+div[role="tabpanel"] .theme-code-block {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+div[role="tabpanel"] .tabs {
+  font-size: 0.9rem;
+  background-color: rgb(246, 248, 250);
+  border-top-left-radius: 6.4px;
+  border-top-right-radius: 6.4px;
+}
+
+div[role="tabpanel"] .tabs > li {
+  padding: 0.5rem 1rem;
+}
+
+div[role="tabpanel"] .tabs > li:hover {
+  background-color: rgb(246, 248, 250);
+}
+
+div[role="tabpanel"] .tabs > li.tabs__item {
+  border: 2px solid rgb(246, 248, 250);
+  color:rgba(0, 0, 0, 0.3)
+}
+
+div[role="tabpanel"] .tabs > li.tabs__item--active {
+  border: 2px solid rgb(246, 248, 250);
+  color: var(--ifm-color-primary-light);
+}
+
+

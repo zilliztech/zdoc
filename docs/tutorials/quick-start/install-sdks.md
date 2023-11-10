@@ -86,13 +86,7 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 
 - For Apache Maven, append this to the `pom.xml` dependencies:
 
-```xml
-<dependency>
-     <groupId>io.milvus</groupId>
-     <artifactId>milvus-sdk-java</artifactId>
-     <version>{versions.java.version}</version>
- </dependency>
-```
+===not valid===
 
 - For Gradle/Grails, execute:
 

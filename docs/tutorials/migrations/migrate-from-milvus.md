@@ -45,11 +45,7 @@ To prepare migration data for Milvus 0.9.x through 1.x, you need to
 1. Copy the `tables` folder of your Milvus installation, then move both `meta.json` and the `tables` folder to an empty folder.
     Once this step is done, the structure of the empty folder should look like this:
 
-    ```plaintext
-    migration_data
-    ├── meta.json
-    └── tables
-    ```
+===not valid===
 
 1. Upload the folder prepared in the preceding step to an S3 block storage bucket or directly use this local folder in the next section.
 
@@ -66,12 +62,7 @@ To prepare migration data for Milvus 2.x, do as follows:
 1. Create a **configs** folder side by side with the downloaded binary, and download [**backup.yaml**](https://raw.githubusercontent.com/zilliztech/milvus-backup/master/configs/backup.yaml) into the **configs** folder.
     Once the step is done, the structure of your workspace folder should look like this:
 
-    ```plaintext
-    workspace
-    ├── milvus-backup
-    └── configs
-         └── backup.yaml
-    ```
+===not valid===
 
 1. Customize **backup.yaml**.
     In normal cases, you do not need to customize this file. But before going on, check whether the following configuration items are correct:
@@ -100,16 +91,10 @@ To prepare migration data for Milvus 2.x, do as follows:
     </Admonition>
 
 1. Create a backup of your Milvus installation.
-
-    ```plaintext
-    ./milvus-backup --config backup.yaml create -n my_backup
-    ```
+===not valid===
 
 1. Get the backup file.
-
-    ```plaintext
-    ./milvus-backup --config backup.yaml get -n my_backup
-    ```
+===not valid===
 
 1. Check the backup files.
     - If you set `minio.address` and `minio.port` to an S3 bucket, your backup file are already in the S3 bucket.
@@ -118,17 +103,7 @@ To prepare migration data for Milvus 2.x, do as follows:
         - To download from [Minio Console](https://min.io/docs/minio/kubernetes/upstream/administration/minio-console.html), log into Minio Console, locate the bucket specified in `minio.address`, select the files in the bucket, and click **Download** to download them.
 
         - If you prefer [the ](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)[**mc**](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)[ client](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install), do as follows:
-
-            ```plaintext
-            # configure a Minio host
-            mc alias set my_minio https://<minio_endpoint> <accessKey> <secretKey>
-            
-            # List the available buckets
-            mc ls my_minio
-            
-            # Download a file from the bucket
-            mc cp --recursive my_minio/<your-bucket-path> <local_dir_path>
-            ```
+===not valid===
 
 1. Decompress the downloaded archive and upload only the content of the **backup** folder to Zilliz Cloud.
 
@@ -158,11 +133,9 @@ Once the collections are loaded, you are free to interact with them using your p
 
 ## Related topics{#related-topics}
 
-- [Migrate from Milvus 2.x](https://zilliverse.feishu.cn/wiki/RGndwk5HoiIl71k1KHZcz7mEnYd) 
-
 - [AUTOINDEX Explained](./autoindex-explained) 
 
-- [CU Types Explained](https://zilliverse.feishu.cn/wiki/RkNSwoi5AiD2DBkgptxcbz3anGc) 
+- [Select the Right CU](./cu-types-explained-1)
 
 - [API Comparison](./api-comparison) 
 

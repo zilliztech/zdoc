@@ -18,7 +18,7 @@ Make sure the following steps are performed:
 
 - You have registered an account with Zilliz Cloud. For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
 
-- You have created a **Dedicated** cluster on Zilliz Cloud. For details, see [Create Cluster](./create-cluster) and [Cluster Types Explained](https://zilliverse.feishu.cn/wiki/UpwhwMwf2iqnYiktreNcZwkTn4s).
+- You have created a **Dedicated** cluster on Zilliz Cloud. For details, see [Create Cluster](./create-cluster) and [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
 
 - You have created an Elasticsearch cluster running on version 7.x or later. For details, see [Installing Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html).
 

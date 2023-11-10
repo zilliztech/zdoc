@@ -17,11 +17,11 @@ This guide walks you through how to use a customized schema in a collection.
 
 Before creating a collection, ensure that
 
-- You are equipped with a detailed blueprint of your data model, or schema. Dive deeper into this by checking out the [Schema Explained](./data-models-explained).
+- You are equipped with a detailed blueprint of your data model, or schema. Dive deeper into this by checking out the [Schema Explained](https://zilliverse.feishu.cn/wiki/M0ntwROsvi5KC3kRBlvczMsRnzb).
 
-- You have established a dedicated cluster. Get a walkthrough on this in [Create Cluster](./create-cluster).
+- You have created a cluster. Get a walkthrough on this in [Create Cluster](https://zilliverse.feishu.cn/wiki/HQxKw5QQiiktfHk3iascUEIPneh).
 
-- You have obtained the example dataset for practice. Details can be found at [Example Dataset](./example-dataset-1).
+- You have obtained the example dataset for practice. Details can be found at [Example Dataset](https://zilliverse.feishu.cn/wiki/FfUwwn4dziGJJ3kd9l2cgNlWnjh).
 
 ## Procedure{#procedure}
 
@@ -449,8 +449,8 @@ Harness these types as building blocks for your collection's schema.
 
 ## Related topics{#related-topics}
 
-- [Enable Dynamic Schema](./enable-dynamic-schema) 
+- [Enable Dynamic Schema](https://zilliverse.feishu.cn/wiki/P68Iw4765i8qG6kE4u5cpzC3nAz)
 
-- [Use Partition Key](./use-partition-key) 
+- [Use Partition Key](https://zilliverse.feishu.cn/wiki/UGqiwkSpmiaMb1kSceqcmgl4nxg)
 
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 
+- [Use JSON Fields](https://zilliverse.feishu.cn/wiki/ZrhrwRGxWiwDLqkI84dceMOTnfc)

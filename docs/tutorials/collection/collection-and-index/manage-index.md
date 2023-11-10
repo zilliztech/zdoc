@@ -15,13 +15,13 @@ Utilize vector indexes as metadata structures in Zilliz Cloud to enhance vector 
 
 ## Before you start{#before-you-start}
 
-Ensure you have created a collection. For details, refer to [Create Collection](./create-collection-2) and [Create Collection with Schema](./create-collection-with-schema).
+Ensure you have created a collection. For details, refer to [Create Collection](./create-collection-2) and [Create Collection with Schema](https://zilliverse.feishu.cn/wiki/UHFzwkctIiiYWwkRDNscGVjcnRf).
 
 ## Index collection{#index-collection}
 
 For optimal ANN search performance in Zilliz Cloud, indexing is imperative. Note that Zilliz Cloud permits indexing solely on the vector field. Thus, indexing a collection inherently means indexing its vector field and generating an index file.
 
-Zilliz Cloud currently supports the AUTOINDEX type exclusively. If any other index type is selected, the system will default to AUTOINDEX. Further details on this can be found in [AUTOINDEX Explained](./autoindex-explained).
+Zilliz Cloud currently supports the AUTOINDEX type exclusively. If any other index type is selected, the system will default to AUTOINDEX. Further details on this can be found in [AUTOINDEX Explained](https://zilliverse.feishu.cn/wiki/OIhEw2aj9imyLfkCLGzcxjyCnRd).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>

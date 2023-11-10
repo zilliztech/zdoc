@@ -52,8 +52,8 @@ Ensure the following prerequisites are met before proceeding:
 
 ## Related topics{#related-topics}
 
-- [Manage API Keys](https://www.notion.so/Manage-API-Keys-9e136327da194cfc9f3b1840554298f1?pvs=21)
+- [Manage API Keys](./manage-api-keys)
 
-- [Manage Cluster Credentials](https://www.notion.so/Manage-Cluster-Credentials-562e60b054a64026b6f3e45ff6fe4338?pvs=21)
+- [Manage Cluster Credentials](./manage-cluster-credentials)
 
-- [Set up a Private Link](https://www.notion.so/Set-up-a-Private-Link-099ca332eb354e5c9a43f24b875427f6?pvs=21)
+- [Set up a Private Link](./set-up-a-private-link)

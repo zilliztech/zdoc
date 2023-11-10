@@ -36,9 +36,12 @@ Once your cluster is operational, connect to it utilizing its public endpoint an
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
-```python
-from pymilvus import MilvusClient
+<Tabs groupId="python" defaultValue='python' values={[{"label":"Starter API","value":"python"},{"label":"Advanced API","value":"python_1"}]}>
+<TabItem value='python'>
 
+```python
+# Connect using a MilvusClient object
+from pymilvus import MilvusClient
 CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" # Set your cluster endpoint
 TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
 
@@ -48,8 +51,27 @@ client = MilvusClient(
     uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
     token=TOKEN # API key or a colon-separated cluster username and password
 )
+
 ```
 
+</TabItem>
+<TabItem value='python_1'>
+
+```python
+# Connect with a connections object
+from pymilvus import connections
+
+connections.connect(
+  alias='default', 
+  #  Public endpoint obtained from Zilliz Cloud
+  uri=CLUSTER_ENDPOINT,
+  # API key or a colon-separated cluster username and password
+  token=TOKEN, 
+)
+```
+
+</TabItem>
+</Tabs>
 </TabItem>
 
 <TabItem value='javascript'>
