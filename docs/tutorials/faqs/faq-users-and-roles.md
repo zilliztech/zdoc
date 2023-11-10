@@ -1,11 +1,11 @@
 ---
-slug: /faqs-users-and-roles
+slug: /faq-users-and-roles
 beta: null
 notebook: null
 sidebar_position: 8
 ---
 
-# Users & Roles
+# FAQ: Users & Roles
 
 This topic lists the possible issues about users, roles, and access that you may encounter on Zilliz Cloud and the corresponding solution.
 

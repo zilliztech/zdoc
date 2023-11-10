@@ -1,11 +1,11 @@
 ---
-slug: /faqs-data-import
+slug: /faq-data-import
 beta: null
 notebook: null
 sidebar_position: 4
 ---
 
-# Data Import
+# FAQ: Data Import
 
 This topic lists the possible issues that you may encounter while you import data on Zilliz Cloud and the corresponding solution.
 

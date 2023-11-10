@@ -280,7 +280,7 @@ class larkDocWriter {
                 let title = sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
                 let short_description = sub_page.filter(line => line.length > 0)[1]
                 let slug = slugify(title, {lower: true, strict: true})
-                let front_matter = this.__front_matters("faqs-"+slug, null, null, index+1)
+                let front_matter = this.__front_matters(slug, null, null, index+1)
                 let links = []
 
                 sub_page = sub_page.map(line => {
@@ -299,7 +299,7 @@ class larkDocWriter {
                 })
 
                 const markdown = `${front_matter}\n\n# ${title}\n\n${short_description}\n\n## Contents\n\n${links.join('\n')}\n\n## FAQs\n\n${sub_page.slice(1).join('\n')}`    
-                fs.writeFileSync(`${path}/faqs-${slug}.md`, markdown)
+                fs.writeFileSync(`${path}/${slug}.md`, markdown)
             })
         }
     }

@@ -1,11 +1,11 @@
 ---
-slug: /faqs-account
+slug: /faq-account
 beta: null
 notebook: null
 sidebar_position: 10
 ---
 
-# Account
+# FAQ: Account
 
 This topic lists the possible issues about accounts that you may encounter on Zilliz Cloud and the corresponding solution.
 

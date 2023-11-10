@@ -1,11 +1,11 @@
 ---
-slug: /faqs-authentication
+slug: /faq-authentication
 beta: null
 notebook: null
 sidebar_position: 11
 ---
 
-# Authentication
+# FAQ: Authentication
 
 This topic lists the possible issues that you may encounter while authenticating your identity on Zilliz Cloud and the corresponding solution.
 

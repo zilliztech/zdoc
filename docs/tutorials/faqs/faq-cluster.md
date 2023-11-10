@@ -1,11 +1,11 @@
 ---
-slug: /faqs-cluster
+slug: /faq-cluster
 beta: null
 notebook: null
 sidebar_position: 2
 ---
 
-# Cluster
+# FAQ: Cluster
 
 This topic lists the possible issues that you may encounter while you use Zilliz Cloud clusters and the corresponding solution.
 

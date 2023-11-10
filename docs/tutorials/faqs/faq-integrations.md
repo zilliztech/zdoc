@@ -1,11 +1,11 @@
 ---
-slug: /faqs-integrations
+slug: /faq-integrations
 beta: null
 notebook: null
 sidebar_position: 13
 ---
 
-# Integrations
+# FAQ: Integrations
 
 This topic lists the possible issues about integrations with other software, tool, AI models, etc that you may encounter on Zilliz Cloud and the corresponding solution.
 

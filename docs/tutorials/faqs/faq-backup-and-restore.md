@@ -1,11 +1,11 @@
 ---
-slug: /faqs-backup-and-restore
+slug: /faq-backup-and-restore
 beta: null
 notebook: null
 sidebar_position: 7
 ---
 
-# Backup and Restore
+# FAQ: Backup and Restore
 
 This topic lists the possible issues that you may encounter while backing up and restoring data on Zilliz Cloud and the corresponding solution.
 

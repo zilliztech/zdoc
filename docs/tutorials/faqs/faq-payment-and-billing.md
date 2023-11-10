@@ -1,11 +1,11 @@
 ---
-slug: /faqs-payment-and-billing
+slug: /faq-payment-and-billing
 beta: null
 notebook: null
 sidebar_position: 12
 ---
 
-# Payment & Billing
+# FAQ: Payment & Billing
 
 This topic lists the possible issues about payment and billing on Zilliz Cloud and the corresponding solution.
 

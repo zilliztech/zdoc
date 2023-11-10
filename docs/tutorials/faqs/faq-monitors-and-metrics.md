@@ -1,11 +1,11 @@
 ---
-slug: /faqs-monitors-and-metrics
+slug: /faq-monitors-and-metrics
 beta: null
 notebook: null
 sidebar_position: 9
 ---
 
-# Monitors & Metrics
+# FAQ: Monitors & Metrics
 
 This topic lists the possible issues about monitors and metrics that you may encounter on Zilliz Cloud and the corresponding solution.
 

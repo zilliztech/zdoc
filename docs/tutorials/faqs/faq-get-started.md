@@ -1,11 +1,11 @@
 ---
-slug: /faqs-get-started
+slug: /faq-get-started
 beta: null
 notebook: null
 sidebar_position: 1
 ---
 
-# Get Started
+# FAQ: Get Started
 
 This topic lists the possible issues that you may encounter while you get started with Zilliz Cloud and the corresponding solution.
 

@@ -1,11 +1,11 @@
 ---
-slug: /faqs-migration
+slug: /faq-migration
 beta: null
 notebook: null
 sidebar_position: 5
 ---
 
-# Migration
+# FAQ: Migration
 
 This topic lists the possible issues that you may encounter while you migrate data on Zilliz Cloud and the corresponding solution.
 

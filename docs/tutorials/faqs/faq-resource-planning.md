@@ -1,11 +1,11 @@
 ---
-slug: /faqs-resource-planning
+slug: /faq-resource-planning
 beta: null
 notebook: null
 sidebar_position: 6
 ---
 
-# Resource Planning
+# FAQ: Resource Planning
 
 This topic lists the possible issues that you may encounter while planning your resources on Zilliz Cloud and the corresponding solution.
 

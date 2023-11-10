@@ -1,11 +1,11 @@
 ---
-slug: /faqs-collection
+slug: /faq-collection
 beta: null
 notebook: null
 sidebar_position: 3
 ---
 
-# Collection
+# FAQ: Collection
 
 This topic lists the possible issues that you may encounter while you use Zilliz Cloud collections and the corresponding solution.
 
