@@ -45,13 +45,24 @@ Here we can find the main parameters that need to be modified for running with y
 ```python
 from os import environ
 
-HOST = "<instance-id>.<cloud-region-id>.vectordb.zillizcloud.com" # Host in Zilliz Cloud endpoint
-PORT = 443  # Port in Zilliz Cloud endpoint
+# 1. Set up the name of the collection to be created.
+COLLECTION_NAME = 'document_qa_db'
 
-USER = "db_admin" # Username for the cluster
-PASSWORD = "*"  # Password that goes with the user
+# 2. Set up the dimension of the embeddings.
+DIMENSION = 1536
 
-environ["OPENAI_API_KEY"] = "sk-****" # OpenAI API Key
+# 3. Set the inference parameters
+BATCH_SIZE = 128
+TOP_K = 3
+
+# 4. Set up the connection parameters for your Zilliz Cloud cluster.
+URI = 'YOUR_CLUSTER_ENDPOINT'
+
+TOKEN = 'YOUR_CLUSTER_TOKEN'
+
+# OpenAI API key
+environ["OPENAI_API_KEY"] = "YOUR_OPENAI_API_KEY"
+environ["TOKENIZERS_PARALLELISM"] = "false"
 ```
 
 ## Consume the knowledge{#consume-the-knowledge}
@@ -76,10 +87,26 @@ print(len(docs))
 Once we have our documents formed, we can proceed to push them through into Zilliz Cloud. This step requires the configs for both Zilliz Cloud and OpenAI.
 
 ```python
-from llama_index import GPTMilvusIndex
+from llama_index import download_loader, VectorStoreIndex, ServiceContext
+from llama_index.vector_stores import MilvusVectorStore
 
 # Push all markdown files into Zilliz Cloud
-index = GPTMilvusIndex.from_documents(docs, host = HOST, port = PORT, user = USER, password = PASSWORD, use_secure = True, overwrite=True)
+vector_store = MilvusVectorStore(
+    uri=URI, 
+    token=TOKEN, 
+    collection_name=COLLECTION_NAME, 
+    similarity_metric="L2",
+    dim=DIMENSION,
+)
+
+embed_model = HuggingFaceEmbedding(model_name="sentence-transformers/all-MiniLM-L12-v2")
+service_context = ServiceContext.from_defaults(embed_model=embed_model)
+
+index = VectorStoreIndex.from_documents(
+    documents=docs, 
+    service_context=service_context,
+    show_progress=True
+)
 ```
 
 ## Ask question{#ask-question}
@@ -87,25 +114,13 @@ index = GPTMilvusIndex.from_documents(docs, host = HOST, port = PORT, user = USE
 With our documents loaded into Zilliz Cloud, we can begin asking questions. The questions will be searched against the knowledge base and any relevant documents will be used to generate an answer.
 
 ```python
-s = index.query("What is a collection?")
-print(s)
-
-# Output:
-# A collection in Milvus is a logical grouping of entities, similar to a table in a relational database management system (RDBMS). It is used to store and manage entities.
-```
-
-We are also able to save our connection information and reload it using `save_to_dict()` and `load_from_dict()`.
-
-```python
-saved = index.save_to_dict()
-del index
-
-index = GPTMilvusIndex.load_from_dict(saved, overwrite = False)
-s = index.query("What communication protocol is used in Pymilvus for commicating with Milvus?")
-print(s)
+query_engine = index.as_query_engine()
+response = query_engine.query("What is IVF_FLAT?")
+print(str(response))
 
 # Output
-# The communication protocol used in Pymilvus for communicating with Milvus is gRPC.
+#
+# IVF_FLAT is an index used in Milvus that divides vector space into list clusters. It compares the distances between the target vector and the centroids of all the clusters to return the nearest clusters. Then, it compares the distances between the target vector and the vectors in the selected clusters to find the nearest vectors. IVF_FLAT has performance advantages over FLAT when the number of vectors exceeds a certain threshold.
 ```
 
 ## Related integrations{#related-integrations}

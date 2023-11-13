@@ -43,15 +43,25 @@ With this, we're ready to move on to generating embeddings.
 Here we can find the main parameters that need to be modified for running with your own accounts. Beside each is a description of what it is.
 
 ```python
-FILE = '/content/books.csv'  # Download it from <https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks> and save it in the folder that holds your script.
-COLLECTION_NAME = 'title_db'  # Collection name
-DIMENSION = 1536  # Embeddings size
-COUNT = 100  # How many titles to embed and insert
-URI='https://replace-this-with-the-public-endpoint-of-your-cluster-on-zilliz-cloud'  # Endpoint URI obtained from Zilliz Cloud
-USER='replace-this-with-the-cluster-user-name'  # Username specified when you created this cluster
-PASSWORD='replace-this-with-the-cluster-password'  # Password set for that account
+# 1. Go to https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks, download the dataset, and save it locally.
+FILE = '../books.csv'
+
+# 2. Set up the name of the collection to be created.
+COLLECTION_NAME = 'title_db'
+
+# 3. Set up the dimension of the embeddings.
+DIMENSION = 1536
+
+# 4. Set up the number of records to process.
+COUNT = 100
+
+# 5. Set up the connection parameters for your Zilliz Cloud cluster.
+URI = 'YOUR_CLUSTER_ENDPOINT'
+TOKEN = 'YOUR_CLUSTER_TOKEN'
+
+# 6. Set up the OpenAI engine and API key to use.
 OPENAI_ENGINE = 'text-embedding-ada-002'  # Which engine to use
-openai.api_key = ''  # Use your own Open AI API Key here
+openai.api_key = 'YOUR_OPENAI_API_KEY'  # Use your own Open AI API Key here
 ```
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -63,96 +73,123 @@ Since the embedding process for a free OpenAI account can be time-consuming, we 
 The following snippet deals with Zilliz Cloud and setting up the cluster for this use case. Within Zilliz Cloud, we need to set up a collection and index it. For more information on how to set up and use Zilliz Cloud, refer to this [link](./quick-start-1).
 
 ```python
-# Connect to Zilliz Cloud
-connections.connect(uri=URI, user=USER, password=PASSWORD, secure=True)
+# Connect to Zilliz Cloud and create a collection
+connections.connect(
+    alias='default',
+    # Public endpoint obtained from Zilliz Cloud
+    uri=URI,
+    token=TOKEN
+)
 
-# Remove collection if it already exists
-if utility.has_collection(COLLECTION_NAME):
+if COLLECTION_NAME in utility.list_collections():
     utility.drop_collection(COLLECTION_NAME)
 
-# Create collection which includes the id, title, and embedding.
 fields = [
     FieldSchema(name='id', dtype=DataType.INT64, descrition='Ids', is_primary=True, auto_id=False),
     FieldSchema(name='title', dtype=DataType.VARCHAR, description='Title texts', max_length=200),
     FieldSchema(name='embedding', dtype=DataType.FLOAT_VECTOR, description='Embedding vectors', dim=DIMENSION)
 ]
-schema = CollectionSchema(fields=fields, description='Title collection')
-collection = Collection(name=COLLECTION_NAME, schema=schema)
 
-# Create an index for the collection.
+schema = CollectionSchema(fields=fields, description='Title collection')
+
+collection = Collection(
+    name=COLLECTION_NAME,
+    schema=schema,
+)
+
 index_params = {
-    'index_type': 'AUTOINDEX',
     'metric_type': 'L2',
-    'params': {}
+    'index_type': 'AUTOINDEX',
+    'params': {'nlist': 1024}
 }
-collection.create_index(field_name="embedding", index_params=index_params)
+
+collection.create_index(
+    field_name='embedding',
+    index_params=index_params
+)
+
+collection.load()
 ```
 
 After setting up the collection, we can begin inserting our data, which involves three steps: reading the data, embedding the titles, and inserting into Zilliz Cloud.
 
 ```python
-# Extract embedding from text using OpenAI
+# Load the csv file and extract embeddings from the text
+def csv_load(file):
+    with open(file, newline='') as f:
+        reader=csv.reader(f, delimiter=',')
+        for row in reader:
+            yield row[1]
+
 def embed(text):
     return openai.Embedding.create(
         input=text, 
         engine=OPENAI_ENGINE)["data"][0]["embedding"]
 
-# Insert each title and its embedding
-for idx, text in enumerate(random.sample(sorted(csv_load(FILE)), k=COUNT)):  # Load COUNT amount of random values from dataset
-    ins=[[idx], [(text[:198] + '..') if len(text) > 200 else text], [embed(text)]]  # Insert the title id, the title text, and the title embedding vector
-    collection.insert(ins)
-    time.sleep(3)  # Free OpenAI account limited to 60 RPM
+# Insert each title and its embeddings
 
-# Load the collection into memory for searching
-collection.load()
+inserted = []
 
-# Search the cluster based on input text
-def search(text):
-    # Search parameters for the index
-    search_params={
-        "metric_type": "L2"
+for idx, text in enumerate(random.sample(sorted(csv_load(FILE)), k=COUNT)):
+    ins = {
+        'id': idx,
+        'title': (text[:198] + '..') if len(text) > 200 else text,
+        'embedding': embed(text)
     }
+    collection.insert(data=ins)
+    time.sleep(3)
+    inserted.append(ins)
 
-    results=collection.search(
-        data=[embed(text)],  # Embeded search value
-        anns_field="embedding",  # Search across embeddings
-        param=search_params,
-        limit=5,  # Limit to five results per search
-        output_fields=['title']  # Include title field in result
+# Search for similar titles
+def search(text):
+    res = collection.search(
+        data=[embed(text)],
+        anns_field='embedding',
+        param={"metric_type": "L2", "params": {"nprobe": 10}},
+        output_fields=['title'],
+        limit=5,
     )
 
-    ret=[]
-    for hit in results[0]:
-        row=[]
-        row.extend([hit.id, hit.score, hit.entity.get('title')])  # Get the id, distance, and title for the results
-        ret.append(row)
+    ret = []
+
+    for hits in res:
+        for hit in hits:
+            row = []
+            row.extend([hit.id, hit.distance, hit.entity.get('title')])
+            ret.append(row)
+
     return ret
 
-search_terms=['self-improvement', 'landscape']
+search_terms = [
+    'self-improvement',
+    'landscape',
+]
 
 for x in search_terms:
-    print('Search term:', x)
-    for result in search(x):
-        print(result)
+    print('Search term: ', x)
+    for x in search(x):
+        print(x)
     print()
 ```
 
 You should see the following as the output:
 
 ```python
-Search term: self-improvement
-[70, 0.34909766912460327, 'Life Management for Busy Woman: Growth and Study Guide']
-[18, 0.4245884120464325, 'From Socrates to Sartre: The Philosophic Quest']
-[63, 0.4264194667339325, 'Love']
-[88, 0.44693559408187866, "The Innovator's Dilemma: The Revolutionary Book that Will Change the Way You Do Business"]
-[29, 0.4684774875640869, 'The Thousandfold Thought (The Prince of Nothing  #3)']
+# Output
+#
+# Search term:  self-improvement
+# [9, 0.40222519636154175, 'Awakening Intuition: Using Your Mind-Body Network for Insight and Healing']
+# [66, 0.40565189719200134, 'The War of Art: Break Through the Blocks & Win Your Inner Creative Battles']
+# [73, 0.4130449891090393, 'The Organized Student: Teaching Children the Skills for Success in School and Beyond']
+# [34, 0.41660943627357483, 'The Consolation of Philosophy']
+# [61, 0.4331777095794678, 'Orientalism']
 
-Search term: landscape
-[63, 0.34171175956726074, 'Love']
-[48, 0.4100739061832428, 'Outlander']
-[67, 0.41952890157699585, 'Ice Castles']
-[98, 0.42765650153160095, 'The Long Walk']
-[24, 0.43053609132766724, 'Notes from a Small Island']
+# Search term:  landscape
+# [61, 0.3965946137905121, 'Orientalism']
+# [24, 0.4071578085422516, 'Andreas Gursky']
+# [1, 0.4108707904815674, 'The Art of Warfare']
+# [45, 0.4112565815448761, 'Sunshine']
+# [39, 0.41171979904174805, 'Wonderful Life: The Burgess Shale and the Nature of History']
 ```
 
 A full example of this is available [here](https://colab.research.google.com/drive/1bAX1Ah7ub4uVibQIT82LvdPmrRCzCXKM?usp=sharing).
