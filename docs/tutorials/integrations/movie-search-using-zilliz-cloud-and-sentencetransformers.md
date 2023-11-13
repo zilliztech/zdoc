@@ -30,14 +30,14 @@ We are going to use `gdown` to grab the zip from Google Drive and then decompres
 
 ```bash
 import gdown
-url = '<https://drive.google.com/uc?id=11ISS45aO2ubNCGaC3Lvd3D7NT8Y7MeO8>'
-output = './movies.zip'
-gdown.download(url, output)
 
-import zipfile
+url = 'https://drive.google.com/uc?id=11ISS45aO2ubNCGaC3Lvd3D7NT8Y7MeO8'
+zipball = '../movies.zip'
+output_folder = '../movies'
+gdown.download(url, zipball)
 
-with zipfile.ZipFile("./movies.zip","r") as zip_ref:
-    zip_ref.extractall("./movies")
+with zipfile.ZipFile(zipball,"r") as zip_ref:
+    zip_ref.extractall(output_folder)
 ```
 
 ## Parameters{#parameters}
@@ -45,12 +45,11 @@ with zipfile.ZipFile("./movies.zip","r") as zip_ref:
 Here we can find the main arguments that need to be modified for running with your own accounts. Beside each is a description of what it is.
 
 ```bash
-# Zilliz Cloud Setup Arguments
+# Parameters for set up Zilliz Cloud
 COLLECTION_NAME = 'movies_db'  # Collection name
 DIMENSION = 384  # Embeddings size
-URI = '<https://replace-this-with-your-zilliz-cloud-endpoint>'  # Endpoint URI obtained from Zilliz Cloud
-USER = 'replace-this-with-your-zilliz-cloud-database-user'  # Username specified when you created this database
-PASSWORD = 'replace-this-with-your-zilliz-cloud-database-password'  # Password set for that account
+URI = 'YOUR_CLUSTER_ENDPOINT'  # Endpoint URI obtained from Zilliz Cloud
+TOKEN = 'YOUR_CLUSTER_TOKEN'  # API key or a colon-separated cluster username and password
 
 # Inference Arguments
 BATCH_SIZE = 128
@@ -69,7 +68,10 @@ At this point, we are going to begin setting up Zilliz Cloud. The steps are as f
 from pymilvus import connections
 
 # Connect to Milvus Database
-connections.connect(uri=URI, user=USER, password=PASSWORD, secure=True)
+connections.connect(
+    uri=URI, 
+    token=TOKEN
+)
 ```
 
 1. If the collection already exists, drop it.
@@ -139,7 +141,7 @@ def csv_load(file):
                 continue
             yield (row[1], row[7])
 
-# Extract embeding from text using OpenAI
+# Extract embedding from text using OpenAI
 def embed_insert(data):
     embeds = transformer.encode(data[1])
     ins = [
@@ -152,7 +154,10 @@ import time
 
 data_batch = [[],[]]
 
-for title, plot in csv_load('./movies/plots.csv'):
+with open('../movies/plots.csv') as f:
+    total = len(f.readlines()) / BATCH_SIZE
+
+for title, plot in tqdm(csv_load('{}/plots.csv'.format(output_folder)), total=total):
     data_batch[0].append(title)
     data_batch[1].append(plot)
     if len(data_batch[0]) % BATCH_SIZE == 0:

@@ -1,7 +1,7 @@
 ---
 slug: /question-answering-using-zilliz-cloud-and-cohere
 beta: FALSE
-notebook: 82_integrations_with_cohere.ipynb
+notebook: 82_integrations_cohere.ipynb
 sidebar_position: 3
 ---
 
@@ -17,17 +17,18 @@ This page illustrates how to create a question-answering system based on the SQu
 Code snippets on this page require **pymilvus**, **cohere**, **pandas**, **numpy**, and **tqdm** installed. Among these packages, **pymilvus** is the client for Zilliz Cloud. If these packages are not present on your system, run the following commands to install them:
 
 ```bash
-pip install pymilvus cohere pandas numpy tqdm
+pip install pymilvus cohere pandas numpy tqdm openai tiktoken
 ```
 
 Then you need to load the modules to be used in this guide.
 
 ```python
+from pymilvus import connections, DataType, CollectionSchema, FieldSchema, Collection, utility
 import cohere
 import pandas
 import numpy as np
 from tqdm import tqdm
-from pymilvus import connections, FieldSchema, CollectionSchema, DataType, Collection, utility
+import time, os, json
 ```
 
 ## Parameters{#parameters}
@@ -35,15 +36,28 @@ from pymilvus import connections, FieldSchema, CollectionSchema, DataType, Colle
 Here we can find the parameters used in the following snippets. Some of them need to be changed to fit your environment. Beside each is a description of what it is.
 
 ```python
-FILE = '<https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json>'  # The SQuAD dataset url
-COLLECTION_NAME = 'question_answering_db'  # Collection name
-DIMENSION = 768  # Embeddings size, cohere embeddings default to 4096 with the large model
-COUNT = 5000  # How many questions to embed and insert into Milvus
-BATCH_SIZE = 96 # How large of batches to use for embedding and insertion
-URI = 'https://replace-this-with-the-public-endpoint-of-your-cluster-on-zilliz-clou'  # Endpoint URI obtained from Zilliz Cloud
-USER = 'replace-this-with-the-cluster-user-name'  # Username specified when you created this cluster
-PASSWORD = 'replace-this-with-the-cluster-password'  # Password set for that account
-COHERE_API_KEY = 'replace-this-with-the-cohere-api-key'  # API key obtained from Cohere
+# 1. Set the The SQuAD dataset url.
+FILE = 'https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json' 
+
+# 2. Set up the name of the collection to be created.
+COLLECTION_NAME = 'question_answering_db'
+
+# 3. Set up the dimension of the embeddings.
+DIMENSION = 768
+
+# 4. Set the number of entities to create and the number of entities to insert at a time.
+COUNT = 5000
+BATCH_SIZE = 96
+
+# 5. Set up the cohere api key
+COHERE_API_KEY = "YOUR_COHERE_API_KEY"
+
+# 6. Set up the connection parameters for your Zilliz Cloud cluster.
+URI = 'YOUR_CLUSTER_ENDPOINT'
+
+# 7. Set up the token for your Zilliz Cloud cluster.
+# You can either use an API key or a set of cluster username and password joined by a colon.
+TOKEN = 'YOUR_CLUSTER_TOKEN'
 ```
 
 To know more about the model and dataset used on this page, refer to [Cohere](https://cohere.ai/) and [SQuAD](https://rajpurkar.github.io/SQuAD-explorer/).
@@ -83,30 +97,43 @@ The output should be the number of records in the dataset.
 This section deals with Zilliz Cloud and setting up the cluster for this use case. Within Zilliz Cloud, we need to set up a collection and index it.
 
 ```python
-# Connect to Zilliz Cloud cluster
-connections.connect(uri=URI, user=USER, password=PASSWORD, secure=True)
+# Connect to Zilliz Cloud and create a collection
 
-# Remove the collection if it already exists
-if utility.has_collection(COLLECTION_NAME):
+connections.connect(
+    alias='default',
+    # Public endpoint obtained from Zilliz Cloud
+    uri=URI,
+    token=TOKEN
+)
+
+if COLLECTION_NAME in utility.list_collections():
     utility.drop_collection(COLLECTION_NAME)
 
-# Create a collection which includes the id, title, and embedding.
 fields = [
     FieldSchema(name='id', dtype=DataType.INT64, is_primary=True, auto_id=True),
     FieldSchema(name='original_question', dtype=DataType.VARCHAR, max_length=1000),
     FieldSchema(name='answer', dtype=DataType.VARCHAR, max_length=1000),
     FieldSchema(name='original_question_embedding', dtype=DataType.FLOAT_VECTOR, dim=DIMENSION)
 ]
-schema = CollectionSchema(fields=fields)
-collection = Collection(name=COLLECTION_NAME, schema=schema)
 
-# Create an AutoIndex index for the collection.
+schema = CollectionSchema(fields=fields)
+
+collection = Collection(
+    name=COLLECTION_NAME,
+    schema=schema,
+)
+
 index_params = {
+    'metric_type': 'L2',
     'index_type': 'AUTOINDEX',
-    'metric_type': 'IP'
-    'params': {}
+    'params': {'nlist': 1024}
 }
-collection.create_index(field_name="original_question_embedding", index_params=index_params)
+
+collection.create_index(
+    field_name='original_question_embedding', 
+    index_params=index_params
+)
+
 collection.load()
 ```
 
@@ -127,25 +154,27 @@ In this example, the data includes the original question, the original question'
 cohere_client = cohere.Client(COHERE_API_KEY)
 
 # Extract embeddings from questions using Cohere
-def embed(texts):
-    res = cohere_client.embed(texts, model='multilingual-22-12')
+def embed(texts, input_type):
+    res = cohere_client.embed(texts, model='multilingual-22-12', input_type=input_type)
     return res.embeddings
 
 # Insert each question, answer, and qustion embedding
 total = pandas.DataFrame()
 for batch in tqdm(np.array_split(simplified_records, (COUNT/BATCH_SIZE) + 1)):
     questions = batch['question'].tolist()
+    embeddings = embed(questions, "search_document")
     
     data = [
-        questions,
-        batch['answer'].tolist(),
-        embed(questions)      
+        {
+            'original_question': x,
+            'answer': batch['answer'].tolist()[i],
+            'original_question_embedding': embeddings[i]
+        } for i, x in enumerate(questions)
     ]
 
-    collection.insert(data)
+    collection.insert(data=data)
 
-# Flush at end to make sure all rows are sent for indexing
-collection.flush()
+time.sleep(10)
 ```
 
 ## Ask questions{#ask-questions}
@@ -160,58 +189,109 @@ Searches performed on data right after insertion might be a little slower as sea
 
 ```python
 # Search the cluster for an answer to a question text
+# Search the cluster for an answer to a question text
 def search(text, top_k = 5):
 
     # AUTOINDEX does not require any search params 
     search_params = {}
 
     results = collection.search(
-        data = embed([text]),  # Embeded the question
-        anns_field="original_question_embedding",  # Search across the original original question embeddings
+        data = embed([text], "search_query"),  # Embeded the question
+        anns_field='original_question_embedding',
         param=search_params,
         limit = top_k,  # Limit to top_k results per search
         output_fields=['original_question', 'answer']  # Include the original question and answer in the result
     )
 
-    ret = []
-    for hit in results[0]:
-        row = []
-        row.extend([hit.entity.get('answer'), hit.score, hit.entity.get('original_question') ])  # Get the answer, distance, and original question for the results
-        ret.append(row)
+    distances = results[0].distances
+    entities = [ x.entity.to_dict()['entity'] for x in results[0] ]
+
+    ret = [ {
+        "answer": x[1]["answer"],
+        "distance": x[0],
+        "original_question": x[1]['original_question']
+    } for x in zip(distances, entities)]
+
     return ret
+            
 
 # Ask these questions
-search_questions = ['What kills bacteria?', 'Whats the biggest dog?']
+search_questions = ['What kills bacteria?', 'What\'s the biggest dog?']
 
 # Print out the results in order of [answer, similarity score, original question]
-for question in search_questions:
-    print('Question:', question)
-    print('\\nAnswer,', 'Distance,', 'Original Question')
-    for result in search(question):
-        print(result)
-    print()
+
+ret = [ { "question": x, "candidates": search(x) } for x in search_questions ]
+
+print(ret)
 ```
 
 The output should be similar to the following:
 
 ```python
-Question: What kills bacteria?
-
-Answer, Distance, Original Question
-['Phage therapy', 5976.171875, 'What has been talked about to treat resistant bacteria?']
-['oral contraceptives', 7065.4130859375, 'In therapy, what does the antibacterial interact with?']
-['farming', 7250.0791015625, 'What makes bacteria resistant to antibiotic treatment?']
-['slowing down the multiplication of bacteria or killing the bacteria', 7291.306640625, 'How do antibiotics work?']
-['converting nitrogen gas to nitrogenous compounds', 7310.67724609375, 'What do bacteria do in soil?']
-
-Question: Whats the biggest dog?
-
-Answer, Distance, Original Question
-['English Mastiff', 4205.16064453125, 'What breed was the largest dog known to have lived?']
-['Rico', 6108.88427734375, 'What is the name of the dog that could ID over 200 things?']
-['part of the family', 7904.853515625, 'Most people today describe their dogs as what?']
-['77.5 million', 8752.98828125, 'How many people in the United States are said to own dog?']
-['Iditarod Trail Sled Dog Race', 9251.58984375, 'Which dog-sled race in Alaska is the most famous?']
+# Output
+#
+# [
+#     {
+#         "question": "What kills bacteria?",
+#         "candidates": [
+#             {
+#                 "answer": "farming",
+#                 "distance": 25.10422134399414,
+#                 "original_question": "What makes bacteria resistant to antibiotic treatment?"
+#             },
+#             {
+#                 "answer": "converting nitrogen gas to nitrogenous compounds",
+#                 "distance": 25.26958465576172,
+#                 "original_question": "What do bacteria do in soil?"
+#             },
+#             {
+#                 "answer": "slowing down the multiplication of bacteria or killing the bacteria",
+#                 "distance": 26.225540161132812,
+#                 "original_question": "How do antibiotics work?"
+#             },
+#             {
+#                 "answer": "Phage therapy",
+#                 "distance": 30.04580307006836,
+#                 "original_question": "What has been talked about to treat resistant bacteria?"
+#             },
+#             {
+#                 "answer": "antibiotic target",
+#                 "distance": 32.077369689941406,
+#                 "original_question": "What can be absent from the bacterial genome?"
+#             }
+#         ]
+#     },
+#     {
+#         "question": "What's the biggest dog?",
+#         "candidates": [
+#             {
+#                 "answer": "English Mastiff",
+#                 "distance": 12.71607780456543,
+#                 "original_question": "What breed was the largest dog known to have lived?"
+#             },
+#             {
+#                 "answer": "part of the family",
+#                 "distance": 27.21062469482422,
+#                 "original_question": "Most people today describe their dogs as what?"
+#             },
+#             {
+#                 "answer": "77.5 million",
+#                 "distance": 28.54041290283203,
+#                 "original_question": "How many people in the United States are said to own dog?"
+#             },
+#             {
+#                 "answer": "Rico",
+#                 "distance": 28.770610809326172,
+#                 "original_question": "What is the name of the dog that could ID over 200 things?"
+#             },
+#             {
+#                 "answer": "about six",
+#                 "distance": 31.739566802978516,
+#                 "original_question": "What is the average number of pups in a litter?"
+#             }
+#         ]
+#     }
+# ]
 ```
 
 ## Related integrations{#related-integrations}

@@ -49,16 +49,19 @@ The size of the dataset is 2.35 GB, and the time spent depends on your network c
 These are some of the main global arguments that we will be using for easier tracking and updating.
 
 ```python
-# Zilliz Cloud Setup Arguments
-COLLECTION_NAME = 'image_search'  # Collection name
-DIMENSION = 2048  # Embedding vector size in this example
-URI = '<https://replace-this-with-your-zilliz-cloud-endpoint>'  # Endpoint URI obtained from Zilliz Cloud
-USER = 'replace-this-with-your-zilliz-cloud-database-user'  # Username specified when you created this database
-PASSWORD = 'replace-this-with-your-zilliz-cloud-database-password'  # Password set for that account
+# 1. Set up the name of the collection to be created.
+COLLECTION_NAME = 'image_search_db'
 
-# Inference Arguments
+# 2. Set up the dimension of the embeddings.
+DIMENSION = 2048
+
+# 3. Set the inference parameters
 BATCH_SIZE = 128
 TOP_K = 3
+
+# 4. Set up the connection parameters for your Zilliz Cloud cluster.
+URI = 'YOUR_CLUSTER_ENDPOINT'
+TOKEN = 'YOUR_CLUSTER_TOKEN'
 ```
 
 ## Setting up Zilliz Cloud{#setting-up-zilliz-cloud}
@@ -70,8 +73,13 @@ At this point, we are going to begin setting up Zilliz Cloud. The steps are as f
 ```python
 from pymilvus import connections
 
-# Connect to the cluster
-connections.connect(uri=URI, user=USER, password=PASSWORD, secure=True)
+# Connect to Zilliz Cloud and create a collection
+connections.connect(
+    alias='default',
+    # Public endpoint obtained from Zilliz Cloud
+    uri=URI,
+    token=TOKEN
+)
 ```
 
 1. If the collection already exists, drop it.
@@ -80,7 +88,7 @@ connections.connect(uri=URI, user=USER, password=PASSWORD, secure=True)
 from pymilvus import utility
 
 # Remove any previous collections with the same name
-if utility.has_collection(COLLECTION_NAME):
+if COLLECTION_NAME in utility.list_collections():
     utility.drop_collection(COLLECTION_NAME)
 ```
 
@@ -89,26 +97,34 @@ if utility.has_collection(COLLECTION_NAME):
 ```python
 from pymilvus import FieldSchema, CollectionSchema, DataType, Collection
 
-# Create collection which includes the id, filepath of the image, and image embedding
 fields = [
     FieldSchema(name='id', dtype=DataType.INT64, is_primary=True, auto_id=True),
     FieldSchema(name='filepath', dtype=DataType.VARCHAR, max_length=200),  # VARCHARS need a maximum length, so for this example they are set to 200 characters
     FieldSchema(name='image_embedding', dtype=DataType.FLOAT_VECTOR, dim=DIMENSION)
 ]
+
 schema = CollectionSchema(fields=fields)
-collection = Collection(name=COLLECTION_NAME, schema=schema)
+
+collection = Collection(
+    name=COLLECTION_NAME,
+    schema=schema,
+)
 ```
 
 1. Create an index on the newly created collection and load it into memory.
 
 ```python
-# Create an AutoIndex index for collection
 index_params = {
     'index_type': 'AUTOINDEX',
     'metric_type': 'L2',
     'params': {}
 }
-collection.create_index(field_name="image_embedding", index_params=index_params)
+
+collection.create_index(
+    field_name='image_embedding', 
+    index_params=index_params
+)
+
 collection.load()
 ```
 
@@ -128,6 +144,10 @@ import glob
 # Get the filepaths of the images
 paths = glob.glob('./paintings/paintings/**/*.jpg', recursive=True)
 len(paths)
+
+# Output
+#
+# 4978
 ```
 
 1. Preprocess the data into batches.
@@ -136,7 +156,7 @@ len(paths)
 import torch
 
 # Load the embedding model with the last layer removed
-model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet50', pretrained=True)
+model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet50', weights=ResNet50_Weights.DEFAULT)
 model = torch.nn.Sequential(*(list(model.children())[:-1]))
 model.eval()
 ```
@@ -183,7 +203,7 @@ if len(data_batch[0]) != 0:
     embed(data_batch)
 
 # Call a flush to index any unsealed segments.
-collection.flush()
+time.sleep(5)
 ```
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -203,7 +223,11 @@ import glob
 
 # Get the filepaths of the search images
 search_paths = glob.glob('./paintings/test_paintings/**/*.jpg', recursive=True)
-len(search_paths)
+print(len(search_paths))
+
+# Output
+#
+# 2
 
 import time
 from matplotlib import pyplot as plt
