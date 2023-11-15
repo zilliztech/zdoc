@@ -74,6 +74,21 @@ const config = {
         id: 'GTM-MBBF2KR',
       }
     ],
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            to: "/docs/migrations",
+            from: ["/docs/migration-guides"]
+          },
+          {
+            to: "/docs/faq-migration",
+            from: ["/docs/faqs-migration-from-milvus"]
+          }
+        ],
+      }
+    ],
     'docusaurus-plugin-hotjar',
     './plugins/lark-docs',
     './plugins/apifox-docs',
