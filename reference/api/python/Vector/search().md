@@ -27,7 +27,7 @@ search(
         collection_name='medium_articles',
         data = [[-0.008266705,-0.009836753,0.04397694,-0.00025456678, ..., -0.016839132]],
         limit=5,
-	    output_fields=["title", "link"]
+        output_fields=["title", "link"]
     )
     ```
 
@@ -92,7 +92,7 @@ search(
 | `limit` | Number of results to return per search. Default value: **10**.| Integer | False    | |
 | `filter` | Filter used to search. | String | False    |
 | `output_fields` | A list of fields to return.| list[String] | False    |
-| `search_params` | Parameters used to search.| Dictionary | False    |
+| `search_params` | Parameters used to search. <br/>You can set the metric type and the precision level of the search by setting `metric_type` and `params.level` in this parameter.<br/>Metric type should be the same as the one specified when you index the current collection, and possible values are `IP`, `L2`, or `COSINE` (beta).<br/> Search precision level should be an integer ranges from `1` to `3`, and defaults to `1`. A greater value indicates a more accurate result at slower performance.| Dictionary | False    |
 | `timeout` | An optional duration of time in seconds to allow for the RPC. If it is set to None, the client keeps waiting until the server responds or error occurs. | Float | False     |
 
 ## Raises
