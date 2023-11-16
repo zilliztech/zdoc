@@ -1,5 +1,5 @@
 ---
-slug: /quick-start-1
+slug: /
 beta: FALSE
 notebook: 00_quick_start.ipynb
 sidebar_position: 1

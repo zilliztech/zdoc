@@ -12,7 +12,7 @@ const config = {
   trailingSlash: false,
 
   // Set the production url of your site here
-  url: 'https://docs.zilliz.com.cn',
+  url: 'https://docs.zilliz.com',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -40,6 +40,7 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebarsTutorial.js'),
+          routeBasePath: '/',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // editUrl:
@@ -105,8 +106,14 @@ const config = {
           // },
           // {to: '/api', label: 'API 参考', position: 'left'},
           {
-            href: 'https://zilliz.com',
-            label: "Product",
+            href: '/',
+            label: "User Guides",
+            position: 'left',
+            className: 'header-link',
+          },
+          {
+            href: '/reference',
+            label: "API Reference",
             position: 'left',
             className: 'header-link',
           },

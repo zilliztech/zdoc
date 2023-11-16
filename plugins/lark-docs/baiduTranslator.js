@@ -35,7 +35,7 @@ class baiduTranslator {
             return 
         }
 
-        let cacheFile = path.join(this.cache, 'meta/translated.json')
+        let cacheFile = path.join(this.cache, 'plugins/lark-docs/meta/translated.json')
         let cache = {}
         try {
             cache = JSON.parse(fs.readFileSync(cacheFile))
@@ -54,7 +54,7 @@ class baiduTranslator {
             return
         }
         
-        let cacheFile = path.join(this.cache, 'meta/translated.json')
+        let cacheFile = path.join(this.cache, 'plugins/lark-docs/meta/translated.json')
         let cache = {}
         try {
             cache = JSON.parse(fs.readFileSync(cacheFile))

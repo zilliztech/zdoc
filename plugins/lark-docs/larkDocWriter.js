@@ -382,7 +382,7 @@ class larkDocWriter {
 
     __front_matters (slug, beta, notebook, sidebar_position=undefined) {
         let front_matter = '---\n' + 
-        `slug: /${slug}` + '\n' +
+        `slug: /${slug.replace(/^\//, '')}` + '\n' +
         `beta: ${beta}` + '\n' +
         `notebook: ${notebook}` + '\n' +
         `sidebar_position: ${sidebar_position}` + '\n' +
