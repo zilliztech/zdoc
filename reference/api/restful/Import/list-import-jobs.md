@@ -24,6 +24,7 @@ curl --request GET \
      --header "Authorization: Bearer ${API_KEY}" \
      --header "accept: application/json" \
      --header "content-type: application/json" \
+```
 
 ## Request
 
