@@ -8,7 +8,7 @@ sidebar_position: 1
 import Admonition from '@theme/Admonition';
 
 
-#  Monitor CU Resources
+# Monitor CU Resources
 
 To effectively scale your cluster, it is recommended to activate the CU resource monitor. This tool tracks both CPU and memory usage, expressed as a percentage, and responds based on the higher of the two values.
 

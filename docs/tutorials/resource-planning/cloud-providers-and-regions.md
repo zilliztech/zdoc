@@ -2,7 +2,7 @@
 slug: /cloud-providers-and-regions
 beta: FALSE
 notebook: FALSE
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 import Admonition from '@theme/Admonition';

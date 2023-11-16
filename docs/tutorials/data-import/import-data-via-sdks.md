@@ -1,7 +1,7 @@
 ---
 slug: /import-data-via-sdks
 beta: FALSE
-notebook: 07_use_bulk_import.ipynb
+notebook: 05_use_local-bulk-writer.ipynb,06_use_remote-bulk-writer.ipynb,07_use_bulk_import.ipynb
 sidebar_position: 4
 ---
 
@@ -170,7 +170,7 @@ As an alternative to the RESTful API, you can use its Python wrapper, PyMilvusâ€
     ```
 
 1. Start a bulk-import task.
-    You can get the ID of the bulk-import task from the return.
+    You can get the ID of the bulk-import task from the return. In the `bulk_import` request, you should use your API Key instead of the cluster credentials. To get an API key, refer to [Manage API Keys](./manage-api-keys).
 
     ```python
     resp = bulk_import(
@@ -240,45 +240,45 @@ As an alternative to the RESTful API, you can use its Python wrapper, PyMilvusâ€
     # }
     ```
 
-If you also want to know about all bulk-import tasks, you can call the list-import-jobs API as follows:
+    If you also want to know about all bulk-import tasks, you can call the list-import-jobs API as follows:
 
-```python
-resp = list_import_jobs(
-    url=CLOUD_PLATFORM_ENDPOINT,
-    api_key=API_KEY,
-    cluster_id=CLUSTER_ID,
-    page_size=10,
-    current_page=1,
-)
-
-# Output
-# {
-#     "code": 200,
-#     "data": {
-#         "tasks": [
-#             {
-#                 "collectionName": "medium_articles",
-#                 "jobId": "26f90492-f4df-4e20-81ab-a602be653baa",
-#                 "state": "ImportCompleted"
-#             },
-#             ...
-#             {
-#                 "collectionName": "medium_articles",
-#                 "jobId": "d84f5ebc-a485-4058-83fd-2cced63e3bd8",
-#                 "state": "ImportCompleted"
-#             },
-#             {
-#                 "collectionName": "medium_articles",
-#                 "jobId": "d8238794-0d1b-48a2-b435-c90d3f52278c",
-#                 "state": "ImportCompleted"
-#             }
-#         ],
-#         "count": 6,
-#         "currentPage": 1,
-#         "pageSize": 10
-#     }
-# }
-```
+    ```python
+    resp = list_import_jobs(
+        url=CLOUD_PLATFORM_ENDPOINT,
+        api_key=API_KEY,
+        cluster_id=CLUSTER_ID,
+        page_size=10,
+        current_page=1,
+    )
+    
+    # Output
+    # {
+    #     "code": 200,
+    #     "data": {
+    #         "tasks": [
+    #             {
+    #                 "collectionName": "medium_articles",
+    #                 "jobId": "26f90492-f4df-4e20-81ab-a602be653baa",
+    #                 "state": "ImportCompleted"
+    #             },
+    #             ...
+    #             {
+    #                 "collectionName": "medium_articles",
+    #                 "jobId": "d84f5ebc-a485-4058-83fd-2cced63e3bd8",
+    #                 "state": "ImportCompleted"
+    #             },
+    #             {
+    #                 "collectionName": "medium_articles",
+    #                 "jobId": "d8238794-0d1b-48a2-b435-c90d3f52278c",
+    #                 "state": "ImportCompleted"
+    #             }
+    #         ],
+    #         "count": 6,
+    #         "currentPage": 1,
+    #         "pageSize": 10
+    #     }
+    # }
+    ```
 
 ## Related topics{#related-topics}
 

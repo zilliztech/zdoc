@@ -2,7 +2,7 @@
 slug: /select-zilliz-cloud-service-plans
 beta: FALSE
 notebook: FALSE
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';

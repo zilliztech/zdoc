@@ -43,7 +43,7 @@ FILE = 'https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json'
 COLLECTION_NAME = 'question_answering_db'
 
 # 3. Set up the dimension of the embeddings.
-DIMENSION = 1024
+DIMENSION = 768
 
 # 4. Set the number of entities to create and the number of entities to insert at a time.
 COUNT = 5000
@@ -124,7 +124,7 @@ collection = Collection(
 )
 
 index_params = {
-    'metric_type': 'IP',
+    'metric_type': 'L2',
     'index_type': 'AUTOINDEX',
     'params': {'nlist': 1024}
 }
@@ -155,7 +155,7 @@ cohere_client = cohere.Client(COHERE_API_KEY)
 
 # Extract embeddings from questions using Cohere
 def embed(texts, input_type):
-    res = cohere_client.embed(texts, model='embed-multilingual-v3.0', input_type=input_type)
+    res = cohere_client.embed(texts, model='multilingual-22-12', input_type=input_type)
     return res.embeddings
 
 # Insert each question, answer, and qustion embedding

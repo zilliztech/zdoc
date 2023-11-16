@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from '@docusaurus/Link'
 import Heading from '@theme-original/Heading';
 import useFrontMatter from '@theme/useFrontMatter';
+import styles from './styles.module.css';
 
 const BetaTagComponent = (children) => (
     <span style={{ 
@@ -35,7 +36,10 @@ const BetaTagComponent = (children) => (
 
 );
 
-const OpenInButtonComponent = (props) => (
+const OpenInButtonComponent = ({
+  caption,
+  icon,
+}) => (
   <div style={{
     display: 'inline-block',
     fontSize: '1rem',
@@ -47,11 +51,43 @@ const OpenInButtonComponent = (props) => (
     cursor: 'pointer',
   }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-        <span style={{ display: 'inline-block'}}>OPEN IN {props.caption.toUpperCase()}</span>
-        {props.icon}
+        <span style={{ display: 'inline-block'}}>OPEN IN <span className={styles.vendor}>{caption.toUpperCase()}</span></span>
+        {icon}
       </div>
   </div>
 )
+
+const OpenInButtonLink = ({
+  caption,
+  icon,
+  notebook,
+}) => {
+  const prefix = "https://colab.research.google.com/github/zilliztech/zdoc-demos/blob/master/python/";
+
+  if (notebook && notebook.indexOf(',') > -1) {
+    notebook = notebook.includes(',') ? notebook.split(',') : notebook;
+    const [expand, setExpand] = useState(false);
+
+    return (
+      <div className="navbar__item dropdown dropdown--hoverable" style={{padding: 0}}>
+          <OpenInButtonComponent caption={caption + " \u25BC"} icon={icon} aria-haspopup="true" aria-expanded={expand} onClick={() => setExpand(!expand)} role="button" className="navbar__link" />
+          <ul className="dropdown__menu">
+              {notebook.map((item, idx) => (
+                  <li key={idx}>
+                      <a href={prefix+item} className="dropdown__link" target="_blank" rel="noopener noreferrer">{item}</a>
+                  </li>
+              ))}
+          </ul>
+      </div>
+    )
+  } else {
+    return (
+      <Link to={prefix + notebook} style={{ color: "#000000"}}>
+        <OpenInButtonComponent caption={caption} icon={icon} />
+      </Link>
+    )
+  }
+} 
 
 export default function HeadingWrapper(props) {
   try {
@@ -75,12 +111,8 @@ export default function HeadingWrapper(props) {
         {
           props.as === 'h1' && notebook && (
             <div id="exec" style={{ marginBottom: '1.5rem', display: 'flex', gap: '1rem' }}>
-              <Link to={"https://colab.research.google.com/github/zilliztech/zdoc-demos/blob/master/python/" + notebook} style={{ color: "#000000"}}>
-                <OpenInButtonComponent caption="colab" icon={<Colab />} />
-              </Link>
-              <Link to="https://codespaces.new/zilliztech/zdoc-demos" style={{ color: "#000000"}}>
-                <OpenInButtonComponent caption="github codespaces" icon={<Github />} />
-              </Link>
+              <OpenInButtonLink caption="colab" icon={<Colab />} notebook={notebook} />
+              <OpenInButtonLink caption="github codespaces" icon={<Github />} />
             </div>
           )
         }

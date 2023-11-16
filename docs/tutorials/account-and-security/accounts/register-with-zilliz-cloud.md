@@ -111,7 +111,7 @@ Always use the same method you chose for registration when logging in to your Zi
 
 ## What’s next{#whats-next}
 
-- [Quick Start](./quick-start-1)
+- [Quick Start](.//)
 
 - [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card) 
 

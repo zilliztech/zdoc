@@ -3,7 +3,7 @@ When the navbar is sticky, ensure that on anchor click,
 the browser does not scroll that anchor behind the navbar
 See https://twitter.com/JoshWComeau/status/1332015868725891076
  */
-.anchorWithStickyNavbar {
+ .anchorWithStickyNavbar {
   scroll-margin-top: calc(var(--ifm-navbar-height) + 0.5rem);
 }
 
@@ -27,3 +27,14 @@ See https://twitter.com/JoshWComeau/status/1332015868725891076
   opacity: 1;
 }
 
+.vendor {
+  display: inline-block;
+}
+
+@media (max-width: 1065px) {
+
+  .vendor {
+    display: none;
+  }
+
+}

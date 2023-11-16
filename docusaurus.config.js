@@ -130,7 +130,7 @@ const config = {
             items: [
               {
                 label: "Developers",
-                to: "/docs/quick-start-1",
+                to: "/",
               },
               {
                 label: "Blogs",
@@ -169,7 +169,7 @@ const config = {
             items: [
               {
                 label: 'Developer Guides',
-                to: '/docs/quick-start-1',
+                to: '/',
               },
               {
                 label: 'API Reference',

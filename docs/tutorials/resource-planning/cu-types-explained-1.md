@@ -2,7 +2,7 @@
 slug: /cu-types-explained-1
 beta: FALSE
 notebook: FALSE
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';

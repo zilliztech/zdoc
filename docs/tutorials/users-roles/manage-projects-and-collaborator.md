@@ -66,6 +66,8 @@ Each organization contains a default project. The default project cannot be dele
 
 To invite a user to join a project, you must be an [Organization Owner](./a-panorama-view#organization-roles) or a [Project Owner](./a-panorama-view#project-roles).
 
+Enter the email addresses of the users you wish to invite. They will receive an invitation via email, which must be accepted within 48 hours to join the project. You can [revoke or resend this invitation](./manage-projects-and-collaborator#revoke-or-resend-an-invitation) anytime before it's accepted.
+
 <Admonition type="info" icon="📘" title="Notes">
 
 Each time you can invite one or more users with the same role to join the project.

@@ -1021,7 +1021,7 @@ output_fields='$meta["#key"]'
 
 ## Related topics{#related-topics}
 
-- [Use Customized Schema](./create-collection-with-schema) 
+- [Create Collection](./create-collection-2) 
 
 - [Use Partition Key](./use-partition-key) 
 

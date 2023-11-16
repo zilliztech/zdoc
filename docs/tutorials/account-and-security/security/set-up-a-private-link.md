@@ -162,7 +162,7 @@ An alias record is a type of DNS record that maps an alias name to a true or can
 
 ### Select a cloud provider and region{#select-a-cloud-provider-and-region}
 
-To create a private link for a cluster deployed in a Google Cloud region, select **Google Cloud** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers and Regions](./cloud-providers-and-regions).
+To create a private link for a cluster deployed in a Google Cloud region, select **Google Cloud** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions).
 
 <Admonition type="info" icon="📘" title="Notes">
 

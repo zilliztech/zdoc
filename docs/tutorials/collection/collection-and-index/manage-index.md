@@ -2,7 +2,7 @@
 slug: /manage-index
 beta: FALSE
 notebook: 01_use_customized_schema.ipynb
-sidebar_position: 3
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
@@ -15,7 +15,7 @@ Utilize vector indexes as metadata structures in Zilliz Cloud to enhance vector 
 
 ## Before you start{#before-you-start}
 
-Ensure you have created a collection. For details, refer to [Create Collection](./create-collection-2) and [Create Collection with Schema](./create-collection-with-schema).
+Ensure you have created a collection. For details, refer to [Create Collection](./create-collection-2).
 
 ## Index collection{#index-collection}
 

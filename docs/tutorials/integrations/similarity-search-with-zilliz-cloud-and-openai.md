@@ -70,7 +70,7 @@ Since the embedding process for a free OpenAI account can be time-consuming, we 
 
 </Admonition>
 
-The following snippet deals with Zilliz Cloud and setting up the cluster for this use case. Within Zilliz Cloud, we need to set up a collection and index it. For more information on how to set up and use Zilliz Cloud, refer to this [link](./quick-start-1).
+The following snippet deals with Zilliz Cloud and setting up the cluster for this use case. Within Zilliz Cloud, we need to set up a collection and index it. For more information on how to set up and use Zilliz Cloud, refer to this [link](.//).
 
 ```python
 # Connect to Zilliz Cloud and create a collection

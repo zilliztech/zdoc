@@ -1,7 +1,7 @@
 ---
 slug: /search-query-and-get
 beta: FALSE
-notebook: 01_use_customized_schema.ipynb
+notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 sidebar_position: 1
 ---
 
@@ -4428,9 +4428,9 @@ func main() {
 
 ## Related topics{#related-topics}
 
-- [Drop Collection](./drop-collection-1) 
+- [Create Collection](./create-collection-2) 
 
-- [Use Customized Schema](./create-collection-with-schema) 
+- [Drop Collection](./drop-collection-1) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 

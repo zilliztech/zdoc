@@ -1384,7 +1384,7 @@ The following table describes the supported boolean expressions that you can use
 
 ## Related topics{#related-topics}
 
-- [Use Customized Schema](./create-collection-with-schema)
+- [Create Collection](./create-collection-2)
 
 - [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1)
 

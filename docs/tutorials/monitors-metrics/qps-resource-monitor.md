@@ -40,7 +40,7 @@ To activate the monitor, click the switch in the **Status** column. This action 
 
 ## Related topics{#related-topics}
 
-- [CU Resource Monitor](./undefined) 
+- [Monitor CU Resources](./cu-resource-monitor) 
 
 - [Query Latency Monitor](./query-latency-monitor) 
 

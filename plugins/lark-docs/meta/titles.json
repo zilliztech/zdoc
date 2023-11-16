@@ -158,5 +158,7 @@
     "Search & Query": "search-and-query",
     "Advanced Features": "advanced-features",
     "Understand Basics": "understand-basics",
-    "Projects & Organizations": "projects-and-organizations"
+    "Projects & Organizations": "projects-and-organizations",
+    "Pipelines": "pipelines",
+    "Create Pipelines": "create-pipelines"
 }

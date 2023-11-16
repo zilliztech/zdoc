@@ -376,7 +376,7 @@ class larkDocWriter {
         }).length
 
         let imports = await this.__imports(tabs > 0)
-
+        slug = slug === "/" ? "quick-start" : slug
         fs.writeFileSync(`${path}/${slug}.md`, front_matter + '\n\n' + imports + '\n\n' + markdown)
     }
 

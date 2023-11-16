@@ -1,7 +1,7 @@
 ---
 slug: /create-collection-2
 beta: FALSE
-notebook: 00_quick_start.ipynb
+notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 sidebar_position: 1
 ---
 
@@ -18,6 +18,9 @@ This tutorial will guide you through the steps to set up a collection for your c
 If the idea of jumping right into the creation process without pre-defining every field sounds appealing, then the starter API is tailor-made for you. It offers a streamlined approach, demanding only the collection's name and the count of dimensions for the vector field.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<TabItem value='python'>
+
+<Tabs groupId="python" defaultValue='python' values={[{"label":"Starter API","value":"python"},{"label":"Advanced API","value":"python_1"}]}>
 <TabItem value='python'>
 
 ```python
@@ -80,8 +83,57 @@ print(res)
 #     "num_partitions": 1,
 #     "enable_dynamic_field": true
 # }
+
 ```
 
+</TabItem>
+<TabItem value='python_1'>
+
+```python
+from pymilvus import connections, FieldSchema, CollectionSchema, DataType, Collection, utility
+
+CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" *# Set your cluster endpoint*
+TOKEN="YOUR_CLUSTER_TOKEN" *# Set your token*
+COLLECTION_NAME="medium_articles_2020" *# Set your collection name*
+DATASET_PATH="../medium_articles_2020_dpr.json" *# Set your dataset path*
+
+connections.connect(
+  alias='default', 
+  *#  Public endpoint obtained from Zilliz Cloud*
+  uri=CLUSTER_ENDPOINT,
+  *# API key or a colon-separated cluster username and password*
+  token=TOKEN, 
+)
+
+*# 1. Define fields*
+fields = [
+    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
+    FieldSchema(name="title", dtype=DataType.VARCHAR, max_length=512),   
+    FieldSchema(name="title_vector", dtype=DataType.FLOAT_VECTOR, dim=768),
+    FieldSchema(name="link", dtype=DataType.VARCHAR, max_length=512),
+    FieldSchema(name="reading_time", dtype=DataType.INT64),
+    FieldSchema(name="publication", dtype=DataType.VARCHAR, max_length=512),
+    FieldSchema(name="claps", dtype=DataType.INT64),
+    FieldSchema(name="responses", dtype=DataType.INT64)
+]
+
+*# 2. Build the schema*
+schema = CollectionSchema(
+    fields,
+    description="Schema of Medium articles",
+    enable_dynamic_field=False
+)
+
+*# 3. Create collection*
+collection = Collection(
+    name=COLLECTION_NAME, 
+    description="Medium articles published between Jan and August in 2020 in prominent publications",
+    schema=schema
+)
+```
+
+</TabItem>
+</Tabs>
 </TabItem>
 
 <TabItem value='javascript'>
@@ -248,6 +300,24 @@ By running the above snippets, you are allowing Zilliz Cloud to take charge of s
 
 Additionally, collections established using this method automatically enable the dynamic schema feature. With this capability active, Zilliz Cloud seamlessly saves each undefined field in the data as dynamic fields upon insertion.
 
+## Supported data types{#supported-data-types}
+
+To aid in your schema design, here are the data types Zilliz Cloud can accommodate:
+
+- **Boolean values**: BOOLEAN
+
+- **Floating points**: DOUBLE (8-byte) and FLOAT (4-byte)
+
+- **Integers**: INT8 (8-bit), INT32 (32-bit), and INT64 (64-bit)
+
+- **Float vectors**:  FLOAT_VECTOR
+
+- **Characters**: VARCHAR
+
+- **Structured data types**: [JSON](./javascript-object-notation-json-1)
+
+Harness these types as building blocks for your collection's schema.
+
 ## Limits{#limits}
 
 For a serverless cluster, you can create up to two collections. For a dedicated cluster, the number of collections you can create varies with the CU that your cluster uses.
@@ -266,7 +336,7 @@ For a serverless cluster, you can create up to two collections. For a dedicated 
 
 - [Drop Collection](./drop-collection-1) 
 
-- [Use Customized Schema](./create-collection-with-schema) 
+- [Use Customized Schema](https://zilliverse.feishu.cn/wiki/ZTMdw1e2Wi4Q7mkoGHZc4OY0nZ4) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 

@@ -29,7 +29,7 @@ Before creating a collection, ensure that
 
 To demonstrate the use of partition keys, we will continue to use the example dataset that contains over 5,000 articles, and `publication` will serve as the partition key.
 
-The schema of the collection to be created is similar to the one specified in [Use Customized Schema](./create-collection-with-schema) except for the settings of the `publication` field.
+The schema of the collection to be created is similar to the one specified in [Use Customized Schema](https://zilliverse.feishu.cn/wiki/ZTMdw1e2Wi4Q7mkoGHZc4OY0nZ4) except for the settings of the `publication` field.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
@@ -555,7 +555,7 @@ fmt.Println("Loading progress:", progress)
 
 ## Conduct ANN search using partition key{#conduct-ann-search-using-partition-key}
 
-Once you have indexed and loaded the collection as well as inserted data as described in [Use Customized Schema](./create-collection-with-schema), you can conduct an ANN search using the partition key. 
+Once you have indexed and loaded the collection as well as inserted data as described in [Use Customized Schema](https://zilliverse.feishu.cn/wiki/ZTMdw1e2Wi4Q7mkoGHZc4OY0nZ4), you can conduct an ANN search using the partition key. 
 
 To conduct an ANN search using the partition key, you should include either of the following in the boolean expression of the search request:
 
@@ -926,7 +926,7 @@ To do this, you can assign a tenant-specific value as the partition key field fo
 
 ## Related topics{#related-topics}
 
-- [Use Customized Schema](./create-collection-with-schema) 
+- [Create Collection](./create-collection-2) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 

@@ -44,6 +44,8 @@ To invite a user to join your organization, you can either be an [Organization O
 
 As an Organization Owner, you can assign invitees as either Organization Owners or Members. However, as an Organization Member, invitees can only be designated as Organization Members.
 
+Enter the email addresses of the users you wish to invite. They will receive an invitation via email, which must be accepted within 48 hours to join the organization. You can [revoke or resend this invitation](./manage-orgs-and-members#revoke-or-resend-an-invitation) anytime before it's accepted.
+
 <Admonition type="info" icon="📘" title="Notes">
 
 Each time you can invite one or more users with the same role to the organization. Each organization can have up to 1,000 members.

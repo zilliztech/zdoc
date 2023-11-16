@@ -20,7 +20,7 @@ Make sure the following conditions are met:
 
 - You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Use Customized Schema](./create-collection-with-schema).
+- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Create Collection](./create-collection-2).
 
 ## Prepare data files{#prepare-data-files}
 

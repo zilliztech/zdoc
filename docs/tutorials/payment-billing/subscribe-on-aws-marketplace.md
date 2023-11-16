@@ -86,7 +86,7 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
     </Admonition>
 
-1. Follow the steps in [Add a payment method](./subscribe-by-adding-credit-card#add-a-payment-method) to add a payment credit card.
+1. Follow the steps in [Add a payment method](./subscribe-by-adding-credit-card#add-a-credit-card) to add a payment credit card.
 
 1. Check out your current payment method in your billing overview.
 

@@ -46,7 +46,7 @@ To alter the curve window size, opt for a suitable time range from the drop-down
 
 ## Related topics{#related-topics}
 
-- [CU Resource Monitor](./undefined) 
+- [Monitor CU Resources](./cu-resource-monitor) 
 
 - [QPS Resource Monitor](./qps-resource-monitor) 
 

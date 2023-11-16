@@ -1116,7 +1116,7 @@ The following table assumes that the value of a JSON field named `json_key` has 
 
 ## Related topics{#related-topics}
 
-- [Use Customized Schema](./create-collection-with-schema) 
+- [Create Collection](./create-collection-2) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 

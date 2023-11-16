@@ -27,7 +27,7 @@ Before conducting a range search, make sure the following conditions are met:
 
 - You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
 
-- You have created a collection with a schema matching the example dataset and inserted data into the collection. For details, see [Use Customized Schema](./create-collection-with-schema).
+- You have created a collection with a schema matching the example dataset and inserted data into the collection. For details, see [Create Collection](./create-collection-2).
 
 ## Quick steps for a range search{#quick-steps-for-a-range-search}
 
@@ -39,7 +39,7 @@ Before conducting a range search, make sure the following conditions are met:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The code snippets on this page assume that you have created a collection and inserted data based on the steps on [Create Collection with Schema](./create-collection-with-schema).
+The code snippets on this page assume that you have created a collection and inserted data based on the steps on [Create Collection](./create-collection-2).
 
 </Admonition>
 
@@ -768,6 +768,6 @@ Zilliz Cloud returns vectors that fit within the specified range based on your `
 
 - [Search, Query, and Get](./search-query-and-get)
 
-- [[Beta] Search and Query with Iterators](./undefined)
+- [Search and Query with Iterators](./search-and-query-iterators) 
 
-- [[Beta] Search and Query with Advanced Expressions](./undefined)
+- [Search and Query with Advanced Expressions](./search-and-query-advanced-expressions) 

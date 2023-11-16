@@ -33,7 +33,7 @@ Before upserting data, make sure the following conditions are met:
 
 - You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Use Customized Schema](./create-collection-with-schema).
+- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Create Collection](./create-collection-2).
 
 ## Prepare data{#prepare-data}
 
@@ -391,7 +391,7 @@ But remember, for most users and most scenarios, there's no rush to call `flush(
 
 ## Related topics{#related-topics}
 
-- [Use Customized Schema](./create-collection-with-schema)
+- [Create Collection](./create-collection-2) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema)
 

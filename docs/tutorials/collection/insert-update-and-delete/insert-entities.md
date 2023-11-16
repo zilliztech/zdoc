@@ -1,7 +1,7 @@
 ---
 slug: /insert-entities
 beta: FALSE
-notebook: 01_use_customized_schema.ipynb
+notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 sidebar_position: 1
 ---
 
@@ -496,11 +496,11 @@ But remember, for most users and most scenarios, there's no rush to call `flush(
 
 ## Related topics{#related-topics}
 
+- [Create Collection](./create-collection-2) 
+
 - [Search and Query](./search-query-and-get) 
 
 - [Drop Collection](./drop-collection-1) 
-
-- [Use Customized Schema](./create-collection-with-schema) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 
