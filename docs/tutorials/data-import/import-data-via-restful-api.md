@@ -18,9 +18,9 @@ Make sure the following conditions are met:
 
 - You have obtained an API key for your cluster. For details, see [Manage API Keys](./manage-api-keys).
 
-- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
+- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset).
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Create Collection](./create-collection-2).
+- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Create Collection](./create-collection).
 
 ## Prepare data files{#prepare-data-files}
 

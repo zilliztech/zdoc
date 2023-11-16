@@ -40,7 +40,7 @@ The search latency depends on the CU type and data volume.
 
 ![ObhQbbImLoKHdexbeD0cBMSWngh](/img/ObhQbbImLoKHdexbeD0cBMSWngh.png)
 
-For more details about the test result, see [Select the Right CU](./cu-types-explained-1).
+For more details about the test result, see [Select the Right CU](./cu-types-explained).
 
 ### Is pricing the same in every region?{#is-pricing-the-same-in-every-region}
 

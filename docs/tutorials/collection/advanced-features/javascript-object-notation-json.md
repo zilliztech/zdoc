@@ -1,5 +1,5 @@
 ---
-slug: /javascript-object-notation-json-1
+slug: /javascript-object-notation-json
 beta: FALSE
 notebook: 04_use_json_field.ipynb
 sidebar_position: 3
@@ -1116,7 +1116,7 @@ The following table assumes that the value of a JSON field named `json_key` has 
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection-2) 
+- [Create Collection](./create-collection) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 

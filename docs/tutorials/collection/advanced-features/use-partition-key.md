@@ -23,7 +23,7 @@ Before creating a collection, ensure that
 
 - You have created a dedicated cluster. For details, see [Create Cluster](./create-cluster).
 
-- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
+- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset).
 
 ## Create collection with partition key enabled{#create-collection-with-partition-key-enabled}
 
@@ -926,9 +926,9 @@ To do this, you can assign a tenant-specific value as the partition key field fo
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection-2) 
+- [Create Collection](./create-collection) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 
 

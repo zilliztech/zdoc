@@ -1,5 +1,5 @@
 ---
-slug: /create-collection-2
+slug: /create-collection
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 sidebar_position: 1
@@ -314,7 +314,7 @@ To aid in your schema design, here are the data types Zilliz Cloud can accommoda
 
 - **Characters**: VARCHAR
 
-- **Structured data types**: [JSON](./javascript-object-notation-json-1)
+- **Structured data types**: [JSON](./javascript-object-notation-json)
 
 Harness these types as building blocks for your collection's schema.
 
@@ -334,10 +334,8 @@ For a serverless cluster, you can create up to two collections. For a dedicated 
 
 - [Search and Query](./search-query-and-get) 
 
-- [Drop Collection](./drop-collection-1) 
-
-- [Use Customized Schema](https://zilliverse.feishu.cn/wiki/ZTMdw1e2Wi4Q7mkoGHZc4OY0nZ4) 
+- [Drop Collection](./drop-collection) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 

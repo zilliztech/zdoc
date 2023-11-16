@@ -31,9 +31,9 @@ Before upserting data, make sure the following conditions are met:
 
 - You have upgraded your cluster to the Beta version.
 
-- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
+- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset).
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Create Collection](./create-collection-2).
+- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Create Collection](./create-collection).
 
 ## Prepare data{#prepare-data}
 
@@ -391,7 +391,7 @@ But remember, for most users and most scenarios, there's no rush to call `flush(
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection-2) 
+- [Create Collection](./create-collection) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema)
 

@@ -82,4 +82,4 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 
 - [AUTOINDEX Explained](./autoindex-explained) 
 
-- [Select the Right CU](./cu-types-explained-1) 
+- [Select the Right CU](./cu-types-explained) 

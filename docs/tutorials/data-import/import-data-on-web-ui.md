@@ -18,15 +18,15 @@ Make sure the following conditions are met:
 
 - You have created a cluster. For details, see [Create Cluster](./create-cluster).
 
-- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
+- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset).
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Create Collection](./create-collection-2).
+- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Create Collection](./create-collection).
 
 ## Prepare data files{#prepare-data-files}
 
 Zilliz Cloud supports data import from local or remote files in JSON or NumPy formats. If your data is in a different format, convert it using the **BulkWriter** tool. For details, see [Prepare Data Import](./use-bulkwriter-for-data-import).
 
-The [example dataset](./example-dataset-1) used in this tutorial is a row-based JSON file that can be directly [imported locally](./import-data-on-web-ui#local-json-file).
+The [example dataset](./example-dataset) used in this tutorial is a row-based JSON file that can be directly [imported locally](./import-data-on-web-ui#local-json-file).
 
 ### Local JSON file{#local-json-file}
 

@@ -421,7 +421,7 @@ Once the collection is created, you can start inserting data, including the dyna
 
 ### Prepare data{#prepare-data}
 
-Now we need to prepare a piece of applicable data out of the [Example Dataset](./example-dataset-1).
+Now we need to prepare a piece of applicable data out of the [Example Dataset](./example-dataset).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
@@ -1021,8 +1021,8 @@ output_fields='$meta["#key"]'
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection-2) 
+- [Create Collection](./create-collection) 
 
 - [Use Partition Key](./use-partition-key) 
 
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 

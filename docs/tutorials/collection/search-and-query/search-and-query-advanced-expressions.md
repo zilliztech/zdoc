@@ -33,7 +33,7 @@ Before using advanced expressions, make sure the following conditions are met:
 
 - You have upgraded your cluster to the Beta version.
 
-- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
+- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset).
 
 ## Prepare your dataset{#prepare-your-dataset}
 
@@ -292,7 +292,7 @@ System.out.println("Successfully loaded collection");
 </TabItem>
 </Tabs>
 
-After creating and indexing the collection, format the [example dataset](./example-dataset-1) to align with the collection schema. The following example illustrates how to extend the `article_meta` JSON field with two new rows, `tags_1` and `tags_2`:
+After creating and indexing the collection, format the [example dataset](./example-dataset) to align with the collection schema. The following example illustrates how to extend the `article_meta` JSON field with two new rows, `tags_1` and `tags_2`:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -1384,8 +1384,8 @@ The following table describes the supported boolean expressions that you can use
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection-2)
+- [Create Collection](./create-collection)
 
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1)
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json)
 
 - [[Beta] Search and Query with Iterators](./search-and-query-iterators)

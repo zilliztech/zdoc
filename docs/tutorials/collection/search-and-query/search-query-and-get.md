@@ -23,9 +23,9 @@ On the other hand, a query filters out entities in a collection based on a certa
 
 Before performing ANN searches and queries, ensure that
 
-- You have connected to a cluster and created a collection. For details, see [Connect to Cluster](./connect-to-cluster) and [Create Collection](./create-collection-2).
+- You have connected to a cluster and created a collection. For details, see [Connect to Cluster](./connect-to-cluster) and [Create Collection](./create-collection).
 
-- You have downloaded the example dataset and inserted the data into the collection. For details, see [Example Dataset](./example-dataset-1) and [Insert Entities](./insert-entities).
+- You have downloaded the example dataset and inserted the data into the collection. For details, see [Example Dataset](./example-dataset) and [Insert Entities](./insert-entities).
 
 ## Search{#search}
 
@@ -4428,10 +4428,10 @@ func main() {
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection-2) 
+- [Create Collection](./create-collection) 
 
-- [Drop Collection](./drop-collection-1) 
+- [Drop Collection](./drop-collection) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 

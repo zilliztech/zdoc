@@ -17,9 +17,9 @@ An entity represents a basic data unit within a collection. It embodies a member
 
 Before inserting an entity into a collection, ensure:
 
-- You have created a collection. For details, see [Create Collection](./create-collection-2).
+- You have created a collection. For details, see [Create Collection](./create-collection).
 
-- You have downloaded the example data. For details, see [Example Dataset](./example-dataset-1).
+- You have downloaded the example data. For details, see [Example Dataset](./example-dataset).
 
 ## Insert entities{#insert-entities}
 
@@ -496,12 +496,12 @@ But remember, for most users and most scenarios, there's no rush to call `flush(
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection-2) 
+- [Create Collection](./create-collection) 
 
 - [Search and Query](./search-query-and-get) 
 
-- [Drop Collection](./drop-collection-1) 
+- [Drop Collection](./drop-collection) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 

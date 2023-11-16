@@ -197,7 +197,7 @@ Deleting entities is an irreversible operation. Make sure you have a backup or t
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection-2) 
+- [Create Collection](./create-collection) 
 
 - [Insert Entities](./insert-entities) 
 

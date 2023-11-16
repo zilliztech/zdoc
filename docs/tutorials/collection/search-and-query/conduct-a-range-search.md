@@ -25,9 +25,9 @@ Before conducting a range search, make sure the following conditions are met:
 
 - You have upgraded your cluster to the Beta version.
 
-- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
+- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset).
 
-- You have created a collection with a schema matching the example dataset and inserted data into the collection. For details, see [Create Collection](./create-collection-2).
+- You have created a collection with a schema matching the example dataset and inserted data into the collection. For details, see [Create Collection](./create-collection).
 
 ## Quick steps for a range search{#quick-steps-for-a-range-search}
 
@@ -39,7 +39,7 @@ Before conducting a range search, make sure the following conditions are met:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The code snippets on this page assume that you have created a collection and inserted data based on the steps on [Create Collection](./create-collection-2).
+The code snippets on this page assume that you have created a collection and inserted data based on the steps on [Create Collection](./create-collection).
 
 </Admonition>
 

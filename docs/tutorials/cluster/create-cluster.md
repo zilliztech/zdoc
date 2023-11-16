@@ -91,12 +91,12 @@ After you create the cluster, you can check its status on the cluster list page.
 
 - [Connect to Cluster](./connect-to-cluster) 
 
-- [Create Collection](./create-collection-2) 
+- [Create Collection](./create-collection) 
 
 - [Insert Entities](./insert-entities) 
 
 - [Search and Query](./search-query-and-get) 
 
-- [Drop Collection](./drop-collection-1) 
+- [Drop Collection](./drop-collection) 
 
-- [Example Dataset](./example-dataset-1) 
+- [Example Dataset](./example-dataset) 

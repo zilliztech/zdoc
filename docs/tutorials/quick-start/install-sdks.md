@@ -112,7 +112,7 @@ go get -u github.com/milvus-io/milvus-sdk-go/v2@v{versions.go.version}
 
 - [Create Cluster](./create-cluster) 
 
-- [Create Collection](./create-collection-2) 
+- [Create Collection](./create-collection) 
 
 - [Insert Entities](./insert-entities) 
 
