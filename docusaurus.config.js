@@ -258,8 +258,12 @@ const config = {
         hashed: true,
         // For Docs using Chinese, The `language` is recommended to set to:
         // ```
+        indexBlog: false,
         language: ["en", "zh"],
         docsDir: ["docs", "reference"],
+        docsRouteBasePath: ["/", "/docs/tutorials", "/reference/api"],
+        highlightSearchTermsOnTargetPage: true,
+        searchContextByPaths: ["/", "/docs/tutorials", "/reference/api"],
         // ```
       }),
     ],
