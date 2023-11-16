@@ -99,7 +99,8 @@ Success response:
 Suspends a cluster. This operation will stop the cluster and your data will remain intact.
 
 ```shell
-curl --request POST \ "https://controller.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/suspend" \
+curl --request POST \ 
+     --url "https://controller.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/suspend" \
      --header "Authorization: Bearer ${API_KEY}" \
      --header "accept: application/json" \
      --header "content-type: application/json"
@@ -122,7 +123,8 @@ Success response:
 Resume a cluster that has been suspended.
 
 ```shell
-curl --request POST \ "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/resume" \
+curl --request POST \ 
+     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/resume" \
      --header "Authorization: Bearer ${API_KEY}" \
      --header "accept: application/json" \
      --header "content-type: application/json"
@@ -145,8 +147,6 @@ Success response:
 Lists all clusters in a cloud region.
 
 ```shell
-Request Example:
-
 curl --request GET \
      --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters?pageSize=&current=" \
      --header "Authorization: Bearer ${API_KEY}" \

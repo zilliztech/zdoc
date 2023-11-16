@@ -142,6 +142,13 @@ Insert,90120
 Insert,90121
 Insert,90131
 Insert,90139
+Upsert,80001
+Upsert,80002
+Upsert,90148
+Upsert,90149
+Upsert,90150
+Upsert,90151
+Upsert,90152
 ListClusters,80003
 ListClusters,80004
 ListClusters,80001

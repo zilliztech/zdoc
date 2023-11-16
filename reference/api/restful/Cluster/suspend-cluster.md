@@ -19,7 +19,8 @@ Suspend a specified cluster. This operation will only stop the cluster and your 
 Suspends a cluster. This operation will stop the cluster and your data will remain intact.
 
 ```shell
-curl --request POST \ "https://controller.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/suspend" \
+curl --request POST \ 
+     --url "https://controller.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/suspend" \
      --header "Authorization: Bearer ${API_KEY}" \
      --header "accept: application/json" \
      --header "content-type: application/json"

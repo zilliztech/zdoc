@@ -19,8 +19,6 @@ Lists all clusters in the specified cloud region.
 Lists all clusters in a cloud region.
 
 ```shell
-Request Example:
-
 curl --request GET \
      --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters?pageSize=&current=" \
      --header "Authorization: Bearer ${API_KEY}" \

@@ -99,3 +99,8 @@
 90104,The clusterId parameter is empty in the request parameter.
 90145,No ObjectUrl key field.
 63032,CloudId not exists.
+94148,No upsert content provided.
+90149,Type mismatch for field '%s'. expected type:%s, but received input:%s.
+90150,no data key field, please check your request.
+90151,The value of the 'data' parameter is empty.
+90152,There is an empty object in the 'data' parameter.
