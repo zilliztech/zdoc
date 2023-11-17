@@ -1,5 +1,5 @@
 ---
-slug: /import-data-via-restful-api
+slug: /docs/import-data-via-restful-api
 beta: FALSE
 notebook: FALSE
 sidebar_position: 3

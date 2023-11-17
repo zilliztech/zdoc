@@ -1,5 +1,5 @@
 ---
-slug: /cu-resource-monitor
+slug: /docs/cu-resource-monitor
 beta: FALSE
 notebook: FALSE
 sidebar_position: 1

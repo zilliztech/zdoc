@@ -1,5 +1,5 @@
 ---
-slug: /example-dataset
+slug: /docs/example-dataset
 beta: FALSE
 notebook: FALSE
 sidebar_position: 5

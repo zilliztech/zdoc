@@ -1,5 +1,5 @@
 ---
-slug: /manage-orgs-and-members
+slug: /docs/manage-orgs-and-members
 beta: FALSE
 notebook: FALSE
 sidebar_position: 2

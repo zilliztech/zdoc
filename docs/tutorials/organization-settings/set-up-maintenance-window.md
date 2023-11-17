@@ -1,5 +1,5 @@
 ---
-slug: /set-up-maintenance-window
+slug: /docs/set-up-maintenance-window
 beta: FALSE
 notebook: FALSE
 sidebar_position: 2

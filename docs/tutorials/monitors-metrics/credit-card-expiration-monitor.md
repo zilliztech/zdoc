@@ -1,5 +1,5 @@
 ---
-slug: /credit-card-expiration-monitor
+slug: /docs/credit-card-expiration-monitor
 beta: FALSE
 notebook: FALSE
 sidebar_position: 5

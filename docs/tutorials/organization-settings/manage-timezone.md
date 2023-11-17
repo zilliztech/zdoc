@@ -1,5 +1,5 @@
 ---
-slug: /manage-timezone
+slug: /docs/manage-timezone
 beta: FALSE
 notebook: FALSE
 sidebar_position: 1

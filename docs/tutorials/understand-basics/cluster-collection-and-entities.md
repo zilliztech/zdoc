@@ -1,5 +1,5 @@
 ---
-slug: /cluster-collection-and-entities
+slug: /docs/cluster-collection-and-entities
 beta: FALSE
 notebook: FALSE
 sidebar_position: 2

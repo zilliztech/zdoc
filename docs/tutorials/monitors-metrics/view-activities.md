@@ -1,5 +1,5 @@
 ---
-slug: /view-activities
+slug: /docs/view-activities
 beta: FALSE
 notebook: FALSE
 sidebar_position: 8

@@ -1,5 +1,5 @@
 ---
-slug: /manage-cluster-credentials
+slug: /docs/manage-cluster-credentials
 beta: FALSE
 notebook: FALSE
 sidebar_position: 2

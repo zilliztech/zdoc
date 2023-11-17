@@ -1,5 +1,5 @@
 ---
-slug: /create-collection
+slug: /docs/create-collection
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 sidebar_position: 1

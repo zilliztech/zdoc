@@ -1,5 +1,5 @@
 ---
-slug: /register-with-zilliz-cloud
+slug: /docs/register-with-zilliz-cloud
 beta: FALSE
 notebook: FALSE
 sidebar_position: 1

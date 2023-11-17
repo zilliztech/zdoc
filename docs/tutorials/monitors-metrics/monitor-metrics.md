@@ -1,5 +1,5 @@
 ---
-slug: /monitor-metrics
+slug: /docs/monitor-metrics
 beta: FALSE
 notebook: FALSE
 sidebar_position: 7

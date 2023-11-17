@@ -1,5 +1,5 @@
 ---
-slug: /view-invoice
+slug: /docs/view-invoice
 beta: FALSE
 notebook: FALSE
 sidebar_position: 5

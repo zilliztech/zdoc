@@ -1,5 +1,5 @@
 ---
-slug: /delete-your-account
+slug: /docs/delete-your-account
 beta: FALSE
 notebook: FALSE
 sidebar_position: 2

@@ -1,5 +1,5 @@
 ---
-slug: /question-answering-using-zilliz-cloud-and-cohere
+slug: /docs/question-answering-using-zilliz-cloud-and-cohere
 beta: FALSE
 notebook: 82_integrations_cohere.ipynb
 sidebar_position: 3

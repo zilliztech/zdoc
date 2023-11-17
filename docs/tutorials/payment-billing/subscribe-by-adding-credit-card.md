@@ -1,5 +1,5 @@
 ---
-slug: /subscribe-by-adding-credit-card
+slug: /docs/subscribe-by-adding-credit-card
 beta: FALSE
 notebook: FALSE
 sidebar_position: 1

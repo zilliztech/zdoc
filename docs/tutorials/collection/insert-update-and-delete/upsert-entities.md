@@ -1,5 +1,5 @@
 ---
-slug: /upsert-entities
+slug: /docs/upsert-entities
 beta: TRUE
 notebook: 08_upsert_entities.ipynb
 sidebar_position: 2

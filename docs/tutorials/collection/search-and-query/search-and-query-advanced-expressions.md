@@ -1,5 +1,5 @@
 ---
-slug: /search-and-query-advanced-expressions
+slug: /docs/search-and-query-advanced-expressions
 beta: TRUE
 notebook: 10_search_query_advanced_ops.ipynb
 sidebar_position: 4

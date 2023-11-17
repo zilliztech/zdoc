@@ -1,5 +1,5 @@
 ---
-slug: /create-cluster
+slug: /docs/create-cluster
 beta: FALSE
 notebook: FALSE
 sidebar_position: 1

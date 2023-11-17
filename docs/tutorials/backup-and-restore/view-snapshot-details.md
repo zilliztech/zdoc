@@ -1,5 +1,5 @@
 ---
-slug: /view-snapshot-details
+slug: /docs/view-snapshot-details
 beta: FALSE
 notebook: FALSE
 sidebar_position: 3

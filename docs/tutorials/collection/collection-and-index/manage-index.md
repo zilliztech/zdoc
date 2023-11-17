@@ -1,5 +1,5 @@
 ---
-slug: /manage-index
+slug: /docs/manage-index
 beta: FALSE
 notebook: 01_use_customized_schema.ipynb
 sidebar_position: 2

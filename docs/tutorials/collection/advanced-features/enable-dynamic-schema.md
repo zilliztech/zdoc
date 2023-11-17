@@ -1,5 +1,5 @@
 ---
-slug: /enable-dynamic-schema
+slug: /docs/enable-dynamic-schema
 beta: FALSE
 notebook: 02_enable_dynamic_schema.ipynb
 sidebar_position: 1

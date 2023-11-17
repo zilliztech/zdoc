@@ -1,5 +1,5 @@
 ---
-slug: /search-query-and-get
+slug: /docs/search-query-and-get
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 sidebar_position: 1

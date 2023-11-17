@@ -1,5 +1,5 @@
 ---
-slug: /use-partition-key
+slug: /docs/use-partition-key
 beta: FALSE
 notebook: 03_use_partition_key.ipynb
 sidebar_position: 2

@@ -1,5 +1,5 @@
 ---
-slug: /migrate-from-milvus
+slug: /docs/migrate-from-milvus
 beta: FALSE
 notebook: FALSE
 sidebar_position: 1

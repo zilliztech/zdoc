@@ -1,5 +1,5 @@
 ---
-slug: /pricing-calculator
+slug: /docs/pricing-calculator
 beta: FALSE
 notebook: FALSE
 sidebar_position: 4

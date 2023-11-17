@@ -1,5 +1,5 @@
 ---
-slug: /subscribe-on-aws-marketplace
+slug: /docs/subscribe-on-aws-marketplace
 beta: FALSE
 notebook: FALSE
 sidebar_position: 2

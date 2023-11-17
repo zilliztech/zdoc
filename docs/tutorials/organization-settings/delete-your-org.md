@@ -1,5 +1,5 @@
 ---
-slug: /delete-your-org
+slug: /docs/delete-your-org
 beta: FALSE
 notebook: FALSE
 sidebar_position: 3
