@@ -22,6 +22,7 @@ Zilliz Cloud supports deploying serverless and dedicated clusters onto Amazon We
 |  us-east-2      |  Ohio, USA        |  No                     |  Yes                              |  Yes                                |
 |  us-west-2      |  Oregon, USA      |  No                     |  Yes                              |  Yes                                |
 |  ap-southeast-2 |  Singapore        |  No                     |  Yes                              |  Yes                                |
+|  eu-central-1   |  Frankfurt        |  No                     |  Yes                              |  Yes                                |
 
 Currently, all cluster types are available in the above cloud regions. For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
