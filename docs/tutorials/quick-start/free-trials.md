@@ -1,5 +1,5 @@
 ---
-slug: /free-trials
+slug: /docs/free-trials
 beta: FALSE
 notebook: FALSE
 sidebar_position: 3

@@ -1,5 +1,5 @@
 ---
-slug: /data-models-explained
+slug: /docs/data-models-explained
 beta: FALSE
 notebook: FALSE
 sidebar_position: 3
@@ -144,7 +144,7 @@ For your reference, Zilliz Cloud supports the following field data types:
 
 - Variable character (VARCHAR)
 
-- [JSON](./javascript-object-notation-json-1)
+- [JSON](./javascript-object-notation-json)
 
 ## What’s next{#whats-next}
 
@@ -152,4 +152,4 @@ For your reference, Zilliz Cloud supports the following field data types:
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 

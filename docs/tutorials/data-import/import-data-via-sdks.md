@@ -1,5 +1,5 @@
 ---
-slug: /import-data-via-sdks
+slug: /docs/import-data-via-sdks
 beta: FALSE
 notebook: 05_use_local-bulk-writer.ipynb,06_use_remote-bulk-writer.ipynb,07_use_bulk_import.ipynb
 sidebar_position: 4

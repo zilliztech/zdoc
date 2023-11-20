@@ -1,5 +1,5 @@
 ---
-slug: /delete-entities
+slug: /docs/delete-entities
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 sidebar_position: 3
@@ -197,7 +197,7 @@ Deleting entities is an irreversible operation. Make sure you have a backup or t
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection-2) 
+- [Create Collection](./create-collection) 
 
 - [Insert Entities](./insert-entities) 
 

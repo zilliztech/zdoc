@@ -1,5 +1,5 @@
 ---
-slug: /install-sdks
+slug: /docs/install-sdks
 beta: FALSE
 notebook: FALSE
 sidebar_position: 4
@@ -34,7 +34,7 @@ Ensure your **Python** version exceeds **3.7** prior to installation.
 
 ```bash
 # Install specific PyMilvus version
-python -m pip install pymilvus=={versions.python.version}
+python -m pip install pymilvus==2.3.3
 
 # Update PyMilvus to the newest version
 python -m pip install --upgrade pymilvus
@@ -55,9 +55,9 @@ Ensure your **Node.js** version is **14** or above prior to installation.
 
 ```bash
 # Installing a specific version
-npm install @zilliz/milvus2-sdk-node@{versions.node.version}
+npm install @zilliz/milvus2-sdk-node@2.3.4
 # Alternatively,
-yarn add @zilliz/milvus2-sdk-node@{versions.node.version}
+yarn add @zilliz/milvus2-sdk-node@2.3.4
 
 # Upgrade to the latest version
 npm update @zilliz/milvus2-sdk-node
@@ -90,14 +90,14 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 <dependency>
      <groupId>io.milvus</groupId>
      <artifactId>milvus-sdk-java</artifactId>
-     <version>{versions.java.version}</version>
+     <version>2.3.3</version>
  </dependency>
 ```
 
 - For Gradle/Grails, execute:
 
 ```bash
-compile 'io.milvus:milvus-sdk-java:{versions.java.version}'
+compile 'io.milvus:milvus-sdk-java:2.3.3'
 ```
 
 ## Install Go SDK{#install-go-sdk}
@@ -105,14 +105,14 @@ compile 'io.milvus:milvus-sdk-java:{versions.java.version}'
 The Go SDK is available via `go get`. Explore its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-go).
 
 ```go
-go get -u github.com/milvus-io/milvus-sdk-go/v2@v{versions.go.version}
+go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.3.3
 ```
 
 ## Related topics{#related-topics}
 
 - [Create Cluster](./create-cluster) 
 
-- [Create Collection](./create-collection-2) 
+- [Create Collection](./create-collection) 
 
 - [Insert Entities](./insert-entities) 
 

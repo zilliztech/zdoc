@@ -1,5 +1,5 @@
 ---
-slug: /manage-api-keys
+slug: /docs/manage-api-keys
 beta: FALSE
 notebook: FALSE
 sidebar_position: 1

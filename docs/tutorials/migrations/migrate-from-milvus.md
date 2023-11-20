@@ -1,5 +1,5 @@
 ---
-slug: /migrate-from-milvus
+slug: /docs/migrate-from-milvus
 beta: FALSE
 notebook: FALSE
 sidebar_position: 1
@@ -157,6 +157,6 @@ Once the collections are loaded, you are free to interact with them using your p
 
 - [AUTOINDEX Explained](./autoindex-explained) 
 
-- [Select the Right CU](./cu-types-explained-1)
+- [Select the Right CU](./cu-types-explained)
 
 - [API Comparison](./api-comparison) 

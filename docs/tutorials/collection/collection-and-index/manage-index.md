@@ -1,5 +1,5 @@
 ---
-slug: /manage-index
+slug: /docs/manage-index
 beta: FALSE
 notebook: 01_use_customized_schema.ipynb
 sidebar_position: 2
@@ -15,7 +15,7 @@ Utilize vector indexes as metadata structures in Zilliz Cloud to enhance vector 
 
 ## Before you start{#before-you-start}
 
-Ensure you have created a collection. For details, refer to [Create Collection](./create-collection-2).
+Ensure you have created a collection. For details, refer to [Create Collection](./create-collection).
 
 ## Index collection{#index-collection}
 

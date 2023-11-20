@@ -1,5 +1,5 @@
 ---
-slug: /release-notes-200
+slug: /docs/release-notes-200
 beta: FALSE
 notebook: FALSE
 sidebar_position: 5
@@ -68,4 +68,4 @@ JSON, or JavaScript Object Notation, is a crucial data interchange format that h
 
 The real power lies in the innovative coupling of this with our existing ANN Search feature. This combination means you can now perform complex queries that combine the flexibility of JSON data structure with the precision of ANN search, offering a significant leap forward in database querying capabilities.
 
-Experience the synergistic benefits of these two powerful technologies in one place, and unlock a new level of efficiency and precision in your data management and querying tasks. Step into the future of database technology with Zilliz Cloud today. [Learn more about this feature](./javascript-object-notation-json-1).
+Experience the synergistic benefits of these two powerful technologies in one place, and unlock a new level of efficiency and precision in your data management and querying tasks. Step into the future of database technology with Zilliz Cloud today. [Learn more about this feature](./javascript-object-notation-json).

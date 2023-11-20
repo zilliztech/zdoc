@@ -1,5 +1,5 @@
 ---
-slug: /similarity-search-with-zilliz-cloud-and-openai
+slug: /docs/similarity-search-with-zilliz-cloud-and-openai
 beta: FALSE
 notebook: 80_integrations_openai.ipynb
 sidebar_position: 1

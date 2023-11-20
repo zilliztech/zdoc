@@ -1,5 +1,5 @@
 ---
-slug: /image-search-with-zilliz-cloud-and-pytorch
+slug: /docs/image-search-with-zilliz-cloud-and-pytorch
 beta: FALSE
 notebook: 84_integrations_pytorch.ipynb
 sidebar_position: 5

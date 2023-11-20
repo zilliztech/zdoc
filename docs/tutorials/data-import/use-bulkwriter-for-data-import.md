@@ -1,5 +1,5 @@
 ---
-slug: /use-bulkwriter-for-data-import
+slug: /docs/use-bulkwriter-for-data-import
 beta: FALSE
 notebook: 06_use_remote-bulk-writer.ipynb
 sidebar_position: 1

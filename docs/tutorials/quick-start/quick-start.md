@@ -17,13 +17,13 @@ This tutorial guides you through CRUD tasks in a serverless cluster. You are exp
 
 Throughout this guide, we will use Zilliz Cloud's SDKs and RESTful API. Before you begin, ensure that:
 
-- You have registered an account with Zilliz Cloud at [https://cloud.zilliz.com/signup](https://cloud.zilliz.com/signup). For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
+- You have registered an account with Zilliz Cloud at [https://cloud.zilliz.com/signup](https://cloud.zilliz.com/signup). For details, see [Register with Zilliz Cloud](./docs/register-with-zilliz-cloud).
 
-- You have subscribed to the **Starter** plan and created a serverless cluster in a project. For details, see [Free Trials](./free-trials) and [Create Cluster](./create-cluster).
+- You have subscribed to the **Starter** plan and created a serverless cluster in a project. For details, see [Free Trials](./docs/free-trials) and [Create Cluster](./docs/create-cluster).
 
-- You have installed the preferred SDKs. Currently, there are four SDKs available, and they are [Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), and [Node.js](./install-sdks#install-nodejs-sdk). For details, see [Install SDKs](./install-sdks).
+- You have installed the preferred SDKs. Currently, there are four SDKs available, and they are [Python](./docs/install-sdks#install-pymilvus-python-sdk), [Java](./docs/install-sdks#install-java-sdk), [Go](./docs/install-sdks#install-go-sdk), and [Node.js](./docs/install-sdks#install-nodejs-sdk). For details, see [Install SDKs](./docs/install-sdks).
 
-- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
+- You have downloaded the example dataset. For details, see [Example Dataset](./docs/example-dataset).
 
 ## Create a collection{#create-a-collection}
 
@@ -175,7 +175,7 @@ curl --location --request POST "${PUBLIC_ENDPOINT}/v1/vector/collections/create"
 </TabItem>
 </Tabs>
 
-If you need full control of your collection, such as schema definition and manual enabling of dynamic schema, refer to [Use Customized Schema](https://zilliverse.feishu.cn/wiki/ZTMdw1e2Wi4Q7mkoGHZc4OY0nZ4) and [Enable Dynamic Schema](./enable-dynamic-schema).
+If you need full control of your collection, such as schema definition and manual enabling of dynamic schema, refer to [Use Customized Schema](https://zilliverse.feishu.cn/wiki/ZTMdw1e2Wi4Q7mkoGHZc4OY0nZ4) and [Enable Dynamic Schema](./docs/enable-dynamic-schema).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -2282,14 +2282,14 @@ curl --request POST \
 
 ## Related topics{#related-topics}
 
-- [Register with Zilliz Cloud](./register-with-zilliz-cloud)
+- [Register with Zilliz Cloud](./docs/register-with-zilliz-cloud)
 
-- [Example Dataset](./example-dataset-1)
+- [Example Dataset](./docs/example-dataset)
 
-- [Connect to Cluster](./connect-to-cluster)
+- [Connect to Cluster](./docs/connect-to-cluster)
 
-- [Drop Collection](./drop-collection-1)
+- [Drop Collection](./docs/drop-collection)
 
-- [Search and Query](./search-query-and-get)
+- [Search and Query](./docs/search-query-and-get)
 
-- [ANN Search Explained](./ann-search-explained)
+- [ANN Search Explained](./docs/ann-search-explained)

@@ -1,5 +1,5 @@
 ---
-slug: /faq-monitors-and-metrics
+slug: /docs/faq-monitors-and-metrics
 beta: null
 notebook: null
 sidebar_position: 9

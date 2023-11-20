@@ -1,5 +1,5 @@
 ---
-slug: /movie-search-using-zilliz-cloud-and-sentencetransformers
+slug: /docs/movie-search-using-zilliz-cloud-and-sentencetransformers
 beta: FALSE
 notebook: 86_integrations_sentencetransformers.ipynb
 sidebar_position: 7

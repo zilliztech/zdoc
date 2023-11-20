@@ -1,5 +1,5 @@
 ---
-slug: /consistency-level
+slug: /docs/consistency-level
 beta: FALSE
 notebook: FALSE
 sidebar_position: 6

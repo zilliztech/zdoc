@@ -1,5 +1,5 @@
 ---
-slug: /faq-resource-planning
+slug: /docs/faq-resource-planning
 beta: null
 notebook: null
 sidebar_position: 6
@@ -30,7 +30,7 @@ This topic lists the possible issues that you may encounter while planning your 
 
 A compute unit (CU) is a group of hardware resources for serving your indexes and search requests. You can simply consider a CU as a fully-managed physical node for deploying search service.
 
-For more details, see [Select the Right CU](./cu-types-explained-1).
+For more details, see [Select the Right CU](./cu-types-explained).
 
 ### How can I avoid expenses on unused clusters?{#how-can-i-avoid-expenses-on-unused-clusters}
 
@@ -68,7 +68,7 @@ The "Capacity-optimized Compute Unit" suits data volumes that are five times lar
 
 The "Cost-optimized Compute Unit" provides the same large capacity as the "Capacity-optimized" option, but at a lower cost with reduced search performance. This option is ideal for budget-conscious projects that need ample storage without high-performance demands.
 
-For more details, see [Select the Right CU](./cu-types-explained-1). 
+For more details, see [Select the Right CU](./cu-types-explained). 
 
 ### How can I downgrade from Enterprise plan to Standard plan?{#how-can-i-downgrade-from-enterprise-plan-to-standard-plan}
 
@@ -78,4 +78,4 @@ If you want to ensure a smooth transition between plans with data retained, you 
 
 ### How can I save costs on using Zilliz Cloud if I have a limited budget?{#how-can-i-save-costs-on-using-zilliz-cloud-if-i-have-a-limited-budget}
 
-To reduce cost, we suggest trying our cost-optimized CU type. This type of CU provides the same large capacity as the "Capacity-optimized" option, but at a lower cost with slightly reduced search performance. Refer to [Select the Right CU](./cu-types-explained-1) for more details.
+To reduce cost, we suggest trying our cost-optimized CU type. This type of CU provides the same large capacity as the "Capacity-optimized" option, but at a lower cost with slightly reduced search performance. Refer to [Select the Right CU](./cu-types-explained) for more details.

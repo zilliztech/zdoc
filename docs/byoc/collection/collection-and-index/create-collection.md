@@ -1,5 +1,5 @@
 ---
-slug: /create-collection-2
+slug: /docs/byoc/create-collection
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 sidebar_position: 1
@@ -320,13 +320,12 @@ Harness these types as building blocks for your collection's schema.
 
 ## Limits{#limits}
 
-For a serverless cluster, you can create up to two collections. For a dedicated cluster, the number of collections you can create varies with the CU that your cluster uses.
+The number of collections you can create varies with the CU that your cluster uses.
 
-|                                      |  Maximum number of collections |
-| ------------------------------------ | ------------------------------ |
-|  Serverless cluster                  |  **2**                         |
-|  Dedicated cluster (8 CUs and less)  |  **32**                        |
-|  Dedicated cluster (More than 8 CUs) |  **256**                       |
+|                  |  Maximum number of collections |
+| ---------------- | ------------------------------ |
+|  8 CUs and less  |  **32**                        |
+|  More than 8 CUs |  **256**                       |
 
 ## Related topics{#related-topics}
 
@@ -334,9 +333,7 @@ For a serverless cluster, you can create up to two collections. For a dedicated 
 
 - [Search and Query](./search-query-and-get) 
 
-- [Drop Collection](./drop-collection-1) 
-
-- [Use Customized Schema](https://zilliverse.feishu.cn/wiki/ZTMdw1e2Wi4Q7mkoGHZc4OY0nZ4) 
+- [Drop Collection](./drop-collection) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 

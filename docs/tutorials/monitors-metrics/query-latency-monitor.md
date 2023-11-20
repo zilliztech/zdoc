@@ -1,5 +1,5 @@
 ---
-slug: /query-latency-monitor
+slug: /docs/query-latency-monitor
 beta: FALSE
 notebook: FALSE
 sidebar_position: 3

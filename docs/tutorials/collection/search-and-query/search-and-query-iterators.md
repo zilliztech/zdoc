@@ -1,5 +1,5 @@
 ---
-slug: /search-and-query-iterators
+slug: /docs/search-and-query-iterators
 beta: TRUE
 notebook: 09_search_query_iterators.ipynb
 sidebar_position: 3
@@ -36,7 +36,7 @@ Before searching or querying with an iterator, make sure the following condition
 
 - You have upgraded your cluster to the Beta version.
 
-- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset-1).
+- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset).
 
 ## Prepare your dataset{#prepare-your-dataset}
 
@@ -352,7 +352,7 @@ print(results[:3])
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection-2) 
+- [Create Collection](./create-collection) 
 
 - [Use Partition Key](./use-partition-key)
 

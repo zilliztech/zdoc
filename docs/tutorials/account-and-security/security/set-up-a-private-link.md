@@ -1,5 +1,5 @@
 ---
-slug: /set-up-a-private-link
+slug: /docs/set-up-a-private-link
 beta: FALSE
 notebook: FALSE
 sidebar_position: 2

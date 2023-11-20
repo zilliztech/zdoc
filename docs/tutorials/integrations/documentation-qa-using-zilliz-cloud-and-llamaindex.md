@@ -1,5 +1,5 @@
 ---
-slug: /documentation-qa-using-zilliz-cloud-and-llamaindex
+slug: /docs/documentation-qa-using-zilliz-cloud-and-llamaindex
 beta: FALSE
 notebook: 85_integrations_llamaindex.ipynb
 sidebar_position: 6

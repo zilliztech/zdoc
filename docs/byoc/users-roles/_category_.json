@@ -1,0 +1,9 @@
+{
+    "label": "Users & Roles",
+    "position": 10,
+    "link": {
+        "type": "generated-index",
+        "title": "Users & Roles",
+        "slug": "users-roles"
+    }
+}

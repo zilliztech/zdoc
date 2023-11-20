@@ -1,5 +1,5 @@
 ---
-slug: /faq-cluster
+slug: /docs/faq-cluster
 beta: null
 notebook: null
 sidebar_position: 2

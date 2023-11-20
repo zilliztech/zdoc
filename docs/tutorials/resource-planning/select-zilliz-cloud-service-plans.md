@@ -1,5 +1,5 @@
 ---
-slug: /select-zilliz-cloud-service-plans
+slug: /docs/select-zilliz-cloud-service-plans
 beta: FALSE
 notebook: FALSE
 sidebar_position: 2
@@ -19,7 +19,7 @@ At its core, Zilliz Cloud offers two fundamental types of clusters: **Serverless
 |  Cluster Type             |  Description                                                      |  Resource Allocation                                                                            |  Best Suited For                                                             |
 | ------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 |  **Serverless**           |  Simple, fully managed vector database cluster                    |  - Dynamic provisioning<br/> <br/>  - Shared resources with other users<br/>                       |  - Vector database newcomers<br/> <br/>  - Hassle-free experience seekers<br/>  |
-|  **Dedicated**<br/> <br/>   |  - Full feature set<br/> <br/>  - High availability & security<br/>  |  - Dedicated [Compute Units (CUs)](./cu-types-explained-1)<br/> <br/>  - Optimal performance<br/>  |  - Enterprise setups<br/> <br/>  - Strict performance & security needs<br/>     |
+|  **Dedicated**<br/> <br/>   |  - Full feature set<br/> <br/>  - High availability & security<br/>  |  - Dedicated [Compute Units (CUs)](./cu-types-explained)<br/> <br/>  - Optimal performance<br/>  |  - Enterprise setups<br/> <br/>  - Strict performance & security needs<br/>     |
 
 For more in-depth details on cluster configurations, explore the [Free Trials](./free-trials) and [Pricing Calculator](./pricing-calculator).
 
@@ -50,7 +50,7 @@ Zilliz Cloud categorizes its offerings into four distinct plans: **Starter**, **
 
 - Designed for SMEs or operations not mission-critical, with the flexibility to choose your preferred [cloud provider and region](./cloud-providers-and-regions).
 
-- Choice of three types of [CUs](./cu-types-explained-1): Cost-optimized, Capacity-optimized, and Performance-optimized.
+- Choice of three types of [CUs](./cu-types-explained): Cost-optimized, Capacity-optimized, and Performance-optimized.
 
 - Supports up to 24 CUs, maxing at 30 million 768-dimensional vectors.
 
@@ -82,7 +82,7 @@ Visit the [Pricing Page](https://zilliz.com/pricing) or reach out to [support@zi
 
 ## Related topics{#related-topics}
 
-- [Select the Right CU](./cu-types-explained-1)
+- [Select the Right CU](./cu-types-explained)
 
 - [Pricing Calculator](./pricing-calculator)
 

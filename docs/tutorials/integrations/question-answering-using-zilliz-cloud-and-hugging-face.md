@@ -1,5 +1,5 @@
 ---
-slug: /question-answering-using-zilliz-cloud-and-hugging-face
+slug: /docs/question-answering-using-zilliz-cloud-and-hugging-face
 beta: FALSE
 notebook: 81_integrations_huggingface.ipynb
 sidebar_position: 2

@@ -6,11 +6,12 @@ const { URL } = require('node:url')
 const fetch = require('node-fetch')
 
 class larkDocWriter {
-    constructor(pages=[], page_blocks=[], imageDir='static/img') {
+    constructor(pages=[], page_blocks=[], imageDir='static/img', target='saas') {
         this.pages = pages
         this.page_blocks = page_blocks
         this.titles = JSON.parse(fs.readFileSync('plugins/lark-docs/meta/titles.json'))
         this.blocks = []
+        this.target = target
         this.block_types = [
             "page",
             "text",
@@ -348,7 +349,12 @@ class larkDocWriter {
         const result = this.records.filter(record => {
             if (record["fields"]["Docs"] && record["fields"]["Docs"] === title &&
                 record["fields"]["Progress"] && (record["fields"]["Progress"] === "Draft" || record["fields"]["Progress"] === "Publish")) {
-                return record
+                
+                if ((this.target === 'saas' && record["fields"]["Target"] && record["fields"]["Target"] != "PaaS Only") ||
+                    (this.target === 'paas' && record["fields"]["Target"] && record["fields"]["Target"] != "SaaS Only")
+                ) {
+                    return record
+                }
             }
         })
 
@@ -367,9 +373,34 @@ class larkDocWriter {
         
     }
 
+    __filter_content (markdown, target) {
+        const regex = /<(include|exclude) target="(\b(\w+,)*\w+\b)">[\s\S]*?<\/\1>/g
+        markdown = markdown.replace(regex, (match, tag, value) => {
+            value = value.split(',').map(item => item.trim())
+            if (tag == 'include' && value.includes(target)) {
+                return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
+            }
+
+            if (tag == 'exclude' && !value.includes(target)) {
+                return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
+            }
+
+            if (tag == 'exclude' && value.includes(target)) {
+                return ""
+            }
+            
+            if (tag == 'include' && !value.includes(target)) {
+                return ""
+            }
+        })
+
+        return markdown.replace(/\n{3,}/g, '\n\n')
+    }
+
     async __write_page({slug, beta, notebook, path, sidebar_position}) {
         let front_matter = this.__front_matters(slug, beta, notebook, sidebar_position)
         let markdown = await this.__markdown()
+        markdown = this.__filter_content(markdown, this.target)
 
         let tabs = markdown.split('\n').filter(line => {
             return line.trim().startsWith("<Tab")
@@ -381,8 +412,12 @@ class larkDocWriter {
     }
 
     __front_matters (slug, beta, notebook, sidebar_position=undefined) {
+        let displayed_sidebar = this.target === 'saas' ? "" : "displayed_sidebar: paasSidebar\n"
+        slug = this.target === 'saas' ? `/docs/${slug}` : `/docs/byoc/${slug}`
+        slug = slug.replace(/\/\//g, '/').replace(/^\//, '')
+
         let front_matter = '---\n' + 
-        `slug: /${slug.replace(/^\//, '')}` + '\n' +
+        `slug: /${slug}` + '\n' +
         `beta: ${beta}` + '\n' +
         `notebook: ${notebook}` + '\n' +
         `sidebar_position: ${sidebar_position}` + '\n' +
@@ -441,6 +476,11 @@ class larkDocWriter {
                 markdown.push(await this.__table(block['table'], indent));
             } else if (this.block_types[block['block_type']-1] === 'callout') {
                 markdown.push(await this.__callout(block, indent));
+            } else if (block['block_type'] === 999 && block['children']) {
+                const children = block['children'].map(child => {
+                    return this.__retrieve_block_by_id(child)
+                })
+                markdown.push(await this.__markdown(children, indent));
             } else {
                 console.log(`Unprocessed: ${block['block_id']}`);
             }
@@ -459,6 +499,7 @@ class larkDocWriter {
 
     async __heading(heading, level) {
         let content = await this.__text_elements(heading['elements'])
+        content = this.__filter_content(content, this.target)
         let slug = slugify(content, {lower: true, strict: true})
         return '#'.repeat(level) + ' ' + content + '{#'+slug+'}';
     }
@@ -669,8 +710,9 @@ class larkDocWriter {
     
     async __image(image) {
         const result = await this.downloader.__downloadImage(image.token)
+        const root = this.target === 'saas' ? '/img' : '/byoc'
         result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${image["token"]}.png`));
-        return `![${image.token}](/img/${image["token"]}.png)`;
+        return `![${image.token}](/${root}/${image["token"]}.png)`;
     }
 
     async __iframe(iframe) {
@@ -822,7 +864,7 @@ class larkDocWriter {
                 //     fs.writeFileSync('plugins/lark-docs/meta/titles.json', JSON.stringify(this.titles, null, 4))
                 // }
 
-                let newUrl = `./${slug}`;
+                let newUrl = slug.endsWith("/") ? target === 'saas' ? `./docs/${slug}` : `./byoc/${slug}` : `./${slug}`;
 
                 if (header) {
                     const headerBlock = page['blocks']['items'].filter(x => x['block_id'] === header)[0];

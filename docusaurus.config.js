@@ -106,7 +106,13 @@ const config = {
           // {to: '/api', label: 'API 参考', position: 'left'},
           {
             href: '/',
-            label: 'User Guides',
+            label: "Cloud Docs",
+            position: 'left',
+            className: 'header-link',
+          },
+          {
+            href: '/docs/byoc',
+            label: "BYOC Docs",
             position: 'left',
             className: 'header-link',
           },

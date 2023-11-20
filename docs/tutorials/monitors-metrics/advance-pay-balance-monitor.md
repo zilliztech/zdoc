@@ -1,5 +1,5 @@
 ---
-slug: /advance-pay-balance-monitor
+slug: /docs/advance-pay-balance-monitor
 beta: FALSE
 notebook: FALSE
 sidebar_position: 6

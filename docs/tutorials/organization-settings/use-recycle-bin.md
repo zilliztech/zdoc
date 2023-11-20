@@ -1,5 +1,5 @@
 ---
-slug: /use-recycle-bin
+slug: /docs/use-recycle-bin
 beta: FALSE
 notebook: FALSE
 sidebar_position: 4

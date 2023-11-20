@@ -1,5 +1,5 @@
 ---
-slug: /manage-cluster
+slug: /docs/manage-cluster
 beta: FALSE
 notebook: FALSE
 sidebar_position: 3
@@ -119,7 +119,7 @@ Once you have created a dedicated cluster, you will see the following in the con
 - **Scale-up cluster**
     In the **Summary** section, click **Scale** right to the CU **Size** to open the **Scale Cluster** dialog box. You can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. You can scale the size of a cluster up to 24 CUs in the dialog box. Contact us if you need a larger CU.
 
-    For details on CU types and how to select an appropriate one, refer to [Select the Right CU](./cu-types-explained-1).
+    For details on CU types and how to select an appropriate one, refer to [Select the Right CU](./cu-types-explained).
 
     <Admonition type="caution" icon="🚧" title="Warning">    
     
@@ -160,7 +160,7 @@ Once you have created a dedicated cluster, you will see the following in the con
 
 - [Migrate Between Clusters](./migrate-beween-clusters#from-dedicated-to-another-dedicated-cluster)
 
-- [Select the Right CU](./cu-types-explained-1)
+- [Select the Right CU](./cu-types-explained)
 
 - [Select Service Tiers](./select-zilliz-cloud-service-plans)
 
