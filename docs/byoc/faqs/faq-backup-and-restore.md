@@ -1,5 +1,6 @@
 ---
-slug: /docs/faq-backup-and-restore
+displayed_sidebar: paasSidebar
+slug: /docs/byoc/faq-backup-and-restore
 beta: null
 notebook: null
 sidebar_position: 7

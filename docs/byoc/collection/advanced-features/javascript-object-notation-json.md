@@ -1,5 +1,6 @@
 ---
-slug: /docs/byoc/javascript-object-notation-json-1
+displayed_sidebar: paasSidebar
+slug: /docs/byoc/javascript-object-notation-json
 beta: FALSE
 notebook: 04_use_json_field.ipynb
 sidebar_position: 3

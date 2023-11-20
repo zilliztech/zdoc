@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/cluster-collection-and-entities
 beta: FALSE
 notebook: FALSE
@@ -56,7 +57,7 @@ For your reference, Zilliz Cloud supports the following field data types:
 
 - Variable character (VARCHAR)
 
-- [JSON](./javascript-object-notation-json-1)
+- [JSON](./javascript-object-notation-json)
 
 Zilliz Cloud provides three types of CUs, each of which have its own application scenarios, and they are also the factor that impacts search performance.
 

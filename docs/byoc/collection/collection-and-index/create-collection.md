@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/create-collection
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
@@ -314,7 +315,7 @@ To aid in your schema design, here are the data types Zilliz Cloud can accommoda
 
 - **Characters**: VARCHAR
 
-- **Structured data types**: [JSON](./javascript-object-notation-json-1)
+- **Structured data types**: [JSON](./javascript-object-notation-json)
 
 Harness these types as building blocks for your collection's schema.
 
@@ -337,4 +338,4 @@ The number of collections you can create varies with the CU that your cluster us
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 

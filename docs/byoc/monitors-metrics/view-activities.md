@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/view-activities
 beta: FALSE
 notebook: FALSE

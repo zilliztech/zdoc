@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/license
 beta: FALSE
 notebook: FALSE

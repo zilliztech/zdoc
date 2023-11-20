@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/similarity-search-with-zilliz-cloud-and-openai
 beta: FALSE
 notebook: 80_integrations_openai.ipynb

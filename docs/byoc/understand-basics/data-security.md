@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/data-security
 beta: FALSE
 notebook: FALSE

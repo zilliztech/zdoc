@@ -1,8 +1,9 @@
 ---
-slug: /docs/faq-authentication
+displayed_sidebar: paasSidebar
+slug: /docs/byoc/faq-authentication
 beta: null
 notebook: null
-sidebar_position: 11
+sidebar_position: 10
 ---
 
 # FAQ: Authentication

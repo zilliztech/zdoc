@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/install-sdks
 beta: FALSE
 notebook: FALSE

@@ -1,5 +1,6 @@
 ---
-slug: /docs/faq-migration
+displayed_sidebar: paasSidebar
+slug: /docs/byoc/faq-migration
 beta: null
 notebook: null
 sidebar_position: 5

@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/use-partition-key
 beta: FALSE
 notebook: 03_use_partition_key.ipynb
@@ -930,5 +931,5 @@ To do this, you can assign a tenant-specific value as the partition key field fo
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 
 

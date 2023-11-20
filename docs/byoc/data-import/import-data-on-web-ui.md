@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/import-data-on-web-ui
 beta: FALSE
 notebook: FALSE

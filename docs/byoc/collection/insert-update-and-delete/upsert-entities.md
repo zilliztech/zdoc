@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/upsert-entities
 beta: TRUE
 notebook: 08_upsert_entities.ipynb

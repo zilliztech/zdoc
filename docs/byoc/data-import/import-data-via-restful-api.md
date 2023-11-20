@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/import-data-via-restful-api
 beta: FALSE
 notebook: FALSE

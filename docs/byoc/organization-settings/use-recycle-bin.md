@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/use-recycle-bin
 beta: FALSE
 notebook: FALSE

@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/monitor-metrics
 beta: FALSE
 notebook: FALSE

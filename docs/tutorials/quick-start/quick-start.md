@@ -1,5 +1,5 @@
 ---
-slug: /docs/
+slug: /
 beta: FALSE
 notebook: 00_quick_start.ipynb
 sidebar_position: 0

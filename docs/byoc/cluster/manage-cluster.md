@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/manage-cluster
 beta: FALSE
 notebook: FALSE

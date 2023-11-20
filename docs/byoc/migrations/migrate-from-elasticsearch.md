@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/migrate-from-elasticsearch
 beta: FALSE
 notebook: FALSE

@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/
 beta: FALSE
 notebook: 00_quick_start.ipynb

@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/manage-projects-and-collaborator
 beta: FALSE
 notebook: FALSE

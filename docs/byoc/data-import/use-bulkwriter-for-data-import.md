@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/use-bulkwriter-for-data-import
 beta: FALSE
 notebook: 06_use_remote-bulk-writer.ipynb

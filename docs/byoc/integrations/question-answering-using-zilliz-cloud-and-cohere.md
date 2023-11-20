@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/question-answering-using-zilliz-cloud-and-cohere
 beta: FALSE
 notebook: 82_integrations_cohere.ipynb

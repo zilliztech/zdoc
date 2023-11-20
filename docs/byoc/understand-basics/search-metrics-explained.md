@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/search-metrics-explained
 beta: TRUE
 notebook: FALSE

@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/set-up-whitelist
 beta: FALSE
 notebook: FALSE

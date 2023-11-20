@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/ann-search-explained
 beta: FALSE
 notebook: FALSE

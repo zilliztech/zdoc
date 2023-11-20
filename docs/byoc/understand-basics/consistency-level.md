@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/consistency-level
 beta: FALSE
 notebook: FALSE

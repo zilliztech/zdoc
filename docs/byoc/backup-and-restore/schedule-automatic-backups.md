@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/schedule-automatic-backups
 beta: FALSE
 notebook: FALSE

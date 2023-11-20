@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/api-comparison
 beta: FALSE
 notebook: FALSE

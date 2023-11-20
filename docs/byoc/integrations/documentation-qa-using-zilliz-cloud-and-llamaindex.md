@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/documentation-qa-using-zilliz-cloud-and-llamaindex
 beta: FALSE
 notebook: 85_integrations_llamaindex.ipynb

@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/manage-orgs-and-members
 beta: FALSE
 notebook: FALSE

@@ -1,5 +1,6 @@
 ---
-slug: /docs/faq-get-started
+displayed_sidebar: paasSidebar
+slug: /docs/byoc/faq-get-started
 beta: null
 notebook: null
 sidebar_position: 1
@@ -14,9 +15,6 @@ This topic lists the possible issues that you may encounter while you get starte
 - [Is there any performance comparison between Zilliz Cloud and other vector search solutions?](#is-there-any-performance-comparison-between-zilliz-cloud-and-other-vector-search-solutions)
 - [Which type of index is supported by Zilliz Cloud?](#which-type-of-index-is-supported-by-zilliz-cloud)
 - [What is the search latency of Zilliz Cloud?](#what-is-the-search-latency-of-zilliz-cloud)
-- [Is pricing the same in every region?](#is-pricing-the-same-in-every-region)
-- [What happens after the free trial?](#what-happens-after-the-free-trial)
-- [What is the pricing of Zilliz Cloud on AWS marketplace?](#what-is-the-pricing-of-zilliz-cloud-on-aws-marketplace)
 - [How can I get further technical support?](#how-can-i-get-further-technical-support)
 
 ## FAQs
@@ -38,21 +36,9 @@ However, please[ submit a request](https://support.zilliz.com/hc/en-us) if you a
 
 The search latency depends on the CU type and data volume. 
 
-![ObhQbbImLoKHdexbeD0cBMSWngh](/img/ObhQbbImLoKHdexbeD0cBMSWngh.png)
+![ObhQbbImLoKHdexbeD0cBMSWngh](/byoc/ObhQbbImLoKHdexbeD0cBMSWngh.png)
 
 For more details about the test result, see [Select the Right CU](./cu-types-explained).
-
-### Is pricing the same in every region?{#is-pricing-the-same-in-every-region}
-
-In short, cloud service prices often vary across providers and regions. Several factors contribute to these differences, such as the costs of the underlying physical resources that cloud database services rely on. For more details, see [Pricing](https://zilliz.com/pricing).
-
-### What happens after the free trial?{#what-happens-after-the-free-trial}
-
-Once the free trial ends, you can still access your serverless clusters. However, all the data in your dedicated clusters will be moved to the Recycle Bin and will be retained there for 30 days. To safely recover your dedicated cluster data, you can subscribe to the standard or enterprise plan by providing a payment method.  If you have not completed the PoC during the trial period, you can also [contact us](https://support.zilliz.com/hc/en-us) to extend the trial period.
-
-### What is the pricing of Zilliz Cloud on AWS marketplace?{#what-is-the-pricing-of-zilliz-cloud-on-aws-marketplace}
-
-Please refer to [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace#aws-marketplace-pricing-terms)for more about the pricing of Zilliz Cloud on AWS Marketplace.
 
 ### How can I get further technical support?{#how-can-i-get-further-technical-support}
 

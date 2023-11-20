@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/restore-from-snapshot
 beta: FALSE
 notebook: FALSE

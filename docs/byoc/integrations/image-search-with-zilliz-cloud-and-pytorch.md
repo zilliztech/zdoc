@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/image-search-with-zilliz-cloud-and-pytorch
 beta: FALSE
 notebook: 84_integrations_pytorch.ipynb

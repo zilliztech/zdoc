@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/manage-index
 beta: FALSE
 notebook: 01_use_customized_schema.ipynb

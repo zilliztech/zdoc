@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/set-up-maintenance-window
 beta: FALSE
 notebook: FALSE

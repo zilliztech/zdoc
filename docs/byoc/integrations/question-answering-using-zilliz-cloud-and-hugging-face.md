@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/question-answering-using-zilliz-cloud-and-hugging-face
 beta: FALSE
 notebook: 81_integrations_huggingface.ipynb

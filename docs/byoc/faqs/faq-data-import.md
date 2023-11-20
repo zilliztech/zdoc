@@ -1,5 +1,6 @@
 ---
-slug: /docs/faq-data-import
+displayed_sidebar: paasSidebar
+slug: /docs/byoc/faq-data-import
 beta: null
 notebook: null
 sidebar_position: 4

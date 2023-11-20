@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/query-latency-monitor
 beta: FALSE
 notebook: FALSE

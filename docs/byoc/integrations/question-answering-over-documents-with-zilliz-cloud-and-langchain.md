@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/question-answering-over-documents-with-zilliz-cloud-and-langchain
 beta: FALSE
 notebook: 83_integrations_langchain.ipynb

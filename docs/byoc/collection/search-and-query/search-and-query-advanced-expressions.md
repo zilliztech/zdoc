@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/search-and-query-advanced-expressions
 beta: TRUE
 notebook: 10_search_query_advanced_ops.ipynb
@@ -1386,6 +1387,6 @@ The following table describes the supported boolean expressions that you can use
 
 - [Create Collection](./create-collection)
 
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1)
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json)
 
 - [[Beta] Search and Query with Iterators](./search-and-query-iterators)

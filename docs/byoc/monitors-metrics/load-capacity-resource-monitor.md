@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/load-capacity-resource-monitor
 beta: FALSE
 notebook: FALSE

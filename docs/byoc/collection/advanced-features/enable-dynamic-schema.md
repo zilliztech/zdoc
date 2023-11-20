@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/enable-dynamic-schema
 beta: FALSE
 notebook: 02_enable_dynamic_schema.ipynb
@@ -1025,4 +1026,4 @@ output_fields='$meta["#key"]'
 
 - [Use Partition Key](./use-partition-key) 
 
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 

@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/multi-factor-authentication
 beta: FALSE
 notebook: FALSE

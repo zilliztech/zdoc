@@ -1,5 +1,6 @@
 ---
-slug: /docs/faq-monitors-and-metrics
+displayed_sidebar: paasSidebar
+slug: /docs/byoc/faq-monitors-and-metrics
 beta: null
 notebook: null
 sidebar_position: 9

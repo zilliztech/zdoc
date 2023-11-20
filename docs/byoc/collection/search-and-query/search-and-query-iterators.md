@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/search-and-query-iterators
 beta: TRUE
 notebook: 09_search_query_iterators.ipynb

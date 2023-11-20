@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/delete-snapshot
 beta: FALSE
 notebook: FALSE

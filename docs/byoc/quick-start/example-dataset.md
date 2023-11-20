@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/example-dataset
 beta: FALSE
 notebook: FALSE

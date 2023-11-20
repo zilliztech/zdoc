@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/movie-search-using-zilliz-cloud-and-sentencetransformers
 beta: FALSE
 notebook: 86_integrations_sentencetransformers.ipynb

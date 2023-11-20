@@ -1,8 +1,9 @@
 ---
-slug: /docs/faq-integrations
+displayed_sidebar: paasSidebar
+slug: /docs/byoc/faq-integrations
 beta: null
 notebook: null
-sidebar_position: 13
+sidebar_position: 11
 ---
 
 # FAQ: Integrations

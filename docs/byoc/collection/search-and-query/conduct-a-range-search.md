@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/conduct-a-range-search
 beta: TRUE
 notebook: 11_conduct_a_range_search.ipynb

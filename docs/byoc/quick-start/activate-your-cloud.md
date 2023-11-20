@@ -1,4 +1,5 @@
 ---
+displayed_sidebar: paasSidebar
 slug: /docs/byoc/activate-your-cloud
 beta: FALSE
 notebook: FALSE
