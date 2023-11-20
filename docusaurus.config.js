@@ -67,15 +67,14 @@ const config = {
         path: 'reference',
         routeBasePath: 'reference',
         sidebarPath: require.resolve('./sidebarsReference.js'),
-      }
+      },
     ],
     [
       'docusaurus-gtm-plugin',
       {
         id: 'GTM-MBBF2KR',
-      }
+      },
     ],
-    'docusaurus-plugin-hotjar',
     './plugins/lark-docs',
     './plugins/apifox-docs',
     './plugins/landing-page',
@@ -95,8 +94,8 @@ const config = {
         },
         items: [
           {
-            type: "search",
-            position: "right",
+            type: 'search',
+            position: 'right',
           },
           // {
           //   type: 'docSidebar',
@@ -119,7 +118,7 @@ const config = {
           },
           {
             href: '/reference',
-            label: "API Reference",
+            label: 'API Reference',
             position: 'left',
             className: 'header-link',
           },
@@ -130,42 +129,42 @@ const config = {
             className: 'header-link',
           },
           {
-            type: "dropdown",
-            label: "Resources",
-            position: "left",
+            type: 'dropdown',
+            label: 'Resources',
+            position: 'left',
             items: [
               {
-                label: "Developers",
-                to: "/",
+                label: 'Developers',
+                to: '/',
               },
               {
-                label: "Blogs",
-                href: "https://zilliz.com/blog",
+                label: 'Blogs',
+                href: 'https://zilliz.com/blog',
               },
               {
-                label: "GitHub",
-                href: "https://github.com/zilliztech/",
+                label: 'GitHub',
+                href: 'https://github.com/zilliztech/',
               },
               {
-                label: "Resources",
-                href: "https://zilliz.com/resources",
-              },              
-            ]
+                label: 'Resources',
+                href: 'https://zilliz.com/resources',
+              },
+            ],
           },
           {
             href: 'https://zilliz.com/use-cases',
             label: 'Solutions',
             position: 'left',
             className: 'header-link',
-          }
+          },
         ],
       },
       footer: {
         style: 'light',
         logo: {
-          alt: "Zilliz",
-          src: "/img/logo.svg",
-          href: "https://zilliz.com.cn",
+          alt: 'Zilliz',
+          src: '/img/logo.svg',
+          href: 'https://zilliz.com',
           width: 160,
           height: 51,
         },
@@ -187,10 +186,10 @@ const config = {
             title: 'Product',
             items: [
               {
-                label: "Zilliz Cloud",
-                href: "https://zilliz.com/cloud"
-              }
-            ]
+                label: 'Zilliz Cloud',
+                href: 'https://zilliz.com/cloud',
+              },
+            ],
           },
           {
             title: 'Media',
@@ -239,7 +238,7 @@ const config = {
             ],
           },
         ],
-        copyright: `LF AI, LF AI & data, Milvus, and associated open-source project names are trademarks of the the Linux Foundation. <br/>© Zilliz ${new Date().getFullYear()} All rights reserved.`,
+        copyright: `LF AI, LF AI & data, Milvus, and associated open-source project names are trademarks of the the Linux Foundation. <br/>© Zilliz ${new Date().getFullYear()} All rights reserved. <a class="setting-cookie-btn" >Cookie Settings</a>`,
       },
       prism: {
         theme: lightCodeTheme,
@@ -250,13 +249,13 @@ const config = {
         disableSwitch: true,
       },
       hotjar: {
-        applicationId: 3711906
-      }
+        applicationId: 3711906,
+      },
     }),
   themes: [
-      // ... Your other themes.
+    // ... Your other themes.
     [
-      require.resolve("@easyops-cn/docusaurus-search-local"),
+      require.resolve('@easyops-cn/docusaurus-search-local'),
       /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
       ({
         // ... Your options.
@@ -265,16 +264,24 @@ const config = {
         // For Docs using Chinese, The `language` is recommended to set to:
         // ```
         indexBlog: false,
-        language: ["en", "zh"],
-        docsDir: ["docs", "reference"],
-        docsRouteBasePath: ["/", "/docs/tutorials", "/reference/api"],
+        language: ['en', 'zh'],
+        docsDir: ['docs', 'reference'],
+        docsRouteBasePath: ['/', '/docs/tutorials', '/reference/api'],
         highlightSearchTermsOnTargetPage: true,
-        searchContextByPaths: ["/", "/docs/tutorials", "/reference/api"],
+        searchContextByPaths: ['/', '/docs/tutorials', '/reference/api'],
         // ```
       }),
     ],
-    'docusaurus-theme-frontmatter'
+    'docusaurus-theme-frontmatter',
   ],
+  scripts: [
+    {
+      src: '/js/cookieconsent.js',
+      async: true,
+    },
+    '/js/zilliz.js',
+  ],
+  stylesheets: ['/css/cookieconsent.css'],
 };
 
 module.exports = config;

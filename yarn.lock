@@ -3674,13 +3674,8 @@ dns-packet@^5.2.2:
 
 docusaurus-gtm-plugin@^0.0.2:
   version "0.0.2"
-  resolved "https://registry.npmmirror.com/docusaurus-gtm-plugin/-/docusaurus-gtm-plugin-0.0.2.tgz#f39864b54ca594e3281902c23b6df0763761602b"
+  resolved "https://registry.yarnpkg.com/docusaurus-gtm-plugin/-/docusaurus-gtm-plugin-0.0.2.tgz#f39864b54ca594e3281902c23b6df0763761602b"
   integrity sha512-Xx/df0Ppd5SultlzUj9qlQk2lX9mNVfTb41juyBUPZ1Nc/5dNx+uN0VuLyF4JEObkDRrUY1EFo9fEUDo8I6QOQ==
-
-docusaurus-plugin-hotjar@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.npmmirror.com/docusaurus-plugin-hotjar/-/docusaurus-plugin-hotjar-0.0.2.tgz#cd79d4c446ff57872041abeedae811946581e020"
-  integrity sha512-Jsdxa6k4YQm4SBiY5mv9h/6sKUrQs6lC6mRoPUfjiPVtnhURE3d0dj4Vnrpy/tRVSAbywAqA0F/PGn5RKHtVaw==
 
 docusaurus-theme-frontmatter@^1.3.0:
   version "1.3.0"
