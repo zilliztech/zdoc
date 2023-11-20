@@ -26,7 +26,7 @@ const ccSettings = {
   cookie_name: 'zilliz_cookie_consent', // default: 'cc_cookie'
   // cookie_expiration: 182,                 // default: 182 (days)
   // cookie_necessary_only_expiration: 182   // default: disabled
-  // cookie_domain: '.zilliz.com', // default: current domain
+  cookie_domain: '.zilliz.com', // default: current domain
   // cookie_path: '/',                       // default: root
   // cookie_same_site: 'Lax',                // default: 'Lax'
   // use_rfc_cookie: false,                  // default: false
