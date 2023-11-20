@@ -1,46 +1,46 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require("prism-react-renderer/themes/github");
-const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+const lightCodeTheme = require('prism-react-renderer/themes/github');
+const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Zilliz Cloud Developer Hub",
-  tagline: "Find what you need to work with Zilliz Cloud",
-  favicon: "img/favicon.svg",
+  title: 'Zilliz Cloud Developer Hub',
+  tagline: 'Find what you need to work with Zilliz Cloud',
+  favicon: 'img/favicon.svg',
   trailingSlash: false,
 
   // Set the production url of your site here
-  url: "https://docs.zilliz.com",
+  url: 'https://docs.zilliz.com',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/",
+  baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   // organizationName: 'zilliztech', // Usually your GitHub org/user name.
   // projectName: 'zdoc_cn', // Usually your repo name.
 
-  onBrokenLinks: "warn",
-  onBrokenMarkdownLinks: "warn",
+  onBrokenLinks: 'warn',
+  onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: "en",
-    locales: ["en"],
+    defaultLocale: 'en',
+    locales: ['en'],
   },
 
   presets: [
     [
-      "classic",
+      'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          sidebarPath: require.resolve("./sidebarsTutorial.js"),
-          routeBasePath: "/",
+          sidebarPath: require.resolve('./sidebarsTutorial.js'),
+          routeBasePath: '/',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // editUrl:
@@ -54,42 +54,48 @@ const config = {
         //     'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         // },
         theme: {
-          customCss: require.resolve("./src/css/custom.css"),
+          customCss: require.resolve('./src/css/custom.css'),
         },
       }),
     ],
   ],
   plugins: [
     [
-      "@docusaurus/plugin-content-docs",
+      '@docusaurus/plugin-content-docs',
       {
-        id: "reference",
-        path: "reference",
-        routeBasePath: "reference",
-        sidebarPath: require.resolve("./sidebarsReference.js"),
+        id: 'reference',
+        path: 'reference',
+        routeBasePath: 'reference',
+        sidebarPath: require.resolve('./sidebarsReference.js'),
       },
     ],
-    "./plugins/lark-docs",
-    "./plugins/apifox-docs",
-    "./plugins/landing-page",
-    "./plugins/github-code",
-    "./plugins/sdk-versions",
+    [
+      'docusaurus-gtm-plugin',
+      {
+        id: 'GTM-MBBF2KR',
+      },
+    ],
+    './plugins/lark-docs',
+    './plugins/apifox-docs',
+    './plugins/landing-page',
+    './plugins/github-code',
+    './plugins/sdk-versions',
   ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: "img/docusaurus-social-card.jpg",
+      image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: "",
+        title: '',
         logo: {
-          alt: "Zilliz Logo",
-          src: "img/logo.svg",
+          alt: 'Zilliz Logo',
+          src: 'img/logo.svg',
         },
         items: [
           {
-            type: "search",
-            position: "right",
+            type: 'search',
+            position: 'right',
           },
           // {
           //   type: 'docSidebar',
@@ -99,129 +105,129 @@ const config = {
           // },
           // {to: '/api', label: 'API 参考', position: 'left'},
           {
-            href: "/",
-            label: "User Guides",
-            position: "left",
-            className: "header-link",
+            href: '/',
+            label: 'User Guides',
+            position: 'left',
+            className: 'header-link',
           },
           {
-            href: "/reference",
-            label: "API Reference",
-            position: "left",
-            className: "header-link",
+            href: '/reference',
+            label: 'API Reference',
+            position: 'left',
+            className: 'header-link',
           },
           {
-            href: "https://zilliz.com/pricing",
-            label: "Pricing",
-            position: "left",
-            className: "header-link",
+            href: 'https://zilliz.com/pricing',
+            label: 'Pricing',
+            position: 'left',
+            className: 'header-link',
           },
           {
-            type: "dropdown",
-            label: "Resources",
-            position: "left",
+            type: 'dropdown',
+            label: 'Resources',
+            position: 'left',
             items: [
               {
-                label: "Developers",
-                to: "/",
+                label: 'Developers',
+                to: '/',
               },
               {
-                label: "Blogs",
-                href: "https://zilliz.com/blog",
+                label: 'Blogs',
+                href: 'https://zilliz.com/blog',
               },
               {
-                label: "GitHub",
-                href: "https://github.com/zilliztech/",
+                label: 'GitHub',
+                href: 'https://github.com/zilliztech/',
               },
               {
-                label: "Resources",
-                href: "https://zilliz.com/resources",
+                label: 'Resources',
+                href: 'https://zilliz.com/resources',
               },
             ],
           },
           {
-            href: "https://zilliz.com/use-cases",
-            label: "Solutions",
-            position: "left",
-            className: "header-link",
+            href: 'https://zilliz.com/use-cases',
+            label: 'Solutions',
+            position: 'left',
+            className: 'header-link',
           },
         ],
       },
       footer: {
-        style: "light",
+        style: 'light',
         logo: {
-          alt: "Zilliz",
-          src: "/img/logo.svg",
-          href: "https://zilliz.com.cn",
+          alt: 'Zilliz',
+          src: '/img/logo.svg',
+          href: 'https://zilliz.com',
           width: 160,
           height: 51,
         },
         links: [
           {
-            title: "Documents",
+            title: 'Documents',
             items: [
               {
-                label: "Developer Guides",
-                to: "/",
+                label: 'Developer Guides',
+                to: '/',
               },
               {
-                label: "API Reference",
-                to: "/reference",
+                label: 'API Reference',
+                to: '/reference',
               },
             ],
           },
           {
-            title: "Product",
+            title: 'Product',
             items: [
               {
-                label: "Zilliz Cloud",
-                href: "https://zilliz.com/cloud",
+                label: 'Zilliz Cloud',
+                href: 'https://zilliz.com/cloud',
               },
             ],
           },
           {
-            title: "Media",
+            title: 'Media',
             items: [
               {
-                label: "YouTube",
-                href: "https://www.youtube.com/c/MilvusVectorDatabase",
+                label: 'YouTube',
+                href: 'https://www.youtube.com/c/MilvusVectorDatabase',
               },
               {
-                label: "LinkedIn",
-                href: "https://www.linkedin.com/company/zilliz",
+                label: 'LinkedIn',
+                href: 'https://www.linkedin.com/company/zilliz',
               },
               {
-                label: "Twitter",
-                href: "https://twitter.com/zilliz_universe",
+                label: 'Twitter',
+                href: 'https://twitter.com/zilliz_universe',
               },
               {
-                label: "GitHub",
-                href: "https://github.com/zilliztech",
+                label: 'GitHub',
+                href: 'https://github.com/zilliztech',
               },
             ],
           },
           {
-            title: "Resources",
+            title: 'Resources',
             items: [
               {
-                label: "Blogs",
-                to: "https://zilliz.com/blog",
+                label: 'Blogs',
+                to: 'https://zilliz.com/blog',
               },
               {
-                label: "Whitepapers",
-                href: "https://zilliz.com/resources?tag=whitepapers",
+                label: 'Whitepapers',
+                href: 'https://zilliz.com/resources?tag=whitepapers',
               },
               {
-                label: "Webinars",
-                href: "https://zilliz.com/resources?tag=webinars",
+                label: 'Webinars',
+                href: 'https://zilliz.com/resources?tag=webinars',
               },
               {
-                label: "Trainings",
-                href: "https://zilliz.com/resources?tag=trainings",
+                label: 'Trainings',
+                href: 'https://zilliz.com/resources?tag=trainings',
               },
               {
-                label: "Events",
-                href: "https://zilliz.com/event",
+                label: 'Events',
+                href: 'https://zilliz.com/event',
               },
             ],
           },
@@ -231,7 +237,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
-        additionalLanguages: ["java", "go"],
+        additionalLanguages: ['java', 'go'],
       },
       colorMode: {
         disableSwitch: true,
@@ -243,7 +249,7 @@ const config = {
   themes: [
     // ... Your other themes.
     [
-      require.resolve("@easyops-cn/docusaurus-search-local"),
+      require.resolve('@easyops-cn/docusaurus-search-local'),
       /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
       ({
         // ... Your options.
@@ -252,24 +258,24 @@ const config = {
         // For Docs using Chinese, The `language` is recommended to set to:
         // ```
         indexBlog: false,
-        language: ["en", "zh"],
-        docsDir: ["docs", "reference"],
-        docsRouteBasePath: ["/", "/docs/tutorials", "/reference/api"],
+        language: ['en', 'zh'],
+        docsDir: ['docs', 'reference'],
+        docsRouteBasePath: ['/', '/docs/tutorials', '/reference/api'],
         highlightSearchTermsOnTargetPage: true,
-        searchContextByPaths: ["/", "/docs/tutorials", "/reference/api"],
+        searchContextByPaths: ['/', '/docs/tutorials', '/reference/api'],
         // ```
       }),
     ],
-    "docusaurus-theme-frontmatter",
+    'docusaurus-theme-frontmatter',
   ],
   scripts: [
     {
-      src: "/js/cookieconsent.js",
+      src: '/js/cookieconsent.js',
       async: true,
     },
-    "/js/custom.js",
+    '/js/zilliz.js',
   ],
-  stylesheets: ["/css/cookieconsent.css"],
+  stylesheets: ['/css/cookieconsent.css'],
 };
 
 module.exports = config;
