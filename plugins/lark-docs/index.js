@@ -17,12 +17,18 @@ module.exports = function (context, options) {
                 .option('-s, --sidebarPos <sidebarPos>', 'Order of the child doc in the sidebar', 0)
                 .option('-o, --outputDir <outputDir>', 'Output Directory', 'docs/tutorials')
                 .option('-i, --imageDir <imageDir>', 'Image Directory', 'static/img')
+                .option('-p, --pubTarget <pubTarget>', 'Publish target', 'saas')
                 .option('-f, --faq', 'Write FAQs')
                 .action(async (opts) => {
                     console.log('Fetching docs from Feishu...')
 
                     if (opts.rootToken === undefined) {
                         console.log('Please provide a root token')
+                        return
+                    }
+
+                    if (opts.pubTarget !== 'saas' && opts.outputDir === 'docs/tutorials') {
+                        console.log('Output directory must be specified for non-SaaS docs')
                         return
                     }
                     
@@ -35,7 +41,7 @@ module.exports = function (context, options) {
                     // fs.writeFileSync("docs.json", JSON.stringify(docs, null, 2))
                     let pages = new utils(docs, 'title', 'obj.obj_type === "docx"', true).instances
 
-                    const writer = new docWriter(pages, null, opts.imageDir)
+                    const writer = new docWriter(pages, null, opts.imageDir, opts.pubTarget)
 
                     if (opts.docToken !== undefined || opts.docTitle !== undefined) {
                         const page = pages.filter(page => page.obj_token === opts.docToken || page.title === opts.docTitle)[0]
