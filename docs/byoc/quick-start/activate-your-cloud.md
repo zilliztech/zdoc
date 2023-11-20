@@ -23,7 +23,7 @@ Upon subscribing to a BOYC license of Zilliz Cloud, you will receive a welcome e
 
     1. Zilliz Cloud automatically establishes a **Default Organization**, designated as **BYOC** in the web console, upon your subscription to a BYOC license.
 
-    1. To activate your cloud region, you must hold the role of the [Organization Owner](https://zilliverse.feishu.cn/docx/L7LcddbNyoaAkfxqgegczKe6nAh#doxcnc7XJ3kKu9nqm7UBdr0h7og) within this **Default Organization**.
+    1. To activate your cloud region, you must hold the role of the [Organization Owner](./a-panorama-view#organization-roles) within this **Default Organization**.
 
 ![activate-your-cloud-1](/byoc/activate-your-cloud-1.png)
 
@@ -43,11 +43,11 @@ Once all the necessary details are entered and the configuration is set, you can
 
 - Currently, the BYOC license supports only AWS **us-west-2 (Oregon) **region.
 
-- For security, only [Organization Owners](https://zilliverse.feishu.cn/docx/L7LcddbNyoaAkfxqgegczKe6nAh#doxcnc7XJ3kKu9nqm7UBdr0h7og) have permission to activate a cloud region.
+- For security, only [Organization Owners](./a-panorama-view#organization-roles) have permission to activate a cloud region.
 
 ## Related topics{#related-topics}
 
-- [Quick Start](.//)
+- [Quick Start](./)
 
 - [Install SDKs](./install-sdks)
 

@@ -116,6 +116,5 @@ Once you leave a project, your access to the project and associated resources wi
 
 - [A Panorama View](./a-panorama-view)
 
-- [Manage Organization Information](./manage-orgs-and-members) 
+- [Manage Organization Information](./manage-orgs-and-members)
 
-- [Delete Your Organization](./undefined)

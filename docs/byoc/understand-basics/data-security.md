@@ -52,12 +52,6 @@ Once you add specific CIDR blocks to the whitelist of a cluster, only IP address
 
 For details, see [Set up Whitelist](./set-up-whitelist).
 
-### Private links{#private-links}
-
-If you do not want cluster traffic to go over the Internet, Zilliz Cloud also supports adding a private link to your cluster. This private link serves as an extra layer of protection by ensuring that only resources in the trusted virtual private cloud (VPC) can establish communication with the cluster.
-
-For details, see [Set up a Private Link](./undefined).
-
 ## Storing and transmitting data with encryption{#storing-and-transmitting-data-with-encryption}
 
 Once a cluster is up and security settings are applied, Zilliz Cloud implements various measures to secure data storage and transmission.

@@ -12,6 +12,7 @@ class larkDocWriter {
         this.titles = JSON.parse(fs.readFileSync('plugins/lark-docs/meta/titles.json'))
         this.blocks = []
         this.target = target
+        this.current_page = null
         this.block_types = [
             "page",
             "text",
@@ -261,7 +262,9 @@ class larkDocWriter {
             this.blocks = page.children.map(child => {
                 return this.__retrieve_block_by_id(child)
             })
-            let a = (await this.__markdown()).split('\n')
+
+            let a = await this.__markdown()
+            a = this.__filter_content(a, this.target).split('\n')
             let header_pos = a.map((line, index) => {
                 if (line.startsWith('##')) {
                     return index
@@ -398,6 +401,7 @@ class larkDocWriter {
     }
 
     async __write_page({slug, beta, notebook, path, sidebar_position}) {
+        this.current_page = slug
         let front_matter = this.__front_matters(slug, beta, notebook, sidebar_position)
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.target)
@@ -710,7 +714,7 @@ class larkDocWriter {
     
     async __image(image) {
         const result = await this.downloader.__downloadImage(image.token)
-        const root = this.target === 'saas' ? '/img' : '/byoc'
+        const root = this.target === 'saas' ? 'img' : 'byoc'
         result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${image["token"]}.png`));
         return `![${image.token}](/${root}/${image["token"]}.png)`;
     }
@@ -720,13 +724,14 @@ class larkDocWriter {
             return '';
         } else {
             const url = new URL(decodeURIComponent(iframe.component.url))
+            const root = this.target === 'saas' ? 'img' : 'byoc'
             const key = url.pathname.split('/')[2]
             const node = url.searchParams.get('node-id').split('-').join(":") 
 
             const caption = (await this.downloader.__fetchCaption(key, node)).nodes[node].document.name;
             const result = await this.downloader.__downloadIframe(key, node);
             result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${caption}.png`));
-            return `![${caption}](/img/${caption}.png)`;
+            return `![${caption}](/${root}/${caption}.png)`;
         }
     }
 
@@ -797,7 +802,14 @@ class larkDocWriter {
                 }
 
                 if ('link' in style) {
-                    content = `[${content}](${await this.__convert_link(decodeURIComponent(style['link']['url']))})`;
+                    const url = await this.__convert_link(decodeURIComponent(style['link']['url']))
+
+                    if (url) {
+                        content = `[${content}](${url})`;
+                    } else {
+                        console.log(`Cannot find ${content}`)
+                    }
+                    
                 }
             }
         }
@@ -840,8 +852,13 @@ class larkDocWriter {
     async __mention_doc(element) {
         let title = element['mention_doc']['title'];
         let url = await this.__convert_link(decodeURIComponent(element['mention_doc']['url']));
-
-        return `[${title}](${url})`;
+        if (url) {
+            return `[${title}](${url})`;
+        } else {
+            console.log(`Cannot find ${title}`)
+            return title;
+        }
+        
     }
 
     async __convert_link(url) {
@@ -864,7 +881,7 @@ class larkDocWriter {
                 //     fs.writeFileSync('plugins/lark-docs/meta/titles.json', JSON.stringify(this.titles, null, 4))
                 // }
 
-                let newUrl = slug.endsWith("/") ? target === 'saas' ? `./docs/${slug}` : `./byoc/${slug}` : `./${slug}`;
+                let newUrl = this.current_page && this.current_page.endsWith("/") ? this.target === 'saas' ? `./docs/${slug}` : `./byoc/${slug}` : `./${slug}`;
 
                 if (header) {
                     const headerBlock = page['blocks']['items'].filter(x => x['block_id'] === header)[0];
@@ -879,7 +896,7 @@ class larkDocWriter {
                     }
                 }
 
-                url = newUrl;
+                url = newUrl.replace(/\/\//g, "/");
             }
         }
 

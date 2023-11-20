@@ -1,5 +1,5 @@
 ---
-slug: /docs/byoc/faq-payment-and-billing
+slug: /docs/faq-payment-and-billing
 beta: null
 notebook: null
 sidebar_position: 12

@@ -93,5 +93,5 @@ In conclusion, for this scenario, the Performance-optimized CU is your best bet.
 
 - [Activate Your Cloud](./activate-your-cloud)
 
-- [License](https://zilliverse.feishu.cn/wiki/QQ7WwrwDQijDcHkamahcXoygn8b)
+- [License](./license) 
 

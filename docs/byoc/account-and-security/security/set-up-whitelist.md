@@ -16,8 +16,6 @@ Whitelisting on Zilliz Cloud serves as a robust security layer at the project le
 
 Ensure the following prerequisites are met before proceeding:
 
-- You have signed up for Zilliz Cloud. For information on how to register an account, see [Register with Zilliz Cloud](./undefined).
-
 - You are the owner of the organization or project in which you want to set up a whitelist. For information on roles and permissions, see [A Panorama View](./a-panorama-view).
 
 ## Procedure{#procedure}

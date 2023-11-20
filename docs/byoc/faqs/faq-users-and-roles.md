@@ -1,5 +1,5 @@
 ---
-slug: /docs/byoc/faq-users-and-roles
+slug: /docs/faq-users-and-roles
 beta: null
 notebook: null
 sidebar_position: 8
@@ -42,10 +42,10 @@ If you are an organization owner, you can only leave the organization when you a
 
 If you are an organization owner, you can invite users to your organization by clicking **Members**.
 
-![faq-organization-invite](/byoc/faq-organization-invite.png)
+![faq-organization-invite](/img/faq-organization-invite.png)
 
 If you are an organization member, you can contact your organization owner to invite other users.
 
 Additionally, Zilliz Cloud also supports inviting users to projects. If you are a project owner, you can invite other project users by clicking **Collaborators** as shown in the screenshot below.
 
-![faq-project-invite](/byoc/faq-project-invite.png)
+![faq-project-invite](/img/faq-project-invite.png)

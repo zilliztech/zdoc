@@ -34,7 +34,7 @@ Once you have created a cluster, you will see the following in the console.
     In the **Actions** drop-down button, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](https://docs.zilliz.com/docs/backup-and-restore).
 
 - **Data migrations**
-    In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrate Between Clusters](./undefined#from-dedicated-to-another-dedicated-cluster).
+    In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus.
 
 ### Users and access control{#users-and-access-control}
 
@@ -73,11 +73,6 @@ Once you have created a cluster, you will see the following in the console.
 
     </Admonition>
 
-- **Upgrade service plan**
-    For standard users, click **Upgrade** right to the service **Plan** in the **Summary** section to upgrade your plan to **Enterprise**. Zilliz Cloud upgrades your service plan only after you confirm this operation in the **Upgrade to Enterprise Plan** dialog box.
-
-    For the differences between all the available subscription plans, refer to [Select Service Tiers](./undefined).
-
 - **Suspend & resume cluster**
     In the **Actions** drop-down button, select **Suspend** to stop the cluster. Once you confirm this operation in the **Suspend Cluster** dialog box, the cluster status changes from **RUNNING** to **SUSPENDING**, during which you cannot perform other actions to the cluster.
 
@@ -99,7 +94,5 @@ Once you have created a cluster, you will see the following in the console.
 - [Backup & Restore](https://docs.zilliz.com/docs/backup-and-restore)
 
 - [Select the Right CU](./cu-types-explained)
-
-- [Select Service Tiers](./undefined)
 
 - [Set up Whitelist](./set-up-whitelist)

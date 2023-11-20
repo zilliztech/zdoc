@@ -87,6 +87,4 @@ At the project level, two roles are introduced to enable finer-grained access co
 
 - [Manage Organizations and Members](./manage-orgs-and-members)
 
-- [Delete Your Organization](./undefined)
-
 - [Manage Projects and Collaborators](./manage-projects-and-collaborator)

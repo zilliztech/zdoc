@@ -2,7 +2,7 @@
 slug: /docs/byoc/
 beta: FALSE
 notebook: 00_quick_start.ipynb
-sidebar_position: 1
+sidebar_position: 0
 ---
 
 import Admonition from '@theme/Admonition';
@@ -173,7 +173,7 @@ curl --location --request POST "${PUBLIC_ENDPOINT}/v1/vector/collections/create"
 </TabItem>
 </Tabs>
 
-If you need full control of your collection, such as schema definition and manual enabling of dynamic schema, refer to [Use Customized Schema](https://zilliverse.feishu.cn/wiki/ZTMdw1e2Wi4Q7mkoGHZc4OY0nZ4) and [Enable Dynamic Schema](./byoc/enable-dynamic-schema).
+If you need full control of your collection, such as schema definition and manual enabling of dynamic schema, refer to [Create Collection](./byoc/create-collection) and [Enable Dynamic Schema](./byoc/enable-dynamic-schema).
 
 ## View collections{#view-collections}
 

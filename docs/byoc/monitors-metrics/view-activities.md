@@ -51,9 +51,7 @@ To enhance your control and ease in navigating through the organization activiti
 
 ## Related topics{#related-topics}
 
-- [Manage Organization Information](./manage-orgs-and-members) 
-
-- [Delete Your Organization](./undefined) 
+- [Manage Organization Information](./manage-orgs-and-members)
 
 - [Delete Your Account](./delete-your-account) 
 

@@ -1,5 +1,5 @@
 ---
-slug: /docs/byoc/faq-collection
+slug: /docs/faq-collection
 beta: null
 notebook: null
 sidebar_position: 3
@@ -42,7 +42,7 @@ If you have reached the maximum number of collections allowed in a cluster, you 
 
 You can view the status of dynamic schema via Zilliz Cloud web console. Choose the collection and navigate to the **Schema** tab. You can see if dynamic schema is enabled or not in the upper right corner. For more details, see [Enable Dynamic Schema](./enable-dynamic-schema).
 
-![faq_dynamic_schema_enabled](/byoc/faq_dynamic_schema_enabled.png)
+![faq_dynamic_schema_enabled](/img/faq_dynamic_schema_enabled.png)
 
 ### If dynamic schema was disabled when the collection was created, can I enable it later?{#if-dynamic-schema-was-disabled-when-the-collection-was-created-can-i-enable-it-later}
 
@@ -84,4 +84,4 @@ Yes. You can have a maximum of 64 fields in 1 collection.
 
 ### Can I migrate data from a serverless cluster to a dedicated cluster?{#can-i-migrate-data-from-a-serverless-cluster-to-a-dedicated-cluster}
 
-Yes. Zilliz Cloud supports migrating data from a serverless cluster to a dedicated cluster. For more information about how to migrate data, please refer to [Migrate Between Clusters](./undefined).
+Yes. Zilliz Cloud supports migrating data from a serverless cluster to a dedicated cluster. For more information about how to migrate data, please refer to [Migrate Between Clusters](./migrate-beween-clusters).

@@ -1,5 +1,5 @@
 ---
-slug: /docs/byoc/faq-account
+slug: /docs/faq-account
 beta: null
 notebook: null
 sidebar_position: 10
@@ -54,10 +54,10 @@ To unlock your account, you can choose one of the following methods.
 To unlink your Zilliz Cloud account from Google, please
 
 1. Go to **Account Settings** on Zilliz Cloud and click the button to unlink from Google.
-    ![faq-unlink-from-google-1](/byoc/faq-unlink-from-google-1.png)
+    ![faq-unlink-from-google-1](/img/faq-unlink-from-google-1.png)
 
 1. Click **Confirm** to continue.
-    ![faq-unlink-from-google-2](/byoc/faq-unlink-from-google-2.png)
+    ![faq-unlink-from-google-2](/img/faq-unlink-from-google-2.png)
 
 1. Check your email inbox for detailed instructions on how to unlink from Google and set up your new Zilliz Cloud account.
 

@@ -1,5 +1,5 @@
 ---
-slug: /docs/byoc/faq-migration
+slug: /docs/faq-migration
 beta: null
 notebook: null
 sidebar_position: 5

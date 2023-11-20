@@ -1,5 +1,5 @@
 ---
-slug: /docs/byoc/faq-get-started
+slug: /docs/faq-get-started
 beta: null
 notebook: null
 sidebar_position: 1
@@ -38,7 +38,7 @@ However, please[ submit a request](https://support.zilliz.com/hc/en-us) if you a
 
 The search latency depends on the CU type and data volume. 
 
-![ObhQbbImLoKHdexbeD0cBMSWngh](/byoc/ObhQbbImLoKHdexbeD0cBMSWngh.png)
+![ObhQbbImLoKHdexbeD0cBMSWngh](/img/ObhQbbImLoKHdexbeD0cBMSWngh.png)
 
 For more details about the test result, see [Select the Right CU](./cu-types-explained).
 
@@ -52,7 +52,7 @@ Once the free trial ends, you can still access your serverless clusters. However
 
 ### What is the pricing of Zilliz Cloud on AWS marketplace?{#what-is-the-pricing-of-zilliz-cloud-on-aws-marketplace}
 
-Please refer to [Subscribe on AWS Marketplace](./undefined#aws-marketplace-pricing-terms)for more about the pricing of Zilliz Cloud on AWS Marketplace.
+Please refer to [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace#aws-marketplace-pricing-terms)for more about the pricing of Zilliz Cloud on AWS Marketplace.
 
 ### How can I get further technical support?{#how-can-i-get-further-technical-support}
 

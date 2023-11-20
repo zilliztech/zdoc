@@ -16,9 +16,9 @@ This topic offers a step-by-step guide on how to migrate data from Elasticsearch
 
 Make sure the following steps are performed:
 
-- You have registered an account with Zilliz Cloud. For details, see [Register with Zilliz Cloud](./undefined).
+- You have activated your cloud. For details, see [Activate Your Cloud](./activate-your-cloud).
 
-- You have created a **Dedicated** cluster on Zilliz Cloud. For details, see [Create Cluster](./create-cluster) and [Select the Right Cluster Plan](./undefined).
+- You have created a cluster. For details, see [Create Cluster](./create-cluster).
 
 - You have created an Elasticsearch cluster running on version 7.x or later. For details, see [Installing Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html).
 

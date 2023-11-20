@@ -1,5 +1,5 @@
 ---
-slug: /docs/byoc/faq-integrations
+slug: /docs/faq-integrations
 beta: null
 notebook: null
 sidebar_position: 13

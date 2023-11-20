@@ -24,7 +24,7 @@ The BYOC license operates on a core-based subscription model, linking your subsc
 
 You can manage and view your BYOC license details in the Zilliz Cloud console.
 
-To view license information, you must be an [Organization Owner](https://zilliverse.feishu.cn/docx/L7LcddbNyoaAkfxqgegczKe6nAh#doxcnpdAuyJ9YJjZg7HejWg18ed).
+To view license information, you must be an [Organization Owner](./a-panorama-view#organization-roles).
 
 ![view-license-info](/byoc/view-license-info.png)
 
@@ -72,8 +72,8 @@ Failing to renew or upgrade within the grace period results in your Zilliz Cloud
 
 ## Related topics{#related-topics}
 
-- [Activate Your Cloud](https://zilliverse.feishu.cn/wiki/P6dWwNtcXiRSh7kkr2VcIKhkn7f)
+- [Activate Your Cloud](./activate-your-cloud) 
 
 - [Select the Right CU](./cu-types-explained)
 
-- [Create Cluster](https://zilliverse.feishu.cn/wiki/HQxKw5QQiiktfHk3iascUEIPneh)
+- [Create Cluster](./create-cluster) 

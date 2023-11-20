@@ -31,12 +31,12 @@ Ensure:
 
 1. On the **Create New Cluster** page, fill out the relevant parameters.
 
-    |  **Parameter**               |  **Description**                                                                                                                    |
-    | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-    |  **Cluster Name**            |  The name of the cluster.                                                                                                           |
-    |  **Cloud Provider Settings** |  The cluster's location and the cloud provider it is hosted on. For more information, see [Cloud Providers & Regions](./undefined). |
-    |  **CU Settings**             |  The compute resource to be allocated to this cluster.                                                                              |
-    |  **Cloud Backup**            |  Whether to enable cloud backup for the data in this cluster.                                                                       |
+    |  **Parameter**               |  **Description**                                                                                                                                                     |
+    | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    |  **Cluster Name**            |  The name of the cluster.                                                                                                                                            |
+    |  **Cloud Provider Settings** |  The cluster's location and the cloud provider it is hosted on. |
+    |  **CU Settings**             |  The compute resource to be allocated to this cluster.                                                                                                               |
+    |  **Cloud Backup**            |  Whether to enable cloud backup for the data in this cluster.                                                                                                        |
 
     
 

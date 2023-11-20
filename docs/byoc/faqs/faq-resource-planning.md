@@ -1,5 +1,5 @@
 ---
-slug: /docs/byoc/faq-resource-planning
+slug: /docs/faq-resource-planning
 beta: null
 notebook: null
 sidebar_position: 6
@@ -48,7 +48,7 @@ Yes. Zilliz Cloud now supports deployment on Azure. This feature is in beta vers
 
 To view your plan, choose a specific cluster under a project. Navigate to the **Cluster Details** tab, and you can find the plan detail under the **Summary** section.
 
-![cluster_plan](/byoc/cluster_plan.png)
+![cluster_plan](/img/cluster_plan.png)
 
 ### How many CUs do I need for a given collection?{#how-many-cus-do-i-need-for-a-given-collection}
 

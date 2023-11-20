@@ -144,12 +144,12 @@ For your reference, Zilliz Cloud supports the following field data types:
 
 - Variable character (VARCHAR)
 
-- [JSON](./javascript-object-notation-json)
+- [JSON](./javascript-object-notation-json-1)
 
 ## What’s next{#whats-next}
 
-- [Use Customized Schema](https://zilliverse.feishu.cn/wiki/ZTMdw1e2Wi4Q7mkoGHZc4OY0nZ4) 
+- [Create Collection](./create-collection) 
 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json-1) 
