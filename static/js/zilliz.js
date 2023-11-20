@@ -134,6 +134,13 @@ const ccSettings = {
                 col4: 'Used by HubSpot',
                 is_regex: false,
               },
+              {
+                col1: 'cb_*',
+                col2: 'clearbit',
+                col3: '13 months',
+                col4: 'Used by Clearbit',
+                is_regex: true,
+              },
             ],
           },
           {
