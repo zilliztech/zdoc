@@ -6,7 +6,8 @@ sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Set up a Private Link
 
@@ -34,241 +35,296 @@ Zilliz Cloud offers you an intuitive wizard to add a private link. On the **Priv
 
 Setting up a private link is project-level. When you configure a private link for a cluster, it applies to its neighboring clusters in the same project deployed in the same cloud region.
 
-To continue setting up a private link, follow these steps as needed:
+<Tabs groupId="private-link" defaultValue="aws" values={[{"label":"Amazon AWS","value":"aws"},{"label":"Google GCP","value":"gcp"},{"label":"Microsoft Azure","value":"azure"}]}>
 
-- [Set up a private link for a cluster on Amazon Web Service (AWS)](./set-up-a-private-link#select-a-cloud-provider-and-region)
+<TabItem value="aws">
 
-- [Set up a private link for a cluster on Google Cloud Platform (GCP)](./set-up-a-private-link#set-up-a-private-link-for-a-cluster-on-gcp)
+1. Select a cloud provider and region
+    To create a private link for a cluster deployed in an AWS region, select **AWS** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions).
 
-## Set up a private link for a cluster on AWS{#set-up-a-private-link-for-a-cluster-on-aws}
+    <Admonition type="info" icon="📘" title="Notes">    
+    
+    
+    Once you have created a private link in a project, it applies immediately to its member clusters that have been deployed in the specified region. For those clusters that undergo maintenance then, such as scaling or patch-fixing, the private link applies to them after maintenance.
 
-### Select a cloud provider and region{#select-a-cloud-provider-and-region}
+    </Admonition>
 
-To create a private link for a cluster deployed in an AWS region, select **AWS** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions).
+    ![setup_private_link_02](/img/setup_private_link_02.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+1. Obtain a VPC ID
+    Before creating a VPC endpoint, you need to have a VPC on your Amazon console. To view your VPCs, do as follows:
 
-Once you have created a private link in a project, it applies immediately to its member clusters that have been deployed in the specified region. For those clusters that undergo maintenance then, such as scaling or patch-fixing, the private link applies to them after maintenance.
+    1. Open the [Amazon VPC console](https://console.aws.amazon.com/vpc/).
 
-</Admonition>
+    1. In the navigation pane, choose **VPCs**.
 
-![setup_private_link_02](/img/setup_private_link_02.png)
+    1. Find the VPC of your desire and copy its ID.
 
-### Obtain a VPC ID{#obtain-a-vpc-id}
+    1. Enter this ID in **VPC ID** on Zilliz Cloud.
 
-Before creating a VPC endpoint, you need to have a VPC on your Amazon console. To view your VPCs, do as follows:
+    To create a VPC, see [Create a VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#Create-VPC).
 
-1. Open the [Amazon VPC console](https://console.aws.amazon.com/vpc/).
+1. Obtain a subnet ID
+    Subnets are sub-divisions of your VPC. You need to have a subnet that resides in the same region as the private link to be created. To view your subnets, do as follows:
 
-1. In the navigation pane, choose **VPCs**.
+    1. Open the [Amazon VPC console](https://console.aws.amazon.com/vpc/).
 
-1. Find the VPC of your desire and copy its ID.
+    1. Change the current region to the one specified for creating the private link.
 
-1. Enter this ID in **VPC ID** on Zilliz Cloud.
+    1. In the navigation pane, choose **Subnets**.
 
-To create a VPC, see [Create a VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#Create-VPC).
+    1. Find the subnet of your desire and copy its ID.
 
-### Obtain a subnet ID{#obtain-a-subnet-id}
+    1. Enter this ID in **Subnet IDs** on Zilliz Cloud. To create a subnet, see [Create a Subnet in Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-subnets.html#create-subnets).
 
-Subnets are sub-divisions of your VPC. You need to have a subnet that resides in the same region as the private link to be created. To view your subnets, do as follows:
+1. Obtain a VPC endpoint
+    Copy the command generated at the bottom of the **Add Private Link** dialog box on Zilliz Cloud, and run this command in your Amazon CloudShell to create a VPC endpoint.
 
-1. Open the [Amazon VPC console](https://console.aws.amazon.com/vpc/).
+    The returned message is similar to the following:
 
-1. Change the current region to the one specified for creating the private link.
+    ```json
+    {
+        "VpcEndpoint": {
+            # Copy this and fill it in "Your VPC Private Link ID"
+            "VpcEndpointId": "vpce-0ce90d01341533a5c",
+            "VpcEndpointType": "Interface",
+            ...
+            "DnsEntries": [
+                {
+                    # Copy this one and use it as "VPCE_DNS" in the next step.
+                    "DnsName": "vpce-0ce90d01341533a5c-ngbqfdnj.vpce-svc-0b62964bfd0edfb74.us-west-2.vpce.amazonaws.com",
+                    "HostedZoneId": "Z1YSA3EXCYUU9Z"
+                },
+                {
+                    "DnsName": "vpce-0ce90d01341533a5c-ngbqfdnj-us-west-2a.vpce-svc-0b62964bfd0edfb74.us-west-2.vpce.amazonaws.com",
+                    "HostedZoneId": "Z1YSA3EXCYUU9Z"
+                }
+            ]
+    }
+    ```
 
-1. In the navigation pane, choose **Subnets**.
+    In the returned message, copy the ID and DNS name of the created VPC endpoint.
 
-1. Find the subnet of your desire and copy its ID.
+    Then, enter the VPC endpoint ID in **Your VPC Private Link ID** and click **Add**.
 
-1. Enter this ID in **Subnet IDs** on Zilliz Cloud. To create a subnet, see [Create a Subnet in Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-subnets.html#create-subnets).
+1. Obtain a private link
+    After verifying and accepting the VPC endpoint you have submitted, Zilliz Cloud allocates a private link for this endpoint. You can view it on the details tab of your cluster.
 
-### Obtain a VPC endpoint{#obtain-a-vpc-endpoint}
+1. Set up a DNS record
+    Before you can access your cluster via the private link allocated by Zilliz Cloud, it is necessary to create a CNAME record in your DNS zone to resolve the private link to the DNS name of your VPC endpoint.
 
-Copy the command generated at the bottom of the **Add Private Link** dialog box on Zilliz Cloud, and run this command in your Amazon CloudShell to create a VPC endpoint.
+    - **Create a hosted zone using Amazon Route 53**
+        Amazon Route 53 is a web-based DNS service. Create a hosted DNS zone so that you can add DNS records to it.
 
-The returned message is similar to the following:
+        ![Xy3db8HiHoZBaux9SnScIurSnmg](/img/Xy3db8HiHoZBaux9SnScIurSnmg.png)
 
-```json
-{
-    "VpcEndpoint": {
-        # Copy this and fill it in "Your VPC Private Link ID"
-        "VpcEndpointId": "vpce-0ce90d01341533a5c",
-        "VpcEndpointType": "Interface",
-        ...
-        "DnsEntries": [
-            {
-                # Copy this one and use it as "VPCE_DNS" in the next step.
-                "DnsName": "vpce-0ce90d01341533a5c-ngbqfdnj.vpce-svc-0b62964bfd0edfb74.us-west-2.vpce.amazonaws.com",
-                "HostedZoneId": "Z1YSA3EXCYUU9Z"
-            },
-            {
-                "DnsName": "vpce-0ce90d01341533a5c-ngbqfdnj-us-west-2a.vpce-svc-0b62964bfd0edfb74.us-west-2.vpce.amazonaws.com",
-                "HostedZoneId": "Z1YSA3EXCYUU9Z"
-            }
-        ]
-}
-```
+        1. Log into your AWS account and go to [__Hosted zones__](https://us-east-1.console.aws.amazon.com/route53/v2/hostedzones#).
 
-In the returned message, copy the ID and DNS name of the created VPC endpoint.
+        1. Click **Create hosted zone**.
 
-Then, enter the VPC endpoint ID in **Your VPC Private Link ID** and click **Add**.
+        1. In the **Hosted zone configuration** section, set the following parameters.
 
-### **Obtain a private link**{#obtain-a-private-link}
+            |  **Parameter name** |  **Parameter Description**                                      |
+            | ------------------- | --------------------------------------------------------------- |
+            |  **Domain name**    |  Private Link allocated by Zilliz Cloud for the target cluster. |
+            |  **Description**    |  Description used to distinguish hosted zones.                  |
+            |  **Type**           |  Select **Private hosted zone**.                                |
 
-After verifying and accepting the VPC endpoint you have submitted, Zilliz Cloud allocates a private link for this endpoint. You can view it on the details tab of your cluster.
+        1. In the VPCs to associate with the hosted zone section, add your VPC ID to associate it with the hosted zone.
 
-### **Set up a DNS record**{#set-up-a-dns-record}
+    - **Create an alias record in the hosted zone**
+        An alias record is a type of DNS record that maps an alias name to a true or canonical domain name. Create an alias record to map the private link allocated by Zilliz Cloud to the DNS name of your VPC endpoint. Then, you can use the private link to access your cluster privately.
 
-Before you can access your cluster via the private link allocated by Zilliz Cloud, it is necessary to create a CNAME record in your DNS zone to resolve the private link to the DNS name of your VPC endpoint.
+        ![HHGZbpSyooxvajxZcsicrgaUnZB](/img/HHGZbpSyooxvajxZcsicrgaUnZB.png)
 
-**Create a hosted zone using Amazon Route 53**
+        1. In the created hosted zone, click **Create record**.
 
-Amazon Route 53 is a web-based DNS service. Create a hosted DNS zone so that you can add DNS records to it.
+        1. On the **Create record** page, switch on **Alias**, and select Route traffic to as follows:
+            1. Select **Alias to VPC endpoint** in the first drop-down list.
 
-![Xy3db8HiHoZBaux9SnScIurSnmg](/img/Xy3db8HiHoZBaux9SnScIurSnmg.png)
+            1. Select the cloud region in the second drop-down list.
 
-1. Log into your AWS account and go to [__Hosted zones__](https://us-east-1.console.aws.amazon.com/route53/v2/hostedzones#).
+            1. Enter the name of the endpoint that has been created above.
 
-1. Click **Create hosted zone**.
+        1. Click **Create records**.
 
-1. In the **Hosted zone configuration** section, set the following parameters.
+</TabItem>
+<TabItem value="gcp">
 
-    |  **Parameter name** |  **Parameter Description**                                      |
-    | ------------------- | --------------------------------------------------------------- |
-    |  **Domain name**    |  Private Link allocated by Zilliz Cloud for the target cluster. |
-    |  **Description**    |  Description used to distinguish hosted zones.                  |
-    |  **Type**           |  Select **Private hosted zone**.                                |
+1. Select a cloud provider and region
+    To create a private link for a cluster deployed in a Google Cloud region, select **Google Cloud** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions).
 
-1. In the VPCs to associate with the hosted zone section, add your VPC ID to associate it with the hosted zone.
+    ![enter_vpc_endpoint_gcp](/img/enter_vpc_endpoint_gcp.png)
 
-**Create an alias record in the hosted zone**
+    <Admonition type="info" icon="📘" title="Notes">    
+    
+    
+    Once you have created a private link in a project, it applies immediately to its member clusters that have been deployed in the specified region. For those clusters that undergo maintenance then, such as scaling or patch-fixing, the private link applies to them after maintenance.
 
-An alias record is a type of DNS record that maps an alias name to a true or canonical domain name. Create an alias record to map the private link allocated by Zilliz Cloud to the DNS name of your VPC endpoint. Then, you can use the private link to access your cluster privately.
+    </Admonition>
 
-![HHGZbpSyooxvajxZcsicrgaUnZB](/img/HHGZbpSyooxvajxZcsicrgaUnZB.png)
+1. Obtain a Google Cloud project ID
+    1. Open the [Google Cloud Dashboard](https://console.cloud.google.com/home/dashboard).
 
-1. In the created hosted zone, click **Create record**.
+    1. Find the Project ID of your desire and copy its ID.
 
-1. On the **Create record** page, switch on **Alias**, and select Route traffic to as follows:
-    1. Select **Alias to VPC endpoint** in the first drop-down list.
+    1. Enter this ID in Google Cloud Project ID on Zilliz Cloud.
 
-    1. Select the cloud region in the second drop-down list.
+1. Obtain a VPC name
+    Before creating a VPC endpoint, you need to have a VPC on your Amazon console. To view your VPCs, do as follows:
 
-    1. Enter the name of the endpoint that has been created above.
+    1. Open the [Google Cloud VPC Dashboard](https://console.cloud.google.com/networking/networks/list).
 
-1. Click **Create records**.
+    1. In the navigation pane, choose **VPC networks**.
 
-## Set up a private link for a cluster on GCP{#set-up-a-private-link-for-a-cluster-on-gcp}
+    1. Find the VPC of your desire and copy its Name.
 
-### Select a cloud provider and region{#select-a-cloud-provider-and-region}
+    1. Enter this name in **VPC Name** on Zilliz Cloud.
 
-To create a private link for a cluster deployed in a Google Cloud region, select **Google Cloud** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions).
+    To create a VPC network, see [Create and manage VPC networks](https://cloud.google.com/vpc/docs/create-modify-vpc-networks).
 
-<Admonition type="info" icon="📘" title="Notes">
+1. Obtain a subset name
+    Subnets are sub-divisions of your VPC. You need to have a subnet that resides in the same region as the private link to be created. To view your subnets, do as follows:
 
-Once you have created a private link in a project, it applies immediately to its member clusters that have been deployed in the specified region. For those clusters that undergo maintenance then, such as scaling or patch-fixing, the private link applies to them after maintenance.
+    1. Open your [VPC network list](https://console.cloud.google.com/networking/networks/list).
 
-</Admonition>
+    1. In the navigation pane, choose **VPC networks**.
 
-![enter_vpc_endpoint_gcp](/img/enter_vpc_endpoint_gcp.png)
+    1. Click the name of the VPC of your desire.
 
-### **Obtain a Google Cloud project ID**{#obtain-a-google-cloud-project-id}
+    1. Find the subnet of your desire and copy its name.
 
-1. Open the [Google Cloud Dashboard](https://console.cloud.google.com/home/dashboard).
+    1. Enter this name in **Subnet Name** on Zilliz Cloud.
 
-1. Find the Project ID of your desire and copy its ID.
+1. Set an endpoint prefix
+    For your convenience, you are required to set an endpoint prefix in **Private Service Connect Endpoint prefix** so that any forwarding rules you create will have this prefix.
 
-1. Enter this ID in Google Cloud Project ID on Zilliz Cloud.
+1. Obtain a private service endpoint
+    Copy the command generated at the bottom of the **Add Private Link** dialog box on Zilliz Cloud, and run this command in your GCP CloudShell to create a Private Service Connect Endpoint.
 
-### Obtain a VPC name{#obtain-a-vpc-name}
+    In the returned message, copy the endpoint name listed on [this page](https://console.cloud.google.com/net-services/psc/list/consumers).
 
-Before creating a VPC endpoint, you need to have a VPC on your Amazon console. To view your VPCs, do as follows:
+    Then, enter the copied name in **Your Endpoint** and click **Add**.
 
-1. Open the [Google Cloud VPC Dashboard](https://console.cloud.google.com/networking/networks/list).
+1. Obtain a private link
+    After verifying and accepting the preceding attributes you have submitted, Zilliz Cloud allocates a private link for this endpoint. You can view it on the details tab of your cluster.
 
-1. In the navigation pane, choose **VPC networks**.
+1. Set up firewall rules and a DNS record
+    Before you can access your cluster via the private link allocated by Zilliz Cloud, it is necessary to create a CNAME record in your DNS zone to resolve the private link to the DNS name of your VPC endpoint.
 
-1. Find the VPC of your desire and copy its Name.
+1. Create firewall rules
+    To allow private access to your managed cluster, add appropriate firewall rules. The following snippet shows how to allow traffic through TCP port 22. Note that you need to set `VPC_NAME` to the name of your VPC.
 
-1. Enter this name in **VPC Name** on Zilliz Cloud.
+    ```bash
+    VPC_NAME={{vpc-name}};
+    
+    gcloud compute firewall-rules create psclab-iap-consumer --network $VPC_NAME --allow tcp:22 --source-ranges=35.235.240.0/20 --enable-logging
+    ```
 
-To create a VPC network, see [Create and manage VPC networks](https://cloud.google.com/vpc/docs/create-modify-vpc-networks).
+1. Create a hosted zone using Cloud DNS
+    Cloud DNS is a web-based DNS service. Create a managed DNS zone so that you can add DNS records to it.
 
-### Obtain a subset name{#obtain-a-subset-name}
+    Run the following script in your GCP Cloushell to create a managed DNS zone. Note that you need to set `PROJECT_ID` to your GCP project ID and `PRIVATE_DNS_ZONE_NAME` to `zilliz-privatelink-zone`.
 
-Subnets are sub-divisions of your VPC. You need to have a subnet that resides in the same region as the private link to be created. To view your subnets, do as follows:
+    ```bash
+    PROJECT_ID={{project-id}};
+    PRIVATE_DNS_ZONE_NAME=zilliz-privatelink-zone;
+    
+    gcloud dns --project=$PROJECT_ID managed-zones create $PRIVATE_DNS_ZONE_NAME --description="" --dns-name="vectordb.zillizcloud.com." --visibility="private" --networks=$VPC_NAME
+    ```
 
-1. Open your [VPC network list](https://console.cloud.google.com/networking/networks/list).
+1. Create a CNAME record in the hosted zone
+    A CNAME record is a type of DNS record that maps an alias name to a true or canonical domain name. Create a CNAME record to map the private link allocated by Zilliz Cloud to the DNS name of your VPC endpoint. Then you can use the private link to access your cluster privately.
 
-1. In the navigation pane, choose **VPC networks**.
+    Run the following script in your Cloud Shell to create a CNAME record in the hosted DNS zone. Note that you need to set `ENDPOINT_IP` to the IP address of the endpoint created in the previous step and `PRIVATE_LINK_DOMAIN_PREFIX` to the private link listed on the **d**etails tab of your cluster.
 
-1. Click the name of the VPC of your desire.
+    ```bash
+    PRIVATE_LINK_DOMAIN_SUFFIX=vectordb.zillizcloud.com;
+    ## such as in01-61e949d971f841b-privatelink.gcp-us-west1
+    PRIVATE_LINK_DOMAIN_PREFIX={{privatelink-domain-prefix}};
+    
+    ## get id from endpoint
+    ENDPOINT_IP={{endpoint-ip}};
+    
+    gcloud dns --project=$PROJECT_ID record-sets create $PRIVATE_LINK_DOMAIN_PREFIX.$PRIVATE_LINK_DOMAIN_SUFFIX. --zone="$PRIVATE_DNS_ZONE_NAME" --type="A" --ttl="60" --rrdatas="$ENDPOINT_IP"
+    ```
 
-1. Find the subnet of your desire and copy its name.
+</TabItem>
 
-1. Enter this name in **Subnet Name** on Zilliz Cloud.
+<TabItem value="azure">
 
-### Set an endpoint prefix{#set-an-endpoint-prefix}
+1. On the **Cluster Details** tab in the Zilliz Cloud console, copy your cluster ID.
+    ![IHILbNmFuoPfbxxtjhCcqjvqnzf](/img/IHILbNmFuoPfbxxtjhCcqjvqnzf.png)
 
-For your convenience, you are required to set an endpoint prefix in **Private Service Connect Endpoint prefix** so that any forwarding rules you create will have this prefix.
+1. In the **Create Private Link** dialog box,
+    1. Select a provider and region.
 
-### Obtain a private service endpoint{#obtain-a-private-service-endpoint}
+    1. Enter your user ID from the [Microsoft Azure Subscription page](https://portal.azure.com/#view/Microsoft_Azure_Billing/SubscriptionsBladeV1).
 
-Copy the command generated at the bottom of the **Add Private Link** dialog box on Zilliz Cloud, and run this command in your GCP CloudShell to create a Private Service Connect Endpoint.
+    1. Click **Add** to have Zilliz Cloud verify the submitted user ID and whitelist it.
 
-In the returned message, copy the endpoint name listed on [this page](https://console.cloud.google.com/net-services/psc/list/consumers).
+    1. Copy the endpoint service alias similar to the following.
+        `zilliz-prod-infra-privatelink.6a90fc24-16c3-40c1-a94c-648987ac7422.westus3.azure.privatelinkservice`
 
-Then, enter the copied name in **Your Endpoint** and click **Add**.
+1. On the Microsoft Azure portal, go to [your subscriptions](https://portal.azure.com/#view/Microsoft_Azure_Billing/SubscriptionsBladeV1).
+    1. [Create a private endpoint](https://portal.azure.com/#view/Microsoft_Azure_Network/PrivateLinkCenterBlade). At the end of this step, you need to write down the endpoint ID for **step 6** and the network interface IP address for **step b**.
+        1. Click **+ Create** to start the process.
+            - In the **Basics** tab, fill in the necessary information for your Azure subscription. This is the same subscription that you have presented to Zilliz Cloud. Be sure to select the same region as the one you chose in **step 1**.
+                ![NSWxb9usFo1nWUxBX4HciwKxnlF](/img/NSWxb9usFo1nWUxBX4HciwKxnlF.png)
 
-### Obtain a private link{#obtain-a-private-link}
+            - In the **Resource** tab, choose **Connect to an Azure resource by resource ID or alias**, and enter the endpoint service alias you have copied in **step 4**.
+                ![QnvRbwN02ox36rxY1eocBOS0n1e](/img/QnvRbwN02ox36rxY1eocBOS0n1e.png)
 
-After verifying and accepting the preceding attributes you have submitted, Zilliz Cloud allocates a private link for this endpoint. You can view it on the details tab of your cluster.
+            - In the **Virtual Network** tab, select the virtual network and one of its subnets you need to link to Zilliz Cloud.
+                ![G8lzbirHzojw1ixcG36cOsH0nne](/img/G8lzbirHzojw1ixcG36cOsH0nne.png)
 
-### **Set up firewall rules and a DNS record**{#set-up-firewall-rules-and-a-dns-record}
+        1. Click **Create**, and wait for the process to finish.
 
-Before you can access your cluster via the private link allocated by Zilliz Cloud, it is necessary to create a CNAME record in your DNS zone to resolve the private link to the DNS name of your VPC endpoint.
+        1. Once the deployment is complete, you will see a message that reads **Your deployment is complete**. Click **Go to resource** to view the endpoint service you have just created.
+            On the **Overview** page, **Connection Status** is **Pending**, and **Request/Response** is **Awaiting Approval**. This means that this private link is still pending approval by Zilliz Cloud.
 
-### **Create firewall rules**{#create-firewall-rules}
+            ![D2wsbFpKmoOYo2xoNz4c7hOlnmh](/img/D2wsbFpKmoOYo2xoNz4c7hOlnmh.png)
 
-To allow private access to your managed cluster, add appropriate firewall rules. The following snippet shows how to allow traffic through TCP port 22. Note that you need to set `VPC_NAME` to the name of your VPC.
+        1. Click **JSON View** in the upper right corner on the **Overview** page. 
+            In the **Resource JSON** panel, copy the values of `name` and `properties.resourceGuid`. Your endpoint ID should be these two values joined by a period (`.`). 
 
-```bash
-VPC_NAME={{vpc-name}};
+            For example, the value of `name` is `zilliz-test`, and the value of `properties.resourceGuid` is `4e259816-xxxxxxxxxxxxx`. You endpoint ID is `zilliz-test.4e259816-xxxxxxxxxxxx`.
 
-gcloud compute firewall-rules create psclab-iap-consumer --network $VPC_NAME --allow tcp:22 --source-ranges=35.235.240.0/20 --enable-logging
-```
+        1. Go to **Settings** > **DNS configuration**, and copy the **IP address** of the network interface you have created.
+            ![Rq2KbQYeuoK3SDxJeqecm5FMnIc](/img/Rq2KbQYeuoK3SDxJeqecm5FMnIc.png)
 
-### **Create a hosted zone using Cloud DNS**{#create-a-hosted-zone-using-cloud-dns}
+    1. [Create a Private DNS zone](https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.Network%2FprivateDnsZones). Click **+ Create** to start the process.
+        1. In the **Basics** tab, fill in the necessary information for your Azure subscription. This is the same subscription that you have presented to Zilliz Cloud. 
+            Be sure to end the instance name with `.vectordb.zillizcloud.com`. For example, you can name your instance `az-eastus.vectordb.zillizcloud.com`.  
 
-Cloud DNS is a web-based DNS service. Create a managed DNS zone so that you can add DNS records to it.
+            ![LdZjbThh5oztOZxFpO2cS0bjnMb](/img/LdZjbThh5oztOZxFpO2cS0bjnMb.png)
 
-Run the following script in your GCP Cloushell to create a managed DNS zone. Note that you need to set `PROJECT_ID` to your GCP project ID and `PRIVATE_DNS_ZONE_NAME` to `zilliz-privatelink-zone`.
+        1. Click **Create**, and wait for the process to finish.
 
-```bash
-PROJECT_ID={{project-id}};
-PRIVATE_DNS_ZONE_NAME=zilliz-privatelink-zone;
+    1. Link the Private DNS zone to your virtual network.
+        1. Click the name of the Private DNS zone you have just created and click **Settings** > **Virtual network links** in the left navigation pane.
 
-gcloud dns --project=$PROJECT_ID managed-zones create $PRIVATE_DNS_ZONE_NAME --description="" --dns-name="vectordb.zillizcloud.com." --visibility="private" --networks=$VPC_NAME
-```
+        1. Click **+ Add**. In the **Add virtual network link** dialog box, enter a **Link name**, and select **Subscription** and **Virtual network** you have used above.
+            ![OnySbiSrBoNtTnxE32bc7DgsnOd](/img/OnySbiSrBoNtTnxE32bc7DgsnOd.png)
 
-### **Create a CNAME record in the hosted zone**{#create-a-cname-record-in-the-hosted-zone}
+        1. Select **Enable auto registration**.
 
-A CNAME record is a type of DNS record that maps an alias name to a true or canonical domain name. Create a CNAME record to map the private link allocated by Zilliz Cloud to the DNS name of your VPC endpoint. Then you can use the private link to access your cluster privately.
+    1. Add record set.
+        1. Click **Overview** in the left navigation pane to go back to the overview page of the Private DNS zone.
 
-Run the following script in your Cloud Shell to create a CNAME record in the hosted DNS zone. Note that you need to set `ENDPOINT_IP` to the IP address of the endpoint created in the previous step and `PRIVATE_LINK_DOMAIN_PREFIX` to the private link listed on the **d**etails tab of your cluster.
+        1. Click **+ Record set**. In the **Add record set** dialog box, enter your cluster ID suffixed with `-privatelink` in **Name**, select **A - Address record** in **Type**, and set **TTL** to **120 Hours**. Check whether the listed IP address is the one you have noted down.
+            ![GAG4byOmYoACbDxGP5xczIOanId](/img/GAG4byOmYoACbDxGP5xczIOanId.png)
 
-```bash
-PRIVATE_LINK_DOMAIN_SUFFIX=vectordb.zillizcloud.com;
-## such as in01-61e949d971f841b-privatelink.gcp-us-west1
-PRIVATE_LINK_DOMAIN_PREFIX={{privatelink-domain-prefix}};
+        1. Click **OK **to add the record. 
 
-## get id from endpoint
-ENDPOINT_IP={{endpoint-ip}};
+1. Go back to the Zilliz Cloud console. In the **Create Private Link** dialog box, enter the endpoint ID you have noted down in **Endpoint ID**, and click **Create**.
+    Upon receiving your request, Zilliz Cloud whitelists your connection and your private link is established.
 
-gcloud dns --project=$PROJECT_ID record-sets create $PRIVATE_LINK_DOMAIN_PREFIX.$PRIVATE_LINK_DOMAIN_SUFFIX. --zone="$PRIVATE_DNS_ZONE_NAME" --type="A" --ttl="60" --rrdatas="$ENDPOINT_IP"
-```
+</TabItem>
 
-## **Verify the connection**{#verify-the-connection}
+</Tabs>
+
+## Verify the connection{#verify-the-connection}
 
 ![setup_private_link_01](/img/setup_private_link_01.png)
 
@@ -280,7 +336,7 @@ Once you complete the preceding steps, you can verify the connection as follows:
 
 ## Troubleshooting{#troubleshooting}
 
-### **Why does it always report a timeout when connecting to the private link on AWS?**{#why-does-it-always-report-a-timeout-when-connecting-to-the-private-link-on-aws}
+### Why does it always report a timeout when connecting to the private link on AWS?{#why-does-it-always-report-a-timeout-when-connecting-to-the-private-link-on-aws}
 
 A timeout usually occurs for the following reasons:
 
@@ -296,7 +352,7 @@ A timeout usually occurs for the following reasons:
 
     </Admonition>
 
-    If you see the following, you need to [set up the DNS record](./set-up-a-private-link#set-up-a-dns-record).
+    If you see the following, you need to [set up the DNS record](./set-up-a-private-link).
 
     ![MxXVbXo7woTHRZxEeXAcAhmGnjg](/img/MxXVbXo7woTHRZxEeXAcAhmGnjg.png)
 
@@ -318,7 +374,7 @@ A timeout usually occurs for the following reasons:
 
     </Admonition>
 
-### **Why does it always report `Name or service not known` when I ping the private link on GCP?**{#why-does-it-always-report-name-or-service-not-known-when-i-ping-the-private-link-on-gcp}
+### Why does it always report `Name or service not known` when I ping the private link on GCP?{#why-does-it-always-report-name-or-service-not-known-when-i-ping-the-private-link-on-gcp}
 
 Check your DNS settings by referring to [Set up firewall rules and a DNS record](https://zilliz.com/doc/setup_private_link-gcp#Set-up-firewall-rules-and-a-DNS-record).
 

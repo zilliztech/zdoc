@@ -4,6 +4,7 @@ const slugify = require('slugify')
 const fs = require('node:fs')
 const { URL } = require('node:url')
 const fetch = require('node-fetch')
+const cheerio = require('cheerio')
 
 class larkDocWriter {
     constructor(pages=[], page_blocks=[], imageDir='static/img', target='saas') {
@@ -405,6 +406,14 @@ class larkDocWriter {
         let front_matter = this.__front_matters(slug, beta, notebook, sidebar_position)
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.target)
+        if (!this.sdks) {
+            this.sdks = await this.__fetch_sdk_versions()
+        }
+
+        markdown = markdown.replace(/{versions.python.version}/g, this.sdks.python.version)
+        markdown = markdown.replace(/{versions.java.version}/g, this.sdks.java.version)
+        markdown = markdown.replace(/{versions.node.version}/g, this.sdks.node.version)
+        markdown = markdown.replace(/{versions.go.version}/g, this.sdks.go.version)
 
         let tabs = markdown.split('\n').filter(line => {
             return line.trim().startsWith("<Tab")
@@ -917,6 +926,30 @@ class larkDocWriter {
         }
 
         return paragraph;
+    }
+
+    async __fetch_sdk_versions (url) {
+        const sdks = {
+            python: 'https://github.com/milvus-io/pymilvus/releases',
+            node: 'https://github.com/milvus-io/milvus-sdk-node/releases',
+            java: 'https://github.com/milvus-io/milvus-sdk-java/releases',
+            go: 'https://github.com/milvus-io/milvus-sdk-go/releases',
+        }
+
+        for (let key in sdks) {
+            if (sdks[key]) {
+                const res = await fetch(sdks[key])
+                const $ = cheerio.load(await res.text())
+                const version = $('section > h2').first().text().match(/\d+\.\d+\.\d+/)[0]
+                const released = $('section').first().find('relative-time').attr('datetime')
+                sdks[key] = {
+                    version: version,
+                    released: released
+                }
+            }
+        }
+
+        return sdks
     }
 }
 

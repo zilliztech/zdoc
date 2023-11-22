@@ -5,9 +5,11 @@ const fs = require('node:fs')
 // github:
 //   repo: zilliztech/zdoc-demos
 //   branch: master
-//   paths: 
+//   blocks:
 //     - python/00_quick_start.ipynb#2913a8f9-c7be-4dd2-a2e5-b8878b6b6a9e
 //     - python/00_quick_start.ipynb#ebf0da44-0868-4b4f-bbab-564f5d6dabe0
+
+// github:\n(\s*[^:\n]*: [^\n]*\n)+(\s*blocks:\n(\s*- [^\n]*\n)+)?
 const fetch_code_snippet = async (config) => {
     const { github } = yaml.load(config)
     const paths = github.paths
