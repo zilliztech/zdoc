@@ -31,11 +31,10 @@ pipeline {
                         sh 'pwd'
                         sh 'ls -la'
                         sh './ci/set_docker_mirror.sh'
-                        sh 'service docker restart && sleep 3'
                         echo "${image_tag}"
 
                         withCredentials([usernamePassword(credentialsId: "${env.CI_DOCKER_CREDENTIAL_ID}", usernameVariable: 'CI_REGISTRY_USERNAME', passwordVariable: 'CI_REGISTRY_PASSWORD')]){
-                            sh "docker login harbor.op.zillizcloud.com -u '${CI_REGISTRY_USERNAME}' -p '${CI_REGISTRY_PASSWORD}'"
+                            sh "docker login harbor.op.zillizcloud.com -u '${CI_REGISTRY_USERNAME}' -p '${CI_REGISTRY_PASSWORD}' || sleep 300"
                             sh """
                             export IMAGE_TAG=${image_tag}
                             docker pull harbor-us-vdc.zilliz.cc/vdc/zilliz-docs:\${IMAGE_TAG}
