@@ -4,6 +4,9 @@ metadata:
   namespace: jenkins
 spec:
   enableServiceLinks: false
+  nodeSelector:
+    node-role/milvus: "ci"
+    node-role/jenkins-job: "true"
   containers:
   - name: main
     image: harbor-us-vdc.zilliz.cc/devops/krte:20211213-dcc15e9
