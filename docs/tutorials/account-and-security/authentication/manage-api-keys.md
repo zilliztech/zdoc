@@ -66,6 +66,7 @@ Exercise caution when deleting an API key. Doing so will immediately revoke acce
 
 - [Manage Cluster Credentials](./manage-cluster-credentials) 
 
-- [Set up Whitelist](./set-up-whitelist) 
+- [Set up Whitelist](./set-up-whitelist)
 
-- [Set up a Private Link](./set-up-a-private-link) 
+- [Set up a Private Link](./setup-a-private-link) 
+

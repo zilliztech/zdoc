@@ -25,27 +25,27 @@ The BYOC license operates on a core-based subscription model, linking your subsc
 
 You can manage and view your BYOC license details in the Zilliz Cloud console.
 
-To view license information, you must be an [Organization Owner](./a-panorama-view#organization-roles).
+To view license information, you must be the [Organization Owner](./a-panorama-view#organization-roles).
 
 ![view-license-info](/byoc/view-license-info.png)
 
 ## Monitor license usage{#monitor-license-usage}
 
-On the **License Information** page, the **Usage** progress bar is a straightforward visual tool indicating your license status. The color codes are:
+Check out the **Usage** progress bar on the **License Information** page, which offers an easy-to-understand visual guide showing how you're using your license. Please take the appropriate action based on the color indicators:
 
-- **Green**: Safe usage, with core usage below 70% and over 60 days of validity remaining.
+- **Green**: Your license usage is comfortably within limits, with core usage below 70% and over 60 days of validity remaining. Keep monitoring to ensure it stays in this range.
 
-- **Yellow**: Warning, with core usage between 70-99% or validity under 60 days. Consider renewal or upgrade.
+- **Yellow**: A nudge to start thinking about renewing or upgrading your license, with core usage between 70-99% or validity under 60 days. Time to assess your future needs and prepare for action.
 
-- **Red**: Urgent action required, with core usage over 100% or license expiration. Immediate resolution is necessary.
+- **Red**: A clear signal that immediate action is required, with core usage over 100% or license expiration. Critical to renew or upgrade now to avoid operational disruptions.
 
-Contact our sales personnel for help if you are in the yellow or red zone. We recommend you renew or upgrade your license before it expires or reaches its limit to avoid restrictions like the inability to create new clusters or scale up.
+Contact our sales for help if you are in the yellow or red zone. We recommend you renew or upgrade your license before it expires or reaches its limit to avoid restrictions like the inability to create new clusters or scale up.
 
 ![monitor-license-usage](/byoc/monitor-license-usage.png)
 
 ## License expiration or overuse{#license-expiration-or-overuse}
 
-To avoid service disruptions, renew or upgrade your license if nearing expiration or the core usage limit. Zilliz Cloud's flexible approach to fluctuating business needs includes:
+To prevent service disruptions, renew or upgrade your license if it is approaching expiration or nearing the core usage limit. Zilliz Cloud's flexible approach to fluctuating business needs includes:
 
 - **Core Usage Overuse**: Exceeding your core quota won't impact existing clusters, but you may be restricted from creating new clusters, scaling up, or activating new cloud regions.
 
@@ -53,13 +53,13 @@ To avoid service disruptions, renew or upgrade your license if nearing expiratio
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Zilliz Cloud simultaneously monitors your license's validity period and core usage. Simultaneous restrictions apply if your license expires while cores are overused.
+Zilliz Cloud simultaneously keeps track of your license's validity period and core usage, and applies restrictions accordingly if your license expires while cores are overused.
 
 </Admonition>
 
-## Non-renewal or upgrade consequences{#non-renewal-or-upgrade-consequences}
+## Potential consequences of failing to renew or upgrade{#potential-consequences-of-failing-to-renew-or-upgrade}
 
-Failing to renew or upgrade within the grace period results in your Zilliz Cloud account being frozen and service access revoked. The following operations are prohibited once frozen:
+Failing to renew or upgrade within the __one-month__ grace period results in your Zilliz Cloud account being frozen and service access revoked. The following operations are prohibited once frozen:
 
 - Creating, restarting, stopping, or scaling clusters
 

@@ -2,7 +2,7 @@
 slug: /docs/manage-orgs-and-members
 beta: FALSE
 notebook: FALSE
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';

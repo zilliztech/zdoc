@@ -2,7 +2,7 @@
 slug: /docs/free-trials
 beta: FALSE
 notebook: FALSE
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';

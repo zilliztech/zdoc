@@ -32,12 +32,6 @@ For instance, here's an example of a JSON field that stores the metadata of a pu
 
 Please keep in mind that when creating a list or array, it's important to ensure that all values are of the same type. Additionally, any nested dictionaries will be treated as strings. When defining JSON keys, it's recommended to only use alphanumeric characters and underscores, as other characters may cause issues with filtering or searching.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-You can [download the source code](https://assets.zilliz.com/zdoc/zilliz_cloud_sdk_examples.zip) of this guide for your reference while reading this guide.
-
-</Admonition>
-
 ## Define JSON field{#define-json-field}
 
 To define a JSON field, simply follow the same procedure as defining fields of other types.

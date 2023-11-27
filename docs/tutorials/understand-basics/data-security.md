@@ -56,7 +56,7 @@ For details, see [Set up Whitelist](./set-up-whitelist).
 
 If you do not want cluster traffic to go over the Internet, Zilliz Cloud also supports adding a private link to your cluster. This private link serves as an extra layer of protection by ensuring that only resources in the trusted virtual private cloud (VPC) can establish communication with the cluster.
 
-For details, see [Set up a Private Link](./set-up-a-private-link).
+For details, see [Set up a Private Link](./setup-a-private-link).
 
 ## Storing and transmitting data with encryption{#storing-and-transmitting-data-with-encryption}
 

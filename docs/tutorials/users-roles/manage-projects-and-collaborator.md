@@ -2,7 +2,7 @@
 slug: /docs/manage-projects-and-collaborator
 beta: FALSE
 notebook: FALSE
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';
@@ -116,6 +116,7 @@ Once you leave a project, your access to the project and associated resources wi
 
 - [A Panorama View](./a-panorama-view)
 
-- [Manage Organization Information](./manage-orgs-and-members) 
+- [Manage Organization Information](./manage-orgs-and-members)
 
 - [Delete Your Organization](./delete-your-org)
+

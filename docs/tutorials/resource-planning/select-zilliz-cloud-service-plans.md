@@ -16,9 +16,9 @@ Zilliz Cloud provides a range of cluster types and plans to suit diverse require
 
 At its core, Zilliz Cloud offers two fundamental types of clusters: **Serverless** and **Dedicated**.
 
-|  Cluster Type             |  Description                                                      |  Resource Allocation                                                                            |  Best Suited For                                                             |
-| ------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-|  **Serverless**           |  Simple, fully managed vector database cluster                    |  - Dynamic provisioning<br/> <br/>  - Shared resources with other users<br/>                       |  - Vector database newcomers<br/> <br/>  - Hassle-free experience seekers<br/>  |
+|  Cluster Type             |  Description                                                      |  Resource Allocation                                                                          |  Best Suited For                                                             |
+| ------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+|  **Serverless**           |  Simple, fully managed vector database cluster                    |  - Dynamic provisioning<br/> <br/>  - Shared resources with other users<br/>                     |  - Vector database newcomers<br/> <br/>  - Hassle-free experience seekers<br/>  |
 |  **Dedicated**<br/> <br/>   |  - Full feature set<br/> <br/>  - High availability & security<br/>  |  - Dedicated [Compute Units (CUs)](./cu-types-explained)<br/> <br/>  - Optimal performance<br/>  |  - Enterprise setups<br/> <br/>  - Strict performance & security needs<br/>     |
 
 For more in-depth details on cluster configurations, explore the [Free Trials](./free-trials) and [Pricing Calculator](./pricing-calculator).

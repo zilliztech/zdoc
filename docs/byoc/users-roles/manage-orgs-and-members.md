@@ -3,7 +3,7 @@ displayed_sidebar: paasSidebar
 slug: /docs/byoc/manage-orgs-and-members
 beta: FALSE
 notebook: FALSE
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';

@@ -28,7 +28,17 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 ### How many collections are allowed in a single cluster?{#how-many-collections-are-allowed-in-a-single-cluster}
 
-A serverless cluster can have 2 collections at most. However, the maximum number of collections allowed in a dedicated cluster depends on the cluster CU size. Clusters of 12 CUs and above can have up to 256 collections. Clusters of less than 12 CUs can have up to 32 collections.
+A serverless cluster can have up to 2 collections. 
+
+The number of collections allowed in a dedicated cluster varies with the cluster CU size. For clusters with 8 CUs or less, you can create a maximum of 32 collections. For clusters with more than 8 CUs,  you can create a maximum of 256 collections. For more information about the limits, please see [Create Collection](./create-collection#limits).
+
+If you have reached the maximum number of collections allowed in a cluster, you can:
+
+1. Scale your cluster to larger CU sizes. See [Manage Cluster](./manage-cluster#manage-and-configure-clusters).
+
+1. [Drop](./drop-collection) unused collections.
+
+1. Try creating [partitions](./use-partition-key) instead of collections.
 
 ### How can I know if dynamic schema is enabled for my collection?{#how-can-i-know-if-dynamic-schema-is-enabled-for-my-collection}
 

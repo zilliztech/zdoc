@@ -12,11 +12,29 @@ import Admonition from '@theme/Admonition';
 
 In Zilliz Cloud, a cluster credential consists of a username and password pair, utilized to authenticate and authorize your requests for cluster interaction.
 
-When setting up a cluster, Zilliz Cloud creates a default cluster user named `db_admin`, with a password set by the cluster creator. This user is endowed with `admin` privileges, granting full access to all cluster-level resources and operations.
+## Overview{#overview}
 
-When interacting with clusters, it's important to differentiate between cluster users and Zilliz Cloud account users. The former have access to Zilliz Cloud clusters, while the latter have access to the Zilliz Cloud platform itself.
+When setting up a cluster, Zilliz Cloud creates the default cluster user `db_admin` with the `Admin` role, granting full cluster access.
 
-Beyond the default `db_admin` user, Zilliz Cloud provides the ability to add and manage additional cluster users.
+Beyond the default `db_admin` user, you can also add and manage additional cluster users, with various [built-in roles](./undefined) for access control:
+
+- `Admin`: Full control over the cluster and associated resources.
+
+- `Read-Write`: Permission to read, write, and manage collections and indexes within the cluster.
+
+- `Read-Only`: Viewing rights for most cluster resources, but no creation, modification, or deletion capabilities.
+
+Explore [Cluster Built-in Roles](./undefined) for further details.
+
+To manage cluster users, perform the following actions as needed:
+
+- [Adding a cluster user](./manage-cluster-credentials#add-a-cluster-user)
+
+- [Editing the role of a cluster user](./manage-cluster-credentials#edit-the-role-of-a-cluster-user)
+
+- [Resetting the password of a cluster user](./manage-cluster-credentials#reset-the-password-of-a-cluster-user)
+
+- [Dropping a cluster user](./manage-cluster-credentials#drop-a-cluster-user)
 
 ## Add a cluster user{#add-a-cluster-user}
 
@@ -31,6 +49,12 @@ The password will not be displayed again, so it's crucial to note it down and se
 ![add-cluster-user](/img/add-cluster-user.png)
 
 Having added a cluster user, you can now connect to the cluster using its username and password. See [Connect to Cluster](./connect-to-cluster) to explore further details.
+
+## Edit the role of a cluster user{#edit-the-role-of-a-cluster-user}
+
+To edit the role of a cluster user, you must be an [Organization Owner](./a-panorama-view#organization-roles) or a [Project Owner](./a-panorama-view#project-roles).
+
+![edit-cluster-user-role](/img/edit-cluster-user-role.png)
 
 ## Reset the password of a cluster user{#reset-the-password-of-a-cluster-user}
 
@@ -62,6 +86,7 @@ The default user **db_admin **cannot be dropped.
 
 - [Manage API Keys](./manage-api-keys) 
 
-- [Set up Whitelist](./set-up-whitelist) 
+- [Set up Whitelist](./set-up-whitelist)
 
-- [Set up a Private Link](./set-up-a-private-link)
+- [Set up a Private Link](./setup-a-private-link)
+

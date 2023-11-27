@@ -14,7 +14,7 @@ Zilliz Cloud is a cloud-based service that offers vector database clusters on pu
 
 ## Amazon Web Services (AWS){#amazon-web-services-aws}
 
-Zilliz Cloud supports deploying serverless and dedicated clusters onto Amazon Web Services (AWS).
+Zilliz Cloud supports deploying dedicated clusters on Amazon Web Services (AWS).
 
 |  **AWS Region** |  **Location**     |  **Serverless Cluster** |  **Dedicated Cluster (Standard)** |  **Dedicated Cluster (Enterprise)** |
 | --------------- | ----------------- | ----------------------- | --------------------------------- | ----------------------------------- |
@@ -24,15 +24,35 @@ Zilliz Cloud supports deploying serverless and dedicated clusters onto Amazon We
 |  ap-southeast-2 |  Singapore        |  No                     |  Yes                              |  Yes                                |
 |  eu-central-1   |  Frankfurt        |  No                     |  Yes                              |  Yes                                |
 
-Currently, all cluster types are available in the above cloud regions. For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
+For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
 ## Google Cloud Platform (GCP){#google-cloud-platform-gcp}
 
-Similarly, serverless and dedicated clusters can be deployed on the Google Cloud Platform (GCP).
+Both serverless and dedicated clusters can be deployed on Google Cloud Platform (GCP).
 
 |  **GCP Region**   |  **Location** |  **Serverless Cluster** |  **Dedicated Cluster (Standard)** |  **Dedicated Cluster (Enterprise)** |
 | ----------------- | ------------- | ----------------------- | --------------------------------- | ----------------------------------- |
 |  us-west1         |  Oregon, USA  |  Yes                    |  Yes                              |  Yes                                |
 |  asia-southeast-1 |  Singapore    |  Yes                    |  Yes                              |  Yes                                |
 
-Currently, all cluster types are available in the above cloud regions. For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
+For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
+
+## Microsoft Azure{#microsoft-azure}
+
+Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
+
+|  **Azure Region** |  **Location**  |  **Serverless Cluster** |  **Dedicated Cluster (Standard)** |  **Dedicated Cluster (Enterprise)** |
+| ----------------- | -------------- | ----------------------- | --------------------------------- | ----------------------------------- |
+|  east-us          |  Virginia, USA |  No                     |  Yes                              |  Yes                                |
+
+For more information on cluster types, see [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
+
+Currently, all clusters running on Microsoft Azure support Beta version features, such as the [cosine metric type](./search-metrics-explained#cosine-similarity), [range search](./conduct-a-range-search), [advanced expressions](./search-and-query-advanced-expressions), and [upsert operations](./upsert-entities).
+
+## Related topics{#related-topics}
+
+- [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans)
+
+- [Select the Right CU](./cu-types-explained)
+
+- [Pricing Calculator](./pricing-calculator)

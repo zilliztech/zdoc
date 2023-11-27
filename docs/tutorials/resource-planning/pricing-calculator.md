@@ -48,7 +48,7 @@ Explore further details under [Select the Right CU](./cu-types-explained).
 
 ### Cloud provider{#cloud-provider}
 
-- **Options**: Amazon Web Services (AWS) and Google Cloud Platform (GCP).
+- **Options**: Amazon Web Services (AWS), Google Cloud Platform (GCP), Microsoft Azure.
 
 ### Cloud region{#cloud-region}
 

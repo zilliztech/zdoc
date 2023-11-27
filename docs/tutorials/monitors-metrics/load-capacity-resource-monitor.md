@@ -46,8 +46,9 @@ To activate the monitor, click the switch in the **Status** column. This action 
 
 - [Query Latency Monitor](./query-latency-monitor) 
 
+- [View Cluster Metrics](./monitor-metrics)
+
 - [Credit Card Expiration Monitor](./credit-card-expiration-monitor) 
 
-- [View Cluster Metrics](./monitor-metrics) 
-
 - [Advance Pay Balance Monitor](./advance-pay-balance-monitor) 
+

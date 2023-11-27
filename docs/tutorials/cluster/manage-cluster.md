@@ -74,7 +74,7 @@ Once you have created a dedicated cluster, you will see the following in the con
     For more information, refer to [Connect to Cluster](./connect-to-cluster).
 
 - **Set up private link**
-    To establish a more secure connection to your cluster, you can create a private link instead of using the public endpoint provided. Refer to [Set up a Private Link](./set-up-a-private-link) for further details.
+    To establish a more secure connection to your cluster, you can create a private link instead of using the public endpoint provided. Refer to [Set up a Private Link](./setup-a-private-link) for further details.
 
 ### Manage collections and data{#manage-collections-and-data}
 
@@ -138,10 +138,14 @@ Once you have created a dedicated cluster, you will see the following in the con
 
     Once the status changes to **SUSPENDED**, you will only be charged for storage. Wisely suspending some of your clusters can save you money.
 
+    
+
     |  **Cloud Provider** |  **Storage Pricing**   |
     | ------------------- | ---------------------- |
     |  AWS storage        |  $0.025 / GB per month |
     |  GCP storage        |  $0.020 / GB per month |
+
+    
 
     To resume a suspended cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. At this point, you will be charged fully based on your CU settings and service plan.
 
@@ -154,14 +158,14 @@ Once you have created a dedicated cluster, you will see the following in the con
 
 - [Connect to Cluster](./connect-to-cluster)
 
-- [Set up a Private Link](./set-up-a-private-link)
+- [Set up a Private Link](./setup-a-private-link)
+
+- [Migrate Between Clusters](./migrate-beween-clusters)
+
+- [Select Service Tiers](./select-zilliz-cloud-service-plans)
 
 - [Backup & Restore](https://docs.zilliz.com/docs/backup-and-restore)
 
-- [Migrate Between Clusters](./migrate-beween-clusters#from-dedicated-to-another-dedicated-cluster)
-
 - [Select the Right CU](./cu-types-explained)
-
-- [Select Service Tiers](./select-zilliz-cloud-service-plans)
 
 - [Set up Whitelist](./set-up-whitelist)

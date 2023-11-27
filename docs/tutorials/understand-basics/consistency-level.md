@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 
 # Consistency Level
 
-In distributed databases, consistency ensures that every node or replica offers the same data view during read or write operations. Zilliz Cloud provides four consistency levels: **Strong**, **Bounded Staleness**, **Session**, and **Eventually**, with **Bounded Staleness** set as the default.
+In distributed databases, consistency ensures that every node or replica offers the same data view during read or write operations. Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
 
 ## Understanding the Balance: The PACELC Theorem{#understanding-the-balance-the-pacelc-theorem}
 
@@ -30,13 +30,6 @@ The PACELC theorem postulates that a distributed database must make trade-offs b
 
     Bounded staleness is suitable for systems like video recommendation platforms, where occasional data inconsistencies don't drastically affect performance.
 
-- **Session **
-    The session level guarantees immediate data visibility for reads and writes within the same session and ensures a consistent user experience within an active session.
-
-    ![OM9ibCbIboBqjExfchDcvGxJnLI](/img/OM9ibCbIboBqjExfchDcvGxJnLI.png)
-
-    We recommend choosing session as the consistency level for those applications like library management systems, ensuring the latest session actions reflect accurately.
-
 - **Eventually**
     The level of eventually indicates the most relaxed level, allowing data to converge to a consistent state over time without strict read-write order.
 
@@ -51,8 +44,6 @@ To achieve these consistency levels, Zilliz Cloud employs the concept of the [Gu
 - **Strong**: Matches the latest system timestamp, ensuring all data up to this point is visible before queries.
 
 - **Bounded Staleness**: Slightly predates the latest system timestamp, permitting queries on slightly older data.
-
-- **Session**: Uses the timestamp of the client's last write, ensuring visibility of that client's data.
 
 - **Eventually**: Sets a minimal value to bypass consistency checks, enabling immediate queries on available data.
 

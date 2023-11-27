@@ -56,4 +56,5 @@ Ensure the following prerequisites are met before proceeding:
 
 - [Manage Cluster Credentials](./manage-cluster-credentials)
 
-- [Set up a Private Link](./set-up-a-private-link)
+- [Set up a Private Link](./setup-a-private-link)
+

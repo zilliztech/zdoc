@@ -1,5 +1,5 @@
 ---
-slug: /docs/set-up-a-private-link
+slug: /docs/setup-a-private-link
 beta: FALSE
 notebook: FALSE
 sidebar_position: 2
@@ -352,7 +352,7 @@ A timeout usually occurs for the following reasons:
 
     </Admonition>
 
-    If you see the following, you need to [set up the DNS record](./set-up-a-private-link).
+    If you see the following, you need to [set up the DNS record](./setup-a-private-link).
 
     ![MxXVbXo7woTHRZxEeXAcAhmGnjg](/img/MxXVbXo7woTHRZxEeXAcAhmGnjg.png)
 

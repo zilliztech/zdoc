@@ -12,6 +12,8 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud provides various cluster plan tiers to accommodate the distinct business needs of users. For guidance on selecting an appropriate cluster type, consult [Free Trials](./free-trials) and [Understand Cluster Types](./select-zilliz-cloud-service-plans#understand-cluster-types).
 
+This topic describes how to create a cluster.
+
 ## Prerequisites{#prerequisites}
 
 Ensure:
@@ -71,13 +73,14 @@ Ensure:
 
 1. On the **Create New Cluster** page, opt for the **Standard** or **Enterprise** plan and fill out the relevant parameters.
 
-    |  **Parameter**                     |  **Description**                                                                                                                                      |
-    | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-    |  **Cluster Name**                  |  The name of the cluster.                                                                                                                             |
-    |  **Cluster Username and Password** |  Credentials for access to this cluster.                                                                                                              |
-    |  **Cloud Provider & Region**       |  The cluster's location and the cloud provider it is hosted on. For more information, see [Cloud Providers & Regions](./cloud-providers-and-regions). |
-    |  **CU Type & Size**                |  The compute resource to be allocated to this cluster.                                                                                                |
-    |  **Cloud Backup**                  |  Whether to enable cloud backup for the data in this cluster.                                                                                         |
+    |  **Parameter**               |  **Description**                                                                                                                                                                       |
+    | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    |  **Cluster Name**            |  The name of the cluster.                                                                                                                                                              |
+    |  **Cloud Provider Settings** |  The cluster's location and the cloud provider it is hosted on. For more information, see [Cloud Providers & Regions](./cloud-providers-and-regions). |
+    |  **CU Settings**             |  The compute resource to be allocated to this cluster.                                                                                                                                 |
+    |  **Cloud Backup**            |  Whether to enable cloud backup for the data in this cluster.                                                                                                                          |
+
+    
 
     ![create-dedicated_cluster](/img/create-dedicated_cluster.png)
 

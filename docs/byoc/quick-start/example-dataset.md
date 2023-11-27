@@ -3,7 +3,7 @@ displayed_sidebar: paasSidebar
 slug: /docs/byoc/example-dataset
 beta: FALSE
 notebook: FALSE
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 import Admonition from '@theme/Admonition';

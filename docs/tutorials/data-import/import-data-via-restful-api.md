@@ -97,7 +97,7 @@ curl --request POST \\
      }'
 ```
 
-In the command above, replace `${CLOUD_REGION_ID}`, `${TOKEN}`, and `${CLUSTER_ID}` with your cloud region identifier, API key, and cluster ID, respectively. You can obtain `CLOUD_REGION_ID` and `CLUSTER_ID` from your cluster's public endpoint. For instance, in the public endpoint `https://in03-3bf3c31f4248e22.api.gcp-us-west1.zillizcloud.com`, `CLOUD_REGION_ID` is `gcp-us-west1` and `CLUSTER_ID` is `in03-3bf3c31f4248e22`. For more information, see [Manage Cluster](./manage-cluster).
+In the command above, replace `${CLOUD_REGION_ID}`, `${TOKEN}`, and `${CLUSTER_ID}` with your cloud region identifier, API key, and cluster ID, respectively. You can obtain `CLOUD_REGION_ID` and `CLUSTER_ID` from your cluster's public endpoint. For instance, in the public endpoint `https://in03-3bf3c31f4248e22.api.aws-us-east1.zillizcloud.com`, `CLOUD_REGION_ID` is `aws-us-east1` and `CLUSTER_ID` is `in03-3bf3c31f4248e22`. For more information, see [Manage Cluster](./manage-cluster).
 
 Upon executing the request, you will receive a job ID. Use this job ID to monitor the import progress with the following command:
 

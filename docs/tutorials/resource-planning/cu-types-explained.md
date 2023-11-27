@@ -14,13 +14,13 @@ Selecting the right Compute Unit (CU) is a crucial step when creating a cluster 
 
 ## Understand CU types{#understand-cu-types}
 
-Zilliz Cloud offers three CU types: **Performance-optimized**, **Capacity-optimized**, and **Cost-optimized**.
+Zilliz Cloud offers these CU types: **Performance-optimized**, **Capacity-optimized**, and **Cost-optimized**.
 
-|  CU Type                   |  Latency |  Throughput |  Capacity |
-| -------------------------- | -------- | ----------- | --------- |
-|  **Performance-optimized** |  Low     |  High       |  Low      |
-|  **Capacity-optimized**    |  Medium  |  Medium     |  High     |
-|  **Cost-optimized**        |  High    |  Low        |  High     |
+|  CU Type                                             |  Latency                                          |  Throughput                                      |  Capacity                              |
+| ---------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------ | -------------------------------------- |
+|  **Performance-optimized**                           |  Low                                              |  High                                            |  Low                                   |
+|  **Capacity-optimized**                              |  Medium                                           |  Medium                                          |  High                                  |
+|  **Cost-optimized** |  High<br/> <br/>   |  Low<br/> <br/>   |  High |
 
 ### Performance-optimized CU{#performance-optimized-cu}
 
@@ -51,7 +51,7 @@ Factor in data volume, performance expectations, and budgets while selecting the
 The table below illustrates the load capacity for each CU type, taking into account the vector dimensions and the total vector count.
 
 |  Vector Dimensions |  Performance-optimized (Max. Vectors per CU) |  Capacity-optimized (Max. Vectors per CU) |  Cost-optimized (Max. Vectors per CU) |
-| ------------------ | -------------------------------------------- | ----------------------------------------- | ------------------------------------- |
+| ------------------ | -------------------------------------------- | ----------------------------------------- | ---------------------------------------------------------------------- |
 |  128               |  5 million                                   |  25 million                               |  25 million                           |
 |  256               |  2.96 million                                |  14.87 million                            |  14.87 million                        |
 |  512               |  1.63 million                                |  8.22 million                             |  8.22 million                         |
@@ -69,7 +69,7 @@ The above metrics are based on tests considering only primary keys and vectors. 
 Performance metrics, notably latency and queries per second (QPS), are vital. The Performance-optimized CU distinctly outperforms its counterparts in latency and throughput, particularly for standard `top-k` values ranging from 10 to 250.
 
 |  top_k |  QPS for Performance-optimized CU (768-dim 1M vectors) |  QPS for Capacity-optimized CU (768-dim 5M vectors) |  QPS for Cost-optimized CU (768-dim 5M vectors) |
-| ------ | ------------------------------------------------------ | --------------------------------------------------- | ----------------------------------------------- |
+| ------ | ------------------------------------------------------ | --------------------------------------------------- | -------------------------------------------------------------------------------- |
 |  10    |  520                                                   |  100                                                |  30                                             |
 |  100   |  440                                                   |  80                                                 |  25                                             |
 |  250   |  270                                                   |  60                                                 |  20                                             |
@@ -100,3 +100,4 @@ In conclusion, for this scenario, the Performance-optimized CU is your best bet.
 - [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace) 
 
 - [Register with Zilliz Cloud](./register-with-zilliz-cloud)
+

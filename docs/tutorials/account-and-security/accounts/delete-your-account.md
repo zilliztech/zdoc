@@ -113,8 +113,8 @@ Ensure you meet the following criteria before proceeding:
 
 ## Related topics{#related-topics}
 
-- [Manage Organization Information](./manage-orgs-and-members) 
+- [Manage Organization Information](./manage-orgs-and-members)
 
-- [Delete Your Organization](./delete-your-org) 
+- [Delete Your Organization](./delete-your-org)
 
 - [View Activities](./view-activities) 

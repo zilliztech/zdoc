@@ -46,8 +46,9 @@ To activate the monitor, click the switch in the **Status** column. This action 
 
 - [Load Capacity Resource Monitor](./load-capacity-resource-monitor) 
 
+- [View Cluster Metrics](./monitor-metrics)
+
 - [Credit Card Expiration Monitor](./credit-card-expiration-monitor) 
 
 - [Check Advance Pay Balance](./advance-pay-balance-monitor) 
 
-- [View Cluster Metrics](./monitor-metrics) 

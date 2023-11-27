@@ -52,8 +52,9 @@ To alter the curve window size, opt for a suitable time range from the drop-down
 
 - [Query Latency Monitor](./query-latency-monitor) 
 
-- [Load Capacity Resource Monitor](./load-capacity-resource-monitor) 
+- [Load Capacity Resource Monitor](./load-capacity-resource-monitor)
 
 - [Credit Card Expiration Monitor](./credit-card-expiration-monitor) 
 
 - [Advance Pay Balance Monitor](./advance-pay-balance-monitor) 
+

@@ -17,11 +17,11 @@ This article offers a systematic guide on connecting to a cluster.
 
 Ensure the following prerequisites are met before proceeding:
 
-- You have registered an account with Zilliz Cloud. For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud) .
+- You have registered an account with Zilliz Cloud. For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
 
 - You have created a cluster. For details, see [Create Cluster](./create-cluster).
 
-- You have installed a Milvus SDK applicable to your use case. For details, see [Install SDKs](./install-sdks) .
+- You have installed a Milvus SDK applicable to your use case. For details, see [Install SDKs](./install-sdks).
 
 <Admonition type="info" icon="📘" title="Notes">
 
