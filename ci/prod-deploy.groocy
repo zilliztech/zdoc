@@ -31,7 +31,7 @@ pipeline {
                         sh 'pwd'
                         sh 'ls -la'
                         sh './ci/set_docker_mirror.sh'
-                        sh 'echo internal-k8s-infra-8d48e229af-2066769958.us-west-2.elb.amazonaws.com harbor.op.zillizcloud.com >> /etc/hosts'
+                        sh 'service docker restart && sleep 3'
                         echo "${image_tag}"
 
                         withCredentials([usernamePassword(credentialsId: "${env.CI_DOCKER_CREDENTIAL_ID}", usernameVariable: 'CI_REGISTRY_USERNAME', passwordVariable: 'CI_REGISTRY_PASSWORD')]){
