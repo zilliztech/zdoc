@@ -59,6 +59,96 @@ Success response:
 }
 ```
 
+## List Projects
+
+Lists all projects in a specified cloud region.
+
+```shell
+curl --request GET \
+     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/projects" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json"
+```
+
+Success response:
+
+```shell
+{
+    "code": 200,
+    "data": [
+        {
+            "instanceCount": 1,
+            "projectId": "8342669010291064832",
+            "projectName": "test"
+        }
+    ]
+}
+```
+
+## Create Serverless Cluster
+
+Creates a serverless cluster. Currently, serverless clusters can be created only on Google Cloud Platform (GCP).
+
+```shell
+curl --request POST \
+     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/createServerless" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json" \
+     --data-raw '{
+     "clusterName": "cluster-starter",
+     "projectId": "8342669010291064832"
+     }'
+```
+
+Success response:
+
+```shell
+{
+    "code": 200,
+    "data": {
+        "clusterId": "in03-36cab39b5ef7894",
+        "username": "db_36cab39b5ef7894",
+        "password": "Lb9.&N,9]Gd4pkp*",
+        "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
+    }
+}
+```
+
+## Create Cluster
+
+Creates a dedicated cluster.
+
+```shell
+curl --request POST \
+     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/create" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json" \
+     --data-raw '{
+     "plan": "Standard",
+     "clusterName": "cluster-02",
+     "cuSize": 1,
+     "cuType": "Performance-optimized",
+     "projectId": "8342669010291064832"
+     }'
+```
+
+Success response:
+
+```shell
+{
+    "code": 200,
+    "data": {
+        "clusterId": "in01-4d71039fd8754a4",
+        "username": "db_admin",
+        "password": "Wu5@|71UG)[5zB9n",
+        "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
+    }
+}
+```
+
 ## Describe Cluster
 
 Describes the details of a cluster.
@@ -90,6 +180,33 @@ Success response:
         "storageSize": "string",
         "snapshotNumber": "string",
         "createProgress": "string"
+    }
+}
+```
+
+## Modify Cluster
+
+Modifies the CU size of a cluster.
+
+```shell
+curl --request POST \
+     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/modify" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json" \
+     --data-raw '{
+     "cuSize": 2
+     }'
+```
+
+Success response:
+
+```shell
+{
+    "code": 200,
+    "data": {
+        "clusterId": "in01-2040352a6a0b1b7",
+        "prompt": "Submission successful, Cluster is currently upgrading and will take several minutes, you can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK."
     }
 }
 ```
@@ -139,6 +256,30 @@ Success response:
      "clusterId": "cluster01",
      "prompt": "Submission successful. Cluster is currently resuming, which typically takes several minutes. You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster's status is RUNNING, you can access your vector database using the SDK."
   }
+}
+```
+
+## Drop Cluster
+
+Drops a cluster. This operation moves your cluster to the recycle bin. All clusters in the recycle bin are pending permanent deletion in 30 days.
+
+```shell
+curl --request DELETE \
+     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/drop" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "accept: application/json" \
+     --header "content-type: application/json"
+```
+
+Success response:
+
+```shell
+{
+    "code": 200,
+    "data": {
+        "clusterId": "in01-4d71039fd8754a4",
+        "prompt": "The Cluster has been deleted. If you believe this was a mistake, you can restore the Cluster from the recycle bin within 30 days (this not include serverless)."
+    }
 }
 ```
 
