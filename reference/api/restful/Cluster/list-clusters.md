@@ -20,10 +20,10 @@ Lists all clusters in a cloud region.
 
 ```shell
 curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters?pageSize=&current=" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters?pageSize=&current=" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json"
 ```
 
 Success response:
@@ -32,10 +32,10 @@ Success response:
 {
     "code": 200,
     "data": {
-        "count": 0,
-        "currentPage": 1,
-        "pageSize": 10,
-        "clusters": []
+       "count": 0,
+       "currentPage": 1,
+       "pageSize": 10,
+       "clusters": []
     }
 }
 ```

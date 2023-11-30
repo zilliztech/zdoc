@@ -225,3 +225,8 @@ ListImportJobs,80020
 ListImportJobs,90102
 ListImportJobs,90104
 ListImportJobs,90117
+CreatePipeline,10041
+DescribePipeline,10041
+DropPipeline,10041
+ListPipelines,10041
+RunPipeline,10041

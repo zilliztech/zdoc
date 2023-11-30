@@ -97,4 +97,4 @@ Review the table below to understand how Elasticsearch field types map to Zilliz
 
 - [Insert Entities](./insert-entities)
 
-- [AUTOINDEX Explained](./autoindex-explained)
+- [AUTOINDEX Explained](https://zilliverse.feishu.cn/wiki/EA2twSf5oiERMDkriKScU9GInc4)

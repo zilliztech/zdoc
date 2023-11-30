@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 
 # Release Notes v2.1.0
 
-We are excited to announce the launch of Zilliz Cloud 2.1.0. This release includes a variety of enhancements and features. [__Learn more__](https://docs.zilliz.com/docs/release-notes-210).
+We are excited to announce the launch of Zilliz Cloud 2.1.0. This release includes a variety of enhancements and features. [__Learn more__](/docs/release-notes-210).
 
 (Release date: Aug 16th, 2023)
 
@@ -35,7 +35,7 @@ For details, refer to [Manage Cluster](./manage-cluster).
 ## RESTful API Enhancements{#restful-api-enhancements}
 
 - Bulk Insert
-    To streamline the data ingestion process, we have introduced a new RESTful API that is specifically designed for bulk data imports. This feature aims to significantly reduce the time and complexity of data uploads. For details, see the [__API reference__](https://docs.zilliz.com/reference/import-operations).
+    To streamline the data ingestion process, we have introduced a new RESTful API that is specifically designed for bulk data imports. This feature aims to significantly reduce the time and complexity of data uploads. For details, see the [__API reference__](/reference/import-operations).
 
 - Dedicated Cluster Access
-    To provide users with wider control and flexibility, dedicated clusters can now be accessed and managed via RESTful API, making integrations and automation more straightforward. For details, see the [__API reference__](https://docs.zilliz.com/reference/api/cloud-meta).
+    To provide users with wider control and flexibility, dedicated clusters can now be accessed and managed via RESTful API, making integrations and automation more straightforward. For details, see the [__API reference__](/reference/cloud-meta).

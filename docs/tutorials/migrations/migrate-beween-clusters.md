@@ -67,4 +67,4 @@ This feature is accessible to users on the Standard or Enterprise plans.
 
 - [Insert Entities](./insert-entities)
 
-- [AUTOINDEX Explained](./autoindex-explained)
+- [AUTOINDEX Explained](https://zilliverse.feishu.cn/wiki/EA2twSf5oiERMDkriKScU9GInc4)

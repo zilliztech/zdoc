@@ -2288,4 +2288,4 @@ curl --request POST \
 
 - [Search and Query](./docs/search-query-and-get)
 
-- [ANN Search Explained](./docs/ann-search-explained)
+- [ANN Search Explained](https://zilliverse.feishu.cn/wiki/CWHGw3g9Ui9GEHkjhu2cHBOInXf)

@@ -55,9 +55,9 @@ Ensure your **Node.js** version is **14** or above prior to installation.
 
 ```bash
 # Installing a specific version
-npm install @zilliz/milvus2-sdk-node@2.3.4
+npm install @zilliz/milvus2-sdk-node@2.3.5
 # Alternatively,
-yarn add @zilliz/milvus2-sdk-node@2.3.4
+yarn add @zilliz/milvus2-sdk-node@2.3.5
 
 # Upgrade to the latest version
 npm update @zilliz/milvus2-sdk-node

@@ -20,52 +20,94 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
 
 - Run a data ingestion pipeline
 
-     ```curl
-     url --http1.1 --request POST \
-     --header "Content-Type: application/json" \
-     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/pipe-cde31766ffc8b8285b841d/run" \
-     -d '{
-          "data": {
-               "signed_url": "https://storage.googleapis.com/medium-passages/passages/0.txt?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=storage-viewer%40anthony-364406.iam.gserviceaccount.com%2F20231130%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20231130T033222Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&X-Goog-Signature=843c8944347ec9825ebaf7642a19e01651fa17a30834fd480fb7b9149e75fd611fc528c9efe82b252843ddebbaa132362b80acf859a49c6adcc8b70d0dd431aeed3816760ff5dc7ed3649faaa0347b33125983d0989721f8b5e42a4c63eeecf3d60ac1dcac27f21994b4839d68db9902e81de066f19e5c511aeab41171b31dd40cf1a9a44a8bc9d6c6d812aa78d17d6cf5b2f1b836d35d466277fcefd81ecc339ff8f191cc87d0e912f759b15977029ec97f36da67f5cdd0cc74ad8e92e0cf03f6f96a80c8ad2c996ce291c7b180d2bb154c917dc53a3b5bea89351f08afe39649a1896ed62c410f4d418c9aa087a30c77262987b4be0db7951b3abe56d13989",
-               "title": "The Reported Mortality Rate of Coronavirus Is Not Important",
-               "link": "https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912",
-               "publication": "The Startup",
-          }
-     }'
-     ```
+    ```shell
+    curl --request POST \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487/run" \
+        -d '{
+            "data": {
+                "doc_url": "https://storage.googleapis.com/example-bucket/zilliz_concept_doc.md?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=example%40example-project.iam.gserviceaccount.com%2F20181026%2Fus-central1%2Fstorage%2Fgoog4_request&X-Goog-Date=20181026T181309Z&X-Goog-Expires=900&X-Goog-SignedHeaders=host&X-Goog-Signature=247a2aa45f169edf4d187d54e7cc46e4731b1e6273242c4f4c39a1d2507a0e58706e25e3a85a7dbb891d62afa8496def8e260c1db863d9ace85ff0a184b894b117fe46d1225c82f2aa19efd52cf21d3e2022b3b868dcc1aca2741951ed5bf3bb25a34f5e9316a2841e8ff4c530b22ceaa1c5ce09c7cbb5732631510c20580e61723f5594de3aea497f195456a2ff2bdd0d13bad47289d8611b6f9cfeef0c46c91a455b94e90a66924f722292d21e24d31dcfb38ce0c0f353ffa5a9756fc2a9f2b40bc2113206a81e324fc4fd6823a29163fa845c8ae7eca1fcf6e5bb48b3200983c56c5ca81fffb151cca7402beddfc4a76b133447032ea7abedc098d2eb14a7", 
+                "publish_year": 2023
+            }
+        }'
+    ```
+
+    Possible response
+
+    ```shell
+    {
+        "code": 200,
+        "data": {
+            "doc_name": "zilliz_concept_doc.md",
+            "num_chunks": 123
+        }
+    }
+    ```
 
 - Run a semantic search pipeline.
 
-     ```curl
-     curl --http1.1 --request POST \
-     --header "Content-Type: application/json" \
-     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/pipe-cde31766ffc8b8285b841d/run" \
-     -d '{
-          "data": {
-               "query_text": "How can I organize my knowledge base using vector database?"
-          },
-          "params": {
-               "limit": 3,
-               "outputFields": ["title", "doc_name", "chunk_text"]
-          }
-     }'
-     ```
+    ```shell
+    curl --request POST \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-26a18a66ffc8c0edfdb874/run" \
+        -d '{
+            "data": {
+            "query_text": "How many collections can a cluster with more than 8 CUs hold?"
+            },
+            "params":{
+                "limit": 1,
+                "offset": 0,
+                "outputFields": [ "chunk_text", "chunk_id", "doc_name" ],
+                "filter": "chunk_id >= 0", 
+            }
+        }'
+    ```
+
+    Possible response
+
+    ```shell
+    {
+        "code": 200,
+        "data": {
+        "result": [
+            {
+                "id": "445951244000281783",
+                "distance": 0.7270776033401489,
+                "chunk_text": "After determining the CU type, you must also specify its size. Note that the\nnumber of collections a cluster can hold varies based on its CU size. A\ncluster with less than 8 CUs can hold no more than 32 collections, while a\ncluster with more than 8 CUs can hold as many as 256 collections.\n\nAll collections in a cluster share the CUs associated with the cluster. To\nsave CUs, you can unload some collections. When a collection is unloaded, its\ndata is moved to disk storage and its CUs are freed up for use by other\ncollections. You can load the collection back into memory when you need to\nquery it. Keep in mind that loading a collection requires some time, so you\nshould only do so when necessary.\n\n## Collection\n\nA collection collects data in a two-dimensional table with a fixed number of\ncolumns and a variable number of rows. In the table, each column corresponds\nto a field, and each row represents an entity.\n\nThe following figure shows a sample collection that comprises six entities and\neight fields.\n\n### Fields\n\nIn most cases, people describe an object in terms of its attributes, including\nsize, weight, position, etc. These attributes of the object are similar to the\nfields in a collection.\n\nAmong all the fields in a collection, the primary key is one of the most\nspecial, because the values stored in this field are unique throughout the\nentire collection. Each primary key maps to a different record in the\ncollection.",
+                "chunk_id": 123,
+                "doc_name": "zilliz_concept_doc.md"
+            }
+        ],
+        }
+    }
+    ```
 
 - Run a doc deletion pipeline
 
-     ```curl
-     curl --http1.1 --request POST \
-     --header "Content-Type: application/json" \
-     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/pipe-cde31766ffc8b8285b841d/run" \
-     -d '{
-          "data": {
-               "doc_name": "0.txt"
-          }
-     }'
-     ```     
+    ```shell
+    curl --request POST \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-7227d0729d73e63002ed46/run" \
+        -d '{
+            "data": {
+                "doc_name": "zilliz_concept_doc.md",
+            }
+        }'
+    ```    
+
+    Possible response
+
+    ```shell
+    {
+        "code": 200,
+        "data": {
+            "num_deleted_chunks": 567
+        }
+    }
+    ```
 
 ## Request
 
@@ -137,7 +179,7 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
 
 ## Response
 
-Possible responses
+成功
 
 ### Response Bodies
 
@@ -178,5 +220,5 @@ The properties in the returned response are listed in the following table.
 
 | Code | Error Message |
 | ---- | ------------- |
-|  | (to be added) |
+| 10041 | (Possible pipeline errors are all under this error code.) |
 

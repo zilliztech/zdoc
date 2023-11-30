@@ -19,6 +19,7 @@ module.exports = function (context, options) {
                 .option('-i, --imageDir <imageDir>', 'Image Directory', 'static/img')
                 .option('-p, --pubTarget <pubTarget>', 'Publish target', 'saas')
                 .option('-f, --faq', 'Write FAQs')
+                .option('-sk, --skipImageDown', 'Skip fetching images')
                 .action(async (opts) => {
                     console.log('Fetching docs from Feishu...')
 
@@ -41,7 +42,7 @@ module.exports = function (context, options) {
                     // fs.writeFileSync("docs.json", JSON.stringify(docs, null, 2))
                     let pages = new utils(docs, 'title', 'obj.obj_type === "docx"', true).instances
 
-                    const writer = new docWriter(pages, null, opts.imageDir, opts.pubTarget)
+                    const writer = new docWriter(pages, null, opts.imageDir, opts.pubTarget, opts.skipImageDown)
 
                     if (opts.docToken !== undefined || opts.docTitle !== undefined) {
                         const page = pages.filter(page => page.obj_token === opts.docToken || page.title === opts.docTitle)[0]

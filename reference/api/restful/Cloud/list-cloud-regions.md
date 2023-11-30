@@ -20,10 +20,10 @@ Lists all available cloud regions of a specific cloud provider.
 
 ```shell
 curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/regions?cloudId=gcp" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/regions?cloudId=gcp" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json"
 ```
 
 You can obtain valid `cloudId` values by performing `ListClouds` operations.
@@ -34,11 +34,11 @@ Success response:
 {
     "code": 200,
     "data": [
-        {
-            "apiBaseUrl": "https://api.gcp-us-west1.zillizcloud.com",
-            "cloudId": "gcp",
-            "regionId": "gcp-us-west1"
-        }
+       {
+          "apiBaseUrl": "https://api.gcp-us-west1.zillizcloud.com",
+          "cloudId": "gcp",
+          "regionId": "gcp-us-west1"
+       }
     ]
 }
 ```

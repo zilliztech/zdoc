@@ -2,7 +2,7 @@
 slug: /docs/javascript-object-notation-json
 beta: FALSE
 notebook: 04_use_json_field.ipynb
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';

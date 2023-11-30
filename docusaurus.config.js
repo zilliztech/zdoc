@@ -77,8 +77,6 @@ const config = {
     ],
     './plugins/lark-docs',
     './plugins/apifox-docs',
-    './plugins/landing-page',
-    './plugins/github-code',
   ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -105,13 +103,7 @@ const config = {
           // {to: '/api', label: 'API 参考', position: 'left'},
           {
             href: '/',
-            label: "Cloud Docs",
-            position: 'left',
-            className: 'header-link',
-          },
-          {
-            href: '/docs/byoc',
-            label: "BYOC Docs",
+            label: "User Guides",
             position: 'left',
             className: 'header-link',
           },

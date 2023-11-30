@@ -20,18 +20,18 @@ Create a collection named `medium_articles`.
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/collections/create" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "dbName": "default",   
-       "collectionName": "medium_articles",
-       "dimension": 256,
-       "metricType": "L2",
-       "primaryField": "id",
-       "vectorField": "vector"
-      }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/collections/create" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+      "dbName": "default",   
+      "collectionName": "medium_articles",
+      "dimension": 256,
+      "metricType": "L2",
+      "primaryField": "id",
+      "vectorField": "vector"
+     }'
 ```
 
 Success response:

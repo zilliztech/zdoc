@@ -47,7 +47,7 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
 
 For more information on cluster types, see [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
 
-Currently, all clusters running on Microsoft Azure support Beta version features, such as the [cosine metric type](./search-metrics-explained#cosine-similarity), [range search](./conduct-a-range-search), [advanced expressions](./search-and-query-advanced-expressions), and [upsert operations](./upsert-entities).
+Currently, all clusters running on Microsoft Azure support Beta version features, such as the [cosine metric type](https://zilliverse.feishu.cn/docx/FbIPdV2BpoTuwux5N8gc4qxmncb#CTPEdZRu6oH6UXx9W48cGc8onGg), [range search](./conduct-a-range-search), [advanced expressions](./search-and-query-advanced-expressions), and [upsert operations](./upsert-entities).
 
 ## Related topics{#related-topics}
 

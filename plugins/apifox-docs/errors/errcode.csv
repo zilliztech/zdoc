@@ -104,3 +104,4 @@
 90150,no data key field, please check your request.
 90151,The value of the 'data' parameter is empty.
 90152,There is an empty object in the 'data' parameter.
+10041,(Possible pipeline errors are all under this error code.)

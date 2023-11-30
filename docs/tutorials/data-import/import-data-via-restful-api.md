@@ -109,7 +109,7 @@ curl --request GET \\
      --header "content-type: application/json" \\
 ```
 
-For details, see [Import](https://docs.zilliz.com/reference/import) and [Get Import Progress](https://docs.zilliz.com/reference/get-import-progress).
+For details, see [Import](/reference/import) and [Get Import Progress](/reference/get-import-progress).
 
 ### Supported object paths{#supported-object-paths}
 

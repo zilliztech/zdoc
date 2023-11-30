@@ -7,13 +7,14 @@ const fetch = require('node-fetch')
 const cheerio = require('cheerio')
 
 class larkDocWriter {
-    constructor(pages=[], page_blocks=[], imageDir='static/img', target='saas') {
+    constructor(pages=[], page_blocks=[], imageDir='static/img', target='saas', skip_image_download=false) {
         this.pages = pages
         this.page_blocks = page_blocks
         this.titles = JSON.parse(fs.readFileSync('plugins/lark-docs/meta/titles.json'))
         this.blocks = []
         this.target = target
         this.current_page = null
+        this.skip_image_download = skip_image_download
         this.block_types = [
             "page",
             "text",
@@ -317,7 +318,7 @@ class larkDocWriter {
             link: {
                 type: "generated-index",
                 title: label,
-                slug: titles[label] ? titles[label] : (slugify(label, {lower: true, strict: true}), titles[label] = slugify(label, {lower: true, strict: true}))
+                slug: titles[label] ? '/docs/' + titles[label] : (slugify(label, {lower: true, strict: true}), titles[label] = '/docs/' + slugify(label, {lower: true, strict: true}))
             }
         }, null, 4)
         fs.writeFileSync(`${path}/_category_.json`, meta)
@@ -429,10 +430,19 @@ class larkDocWriter {
         slug = this.target === 'saas' ? `/docs/${slug}` : `/docs/byoc/${slug}`
         slug = slug.replace(/\/\//g, '/').replace(/^\//, '')
         slug = slug === 'docs/' ? '' : slug
+        
+        var sidebar_label = fs.readFileSync('plugins/lark-docs/meta/sidebarLables.json', {encoding: 'utf-8', flag: 'r'})
+
+        if (sidebar_label[slug]) {
+            sidebar_label = `sidebar_label: ${sidebar_label[slug]}` + '\n'
+        } else {
+            sidebar_label = ''
+        }
 
         let front_matter = '---\n' + 
         displayed_sidebar +
         `slug: /${slug}` + '\n' +
+        sidebar_label +
         `beta: ${beta}` + '\n' +
         `notebook: ${notebook}` + '\n' +
         `sidebar_position: ${sidebar_position}` + '\n' +
@@ -724,6 +734,10 @@ class larkDocWriter {
     }  
     
     async __image(image) {
+        if (this.skip_image_download) {
+            return `![${image.token}](/${root}/${image["token"]}.png)`;
+        }
+
         const result = await this.downloader.__downloadImage(image.token)
         const root = this.target === 'saas' ? 'img' : 'byoc'
         result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${image["token"]}.png`));
@@ -733,6 +747,14 @@ class larkDocWriter {
     async __iframe(iframe) {
         if (iframe['component']['iframe_type'] !== 8) {
             return '';
+        } else if (this.skip_image_download) {
+            const url = new URL(decodeURIComponent(iframe.component.url))
+            const root = this.target === 'saas' ? 'img' : 'byoc'
+            const key = url.pathname.split('/')[2]
+            const node = url.searchParams.get('node-id').split('-').join(":") 
+
+            const caption = (await this.downloader.__fetchCaption(key, node)).nodes[node].document.name;
+            return `![${caption}](/${root}/${caption}.png)`;
         } else {
             const url = new URL(decodeURIComponent(iframe.component.url))
             const root = this.target === 'saas' ? 'img' : 'byoc'
@@ -910,6 +932,11 @@ class larkDocWriter {
                 url = newUrl.replace(/\/\//g, "/");
             }
         }
+
+        if (url.startsWith('https://docs.zilliz.com')) {
+            url = url.replace('https://docs.zilliz.com', '');
+        }
+            
 
         return url;
     }

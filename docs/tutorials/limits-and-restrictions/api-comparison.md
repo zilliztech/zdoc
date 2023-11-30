@@ -21,10 +21,10 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 |  Alias                            |  alterAlias()                  |  ✘              |  ✘                |  ✘                               |
 |                                   |  createAlias()                 |  ✘              |  ✘                |  ✘                               |
 |                                   |  dropAlias()                   |  ✘              |  ✘                |  ✘                               |
-|  Authentication                   |  createCredential()            |  ✔︎             |  ✘                |  ✘                               |
-|                                   |  deleteCredential()            |  ✔︎             |  ✘                |  ✘                               |
-|                                   |  listCredUsers()               |  ✔︎             |  ✘                |  ✘                               |
-|                                   |  updateCredential()            |  ✔︎             |  ✘                |  ✘                               |
+|  Authentication                   |  createCredential()            |  ✔︎             |  ✘                |  ✔︎                              |
+|                                   |  deleteCredential()            |  ✔︎             |  ✘                |  ✔︎                              |
+|                                   |  listCredUsers()               |  ✔︎             |  ✘                |  ✔︎                              |
+|                                   |  updateCredential()            |  ✔︎             |  ✘                |  ✔︎                              |
 |  BulkInsert                       |  bulkInsert()                  |  ✔︎             |  ✘                |  ✘                               |
 |                                   |  getBulkInsertState()          |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  listBulkInsertTasks()         |  ✔︎             |  ✔︎               |  ✔︎                              |
@@ -35,14 +35,14 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 |                                   |  getReplicas()                 |  ✘              |  ✘                |  ✘                               |
 |                                   |  insert()                      |  ✘              |  ✔︎               |  ✔︎                              |
 |                                   |  loadCollection()              |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  releaseCollection()           |  ✔︎             |  ✘                |  ✔︎                              |
+|                                   |  releaseCollection()           |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  showCollections()             |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  getLoadState()                |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  renameCollection()            |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  upsert()                      |  ✘              |  ✔︎               |  ✔︎                              |
-|  Database                         |  ListDatabases                 |  ✘              |  ✘                |  ✔︎                              |
-|                                   |  DropDatabase                  |  ✘              |  ✘                |  ✔︎                              |
-|                                   |  CreateDatabase                |  ✘              |  ✘                |  ✔︎                              |
+|  Database                         |  ListDatabases                 |  ✘              |  ✘                |  ✘                               |
+|                                   |  DropDatabase                  |  ✘              |  ✘                |  ✘                               |
+|                                   |  CreateDatabase                |  ✘              |  ✘                |  ✘                               |
 |  Index                            |  createIndex()                 |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  describeIndex()               |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  dropIndex()                   |  ✔︎             |  ✔︎               |  ✔︎                              |
@@ -54,25 +54,25 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 |                                   |  getMetrics()                  |  ✘              |  ✘                |  ✘                               |
 |                                   |  loadBalance()                 |  ✘              |  ✘                |  ✘                               |
 |                                   |  manualCompact()               |  ✘              |  ✘                |  ✔︎                              |
-|  Partition                        |  createPartition()             |  ✘              |  ✘                |  ✘                               |
-|                                   |  dropPartition()               |  ✘              |  ✘                |  ✘                               |
-|                                   |  getPartitionStatistics()      |  ✘              |  ✘                |  ✘                               |
-|                                   |  hasPartiotion()               |  ✘              |  ✘                |  ✘                               |
-|                                   |  loadPartitions()              |  ✘              |  ✘                |  ✘                               |
-|                                   |  releasePartitions()           |  ✘              |  ✘                |  ✘                               |
-|                                   |  showPartitions()              |  ✘              |  ✘                |  ✘                               |
+|  Partition                        |  createPartition()             |  ✘              |  ✔︎               |  ✔︎                              |
+|                                   |  dropPartition()               |  ✘              |  ✔︎               |  ✔︎                              |
+|                                   |  getPartitionStatistics()      |  ✘              |  ✔︎               |  ✔︎                              |
+|                                   |  hasPartiotion()               |  ✘              |  ✔︎               |  ✔︎                              |
+|                                   |  loadPartitions()              |  ✘              |  ✔︎               |  ✔︎                              |
+|                                   |  releasePartitions()           |  ✘              |  ✔︎               |  ✔︎                              |
+|                                   |  showPartitions()              |  ✘              |  ✔︎               |  ✔︎                              |
 |  Search & Query                   |  search()                      |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  query()                       |  ✘              |  ✔︎               |  ✔︎                              |
-|  Role-based access control (RBAC) |  addUserToRole()               |  ✘              |  ✘                |  ✘                               |
+|  Role-based access control (RBAC) |  addUserToRole()               |  ✔︎             |  ✘<br/> <br/>       |  ✔︎<br/> <br/>                     |
 |                                   |  createRole()                  |  ✘              |  ✘                |  ✘                               |
 |                                   |  dropRole()                    |  ✘              |  ✘                |  ✘                               |
 |                                   |  grantRolePrivilege()          |  ✘              |  ✘                |  ✘                               |
-|                                   |  removeUserFromRole()          |  ✘              |  ✘                |  ✘                               |
-|                                   |  revokeRolePrivilege           |  ✘              |  ✘                |  ✘                               |
-|                                   |  selectGrantForRole()          |  ✘              |  ✘                |  ✘                               |
-|                                   |  selectGrantForRoleAndObject() |  ✘              |  ✘                |  ✘                               |
-|                                   |  selectRole()                  |  ✘              |  ✘                |  ✘                               |
-|                                   |  selectUser()                  |  ✘              |  ✘                |  ✘                               |
+|                                   |  removeUserFromRole()          |  ✔︎             |  ✘                |  ✔︎                              |
+|                                   |  revokeRolePrivilege()         |  ✘              |  ✘                |  ✘                               |
+|                                   |  selectGrantForRole()          |  ✘              |  ✘                |  ✔︎                              |
+|                                   |  selectGrantForRoleAndObject() |  ✘              |  ✘                |  ✔︎                              |
+|                                   |  selectRole()                  |  ✘              |  ✘                |  ✔︎                              |
+|                                   |  selectUser()                  |  ✘              |  ✘                |  ✔︎                              |
 |  System                           |  getVersion()                  |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  checkHealth()                 |  ✘              |  ✔︎               |  ✔︎                              |
 
@@ -80,6 +80,6 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 
 - [Migrate from Milvus 1.x](./migrate-from-milvus) 
 
-- [AUTOINDEX Explained](./autoindex-explained) 
+- [AUTOINDEX Explained](https://zilliverse.feishu.cn/wiki/EA2twSf5oiERMDkriKScU9GInc4) 
 
 - [Select the Right CU](./cu-types-explained) 

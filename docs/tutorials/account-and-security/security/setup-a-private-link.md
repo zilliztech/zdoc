@@ -283,10 +283,12 @@ Setting up a private link is project-level. When you configure a private link fo
         1. Once the deployment is complete, you will see a message that reads **Your deployment is complete**. Click **Go to resource** to view the endpoint service you have just created.
             On the **Overview** page, **Connection Status** is **Pending**, and **Request/Response** is **Awaiting Approval**. This means that this private link is still pending approval by Zilliz Cloud.
 
-            ![D2wsbFpKmoOYo2xoNz4c7hOlnmh](/img/D2wsbFpKmoOYo2xoNz4c7hOlnmh.png)
+            ![K0cIbJ6u3onHQyxTS8hcz8rBn0g](/img/K0cIbJ6u3onHQyxTS8hcz8rBn0g.png)
 
         1. Click **JSON View** in the upper right corner on the **Overview** page. 
             In the **Resource JSON** panel, copy the values of `name` and `properties.resourceGuid`. Your endpoint ID should be these two values joined by a period (`.`). 
+
+            ![WXmKbJXj2oamENx0IkBcnf6inTf](/img/WXmKbJXj2oamENx0IkBcnf6inTf.png)
 
             For example, the value of `name` is `zilliz-test`, and the value of `properties.resourceGuid` is `4e259816-xxxxxxxxxxxxx`. You endpoint ID is `zilliz-test.4e259816-xxxxxxxxxxxx`.
 
@@ -313,7 +315,7 @@ Setting up a private link is project-level. When you configure a private link fo
         1. Click **Overview** in the left navigation pane to go back to the overview page of the Private DNS zone.
 
         1. Click **+ Record set**. In the **Add record set** dialog box, enter your cluster ID suffixed with `-privatelink` in **Name**, select **A - Address record** in **Type**, and set **TTL** to **120 Hours**. Check whether the listed IP address is the one you have noted down.
-            ![GAG4byOmYoACbDxGP5xczIOanId](/img/GAG4byOmYoACbDxGP5xczIOanId.png)
+            ![NNKmbY85DoLHmFxabOQchpuknqb](/img/NNKmbY85DoLHmFxabOQchpuknqb.png)
 
         1. Click **OK **to add the record. 
 

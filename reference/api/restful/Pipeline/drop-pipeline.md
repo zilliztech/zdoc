@@ -18,11 +18,44 @@ Drop a specific pipeline
 
 Drop a pipeline that is no longer in need.
 
-```curl
-curl --http1.1 --request DELETE \
+```shell
+curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-    --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/pipe-71e95af38d958f50d8178b"
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487"
+```
+
+Possible response
+
+```shell
+{
+    "code": 200,
+    "data": {
+        "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+        "name": "my_doc_ingestion_pipeline",
+        "type": "INGESTION",
+        "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+        "status": "SERVING",
+        "functions": [
+            {
+                "action": "INDEX_DOC",
+                "name": "index_my_doc",
+                "inputField": "doc_url",
+                "language": "ENGLISH"
+            },
+            {
+                "action": "PRESERVE",
+                "name": "keep_doc_info",
+                "inputField": "publish_year",
+                "outputField": "publish_year",
+                "fieldType": "Int16"
+            }
+        ],
+        "clusterId": "in03-***************",
+        "newCollectionName": "my_new_collection"
+    }
+}
+
 ```
 
 
@@ -44,7 +77,7 @@ No request body required
 
 ## Response
 
-Possible responses
+成功
 
 ### Response Bodies
 
@@ -96,5 +129,5 @@ The properties in the returned response are listed in the following table.
 
 | Code | Error Message |
 | ---- | ------------- |
-|  | (to be added) |
+| 10041 | (Possible pipeline errors are all under this error code.) |
 

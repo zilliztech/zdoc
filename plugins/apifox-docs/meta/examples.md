@@ -6,10 +6,10 @@ Lists all cloud providers available on Zilliz Cloud.
 
 ```shell
 curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clouds" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clouds" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json"
 ```
 
 Success response:
@@ -18,14 +18,14 @@ Success response:
 {
     code: 200,
     data: [
-     {
-        "cloudId": "aws",
-        "description": "amazon cloud"
-     },
-     {
-        "cloudId": "gcp",
-        "description": "google cloud"
-     }
+    {
+       "cloudId": "aws",
+       "description": "amazon cloud"
+    },
+    {
+       "cloudId": "gcp",
+       "description": "google cloud"
+    }
     ]
 }
 ```
@@ -36,10 +36,10 @@ Lists all available cloud regions of a specific cloud provider.
 
 ```shell
 curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/regions?cloudId=gcp" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/regions?cloudId=gcp" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json"
 ```
 
 You can obtain valid `cloudId` values by performing `ListClouds` operations.
@@ -50,11 +50,11 @@ Success response:
 {
     "code": 200,
     "data": [
-        {
-            "apiBaseUrl": "https://api.gcp-us-west1.zillizcloud.com",
-            "cloudId": "gcp",
-            "regionId": "gcp-us-west1"
-        }
+       {
+          "apiBaseUrl": "https://api.gcp-us-west1.zillizcloud.com",
+          "cloudId": "gcp",
+          "regionId": "gcp-us-west1"
+       }
     ]
 }
 ```
@@ -65,10 +65,10 @@ Lists all projects in a specified cloud region.
 
 ```shell
 curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/projects" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/projects" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json"
 ```
 
 Success response:
@@ -77,11 +77,11 @@ Success response:
 {
     "code": 200,
     "data": [
-        {
-            "instanceCount": 1,
-            "projectId": "8342669010291064832",
-            "projectName": "test"
-        }
+       {
+          "instanceCount": 1,
+          "projectId": "8342669010291064832",
+          "projectName": "test"
+       }
     ]
 }
 ```
@@ -92,14 +92,14 @@ Creates a serverless cluster. Currently, serverless clusters can be created only
 
 ```shell
 curl --request POST \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/createServerless" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     --data-raw '{
-     "clusterName": "cluster-starter",
-     "projectId": "8342669010291064832"
-     }'
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/createServerless" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    --data-raw '{
+    "clusterName": "cluster-starter",
+    "projectId": "8342669010291064832"
+    }'
 ```
 
 Success response:
@@ -108,10 +108,10 @@ Success response:
 {
     "code": 200,
     "data": {
-        "clusterId": "in03-36cab39b5ef7894",
-        "username": "db_36cab39b5ef7894",
-        "password": "Lb9.&N,9]Gd4pkp*",
-        "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
+       "clusterId": "in03-36cab39b5ef7894",
+       "username": "db_36cab39b5ef7894",
+       "password": "Lb9.&N,9]Gd4pkp*",
+       "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
     }
 }
 ```
@@ -122,17 +122,17 @@ Creates a dedicated cluster.
 
 ```shell
 curl --request POST \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/create" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     --data-raw '{
-     "plan": "Standard",
-     "clusterName": "cluster-02",
-     "cuSize": 1,
-     "cuType": "Performance-optimized",
-     "projectId": "8342669010291064832"
-     }'
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/create" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    --data-raw '{
+    "plan": "Standard",
+    "clusterName": "cluster-02",
+    "cuSize": 1,
+    "cuType": "Performance-optimized",
+    "projectId": "8342669010291064832"
+    }'
 ```
 
 Success response:
@@ -141,10 +141,10 @@ Success response:
 {
     "code": 200,
     "data": {
-        "clusterId": "in01-4d71039fd8754a4",
-        "username": "db_admin",
-        "password": "Wu5@|71UG)[5zB9n",
-        "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
+       "clusterId": "in01-4d71039fd8754a4",
+       "username": "db_admin",
+       "password": "Wu5@|71UG)[5zB9n",
+       "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
     }
 }
 ```
@@ -155,10 +155,10 @@ Describes the details of a cluster.
 
 ```shell
 curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json"
 ```
 
 Success response:
@@ -167,19 +167,19 @@ Success response:
 {
     "code": 200,
     "data": {
-        "clusterId": "string",
-        "clusterName": "string",
-        "description": "string",
-        "regionId": "string",
-        "clusterType": "string",
-        "cuSize": "string",
-        "status": "string",
-        "connectAddress": "string",
-        "privateLinkAddress": "string",
-        "createTime": "string",
-        "storageSize": "string",
-        "snapshotNumber": "string",
-        "createProgress": "string"
+       "clusterId": "string",
+       "clusterName": "string",
+       "description": "string",
+       "regionId": "string",
+       "clusterType": "string",
+       "cuSize": "string",
+       "status": "string",
+       "connectAddress": "string",
+       "privateLinkAddress": "string",
+       "createTime": "string",
+       "storageSize": "string",
+       "snapshotNumber": "string",
+       "createProgress": "string"
     }
 }
 ```
@@ -190,13 +190,13 @@ Modifies the CU size of a cluster.
 
 ```shell
 curl --request POST \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/modify" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     --data-raw '{
-     "cuSize": 2
-     }'
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/modify" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    --data-raw '{
+    "cuSize": 2
+    }'
 ```
 
 Success response:
@@ -205,8 +205,8 @@ Success response:
 {
     "code": 200,
     "data": {
-        "clusterId": "in01-2040352a6a0b1b7",
-        "prompt": "Submission successful, Cluster is currently upgrading and will take several minutes, you can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK."
+       "clusterId": "in01-2040352a6a0b1b7",
+       "prompt": "Submission successful, Cluster is currently upgrading and will take several minutes, you can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK."
     }
 }
 ```
@@ -217,10 +217,10 @@ Suspends a cluster. This operation will stop the cluster and your data will rema
 
 ```shell
 curl --request POST \ 
-     --url "https://controller.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/suspend" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
+    --url "https://controller.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/suspend" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json"
 ```
 
 Success response:
@@ -229,8 +229,8 @@ Success response:
 {
   code: 200,
   data: {
-     "clusterId": "cluster01",
-     "prompt": "Submission successful. Your vector database computing cost is free until you Resume the Cluster, and only storage costs will be charged."
+    "clusterId": "cluster01",
+    "prompt": "Submission successful. Your vector database computing cost is free until you Resume the Cluster, and only storage costs will be charged."
   }
 }
 ```
@@ -241,10 +241,10 @@ Resume a cluster that has been suspended.
 
 ```shell
 curl --request POST \ 
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/resume" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/resume" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json"
 ```
 
 Success response:
@@ -253,8 +253,8 @@ Success response:
 {
   code: 200,
   data: {
-     "clusterId": "cluster01",
-     "prompt": "Submission successful. Cluster is currently resuming, which typically takes several minutes. You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster's status is RUNNING, you can access your vector database using the SDK."
+    "clusterId": "cluster01",
+    "prompt": "Submission successful. Cluster is currently resuming, which typically takes several minutes. You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster's status is RUNNING, you can access your vector database using the SDK."
   }
 }
 ```
@@ -265,10 +265,10 @@ Drops a cluster. This operation moves your cluster to the recycle bin. All clust
 
 ```shell
 curl --request DELETE \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/drop" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/drop" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json"
 ```
 
 Success response:
@@ -277,8 +277,8 @@ Success response:
 {
     "code": 200,
     "data": {
-        "clusterId": "in01-4d71039fd8754a4",
-        "prompt": "The Cluster has been deleted. If you believe this was a mistake, you can restore the Cluster from the recycle bin within 30 days (this not include serverless)."
+       "clusterId": "in01-4d71039fd8754a4",
+       "prompt": "The Cluster has been deleted. If you believe this was a mistake, you can restore the Cluster from the recycle bin within 30 days (this not include serverless)."
     }
 }
 ```
@@ -289,10 +289,10 @@ Lists all clusters in a cloud region.
 
 ```shell
 curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters?pageSize=&current=" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters?pageSize=&current=" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json"
 ```
 
 Success response:
@@ -301,10 +301,10 @@ Success response:
 {
     "code": 200,
     "data": {
-        "count": 0,
-        "currentPage": 1,
-        "pageSize": 10,
-        "clusters": []
+       "count": 0,
+       "currentPage": 1,
+       "pageSize": 10,
+       "clusters": []
     }
 }
 ```
@@ -315,18 +315,18 @@ Create a collection named `medium_articles`.
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/collections/create" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "dbName": "default",   
-       "collectionName": "medium_articles",
-       "dimension": 256,
-       "metricType": "L2",
-       "primaryField": "id",
-       "vectorField": "vector"
-      }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/collections/create" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+      "dbName": "default",   
+      "collectionName": "medium_articles",
+      "dimension": 256,
+      "metricType": "L2",
+      "primaryField": "id",
+      "vectorField": "vector"
+     }'
 ```
 
 Success response:
@@ -344,13 +344,13 @@ Drop a collection named `medium_articles`.
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/collections/drop" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-        "collectionName": "medium_articles"
-      }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/collections/drop" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+       "collectionName": "medium_articles"
+     }'
 ```
 
 Success response:
@@ -368,10 +368,10 @@ Describe the details of a collection named `medium_articles`.
 
 ```shell
 curl --request GET \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/collections/describe?collectionName=medium_articles" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
+    --url "${CLUSTER_ENDPOINT}/v1/vector/collections/describe?collectionName=medium_articles" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json"
 ```
 
 Success response:
@@ -380,27 +380,27 @@ Success response:
 {
     "code": 200,
     "data": {
-        "collectionName": "string",
-        "description": "string",
-        "fields": [
-            {
-                "autoId": true,
-                "description": "string",
-                "name": "string",
-                "primaryKey": true,
-                "type": "string"
-            }
-        ],
-        "indexes": [
-            {
-                "fieldName": "string",
-                "indexName": "string",
-                "metricType": "string"
-            }
-        ],
-        "load": "string",
-        "shardsNum": 0,
-        "enableDynamicField": true
+       "collectionName": "string",
+       "description": "string",
+       "fields": [
+          {
+             "autoId": true,
+             "description": "string",
+             "name": "string",
+             "primaryKey": true,
+             "type": "string"
+          }
+       ],
+       "indexes": [
+          {
+             "fieldName": "string",
+             "indexName": "string",
+             "metricType": "string"
+          }
+       ],
+       "load": "string",
+       "shardsNum": 0,
+       "enableDynamicField": true
     }
 }
 ```
@@ -411,10 +411,10 @@ List all collections in a cluster.
 
 ```shell
 curl --request GET \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/collections" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
+    --url "${CLUSTER_ENDPOINT}/v1/vector/collections" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json"
 ```
 
 Sample response:
@@ -423,11 +423,11 @@ Sample response:
 {
    code: 200,
    data: [
-         "collection1",
-         "collection2",
-         ...
-         "collectionN",
-         ]
+        "collection1",
+        "collection2",
+        ...
+        "collectionN",
+        ]
 }
 ```
 
@@ -437,40 +437,40 @@ Sample response:
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/insert" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-          "collectionName": "medium_articles", 
-          "data": { 
-               "vector": [0.23254494, 0.01374953, 0.88497432, 0.05292784, 0.02204868, 0.21890409, 0.35428028, 0.97024438, 0.58635726, 0.67980838, 0.67202523, 0.16375636, 0.52829526, 0.80185865, 0.71167799, 0.98615784, 0.86350404, 0.64295726, 0.37624468, 0.99708253, 0.46243643, 0.32893164, 0.32094438, 0.47701896, 0.85275669, 0.13127097, 0.5889451, 0.97648346, 0.74876674, 0.66409428, 0.92279568, 0.59029588, 0.495616, 0.12791323, 0.90082737, 0.84513226, 0.47542935, 0.74928086, 0.44922073, 0.1020575, 0.37431645, 0.29738807, 0.71098564, 0.35390859, 0.87792487, 0.89928066, 0.4995833, 0.61043433, 0.55303136, 0.02036885, 0.02231103, 0.67648899, 0.72165575, 0.15671427, 0.00546115, 0.28756084, 0.15077446, 0.65105982, 0.44063386, 0.07762012, 0.59994796, 0.19935778, 0.58911788, 0.54601686, 0.47097711, 0.90082361, 0.05595469, 0.38546197, 0.91447695, 0.33456871, 0.12778749, 0.82224433, 0.3223666, 0.56243253, 0.72730363, 0.42176339, 0.02008885, 0.11265533, 0.71246733, 0.86685866, 0.5204902, 0.1653007, 0.80375364, 0.14031363, 0.76868394, 0.35325028, 0.1142984, 0.95218926, 0.37508951, 0.01396396, 0.16322817, 0.69052937, 0.30264489, 0.40555134, 0.06153988, 0.00101791, 0.18618961, 0.77599691, 0.3445008, 0.7106463, 0.13440427, 0.64690627, 0.40818622, 0.07025781, 0.89639434, 0.00494204, 0.10540909, 0.47865809, 0.47316137, 0.46836499, 0.93197388, 0.24012326, 0.49471039, 0.21283529, 0.47370547, 0.95777027, 0.50557255, 0.12809693, 0.79998351, 0.76532556, 0.3412945, 0.72270631, 0.3432966, 0.81465781, 0.6924483, 0.2885265, 0.84673871, 0.38711232, 0.18702427, 0.49496971, 0.65431764, 0.39590077, 0.31226873, 0.20910631, 0.86433119, 0.51681312, 0.77759473, 0.42447517, 0.05762998, 0.17887886, 0.41045186, 0.09120965, 0.6447974, 0.49632173, 0.72730052, 0.26646776, 0.48899696, 0.33221734, 0.98206029, 0.82591894, 0.28478645, 0.37324246, 0.35833242, 0.96558445, 0.5003729, 0.66676758, 0.7230707, 0.21599462, 0.70457393, 0.11649283, 0.03034646, 0.00318578, 0.57941155, 0.80640383, 0.30106438, 0.84618622, 0.02321722, 0.6453211, 0.31889303, 0.20069267, 0.19202631, 0.84127804, 0.06014367, 0.53307321, 0.78079442, 0.32043145, 0.30207626, 0.08691769, 0.07230655, 0.8059663, 0.03810803, 0.05415744, 0.44057945, 0.19306693, 0.75747746, 0.89299566, 0.82985846, 0.5958096, 0.89525864, 0.07336388, 0.38396764, 0.04846415, 0.56839423, 0.56106259, 0.14302027, 0.85109589, 0.6298057, 0.62168794, 0.24771729, 0.54924417, 0.9061572, 0.97241046, 0.33025088, 0.56675472, 0.72474551, 0.48314604, 0.26248324, 0.22614522, 0.13087051, 0.9292656, 0.80039537, 0.38300443, 0.78520422, 0.29857615, 0.19121419, 0.47509572, 0.35981825, 0.55131999, 0.04348036, 0.02168964, 0.80645188, 0.62876989, 0.70794394, 0.72093526, 0.85172951, 0.24799777, 0.97620833, 0.74877332, 0.92792629, 0.89200055, 0.74500415, 0.84596926, 0.97469625, 0.7171343, 0.30020491, 0.97313677, 0.241573, 0.15498676, 0.21273237, 0.58910547, 0.46249576, 0.01109894, 0.0180376, 0.80975073, 0.12900483, 0.96509751, 0.57304458, 0.73290638, 0.94211456, 0.35197941, 0.15532272, 0.76150926, 0.19317378, 0.72826792, 0.38820115, 0.94187109],
-               "title": "Top 10 In-Demand programming languages to learn in 2020",
-               "link": "https://towardsdatascience.com/top-10-in-demand-programming-languages-to-learn-in-2020-4462eb7d8d3e"
-          }
-     }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/insert" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+        "collectionName": "medium_articles", 
+        "data": { 
+            "vector": [0.23254494, 0.01374953, 0.88497432, 0.05292784, 0.02204868, 0.21890409, 0.35428028, 0.97024438, 0.58635726, 0.67980838, 0.67202523, 0.16375636, 0.52829526, 0.80185865, 0.71167799, 0.98615784, 0.86350404, 0.64295726, 0.37624468, 0.99708253, 0.46243643, 0.32893164, 0.32094438, 0.47701896, 0.85275669, 0.13127097, 0.5889451, 0.97648346, 0.74876674, 0.66409428, 0.92279568, 0.59029588, 0.495616, 0.12791323, 0.90082737, 0.84513226, 0.47542935, 0.74928086, 0.44922073, 0.1020575, 0.37431645, 0.29738807, 0.71098564, 0.35390859, 0.87792487, 0.89928066, 0.4995833, 0.61043433, 0.55303136, 0.02036885, 0.02231103, 0.67648899, 0.72165575, 0.15671427, 0.00546115, 0.28756084, 0.15077446, 0.65105982, 0.44063386, 0.07762012, 0.59994796, 0.19935778, 0.58911788, 0.54601686, 0.47097711, 0.90082361, 0.05595469, 0.38546197, 0.91447695, 0.33456871, 0.12778749, 0.82224433, 0.3223666, 0.56243253, 0.72730363, 0.42176339, 0.02008885, 0.11265533, 0.71246733, 0.86685866, 0.5204902, 0.1653007, 0.80375364, 0.14031363, 0.76868394, 0.35325028, 0.1142984, 0.95218926, 0.37508951, 0.01396396, 0.16322817, 0.69052937, 0.30264489, 0.40555134, 0.06153988, 0.00101791, 0.18618961, 0.77599691, 0.3445008, 0.7106463, 0.13440427, 0.64690627, 0.40818622, 0.07025781, 0.89639434, 0.00494204, 0.10540909, 0.47865809, 0.47316137, 0.46836499, 0.93197388, 0.24012326, 0.49471039, 0.21283529, 0.47370547, 0.95777027, 0.50557255, 0.12809693, 0.79998351, 0.76532556, 0.3412945, 0.72270631, 0.3432966, 0.81465781, 0.6924483, 0.2885265, 0.84673871, 0.38711232, 0.18702427, 0.49496971, 0.65431764, 0.39590077, 0.31226873, 0.20910631, 0.86433119, 0.51681312, 0.77759473, 0.42447517, 0.05762998, 0.17887886, 0.41045186, 0.09120965, 0.6447974, 0.49632173, 0.72730052, 0.26646776, 0.48899696, 0.33221734, 0.98206029, 0.82591894, 0.28478645, 0.37324246, 0.35833242, 0.96558445, 0.5003729, 0.66676758, 0.7230707, 0.21599462, 0.70457393, 0.11649283, 0.03034646, 0.00318578, 0.57941155, 0.80640383, 0.30106438, 0.84618622, 0.02321722, 0.6453211, 0.31889303, 0.20069267, 0.19202631, 0.84127804, 0.06014367, 0.53307321, 0.78079442, 0.32043145, 0.30207626, 0.08691769, 0.07230655, 0.8059663, 0.03810803, 0.05415744, 0.44057945, 0.19306693, 0.75747746, 0.89299566, 0.82985846, 0.5958096, 0.89525864, 0.07336388, 0.38396764, 0.04846415, 0.56839423, 0.56106259, 0.14302027, 0.85109589, 0.6298057, 0.62168794, 0.24771729, 0.54924417, 0.9061572, 0.97241046, 0.33025088, 0.56675472, 0.72474551, 0.48314604, 0.26248324, 0.22614522, 0.13087051, 0.9292656, 0.80039537, 0.38300443, 0.78520422, 0.29857615, 0.19121419, 0.47509572, 0.35981825, 0.55131999, 0.04348036, 0.02168964, 0.80645188, 0.62876989, 0.70794394, 0.72093526, 0.85172951, 0.24799777, 0.97620833, 0.74877332, 0.92792629, 0.89200055, 0.74500415, 0.84596926, 0.97469625, 0.7171343, 0.30020491, 0.97313677, 0.241573, 0.15498676, 0.21273237, 0.58910547, 0.46249576, 0.01109894, 0.0180376, 0.80975073, 0.12900483, 0.96509751, 0.57304458, 0.73290638, 0.94211456, 0.35197941, 0.15532272, 0.76150926, 0.19317378, 0.72826792, 0.38820115, 0.94187109],
+            "title": "Top 10 In-Demand programming languages to learn in 2020",
+            "link": "https://towardsdatascience.com/top-10-in-demand-programming-languages-to-learn-in-2020-4462eb7d8d3e"
+        }
+    }'
 ```
 
 - Insert multiple entities.
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/insert" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-          "collectionName": "medium_articles", 
-          "data": [{ 
-               "vector": [0.23254494, 0.01374953, 0.88497432, 0.05292784, 0.02204868, 0.21890409, 0.35428028, 0.97024438, 0.58635726, 0.67980838, 0.67202523, 0.16375636, 0.52829526, 0.80185865, 0.71167799, 0.98615784, 0.86350404, 0.64295726, 0.37624468, 0.99708253, 0.46243643, 0.32893164, 0.32094438, 0.47701896, 0.85275669, 0.13127097, 0.5889451, 0.97648346, 0.74876674, 0.66409428, 0.92279568, 0.59029588, 0.495616, 0.12791323, 0.90082737, 0.84513226, 0.47542935, 0.74928086, 0.44922073, 0.1020575, 0.37431645, 0.29738807, 0.71098564, 0.35390859, 0.87792487, 0.89928066, 0.4995833, 0.61043433, 0.55303136, 0.02036885, 0.02231103, 0.67648899, 0.72165575, 0.15671427, 0.00546115, 0.28756084, 0.15077446, 0.65105982, 0.44063386, 0.07762012, 0.59994796, 0.19935778, 0.58911788, 0.54601686, 0.47097711, 0.90082361, 0.05595469, 0.38546197, 0.91447695, 0.33456871, 0.12778749, 0.82224433, 0.3223666, 0.56243253, 0.72730363, 0.42176339, 0.02008885, 0.11265533, 0.71246733, 0.86685866, 0.5204902, 0.1653007, 0.80375364, 0.14031363, 0.76868394, 0.35325028, 0.1142984, 0.95218926, 0.37508951, 0.01396396, 0.16322817, 0.69052937, 0.30264489, 0.40555134, 0.06153988, 0.00101791, 0.18618961, 0.77599691, 0.3445008, 0.7106463, 0.13440427, 0.64690627, 0.40818622, 0.07025781, 0.89639434, 0.00494204, 0.10540909, 0.47865809, 0.47316137, 0.46836499, 0.93197388, 0.24012326, 0.49471039, 0.21283529, 0.47370547, 0.95777027, 0.50557255, 0.12809693, 0.79998351, 0.76532556, 0.3412945, 0.72270631, 0.3432966, 0.81465781, 0.6924483, 0.2885265, 0.84673871, 0.38711232, 0.18702427, 0.49496971, 0.65431764, 0.39590077, 0.31226873, 0.20910631, 0.86433119, 0.51681312, 0.77759473, 0.42447517, 0.05762998, 0.17887886, 0.41045186, 0.09120965, 0.6447974, 0.49632173, 0.72730052, 0.26646776, 0.48899696, 0.33221734, 0.98206029, 0.82591894, 0.28478645, 0.37324246, 0.35833242, 0.96558445, 0.5003729, 0.66676758, 0.7230707, 0.21599462, 0.70457393, 0.11649283, 0.03034646, 0.00318578, 0.57941155, 0.80640383, 0.30106438, 0.84618622, 0.02321722, 0.6453211, 0.31889303, 0.20069267, 0.19202631, 0.84127804, 0.06014367, 0.53307321, 0.78079442, 0.32043145, 0.30207626, 0.08691769, 0.07230655, 0.8059663, 0.03810803, 0.05415744, 0.44057945, 0.19306693, 0.75747746, 0.89299566, 0.82985846, 0.5958096, 0.89525864, 0.07336388, 0.38396764, 0.04846415, 0.56839423, 0.56106259, 0.14302027, 0.85109589, 0.6298057, 0.62168794, 0.24771729, 0.54924417, 0.9061572, 0.97241046, 0.33025088, 0.56675472, 0.72474551, 0.48314604, 0.26248324, 0.22614522, 0.13087051, 0.9292656, 0.80039537, 0.38300443, 0.78520422, 0.29857615, 0.19121419, 0.47509572, 0.35981825, 0.55131999, 0.04348036, 0.02168964, 0.80645188, 0.62876989, 0.70794394, 0.72093526, 0.85172951, 0.24799777, 0.97620833, 0.74877332, 0.92792629, 0.89200055, 0.74500415, 0.84596926, 0.97469625, 0.7171343, 0.30020491, 0.97313677, 0.241573, 0.15498676, 0.21273237, 0.58910547, 0.46249576, 0.01109894, 0.0180376, 0.80975073, 0.12900483, 0.96509751, 0.57304458, 0.73290638, 0.94211456, 0.35197941, 0.15532272, 0.76150926, 0.19317378, 0.72826792, 0.38820115, 0.94187109],
-               "title": "Top 10 In-Demand programming languages to learn in 2020",
-               "link": "https://towardsdatascience.com/top-10-in-demand-programming-languages-to-learn-in-2020-4462eb7d8d3e"
-          },{
-               "vector": [0.4882628, 0.85768371, 0.48556888, 0.9681036, 0.94807827, 0.80656861, 0.72123286, 0.81810534, 0.83713905, 0.73258409, 0.97732714, 0.09869599, 0.83189308, 0.33537219, 0.88647192, 0.66132137, 0.703723, 0.34379603, 0.74785059, 0.84559156, 0.65074354, 0.61864253, 0.73546132, 0.84872955, 0.6006182, 0.04830389, 0.37780669, 0.96101751, 0.22319285, 0.88504273, 0.44813016, 0.69746754, 0.5707871, 0.37386075, 0.25382573, 0.42397712, 0.89749552, 0.39729882, 0.38485115, 0.12583234, 0.47243267, 0.74576701, 0.45814588, 0.88024839, 0.72812605, 0.6622232, 0.31803479, 0.74101011, 0.76141925, 0.5024863, 0.47431501, 0.40002184, 0.45752955, 0.54383915, 0.67569667, 0.52164475, 0.33647519, 0.93068322, 0.65766685, 0.95959175, 0.83665213, 0.1753687, 0.27341319, 0.34550907, 0.79669369, 0.95065082, 0.30838918, 0.79784458, 0.37323557, 0.97728813, 0.11170225, 0.87876854, 0.85212036, 0.88599461, 0.76916602, 0.6094099, 0.4427332, 0.87373443, 0.18576099, 0.81970137, 0.74932009, 0.92106027, 0.76417889, 0.35671825, 0.09990157, 0.14570871, 0.43084067, 0.30551776, 0.63985873, 0.45777184, 0.16172334, 0.32226743, 0.27613814, 0.18182943, 0.7019827, 0.45446168, 0.31359211, 0.17426952, 0.19392872, 0.59816543, 0.31679765, 0.60059089, 0.92800561, 0.95165562, 0.55177484, 0.49510178, 0.60250447, 0.1519485, 0.33565446, 0.92865767, 0.86723503, 0.85392181, 0.85337828, 0.01631286, 0.25257909, 0.00124323, 0.59344951, 0.78468014, 0.61854741, 0.61980932, 0.87467147, 0.44361724, 0.97777631, 0.42543721, 0.5290862, 0.12384163, 0.45287003, 0.30333621, 0.10408064, 0.71930918, 0.90741917, 0.09838064, 0.66319033, 0.08133113, 0.30527365, 0.40877414, 0.11552966, 0.76451148, 0.00529968, 0.76741598, 0.90358724, 0.05710312, 0.32659557, 0.66143926, 0.3258203, 0.62721598, 0.18690116, 0.00184847, 0.11355109, 0.33962499, 0.64671448, 0.67297271, 0.02416349, 0.3173442, 0.54041374, 0.33752188, 0.75654937, 0.08236666, 0.40054276, 0.1021504, 0.20874325, 0.75615835, 0.54953906, 0.44659766, 0.16064502, 0.58682242, 0.15547067, 0.57503622, 0.07797247, 0.1559962, 0.94815864, 0.12474807, 0.0999395, 0.85504252, 0.55633022, 0.56959553, 0.75966109, 0.70444125, 0.66884798, 0.81692129, 0.06837097, 0.9714623, 0.86751075, 0.42125912, 0.44367403, 0.49978621, 0.32267559, 0.67220653, 0.56167557, 0.25248436, 0.94191099, 0.71508807, 0.64564731, 0.56824345, 0.29187781, 0.93961505, 0.28196959, 0.92713673, 0.7256734, 0.51042292, 0.81504509, 0.55849401, 0.19380059, 0.46767559, 0.52275063, 0.66075204, 0.97290358, 0.57524932, 0.7219121, 0.85188581, 0.26220385, 0.75686621, 0.51934907, 0.185452, 0.49708297, 0.95783663, 0.61397962, 0.45956795, 0.49311061, 0.49464425, 0.43094667, 0.76768303, 0.29252745, 0.57964633, 0.72950803, 0.94616381, 0.60436868, 0.47828997, 0.90345857, 0.92971537, 0.64784105, 0.18095567, 0.94852017, 0.05224637, 0.50829763, 0.89020778, 0.008269, 0.9500583, 0.20305412, 0.21179052, 0.28443536, 0.39540241, 0.20286982, 0.30968133, 0.2141927, 0.4390286, 0.12686093, 0.59583271, 0.88270185, 0.28187656, 0.90096987, 0.29104497, 0.38480562, 0.40069773, 0.52293091, 0.37621525],
-               "title": "Dashboards in Python: 3 Advanced Examples for Dash Beginners and Everyone Else",
-               "link": "https://medium.com/swlh/dashboards-in-python-3-advanced-examples-for-dash-beginners-and-everyone-else"
-          }]
-     }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/insert" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+        "collectionName": "medium_articles", 
+        "data": [{ 
+            "vector": [0.23254494, 0.01374953, 0.88497432, 0.05292784, 0.02204868, 0.21890409, 0.35428028, 0.97024438, 0.58635726, 0.67980838, 0.67202523, 0.16375636, 0.52829526, 0.80185865, 0.71167799, 0.98615784, 0.86350404, 0.64295726, 0.37624468, 0.99708253, 0.46243643, 0.32893164, 0.32094438, 0.47701896, 0.85275669, 0.13127097, 0.5889451, 0.97648346, 0.74876674, 0.66409428, 0.92279568, 0.59029588, 0.495616, 0.12791323, 0.90082737, 0.84513226, 0.47542935, 0.74928086, 0.44922073, 0.1020575, 0.37431645, 0.29738807, 0.71098564, 0.35390859, 0.87792487, 0.89928066, 0.4995833, 0.61043433, 0.55303136, 0.02036885, 0.02231103, 0.67648899, 0.72165575, 0.15671427, 0.00546115, 0.28756084, 0.15077446, 0.65105982, 0.44063386, 0.07762012, 0.59994796, 0.19935778, 0.58911788, 0.54601686, 0.47097711, 0.90082361, 0.05595469, 0.38546197, 0.91447695, 0.33456871, 0.12778749, 0.82224433, 0.3223666, 0.56243253, 0.72730363, 0.42176339, 0.02008885, 0.11265533, 0.71246733, 0.86685866, 0.5204902, 0.1653007, 0.80375364, 0.14031363, 0.76868394, 0.35325028, 0.1142984, 0.95218926, 0.37508951, 0.01396396, 0.16322817, 0.69052937, 0.30264489, 0.40555134, 0.06153988, 0.00101791, 0.18618961, 0.77599691, 0.3445008, 0.7106463, 0.13440427, 0.64690627, 0.40818622, 0.07025781, 0.89639434, 0.00494204, 0.10540909, 0.47865809, 0.47316137, 0.46836499, 0.93197388, 0.24012326, 0.49471039, 0.21283529, 0.47370547, 0.95777027, 0.50557255, 0.12809693, 0.79998351, 0.76532556, 0.3412945, 0.72270631, 0.3432966, 0.81465781, 0.6924483, 0.2885265, 0.84673871, 0.38711232, 0.18702427, 0.49496971, 0.65431764, 0.39590077, 0.31226873, 0.20910631, 0.86433119, 0.51681312, 0.77759473, 0.42447517, 0.05762998, 0.17887886, 0.41045186, 0.09120965, 0.6447974, 0.49632173, 0.72730052, 0.26646776, 0.48899696, 0.33221734, 0.98206029, 0.82591894, 0.28478645, 0.37324246, 0.35833242, 0.96558445, 0.5003729, 0.66676758, 0.7230707, 0.21599462, 0.70457393, 0.11649283, 0.03034646, 0.00318578, 0.57941155, 0.80640383, 0.30106438, 0.84618622, 0.02321722, 0.6453211, 0.31889303, 0.20069267, 0.19202631, 0.84127804, 0.06014367, 0.53307321, 0.78079442, 0.32043145, 0.30207626, 0.08691769, 0.07230655, 0.8059663, 0.03810803, 0.05415744, 0.44057945, 0.19306693, 0.75747746, 0.89299566, 0.82985846, 0.5958096, 0.89525864, 0.07336388, 0.38396764, 0.04846415, 0.56839423, 0.56106259, 0.14302027, 0.85109589, 0.6298057, 0.62168794, 0.24771729, 0.54924417, 0.9061572, 0.97241046, 0.33025088, 0.56675472, 0.72474551, 0.48314604, 0.26248324, 0.22614522, 0.13087051, 0.9292656, 0.80039537, 0.38300443, 0.78520422, 0.29857615, 0.19121419, 0.47509572, 0.35981825, 0.55131999, 0.04348036, 0.02168964, 0.80645188, 0.62876989, 0.70794394, 0.72093526, 0.85172951, 0.24799777, 0.97620833, 0.74877332, 0.92792629, 0.89200055, 0.74500415, 0.84596926, 0.97469625, 0.7171343, 0.30020491, 0.97313677, 0.241573, 0.15498676, 0.21273237, 0.58910547, 0.46249576, 0.01109894, 0.0180376, 0.80975073, 0.12900483, 0.96509751, 0.57304458, 0.73290638, 0.94211456, 0.35197941, 0.15532272, 0.76150926, 0.19317378, 0.72826792, 0.38820115, 0.94187109],
+            "title": "Top 10 In-Demand programming languages to learn in 2020",
+            "link": "https://towardsdatascience.com/top-10-in-demand-programming-languages-to-learn-in-2020-4462eb7d8d3e"
+        },{
+            "vector": [0.4882628, 0.85768371, 0.48556888, 0.9681036, 0.94807827, 0.80656861, 0.72123286, 0.81810534, 0.83713905, 0.73258409, 0.97732714, 0.09869599, 0.83189308, 0.33537219, 0.88647192, 0.66132137, 0.703723, 0.34379603, 0.74785059, 0.84559156, 0.65074354, 0.61864253, 0.73546132, 0.84872955, 0.6006182, 0.04830389, 0.37780669, 0.96101751, 0.22319285, 0.88504273, 0.44813016, 0.69746754, 0.5707871, 0.37386075, 0.25382573, 0.42397712, 0.89749552, 0.39729882, 0.38485115, 0.12583234, 0.47243267, 0.74576701, 0.45814588, 0.88024839, 0.72812605, 0.6622232, 0.31803479, 0.74101011, 0.76141925, 0.5024863, 0.47431501, 0.40002184, 0.45752955, 0.54383915, 0.67569667, 0.52164475, 0.33647519, 0.93068322, 0.65766685, 0.95959175, 0.83665213, 0.1753687, 0.27341319, 0.34550907, 0.79669369, 0.95065082, 0.30838918, 0.79784458, 0.37323557, 0.97728813, 0.11170225, 0.87876854, 0.85212036, 0.88599461, 0.76916602, 0.6094099, 0.4427332, 0.87373443, 0.18576099, 0.81970137, 0.74932009, 0.92106027, 0.76417889, 0.35671825, 0.09990157, 0.14570871, 0.43084067, 0.30551776, 0.63985873, 0.45777184, 0.16172334, 0.32226743, 0.27613814, 0.18182943, 0.7019827, 0.45446168, 0.31359211, 0.17426952, 0.19392872, 0.59816543, 0.31679765, 0.60059089, 0.92800561, 0.95165562, 0.55177484, 0.49510178, 0.60250447, 0.1519485, 0.33565446, 0.92865767, 0.86723503, 0.85392181, 0.85337828, 0.01631286, 0.25257909, 0.00124323, 0.59344951, 0.78468014, 0.61854741, 0.61980932, 0.87467147, 0.44361724, 0.97777631, 0.42543721, 0.5290862, 0.12384163, 0.45287003, 0.30333621, 0.10408064, 0.71930918, 0.90741917, 0.09838064, 0.66319033, 0.08133113, 0.30527365, 0.40877414, 0.11552966, 0.76451148, 0.00529968, 0.76741598, 0.90358724, 0.05710312, 0.32659557, 0.66143926, 0.3258203, 0.62721598, 0.18690116, 0.00184847, 0.11355109, 0.33962499, 0.64671448, 0.67297271, 0.02416349, 0.3173442, 0.54041374, 0.33752188, 0.75654937, 0.08236666, 0.40054276, 0.1021504, 0.20874325, 0.75615835, 0.54953906, 0.44659766, 0.16064502, 0.58682242, 0.15547067, 0.57503622, 0.07797247, 0.1559962, 0.94815864, 0.12474807, 0.0999395, 0.85504252, 0.55633022, 0.56959553, 0.75966109, 0.70444125, 0.66884798, 0.81692129, 0.06837097, 0.9714623, 0.86751075, 0.42125912, 0.44367403, 0.49978621, 0.32267559, 0.67220653, 0.56167557, 0.25248436, 0.94191099, 0.71508807, 0.64564731, 0.56824345, 0.29187781, 0.93961505, 0.28196959, 0.92713673, 0.7256734, 0.51042292, 0.81504509, 0.55849401, 0.19380059, 0.46767559, 0.52275063, 0.66075204, 0.97290358, 0.57524932, 0.7219121, 0.85188581, 0.26220385, 0.75686621, 0.51934907, 0.185452, 0.49708297, 0.95783663, 0.61397962, 0.45956795, 0.49311061, 0.49464425, 0.43094667, 0.76768303, 0.29252745, 0.57964633, 0.72950803, 0.94616381, 0.60436868, 0.47828997, 0.90345857, 0.92971537, 0.64784105, 0.18095567, 0.94852017, 0.05224637, 0.50829763, 0.89020778, 0.008269, 0.9500583, 0.20305412, 0.21179052, 0.28443536, 0.39540241, 0.20286982, 0.30968133, 0.2141927, 0.4390286, 0.12686093, 0.59583271, 0.88270185, 0.28187656, 0.90096987, 0.29104497, 0.38480562, 0.40069773, 0.52293091, 0.37621525],
+            "title": "Dashboards in Python: 3 Advanced Examples for Dash Beginners and Everyone Else",
+            "link": "https://medium.com/swlh/dashboards-in-python-3-advanced-examples-for-dash-beginners-and-everyone-else"
+        }]
+    }'
 ```
 
 ## Upsert
@@ -479,40 +479,40 @@ curl --request POST \
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/upsert" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-          "collectionName": "medium_articles", 
-          "data": { 
-               "vector": [0.23254494, 0.01374953, 0.88497432, 0.05292784, 0.02204868, 0.21890409, 0.35428028, 0.97024438, 0.58635726, 0.67980838, 0.67202523, 0.16375636, 0.52829526, 0.80185865, 0.71167799, 0.98615784, 0.86350404, 0.64295726, 0.37624468, 0.99708253, 0.46243643, 0.32893164, 0.32094438, 0.47701896, 0.85275669, 0.13127097, 0.5889451, 0.97648346, 0.74876674, 0.66409428, 0.92279568, 0.59029588, 0.495616, 0.12791323, 0.90082737, 0.84513226, 0.47542935, 0.74928086, 0.44922073, 0.1020575, 0.37431645, 0.29738807, 0.71098564, 0.35390859, 0.87792487, 0.89928066, 0.4995833, 0.61043433, 0.55303136, 0.02036885, 0.02231103, 0.67648899, 0.72165575, 0.15671427, 0.00546115, 0.28756084, 0.15077446, 0.65105982, 0.44063386, 0.07762012, 0.59994796, 0.19935778, 0.58911788, 0.54601686, 0.47097711, 0.90082361, 0.05595469, 0.38546197, 0.91447695, 0.33456871, 0.12778749, 0.82224433, 0.3223666, 0.56243253, 0.72730363, 0.42176339, 0.02008885, 0.11265533, 0.71246733, 0.86685866, 0.5204902, 0.1653007, 0.80375364, 0.14031363, 0.76868394, 0.35325028, 0.1142984, 0.95218926, 0.37508951, 0.01396396, 0.16322817, 0.69052937, 0.30264489, 0.40555134, 0.06153988, 0.00101791, 0.18618961, 0.77599691, 0.3445008, 0.7106463, 0.13440427, 0.64690627, 0.40818622, 0.07025781, 0.89639434, 0.00494204, 0.10540909, 0.47865809, 0.47316137, 0.46836499, 0.93197388, 0.24012326, 0.49471039, 0.21283529, 0.47370547, 0.95777027, 0.50557255, 0.12809693, 0.79998351, 0.76532556, 0.3412945, 0.72270631, 0.3432966, 0.81465781, 0.6924483, 0.2885265, 0.84673871, 0.38711232, 0.18702427, 0.49496971, 0.65431764, 0.39590077, 0.31226873, 0.20910631, 0.86433119, 0.51681312, 0.77759473, 0.42447517, 0.05762998, 0.17887886, 0.41045186, 0.09120965, 0.6447974, 0.49632173, 0.72730052, 0.26646776, 0.48899696, 0.33221734, 0.98206029, 0.82591894, 0.28478645, 0.37324246, 0.35833242, 0.96558445, 0.5003729, 0.66676758, 0.7230707, 0.21599462, 0.70457393, 0.11649283, 0.03034646, 0.00318578, 0.57941155, 0.80640383, 0.30106438, 0.84618622, 0.02321722, 0.6453211, 0.31889303, 0.20069267, 0.19202631, 0.84127804, 0.06014367, 0.53307321, 0.78079442, 0.32043145, 0.30207626, 0.08691769, 0.07230655, 0.8059663, 0.03810803, 0.05415744, 0.44057945, 0.19306693, 0.75747746, 0.89299566, 0.82985846, 0.5958096, 0.89525864, 0.07336388, 0.38396764, 0.04846415, 0.56839423, 0.56106259, 0.14302027, 0.85109589, 0.6298057, 0.62168794, 0.24771729, 0.54924417, 0.9061572, 0.97241046, 0.33025088, 0.56675472, 0.72474551, 0.48314604, 0.26248324, 0.22614522, 0.13087051, 0.9292656, 0.80039537, 0.38300443, 0.78520422, 0.29857615, 0.19121419, 0.47509572, 0.35981825, 0.55131999, 0.04348036, 0.02168964, 0.80645188, 0.62876989, 0.70794394, 0.72093526, 0.85172951, 0.24799777, 0.97620833, 0.74877332, 0.92792629, 0.89200055, 0.74500415, 0.84596926, 0.97469625, 0.7171343, 0.30020491, 0.97313677, 0.241573, 0.15498676, 0.21273237, 0.58910547, 0.46249576, 0.01109894, 0.0180376, 0.80975073, 0.12900483, 0.96509751, 0.57304458, 0.73290638, 0.94211456, 0.35197941, 0.15532272, 0.76150926, 0.19317378, 0.72826792, 0.38820115, 0.94187109],
-               "title": "Top 10 In-Demand programming languages to learn in 2020",
-               "link": "https://towardsdatascience.com/top-10-in-demand-programming-languages-to-learn-in-2020-4462eb7d8d3e"
-          }
-     }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/upsert" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+        "collectionName": "medium_articles", 
+        "data": { 
+            "vector": [0.23254494, 0.01374953, 0.88497432, 0.05292784, 0.02204868, 0.21890409, 0.35428028, 0.97024438, 0.58635726, 0.67980838, 0.67202523, 0.16375636, 0.52829526, 0.80185865, 0.71167799, 0.98615784, 0.86350404, 0.64295726, 0.37624468, 0.99708253, 0.46243643, 0.32893164, 0.32094438, 0.47701896, 0.85275669, 0.13127097, 0.5889451, 0.97648346, 0.74876674, 0.66409428, 0.92279568, 0.59029588, 0.495616, 0.12791323, 0.90082737, 0.84513226, 0.47542935, 0.74928086, 0.44922073, 0.1020575, 0.37431645, 0.29738807, 0.71098564, 0.35390859, 0.87792487, 0.89928066, 0.4995833, 0.61043433, 0.55303136, 0.02036885, 0.02231103, 0.67648899, 0.72165575, 0.15671427, 0.00546115, 0.28756084, 0.15077446, 0.65105982, 0.44063386, 0.07762012, 0.59994796, 0.19935778, 0.58911788, 0.54601686, 0.47097711, 0.90082361, 0.05595469, 0.38546197, 0.91447695, 0.33456871, 0.12778749, 0.82224433, 0.3223666, 0.56243253, 0.72730363, 0.42176339, 0.02008885, 0.11265533, 0.71246733, 0.86685866, 0.5204902, 0.1653007, 0.80375364, 0.14031363, 0.76868394, 0.35325028, 0.1142984, 0.95218926, 0.37508951, 0.01396396, 0.16322817, 0.69052937, 0.30264489, 0.40555134, 0.06153988, 0.00101791, 0.18618961, 0.77599691, 0.3445008, 0.7106463, 0.13440427, 0.64690627, 0.40818622, 0.07025781, 0.89639434, 0.00494204, 0.10540909, 0.47865809, 0.47316137, 0.46836499, 0.93197388, 0.24012326, 0.49471039, 0.21283529, 0.47370547, 0.95777027, 0.50557255, 0.12809693, 0.79998351, 0.76532556, 0.3412945, 0.72270631, 0.3432966, 0.81465781, 0.6924483, 0.2885265, 0.84673871, 0.38711232, 0.18702427, 0.49496971, 0.65431764, 0.39590077, 0.31226873, 0.20910631, 0.86433119, 0.51681312, 0.77759473, 0.42447517, 0.05762998, 0.17887886, 0.41045186, 0.09120965, 0.6447974, 0.49632173, 0.72730052, 0.26646776, 0.48899696, 0.33221734, 0.98206029, 0.82591894, 0.28478645, 0.37324246, 0.35833242, 0.96558445, 0.5003729, 0.66676758, 0.7230707, 0.21599462, 0.70457393, 0.11649283, 0.03034646, 0.00318578, 0.57941155, 0.80640383, 0.30106438, 0.84618622, 0.02321722, 0.6453211, 0.31889303, 0.20069267, 0.19202631, 0.84127804, 0.06014367, 0.53307321, 0.78079442, 0.32043145, 0.30207626, 0.08691769, 0.07230655, 0.8059663, 0.03810803, 0.05415744, 0.44057945, 0.19306693, 0.75747746, 0.89299566, 0.82985846, 0.5958096, 0.89525864, 0.07336388, 0.38396764, 0.04846415, 0.56839423, 0.56106259, 0.14302027, 0.85109589, 0.6298057, 0.62168794, 0.24771729, 0.54924417, 0.9061572, 0.97241046, 0.33025088, 0.56675472, 0.72474551, 0.48314604, 0.26248324, 0.22614522, 0.13087051, 0.9292656, 0.80039537, 0.38300443, 0.78520422, 0.29857615, 0.19121419, 0.47509572, 0.35981825, 0.55131999, 0.04348036, 0.02168964, 0.80645188, 0.62876989, 0.70794394, 0.72093526, 0.85172951, 0.24799777, 0.97620833, 0.74877332, 0.92792629, 0.89200055, 0.74500415, 0.84596926, 0.97469625, 0.7171343, 0.30020491, 0.97313677, 0.241573, 0.15498676, 0.21273237, 0.58910547, 0.46249576, 0.01109894, 0.0180376, 0.80975073, 0.12900483, 0.96509751, 0.57304458, 0.73290638, 0.94211456, 0.35197941, 0.15532272, 0.76150926, 0.19317378, 0.72826792, 0.38820115, 0.94187109],
+            "title": "Top 10 In-Demand programming languages to learn in 2020",
+            "link": "https://towardsdatascience.com/top-10-in-demand-programming-languages-to-learn-in-2020-4462eb7d8d3e"
+        }
+    }'
 ```
 
 - Upsert multiple entities.
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/upsert" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-          "collectionName": "medium_articles", 
-          "data": [{ 
-               "vector": [0.23254494, 0.01374953, 0.88497432, 0.05292784, 0.02204868, 0.21890409, 0.35428028, 0.97024438, 0.58635726, 0.67980838, 0.67202523, 0.16375636, 0.52829526, 0.80185865, 0.71167799, 0.98615784, 0.86350404, 0.64295726, 0.37624468, 0.99708253, 0.46243643, 0.32893164, 0.32094438, 0.47701896, 0.85275669, 0.13127097, 0.5889451, 0.97648346, 0.74876674, 0.66409428, 0.92279568, 0.59029588, 0.495616, 0.12791323, 0.90082737, 0.84513226, 0.47542935, 0.74928086, 0.44922073, 0.1020575, 0.37431645, 0.29738807, 0.71098564, 0.35390859, 0.87792487, 0.89928066, 0.4995833, 0.61043433, 0.55303136, 0.02036885, 0.02231103, 0.67648899, 0.72165575, 0.15671427, 0.00546115, 0.28756084, 0.15077446, 0.65105982, 0.44063386, 0.07762012, 0.59994796, 0.19935778, 0.58911788, 0.54601686, 0.47097711, 0.90082361, 0.05595469, 0.38546197, 0.91447695, 0.33456871, 0.12778749, 0.82224433, 0.3223666, 0.56243253, 0.72730363, 0.42176339, 0.02008885, 0.11265533, 0.71246733, 0.86685866, 0.5204902, 0.1653007, 0.80375364, 0.14031363, 0.76868394, 0.35325028, 0.1142984, 0.95218926, 0.37508951, 0.01396396, 0.16322817, 0.69052937, 0.30264489, 0.40555134, 0.06153988, 0.00101791, 0.18618961, 0.77599691, 0.3445008, 0.7106463, 0.13440427, 0.64690627, 0.40818622, 0.07025781, 0.89639434, 0.00494204, 0.10540909, 0.47865809, 0.47316137, 0.46836499, 0.93197388, 0.24012326, 0.49471039, 0.21283529, 0.47370547, 0.95777027, 0.50557255, 0.12809693, 0.79998351, 0.76532556, 0.3412945, 0.72270631, 0.3432966, 0.81465781, 0.6924483, 0.2885265, 0.84673871, 0.38711232, 0.18702427, 0.49496971, 0.65431764, 0.39590077, 0.31226873, 0.20910631, 0.86433119, 0.51681312, 0.77759473, 0.42447517, 0.05762998, 0.17887886, 0.41045186, 0.09120965, 0.6447974, 0.49632173, 0.72730052, 0.26646776, 0.48899696, 0.33221734, 0.98206029, 0.82591894, 0.28478645, 0.37324246, 0.35833242, 0.96558445, 0.5003729, 0.66676758, 0.7230707, 0.21599462, 0.70457393, 0.11649283, 0.03034646, 0.00318578, 0.57941155, 0.80640383, 0.30106438, 0.84618622, 0.02321722, 0.6453211, 0.31889303, 0.20069267, 0.19202631, 0.84127804, 0.06014367, 0.53307321, 0.78079442, 0.32043145, 0.30207626, 0.08691769, 0.07230655, 0.8059663, 0.03810803, 0.05415744, 0.44057945, 0.19306693, 0.75747746, 0.89299566, 0.82985846, 0.5958096, 0.89525864, 0.07336388, 0.38396764, 0.04846415, 0.56839423, 0.56106259, 0.14302027, 0.85109589, 0.6298057, 0.62168794, 0.24771729, 0.54924417, 0.9061572, 0.97241046, 0.33025088, 0.56675472, 0.72474551, 0.48314604, 0.26248324, 0.22614522, 0.13087051, 0.9292656, 0.80039537, 0.38300443, 0.78520422, 0.29857615, 0.19121419, 0.47509572, 0.35981825, 0.55131999, 0.04348036, 0.02168964, 0.80645188, 0.62876989, 0.70794394, 0.72093526, 0.85172951, 0.24799777, 0.97620833, 0.74877332, 0.92792629, 0.89200055, 0.74500415, 0.84596926, 0.97469625, 0.7171343, 0.30020491, 0.97313677, 0.241573, 0.15498676, 0.21273237, 0.58910547, 0.46249576, 0.01109894, 0.0180376, 0.80975073, 0.12900483, 0.96509751, 0.57304458, 0.73290638, 0.94211456, 0.35197941, 0.15532272, 0.76150926, 0.19317378, 0.72826792, 0.38820115, 0.94187109],
-               "title": "Top 10 In-Demand programming languages to learn in 2020",
-               "link": "https://towardsdatascience.com/top-10-in-demand-programming-languages-to-learn-in-2020-4462eb7d8d3e"
-          },{
-               "vector": [0.4882628, 0.85768371, 0.48556888, 0.9681036, 0.94807827, 0.80656861, 0.72123286, 0.81810534, 0.83713905, 0.73258409, 0.97732714, 0.09869599, 0.83189308, 0.33537219, 0.88647192, 0.66132137, 0.703723, 0.34379603, 0.74785059, 0.84559156, 0.65074354, 0.61864253, 0.73546132, 0.84872955, 0.6006182, 0.04830389, 0.37780669, 0.96101751, 0.22319285, 0.88504273, 0.44813016, 0.69746754, 0.5707871, 0.37386075, 0.25382573, 0.42397712, 0.89749552, 0.39729882, 0.38485115, 0.12583234, 0.47243267, 0.74576701, 0.45814588, 0.88024839, 0.72812605, 0.6622232, 0.31803479, 0.74101011, 0.76141925, 0.5024863, 0.47431501, 0.40002184, 0.45752955, 0.54383915, 0.67569667, 0.52164475, 0.33647519, 0.93068322, 0.65766685, 0.95959175, 0.83665213, 0.1753687, 0.27341319, 0.34550907, 0.79669369, 0.95065082, 0.30838918, 0.79784458, 0.37323557, 0.97728813, 0.11170225, 0.87876854, 0.85212036, 0.88599461, 0.76916602, 0.6094099, 0.4427332, 0.87373443, 0.18576099, 0.81970137, 0.74932009, 0.92106027, 0.76417889, 0.35671825, 0.09990157, 0.14570871, 0.43084067, 0.30551776, 0.63985873, 0.45777184, 0.16172334, 0.32226743, 0.27613814, 0.18182943, 0.7019827, 0.45446168, 0.31359211, 0.17426952, 0.19392872, 0.59816543, 0.31679765, 0.60059089, 0.92800561, 0.95165562, 0.55177484, 0.49510178, 0.60250447, 0.1519485, 0.33565446, 0.92865767, 0.86723503, 0.85392181, 0.85337828, 0.01631286, 0.25257909, 0.00124323, 0.59344951, 0.78468014, 0.61854741, 0.61980932, 0.87467147, 0.44361724, 0.97777631, 0.42543721, 0.5290862, 0.12384163, 0.45287003, 0.30333621, 0.10408064, 0.71930918, 0.90741917, 0.09838064, 0.66319033, 0.08133113, 0.30527365, 0.40877414, 0.11552966, 0.76451148, 0.00529968, 0.76741598, 0.90358724, 0.05710312, 0.32659557, 0.66143926, 0.3258203, 0.62721598, 0.18690116, 0.00184847, 0.11355109, 0.33962499, 0.64671448, 0.67297271, 0.02416349, 0.3173442, 0.54041374, 0.33752188, 0.75654937, 0.08236666, 0.40054276, 0.1021504, 0.20874325, 0.75615835, 0.54953906, 0.44659766, 0.16064502, 0.58682242, 0.15547067, 0.57503622, 0.07797247, 0.1559962, 0.94815864, 0.12474807, 0.0999395, 0.85504252, 0.55633022, 0.56959553, 0.75966109, 0.70444125, 0.66884798, 0.81692129, 0.06837097, 0.9714623, 0.86751075, 0.42125912, 0.44367403, 0.49978621, 0.32267559, 0.67220653, 0.56167557, 0.25248436, 0.94191099, 0.71508807, 0.64564731, 0.56824345, 0.29187781, 0.93961505, 0.28196959, 0.92713673, 0.7256734, 0.51042292, 0.81504509, 0.55849401, 0.19380059, 0.46767559, 0.52275063, 0.66075204, 0.97290358, 0.57524932, 0.7219121, 0.85188581, 0.26220385, 0.75686621, 0.51934907, 0.185452, 0.49708297, 0.95783663, 0.61397962, 0.45956795, 0.49311061, 0.49464425, 0.43094667, 0.76768303, 0.29252745, 0.57964633, 0.72950803, 0.94616381, 0.60436868, 0.47828997, 0.90345857, 0.92971537, 0.64784105, 0.18095567, 0.94852017, 0.05224637, 0.50829763, 0.89020778, 0.008269, 0.9500583, 0.20305412, 0.21179052, 0.28443536, 0.39540241, 0.20286982, 0.30968133, 0.2141927, 0.4390286, 0.12686093, 0.59583271, 0.88270185, 0.28187656, 0.90096987, 0.29104497, 0.38480562, 0.40069773, 0.52293091, 0.37621525],
-               "title": "Dashboards in Python: 3 Advanced Examples for Dash Beginners and Everyone Else",
-               "link": "https://medium.com/swlh/dashboards-in-python-3-advanced-examples-for-dash-beginners-and-everyone-else"
-          }]
-     }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/upsert" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+        "collectionName": "medium_articles", 
+        "data": [{ 
+            "vector": [0.23254494, 0.01374953, 0.88497432, 0.05292784, 0.02204868, 0.21890409, 0.35428028, 0.97024438, 0.58635726, 0.67980838, 0.67202523, 0.16375636, 0.52829526, 0.80185865, 0.71167799, 0.98615784, 0.86350404, 0.64295726, 0.37624468, 0.99708253, 0.46243643, 0.32893164, 0.32094438, 0.47701896, 0.85275669, 0.13127097, 0.5889451, 0.97648346, 0.74876674, 0.66409428, 0.92279568, 0.59029588, 0.495616, 0.12791323, 0.90082737, 0.84513226, 0.47542935, 0.74928086, 0.44922073, 0.1020575, 0.37431645, 0.29738807, 0.71098564, 0.35390859, 0.87792487, 0.89928066, 0.4995833, 0.61043433, 0.55303136, 0.02036885, 0.02231103, 0.67648899, 0.72165575, 0.15671427, 0.00546115, 0.28756084, 0.15077446, 0.65105982, 0.44063386, 0.07762012, 0.59994796, 0.19935778, 0.58911788, 0.54601686, 0.47097711, 0.90082361, 0.05595469, 0.38546197, 0.91447695, 0.33456871, 0.12778749, 0.82224433, 0.3223666, 0.56243253, 0.72730363, 0.42176339, 0.02008885, 0.11265533, 0.71246733, 0.86685866, 0.5204902, 0.1653007, 0.80375364, 0.14031363, 0.76868394, 0.35325028, 0.1142984, 0.95218926, 0.37508951, 0.01396396, 0.16322817, 0.69052937, 0.30264489, 0.40555134, 0.06153988, 0.00101791, 0.18618961, 0.77599691, 0.3445008, 0.7106463, 0.13440427, 0.64690627, 0.40818622, 0.07025781, 0.89639434, 0.00494204, 0.10540909, 0.47865809, 0.47316137, 0.46836499, 0.93197388, 0.24012326, 0.49471039, 0.21283529, 0.47370547, 0.95777027, 0.50557255, 0.12809693, 0.79998351, 0.76532556, 0.3412945, 0.72270631, 0.3432966, 0.81465781, 0.6924483, 0.2885265, 0.84673871, 0.38711232, 0.18702427, 0.49496971, 0.65431764, 0.39590077, 0.31226873, 0.20910631, 0.86433119, 0.51681312, 0.77759473, 0.42447517, 0.05762998, 0.17887886, 0.41045186, 0.09120965, 0.6447974, 0.49632173, 0.72730052, 0.26646776, 0.48899696, 0.33221734, 0.98206029, 0.82591894, 0.28478645, 0.37324246, 0.35833242, 0.96558445, 0.5003729, 0.66676758, 0.7230707, 0.21599462, 0.70457393, 0.11649283, 0.03034646, 0.00318578, 0.57941155, 0.80640383, 0.30106438, 0.84618622, 0.02321722, 0.6453211, 0.31889303, 0.20069267, 0.19202631, 0.84127804, 0.06014367, 0.53307321, 0.78079442, 0.32043145, 0.30207626, 0.08691769, 0.07230655, 0.8059663, 0.03810803, 0.05415744, 0.44057945, 0.19306693, 0.75747746, 0.89299566, 0.82985846, 0.5958096, 0.89525864, 0.07336388, 0.38396764, 0.04846415, 0.56839423, 0.56106259, 0.14302027, 0.85109589, 0.6298057, 0.62168794, 0.24771729, 0.54924417, 0.9061572, 0.97241046, 0.33025088, 0.56675472, 0.72474551, 0.48314604, 0.26248324, 0.22614522, 0.13087051, 0.9292656, 0.80039537, 0.38300443, 0.78520422, 0.29857615, 0.19121419, 0.47509572, 0.35981825, 0.55131999, 0.04348036, 0.02168964, 0.80645188, 0.62876989, 0.70794394, 0.72093526, 0.85172951, 0.24799777, 0.97620833, 0.74877332, 0.92792629, 0.89200055, 0.74500415, 0.84596926, 0.97469625, 0.7171343, 0.30020491, 0.97313677, 0.241573, 0.15498676, 0.21273237, 0.58910547, 0.46249576, 0.01109894, 0.0180376, 0.80975073, 0.12900483, 0.96509751, 0.57304458, 0.73290638, 0.94211456, 0.35197941, 0.15532272, 0.76150926, 0.19317378, 0.72826792, 0.38820115, 0.94187109],
+            "title": "Top 10 In-Demand programming languages to learn in 2020",
+            "link": "https://towardsdatascience.com/top-10-in-demand-programming-languages-to-learn-in-2020-4462eb7d8d3e"
+        },{
+            "vector": [0.4882628, 0.85768371, 0.48556888, 0.9681036, 0.94807827, 0.80656861, 0.72123286, 0.81810534, 0.83713905, 0.73258409, 0.97732714, 0.09869599, 0.83189308, 0.33537219, 0.88647192, 0.66132137, 0.703723, 0.34379603, 0.74785059, 0.84559156, 0.65074354, 0.61864253, 0.73546132, 0.84872955, 0.6006182, 0.04830389, 0.37780669, 0.96101751, 0.22319285, 0.88504273, 0.44813016, 0.69746754, 0.5707871, 0.37386075, 0.25382573, 0.42397712, 0.89749552, 0.39729882, 0.38485115, 0.12583234, 0.47243267, 0.74576701, 0.45814588, 0.88024839, 0.72812605, 0.6622232, 0.31803479, 0.74101011, 0.76141925, 0.5024863, 0.47431501, 0.40002184, 0.45752955, 0.54383915, 0.67569667, 0.52164475, 0.33647519, 0.93068322, 0.65766685, 0.95959175, 0.83665213, 0.1753687, 0.27341319, 0.34550907, 0.79669369, 0.95065082, 0.30838918, 0.79784458, 0.37323557, 0.97728813, 0.11170225, 0.87876854, 0.85212036, 0.88599461, 0.76916602, 0.6094099, 0.4427332, 0.87373443, 0.18576099, 0.81970137, 0.74932009, 0.92106027, 0.76417889, 0.35671825, 0.09990157, 0.14570871, 0.43084067, 0.30551776, 0.63985873, 0.45777184, 0.16172334, 0.32226743, 0.27613814, 0.18182943, 0.7019827, 0.45446168, 0.31359211, 0.17426952, 0.19392872, 0.59816543, 0.31679765, 0.60059089, 0.92800561, 0.95165562, 0.55177484, 0.49510178, 0.60250447, 0.1519485, 0.33565446, 0.92865767, 0.86723503, 0.85392181, 0.85337828, 0.01631286, 0.25257909, 0.00124323, 0.59344951, 0.78468014, 0.61854741, 0.61980932, 0.87467147, 0.44361724, 0.97777631, 0.42543721, 0.5290862, 0.12384163, 0.45287003, 0.30333621, 0.10408064, 0.71930918, 0.90741917, 0.09838064, 0.66319033, 0.08133113, 0.30527365, 0.40877414, 0.11552966, 0.76451148, 0.00529968, 0.76741598, 0.90358724, 0.05710312, 0.32659557, 0.66143926, 0.3258203, 0.62721598, 0.18690116, 0.00184847, 0.11355109, 0.33962499, 0.64671448, 0.67297271, 0.02416349, 0.3173442, 0.54041374, 0.33752188, 0.75654937, 0.08236666, 0.40054276, 0.1021504, 0.20874325, 0.75615835, 0.54953906, 0.44659766, 0.16064502, 0.58682242, 0.15547067, 0.57503622, 0.07797247, 0.1559962, 0.94815864, 0.12474807, 0.0999395, 0.85504252, 0.55633022, 0.56959553, 0.75966109, 0.70444125, 0.66884798, 0.81692129, 0.06837097, 0.9714623, 0.86751075, 0.42125912, 0.44367403, 0.49978621, 0.32267559, 0.67220653, 0.56167557, 0.25248436, 0.94191099, 0.71508807, 0.64564731, 0.56824345, 0.29187781, 0.93961505, 0.28196959, 0.92713673, 0.7256734, 0.51042292, 0.81504509, 0.55849401, 0.19380059, 0.46767559, 0.52275063, 0.66075204, 0.97290358, 0.57524932, 0.7219121, 0.85188581, 0.26220385, 0.75686621, 0.51934907, 0.185452, 0.49708297, 0.95783663, 0.61397962, 0.45956795, 0.49311061, 0.49464425, 0.43094667, 0.76768303, 0.29252745, 0.57964633, 0.72950803, 0.94616381, 0.60436868, 0.47828997, 0.90345857, 0.92971537, 0.64784105, 0.18095567, 0.94852017, 0.05224637, 0.50829763, 0.89020778, 0.008269, 0.9500583, 0.20305412, 0.21179052, 0.28443536, 0.39540241, 0.20286982, 0.30968133, 0.2141927, 0.4390286, 0.12686093, 0.59583271, 0.88270185, 0.28187656, 0.90096987, 0.29104497, 0.38480562, 0.40069773, 0.52293091, 0.37621525],
+            "title": "Dashboards in Python: 3 Advanced Examples for Dash Beginners and Everyone Else",
+            "link": "https://medium.com/swlh/dashboards-in-python-3-advanced-examples-for-dash-beginners-and-everyone-else"
+        }]
+    }'
 ```
 
 ## Search
@@ -521,32 +521,32 @@ curl --request POST \
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/search" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-        "collectionName": "medium_articles",
-        "vector": [0.4882628, 0.85768371, 0.48556888, 0.9681036, 0.94807827, 0.80656861, 0.72123286, 0.81810534, 0.83713905, 0.73258409, 0.97732714, 0.09869599, 0.83189308, 0.33537219, 0.88647192, 0.66132137, 0.703723, 0.34379603, 0.74785059, 0.84559156, 0.65074354, 0.61864253, 0.73546132, 0.84872955, 0.6006182, 0.04830389, 0.37780669, 0.96101751, 0.22319285, 0.88504273, 0.44813016, 0.69746754, 0.5707871, 0.37386075, 0.25382573, 0.42397712, 0.89749552, 0.39729882, 0.38485115, 0.12583234, 0.47243267, 0.74576701, 0.45814588, 0.88024839, 0.72812605, 0.6622232, 0.31803479, 0.74101011, 0.76141925, 0.5024863, 0.47431501, 0.40002184, 0.45752955, 0.54383915, 0.67569667, 0.52164475, 0.33647519, 0.93068322, 0.65766685, 0.95959175, 0.83665213, 0.1753687, 0.27341319, 0.34550907, 0.79669369, 0.95065082, 0.30838918, 0.79784458, 0.37323557, 0.97728813, 0.11170225, 0.87876854, 0.85212036, 0.88599461, 0.76916602, 0.6094099, 0.4427332, 0.87373443, 0.18576099, 0.81970137, 0.74932009, 0.92106027, 0.76417889, 0.35671825, 0.09990157, 0.14570871, 0.43084067, 0.30551776, 0.63985873, 0.45777184, 0.16172334, 0.32226743, 0.27613814, 0.18182943, 0.7019827, 0.45446168, 0.31359211, 0.17426952, 0.19392872, 0.59816543, 0.31679765, 0.60059089, 0.92800561, 0.95165562, 0.55177484, 0.49510178, 0.60250447, 0.1519485, 0.33565446, 0.92865767, 0.86723503, 0.85392181, 0.85337828, 0.01631286, 0.25257909, 0.00124323, 0.59344951, 0.78468014, 0.61854741, 0.61980932, 0.87467147, 0.44361724, 0.97777631, 0.42543721, 0.5290862, 0.12384163, 0.45287003, 0.30333621, 0.10408064, 0.71930918, 0.90741917, 0.09838064, 0.66319033, 0.08133113, 0.30527365, 0.40877414, 0.11552966, 0.76451148, 0.00529968, 0.76741598, 0.90358724, 0.05710312, 0.32659557, 0.66143926, 0.3258203, 0.62721598, 0.18690116, 0.00184847, 0.11355109, 0.33962499, 0.64671448, 0.67297271, 0.02416349, 0.3173442, 0.54041374, 0.33752188, 0.75654937, 0.08236666, 0.40054276, 0.1021504, 0.20874325, 0.75615835, 0.54953906, 0.44659766, 0.16064502, 0.58682242, 0.15547067, 0.57503622, 0.07797247, 0.1559962, 0.94815864, 0.12474807, 0.0999395, 0.85504252, 0.55633022, 0.56959553, 0.75966109, 0.70444125, 0.66884798, 0.81692129, 0.06837097, 0.9714623, 0.86751075, 0.42125912, 0.44367403, 0.49978621, 0.32267559, 0.67220653, 0.56167557, 0.25248436, 0.94191099, 0.71508807, 0.64564731, 0.56824345, 0.29187781, 0.93961505, 0.28196959, 0.92713673, 0.7256734, 0.51042292, 0.81504509, 0.55849401, 0.19380059, 0.46767559, 0.52275063, 0.66075204, 0.97290358, 0.57524932, 0.7219121, 0.85188581, 0.26220385, 0.75686621, 0.51934907, 0.185452, 0.49708297, 0.95783663, 0.61397962, 0.45956795, 0.49311061, 0.49464425, 0.43094667, 0.76768303, 0.29252745, 0.57964633, 0.72950803, 0.94616381, 0.60436868, 0.47828997, 0.90345857, 0.92971537, 0.64784105, 0.18095567, 0.94852017, 0.05224637, 0.50829763, 0.89020778, 0.008269, 0.9500583, 0.20305412, 0.21179052, 0.28443536, 0.39540241, 0.20286982, 0.30968133, 0.2141927, 0.4390286, 0.12686093, 0.59583271, 0.88270185, 0.28187656, 0.90096987, 0.29104497, 0.38480562, 0.40069773, 0.52293091, 0.37621525]
-      }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/search" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+       "collectionName": "medium_articles",
+       "vector": [0.4882628, 0.85768371, 0.48556888, 0.9681036, 0.94807827, 0.80656861, 0.72123286, 0.81810534, 0.83713905, 0.73258409, 0.97732714, 0.09869599, 0.83189308, 0.33537219, 0.88647192, 0.66132137, 0.703723, 0.34379603, 0.74785059, 0.84559156, 0.65074354, 0.61864253, 0.73546132, 0.84872955, 0.6006182, 0.04830389, 0.37780669, 0.96101751, 0.22319285, 0.88504273, 0.44813016, 0.69746754, 0.5707871, 0.37386075, 0.25382573, 0.42397712, 0.89749552, 0.39729882, 0.38485115, 0.12583234, 0.47243267, 0.74576701, 0.45814588, 0.88024839, 0.72812605, 0.6622232, 0.31803479, 0.74101011, 0.76141925, 0.5024863, 0.47431501, 0.40002184, 0.45752955, 0.54383915, 0.67569667, 0.52164475, 0.33647519, 0.93068322, 0.65766685, 0.95959175, 0.83665213, 0.1753687, 0.27341319, 0.34550907, 0.79669369, 0.95065082, 0.30838918, 0.79784458, 0.37323557, 0.97728813, 0.11170225, 0.87876854, 0.85212036, 0.88599461, 0.76916602, 0.6094099, 0.4427332, 0.87373443, 0.18576099, 0.81970137, 0.74932009, 0.92106027, 0.76417889, 0.35671825, 0.09990157, 0.14570871, 0.43084067, 0.30551776, 0.63985873, 0.45777184, 0.16172334, 0.32226743, 0.27613814, 0.18182943, 0.7019827, 0.45446168, 0.31359211, 0.17426952, 0.19392872, 0.59816543, 0.31679765, 0.60059089, 0.92800561, 0.95165562, 0.55177484, 0.49510178, 0.60250447, 0.1519485, 0.33565446, 0.92865767, 0.86723503, 0.85392181, 0.85337828, 0.01631286, 0.25257909, 0.00124323, 0.59344951, 0.78468014, 0.61854741, 0.61980932, 0.87467147, 0.44361724, 0.97777631, 0.42543721, 0.5290862, 0.12384163, 0.45287003, 0.30333621, 0.10408064, 0.71930918, 0.90741917, 0.09838064, 0.66319033, 0.08133113, 0.30527365, 0.40877414, 0.11552966, 0.76451148, 0.00529968, 0.76741598, 0.90358724, 0.05710312, 0.32659557, 0.66143926, 0.3258203, 0.62721598, 0.18690116, 0.00184847, 0.11355109, 0.33962499, 0.64671448, 0.67297271, 0.02416349, 0.3173442, 0.54041374, 0.33752188, 0.75654937, 0.08236666, 0.40054276, 0.1021504, 0.20874325, 0.75615835, 0.54953906, 0.44659766, 0.16064502, 0.58682242, 0.15547067, 0.57503622, 0.07797247, 0.1559962, 0.94815864, 0.12474807, 0.0999395, 0.85504252, 0.55633022, 0.56959553, 0.75966109, 0.70444125, 0.66884798, 0.81692129, 0.06837097, 0.9714623, 0.86751075, 0.42125912, 0.44367403, 0.49978621, 0.32267559, 0.67220653, 0.56167557, 0.25248436, 0.94191099, 0.71508807, 0.64564731, 0.56824345, 0.29187781, 0.93961505, 0.28196959, 0.92713673, 0.7256734, 0.51042292, 0.81504509, 0.55849401, 0.19380059, 0.46767559, 0.52275063, 0.66075204, 0.97290358, 0.57524932, 0.7219121, 0.85188581, 0.26220385, 0.75686621, 0.51934907, 0.185452, 0.49708297, 0.95783663, 0.61397962, 0.45956795, 0.49311061, 0.49464425, 0.43094667, 0.76768303, 0.29252745, 0.57964633, 0.72950803, 0.94616381, 0.60436868, 0.47828997, 0.90345857, 0.92971537, 0.64784105, 0.18095567, 0.94852017, 0.05224637, 0.50829763, 0.89020778, 0.008269, 0.9500583, 0.20305412, 0.21179052, 0.28443536, 0.39540241, 0.20286982, 0.30968133, 0.2141927, 0.4390286, 0.12686093, 0.59583271, 0.88270185, 0.28187656, 0.90096987, 0.29104497, 0.38480562, 0.40069773, 0.52293091, 0.37621525]
+     }'
 ```
 
 - Search entities and return specific fields.
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/search" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "collectionName": "medium_articles",
-       "outputFields": ["id", "title", "link", "distance"],
-       "vector": [0.4882628, 0.85768371, 0.48556888, 0.9681036, 0.94807827, 0.80656861, 0.72123286, 0.81810534, 0.83713905, 0.73258409, 0.97732714, 0.09869599, 0.83189308, 0.33537219, 0.88647192, 0.66132137, 0.703723, 0.34379603, 0.74785059, 0.84559156, 0.65074354, 0.61864253, 0.73546132, 0.84872955, 0.6006182, 0.04830389, 0.37780669, 0.96101751, 0.22319285, 0.88504273, 0.44813016, 0.69746754, 0.5707871, 0.37386075, 0.25382573, 0.42397712, 0.89749552, 0.39729882, 0.38485115, 0.12583234, 0.47243267, 0.74576701, 0.45814588, 0.88024839, 0.72812605, 0.6622232, 0.31803479, 0.74101011, 0.76141925, 0.5024863, 0.47431501, 0.40002184, 0.45752955, 0.54383915, 0.67569667, 0.52164475, 0.33647519, 0.93068322, 0.65766685, 0.95959175, 0.83665213, 0.1753687, 0.27341319, 0.34550907, 0.79669369, 0.95065082, 0.30838918, 0.79784458, 0.37323557, 0.97728813, 0.11170225, 0.87876854, 0.85212036, 0.88599461, 0.76916602, 0.6094099, 0.4427332, 0.87373443, 0.18576099, 0.81970137, 0.74932009, 0.92106027, 0.76417889, 0.35671825, 0.09990157, 0.14570871, 0.43084067, 0.30551776, 0.63985873, 0.45777184, 0.16172334, 0.32226743, 0.27613814, 0.18182943, 0.7019827, 0.45446168, 0.31359211, 0.17426952, 0.19392872, 0.59816543, 0.31679765, 0.60059089, 0.92800561, 0.95165562, 0.55177484, 0.49510178, 0.60250447, 0.1519485, 0.33565446, 0.92865767, 0.86723503, 0.85392181, 0.85337828, 0.01631286, 0.25257909, 0.00124323, 0.59344951, 0.78468014, 0.61854741, 0.61980932, 0.87467147, 0.44361724, 0.97777631, 0.42543721, 0.5290862, 0.12384163, 0.45287003, 0.30333621, 0.10408064, 0.71930918, 0.90741917, 0.09838064, 0.66319033, 0.08133113, 0.30527365, 0.40877414, 0.11552966, 0.76451148, 0.00529968, 0.76741598, 0.90358724, 0.05710312, 0.32659557, 0.66143926, 0.3258203, 0.62721598, 0.18690116, 0.00184847, 0.11355109, 0.33962499, 0.64671448, 0.67297271, 0.02416349, 0.3173442, 0.54041374, 0.33752188, 0.75654937, 0.08236666, 0.40054276, 0.1021504, 0.20874325, 0.75615835, 0.54953906, 0.44659766, 0.16064502, 0.58682242, 0.15547067, 0.57503622, 0.07797247, 0.1559962, 0.94815864, 0.12474807, 0.0999395, 0.85504252, 0.55633022, 0.56959553, 0.75966109, 0.70444125, 0.66884798, 0.81692129, 0.06837097, 0.9714623, 0.86751075, 0.42125912, 0.44367403, 0.49978621, 0.32267559, 0.67220653, 0.56167557, 0.25248436, 0.94191099, 0.71508807, 0.64564731, 0.56824345, 0.29187781, 0.93961505, 0.28196959, 0.92713673, 0.7256734, 0.51042292, 0.81504509, 0.55849401, 0.19380059, 0.46767559, 0.52275063, 0.66075204, 0.97290358, 0.57524932, 0.7219121, 0.85188581, 0.26220385, 0.75686621, 0.51934907, 0.185452, 0.49708297, 0.95783663, 0.61397962, 0.45956795, 0.49311061, 0.49464425, 0.43094667, 0.76768303, 0.29252745, 0.57964633, 0.72950803, 0.94616381, 0.60436868, 0.47828997, 0.90345857, 0.92971537, 0.64784105, 0.18095567, 0.94852017, 0.05224637, 0.50829763, 0.89020778, 0.008269, 0.9500583, 0.20305412, 0.21179052, 0.28443536, 0.39540241, 0.20286982, 0.30968133, 0.2141927, 0.4390286, 0.12686093, 0.59583271, 0.88270185, 0.28187656, 0.90096987, 0.29104497, 0.38480562, 0.40069773, 0.52293091, 0.37621525],
-       "filter": "id in [443300716234671427, 443300716234671426]",
-       "limit": 100,
-       "offset": 0
-     }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/search" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+      "collectionName": "medium_articles",
+      "outputFields": ["id", "title", "link", "distance"],
+      "vector": [0.4882628, 0.85768371, 0.48556888, 0.9681036, 0.94807827, 0.80656861, 0.72123286, 0.81810534, 0.83713905, 0.73258409, 0.97732714, 0.09869599, 0.83189308, 0.33537219, 0.88647192, 0.66132137, 0.703723, 0.34379603, 0.74785059, 0.84559156, 0.65074354, 0.61864253, 0.73546132, 0.84872955, 0.6006182, 0.04830389, 0.37780669, 0.96101751, 0.22319285, 0.88504273, 0.44813016, 0.69746754, 0.5707871, 0.37386075, 0.25382573, 0.42397712, 0.89749552, 0.39729882, 0.38485115, 0.12583234, 0.47243267, 0.74576701, 0.45814588, 0.88024839, 0.72812605, 0.6622232, 0.31803479, 0.74101011, 0.76141925, 0.5024863, 0.47431501, 0.40002184, 0.45752955, 0.54383915, 0.67569667, 0.52164475, 0.33647519, 0.93068322, 0.65766685, 0.95959175, 0.83665213, 0.1753687, 0.27341319, 0.34550907, 0.79669369, 0.95065082, 0.30838918, 0.79784458, 0.37323557, 0.97728813, 0.11170225, 0.87876854, 0.85212036, 0.88599461, 0.76916602, 0.6094099, 0.4427332, 0.87373443, 0.18576099, 0.81970137, 0.74932009, 0.92106027, 0.76417889, 0.35671825, 0.09990157, 0.14570871, 0.43084067, 0.30551776, 0.63985873, 0.45777184, 0.16172334, 0.32226743, 0.27613814, 0.18182943, 0.7019827, 0.45446168, 0.31359211, 0.17426952, 0.19392872, 0.59816543, 0.31679765, 0.60059089, 0.92800561, 0.95165562, 0.55177484, 0.49510178, 0.60250447, 0.1519485, 0.33565446, 0.92865767, 0.86723503, 0.85392181, 0.85337828, 0.01631286, 0.25257909, 0.00124323, 0.59344951, 0.78468014, 0.61854741, 0.61980932, 0.87467147, 0.44361724, 0.97777631, 0.42543721, 0.5290862, 0.12384163, 0.45287003, 0.30333621, 0.10408064, 0.71930918, 0.90741917, 0.09838064, 0.66319033, 0.08133113, 0.30527365, 0.40877414, 0.11552966, 0.76451148, 0.00529968, 0.76741598, 0.90358724, 0.05710312, 0.32659557, 0.66143926, 0.3258203, 0.62721598, 0.18690116, 0.00184847, 0.11355109, 0.33962499, 0.64671448, 0.67297271, 0.02416349, 0.3173442, 0.54041374, 0.33752188, 0.75654937, 0.08236666, 0.40054276, 0.1021504, 0.20874325, 0.75615835, 0.54953906, 0.44659766, 0.16064502, 0.58682242, 0.15547067, 0.57503622, 0.07797247, 0.1559962, 0.94815864, 0.12474807, 0.0999395, 0.85504252, 0.55633022, 0.56959553, 0.75966109, 0.70444125, 0.66884798, 0.81692129, 0.06837097, 0.9714623, 0.86751075, 0.42125912, 0.44367403, 0.49978621, 0.32267559, 0.67220653, 0.56167557, 0.25248436, 0.94191099, 0.71508807, 0.64564731, 0.56824345, 0.29187781, 0.93961505, 0.28196959, 0.92713673, 0.7256734, 0.51042292, 0.81504509, 0.55849401, 0.19380059, 0.46767559, 0.52275063, 0.66075204, 0.97290358, 0.57524932, 0.7219121, 0.85188581, 0.26220385, 0.75686621, 0.51934907, 0.185452, 0.49708297, 0.95783663, 0.61397962, 0.45956795, 0.49311061, 0.49464425, 0.43094667, 0.76768303, 0.29252745, 0.57964633, 0.72950803, 0.94616381, 0.60436868, 0.47828997, 0.90345857, 0.92971537, 0.64784105, 0.18095567, 0.94852017, 0.05224637, 0.50829763, 0.89020778, 0.008269, 0.9500583, 0.20305412, 0.21179052, 0.28443536, 0.39540241, 0.20286982, 0.30968133, 0.2141927, 0.4390286, 0.12686093, 0.59583271, 0.88270185, 0.28187656, 0.90096987, 0.29104497, 0.38480562, 0.40069773, 0.52293091, 0.37621525],
+      "filter": "id in [443300716234671427, 443300716234671426]",
+      "limit": 100,
+      "offset": 0
+    }'
 ```
 
 ## Query
@@ -555,17 +555,17 @@ Query entities that meet specific conditions.
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/query" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "collectionName": "medium_articles",
-       "outputFields": ["id", "title", "link"],
-       "filter": "id in [443300716234671427, 443300716234671426]",
-       "limit": 100,
-       "offset": 0
-     }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/query" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+      "collectionName": "medium_articles",
+      "outputFields": ["id", "title", "link"],
+      "filter": "id in [443300716234671427, 443300716234671426]",
+      "limit": 100,
+      "offset": 0
+    }'
 ```
 
 ## Get
@@ -574,60 +574,60 @@ curl --request POST \
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/get" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "collectionName": "medium_articles",
-       "outputFields": ["id", "title", "link"],
-       "id": 1
-     }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/get" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+      "collectionName": "medium_articles",
+      "outputFields": ["id", "title", "link"],
+      "id": 1
+    }'
 ```
 
 - Get a specified entity whose ID is a string:
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/get" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "collectionName": "medium_articles",
-       "outputFields": ["id", "title", "link"],
-       "id": "id1"
-     }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/get" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+      "collectionName": "medium_articles",
+      "outputFields": ["id", "title", "link"],
+      "id": "id1"
+    }'
 ```
 
 - Get a list of entities whose IDs are integers:
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/get" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "collectionName": "medium_articles",
-       "outputFields": ["id", "title", "link"],
-       "id": [1, 2]
-     }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/get" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+      "collectionName": "medium_articles",
+      "outputFields": ["id", "title", "link"],
+      "id": [1, 2]
+    }'
 ```
 
 - Get a list of entities whose IDs are strings:
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/get" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d "{
-       "collectionName": "medium_articles",
-       "outputFields": ["id", "title", "link"],
-       "id": ["id1", "id2"]
-     }"
+    --url "${CLUSTER_ENDPOINT}/v1/vector/get" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d "{
+      "collectionName": "medium_articles",
+      "outputFields": ["id", "title", "link"],
+      "id": ["id1", "id2"]
+    }"
 ```
 
 ## Delete
@@ -636,56 +636,56 @@ curl --request POST \
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "collectionName": "medium_articles",
-       "id": 1
-     }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+      "collectionName": "medium_articles",
+      "id": 1
+    }'
 ```
 
 - Delete a collection whose ID is a string.
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "collectionName": "medium_articles",
-       "id": "id1"
-     }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+      "collectionName": "medium_articles",
+      "id": "id1"
+    }'
 ```
 
 - Delete a list of collections whose IDs are integers.
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-        "collectionName": "medium_articles",
-        "id": [1,2,3,4]
-      }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+       "collectionName": "medium_articles",
+       "id": [1,2,3,4]
+     }'
 ```
 
 - Delete a list of collections whose IDs are strings.
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-        "collectionName": "medium_articles",
-        "id": ["id1", "id2", "id3","id4"]
-      }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+       "collectionName": "medium_articles",
+       "id": ["id1", "id2", "id3","id4"]
+     }'
 ```
 
 ## Import
@@ -694,17 +694,17 @@ Imports data from files stored in a specified object storage bucket. Note that t
 
 ```shell
 curl --request POST \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "clusterId": "in03-181766e3f9556b7",
-       "collectionName": "medium_articles",
-       "objectUrl": "gs://publicdataset-zillizcloud-com/medium_articles_2020.json"
-       "accessKey": "your-access-key"
-       "secretKey": "your-secret-key"
-     }'
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+      "clusterId": "in03-181766e3f9556b7",
+      "collectionName": "medium_articles",
+      "objectUrl": "gs://publicdataset-zillizcloud-com/medium_articles_2020.json"
+      "accessKey": "your-access-key"
+      "secretKey": "your-secret-key"
+    }'
 ```
 
 ## Get Import Progress
@@ -713,10 +713,10 @@ Retrieves the progress of a specified import task.
 
 ```shell
 curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOBID}&clusterId=${CLUSTERID}" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOBID}&clusterId=${CLUSTERID}" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
 ```
 
 ## List Import Jobs
@@ -725,10 +725,10 @@ List all import jobs specific to a cluster.
 
 ```shell
 curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import/list?clusterId=${CLUSTERID}" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import/list?clusterId=${CLUSTERID}" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
 ```
 
 ## Create Pipeline
@@ -737,94 +737,161 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
 
 - Create a data ingestion pipeline.
 
-     ```shell
-     curl --http1.1 --request POST \
-     --header "Content-Type: application/json" \
-     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/" \
-     -d '{
-     "name": "medium_articles_ingestion",
-     "description": "Ingestion of medium articles",
-     "type": "INGESTION",
-     "functions": [
-          {
-               "name": "medium_articles_index_func",
-               "action": "INDEX_DOC",
-               "inputField": "signed_url",
-               "language": "ENGLISH"
-          },
-          {
-               "name": "medium_articles_index_preserve_title",
-               "action": "PRESERVE",
-               "inputField": "title",
-               "outputField": "title",
-               "fieldType": "VarChar"
-          },
-          {
-               "name": "medium_articles_index_preserve_link",
-               "action": "PRESERVE",
-               "inputField": "link",
-               "outputField": "link",
-               "fieldType": "VarChar"
-          },
-          {
-               "name": "medium_articles_index_preserve_publication",
-               "action": "PRESERVE",
-               "inputField": "publication",
-               "outputField": "publication",
-               "fieldType": "VarChar"
-          }
-     ],
-     "clusterId": "in03-db58c34c4cc4dd2",
-     "newCollectionName": "medium_articles"
-     }'
-     ```
+    ```shell
+    curl --request POST \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
+        -d '{
+            "name": "my_doc_ingestion_pipeline",
+            "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+            "type": "INGESTION",  
+            "functions": [
+                { 
+                    "name": "index_my_doc",
+                    "action": "INDEX_DOC", 
+                    "inputField": "doc_url", 
+                    "language": "ENGLISH"
+                },
+                {
+                    "name": "keep_doc_info",
+                    "action": "PRESERVE", 
+                    "inputField": "publish_year", 
+                    "outputField": "publish_year",
+                    "fieldType": "Int16" 
+                }
+            ],
+            "clusterId": "${CLUSTER_ID}",
+            "newCollectionName": "my_new_collection"
+        }'
+    ```
+
+    Possible response:
+
+    ```shell
+    {
+        "code": 200,
+        "data": {
+        "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+        "name": "my_doc_ingestion_pipeline",
+        "type": "INGESTION",
+        "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+        "status": "SERVING",
+        "functions": [
+            {
+                "action": "INDEX_DOC",
+                "name": "index_my_doc",
+                "inputField": "doc_url",
+                "language": "ENGLISH"
+            },
+            {
+                "action": "PRESERVE",
+                "name": "keep_doc_info",
+                "inputField": "publish_year",
+                "outputField": "publish_year",
+                "fieldType": "Int16"
+            }
+        ],
+        "clusterId": "in03-***************",
+        "newCollectionName": "my_new_collection"
+        }
+    }   
+    ```  
 
 - Create a search pipeline
 
-     ```shell
-     curl --http1.1 --request POST \
-     --header "Content-Type: application/json" \
-     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/" \
-     -d '{
-     "name": "medium_articles_search",
-     "description": "Ingestion of medium articles",
-     "type": "SEARCH",
-     "functions": [
-          {
-               "name": "medium_articles_search_func",
-               "action": "SEARCH_DOC_CHUNK",
-               "clusterId": "in03-db58c34c4cc4dd2",
-               "inputField": "query_text",
-               "collectionName": "medium_articles"
-          }
-     ]
-     }'
-     ```
+    ```shell
+    curl --request POST \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
+        -d '{
+            "name": "my_text_search_pipeline",
+            "description": "A pipeline that receives text and search for semantically similar doc chunks",
+            "type": "SEARCH",
+            "functions": [
+                {
+                    "name": "search_chunk_text_and_title",
+                    "action": "SEARCH_DOC_CHUNK",
+                    "inputField": "query_text",
+                    "clusterId": "${CLUSTER_ID}",
+                    "collectionName": "my_new_collection"
+                }
+            ]
+        }'
+    ```
+
+    Possible response
+
+    ```shell
+    {
+        "code": 200,
+        "data": {
+            "pipelineId": "pipe-26a18a66ffc8c0edfdb874",
+            "name": "my_text_search_pipeline",
+            "type": "SEARCH",
+            "description": "A pipeline that receives text and search for semantically similar doc chunks",
+            "status": "SERVING",
+            "functions": [
+                {
+                    "action": "SEARCH_DOC_CHUNK",
+                    "name": "search_chunk_text_and_title",
+                    "inputField": "query_text",
+                    "clusterId": "in03-***************",
+                    "collectionName": "my_new_collection"
+                }
+            ]
+        }
+    }
+    ```
 
 - Create a deletion pipeline
 
-     ```shell
-     curl --http1.1 --request POST \
-     --header "Content-Type: application/json" \
-     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/" \
-     -d '{
-     "name": "medium_articles_deletion",
-     "description": "Ingestion of medium articles",
-     "type": "DELETION",
-     "functions": [
-          {
-               "name": "medium_articles_deletion_func",
-               "action": "PURGE_DOC_INDEX",
-               "inputField": "doc_name",
-          }
-     ],
-     "clusterId": "in03-db58c34c4cc4dd2",
-     "collectionName": "medium_articles"
-     }'
-     ```
+    ```shell
+    curl --request POST \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
+        -d '{
+            "name": "my_doc_deletion_pipeline",
+            "description": "A pipeline that deletes all info associated with a doc",
+            "type": "DELETION",
+            "functions": [
+                {
+                    "name": "purge_chunks_by_doc_name",
+                    "action": "PURGE_DOC_INDEX",
+                    "inputField": "doc_name"
+                }
+            ],
+        
+            "clusterId": "${CLUSTER_ID}",
+            "collectionName": "my_new_collection"
+        }'
+    ```
+
+    Possible response
+
+    ```shell
+    {
+        "code": 200,
+        "data": {
+            "pipelineId": "pipe-7227d0729d73e63002ed46",
+            "name": "my_doc_deletion_pipeline",
+            "type": "DELETION",
+            "description": "A pipeline that deletes all info associated with a doc",
+            "status": "SERVING",
+            "functions": [
+                {
+                    "action": "PURGE_DOC_INDEX",
+                    "name": "purge_chunks_by_doc_name",
+                    "inputField": "doc_name"
+                }
+            ],
+            "clusterId": "in03-***************",
+            "collectionName": "my_new_collection"
+        }
+    }
+    ```
 
 ## Describe Pipeline
 
@@ -833,8 +900,41 @@ View the details of a pipeline
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-    --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/pipe-cde31766ffc8b8285b841d"
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487"
+```
+
+Possible response
+
+```shell
+{
+    "code": 200,
+    "data": {
+        "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+        "name": "my_doc_ingestion_pipeline",
+        "type": "INGESTION",
+        "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+        "status": "SERVING",
+        "functions": [
+            {
+                "action": "INDEX_DOC",
+                "name": "index_my_doc",
+                "inputField": "doc_url",
+                "language": "ENGLISH"
+            },
+            {
+                "action": "PRESERVE",
+                "name": "keep_doc_info",
+                "inputField": "publish_year",
+                "outputField": "publish_year",
+                "fieldType": "Int16"
+            }
+        ],
+        "clusterId": "in03-***************",
+        "newCollectionName": "my_new_collection"
+    }
+}
+
 ```
 
 ## Drop Pipeline
@@ -842,10 +942,43 @@ curl --request GET \
 Drop a pipeline that is no longer in need.
 
 ```shell
-curl --http1.1 --request DELETE \
+curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-    --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/pipe-71e95af38d958f50d8178b"
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487"
+```
+
+Possible response
+
+```shell
+{
+    "code": 200,
+    "data": {
+        "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+        "name": "my_doc_ingestion_pipeline",
+        "type": "INGESTION",
+        "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+        "status": "SERVING",
+        "functions": [
+            {
+                "action": "INDEX_DOC",
+                "name": "index_my_doc",
+                "inputField": "doc_url",
+                "language": "ENGLISH"
+            },
+            {
+                "action": "PRESERVE",
+                "name": "keep_doc_info",
+                "inputField": "publish_year",
+                "outputField": "publish_year",
+                "fieldType": "Int16"
+            }
+        ],
+        "clusterId": "in03-***************",
+        "newCollectionName": "my_new_collection"
+    }
+}
+
 ```
 
 ## List Pipelines
@@ -855,8 +988,74 @@ List all pipelines in detail.
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-    --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/"
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines"
+```
+
+Possible response
+
+```shell
+{
+  "code": 200,
+  "data": [
+    {
+     "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+     "name": "my_doc_ingestion_pipeline",
+     "type": "INGESTION",
+     "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+     "status": "SERVING",
+     "functions": [
+       {
+            "action": "INDEX_DOC",
+            "name": "index_my_doc",
+            "inputField": "doc_url",
+            "language": "ENGLISH"
+       },
+       {
+            "action": "PRESERVE",
+            "name": "keep_doc_info",
+            "inputField": "publish_year",
+            "outputField": "publish_year",
+            "fieldType": "Int16"
+       }
+     ],
+     "clusterId": "in03-***************",
+     "newCollectionName": "my_new_collection"
+    },
+    {
+     "pipelineId": "pipe-26a18a66ffc8c0edfdb874",
+     "name": "my_text_search_pipeline",
+     "type": "SEARCH",
+     "description": "A pipeline that receives text and search for semantically similar doc chunks",
+     "status": "SERVING",
+     "functions": [
+       {
+            "action": "SEARCH_DOC_CHUNK",
+            "name": "search_chunk_text_and_title",
+            "inputField": null,
+            "clusterId": "in03-***************",
+            "collectionName": "my_new_collection"
+       }
+     ]
+    },
+    {
+     "pipelineId": "pipe-7227d0729d73e63002ed46",
+     "name": "my_doc_deletion_pipeline",
+     "type": "DELETION",
+     "description": "A pipeline that deletes all info associated with a doc",
+     "status": "SERVING",
+     "functions": [
+       {
+            "action": "PURGE_DOC_INDEX",
+            "name": "purge_chunks_by_doc_name",
+            "inputField": "doc_name"
+       }
+     ],
+     "clusterId": "in03-***************",
+     "collectionName": "my_new_collection"
+    }
+  ]
+}
 ```
 
 ## Run Pipeline
@@ -865,49 +1064,91 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
 
 - Run a data ingestion pipeline
 
-     ```shell
-     url --http1.1 --request POST \
-     --header "Content-Type: application/json" \
-     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/pipe-cde31766ffc8b8285b841d/run" \
-     -d '{
-          "data": {
-               "signed_url": "https://storage.googleapis.com/medium-passages/passages/0.txt?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=storage-viewer%40anthony-364406.iam.gserviceaccount.com%2F20231130%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20231130T033222Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&X-Goog-Signature=843c8944347ec9825ebaf7642a19e01651fa17a30834fd480fb7b9149e75fd611fc528c9efe82b252843ddebbaa132362b80acf859a49c6adcc8b70d0dd431aeed3816760ff5dc7ed3649faaa0347b33125983d0989721f8b5e42a4c63eeecf3d60ac1dcac27f21994b4839d68db9902e81de066f19e5c511aeab41171b31dd40cf1a9a44a8bc9d6c6d812aa78d17d6cf5b2f1b836d35d466277fcefd81ecc339ff8f191cc87d0e912f759b15977029ec97f36da67f5cdd0cc74ad8e92e0cf03f6f96a80c8ad2c996ce291c7b180d2bb154c917dc53a3b5bea89351f08afe39649a1896ed62c410f4d418c9aa087a30c77262987b4be0db7951b3abe56d13989",
-               "title": "The Reported Mortality Rate of Coronavirus Is Not Important",
-               "link": "https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912",
-               "publication": "The Startup",
-          }
-     }'
-     ```
+    ```shell
+    curl --request POST \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487/run" \
+        -d '{
+            "data": {
+                "doc_url": "https://storage.googleapis.com/example-bucket/zilliz_concept_doc.md?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=example%40example-project.iam.gserviceaccount.com%2F20181026%2Fus-central1%2Fstorage%2Fgoog4_request&X-Goog-Date=20181026T181309Z&X-Goog-Expires=900&X-Goog-SignedHeaders=host&X-Goog-Signature=247a2aa45f169edf4d187d54e7cc46e4731b1e6273242c4f4c39a1d2507a0e58706e25e3a85a7dbb891d62afa8496def8e260c1db863d9ace85ff0a184b894b117fe46d1225c82f2aa19efd52cf21d3e2022b3b868dcc1aca2741951ed5bf3bb25a34f5e9316a2841e8ff4c530b22ceaa1c5ce09c7cbb5732631510c20580e61723f5594de3aea497f195456a2ff2bdd0d13bad47289d8611b6f9cfeef0c46c91a455b94e90a66924f722292d21e24d31dcfb38ce0c0f353ffa5a9756fc2a9f2b40bc2113206a81e324fc4fd6823a29163fa845c8ae7eca1fcf6e5bb48b3200983c56c5ca81fffb151cca7402beddfc4a76b133447032ea7abedc098d2eb14a7", 
+                "publish_year": 2023
+            }
+        }'
+    ```
+
+    Possible response
+
+    ```shell
+    {
+        "code": 200,
+        "data": {
+            "doc_name": "zilliz_concept_doc.md",
+            "num_chunks": 123
+        }
+    }
+    ```
 
 - Run a semantic search pipeline.
 
-     ```shell
-     curl --http1.1 --request POST \
-     --header "Content-Type: application/json" \
-     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/pipe-cde31766ffc8b8285b841d/run" \
-     -d '{
-          "data": {
-               "query_text": "How can I organize my knowledge base using vector database?"
-          },
-          "params": {
-               "limit": 3,
-               "outputFields": ["title", "doc_name", "chunk_text"]
-          }
-     }'
-     ```
+    ```shell
+    curl --request POST \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-26a18a66ffc8c0edfdb874/run" \
+        -d '{
+            "data": {
+            "query_text": "How many collections can a cluster with more than 8 CUs hold?"
+            },
+            "params":{
+                "limit": 1,
+                "offset": 0,
+                "outputFields": [ "chunk_text", "chunk_id", "doc_name" ],
+                "filter": "chunk_id >= 0", 
+            }
+        }'
+    ```
+
+    Possible response
+
+    ```shell
+    {
+        "code": 200,
+        "data": {
+        "result": [
+            {
+                "id": "445951244000281783",
+                "distance": 0.7270776033401489,
+                "chunk_text": "After determining the CU type, you must also specify its size. Note that the\nnumber of collections a cluster can hold varies based on its CU size. A\ncluster with less than 8 CUs can hold no more than 32 collections, while a\ncluster with more than 8 CUs can hold as many as 256 collections.\n\nAll collections in a cluster share the CUs associated with the cluster. To\nsave CUs, you can unload some collections. When a collection is unloaded, its\ndata is moved to disk storage and its CUs are freed up for use by other\ncollections. You can load the collection back into memory when you need to\nquery it. Keep in mind that loading a collection requires some time, so you\nshould only do so when necessary.\n\n## Collection\n\nA collection collects data in a two-dimensional table with a fixed number of\ncolumns and a variable number of rows. In the table, each column corresponds\nto a field, and each row represents an entity.\n\nThe following figure shows a sample collection that comprises six entities and\neight fields.\n\n### Fields\n\nIn most cases, people describe an object in terms of its attributes, including\nsize, weight, position, etc. These attributes of the object are similar to the\nfields in a collection.\n\nAmong all the fields in a collection, the primary key is one of the most\nspecial, because the values stored in this field are unique throughout the\nentire collection. Each primary key maps to a different record in the\ncollection.",
+                "chunk_id": 123,
+                "doc_name": "zilliz_concept_doc.md"
+            }
+        ],
+        }
+    }
+    ```
 
 - Run a doc deletion pipeline
 
-     ```shell
-     curl --http1.1 --request POST \
-     --header "Content-Type: application/json" \
-     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/pipe-cde31766ffc8b8285b841d/run" \
-     -d '{
-          "data": {
-               "doc_name": "0.txt"
-          }
-     }'
-     ```     
+    ```shell
+    curl --request POST \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-7227d0729d73e63002ed46/run" \
+        -d '{
+            "data": {
+                "doc_name": "zilliz_concept_doc.md",
+            }
+        }'
+    ```    
+
+    Possible response
+
+    ```shell
+    {
+        "code": 200,
+        "data": {
+            "num_deleted_chunks": 567
+        }
+    }
+    ```

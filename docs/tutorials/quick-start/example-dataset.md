@@ -17,7 +17,7 @@ In this user guide series, we'll explore an example dataset comprising details o
 The dataset resides in a publicly accessible S3 storage bucket. To fetch it, execute the following command:
 
 ```bash
-curl <https://assets.zilliz.com/medium_articles_2020_dpr_a13e0377ae.json> \\
+curl https://assets.zilliz.com/medium_articles_2020_dpr_a13e0377ae.json \
         --output medium_articles_2020_dpr.json
 ```
 

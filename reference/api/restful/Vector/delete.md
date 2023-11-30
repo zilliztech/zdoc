@@ -20,56 +20,56 @@ Deletes one or more entities from a collection.
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "collectionName": "medium_articles",
-       "id": 1
-     }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+      "collectionName": "medium_articles",
+      "id": 1
+    }'
 ```
 
 - Delete a collection whose ID is a string.
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-       "collectionName": "medium_articles",
-       "id": "id1"
-     }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+      "collectionName": "medium_articles",
+      "id": "id1"
+    }'
 ```
 
 - Delete a list of collections whose IDs are integers.
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-        "collectionName": "medium_articles",
-        "id": [1,2,3,4]
-      }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+       "collectionName": "medium_articles",
+       "id": [1,2,3,4]
+     }'
 ```
 
 - Delete a list of collections whose IDs are strings.
 
 ```shell
 curl --request POST \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json" \
-     -d '{
-        "collectionName": "medium_articles",
-        "id": ["id1", "id2", "id3","id4"]
-      }'
+    --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    -d '{
+       "collectionName": "medium_articles",
+       "id": ["id1", "id2", "id3","id4"]
+     }'
 ```
 
 

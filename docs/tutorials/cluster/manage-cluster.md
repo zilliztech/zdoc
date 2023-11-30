@@ -2,7 +2,7 @@
 slug: /docs/manage-cluster
 beta: FALSE
 notebook: FALSE
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';
@@ -81,12 +81,12 @@ Once you have created a dedicated cluster, you will see the following in the con
 - **Collections**
     On the **Collections** tab, you can manage the collections in the cluster. You can create collections, import data into them, load or release them, rename them, and drop them.
 
-    For details on data import, refer to [Data Import](https://docs.zilliz.com/docs/data-import).
+    For details on data import, refer to [Data Import](/docs/data-import).
 
     ![manage-collections](/img/manage-collections.png)
 
 - **Backups**
-    In the **Actions** drop-down button, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](https://docs.zilliz.com/docs/backup-and-restore).
+    In the **Actions** drop-down button, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
 
 - **Data migrations**
     In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrate Between Clusters](./migrate-beween-clusters#from-dedicated-to-another-dedicated-cluster).
@@ -149,7 +149,7 @@ Once you have created a dedicated cluster, you will see the following in the con
 
     To resume a suspended cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. At this point, you will be charged fully based on your CU settings and service plan.
 
-    You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](https://docs.zilliz.com/reference/suspend-cluster) and [Resume Cluster](https://docs.zilliz.com/reference/resume-cluster).
+    You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](/reference/suspend-cluster) and [Resume Cluster](/reference/resume-cluster).
 
 - **Drop cluster**
     In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
@@ -164,7 +164,7 @@ Once you have created a dedicated cluster, you will see the following in the con
 
 - [Select Service Tiers](./select-zilliz-cloud-service-plans)
 
-- [Backup & Restore](https://docs.zilliz.com/docs/backup-and-restore)
+- [Backup & Restore](/docs/backup-and-restore)
 
 - [Select the Right CU](./cu-types-explained)
 

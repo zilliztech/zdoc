@@ -19,7 +19,6 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 - [What is the concurrency for collection loading requests? How can I increase the number of concurrent requests?](#what-is-the-concurrency-for-collection-loading-requests-how-can-i-increase-the-number-of-concurrent-requests)
 - [Why do I fail to load collections? What can I do?](#why-do-i-fail-to-load-collections-what-can-i-do)
 - [Is there any limit to the number of fields I can add in a collection?](#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection)
-- [Can I migrate data from a serverless cluster to a dedicated cluster?](#can-i-migrate-data-from-a-serverless-cluster-to-a-dedicated-cluster)
 
 ## FAQs
 
@@ -83,7 +82,3 @@ The failure is caused due to insufficient memory in your cluster. Please try sca
 ### Is there any limit to the number of fields I can add in a collection?{#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection}
 
 Yes. You can have a maximum of 64 fields in 1 collection.
-
-### Can I migrate data from a serverless cluster to a dedicated cluster?{#can-i-migrate-data-from-a-serverless-cluster-to-a-dedicated-cluster}
-
-Yes. Zilliz Cloud supports migrating data from a serverless cluster to a dedicated cluster. For more information about how to migrate data, please refer to [Migrate Between Clusters](./migrate-beween-clusters).

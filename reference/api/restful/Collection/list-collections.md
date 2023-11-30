@@ -20,10 +20,10 @@ List all collections in a cluster.
 
 ```shell
 curl --request GET \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/collections" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
+    --url "${CLUSTER_ENDPOINT}/v1/vector/collections" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json"
 ```
 
 Sample response:
@@ -32,11 +32,11 @@ Sample response:
 {
    code: 200,
    data: [
-         "collection1",
-         "collection2",
-         ...
-         "collectionN",
-         ]
+        "collection1",
+        "collection2",
+        ...
+        "collectionN",
+        ]
 }
 ```
 

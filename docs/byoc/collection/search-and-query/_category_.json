@@ -1,9 +1,0 @@
-{
-    "label": "Search & Query",
-    "position": 3,
-    "link": {
-        "type": "generated-index",
-        "title": "Search & Query",
-        "slug": "search-and-query"
-    }
-}

@@ -2,7 +2,7 @@
 slug: /docs/use-partition-key
 beta: FALSE
 notebook: 03_use_partition_key.ipynb
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
@@ -19,7 +19,7 @@ Partition key enables Zilliz Cloud to store entities into different partitions b
 
 Before creating a collection, ensure that
 
-- You have a blueprint of your data model (i.e. schema). For details, see [Schema Explained](./data-models-explained).
+- You have a blueprint of your data model (i.e. schema). For details, see [Schema Explained](https://zilliverse.feishu.cn/wiki/TqMFwNyDbiY9qekBfPNcbpuvnib).
 
 - You have created a dedicated cluster. For details, see [Create Cluster](./create-cluster).
 

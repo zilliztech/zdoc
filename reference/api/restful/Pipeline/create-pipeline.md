@@ -20,94 +20,161 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
 
 - Create a data ingestion pipeline.
 
-     ```shell
-     curl --http1.1 --request POST \
-     --header "Content-Type: application/json" \
-     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/" \
-     -d '{
-     "name": "medium_articles_ingestion",
-     "description": "Ingestion of medium articles",
-     "type": "INGESTION",
-     "functions": [
-          {
-               "name": "medium_articles_index_func",
-               "action": "INDEX_DOC",
-               "inputField": "signed_url",
-               "language": "ENGLISH"
-          },
-          {
-               "name": "medium_articles_index_preserve_title",
-               "action": "PRESERVE",
-               "inputField": "title",
-               "outputField": "title",
-               "fieldType": "VarChar"
-          },
-          {
-               "name": "medium_articles_index_preserve_link",
-               "action": "PRESERVE",
-               "inputField": "link",
-               "outputField": "link",
-               "fieldType": "VarChar"
-          },
-          {
-               "name": "medium_articles_index_preserve_publication",
-               "action": "PRESERVE",
-               "inputField": "publication",
-               "outputField": "publication",
-               "fieldType": "VarChar"
-          }
-     ],
-     "clusterId": "in03-db58c34c4cc4dd2",
-     "newCollectionName": "medium_articles"
-     }'
-     ```
+    ```shell
+    curl --request POST \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
+        -d '{
+            "name": "my_doc_ingestion_pipeline",
+            "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+            "type": "INGESTION",  
+            "functions": [
+                { 
+                    "name": "index_my_doc",
+                    "action": "INDEX_DOC", 
+                    "inputField": "doc_url", 
+                    "language": "ENGLISH"
+                },
+                {
+                    "name": "keep_doc_info",
+                    "action": "PRESERVE", 
+                    "inputField": "publish_year", 
+                    "outputField": "publish_year",
+                    "fieldType": "Int16" 
+                }
+            ],
+            "clusterId": "${CLUSTER_ID}",
+            "newCollectionName": "my_new_collection"
+        }'
+    ```
+
+    Possible response:
+
+    ```shell
+    {
+        "code": 200,
+        "data": {
+        "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+        "name": "my_doc_ingestion_pipeline",
+        "type": "INGESTION",
+        "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+        "status": "SERVING",
+        "functions": [
+            {
+                "action": "INDEX_DOC",
+                "name": "index_my_doc",
+                "inputField": "doc_url",
+                "language": "ENGLISH"
+            },
+            {
+                "action": "PRESERVE",
+                "name": "keep_doc_info",
+                "inputField": "publish_year",
+                "outputField": "publish_year",
+                "fieldType": "Int16"
+            }
+        ],
+        "clusterId": "in03-***************",
+        "newCollectionName": "my_new_collection"
+        }
+    }   
+    ```  
 
 - Create a search pipeline
 
-     ```shell
-     curl --http1.1 --request POST \
-     --header "Content-Type: application/json" \
-     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/" \
-     -d '{
-     "name": "medium_articles_search",
-     "description": "Ingestion of medium articles",
-     "type": "SEARCH",
-     "functions": [
-          {
-               "name": "medium_articles_search_func",
-               "action": "SEARCH_DOC_CHUNK",
-               "clusterId": "in03-db58c34c4cc4dd2",
-               "inputField": "query_text",
-               "collectionName": "medium_articles"
-          }
-     ]
-     }'
-     ```
+    ```shell
+    curl --request POST \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
+        -d '{
+            "name": "my_text_search_pipeline",
+            "description": "A pipeline that receives text and search for semantically similar doc chunks",
+            "type": "SEARCH",
+            "functions": [
+                {
+                    "name": "search_chunk_text_and_title",
+                    "action": "SEARCH_DOC_CHUNK",
+                    "inputField": "query_text",
+                    "clusterId": "${CLUSTER_ID}",
+                    "collectionName": "my_new_collection"
+                }
+            ]
+        }'
+    ```
+
+    Possible response
+
+    ```shell
+    {
+        "code": 200,
+        "data": {
+            "pipelineId": "pipe-26a18a66ffc8c0edfdb874",
+            "name": "my_text_search_pipeline",
+            "type": "SEARCH",
+            "description": "A pipeline that receives text and search for semantically similar doc chunks",
+            "status": "SERVING",
+            "functions": [
+                {
+                    "action": "SEARCH_DOC_CHUNK",
+                    "name": "search_chunk_text_and_title",
+                    "inputField": "query_text",
+                    "clusterId": "in03-***************",
+                    "collectionName": "my_new_collection"
+                }
+            ]
+        }
+    }
+    ```
 
 - Create a deletion pipeline
 
-     ```shell
-     curl --http1.1 --request POST \
-     --header "Content-Type: application/json" \
-     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
-     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/" \
-     -d '{
-     "name": "medium_articles_deletion",
-     "description": "Ingestion of medium articles",
-     "type": "DELETION",
-     "functions": [
-          {
-               "name": "medium_articles_deletion_func",
-               "action": "PURGE_DOC_INDEX",
-               "inputField": "doc_name",
-          }
-     ],
-     "clusterId": "in03-db58c34c4cc4dd2",
-     "collectionName": "medium_articles"
-     }'
-     ```
+    ```shell
+    curl --request POST \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
+        -d '{
+            "name": "my_doc_deletion_pipeline",
+            "description": "A pipeline that deletes all info associated with a doc",
+            "type": "DELETION",
+            "functions": [
+                {
+                    "name": "purge_chunks_by_doc_name",
+                    "action": "PURGE_DOC_INDEX",
+                    "inputField": "doc_name"
+                }
+            ],
+        
+            "clusterId": "${CLUSTER_ID}",
+            "collectionName": "my_new_collection"
+        }'
+    ```
+
+    Possible response
+
+    ```shell
+    {
+        "code": 200,
+        "data": {
+            "pipelineId": "pipe-7227d0729d73e63002ed46",
+            "name": "my_doc_deletion_pipeline",
+            "type": "DELETION",
+            "description": "A pipeline that deletes all info associated with a doc",
+            "status": "SERVING",
+            "functions": [
+                {
+                    "action": "PURGE_DOC_INDEX",
+                    "name": "purge_chunks_by_doc_name",
+                    "inputField": "doc_name"
+                }
+            ],
+            "clusterId": "in03-***************",
+            "collectionName": "my_new_collection"
+        }
+    }
+    ```
 
 
 ## Request
@@ -199,7 +266,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
 
 ## Response
 
-Possible responses
+成功
 
 ### Response Bodies
 
@@ -251,5 +318,5 @@ The properties in the returned response are listed in the following table.
 
 | Code | Error Message |
 | ---- | ------------- |
-|  | (to be added) |
+| 10041 | (Possible pipeline errors are all under this error code.) |
 
