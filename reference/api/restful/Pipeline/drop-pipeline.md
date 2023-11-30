@@ -77,7 +77,7 @@ No request body required
 
 ## Response
 
-成功
+Returns information of a specific pipeline just dropped.
 
 ### Response Bodies
 

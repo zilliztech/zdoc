@@ -106,7 +106,7 @@ No request body required
 
 ## Response
 
-成功
+Returns a list of pipelines in detail.
 
 ### Response Bodies
 

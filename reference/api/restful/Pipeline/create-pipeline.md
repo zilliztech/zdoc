@@ -266,7 +266,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
 
 ## Response
 
-成功
+Returns information about the pipeline just created.
 
 ### Response Bodies
 

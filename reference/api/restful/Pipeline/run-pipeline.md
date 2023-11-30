@@ -179,7 +179,7 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
 
 ## Response
 
-成功
+Returns the result of running a specific pipeline.
 
 ### Response Bodies
 

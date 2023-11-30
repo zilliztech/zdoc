@@ -1745,7 +1745,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns a pipeline in detail.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2039,7 +2039,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns information of a specific pipeline just dropped.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2099,7 +2099,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns information about the pipeline just created.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2138,7 +2138,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns a list of pipelines in detail.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2310,7 +2310,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Returns the result of running a specific pipeline.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2337,157 +2337,10 @@
           }
         ]
       }
-    },
-    "/v1/projects": {
-      "get": {
-        "summary": "List Projects",
-        "x-apifox-folder": "Cluster Operations",
-        "x-apifox-status": "testing",
-        "deprecated": false,
-        "description": "Lists all projects in the specified cloud region.",
-        "tags": [
-          "Cluster Operations"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Returns a list of projects.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "x-apifox-orders": [
-                        "01HG7SGE48TCPY42XCVV3FNYFR"
-                      ],
-                      "properties": {
-                        "code": {
-                          "type": "integer"
-                        },
-                        "data": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "instanceCount": {
-                                "type": "integer"
-                              },
-                              "projectId": {
-                                "type": "string"
-                              },
-                              "projectName": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "instanceCount",
-                              "projectId",
-                              "projectName"
-                            ],
-                            "x-apifox-orders": [
-                              "instanceCount",
-                              "projectId",
-                              "projectName"
-                            ],
-                            "x-apifox-ignore-properties": []
-                          }
-                        }
-                      },
-                      "x-apifox-refs": {
-                        "01HG7SGE48TCPY42XCVV3FNYFR": {
-                          "$ref": "#/components/schemas/resp.listProjects"
-                        }
-                      },
-                      "x-apifox-ignore-properties": [
-                        "code",
-                        "data"
-                      ]
-                    },
-                    {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "x-apifox-orders": [
-                        "01HG7SPB096Q8Y3JE6NMJCR3E2"
-                      ],
-                      "properties": {
-                        "code": {
-                          "type": "integer"
-                        },
-                        "message": {
-                          "type": "string"
-                        }
-                      },
-                      "x-apifox-refs": {
-                        "01HG7SPB096Q8Y3JE6NMJCR3E2": {
-                          "$ref": "#/components/schemas/Error"
-                        }
-                      },
-                      "x-apifox-ignore-properties": [
-                        "code",
-                        "message"
-                      ]
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "x-run-in-apifox": "https://apifox.com/web/project/2645146/apis/api-128364308-run",
-        "security": [
-          {
-            "bearer": []
-          }
-        ]
-      }
     }
   },
   "components": {
     "schemas": {
-      "resp.listProjects": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "instanceCount": {
-                  "type": "integer"
-                },
-                "projectId": {
-                  "type": "string"
-                },
-                "projectName": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "instanceCount",
-                "projectId",
-                "projectName"
-              ],
-              "x-apifox-orders": [
-                "instanceCount",
-                "projectId",
-                "projectName"
-              ],
-              "x-apifox-ignore-properties": []
-            }
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
       "pipeline.deletionres": {
         "type": "object",
         "properties": {
