@@ -35,7 +35,7 @@ When preparing data files, consider the following based on the file format:
 - **JSON data**
     - Each import supports one JSON file, prohibiting simultaneous multiple JSON file uploads.
 
-    - The JSON file contains a key called "root" at the top level. This key's value is an array of dictionaries, where each dictionary represents an entity that needs to be imported. The keys in each dictionary should match the schema of the target collection.
+    - The JSON file contains a key called "rows" at the top level. This key's value is an array of dictionaries, where each dictionary represents an entity that needs to be imported. The keys in each dictionary should match the schema of the target collection.
 
     - If `autoId` is set to `true` on the primary key, do not include the primary key in the dictionary. Zilliz Cloud will generate the primary keys automatically.
 

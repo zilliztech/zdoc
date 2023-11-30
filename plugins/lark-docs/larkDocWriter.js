@@ -426,11 +426,6 @@ class larkDocWriter {
     }
 
     __front_matters (slug, beta, notebook, sidebar_position=undefined) {
-        let displayed_sidebar = this.target === 'saas' ? "" : "displayed_sidebar: paasSidebar\n"
-        slug = this.target === 'saas' ? `/docs/${slug}` : `/docs/byoc/${slug}`
-        slug = slug.replace(/\/\//g, '/').replace(/^\//, '')
-        slug = slug === 'docs/' ? '' : slug
-        
         var sidebar_label = fs.readFileSync('plugins/lark-docs/meta/sidebarLables.json', {encoding: 'utf-8', flag: 'r'})
 
         if (sidebar_label[slug]) {
@@ -438,6 +433,11 @@ class larkDocWriter {
         } else {
             sidebar_label = ''
         }
+
+        let displayed_sidebar = this.target === 'saas' ? "" : "displayed_sidebar: paasSidebar\n"
+        slug = this.target === 'saas' ? `/docs/${slug}` : `/docs/byoc/${slug}`
+        slug = slug.replace(/\/\//g, '/').replace(/^\//, '')
+        slug = slug === 'docs/' ? '' : slug
 
         let front_matter = '---\n' + 
         displayed_sidebar +
