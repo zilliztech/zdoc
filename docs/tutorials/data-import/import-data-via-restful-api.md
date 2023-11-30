@@ -26,15 +26,31 @@ Make sure the following conditions are met:
 
 Zilliz Cloud supports data import from local or remote files in JSON or NumPy formats. If your data is in a different format, convert it using the **BulkWriter** tool. For details, see [Prepare Data Import](./use-bulkwriter-for-data-import).
 
+The following figure demonstrates how to prepare your data in JSON or NumPy formats.
+
+![data_import-preparetion](/img/data_import-preparetion.png)
+
 When preparing data files, consider the following based on the file format:
 
 - **JSON data**
     - Each import supports one JSON file, prohibiting simultaneous multiple JSON file uploads.
 
+    - The JSON file contains a key called "root" at the top level. This key's value is an array of dictionaries, where each dictionary represents an entity that needs to be imported. The keys in each dictionary should match the schema of the target collection.
+
+    - If `autoId` is set to `true` on the primary key, do not include the primary key in the dictionary. Zilliz Cloud will generate the primary keys automatically.
+
+    - If `enable_dynamic_key` is enabled in the collection schema, all dictionary keys that are not defined in the collection schema will be saved as dynamic fields.
+
 - **NumPy data**
     - Allows uploading multiple files at once or organizing these files into a folder for batch uploading.
 
     - The folder may have up to two subfolders, each subfolder must not exceed 10 GB, and the parent folder's maximum size is 100 GB.
+
+    - For NumPy files, each file represents a column in the target collection of the import and its name should be the same as a field name. Organize the Numpy files that represent all necessary collection fields in a folder before the import.
+
+    - If `autoId` is set to `true` on the primary key, skip preparing the NumPy file for the primary key.
+
+    - If `enable_dynamic_key` is enabled in the collection schema, you should prepare an optional NumPy file named `$meta.npy` to include the values of the fields that are not defined in the collection schema.
 
 - **Folder organization**
     - Ensures data type consistency within the folder, allowing a maximum of two subfolders.
@@ -42,9 +58,14 @@ When preparing data files, consider the following based on the file format:
     - In cases where a folder contains:
         - Both JSON and NumPy data or more than two subfolders, an error will occur during data import.
 
-        - NumPy files along with unsupported data types, only the NumPy files will be imported, ignoring the unsupported files.
+        - NumPy files along with unsupported data types, an error will occur.
 
-    - Example of valid paths: `/dataset1/` or `/dataset2/sub/`.
+    - Example of valid paths:
+        - `/dataset/data.json`: Only for the specific JSON file in the dataset folder.
+
+        - `/dataset/*.npy`: Only for all NumPy files in the dataset folder.
+
+        - `/dataset/`: Only if it contains only a JSON file or all necessary NumPy files.
 
 To convert the example dataset into multiple NumPy files, use the following code:
 
@@ -117,15 +138,15 @@ If you are importing data from AWS S3, you can use either S3 URI or object URL. 
 
 - s3://bucket-name/key-name (AWS S3 URI)
 
-- [https://bucket-name.s3.region-code.amazonaws.com/key-name](https://bucket-name.s3.region-code.amazonaws.com/key-name) (AWS Object URL, virtual-hosted–style)
+- https://bucket-name.s3.region-code.amazonaws.com/key-name (AWS Object URL, virtual-hosted–style)
 
-- [https://s3.region-code.amazonaws.com/bucket-name/key-name](https://s3.region-code.amazonaws.com/bucket-name/key-name) (AWS Object URL, path-style)
+- https://s3.region-code.amazonaws.com/bucket-name/key-name (AWS Object URL, path-style)
 
 For more details, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
 
 If you are importing data from Google Cloud Storage (GSC), you can use either authenticated URL, public URL, or gsutil URI. The following are some examples:
 
-- [https://storage.googleapis.com/YOUR_BUCKET_NAME/OBJECT_NAME](https://storage.googleapis.com/YOUR_BUCKET_NAME/OBJECT_NAME) (GSC public URL)
+- https://storage.googleapis.com/YOUR_BUCKET_NAME/OBJECT_NAME (GSC public URL)
 
 - gs://YOUR_BUCKET_NAME/OBJECT_NAME (GSC gsutil URI)
 
