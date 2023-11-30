@@ -270,7 +270,7 @@ Setting up a private link is project-level. When you configure a private link fo
     1. [Create a private endpoint](https://portal.azure.com/#view/Microsoft_Azure_Network/PrivateLinkCenterBlade). At the end of this step, you need to write down the endpoint ID for **step 6** and the network interface IP address for **step b**.
         1. Click **+ Create** to start the process.
             - In the **Basics** tab, fill in the necessary information for your Azure subscription. This is the same subscription that you have presented to Zilliz Cloud. Be sure to select the same region as the one you chose in **step 1**.
-                ![NSWxb9usFo1nWUxBX4HciwKxnlF](/img/NSWxb9usFo1nWUxBX4HciwKxnlF.png)
+                ![MKg1bEROjoRg9LxlqdYcKp3tnhc](/img/MKg1bEROjoRg9LxlqdYcKp3tnhc.png)
 
             - In the **Resource** tab, choose **Connect to an Azure resource by resource ID or alias**, and enter the endpoint service alias you have copied in **step 4**.
                 ![QnvRbwN02ox36rxY1eocBOS0n1e](/img/QnvRbwN02ox36rxY1eocBOS0n1e.png)
@@ -290,7 +290,7 @@ Setting up a private link is project-level. When you configure a private link fo
 
             ![WXmKbJXj2oamENx0IkBcnf6inTf](/img/WXmKbJXj2oamENx0IkBcnf6inTf.png)
 
-            For example, the value of `name` is `zilliz-test`, and the value of `properties.resourceGuid` is `4e259816-xxxxxxxxxxxxx`. You endpoint ID is `zilliz-test.4e259816-xxxxxxxxxxxx`.
+            For example, the value of `name` is `private_link_1124`, and the value of `properties.resourceGuid` is `44f73fae-xxxxxxxxxxxxx`. Your endpoint ID is `private_link_1124.44f73fae-xxxxxxxxxxxx`.
 
         1. Go to **Settings** > **DNS configuration**, and copy the **IP address** of the network interface you have created.
             ![Rq2KbQYeuoK3SDxJeqecm5FMnIc](/img/Rq2KbQYeuoK3SDxJeqecm5FMnIc.png)
