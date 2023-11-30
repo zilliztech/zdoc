@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 
 # Understanding Pipelines
 
-Zilliz Cloud Pipeline is a robust solution for transforming unstructured data such as documents, text pieces and images into a searchable vector [collection](https://zilliverse.feishu.cn/wiki/KfI3wa2ZCiEJyzkkvKSc5FennId#Ht5adrJhToY5sJxb9KtcZKuYn7f). This guide provides a detailed description of the three main pipeline types and their functions.
+Zilliz Cloud Pipeline is a robust solution for transforming unstructured data such as documents, text pieces and images into a searchable vector [collection](./cluster-collection-and-entities#collection). This guide provides a detailed description of the three main pipeline types and their functions.
 
 ![pipeline-overview](/img/pipeline-overview.png)
 

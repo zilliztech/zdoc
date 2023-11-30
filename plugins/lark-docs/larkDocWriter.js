@@ -735,6 +735,7 @@ class larkDocWriter {
     
     async __image(image) {
         if (this.skip_image_download) {
+            const root = this.target === 'saas' ? 'img' : 'byoc'
             return `![${image.token}](/${root}/${image["token"]}.png)`;
         }
 
@@ -929,6 +930,8 @@ class larkDocWriter {
                     }
                 }
 
+                console.log(newUrl)
+
                 url = newUrl.replace(/\/\//g, "/");
             }
         }
@@ -937,7 +940,6 @@ class larkDocWriter {
             url = url.replace('https://docs.zilliz.com', '');
         }
             
-
         return url;
     }
 

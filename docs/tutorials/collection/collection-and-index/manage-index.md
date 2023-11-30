@@ -21,7 +21,7 @@ Ensure you have created a collection. For details, refer to [Create Collection](
 
 For optimal ANN search performance in Zilliz Cloud, indexing is imperative. Note that Zilliz Cloud permits indexing solely on the vector field. Thus, indexing a collection inherently means indexing its vector field and generating an index file.
 
-Zilliz Cloud currently supports the AUTOINDEX type exclusively. If any other index type is selected, the system will default to AUTOINDEX. Further details on this can be found in [AUTOINDEX Explained](https://zilliverse.feishu.cn/wiki/EA2twSf5oiERMDkriKScU9GInc4).
+Zilliz Cloud currently supports the AUTOINDEX type exclusively. If any other index type is selected, the system will default to AUTOINDEX. Further details on this can be found in [AUTOINDEX Explained](./autoindex-explained).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>

@@ -27,7 +27,7 @@ Explore the future with our latest beta features, available for dedicated cluste
     Seamlessly manage dynamic datasets with [Upsert](./upsert-entities), a fusion of 'update' and 'insert'. Enjoy increased efficiency for datasets where changes are frequent.
 
 - *Cosine Metric Type*
-    Experience advanced vector search with [Cosine](https://zilliverse.feishu.cn/docx/FbIPdV2BpoTuwux5N8gc4qxmncb#CTPEdZRu6oH6UXx9W48cGc8onGg), [Inner Product](https://zilliverse.feishu.cn/docx/FbIPdV2BpoTuwux5N8gc4qxmncb#BHCKdF0dIowBgEx1FMscU4DTnmh), and [Euclidean Distance](https://zilliverse.feishu.cn/docx/FbIPdV2BpoTuwux5N8gc4qxmncb#LGp1dNqLgouMwaxBBSGcsx37n6d) support. Cosine metric eliminates the need for prior vector normalization, streamlining your search process.
+    Experience advanced vector search with [Cosine](./search-metrics-explained#cosine-similarity), [Inner Product](./search-metrics-explained#inner-product-ip), and [Euclidean Distance](./search-metrics-explained#euclidean-distance-l2) support. Cosine metric eliminates the need for prior vector normalization, streamlining your search process.
 
 - *Access Control*
     Securely access dedicated clusters and serverless instances with [API Key](./manage-api-keys) or [username password authentication](./manage-cluster-credentials).

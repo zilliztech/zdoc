@@ -149,13 +149,13 @@ Once the migration job status switches from **MIGRATING** to **SUCCESSFUL**, the
 
 ![verify_collection](/img/verify_collection.png)
 
-Note that Zilliz Cloud exclusively supports [AUTOINDEX](https://zilliverse.feishu.cn/wiki/EA2twSf5oiERMDkriKScU9GInc4) for optimized indexing, and will automatically index your migrated collection using this algorithm.
+Note that Zilliz Cloud exclusively supports [AUTOINDEX](./autoindex-explained) for optimized indexing, and will automatically index your migrated collection using this algorithm.
 
 Once the collections are loaded, you are free to interact with them using your preferred method.
 
 ## Related topics{#related-topics}
 
-- [AUTOINDEX Explained](https://zilliverse.feishu.cn/wiki/EA2twSf5oiERMDkriKScU9GInc4) 
+- [AUTOINDEX Explained](./autoindex-explained) 
 
 - [Select the Right CU](./cu-types-explained)
 
