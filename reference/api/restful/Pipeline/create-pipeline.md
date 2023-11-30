@@ -199,7 +199,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
 
 ## Response
 
-成功
+Possible responses
 
 ### Response Bodies
 

@@ -830,7 +830,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
 
 View the details of a pipeline
 
-```curl
+```shell
 curl --request GET \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
@@ -841,7 +841,7 @@ curl --request GET \
 
 Drop a pipeline that is no longer in need.
 
-```curl
+```shell
 curl --http1.1 --request DELETE \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
@@ -852,7 +852,7 @@ curl --http1.1 --request DELETE \
 
 List all pipelines in detail.
 
-```curl
+```shell
 curl --request GET \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
@@ -865,7 +865,7 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
 
 - Run a data ingestion pipeline
 
-     ```curl
+     ```shell
      url --http1.1 --request POST \
      --header "Content-Type: application/json" \
      --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
@@ -882,7 +882,7 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
 
 - Run a semantic search pipeline.
 
-     ```curl
+     ```shell
      curl --http1.1 --request POST \
      --header "Content-Type: application/json" \
      --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
@@ -900,7 +900,7 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
 
 - Run a doc deletion pipeline
 
-     ```curl
+     ```shell
      curl --http1.1 --request POST \
      --header "Content-Type: application/json" \
      --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \

@@ -40,7 +40,7 @@ No request body required
 
 ## Response
 
-成功
+Possible responses
 
 ### Response Bodies
 

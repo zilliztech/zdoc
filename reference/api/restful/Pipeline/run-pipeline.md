@@ -137,7 +137,7 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
 
 ## Response
 
-成功
+Possible responses
 
 ### Response Bodies
 
