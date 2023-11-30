@@ -52,11 +52,7 @@ Success response:
     | `pageSize`  | **integer**<br/>The number of records to return on each page.|
     | `current`  | **integer**<br/>The current page number.|
 
-- Path parameters
-
-    | Parameter        | Description                                                                               |
-    |------------------|-------------------------------------------------------------------------------------------|
-    | `CLOUD_REGION_ID`  | **string**(required)<br/>|
+- No path parameters required
 
 ### Request Body
 

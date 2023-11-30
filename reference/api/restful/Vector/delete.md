@@ -79,11 +79,7 @@ curl --request POST \
 
 - No query parameters required
 
-- Path parameters
-
-    | Parameter        | Description                                                                               |
-    |------------------|-------------------------------------------------------------------------------------------|
-    | `public-endpoint`  | **string**(required)<br/>|
+- No path parameters required
 
 ### Request Body
 

@@ -1,47 +1,28 @@
 ---
 displayed_sidebar: referenceSidebar
 sidebar_position: 0
-slug: /list-cloud-providers
-title: List Cloud Providers
+slug: /list-pipelines
+title: List Pipelines
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-Lists all cloud providers available on Zilliz Cloud.
+List all pipelines in a project.
 
-<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clouds" />
+<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" />
 
 ---
 
 ## Example
 
 
-Lists all cloud providers available on Zilliz Cloud.
+List all pipelines in detail.
 
-```shell
+```curl
 curl --request GET \
-     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clouds" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "accept: application/json" \
-     --header "content-type: application/json"
-```
-
-Success response:
-
-```shell
-{
-    code: 200,
-    data: [
-     {
-        "cloudId": "aws",
-        "description": "amazon cloud"
-     },
-     {
-        "cloudId": "gcp",
-        "description": "google cloud"
-     }
-    ]
-}
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
+    --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/"
 ```
 
 
@@ -59,7 +40,7 @@ No request body required
 
 ## Response
 
-Returns a list of all available cloud providers on Zilliz Cloud.
+成功
 
 ### Response Bodies
 
@@ -67,12 +48,9 @@ Returns a list of all available cloud providers on Zilliz Cloud.
 
 ```json
 {
-    "code": "integer",
+    "code": "string",
     "data": [
-        {
-            "cloudId": "string",
-            "description": "string"
-        }
+        {}
     ]
 }
 ```
@@ -93,17 +71,12 @@ The properties in the returned response are listed in the following table.
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`  | **array**<br/>A data array of objects. |
-| `data.cloudId`   | **string**<br/>The ID of a cloud provider. |
-| `data.description`   | **string**<br/>The description of the cloud provider. |
+| `data`  | **array**<br/>A data array of s. |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 
 | Code | Error Message |
 | ---- | ------------- |
-| 63032 | CloudId not exists. |
-| 80001 | The token is illegal |
-| 80002 | The token is invalid |
-| 90117 | "Invalid domain name used |
+|  | (to be added) |
 

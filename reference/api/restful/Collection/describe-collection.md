@@ -69,11 +69,7 @@ Success response:
     | `collectionName`  | **string**(required)<br/>The name of the collection to describe.|
     | `dbName`  | **string**<br/>The name of the database.|
 
-- Path parameters
-
-    | Parameter        | Description                                                                               |
-    |------------------|-------------------------------------------------------------------------------------------|
-    | `CLUSTER_ENDPOINT`  | **string**(required)<br/>The endpoint of your cluster.|
+- No path parameters required
 
 ### Request Body
 

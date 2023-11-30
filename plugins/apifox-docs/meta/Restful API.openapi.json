@@ -13,10 +13,13 @@
       "name": "Cluster Operations"
     },
     {
-      "name": "Collection Operations"
+      "name": "Import Operations"
     },
     {
-      "name": "Import Operations"
+      "name": "Pipeline Operations"
+    },
+    {
+      "name": "Collection Operations"
     },
     {
       "name": "Vector Operations"
@@ -33,17 +36,7 @@
         "tags": [
           "Cloud Meta"
         ],
-        "parameters": [
-          {
-            "name": "CLOUD_REGION_ID",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Returns a list of all available cloud providers on Zilliz Cloud.",
@@ -93,15 +86,6 @@
         ],
         "parameters": [
           {
-            "name": "CLOUD_REGION_ID",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "cloudId",
             "in": "query",
             "description": "The ID of a valid cloud provider.",
@@ -150,15 +134,6 @@
           "Cluster Operations"
         ],
         "parameters": [
-          {
-            "name": "CLOUD_REGION_ID",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "pageSize",
             "in": "query",
@@ -219,15 +194,6 @@
         ],
         "parameters": [
           {
-            "name": "CLOUD_REGION_ID",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "clusterId",
             "in": "path",
             "description": "The ID of a cluster to which this operation applies.",
@@ -269,15 +235,6 @@
           "Cluster Operations"
         ],
         "parameters": [
-          {
-            "name": "CLOUD_REGION_ID",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "clusterId",
             "in": "path",
@@ -321,15 +278,6 @@
         ],
         "parameters": [
           {
-            "name": "CLOUD_REGION_ID",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "clusterId",
             "in": "path",
             "description": "The ID of a cluster to which this operation applies.",
@@ -372,15 +320,6 @@
         ],
         "parameters": [
           {
-            "name": "CLUSTER_ENDPOINT",
-            "in": "path",
-            "description": "The endpoint of your cluster.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "dbName",
             "in": "query",
             "description": "The name of the database",
@@ -421,17 +360,7 @@
         "tags": [
           "Collection Operations"
         ],
-        "parameters": [
-          {
-            "name": "CLUSTER_ENDPOINT",
-            "in": "path",
-            "description": "The endpoint of your cluster.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -473,15 +402,6 @@
           "Collection Operations"
         ],
         "parameters": [
-          {
-            "name": "CLUSTER_ENDPOINT",
-            "in": "path",
-            "description": "The endpoint of your cluster.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "collectionName",
             "in": "query",
@@ -533,17 +453,7 @@
         "tags": [
           "Collection Operations"
         ],
-        "parameters": [
-          {
-            "name": "CLUSTER_ENDPOINT",
-            "in": "path",
-            "description": "The endpoint of your cluster.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -610,17 +520,7 @@
         "tags": [
           "Vector Operations"
         ],
-        "parameters": [
-          {
-            "name": "public-endpoint",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -776,21 +676,11 @@
         "x-apifox-folder": "Vector Operations",
         "x-apifox-status": "released",
         "deprecated": false,
-        "description": "Inserts one or more entities into a collection.",
+        "description": "Inserts one or more entities into a collection. You can add a maximum of 100 entities at a time. To insert large volumn of data, you are advised to use [the bulk-insert API](https://docs.zilliz.com/docs/data-import).",
         "tags": [
           "Vector Operations"
         ],
-        "parameters": [
-          {
-            "name": "public-endpoint",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -831,7 +721,7 @@
                     "type": "object",
                     "x-apifox-refs": {
                       "01HD5ZD78VCVFQE5Y3NK4AJ57C": {
-                        "$ref": "#/components/schemas/customer.InsertReq",
+                        "$ref": "#/components/schemas/customer.InsertOrUpsertReq",
                         "x-apifox-overrides": {}
                       }
                     },
@@ -843,6 +733,10 @@
                       "collectionName": {
                         "type": "string",
                         "description": "The name of the collection to which entities will be inserted."
+                      },
+                      "partitionName": {
+                        "type": "string",
+                        "description": "The name of the partition to which this operation applies."
                       },
                       "data": {
                         "type": "array",
@@ -866,6 +760,7 @@
                     ],
                     "x-apifox-ignore-properties": [
                       "collectionName",
+                      "partitionName",
                       "data"
                     ]
                   }
@@ -901,21 +796,11 @@
         "x-apifox-folder": "Vector Operations",
         "x-apifox-status": "released",
         "deprecated": false,
-        "description": "Conducts a similarity search in a collection. ",
+        "description": "Conducts a similarity search on the vector field in a collection. ",
         "tags": [
           "Vector Operations"
         ],
-        "parameters": [
-          {
-            "name": "public-endpoint",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -945,6 +830,14 @@
                   "collectionName": {
                     "type": "string",
                     "description": "The name of the collection to which this operation applies."
+                  },
+                  "partitionNames": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "partitionName"
+                    },
+                    "description": "The name of the partitions to which this operation applies."
                   },
                   "filter": {
                     "type": "string",
@@ -1011,6 +904,7 @@
                 ],
                 "x-apifox-ignore-properties": [
                   "collectionName",
+                  "partitionNames",
                   "filter",
                   "limit",
                   "offset",
@@ -1069,21 +963,11 @@
         "x-apifox-folder": "Vector Operations",
         "x-apifox-status": "released",
         "deprecated": false,
-        "description": "Conducts a vector query in a collection.",
+        "description": "Conducts a query on scalar fields in a collection.",
         "tags": [
           "Vector Operations"
         ],
-        "parameters": [
-          {
-            "name": "public-endpoint",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1097,6 +981,14 @@
                   "collectionName": {
                     "type": "string",
                     "description": "The name of the collection to which this operation applies."
+                  },
+                  "partitionNames": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "PartitionName"
+                    },
+                    "description": "The name of the partitions to which this operation applies."
                   },
                   "filter": {
                     "type": "string",
@@ -1139,6 +1031,7 @@
                 ],
                 "x-apifox-ignore-properties": [
                   "collectionName",
+                  "partitionNames",
                   "filter",
                   "limit",
                   "offset",
@@ -1195,21 +1088,11 @@
         "x-apifox-folder": "Vector Operations",
         "x-apifox-status": "released",
         "deprecated": false,
-        "description": "Gets entities by the specified IDs.",
+        "description": "Gets entities by the specified IDs. You can set an ID in string or integer or set a set of IDs in a list of strings or a list of integers as shown in the four types of request bodies below.",
         "tags": [
           "Vector Operations"
         ],
-        "parameters": [
-          {
-            "name": "public-endpoint",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1219,7 +1102,7 @@
                     "type": "object",
                     "x-apifox-refs": {
                       "01HD5Z9Z1Q1DHXF2DQF7E1XNGP": {
-                        "$ref": "#/components/schemas/customer.GetReq1",
+                        "$ref": "#/components/schemas/customer.GetReq",
                         "x-apifox-overrides": {}
                       }
                     },
@@ -1231,6 +1114,14 @@
                       "collectionName": {
                         "type": "string",
                         "description": "The name of the collection to which this operation applies."
+                      },
+                      "partitionNames": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "description": "partitionName"
+                        },
+                        "description": "The name of the partitions to which this operation applies."
                       },
                       "outputFields": {
                         "type": "array",
@@ -1254,6 +1145,7 @@
                     ],
                     "x-apifox-ignore-properties": [
                       "collectionName",
+                      "partitionNames",
                       "outputFields",
                       "id"
                     ]
@@ -1285,7 +1177,8 @@
                       "id": {
                         "type": "array",
                         "items": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "An ID represents an entity."
                         },
                         "description": "An array of IDs of the entities to be retrieved"
                       }
@@ -1464,15 +1357,6 @@
         ],
         "parameters": [
           {
-            "name": "CLOUD_REGION_ID",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "Authorization",
             "in": "header",
             "description": "",
@@ -1534,15 +1418,6 @@
         ],
         "parameters": [
           {
-            "name": "CLOUD_REGION_ID",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "jobId",
             "in": "query",
             "description": "The ID of the import task in concern",
@@ -1594,15 +1469,6 @@
           "Import Operations"
         ],
         "parameters": [
-          {
-            "name": "CLOUD_REGION_ID",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "clusterId",
             "in": "query",
@@ -1746,17 +1612,7 @@
         "tags": [
           "Vector Operations"
         ],
-        "parameters": [
-          {
-            "name": "public-endpoint",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1797,7 +1653,7 @@
                     "type": "object",
                     "x-apifox-refs": {
                       "01HD5ZEEX7KEAW58KXK0N7QHG0": {
-                        "$ref": "#/components/schemas/customer.InsertReq",
+                        "$ref": "#/components/schemas/customer.InsertOrUpsertReq",
                         "x-apifox-overrides": {}
                       }
                     },
@@ -1813,6 +1669,10 @@
                       "collectionName": {
                         "type": "string",
                         "description": "The name of the collection to which entities will be inserted."
+                      },
+                      "partitionName": {
+                        "type": "string",
+                        "description": "The name of the partition to which this operation applies."
                       },
                       "data": {
                         "type": "array",
@@ -1832,6 +1692,7 @@
                     ],
                     "x-apifox-ignore-properties": [
                       "collectionName",
+                      "partitionName",
                       "data"
                     ]
                   }
@@ -1860,10 +1721,1852 @@
           }
         ]
       }
+    },
+    "/v1/pipelines/{PIPELINE_ID}": {
+      "get": {
+        "summary": "Describe Pipeline",
+        "x-apifox-folder": "Pipeline Operations",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "Describe a specific pipeline by its name.",
+        "tags": [
+          "Pipeline Operations"
+        ],
+        "parameters": [
+          {
+            "name": "PIPELINE_ID",
+            "in": "path",
+            "description": "A valid pipeline ID obtained from either the list-pipelines API endpoints or Zilliz Cloud console.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "pipelineId": {
+                              "type": "integer",
+                              "description": "A pipeline ID."
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "Name of the pipeline."
+                            },
+                            "type": {
+                              "type": "string",
+                              "description": "Type of the pipeline. For an ingestion pipeline, the value should be `INGESTION`."
+                            },
+                            "description": {
+                              "type": "string",
+                              "description": "Description of the pipeline."
+                            },
+                            "status": {
+                              "type": "string",
+                              "description": "Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working."
+                            },
+                            "functions": {
+                              "anyOf": [
+                                {
+                                  "$ref": "#/components/schemas/pipeline.indexdocres"
+                                },
+                                {
+                                  "$ref": "#/components/schemas/pipeline.preserveres"
+                                }
+                              ],
+                              "description": "Functions in the pipeline. For an ingestion pipeline, there should be only one `INDEX_DOC` function."
+                            },
+                            "clusterID": {
+                              "type": "string",
+                              "description": "The target cluster to which the pipeline applies."
+                            },
+                            "collectionName": {
+                              "type": "string",
+                              "description": "The target collection to which the pipeline applies."
+                            }
+                          },
+                          "x-apifox-orders": [
+                            "pipelineId",
+                            "name",
+                            "type",
+                            "description",
+                            "status",
+                            "functions",
+                            "clusterID",
+                            "collectionName"
+                          ],
+                          "required": [
+                            "pipelineId",
+                            "name",
+                            "type",
+                            "description",
+                            "status",
+                            "functions",
+                            "clusterID",
+                            "collectionName"
+                          ],
+                          "x-apifox-ignore-properties": []
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "pipelineId": {
+                              "type": "integer",
+                              "description": "A pipeline ID."
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "Name of the pipeline"
+                            },
+                            "type": {
+                              "type": "string",
+                              "description": "Type of the pipeline. For a search pipeline, the value should be `SEARCH`."
+                            },
+                            "description": {
+                              "type": "string",
+                              "description": "Description of the pipeline."
+                            },
+                            "status": {
+                              "type": "string",
+                              "description": "Current status of the pipeline. If the value is not `SERVING`, the pipeline is not working."
+                            },
+                            "functions": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "description": "Name of the function."
+                                  },
+                                  "action": {
+                                    "type": "string",
+                                    "description": "Type of the function. For a search function, the value should be `SEARCH_DOC_CHUNKS`."
+                                  },
+                                  "inputField": {
+                                    "type": "string",
+                                    "description": "Name of the input field. For a `SEARCH_DOC_CHUNKS` function, the value should be your query text."
+                                  },
+                                  "clusterID": {
+                                    "type": "string",
+                                    "description": "Target cluster of this function."
+                                  },
+                                  "collectionName": {
+                                    "type": "string",
+                                    "description": "Target collection of this function."
+                                  }
+                                },
+                                "x-apifox-orders": [
+                                  "name",
+                                  "action",
+                                  "inputField",
+                                  "clusterID",
+                                  "collectionName"
+                                ],
+                                "required": [
+                                  "name",
+                                  "action",
+                                  "inputField",
+                                  "clusterID",
+                                  "collectionName"
+                                ],
+                                "x-apifox-ignore-properties": []
+                              },
+                              "description": "Functions in the pipeline. For a search pipeline, each of its member functions targets at a different collection."
+                            }
+                          },
+                          "x-apifox-orders": [
+                            "pipelineId",
+                            "name",
+                            "type",
+                            "description",
+                            "status",
+                            "functions"
+                          ],
+                          "required": [
+                            "pipelineId",
+                            "name",
+                            "type",
+                            "description",
+                            "status",
+                            "functions"
+                          ],
+                          "x-apifox-ignore-properties": []
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "pipelineId": {
+                              "type": "integer",
+                              "description": "A pipeline ID."
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "Name of the pipeline."
+                            },
+                            "type": {
+                              "type": "string",
+                              "description": "Type of the pipeline. For a deletion pipeline, the value should be `DELETION`."
+                            },
+                            "description": {
+                              "type": "string",
+                              "description": "Description of the pipeline."
+                            },
+                            "status": {
+                              "type": "string",
+                              "description": "Current status of the pipeline. If the value is not `SERVING`, the pipeline is not working."
+                            },
+                            "functions": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "description": "Name of the function."
+                                  },
+                                  "action": {
+                                    "type": "string",
+                                    "description": "Type of the function. For a deletion pipeline, its member functions should be of `PURGE_DOC_INDEX`."
+                                  },
+                                  "inputField": {
+                                    "type": "string",
+                                    "description": "Name of the input field. For a `PURGE_DOC_INDEX` function, the value should be the name of the doc to delete."
+                                  }
+                                },
+                                "x-apifox-orders": [
+                                  "name",
+                                  "action",
+                                  "inputField"
+                                ],
+                                "required": [
+                                  "name",
+                                  "action",
+                                  "inputField"
+                                ],
+                                "x-apifox-ignore-properties": []
+                              },
+                              "description": "Functions in the pipeline. For a deletion pipeline, there can be multiple member functions with each representing a deletion request."
+                            },
+                            "clusterID": {
+                              "type": "string",
+                              "description": "Target cluster of the pipeline."
+                            },
+                            "collectionName": {
+                              "type": "string",
+                              "description": "Target collection of the pipeline."
+                            }
+                          },
+                          "x-apifox-orders": [
+                            "pipelineId",
+                            "name",
+                            "type",
+                            "description",
+                            "status",
+                            "functions",
+                            "clusterID",
+                            "collectionName"
+                          ],
+                          "required": [
+                            "pipelineId",
+                            "name",
+                            "type",
+                            "description",
+                            "status",
+                            "functions",
+                            "clusterID",
+                            "collectionName"
+                          ],
+                          "x-apifox-ignore-properties": []
+                        }
+                      ]
+                    }
+                  },
+                  "x-apifox-orders": [
+                    "code",
+                    "data"
+                  ],
+                  "required": [
+                    "code",
+                    "data"
+                  ],
+                  "x-apifox-ignore-properties": []
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/2645146/apis/api-125911428-run",
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Drop Pipeline",
+        "x-apifox-folder": "Pipeline Operations",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "Drop a specific pipeline",
+        "tags": [
+          "Pipeline Operations"
+        ],
+        "parameters": [
+          {
+            "name": "PIPELINE_ID",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/pipeline.createIngestionRes"
+                    },
+                    {
+                      "$ref": "#/components/schemas/pipeline.createSearchRes"
+                    },
+                    {
+                      "$ref": "#/components/schemas/pipeline.createDeleteRes"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/2645146/apis/api-126324538-run",
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/pipelines": {
+      "post": {
+        "summary": "Create Pipeline",
+        "x-apifox-folder": "Pipeline Operations",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "Create a pipeline.",
+        "tags": [
+          "Pipeline Operations"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/pipeline.createIngestionReq"
+                  },
+                  {
+                    "$ref": "#/components/schemas/pipeline.createSearchReq"
+                  },
+                  {
+                    "$ref": "#/components/schemas/pipeline.createDeleteReq"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/pipeline.createIngestionRes"
+                    },
+                    {
+                      "$ref": "#/components/schemas/pipeline.createSearchRes"
+                    },
+                    {
+                      "$ref": "#/components/schemas/pipeline.createDeleteRes"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/2645146/apis/api-125949510-run",
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "summary": "List Pipelines",
+        "x-apifox-folder": "Pipeline Operations",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "List all pipelines in a project.",
+        "tags": [
+          "Pipeline Operations"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "pipelineId": {
+                                "type": "integer",
+                                "description": "A pipeline ID."
+                              },
+                              "name": {
+                                "type": "string",
+                                "description": "Name of the pipeline."
+                              },
+                              "type": {
+                                "type": "string",
+                                "description": "Type of the pipeline. For an ingestion pipeline, the value should be `INGESTION`."
+                              },
+                              "description": {
+                                "type": "string",
+                                "description": "Description of the pipeline."
+                              },
+                              "status": {
+                                "type": "string",
+                                "description": "Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working."
+                              },
+                              "functions": {
+                                "anyOf": [
+                                  {
+                                    "$ref": "#/components/schemas/pipeline.indexdocres"
+                                  },
+                                  {
+                                    "$ref": "#/components/schemas/pipeline.preserveres"
+                                  },
+                                  {
+                                    "$ref": "#/components/schemas/pipeline.searchres"
+                                  },
+                                  {
+                                    "$ref": "#/components/schemas/pipeline.deletionres"
+                                  }
+                                ],
+                                "description": "Functions in the pipeline. For an ingestion pipeline, there should be only one `INDEX_DOC` function."
+                              },
+                              "clusterID": {
+                                "type": "string",
+                                "description": "The target cluster to which the pipeline applies."
+                              },
+                              "collectionName": {
+                                "type": "string",
+                                "description": "The target collection to which the pipeline applies."
+                              }
+                            },
+                            "x-apifox-orders": [
+                              "pipelineId",
+                              "name",
+                              "type",
+                              "description",
+                              "status",
+                              "functions",
+                              "clusterID",
+                              "collectionName"
+                            ],
+                            "required": [
+                              "pipelineId",
+                              "name",
+                              "type",
+                              "description",
+                              "status",
+                              "functions",
+                              "clusterID",
+                              "collectionName"
+                            ],
+                            "x-apifox-ignore-properties": []
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "x-apifox-orders": [
+                    "code",
+                    "data"
+                  ],
+                  "required": [
+                    "code",
+                    "data"
+                  ],
+                  "x-apifox-ignore-properties": []
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/2645146/apis/api-126219088-run",
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/pipeline/{PIPELINE_ID}/run": {
+      "post": {
+        "summary": "Run Pipeline",
+        "x-apifox-folder": "Pipeline Operations",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "Trigger a specific pipeline.",
+        "tags": [
+          "Pipeline Operations"
+        ],
+        "parameters": [
+          {
+            "name": "PIPELINE_ID",
+            "in": "path",
+            "description": "A valid pipeline ID obtained from either the list-pipelines API endpoints or Zilliz Cloud console.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer 2f68dbbf-519d-4f01-9636-e2421b68f379",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/pipeline.runIngestionReq"
+                  },
+                  {
+                    "$ref": "#/components/schemas/pipeline.runSearchReq"
+                  },
+                  {
+                    "$ref": "#/components/schemas/pipeline.runDeletionReq"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/pipeline.runIngestionRes"
+                    },
+                    {
+                      "$ref": "#/components/schemas/pipeline.runSearchRes"
+                    },
+                    {
+                      "$ref": "#/components/schemas/pipeline.runDeletionRes"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/2645146/apis/api-126002654-run",
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/projects": {
+      "get": {
+        "summary": "List Projects",
+        "x-apifox-folder": "Cluster Operations",
+        "x-apifox-status": "testing",
+        "deprecated": false,
+        "description": "Lists all projects in the specified cloud region.",
+        "tags": [
+          "Cluster Operations"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns a list of projects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "x-apifox-orders": [
+                        "01HG7SGE48TCPY42XCVV3FNYFR"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "integer"
+                        },
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "instanceCount": {
+                                "type": "integer"
+                              },
+                              "projectId": {
+                                "type": "string"
+                              },
+                              "projectName": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "instanceCount",
+                              "projectId",
+                              "projectName"
+                            ],
+                            "x-apifox-orders": [
+                              "instanceCount",
+                              "projectId",
+                              "projectName"
+                            ],
+                            "x-apifox-ignore-properties": []
+                          }
+                        }
+                      },
+                      "x-apifox-refs": {
+                        "01HG7SGE48TCPY42XCVV3FNYFR": {
+                          "$ref": "#/components/schemas/resp.listProjects"
+                        }
+                      },
+                      "x-apifox-ignore-properties": [
+                        "code",
+                        "data"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "x-apifox-orders": [
+                        "01HG7SPB096Q8Y3JE6NMJCR3E2"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "x-apifox-refs": {
+                        "01HG7SPB096Q8Y3JE6NMJCR3E2": {
+                          "$ref": "#/components/schemas/Error"
+                        }
+                      },
+                      "x-apifox-ignore-properties": [
+                        "code",
+                        "message"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/2645146/apis/api-128364308-run",
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
     }
   },
   "components": {
     "schemas": {
+      "resp.listProjects": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "instanceCount": {
+                  "type": "integer"
+                },
+                "projectId": {
+                  "type": "string"
+                },
+                "projectName": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "instanceCount",
+                "projectId",
+                "projectName"
+              ],
+              "x-apifox-orders": [
+                "instanceCount",
+                "projectId",
+                "projectName"
+              ],
+              "x-apifox-ignore-properties": []
+            }
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.deletionres": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the function."
+          },
+          "action": {
+            "type": "string",
+            "description": "Type of the function. For a deletion pipeline, its member functions should be of `PURGE_DOC_INDEX`."
+          },
+          "inputField": {
+            "type": "string",
+            "description": "Name of the input field. For a `PURGE_DOC_INDEX` function, the value should be the name of the doc to delete."
+          }
+        },
+        "x-apifox-orders": [
+          "name",
+          "action",
+          "inputField"
+        ],
+        "required": [
+          "name",
+          "action",
+          "inputField"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.searchres": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the function to create."
+          },
+          "action": {
+            "type": "string",
+            "description": "Type of the function to create. For a search pipeline, possible value is `SEARCH_DOC_CHUNK`."
+          },
+          "inputField": {
+            "type": "string",
+            "description": "Name the field according to your needs. In a search pipeline, use it for your query text."
+          },
+          "clusterID": {
+            "type": "string",
+            "description": "ID of a target collection in which Zilliz Cloud concducts the search."
+          },
+          "collectionName": {
+            "type": "string",
+            "description": "Name of the collection in which ZIlliz Cloud conducts the search."
+          }
+        },
+        "x-apifox-orders": [
+          "name",
+          "action",
+          "inputField",
+          "clusterID",
+          "collectionName"
+        ],
+        "required": [
+          "name",
+          "action",
+          "inputField",
+          "collectionName",
+          "clusterID"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.runDeletionRes": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "num_deleted_chunks": {
+                "type": "integer",
+                "description": "Number of deleted chunks. Note that Zilliz Cloud deletes all chunks of a document if a deletion pipeline carriesits name. "
+              }
+            },
+            "x-apifox-orders": [
+              "num_deleted_chunks"
+            ],
+            "required": [
+              "num_deleted_chunks"
+            ],
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "required": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.runSearchRes": {
+        "type": "object",
+        "additionalProperties": false,
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "result": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID of a hit entity, representing a chunk of a document."
+                    },
+                    "distance": {
+                      "type": "string",
+                      "description": "Distance to the vector embedings of the specified query string."
+                    },
+                    "<scalar_field_name>": {
+                      "type": "string"
+                    }
+                  },
+                  "x-apifox-orders": [
+                    "id",
+                    "distance",
+                    "<scalar_field_name>"
+                  ],
+                  "required": [
+                    "id",
+                    "distance",
+                    "<scalar_field_name>"
+                  ],
+                  "x-apifox-ignore-properties": []
+                },
+                "description": "Returned search result. It is an array of objects."
+              }
+            },
+            "x-apifox-orders": [
+              "result"
+            ],
+            "required": [
+              "result"
+            ],
+            "description": "Payload of the response",
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "required": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.runIngestionRes": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "num_chunks": {
+                "type": "integer",
+                "description": "Number of chunks generated."
+              },
+              "doc_name": {
+                "type": "string",
+                "description": "Name of the chunked document with the file extension."
+              }
+            },
+            "x-apifox-orders": [
+              "num_chunks",
+              "doc_name"
+            ],
+            "required": [
+              "num_chunks",
+              "doc_name"
+            ],
+            "description": "Payload of the response.",
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "required": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.runDeletionReq": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "doc_name": {
+                "type": "string",
+                "description": "Name of the document to delete. Note that you can delete document by its name, and all the chunks of the document will be removed."
+              }
+            },
+            "x-apifox-orders": [
+              "doc_name"
+            ],
+            "required": [
+              "doc_name"
+            ],
+            "description": "Payload of the doc deletion request.",
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "x-apifox-orders": [
+          "data"
+        ],
+        "required": [
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.runSearchReq": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "query_text": {
+                "type": "string",
+                "description": "A query text. Zilliz Cloud embeds it and use the generated vector embeddings to conduct a search in the target collection."
+              }
+            },
+            "x-apifox-orders": [
+              "query_text"
+            ],
+            "required": [
+              "query_text"
+            ],
+            "description": "Search data.",
+            "x-apifox-ignore-properties": []
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "description": "Total number of records to return."
+              },
+              "offset": {
+                "type": "integer",
+                "description": "Total number of records to skip in the search results."
+              },
+              "outputFields": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "A valid output field and should be the one defined in the preserve functions."
+                },
+                "description": "A list of fields to output for each match in the search result."
+              },
+              "filter": {
+                "type": "string",
+                "description": "A boolean expression for Zilliz Cloud to filter records before actual searches."
+              }
+            },
+            "description": "Search parameters.",
+            "x-apifox-orders": [
+              "limit",
+              "offset",
+              "outputFields",
+              "filter"
+            ],
+            "required": [
+              "limit",
+              "offset",
+              "outputFields",
+              "filter"
+            ],
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "x-apifox-orders": [
+          "data",
+          "params"
+        ],
+        "required": [
+          "data",
+          "params"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.runIngestionReq": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "doc_url": {
+                "type": "string",
+                "description": "An active pre-signed URL of one of your documents in a GCS or an AWS S3 bucket. You should replace `doc_url` with the field name you have defined when you create the pipeline. Supported file types are `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, and `.pptx`"
+              },
+              "<scalar_field_name>": {
+                "type": "string"
+              }
+            },
+            "x-apifox-orders": [
+              "doc_url",
+              "<scalar_field_name>"
+            ],
+            "description": "Data ingestion parameters.",
+            "required": [
+              "doc_url"
+            ],
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "x-apifox-orders": [
+          "data"
+        ],
+        "required": [
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.createDeleteRes": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "pipelineId": {
+                "type": "integer",
+                "description": "A pipeline ID."
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the pipeline."
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of the pipeline. For a deletion pipeline, the value should be `DELETION`."
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the pipeline."
+              },
+              "status": {
+                "type": "string",
+                "description": "Current status of the pipeline. If the value is not `SERVING`, the pipeline is not working."
+              },
+              "functions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the function."
+                    },
+                    "action": {
+                      "type": "string",
+                      "description": "Type of the function. For a deletion pipeline, its member functions should be of `PURGE_DOC_INDEX`."
+                    },
+                    "inputField": {
+                      "type": "string",
+                      "description": "Name of the input field. For a `PURGE_DOC_INDEX` function, the value should be the name of the doc to delete."
+                    }
+                  },
+                  "x-apifox-orders": [
+                    "name",
+                    "action",
+                    "inputField"
+                  ],
+                  "required": [
+                    "name",
+                    "action",
+                    "inputField"
+                  ],
+                  "x-apifox-ignore-properties": []
+                },
+                "description": "Functions in the pipeline. For a deletion pipeline, there can be multiple member functions with each representing a deletion request."
+              },
+              "clusterID": {
+                "type": "string",
+                "description": "Target cluster of the pipeline."
+              },
+              "collectionName": {
+                "type": "string",
+                "description": "Target collection of the pipeline."
+              }
+            },
+            "x-apifox-orders": [
+              "pipelineId",
+              "name",
+              "type",
+              "description",
+              "status",
+              "functions",
+              "clusterID",
+              "collectionName"
+            ],
+            "required": [
+              "pipelineId",
+              "name",
+              "type",
+              "description",
+              "status",
+              "functions",
+              "clusterID",
+              "collectionName"
+            ],
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "required": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.createSearchRes": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "pipelineId": {
+                "type": "integer",
+                "description": "A pipeline ID."
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the pipeline"
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of the pipeline. For a search pipeline, the value should be `SEARCH`."
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the pipeline."
+              },
+              "status": {
+                "type": "string",
+                "description": "Current status of the pipeline. If the value is not `SERVING`, the pipeline is not working."
+              },
+              "functions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the function."
+                    },
+                    "action": {
+                      "type": "string",
+                      "description": "Type of the function. For a search function, the value should be `SEARCH_DOC_CHUNKS`."
+                    },
+                    "inputField": {
+                      "type": "string",
+                      "description": "Name of the input field. For a `SEARCH_DOC_CHUNKS` function, the value should be your query text."
+                    },
+                    "clusterID": {
+                      "type": "string",
+                      "description": "Target cluster of this function."
+                    },
+                    "collectionName": {
+                      "type": "string",
+                      "description": "Target collection of this function."
+                    }
+                  },
+                  "x-apifox-orders": [
+                    "name",
+                    "action",
+                    "inputField",
+                    "clusterID",
+                    "collectionName"
+                  ],
+                  "required": [
+                    "name",
+                    "action",
+                    "inputField",
+                    "clusterID",
+                    "collectionName"
+                  ],
+                  "x-apifox-ignore-properties": []
+                },
+                "description": "Functions in the pipeline. For a search pipeline, each of its member functions targets at a different collection."
+              }
+            },
+            "x-apifox-orders": [
+              "pipelineId",
+              "name",
+              "type",
+              "description",
+              "status",
+              "functions"
+            ],
+            "required": [
+              "pipelineId",
+              "name",
+              "type",
+              "description",
+              "status",
+              "functions"
+            ],
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "required": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.createIngestionRes": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "pipelineId": {
+                "type": "integer",
+                "description": "A pipeline ID."
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the pipeline."
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of the pipeline. For an ingestion pipeline, the value should be `INGESTION`."
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the pipeline."
+              },
+              "status": {
+                "type": "string",
+                "description": "Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working."
+              },
+              "functions": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/pipeline.indexdocres"
+                  },
+                  {
+                    "$ref": "#/components/schemas/pipeline.preserveres"
+                  }
+                ],
+                "description": "Functions in the pipeline. For an ingestion pipeline, there should be only one `INDEX_DOC` function."
+              },
+              "clusterID": {
+                "type": "string",
+                "description": "The target cluster to which the pipeline applies."
+              },
+              "collectionName": {
+                "type": "string",
+                "description": "The target collection to which the pipeline applies."
+              }
+            },
+            "x-apifox-orders": [
+              "pipelineId",
+              "name",
+              "type",
+              "description",
+              "status",
+              "functions",
+              "clusterID",
+              "collectionName"
+            ],
+            "required": [
+              "pipelineId",
+              "name",
+              "type",
+              "description",
+              "status",
+              "functions",
+              "clusterID",
+              "collectionName"
+            ],
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "required": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.preserveres": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the function to create."
+          },
+          "action": {
+            "type": "string",
+            "description": "Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`. "
+          },
+          "inputField": {
+            "type": "string",
+            "description": "Name the field according to your needs. In a preserve function of an ingestion pipeline, Zilliz Cloud uses the value as the name of a field in the collection to create."
+          },
+          "outputField": {
+            "type": "string",
+            "description": "Name of the output field. The value should be the same as that of `input_field`."
+          },
+          "fieldType": {
+            "type": "string",
+            "description": "Data type of the field to create in the target collection. Possible values are `BOOL`, `INT8`, `INT16`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `VARCHAR`."
+          }
+        },
+        "x-apifox-orders": [
+          "name",
+          "action",
+          "inputField",
+          "outputField",
+          "fieldType"
+        ],
+        "required": [
+          "name",
+          "action",
+          "inputField",
+          "outputField",
+          "fieldType"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.indexdocres": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the function to create."
+          },
+          "action": {
+            "type": "string",
+            "description": "Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`. "
+          },
+          "inputField": {
+            "type": "string",
+            "description": "Name the field according to your needs. In an `INDEX_DOC` function of an ingestion pipeline, use it for pre-signed document URLs in GCS or AWS S3 buckets."
+          },
+          "langauge": {
+            "type": "string",
+            "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
+          }
+        },
+        "x-apifox-orders": [
+          "name",
+          "action",
+          "inputField",
+          "langauge"
+        ],
+        "required": [
+          "name",
+          "action",
+          "inputField",
+          "langauge"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.createDeleteReq": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the pipeline to create."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the pipeline to create."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the pipeline to create. For a deletion pipeline, the value should be `DELETION`"
+          },
+          "functions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the function to create."
+                },
+                "action": {
+                  "type": "string",
+                  "description": "Type of the function to create. For a delete pipeline, possible value is `PURGE_DOC_INDEX`."
+                },
+                "inputField": {
+                  "type": "string",
+                  "description": "Name the field according to your needs. In a delete pipeline, use it for the name of a document to delete."
+                }
+              },
+              "x-apifox-orders": [
+                "name",
+                "action",
+                "inputField"
+              ],
+              "required": [
+                "name",
+                "action",
+                "inputField"
+              ],
+              "x-apifox-ignore-properties": []
+            },
+            "description": "Actions to take in the pipeline to create."
+          },
+          "clusterId": {
+            "type": "string",
+            "description": "ID of a target cluster. You can find it in cluster details on Zilliz Cloud console."
+          },
+          "collectionName": {
+            "type": "string",
+            "description": "Name of the collection to create in the specified cluster. Zilliz Cloud creates a new collection and name it using this value."
+          }
+        },
+        "x-apifox-orders": [
+          "name",
+          "description",
+          "type",
+          "functions",
+          "clusterId",
+          "collectionName"
+        ],
+        "required": [
+          "name",
+          "description",
+          "type",
+          "functions",
+          "clusterId",
+          "collectionName"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.createSearchReq": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the pipeline to create."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the pipeline to create."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the pipeline to create. For a search pipeline, the value should be `SEARCH`."
+          },
+          "functions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the function to create."
+                },
+                "action": {
+                  "type": "string",
+                  "description": "Type of the function to create. For a search pipeline, possible value is `SEARCH_DOC_CHUNK`."
+                },
+                "clusterId": {
+                  "type": "string",
+                  "description": "ID of a target collection in which Zilliz Cloud concducts the search."
+                },
+                "collectionName": {
+                  "type": "string",
+                  "description": "Name of the collection in which ZIlliz Cloud conducts the search."
+                }
+              },
+              "x-apifox-orders": [
+                "name",
+                "action",
+                "clusterId",
+                "collectionName"
+              ],
+              "required": [
+                "name",
+                "action",
+                "collectionName",
+                "clusterId"
+              ],
+              "x-apifox-ignore-properties": []
+            },
+            "description": "Actions to take in the search pipeline to create. You can define multiple functions to retrieve results from different collections."
+          }
+        },
+        "x-apifox-orders": [
+          "name",
+          "description",
+          "type",
+          "functions"
+        ],
+        "required": [
+          "name",
+          "description",
+          "type",
+          "functions"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.createIngestionReq": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the pipeline to create."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the pipeline to create. For an ingestion pipeline, the value should be `INGESTION`."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the pipeline to create."
+          },
+          "functions": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/pipeline.indexdocreq"
+                },
+                {
+                  "$ref": "#/components/schemas/pipeline.preservereq"
+                }
+              ]
+            },
+            "description": "Actions to take in the pipeline to create. For an ingestion pipeline, you can add only one doc-indexing function and multilpe preserve functions."
+          },
+          "clusterId": {
+            "type": "string",
+            "description": "ID of a target cluster. You can find it in cluster details on Zilliz Cloud console."
+          },
+          "newCollectionName": {
+            "type": "string",
+            "description": "Name of the collection to create in the specified cluster. Zilliz Cloud creates a new collection and name it using this value."
+          }
+        },
+        "x-apifox-orders": [
+          "name",
+          "type",
+          "description",
+          "functions",
+          "clusterId",
+          "newCollectionName"
+        ],
+        "required": [
+          "name",
+          "description",
+          "type",
+          "functions",
+          "clusterId",
+          "newCollectionName"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.preservereq": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the function to create."
+          },
+          "action": {
+            "type": "string",
+            "description": "Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`. "
+          },
+          "inputField": {
+            "type": "string",
+            "description": "Name the field according to your needs. In a preserve function of an ingestion pipeline, Zilliz Cloud uses the value as the name of a field in the collection to create."
+          },
+          "outputField": {
+            "type": "string",
+            "description": "Name of the output field. The value should be the same as that of `input_field`."
+          },
+          "fieldType": {
+            "type": "string",
+            "description": "Data type of the field to create in the target collection. Possible values are `BOOL`, `INT8`, `INT16`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `VARCHAR`."
+          }
+        },
+        "x-apifox-orders": [
+          "name",
+          "action",
+          "inputField",
+          "outputField",
+          "fieldType"
+        ],
+        "required": [
+          "name",
+          "action",
+          "inputField",
+          "outputField",
+          "fieldType"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.indexdocreq": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the function to create."
+          },
+          "action": {
+            "type": "string",
+            "description": "Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`. "
+          },
+          "inputField": {
+            "type": "string",
+            "description": "Name the field according to your needs. In an doc-indexing function, the value should be an active pre-signed URL of one of your documents in your [GCS](https://cloud.google.com/storage/docs/access-control/signed-urls) or [AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html) buckets."
+          },
+          "language": {
+            "type": "string",
+            "description": "Language of your documents. Possible values are `ENGLISH` and `CHINESE`."
+          }
+        },
+        "x-apifox-orders": [
+          "name",
+          "action",
+          "inputField",
+          "language"
+        ],
+        "required": [
+          "name",
+          "action",
+          "inputField",
+          "language"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "Clouds": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "cloudId": {
+                  "type": "string",
+                  "description": "The ID of a cloud provider."
+                },
+                "description": {
+                  "type": "string",
+                  "description": "The description of the cloud provider."
+                }
+              },
+              "x-apifox-orders": [
+                "cloudId",
+                "description"
+              ],
+              "x-apifox-ignore-properties": []
+            }
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "Regions": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "cloudId": {
+                  "type": "string",
+                  "description": "The ID of a cloud provider"
+                },
+                "regionId": {
+                  "type": "string",
+                  "description": "The ID of a cloud region"
+                },
+                "apiBaseUrl": {
+                  "type": "string",
+                  "description": "The base URL of an Zilliz Cloud open API endpiont"
+                }
+              },
+              "x-apifox-orders": [
+                "cloudId",
+                "regionId",
+                "apiBaseUrl"
+              ],
+              "x-apifox-ignore-properties": []
+            }
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
       "httpapi.GenericResp-customer_UpsertResp": {
         "type": "object",
         "properties": {
@@ -2158,6 +3861,10 @@
             "type": "string",
             "description": "The name of the collection to which this operation applies."
           },
+          "partitionName": {
+            "type": "string",
+            "description": "The name of the collection to which this operation applies."
+          },
           "objectUrl": {
             "type": "string",
             "description": "The URL of the object that stores the data to be imported."
@@ -2174,6 +3881,7 @@
         "x-apifox-orders": [
           "clusterId",
           "collectionName",
+          "partitionName",
           "objectUrl",
           "accessKey",
           "secretKey"
@@ -2181,7 +3889,8 @@
         "required": [
           "collectionName",
           "objectUrl",
-          "clusterId"
+          "clusterId",
+          "partitionName"
         ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
@@ -2268,7 +3977,8 @@
           "id": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "description": "An ID represents an entity."
             },
             "description": "An array of IDs of the entities to be retrieved"
           }
@@ -2285,12 +3995,20 @@
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
       },
-      "customer.GetReq1": {
+      "customer.GetReq": {
         "type": "object",
         "properties": {
           "collectionName": {
             "type": "string",
             "description": "The name of the collection to which this operation applies."
+          },
+          "partitionNames": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "partitionName"
+            },
+            "description": "The name of the partitions to which this operation applies."
           },
           "outputFields": {
             "type": "array",
@@ -2306,6 +4024,7 @@
         },
         "x-apifox-orders": [
           "collectionName",
+          "partitionNames",
           "outputFields",
           "id"
         ],
@@ -2322,6 +4041,14 @@
           "collectionName": {
             "type": "string",
             "description": "The name of the collection to which this operation applies."
+          },
+          "partitionNames": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "PartitionName"
+            },
+            "description": "The name of the partitions to which this operation applies."
           },
           "filter": {
             "type": "string",
@@ -2351,6 +4078,7 @@
         },
         "x-apifox-orders": [
           "collectionName",
+          "partitionNames",
           "filter",
           "limit",
           "offset",
@@ -2369,6 +4097,14 @@
           "collectionName": {
             "type": "string",
             "description": "The name of the collection to which this operation applies."
+          },
+          "partitionNames": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "partitionName"
+            },
+            "description": "The name of the partitions to which this operation applies."
           },
           "filter": {
             "type": "string",
@@ -2431,6 +4167,7 @@
         },
         "x-apifox-orders": [
           "collectionName",
+          "partitionNames",
           "filter",
           "limit",
           "offset",
@@ -2494,7 +4231,7 @@
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
       },
-      "customer.InsertReq": {
+      "customer.InsertOrUpsertReq": {
         "type": "object",
         "required": [
           "data",
@@ -2504,6 +4241,10 @@
           "collectionName": {
             "type": "string",
             "description": "The name of the collection to which entities will be inserted."
+          },
+          "partitionName": {
+            "type": "string",
+            "description": "The name of the partition to which this operation applies."
           },
           "data": {
             "type": "array",
@@ -2519,6 +4260,7 @@
         },
         "x-apifox-orders": [
           "collectionName",
+          "partitionName",
           "data"
         ],
         "x-apifox-ignore-properties": [],
@@ -3135,98 +4877,6 @@
         ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
-      },
-      "Regions": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "cloudId": {
-                  "type": "string",
-                  "description": "The ID of a cloud provider"
-                },
-                "regionId": {
-                  "type": "string",
-                  "description": "The ID of a cloud region"
-                },
-                "apiBaseUrl": {
-                  "type": "string",
-                  "description": "The base URL of an Zilliz Cloud open API endpiont"
-                }
-              },
-              "x-apifox-orders": [
-                "cloudId",
-                "regionId",
-                "apiBaseUrl"
-              ],
-              "x-apifox-ignore-properties": []
-            }
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "Error": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "message": {
-            "type": "string"
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "message"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "Clouds": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "cloudId": {
-                  "type": "string",
-                  "description": "The ID of a cloud provider."
-                },
-                "description": {
-                  "type": "string",
-                  "description": "The description of the cloud provider."
-                }
-              },
-              "x-apifox-orders": [
-                "cloudId",
-                "description"
-              ],
-              "x-apifox-ignore-properties": []
-            }
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
       }
     },
     "securitySchemes": {
@@ -3236,5 +4886,10 @@
       }
     }
   },
-  "servers": []
+  "servers": [
+    {
+      "url": "https://{{cluster-id}}.api.aws-us-west-2.cloud-uat3.zilliz.com",
+      "description": "DOC-TEST"
+    }
+  ]
 }

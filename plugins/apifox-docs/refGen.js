@@ -19,6 +19,8 @@ class refGen {
     const { lang, parents } = this.options
     const specifications = await this.clean()
 
+    fs.writeFileSync('plugins/apifox-docs/meta/clean.json', JSON.stringify(specifications, null, 4))
+
     const env = new nunjucks.Environment(
       new nunjucks.FileSystemLoader(`plugins/apifox-docs/templates/${lang}`),
       {
@@ -48,7 +50,7 @@ class refGen {
         const page_slug = this.get_slug(page_title)
         const page_method = method.toLowerCase()
         const host = lang === 'zh-CN' ? 'cloud.zilliz.com.cn' : 'zillizcloud.com'
-        const condition = (page_slug.includes('cloud') || page_slug.includes('cluster') || page_slug.includes('import'))
+        const condition = (page_slug.includes('cloud') || page_slug.includes('cluster') || page_slug.includes('import') || page_slug.includes('pipeline'))
         const server = condition ? `https://controller.api.{cloud-region}.${host}` : "https://{cluster_endpoint}"
 
         if (specifications.paths[page_url][method].parameters) {
@@ -82,6 +84,10 @@ class refGen {
           } else {
             res_body = schema
           }
+        }    
+
+        if (res_body.properties.data.hasOwnProperty('oneOf')) {
+          console.log(res_body.properties.data.oneOf)
         }
 
         const t = template.render({
@@ -102,6 +108,8 @@ class refGen {
       }
     }
   }
+
+  
 
   make_groups() {
     const { specifications, target_path } = this.options
@@ -139,6 +147,8 @@ class refGen {
         }
       } else if (obj.type == 'array') {
         x = iterate_array(obj.items)
+      } else if (obj.hasOwnProperty('oneOf')) {
+        x = iterate_oneOf(obj.oneOf)
       } else {
         x = obj.type
       }
@@ -159,6 +169,15 @@ class refGen {
       return x[0] ? x : []
     }
 
+    const iterate_oneOf = function (items) {
+      let x = { oneOf: []}
+      for (const item of items) {
+        x.oneOf.push(iterate_object(item))
+      }
+
+      return x
+    }
+
     const data = iterate_object(res_body)
     return JSON.stringify(data, null, 4)
   }
@@ -171,17 +190,28 @@ class refGen {
           x[key] = iterate_object(obj.properties[key])
         }
       } else if (obj.type == 'array') {
-        x = iterate_array(obj.items)
+        if (obj.items.hasOwnProperty('anyOf')) {
+          for (const item of obj.items.anyOf) {
+            x = iterate_array(item)
+          }
+        } else {
+          x = iterate_array(obj.items)
+        }
       } else {
         x = obj.type
       }
-  
+      
       return x
     }
 
     const iterate_array = function(obj) {
       let x = [{}]
       if (obj.type == 'array') {
+        if (obj.items.hasOwnProperty('anyOf')) {
+          for (const item of obj.items.anyOf) {
+            x = iterate_array(item)
+          }
+        }
         for (const key of Object.keys(obj.properties)) {
           x[0][key] = iterate_object(obj.properties[key])
         }
@@ -263,7 +293,9 @@ class refGen {
               this.__delete_examples(req_body)
             }
           } else if (schema.anyOf) {
-            for (const req_body of schema.anyOf) {
+            schema.oneOf = schema.anyOf
+            delete schema.anyOf
+            for (const req_body of schema.oneOf) {
               this.__delete_examples(req_body)
             }
           } else {
@@ -288,11 +320,11 @@ class refGen {
   }
 
   __delete_examples(body) {
-    for (const prop in body.properties) {
-      if (body.properties[prop].example) {
-        delete body.properties[prop].example
-      }
-      if (body.properties[prop].properties) {
+    if (body && body.hasOwnProperty('properties')) {
+      for (const prop in body.properties) {
+        if (body.properties[prop].hasOwnProperty('examples')) {
+          delete body.properties[prop].examples
+        }
         this.__delete_examples(body.properties[prop])
       }
     }

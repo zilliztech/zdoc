@@ -38,11 +38,7 @@ curl --request GET \
     | `jobId`  | **string**(required)<br/>The ID of the import task in concern|
     | `clusterId`  | **string**(required)<br/>The ID of a cluster to which this operation applies.|
 
-- Path parameters
-
-    | Parameter        | Description                                                                               |
-    |------------------|-------------------------------------------------------------------------------------------|
-    | `CLOUD_REGION_ID`  | **string**(required)<br/>|
+- No path parameters required
 
 ### Request Body
 

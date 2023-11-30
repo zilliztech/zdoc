@@ -7,7 +7,7 @@ title: Get
 
 import RestHeader from '@site/src/components/RestHeader';
 
-Gets entities by the specified IDs.
+Gets entities by the specified IDs. You can set an ID in string or integer or set a set of IDs in a list of strings or a list of integers as shown in the four types of request bodies below.
 
 <RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/get" />
 
@@ -83,11 +83,7 @@ curl --request POST \
 
 - No query parameters required
 
-- Path parameters
-
-    | Parameter        | Description                                                                               |
-    |------------------|-------------------------------------------------------------------------------------------|
-    | `public-endpoint`  | **string**(required)<br/>|
+- No path parameters required
 
 ### Request Body
 
@@ -95,6 +91,9 @@ curl --request POST \
 {
     "dbName": "string",
     "collectionName": "string",
+    "partitionNames": [
+        {}
+    ],
     "outputFields": [
         {}
     ],
@@ -106,6 +105,7 @@ curl --request POST \
 |------------------|-------------------------------------------------------------------------------------------|
 | `dbName`  | **string**<br/>The name of the database.|
 | `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
+| `partitionNames`  | **array**<br/>The name of the partitions to which this operation applies.|
 | `outputFields`  | **array**<br/>An array of fields to return along with the search results.|
 | `id`  | **string**(required)<br/>The ID of the entity to be retrieved|
 

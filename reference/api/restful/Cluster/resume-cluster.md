@@ -49,7 +49,6 @@ Success response:
 
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
-    | `CLOUD_REGION_ID`  | **string**(required)<br/>|
     | `clusterId`  | **string**(required)<br/>The ID of a cluster to which this operation applies.|
 
 ### Request Body

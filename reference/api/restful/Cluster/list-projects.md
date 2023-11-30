@@ -1,42 +1,43 @@
 ---
 displayed_sidebar: referenceSidebar
 sidebar_position: 0
-slug: /list-collections
-title: List Collections
+slug: /list-projects
+title: List Projects
 ---
 
 import RestHeader from '@site/src/components/RestHeader';
 
-Lists collections in a cluster.
+Lists all projects in the specified cloud region.
 
-<RestHeader method="get" endpoint="https://{cluster_endpoint}/v1/vector/collections" />
+<RestHeader method="get" endpoint="https://{cluster_endpoint}/v1/projects" />
 
 ---
 
 ## Example
 
 
-List all collections in a cluster.
+Lists all projects in a specified cloud region.
 
 ```shell
 curl --request GET \
-     --url "${CLUSTER_ENDPOINT}/v1/vector/collections" \
-     --header "Authorization: Bearer ${TOKEN}" \
+     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/projects" \
+     --header "Authorization: Bearer ${API_KEY}" \
      --header "accept: application/json" \
      --header "content-type: application/json"
 ```
 
-Sample response:
+Success response:
 
 ```shell
 {
-   code: 200,
-   data: [
-         "collection1",
-         "collection2",
-         ...
-         "collectionN",
-         ]
+    "code": 200,
+    "data": [
+        {
+            "instanceCount": 1,
+            "projectId": "8342669010291064832",
+            "projectName": "test"
+        }
+    ]
 }
 ```
 
@@ -45,11 +46,7 @@ Sample response:
 
 ### Parameters
 
-- Query parameters
-
-    | Parameter        | Description                                                                               |
-    |------------------|-------------------------------------------------------------------------------------------|
-    | `dbName`  | **string**<br/>The name of the database|
+- No query parameters required
 
 - No path parameters required
 
@@ -59,7 +56,7 @@ No request body required
 
 ## Response
 
-Returns a list of collections in the specified cluster.
+Returns a list of projects.
 
 ### Response Bodies
 
@@ -69,7 +66,11 @@ Returns a list of collections in the specified cluster.
 {
     "code": "integer",
     "data": [
-        {}
+        {
+            "instanceCount": "integer",
+            "projectId": "string",
+            "projectName": "string"
+        }
     ]
 }
 ```
@@ -90,19 +91,15 @@ The properties in the returned response are listed in the following table.
 | Property | Description                                                                                                                                 |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
-| `data`  | **array**<br/>A data array of strings. |
+| `data`  | **array**<br/>A data array of objects. |
+| `data.instanceCount`   | **integer**<br/> |
+| `data.projectId`   | **string**<br/> |
+| `data.projectName`   | **string**<br/> |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors
 
 | Code | Error Message |
 | ---- | ------------- |
-| 80000 | Incorrect parameter: xxx |
-| 80001 | The token is illegal |
-| 80002 | The token is invalid |
-| 80020 | Invalid clusterId or you do not have permission to access that Cluster. |
-| 80022 | Dedicated cluster not support this operation. |
-| 90011 | Invalid CollectionName. Reason: Name contains only alphanumeric letters and underscores |
-| 90102 | The cluster does not exist in current region. |
-| 90103 | The clusterId parameter is empty in the request path. |
+|  | (to be added) |
 

@@ -45,11 +45,7 @@ Success response:
 
 - No query parameters required
 
-- Path parameters
-
-    | Parameter        | Description                                                                               |
-    |------------------|-------------------------------------------------------------------------------------------|
-    | `CLUSTER_ENDPOINT`  | **string**(required)<br/>The endpoint of your cluster.|
+- No path parameters required
 
 ### Request Body
 

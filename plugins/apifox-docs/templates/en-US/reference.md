@@ -153,7 +153,30 @@ The properties in the returned response are listed in the following table.
 {%- endfor %}
 {%- endif %}
 {%- endfor %}
-{%- endif%}
+{%- endif %}
+{%- elif 'oneOf' in res_body['properties']['data'] %}
+| `data`  | **oneOf**<br>A set of multiple possible values. |
+{%- for item in res_body['properties']['data']['oneOf'] %}
+| **[Option {{loop.index}}]** | |
+{%- if 'properties' in item %}
+{%- for k, v in item['properties'] %}
+{%- if v['type'] not in ['array', 'object'] or 'properties' not in v['items'] %}
+| `data.{{k}}`   | **{{v['type']}}{%if 'format' in v %}({{v['format']}}){%- endif %}**<br>{{v['description']}} |
+{%- elif v['type'] == 'array' and 'properties' in v['items'] %}
+| `data.{{k}}`   | **{{v['type']}}{%if 'format' in v %}({{v['format']}}){%- endif %}**<br>{{v['description']}} |
+{%- for ka, va in v['items']['properties'] %}
+| `data.{{k}}[].{{ka}}`   | **{{va['type']}}{%if 'format' in va %}({{va['format']}}){%- endif %}**<br>{{va['description']}} |
+{%- endfor %}
+{%- elif v['type'] == 'object' %}
+| `data.{{k}}`   | **{{v['type']}}{%if 'format' in v %}({{v['format']}}){%- endif %}**<br>{{v['description']}} |
+{%- for ko, vo in v['properties'] %}
+| `data.{{k}}.{{ko}}`   | **{{vo['type']}}{%if 'format' in vo %}({{vo['format']}}){%- endif %}**<br>{{vo['description']}} |
+{%- endfor %}
+{%- endif %}
+{%- endfor %}
+{%- elif 'item' in item %}
+{%- endif %}
+{%- endfor %}
 {%- endif %}
 | `message`  | **string**<br>Indicates the possible reason for the reported error. |
 

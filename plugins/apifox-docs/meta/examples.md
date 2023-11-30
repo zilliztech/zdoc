@@ -730,3 +730,184 @@ curl --request GET \
      --header "accept: application/json" \
      --header "content-type: application/json" \
 ```
+
+## Create Pipeline
+
+Create a pipeline that aims to transform your unstructured data into a searchable vector collection.
+
+- Create a data ingestion pipeline.
+
+     ```shell
+     curl --http1.1 --request POST \
+     --header "Content-Type: application/json" \
+     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
+     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/" \
+     -d '{
+     "name": "medium_articles_ingestion",
+     "description": "Ingestion of medium articles",
+     "type": "INGESTION",
+     "functions": [
+          {
+               "name": "medium_articles_index_func",
+               "action": "INDEX_DOC",
+               "inputField": "signed_url",
+               "language": "ENGLISH"
+          },
+          {
+               "name": "medium_articles_index_preserve_title",
+               "action": "PRESERVE",
+               "inputField": "title",
+               "outputField": "title",
+               "fieldType": "VarChar"
+          },
+          {
+               "name": "medium_articles_index_preserve_link",
+               "action": "PRESERVE",
+               "inputField": "link",
+               "outputField": "link",
+               "fieldType": "VarChar"
+          },
+          {
+               "name": "medium_articles_index_preserve_publication",
+               "action": "PRESERVE",
+               "inputField": "publication",
+               "outputField": "publication",
+               "fieldType": "VarChar"
+          }
+     ],
+     "clusterId": "in03-db58c34c4cc4dd2",
+     "newCollectionName": "medium_articles"
+     }'
+     ```
+
+- Create a search pipeline
+
+     ```shell
+     curl --http1.1 --request POST \
+     --header "Content-Type: application/json" \
+     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
+     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/" \
+     -d '{
+     "name": "medium_articles_search",
+     "description": "Ingestion of medium articles",
+     "type": "SEARCH",
+     "functions": [
+          {
+               "name": "medium_articles_search_func",
+               "action": "SEARCH_DOC_CHUNK",
+               "clusterId": "in03-db58c34c4cc4dd2",
+               "inputField": "query_text",
+               "collectionName": "medium_articles"
+          }
+     ]
+     }'
+     ```
+
+- Create a deletion pipeline
+
+     ```shell
+     curl --http1.1 --request POST \
+     --header "Content-Type: application/json" \
+     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
+     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/" \
+     -d '{
+     "name": "medium_articles_deletion",
+     "description": "Ingestion of medium articles",
+     "type": "DELETION",
+     "functions": [
+          {
+               "name": "medium_articles_deletion_func",
+               "action": "PURGE_DOC_INDEX",
+               "inputField": "doc_name",
+          }
+     ],
+     "clusterId": "in03-db58c34c4cc4dd2",
+     "collectionName": "medium_articles"
+     }'
+     ```
+
+## Describe Pipeline
+
+View the details of a pipeline
+
+```curl
+curl --request GET \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
+    --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/pipe-cde31766ffc8b8285b841d"
+```
+
+## Drop Pipeline
+
+Drop a pipeline that is no longer in need.
+
+```curl
+curl --http1.1 --request DELETE \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
+    --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/pipe-71e95af38d958f50d8178b"
+```
+
+## List Pipelines
+
+List all pipelines in detail.
+
+```curl
+curl --request GET \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
+    --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/"
+```
+
+## Run Pipeline
+
+Run pipelines for data ingestion, semantic similarity searches, and doc deletion.
+
+- Run a data ingestion pipeline
+
+     ```curl
+     url --http1.1 --request POST \
+     --header "Content-Type: application/json" \
+     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
+     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/pipe-cde31766ffc8b8285b841d/run" \
+     -d '{
+          "data": {
+               "signed_url": "https://storage.googleapis.com/medium-passages/passages/0.txt?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=storage-viewer%40anthony-364406.iam.gserviceaccount.com%2F20231130%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20231130T033222Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&X-Goog-Signature=843c8944347ec9825ebaf7642a19e01651fa17a30834fd480fb7b9149e75fd611fc528c9efe82b252843ddebbaa132362b80acf859a49c6adcc8b70d0dd431aeed3816760ff5dc7ed3649faaa0347b33125983d0989721f8b5e42a4c63eeecf3d60ac1dcac27f21994b4839d68db9902e81de066f19e5c511aeab41171b31dd40cf1a9a44a8bc9d6c6d812aa78d17d6cf5b2f1b836d35d466277fcefd81ecc339ff8f191cc87d0e912f759b15977029ec97f36da67f5cdd0cc74ad8e92e0cf03f6f96a80c8ad2c996ce291c7b180d2bb154c917dc53a3b5bea89351f08afe39649a1896ed62c410f4d418c9aa087a30c77262987b4be0db7951b3abe56d13989",
+               "title": "The Reported Mortality Rate of Coronavirus Is Not Important",
+               "link": "https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912",
+               "publication": "The Startup",
+          }
+     }'
+     ```
+
+- Run a semantic search pipeline.
+
+     ```curl
+     curl --http1.1 --request POST \
+     --header "Content-Type: application/json" \
+     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
+     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/pipe-cde31766ffc8b8285b841d/run" \
+     -d '{
+          "data": {
+               "query_text": "How can I organize my knowledge base using vector database?"
+          },
+          "params": {
+               "limit": 3,
+               "outputFields": ["title", "doc_name", "chunk_text"]
+          }
+     }'
+     ```
+
+- Run a doc deletion pipeline
+
+     ```curl
+     curl --http1.1 --request POST \
+     --header "Content-Type: application/json" \
+     --header "Authorization: Bearer ${YOUR_CLUSTER_TOKEN}" \
+     --url "${ZILLIZ_CLOUD_API_ENDPOINT_PREFIX}/v1/pipelines/pipe-cde31766ffc8b8285b841d/run" \
+     -d '{
+          "data": {
+               "doc_name": "0.txt"
+          }
+     }'
+     ```     

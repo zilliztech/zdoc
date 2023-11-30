@@ -7,7 +7,7 @@ title: Insert
 
 import RestHeader from '@site/src/components/RestHeader';
 
-Inserts one or more entities into a collection.
+Inserts one or more entities into a collection. You can add a maximum of 100 entities at a time. To insert large volumn of data, you are advised to use [the bulk-insert API](https://docs.zilliz.com/docs/data-import).
 
 <RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/insert" />
 
@@ -63,11 +63,7 @@ curl --request POST \
 
 - No query parameters required
 
-- Path parameters
-
-    | Parameter        | Description                                                                               |
-    |------------------|-------------------------------------------------------------------------------------------|
-    | `public-endpoint`  | **string**(required)<br/>|
+- No path parameters required
 
 ### Request Body
 
@@ -89,6 +85,7 @@ curl --request POST \
 {
     "dbName": "string",
     "collectionName": "string",
+    "partitionName": "string",
     "data": [
         {}
     ]
@@ -99,6 +96,7 @@ curl --request POST \
 |------------------|-------------------------------------------------------------------------------------------|
 | `dbName`  | **string**<br/>The name of the database.|
 | `collectionName`  | **string**(required)<br/>The name of the collection to which entities will be inserted.|
+| `partitionName`  | **string**<br/>The name of the partition to which this operation applies.|
 | `data`  | **array**(required)<br/>An array of entity objects. Note that the keys in an entity object should match the collection schema|
 
 ## Response

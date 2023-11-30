@@ -54,11 +54,7 @@ Success response:
     |------------------|-------------------------------------------------------------------------------------------|
     | `cloudId`  | **string**<br/>The ID of a valid cloud provider.|
 
-- Path parameters
-
-    | Parameter        | Description                                                                               |
-    |------------------|-------------------------------------------------------------------------------------------|
-    | `CLOUD_REGION_ID`  | **string**(required)<br/>|
+- No path parameters required
 
 ### Request Body
 

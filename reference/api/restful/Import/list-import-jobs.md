@@ -26,6 +26,7 @@ curl --request GET \
      --header "content-type: application/json" \
 ```
 
+
 ## Request
 
 ### Parameters
@@ -38,11 +39,7 @@ curl --request GET \
     | `pageSize`  | **string**<br/>The number of records to return at each request.|
     | `currentPage`  | **string**<br/>The current page number.|
 
-- Path parameters
-
-    | Parameter        | Description                                                                               |
-    |------------------|-------------------------------------------------------------------------------------------|
-    | `CLOUD_REGION_ID`  | **string**(required)<br/>|
+- No path parameters required
 
 ### Request Body
 

@@ -7,7 +7,7 @@ title: Query
 
 import RestHeader from '@site/src/components/RestHeader';
 
-Conducts a vector query in a collection.
+Conducts a query on scalar fields in a collection.
 
 <RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/query" />
 
@@ -40,11 +40,7 @@ curl --request POST \
 
 - No query parameters required
 
-- Path parameters
-
-    | Parameter        | Description                                                                               |
-    |------------------|-------------------------------------------------------------------------------------------|
-    | `public-endpoint`  | **string**(required)<br/>|
+- No path parameters required
 
 ### Request Body
 
@@ -52,6 +48,9 @@ curl --request POST \
 {
     "dbName": "string",
     "collectionName": "string",
+    "partitionNames": [
+        {}
+    ],
     "filter": "string",
     "limit": "integer",
     "offset": "integer",
@@ -65,6 +64,7 @@ curl --request POST \
 |------------------|-------------------------------------------------------------------------------------------|
 | `dbName`  | **string**<br/>The name of the database.|
 | `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
+| `partitionNames`  | **array**<br/>The name of the partitions to which this operation applies.|
 | `filter`  | **string**(required)<br/>The filter used to find matches for the search.|
 | `limit`  | **integer**<br/>The maximum number of entities to return.<br/>The sum of this value and that of `offset` should be less than **16384**.<br/>The value defaults to **100**.<br/>The value ranges from **1** to **100**.|
 | `offset`  | **integer**<br/>The number of entities to skip in the search results.<br/>The sum of this value and that of `limit` should be less than **16384**.<br/>The maximum value is **16384**.|
