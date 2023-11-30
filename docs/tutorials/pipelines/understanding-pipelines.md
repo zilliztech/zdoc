@@ -76,5 +76,5 @@ This function deletes all document chunks with the specified `doc_name`, effecti
 
 For a collection managed by Ingestion pipeline, deleting all entities (each with a single doc chunk) of a document is made easy with a Deletion pipeline. Simply create a Deletion pipeline and run it with a doc_name specified. All chunks of that doc will be purged.
 
-![ingestion-pipeline](/img/ingestion-pipeline.png)
+![deletion-pipeline](/img/deletion-pipeline.png)
 
