@@ -538,7 +538,7 @@ class larkDocWriter {
             children = await this.__markdown(children, indent+4)
         }
 
-        return ' '.repeat(indent) + '- ' + await this.__text_elements(block['bullet']['elements']) + '\n' + children;
+        return ' '.repeat(indent) + '- ' + await this.__text_elements(block['bullet']['elements']) + '\n\n' + children;
     }
 
     async __ordered(block, indent) {
@@ -550,7 +550,7 @@ class larkDocWriter {
             children = await this.__markdown(children, indent+4)
         }
 
-        return ' '.repeat(indent) + '1. ' + await this.__text_elements(block['ordered']['elements']) + '\n' + children;
+        return ' '.repeat(indent) + '1. ' + await this.__text_elements(block['ordered']['elements']) + '\n\n' + children;
     }
 
     async __callout(block, indent) {

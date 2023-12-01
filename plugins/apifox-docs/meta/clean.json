@@ -2401,7 +2401,7 @@
                                     },
                                     "partitionName": {
                                         "type": "string",
-                                        "description": "The name of the collection to which this operation applies."
+                                        "description": "The name of the partition to which this operation applies."
                                     },
                                     "objectUrl": {
                                         "type": "string",
@@ -2427,8 +2427,7 @@
                                 "required": [
                                     "collectionName",
                                     "objectUrl",
-                                    "clusterId",
-                                    "partitionName"
+                                    "clusterId"
                                 ],
                                 "x-apifox-ignore-properties": [],
                                 "x-apifox-folder": "Schemas"
@@ -3069,7 +3068,7 @@
             "get": {
                 "summary": "Describe Pipeline",
                 "x-apifox-folder": "Pipeline Operations",
-                "x-apifox-status": "developing",
+                "x-apifox-status": "released",
                 "deprecated": false,
                 "description": "Describe a specific pipeline by its name.",
                 "tags": [
@@ -3433,7 +3432,7 @@
             "delete": {
                 "summary": "Drop Pipeline",
                 "x-apifox-folder": "Pipeline Operations",
-                "x-apifox-status": "developing",
+                "x-apifox-status": "released",
                 "deprecated": false,
                 "description": "Drop a specific pipeline",
                 "tags": [
@@ -3836,7 +3835,7 @@
             "post": {
                 "summary": "Create Pipeline",
                 "x-apifox-folder": "Pipeline Operations",
-                "x-apifox-status": "developing",
+                "x-apifox-status": "released",
                 "deprecated": false,
                 "description": "Create a pipeline.",
                 "tags": [
@@ -4508,7 +4507,7 @@
             "get": {
                 "summary": "List Pipelines",
                 "x-apifox-folder": "Pipeline Operations",
-                "x-apifox-status": "developing",
+                "x-apifox-status": "released",
                 "deprecated": false,
                 "description": "List all pipelines in a project.",
                 "tags": [
@@ -4765,7 +4764,7 @@
             "post": {
                 "summary": "Run Pipeline",
                 "x-apifox-folder": "Pipeline Operations",
-                "x-apifox-status": "developing",
+                "x-apifox-status": "released",
                 "deprecated": false,
                 "description": "Trigger a specific pipeline.",
                 "tags": [
@@ -6622,7 +6621,7 @@
                     },
                     "partitionName": {
                         "type": "string",
-                        "description": "The name of the collection to which this operation applies."
+                        "description": "The name of the partition to which this operation applies."
                     },
                     "objectUrl": {
                         "type": "string",
@@ -6648,8 +6647,7 @@
                 "required": [
                     "collectionName",
                     "objectUrl",
-                    "clusterId",
-                    "partitionName"
+                    "clusterId"
                 ],
                 "x-apifox-ignore-properties": [],
                 "x-apifox-folder": "Schemas"

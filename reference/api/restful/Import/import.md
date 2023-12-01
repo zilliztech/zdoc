@@ -59,7 +59,7 @@ curl --request POST \
 |------------------|-------------------------------------------------------------------------------------------|
 | `clusterId`  | **string**(required)<br/>The ID of a cluster to which this operation applies.|
 | `collectionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
-| `partitionName`  | **string**(required)<br/>The name of the collection to which this operation applies.|
+| `partitionName`  | **string**<br/>The name of the partition to which this operation applies.|
 | `objectUrl`  | **string**(required)<br/>The URL of the object that stores the data to be imported.|
 | `accessKey`  | **string**<br/>The access key used to access the specified object.|
 | `secretKey`  | **string**<br/>The access secret key used to access the specified object.|

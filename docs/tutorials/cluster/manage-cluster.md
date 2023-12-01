@@ -89,7 +89,7 @@ Once you have created a dedicated cluster, you will see the following in the con
     In the **Actions** drop-down button, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
 
 - **Data migrations**
-    In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrate Between Clusters](./migrate-beween-clusters#from-dedicated-to-another-dedicated-cluster).
+    In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrate Between Clusters](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster).
 
 ### Users and access control{#users-and-access-control}
 
@@ -156,7 +156,7 @@ Once you have created a dedicated cluster, you will see the following in the con
 
 - [Set up a Private Link](./setup-a-private-link)
 
-- [Migrate Between Clusters](./migrate-beween-clusters)
+- [Migrate Between Clusters](./migrate-between-clusters)
 
 - [Select Service Tiers](./select-zilliz-cloud-service-plans)
 

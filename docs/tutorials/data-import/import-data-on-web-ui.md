@@ -30,62 +30,66 @@ The [example dataset](./example-dataset) used in this tutorial is a row-based JS
 
 The following figure demonstrates how to prepare your data in JSON or NumPy formats.
 
-![data_import-preparetion](/img/data_import-preparetion.png)
+![data_import-preparetion_en](/img/data_import-preparetion_en.png)
 
 ### Local JSON file{#local-json-file}
 
-- Only JSON format is supported for local file import.
+- Each import operation supports a single JSON file.
 
 - Maximum file size: 512 MB for serverless clusters, 1 GB for dedicated clusters. For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
-- Only one JSON file can be uploaded per import.
+- The JSON file must include a top-level key named "rows". The value of this key should be an array of dictionaries, with each dictionary representing an entity to import. The keys in each dictionary should align with the schema of the target collection.
 
-- The JSON file contains a key called "root" at the top level. This key's value is an array of dictionaries, where each dictionary represents an entity that needs to be imported. The keys in each dictionary should match the schema of the target collection.
+- If `autoId` is set to `true` for the primary key, exclude the primary key from the dictionary. Zilliz Cloud will automatically generate the primary keys.
 
-- If `autoId` is set to `true` on the primary key, do not include the primary key in the dictionary. Zilliz Cloud will generate the primary keys automatically.
-
-- If `enable_dynamic_key` is enabled in the collection schema, all dictionary keys that are not defined in the collection schema will be saved as dynamic fields.
+- If `enable_dynamic_field` is set to `true` in the collection schema, any dictionary keys not defined in the collection schema will be stored as key-value pairs in the same magic field `$meta`. You can retrieve them as schema-defined fields during searches and queries.
 
 ### Remote files{#remote-files}
 
 When importing data from remote files, consider the following based on the file format:
 
 - **JSON data**
-    - Each import supports one JSON file, prohibiting simultaneous multiple JSON file uploads.
+    - Each import operation supports a single JSON file, preventing simultaneous uploads of multiple JSON files.
 
-    - The JSON file contains a key called "root" at the top level. This key's value is an array of dictionaries, where each dictionary represents an entity that needs to be imported. The keys in each dictionary should match the schema of the target collection.
+    - The JSON file must include a top-level key named "rows." The value of this key should be an array of dictionaries, with each dictionary representing an entity to import. The keys within each dictionary should align with the schema of the target collection.
 
-    - If `autoId` is set to `true` on the primary key, do not include the primary key in the dictionary. Zilliz Cloud will generate the primary keys automatically.
+    - When the `autoId` is set to `true` for the primary key, exclude the primary key from the dictionary. Zilliz Cloud will automatically generate the primary keys.
 
-    - If `enable_dynamic_key` is enabled in the collection schema, all dictionary keys that are not defined in the collection schema will be saved as dynamic fields.
+    - If the `enable_dynamic_field` is set to `true` in the collection schema, any dictionary keys not defined in the schema will be stored as key-value pairs in the same magic field `$meta`. You can retrieve these fields as schema-defined ones during searches and queries.
 
 - **NumPy data**
-    - Allows uploading multiple files at once or organizing these files into a folder for batch uploading.
+    - Allows the upload of multiple files simultaneously or the organization of these files into a folder for batch uploading.
 
-    - The folder may have up to two subfolders, each subfolder must not exceed 10 GB, and the parent folder's maximum size is 100 GB.
+    - The folder structure can have up to one level of subfolders, with each subfolder not exceeding 10 GB, and the parent folder's maximum size at 100 GB.
 
-    - For NumPy files, each file represents a column in the target collection of the import and its name should be the same as a field name. Organize the Numpy files that represent all necessary collection fields in a folder before the import.
+    - For NumPy files, each file signifies a column in the target collection during import, and its name should match a field name. Organize Numpy files representing all necessary collection fields in a folder before initiating the import.
 
-    - If `autoId` is set to `true` on the primary key, skip preparing the NumPy file for the primary key.
+    - If `autoId` is set to `true` on the primary key, exclude the preparation of the NumPy file for the primary key.
 
-    - If `enable_dynamic_key` is enabled in the collection schema, you should prepare an optional NumPy file named `$meta.npy` to include the values of the fields that are not defined in the collection schema.
+    - If `enable_dynamic_field` is set to `true` in the collection schema, consider preparing an optional NumPy file named `$meta.npy` to include values for necessary fields not defined in the collection schema. You can retrieve these fields as schema-defined fields in searches and queries.
 
 - **Folder organization**
-    - Ensure data type consistency within the folder, allowing a maximum of two subfolders.
+    - The data folder permits a maximum of one level of subfolders. Ensure that the data folder contains only one file type.
 
-    - In cases where a folder contains:
-        - Both JSON and NumPy data or more than two subfolders, an error will occur during data import.
+    - An error will occur during the data import when:
+        - The specified folder contains both JSON and NumPy data or more than one level of subfolders.
 
-        - NumPy files along with unsupported data types, an error will occur.
+        - The folder contains NumPy files along with unsupported data types.
 
-    - Example of valid paths:
-       - `/dataset/data.json`: Only for the specific JSON file in the dataset folder.
+    - Examples of valid paths:
+        - `/dataset/data.json` or `/dataset/subfolder/data.json`
+            
+            This applies to the specific JSON file in the dataset folder.
 
-        - `/dataset/*.npy`: Only for all NumPy files in the dataset folder.
+        - `/dataset/*.npy` or `/dataset/subfolder/*.npy`
+            
+            This applies to all NumPy files in the dataset folder.
 
-        - `/dataset/`: Only if it contains only a JSON file or all necessary NumPy files.
+        - `/dataset/` or `/dataset/subfolder/`
+            
+            This applies if it contains only a JSON file or all necessary NumPy files.
 
-To convert the example dataset into multiple NumPy files, use the following code:
+To convert the example dataset into multiple NumPy files, use the following code. [This article](https://milvus.io/docs/bulk_insert.md#Create-NumPy-files) provides more detailed scripts to generate NumPy files for each valid data type Milvus supports.
 
 ```python
 import json
