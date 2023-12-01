@@ -28,7 +28,7 @@ In this release, users are empowered with a streamlined ability to migrate data 
 
 - Real-time Monitoring: An intuitive UI for users to monitor migration progress and receive status updates instantaneously.
 
-See details at [Migrate Between Clusters](./migrate-beween-clusters).
+See details at [Migrate Between Clusters](./migrate-between-clusters).
 
 ## Easy Migration from ElasticSearch to Zilliz Cloud{#easy-migration-from-elasticsearch-to-zilliz-cloud}
 
