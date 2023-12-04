@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 0
+sidebar_position: {{sidebar_position}}
 slug: /{{page_slug}}
 title: {{page_title}}
 ---

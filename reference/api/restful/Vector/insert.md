@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 0
+sidebar_position: 11
 slug: /insert
 title: Insert
 ---

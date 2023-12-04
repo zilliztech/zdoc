@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 0
+sidebar_position: 12
 slug: /search
 title: Search
 ---
@@ -16,7 +16,7 @@ Conducts a similarity search on the vector field in a collection.
 ## Example
 
 
-- Search entities based on a given vector.
+- Search entities based on a given vector. For details on how to build filters, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md#Boolean-Expression-Rules).
 
 ```shell
 curl --request POST \

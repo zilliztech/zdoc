@@ -517,7 +517,7 @@ curl --request POST \
 
 ## Search
 
-- Search entities based on a given vector.
+- Search entities based on a given vector. For details on how to build filters, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md#Boolean-Expression-Rules).
 
 ```shell
 curl --request POST \
@@ -551,7 +551,7 @@ curl --request POST \
 
 ## Query
 
-Query entities that meet specific conditions.
+Query entities that meet specific conditions. For details on how to build filters, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md#Boolean-Expression-Rules).
 
 ```shell
 curl --request POST \

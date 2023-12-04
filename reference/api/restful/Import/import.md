@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 0
+sidebar_position: 15
 slug: /import
 title: Import
 ---
@@ -21,7 +21,7 @@ Imports data from files stored in a specified object storage bucket. Note that t
 ```shell
 curl --request POST \
     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{

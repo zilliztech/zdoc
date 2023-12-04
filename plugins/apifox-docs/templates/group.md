@@ -1,6 +1,6 @@
 {
     "label": "{{group_name}}",
-    "position": 0,
+    "position": {{position}},
     "link": {
         "type": "generated-index",
         "title": "{{group_name}}",

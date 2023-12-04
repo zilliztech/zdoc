@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 0
+sidebar_position: 20
 slug: /drop-pipeline
 title: Drop Pipeline
 ---

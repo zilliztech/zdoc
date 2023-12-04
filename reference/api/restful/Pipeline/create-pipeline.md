@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 0
+sidebar_position: 21
 slug: /create-pipeline
 title: Create Pipeline
 ---

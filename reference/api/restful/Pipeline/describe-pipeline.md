@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 0
+sidebar_position: 19
 slug: /describe-pipeline
 title: Describe Pipeline
 ---

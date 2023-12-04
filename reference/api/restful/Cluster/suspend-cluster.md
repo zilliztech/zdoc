@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 0
+sidebar_position: 5
 slug: /suspend-cluster
 title: Suspend Cluster
 ---
@@ -21,7 +21,7 @@ Suspends a cluster. This operation will stop the cluster and your data will rema
 ```shell
 curl --request POST \ 
     --url "https://controller.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/suspend" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```

@@ -34,13 +34,14 @@ class refGen {
     env.addFilter('get_example', this.get_example)
 
     const template = env.getTemplate("reference.md")
-
+    var idx = 0
     for (const page_url of Object.keys(specifications.paths)) {
       for (const method of Object.keys(specifications.paths[page_url])) {
+        
         const query_params = []
         const path_params = []
         const req_bodies = []
-
+        const sidebar_position = idx; idx++;
         let res_body;
         let res_desc;
 
@@ -86,10 +87,6 @@ class refGen {
           }
         }    
 
-        if (res_body.properties.data.hasOwnProperty('oneOf')) {
-          console.log(res_body.properties.data.oneOf)
-        }
-
         const t = template.render({
           page_title,
           page_excerpt,
@@ -101,7 +98,8 @@ class refGen {
           path_params,
           req_bodies,
           res_desc,
-          res_body
+          res_body,
+          sidebar_position
         }).replaceAll(/<br>/g, '<br/>')
         
         fs.writeFileSync(`${this.options.target_path}/${page_parent}/${page_slug}.md`, t)
@@ -123,8 +121,10 @@ class refGen {
     for (const group of Object.keys(specifications.tags)) {
       const slug = specifications.tags[group].name.split(' ').join('-').toLowerCase()
       const group_name = specifications.tags[group].name.split(' ')[0]
+      const position = specifications.tags.map(x => x.name).indexOf(specifications.tags[group].name)
       const t = template.render({
         group_name,
+        position,
         slug
       })
 

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 0
+sidebar_position: 13
 slug: /query
 title: Query
 ---
@@ -16,7 +16,7 @@ Conducts a query on scalar fields in a collection.
 ## Example
 
 
-Query entities that meet specific conditions.
+Query entities that meet specific conditions. For details on how to build filters, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md#Boolean-Expression-Rules).
 
 ```shell
 curl --request POST \
