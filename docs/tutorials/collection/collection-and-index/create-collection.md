@@ -92,20 +92,20 @@ print(res)
 ```python
 from pymilvus import connections, FieldSchema, CollectionSchema, DataType, Collection, utility
 
-CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" *# Set your cluster endpoint*
-TOKEN="YOUR_CLUSTER_TOKEN" *# Set your token*
-COLLECTION_NAME="medium_articles_2020" *# Set your collection name*
-DATASET_PATH="../medium_articles_2020_dpr.json" *# Set your dataset path*
+CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" # Set your cluster endpoint
+TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
+COLLECTION_NAME="medium_articles_2020" # Set your collection name
+DATASET_PATH="../medium_articles_2020_dpr.json" # Set your dataset path
 
 connections.connect(
   alias='default', 
-  *#  Public endpoint obtained from Zilliz Cloud*
+  #  Public endpoint obtained from Zilliz Cloud
   uri=CLUSTER_ENDPOINT,
-  *# API key or a colon-separated cluster username and password*
+  # API key or a colon-separated cluster username and password
   token=TOKEN, 
 )
 
-*# 1. Define fields*
+# 1. Define fields
 fields = [
     FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
     FieldSchema(name="title", dtype=DataType.VARCHAR, max_length=512),   
@@ -117,14 +117,14 @@ fields = [
     FieldSchema(name="responses", dtype=DataType.INT64)
 ]
 
-*# 2. Build the schema*
+# 2. Build the schema
 schema = CollectionSchema(
     fields,
     description="Schema of Medium articles",
     enable_dynamic_field=False
 )
 
-*# 3. Create collection*
+# 3. Create collection
 collection = Collection(
     name=COLLECTION_NAME, 
     description="Medium articles published between Jan and August in 2020 in prominent publications",
@@ -293,9 +293,11 @@ curl --location --request POST "${PUBLIC_ENDPOINT}/v1/vector/collections/create"
 By running the above snippets, you are allowing Zilliz Cloud to take charge of some default settings:
 
 - Primary key
+
     Zilliz Cloud automatically creates a primary key and dubs it `id`.
 
 - Vector field
+
     A default vector field named `vector` is initialized.
 
 Additionally, collections established using this method automatically enable the dynamic schema feature. With this capability active, Zilliz Cloud seamlessly saves each undefined field in the data as dynamic fields upon insertion.
@@ -339,3 +341,4 @@ For a serverless cluster, you can create up to two collections. For a dedicated 
 - [Enable Dynamic Schema](./enable-dynamic-schema) 
 
 - [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 
+

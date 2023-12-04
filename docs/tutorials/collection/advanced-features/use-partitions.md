@@ -225,7 +225,7 @@ Use the following code to check for an existing partition and create a new one i
 <TabItem value='python'>
 
 ```python
-*# 6. Create partition*
+# 6. Create partition
 
 if not utility.has_partition(COLLECTION_NAME, "Q1_2020"):
     partition = collection.create_partition("Q1_2020")
@@ -1783,3 +1783,4 @@ if dropPartitionErr != nil {
 - [Manage Index](./manage-index)
 
 - [Search, Query, and Get](./search-query-and-get)
+

@@ -7,7 +7,7 @@ Lists all cloud providers available on Zilliz Cloud.
 ```shell
 curl --request GET \
     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clouds" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -37,7 +37,7 @@ Lists all available cloud regions of a specific cloud provider.
 ```shell
 curl --request GET \
     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/regions?cloudId=gcp" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -66,7 +66,7 @@ Lists all projects in a specified cloud region.
 ```shell
 curl --request GET \
     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/projects" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -93,7 +93,7 @@ Creates a serverless cluster. Currently, serverless clusters can be created only
 ```shell
 curl --request POST \
     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/createServerless" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     --data-raw '{
@@ -123,7 +123,7 @@ Creates a dedicated cluster.
 ```shell
 curl --request POST \
     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/create" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     --data-raw '{
@@ -156,7 +156,7 @@ Describes the details of a cluster.
 ```shell
 curl --request GET \
     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -191,7 +191,7 @@ Modifies the CU size of a cluster.
 ```shell
 curl --request POST \
     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/modify" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     --data-raw '{
@@ -218,7 +218,7 @@ Suspends a cluster. This operation will stop the cluster and your data will rema
 ```shell
 curl --request POST \ 
     --url "https://controller.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/suspend" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -242,7 +242,7 @@ Resume a cluster that has been suspended.
 ```shell
 curl --request POST \ 
     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/resume" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -266,7 +266,7 @@ Drops a cluster. This operation moves your cluster to the recycle bin. All clust
 ```shell
 curl --request DELETE \
     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/drop" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -290,7 +290,7 @@ Lists all clusters in a cloud region.
 ```shell
 curl --request GET \
     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters?pageSize=&current=" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -695,7 +695,7 @@ Imports data from files stored in a specified object storage bucket. Note that t
 ```shell
 curl --request POST \
     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{
@@ -714,7 +714,7 @@ Retrieves the progress of a specified import task.
 ```shell
 curl --request GET \
     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOBID}&clusterId=${CLUSTERID}" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
 ```
@@ -726,7 +726,7 @@ List all import jobs specific to a cluster.
 ```shell
 curl --request GET \
     --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import/list?clusterId=${CLUSTERID}" \
-    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
 ```
