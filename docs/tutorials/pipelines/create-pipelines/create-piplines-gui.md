@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 
 # Create Pipelines on Web UI
 
-The Zilliz Cloud web UI provides a simplified and intuitive way of creating pipelines. 
+The Zilliz Cloud web UI provides a simplified and intuitive way of creating Pipelines. 
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -23,19 +23,20 @@ Currently, pipelines only work with collections in a [serverless cluster](./crea
 1. Navigate to your project.
 
 1. Click on **Pipelines** from the navigation panel. Then click** + Pipeline**.
+
     ![create-pipeline](/img/create-pipeline.png)
 
 1. Choose the type of pipeline to create. Click on **+ Pipeline **button in the **Ingestion Pipeline **column.
-    <Admonition type="info" icon="📘" title="Notes">    
-    
-    
+
+    <Admonition type="info" icon="📘" title="Notes">
+
     You must create an Ingestion pipeline first before creating Search and Deletion pipelines.
 
     </Admonition>
 
     ![choose-pipeline](/img/choose-pipeline.png)
 
-1. Configure the Ingestion Pipeline you wish to create.
+1. Configure the Ingestion pipeline you wish to create.
 
     |  **Parameters**         |  **Description**                                                                                                                                  |
     | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -47,7 +48,9 @@ Currently, pipelines only work with collections in a [serverless cluster](./crea
     ![configure-ingestion-pipeline](/img/configure-ingestion-pipeline.png)
 
 1. Add a function to the Ingestion pipeline. For each Ingestion pipeline, you can add exactly one **INDEX_DOC** function and up to five **PRESERVE** functions.
+
     - Add an **INDEX_DOC** function.
+
         An **INDEX_DOC** function splits your document into multiple smaller chunks, vectorizes each of them, and saves the generated vector embeddings into the collection. 
 
         1. Enter function name.
@@ -57,19 +60,20 @@ Currently, pipelines only work with collections in a [serverless cluster](./crea
         1. Click **Add** to save your function.
 
     - Add a **PRESERVE** function.
+
         A **PRESERVE** function adds additional scalar fields to the collection along with data ingestion.
 
         1. Enter function name.
 
         1. Configure the input field name and type. Supported input field types include **Bool**, **Int8**, **Int16**, **Int32**, **Int64**, **Float**, **Double**, and **VarChar**.
-            <Admonition type="info" icon="📘" title="Notes">            
-            
-            
+
+            <Admonition type="info" icon="📘" title="Notes">
+
             - Currently, the output field name must be identical to the input field name. The input field name defines the field name used when running the Ingestion pipeline. The output field name defines the field name in the vector collection schema where the preserved value is kept.            
             
             - For **VarChar** fields, the value should be a string with a maximum length of **100** alphanumeric characters.            
             
-            - When storing date-time in scalar fields, it is recommended to use the **Int16** data type for year data, and **Int32** for timestamps.            
+            - When storing date-time in scalar fields, it is recommended to use the **Int16** data type for year data, and **Int32** for timestamps.
 
             </Admonition>
 
@@ -78,6 +82,7 @@ Currently, pipelines only work with collections in a [serverless cluster](./crea
 1. Click** Create Ingestion Pipeline**.
 
 1. Optionally, you can continue creating a Search pipeline and a Deletion pipeline that is auto-configured to be compatible with the just-created Ingestion pipeline. We strongly recommend accepting it to save the hassle of creating them manually.
+
     ![ingestion-pipeline-created-successfully](/img/ingestion-pipeline-created-successfully.png)
 
 ## Create a Search pipeline{#create-a-search-pipeline}
@@ -87,9 +92,10 @@ Currently, pipelines only work with collections in a [serverless cluster](./crea
 1. Click on **Pipelines** from the navigation panel. Then click** + Pipeline**.
 
 1. Choose the type of pipeline to create. Click on **+ Pipeline **button in the **Search Pipeline **column.
+
     ![create-search-pipeline](/img/create-search-pipeline.png)
 
-1. Configure the Search Pipeline you wish to create.
+1. Configure the Search pipeline you wish to create.
 
     |  **Parameters**         |  **Description**                                                                                               |
     | ----------------------- | -------------------------------------------------------------------------------------------------------------- |
@@ -99,9 +105,9 @@ Currently, pipelines only work with collections in a [serverless cluster](./crea
     ![configure-search-pipeline](/img/configure-search-pipeline.png)
 
 1. Add a function to the Search pipeline. You can add exactly one **SEARCH_DOC_CHUNK** function.
-    <Admonition type="info" icon="📘" title="Notes">    
-    
-    
+
+    <Admonition type="info" icon="📘" title="Notes">
+
     For convenience, the web UI forces the input field name to be `query_text`. To customize it, you can [create a Search pipeline via RESTful API](./create-piplines-rest#create-a-search-pipeline).
 
     </Admonition>
@@ -121,9 +127,10 @@ Currently, pipelines only work with collections in a [serverless cluster](./crea
 1. Click on **Pipelines** from the navigation panel. Then click** + Pipeline**.
 
 1. Choose the type of pipeline to create. Click on **+ Pipeline **button in the **Deletion Pipeline **column.
+
     ![create-deletion-pipeline](/img/create-deletion-pipeline.png)
 
-1. Configure the Deletion Pipeline you wish to create.
+1. Configure the Deletion pipeline you wish to create.
 
     |  **Parameters**         |  **Description**                                                                                            |
     | ----------------------- | ----------------------------------------------------------------------------------------------------------- |
@@ -133,6 +140,7 @@ Currently, pipelines only work with collections in a [serverless cluster](./crea
     ![configure-deletion-pipeline](/img/configure-deletion-pipeline.png)
 
 1. Add a function to the Deletion pipeline. You can add exactly one **PURGE_DOC_INDEX** function.
+
     1. Enter function name.
 
     1. The input field name must be doc_name.

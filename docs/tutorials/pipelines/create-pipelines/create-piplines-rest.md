@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 
 # Create Pipelines via RESTful API
 
-Creating pipelines via RESTful API offers more flexibility and customization compared to the Web UI.
+Creating Pipelines via RESTful API offers more flexibility and customization compared to the Web UI.
 
 In Zilliz Cloud, you must create an Ingestion pipeline first. Upon successful creation of an Ingestion pipeline, you can create a Search pipeline and a Deletion pipeline to work with your newly created Ingestion pipeline.
 
@@ -294,7 +294,7 @@ After calling the API, you will get a list of existing pipelines in this project
 
 ### Get the details of a pipeline{#get-the-details-of-a-pipeline}
 
-To view the details of a particular pipeline, call the API as follows. The following example lists the details of the pipeline `my_doc_ingestion_pipeline` (assuming its Pipeline ID is `pipe-6ca5dd1b4672659d3c3487`).
+To view the details of a particular pipeline, call the API as follows. The following example lists the details of the pipeline `my_doc_ingestion_pipeline` (assuming its `pipelineId` is `pipe-6ca5dd1b4672659d3c3487`).
 
 ```bash
 curl --request GET \
@@ -345,7 +345,7 @@ Dropped pipelines cannot be recovered. Please be cautious with the action.
 
 </Admonition>
 
-The following example drops the Ingestion pipeline `my_doc_ingestion_pipeline` (assuming its Pipeline ID is `pipe-6ca5dd1b4672659d3c3487` ).
+The following example drops the Ingestion pipeline `my_doc_ingestion_pipeline` (assuming its `pipelineId` is `pipe-6ca5dd1b4672659d3c3487` ).
 
 ```bash
 curl --request GET \

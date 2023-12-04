@@ -578,7 +578,8 @@ class larkDocWriter {
                 break; 
         }               
         
-        return ' '.repeat(indent) + type + '\n\n' + children.split('\n').slice(1).join(' '.repeat(indent) + '\n') + '\n\n' + ' '.repeat(indent) + '</Admonition>';
+        const raw = ' '.repeat(indent) + type + '\n\n' + children.split('\n').slice(1).join(' '.repeat(indent) + '\n') + '\n\n' + ' '.repeat(indent) + '</Admonition>';
+        return raw.replace(/(\s*\n){3,}/g, '\n\n');
     }
 
     async __code(code, indent, prev, next, blocks) {
@@ -730,7 +731,8 @@ class larkDocWriter {
         res[0] = `<Admonition type="${type.split(' ')[0]}" icon="${type.split(' ')[1]}" title="${type.split(' ')[2]}">`;
         res.splice(1, 0, "");
 
-        return ' '.repeat(indent) + res.join(' '.repeat(indent) + '\n') + '\n\n' + ' '.repeat(indent) + '</Admonition>';
+        const raw = ' '.repeat(indent) + res.join(' '.repeat(indent) + '\n') + '\n\n' + ' '.repeat(indent) + '</Admonition>';
+        return raw.replace(/(\s*\n){3,}/g, '\n\n');
     }  
     
     async __image(image) {

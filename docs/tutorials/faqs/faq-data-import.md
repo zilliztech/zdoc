@@ -30,6 +30,7 @@ To solve this problem, please follow the steps below.
 1. Upgrade to the latest version of Milvus NodeJS SDK which supports **channelOptions**.
 
 1. Add channelOptions manually.
+
     ```javascript
     const channelOptions: ChannelOptions = {
     
@@ -49,6 +50,7 @@ To solve this problem, please follow the steps below.
     ```
 
 1. Initialize the client with the channelOptions.
+
     ```javascript
     import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
     

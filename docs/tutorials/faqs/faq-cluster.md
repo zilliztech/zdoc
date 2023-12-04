@@ -29,15 +29,19 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 ### Can I change the CU type after my dedicated cluster is created?{#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created}
 
-No. You cannot directly modify the CU type once the cluster is created. However, if you want to change the cluster type, please try the workaround plan.
+Yes. To change the CU type, you need to follow the steps below.
 
-1. Create a new cluster with your desired cluster type.
+1. Create a new cluster with the desired CU type. Use the [calculator](https://zilliz.com/pricing#calculator) to determine the CU size of this new cluster.
 
-1. [ Submit a request](https://support.zilliz.com/hc/en-us) so that we can handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
+1. Migrate the data from the current cluster to the new cluster you just created. Alternatively, you can also [contact us](https://support.zilliz.com/hc/en-us) to handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
 
 ### Can I change the cloud region of my cluster after it is created?{#can-i-change-the-cloud-region-of-my-cluster-after-it-is-created}
 
-No. Currently, you cannot directly change the cloud region of the cluster once it is created. However, you can create a new cluster with the desired cloud region and[ submit a request](https://support.zilliz.com/hc/en-us) to us so that we can manually migrate the data to the new cluster for you.
+Yes. To change the cloud region of your cluster, you need to follow the steps below.
+
+1. Create a new cluster with the desired cloud region. Use the [calculator](https://zilliz.com/pricing#calculator) to determine the CU size of this new cluster.
+
+1. Migrate the data from the current cluster to the new cluster you just created. Alternatively, you can also [contact us](https://support.zilliz.com/hc/en-us) to handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
 
 ### How can I scale down my cluster CU size?{#how-can-i-scale-down-my-cluster-cu-size}
 
@@ -72,12 +76,15 @@ conn = Connections.connect(
 A connection timeout error may occur in the following scenarios:
 
 - Poor network conditions
+
     To address poor network conditions, it is recommended to increase the timeout duration for the connect operation. In the above code, `timeout` is set to `30` seconds, meaning that the connect operation will time out if no response is received within 30 seconds after the request has been sent.
 
 - Incorrect connection parameters
+
     Zilliz Cloud clusters come with TLS enabled, so to connect successfully to your cluster, ensure that you include `secure` in the connect parameters and set it to `true` as shown in the above example. Failure to do so may result in a connection failure and a timeout error prompt.
 
 - Non-whitelisted local IP addresses
+
     If you are attempting to connect to your cluster, you also need to ensure that you have turned off any VPN/Proxy connections, obtained your public IP address (private IP addresses simply do not work), and added that IP address to the whitelist for the clusters you want to connect to.
 
 ### Why can’t I connect to the cluster after the cluster is created?{#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created}
@@ -97,6 +104,7 @@ If you fail to connect to Zilliz Cloud with the Node.js SDK, please try the foll
 1. Ensure you installed the latest version of [Node.js SDK](https://github.com/milvus-io/milvus-sdk-node).
 
 1. Ensure you initialize the client correctly.
+
     ```javascript
     const client = new MilvusClient('https://your-db-address-with-port', true, 'your-db-user', 'your-db-pasword');
     ```

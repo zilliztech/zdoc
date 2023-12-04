@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 
 # Run Pipelines
 
-On the Web UI, you can run the pipelines by simply clicking the "Run" button next to each pipeline. In this guide, you will learn how to run pipelines via RESTful API.
+On the Web UI, you can run Pipelines by simply clicking the "▶︎" button next to each pipeline. In this guide, you will learn how to run Pipelines via RESTful API.
 
 ## Run an Ingestion pipeline{#run-an-ingestion-pipeline}
 
@@ -19,6 +19,7 @@ On the Web UI, you can run the pipelines by simply clicking the "Run" button nex
 1. Once you have uploaded the document, obtain an [S3 presigned URL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html) or a [GCS](https://cloud.google.com/storage/docs/access-control/signed-urls)[ signed URL](https://cloud.google.com/storage/docs/access-control/signed-urls).
 
 1. Input the URL in the `doc_url` field. 
+
     <Admonition type="info" icon="📘" title="Notes">    
     
     
@@ -26,9 +27,9 @@ On the Web UI, you can run the pipelines by simply clicking the "Run" button nex
 
     </Admonition>
 
-1. Define the metadata field to store. The input field name should be consistent with what you defined when [creating the Ingestion pipeline](./create-piplines-rest#create-an-ingestion-pipeline) and adding the PRESERVE function. The value of this field should also follow the predefined field type.
+1. Define the metadata field to store. The input field name should be consistent with what you defined when [creating the Ingestion pipeline](./create-piplines-rest#create-an-ingestion-pipeline) and adding the **PRESERVE** function. The value of this field should also follow the predefined field type.
 
-The following example runs the Ingestion pipeline `my_doc_ingestion_pipeline` (assuming its Pipeline ID is `pipe-6ca5dd1b4672659d3c3487`). `publish_year` is the metadata field we want to preserve. 
+The following example runs the Ingestion pipeline `my_doc_ingestion_pipeline` (assuming its `pipelineId` is `pipe-6ca5dd1b4672659d3c3487`). `publish_year` is the metadata field we want to preserve. 
 
 ```bash
 curl --request POST \
@@ -56,17 +57,17 @@ Below is an example response.
 
 ```
 
-The field`doc_name`plays a crucial role in document deduplication within Zilliz Cloud Ingestion pipelines.
+The field `doc_name` plays a crucial role in document deduplication within Zilliz Cloud Ingestion pipelines.
 
-- Overwriting Documents: If two documents have the same`doc_name`in separate Ingestions, the document from the first Ingestion will be overwritten by the one in the second Ingestion.
+- Overwriting Documents: If two documents have the same `doc_name` in separate Ingestions, the document from the first Ingestion will be overwritten by the one in the second Ingestion.
 
-- Duplicate Documents: Conversely, if identical documents are assigned different`doc_name`values, they will be ingested as separate entities. This means the same content could be stored twice in the database.
+- Duplicate Documents: Conversely, if identical documents are assigned different `doc_name` values, they will be ingested as separate entities. This means the same content could be stored twice in the database.
 
 ## Run a Search pipeline{#run-a-search-pipeline}
 
-The following example runs the Search pipeline named `my_text_search_pipeline` (assuming its Pipeline ID is `pipe-26a18a66ffc8c0edfdb874`). The query text is "How many collections can a cluster with more than 8 CUs hold?".
+The following example runs the Search pipeline named `my_text_search_pipeline` (assuming its `pipelineId` is `pipe-26a18a66ffc8c0edfdb874`). The query text is "How many collections can a cluster with more than 8 CUs hold?".
 
-The query input field name should be consistent with what you defined when adding the SEARCH_DOC_CHUNK function. The `limit` parameter defines the number of results to return in a vector similarity search. The maximum value of the `limit` parameter is 100.
+The query input field name should be consistent with what you defined when adding the **SEARCH_DOC_CHUNK** function. The `limit` parameter defines the number of results to return in a vector similarity search. The maximum value of the `limit` parameter is 100.
 
 ```bash
 curl --request POST \
@@ -108,7 +109,7 @@ Below is an example response.
 
 ## Run a Deletion pipeline{#run-a-deletion-pipeline}
 
-The following example runs the Deletion pipeline named `my_doc_deletion_pipeline` (assuming its Pipeline ID is `pipe-7227d0729d73e63002ed46`). 
+The following example runs the Deletion pipeline named `my_doc_deletion_pipeline` (assuming its `pipelineId` is `pipe-7227d0729d73e63002ed46`). 
 
 ```bash
 curl --request POST \

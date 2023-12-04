@@ -24,12 +24,14 @@ This topic lists the possible issues that you may encounter while you migrate da
 You can follow the steps below to import data from Elasticsearch to Zilliz Cloud.
 
 1. Connect to ElasticSearch.
+
     ```python
     print(fmt.format("start connecting to ElasticSearch"))
     es = Elasticsearch(hosts=ELASTICSEARCH_HOST)
     ```
 
 1. Use the Elasticsearch [Scroll API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/scroll-api.html) to retrieve datasets from Elasticsearch and import them into Zilliz Cloud.  The following example imports the Elasticsearch data into a collection named `hello_milvus` in Zilliz Cloud.
+
     ```python
     print(fmt.format("Start inserting entities"))
     rng = np.random.default_rng(seed=19530)
@@ -57,6 +59,7 @@ You can follow the steps below to import data from Elasticsearch to Zilliz Cloud
     ```
 
 1. Check the number of entities you have imported.
+
     ```python
     hello_milvus.flush()
     print(f"Number of entities in Milvus: {hello_milvus.num_entities}")

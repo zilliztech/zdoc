@@ -10,13 +10,13 @@ import Admonition from '@theme/Admonition';
 
 # Understanding Pipelines
 
-Zilliz Cloud Pipeline is a robust solution for transforming unstructured data such as documents, text pieces and images into a searchable vector [collection](./cluster-collection-and-entities#collection). This guide provides a detailed description of the three main pipeline types and their functions.
+Zilliz Cloud Pipelines is a robust solution for transforming unstructured data such as documents, text pieces and images into a searchable vector [collection](./cluster-collection-and-entities#collection). This guide provides a detailed description of the three main Pipelines types and their functions.
 
 ![pipeline-overview](/img/pipeline-overview.png)
 
 ## Overview{#overview}
 
-In many modern services and applications, there is a need to search by semantics. From searching for a chunk of text that matches the meaning of a query, to finding images that look similar to each other. A typical retrieval system that finishes such task are built with data preparation and embedding, a process of representing text or images as numerical vectors in a multi-dimensional space. It requires deep know-how and engineering speciality to build such systems. Zilliz Cloud Pipeline empowers such use cases with a simple yet flexible interface.
+In many modern services and applications, there is a need to search by semantics. From searching for a chunk of text that matches the meaning of a query, to finding images that look similar to each other. A typical retrieval system that finishes such task are built with data preparation and embedding, a process of representing text or images as numerical vectors in a multi-dimensional space. It requires deep know-how and engineering speciality to build such systems. Zilliz Cloud Pipelines empowers such use cases with a simple yet flexible interface.
 
 Currently, we offer Pipelines for semantic search in text documents, providing a critical building block of Retrieval Augmented Generation (RAG) applications. More Pipelines will be added in the future for more semantic search use cases, such as image search, video frame search and multi-modal search.
 
@@ -26,7 +26,7 @@ Ingestion pipelines can process unstructured data into searchable vector embeddi
 
 An Ingestion pipeline contains several functions, each describing a transformation of some input field, such as generating vector embeddings for auto-splitted chunks of the input document, or preserving some input value as additional information that can be retrieved during vector search.
 
-One Ingestion pipeline maps to exactly one Vector Database collection on Zilliz Cloud. As part of creating the Ingestion Pipeline, the collection will be automatically created with the schema inferred from the functions.
+One Ingestion pipeline maps to exactly one Vector Database collection on Zilliz Cloud. As part of creating the Ingestion pipeline, the collection will be automatically created with the schema inferred from the functions.
 
 Ingestion pipeline allows two types of functions.
 
