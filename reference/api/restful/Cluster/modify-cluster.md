@@ -109,5 +109,7 @@ The properties in the returned response are listed in the following table.
 
 | Code | Error Message |
 | ---- | ------------- |
-|  | (to be added) |
+| 80006 | Invalid cuSize. The parameter value should be one of [1 |
+| 80014 | Invalid projectId. The projectId should like proj-xxxxxx |
+| 80021 | Serverless cluster not support this operation. |
 

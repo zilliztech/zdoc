@@ -105,3 +105,10 @@
 90151,The value of the 'data' parameter is empty.
 90152,There is an empty object in the 'data' parameter.
 10041,(Possible pipeline errors are all under this error code.)
+80005,Invalid cuType. The parameter value should be one of ['Performance-optimized','Capacity-optimized','Cost-optimized'].
+80006,Invalid cuSize. The parameter value should be one of [1,2,4,6,8,12,16,20,24]
+80013,Invalid plan. The parameter value should be one of ['Standard','Enterprise'].
+80014,Invalid projectId. The projectId should like proj-xxxxxx
+80015,ProjectId not exist or you do not have permission for this project.
+80020,Cluster not exist or you don't have permission.
+80025,Current region not provider serverless!
