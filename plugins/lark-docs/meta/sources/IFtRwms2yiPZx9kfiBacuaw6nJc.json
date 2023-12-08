@@ -1,0 +1,2721 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689059888",
+  "node_token": "IFtRwms2yiPZx9kfiBacuaw6nJc",
+  "node_type": "origin",
+  "obj_create_time": "1689059888",
+  "obj_edit_time": "1700446127",
+  "obj_token": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+  "obj_type": "docx",
+  "origin_node_token": "IFtRwms2yiPZx9kfiBacuaw6nJc",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
+  "space_id": "7167193056431783939",
+  "title": "Manage API Keys",
+  "slug": "manage-api-keys",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "block_type": 1,
+        "children": [
+          "S0bgddRm5oLagKxgauxcdTXInGe",
+          "ERdTd8N8NokRFbxZWHgcaJEHn4c",
+          "TR30dmTSnoBFbnxWyhrc8L0bnEg",
+          "BqRrdQlWMoNS26xEykicCSr3nqf",
+          "B9zGdy730oymSExiZ2SceVobnrd",
+          "NedJdtqZBo6yd6xRUvNcthWPnRd",
+          "OMtNdAuMHoBIIOxvJQvczK4wnxf",
+          "ALHBd3MnAoKSlPxoQcmckopon6d",
+          "NcoFdc2vgoqERvxPl0Hcsl4Pnxb",
+          "DmxfdvPrsoFtSmxUP35cRAKmnid",
+          "LMJHdoMSCoew7Sx5LwKctc6inlg",
+          "TbDndvb2ToqUL4x2V3ccXuHRnK1",
+          "MaTJdLtTCoqupPxa4dkci5NWnVe",
+          "AXT8dsy9Mo9E2jxcj4qc1pa7n3b",
+          "HO2vdzx0woxsoox25ZYcCslKnFO",
+          "VjB3dXmxkoVX8PxH7F1cwzs9nah",
+          "KMW1dJxf2oicVKxSvGqc7tjongd",
+          "DDO5dYkS6oJGy8xZCgpcVc9Jnoa",
+          "ZUkjdY67qoQYqMxr9C5c8mqGnhf",
+          "OBMfdRB4Xo8y2Bx1WICc4DXvnSg",
+          "K7ImdIsbkotazPxVXTKc9BASnCd",
+          "KLPsd29Onoi3EZxX0SccPmUhnKg",
+          "RKfgdC28woJZswxfXKnc2DTpnvd",
+          "TFhNduTkvojiDCxGesqcE6gGnPd",
+          "Vr96dfSSLoEYbJx8F7Dcjxiwnng",
+          "HmPrdvROQod0baxMj3NcjYB8nrh"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Keys",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "S0bgddRm5oLagKxgauxcdTXInGe",
+        "block_type": 2,
+        "comment_ids": [
+          "7294274559275024388"
+        ],
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On Zilliz Cloud, every project comes with its own set of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " keys, serving as authentication tokens.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " These keys are pivotal for initiating RESTful API or ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7294274559275024388"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7294274559275024388"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " interactions. W",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7294274559275024388"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "hether you create a new API key for a project or use the default one provided by Zilliz Cloud, you gain access to manage all the clusters and associated resources within that project.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ERdTd8N8NokRFbxZWHgcaJEHn4c",
+        "block_type": 2,
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To ensure security, only users with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FCA04wUpF0id2sckrZjqcAOZGnnz%3Ffrom%3Dfrom_copylink"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " status, either at the organization or project level, are allowed to create and oversee these ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " keys. For more information, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "A Panorama View",
+                "token": "CA04wUpF0id2sckrZjqcAOZGnnz",
+                "url": "https://zilliverse.feishu.cn/wiki/CA04wUpF0id2sckrZjqcAOZGnnz"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TR30dmTSnoBFbnxWyhrc8L0bnEg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Comparative overview: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " keys vs username and password pairs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb"
+      },
+      {
+        "block_id": "BqRrdQlWMoNS26xEykicCSr3nqf",
+        "block_type": 2,
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following table compares ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " keys and username and password pairs, highlighting their scope, ease of use, creation, and management in accessing resources.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "block_type": 31,
+        "children": [
+          "Jjnidn30oo3Q6YxQrjIcYmoVnUg",
+          "Unsjdd7FnolYyuxZVQrcHWdWnbb",
+          "Y5gTd3bjLo5yxIxPMZccE6o5niZ",
+          "FjoudX7ucoGn0fxD3UccHMqXnTb",
+          "C0QjdDUY7okD3Zxw7bhcrYdYnpb",
+          "QphQdE3Uwo5PvTxkQHQcSxgUn8b",
+          "P7Qddyn2Tok7O0xDhiucZB8Vnze",
+          "RVTadKLDDoqHM5x1luvckeYnntc",
+          "QBPhdjYgeov4zaxdJobcPaeYn7e",
+          "WTMmd9DsFooMz6xYFktceKq6n5f",
+          "BNT3du2QZoLytJxGgwpcCrTsnUo",
+          "MRwkdBcyzoDYy8xIVMNchq4nnSd",
+          "SKB4djF5BokXGxxofm4cxObXnLe",
+          "TGBOdxFs9oRuM5xS2Bwc9QuwnTf",
+          "W5BidabNsoZ7auxmUKIcPBqGnof",
+          "J5i2dnntHoAhytxOrj8c1U8NnAc",
+          "NQ4GdsIG0oUysLx1qwRc9kMvnef",
+          "CeARduxZHo2TvsxVPlgcobiznkf"
+        ],
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "table": {
+          "cells": [
+            "Jjnidn30oo3Q6YxQrjIcYmoVnUg",
+            "Unsjdd7FnolYyuxZVQrcHWdWnbb",
+            "Y5gTd3bjLo5yxIxPMZccE6o5niZ",
+            "FjoudX7ucoGn0fxD3UccHMqXnTb",
+            "C0QjdDUY7okD3Zxw7bhcrYdYnpb",
+            "QphQdE3Uwo5PvTxkQHQcSxgUn8b",
+            "P7Qddyn2Tok7O0xDhiucZB8Vnze",
+            "RVTadKLDDoqHM5x1luvckeYnntc",
+            "QBPhdjYgeov4zaxdJobcPaeYn7e",
+            "WTMmd9DsFooMz6xYFktceKq6n5f",
+            "BNT3du2QZoLytJxGgwpcCrTsnUo",
+            "MRwkdBcyzoDYy8xIVMNchq4nnSd",
+            "SKB4djF5BokXGxxofm4cxObXnLe",
+            "TGBOdxFs9oRuM5xS2Bwc9QuwnTf",
+            "W5BidabNsoZ7auxmUKIcPBqGnof",
+            "J5i2dnntHoAhytxOrj8c1U8NnAc",
+            "NQ4GdsIG0oUysLx1qwRc9kMvnef",
+            "CeARduxZHo2TvsxVPlgcobiznkf"
+          ],
+          "property": {
+            "column_size": 3,
+            "column_width": [
+              176,
+              277,
+              321
+            ],
+            "header_row": true,
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 6
+          }
+        }
+      },
+      {
+        "block_id": "Jjnidn30oo3Q6YxQrjIcYmoVnUg",
+        "block_type": 32,
+        "children": [
+          "Cz80df0kUohFc9xMoKMc9HMHnMg"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Cz80df0kUohFc9xMoKMc9HMHnMg",
+        "block_type": 2,
+        "parent_id": "Jjnidn30oo3Q6YxQrjIcYmoVnUg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Feature",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Unsjdd7FnolYyuxZVQrcHWdWnbb",
+        "block_type": 32,
+        "children": [
+          "G0z3drT12oLYJ9xTDDYcWqkfnTb"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "G0z3drT12oLYJ9xTDDYcWqkfnTb",
+        "block_type": 2,
+        "parent_id": "Unsjdd7FnolYyuxZVQrcHWdWnbb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Keys",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Y5gTd3bjLo5yxIxPMZccE6o5niZ",
+        "block_type": 32,
+        "children": [
+          "MgwEdru7noeKHQxn9A0cUZSMnGh"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "MgwEdru7noeKHQxn9A0cUZSMnGh",
+        "block_type": 2,
+        "parent_id": "Y5gTd3bjLo5yxIxPMZccE6o5niZ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Username and Password Pairs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FjoudX7ucoGn0fxD3UccHMqXnTb",
+        "block_type": 32,
+        "children": [
+          "PPbsdmeuZoR6Oex4H8ycA9Nnnrh"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PPbsdmeuZoR6Oex4H8ycA9Nnnrh",
+        "block_type": 2,
+        "parent_id": "FjoudX7ucoGn0fxD3UccHMqXnTb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Usage Scope",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C0QjdDUY7okD3Zxw7bhcrYdYnpb",
+        "block_type": 32,
+        "children": [
+          "IgAjd5bunoKpPxxmOApcfzEcnQe",
+          "Bvsud6tMAoDhFNxZW1ecZPwynDf"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "IgAjd5bunoKpPxxmOApcfzEcnQe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Project-level resources;",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "C0QjdDUY7okD3Zxw7bhcrYdYnpb"
+      },
+      {
+        "block_id": "Bvsud6tMAoDhFNxZW1ecZPwynDf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage all clusters and associated resources in a project.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "C0QjdDUY7okD3Zxw7bhcrYdYnpb"
+      },
+      {
+        "block_id": "QphQdE3Uwo5PvTxkQHQcSxgUn8b",
+        "block_type": 32,
+        "children": [
+          "BjZKdxtuLolxmIxUTZKc5UL7nnd",
+          "LACkdQHsWo0p9BxP0Kjc0K8gnId"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "BjZKdxtuLolxmIxUTZKc5UL7nnd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cluster-level resources; ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "QphQdE3Uwo5PvTxkQHQcSxgUn8b"
+      },
+      {
+        "block_id": "LACkdQHsWo0p9BxP0Kjc0K8gnId",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage collections and associated resources in a cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "QphQdE3Uwo5PvTxkQHQcSxgUn8b"
+      },
+      {
+        "block_id": "P7Qddyn2Tok7O0xDhiucZB8Vnze",
+        "block_type": 32,
+        "children": [
+          "NliMdiPmVoSEzCxddxGcsFv8nxf"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NliMdiPmVoSEzCxddxGcsFv8nxf",
+        "block_type": 2,
+        "parent_id": "P7Qddyn2Tok7O0xDhiucZB8Vnze",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Authentication",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RVTadKLDDoqHM5x1luvckeYnntc",
+        "block_type": 32,
+        "children": [
+          "Vjhqd42GxohnwFxsDMpcNDudnZg"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Vjhqd42GxohnwFxsDMpcNDudnZg",
+        "block_type": 2,
+        "parent_id": "RVTadKLDDoqHM5x1luvckeYnntc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Authenticate RESTful ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " calls.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QBPhdjYgeov4zaxdJobcPaeYn7e",
+        "block_type": 32,
+        "children": [
+          "A0gjdIIZVoQqbGxkNqCcwkRNn9d"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "A0gjdIIZVoQqbGxkNqCcwkRNn9d",
+        "block_type": 2,
+        "parent_id": "QBPhdjYgeov4zaxdJobcPaeYn7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Authenticate RESTful ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " calls.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WTMmd9DsFooMz6xYFktceKq6n5f",
+        "block_type": 32,
+        "children": [
+          "ZowudM1ZPoXldRxJOx6c0rccn9d"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ZowudM1ZPoXldRxJOx6c0rccn9d",
+        "block_type": 2,
+        "parent_id": "WTMmd9DsFooMz6xYFktceKq6n5f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ease of Use",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BNT3du2QZoLytJxGgwpcCrTsnUo",
+        "block_type": 32,
+        "children": [
+          "JBefdUaXWo1qQHxw8xMc2v1inVd",
+          "SKVvdEoVaoqj22xs8IocJGwgndg"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "JBefdUaXWo1qQHxw8xMc2v1inVd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "User-friendly with a lower learning curve;",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BNT3du2QZoLytJxGgwpcCrTsnUo"
+      },
+      {
+        "block_id": "SKVvdEoVaoqj22xs8IocJGwgndg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "No need to manage SDK versions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BNT3du2QZoLytJxGgwpcCrTsnUo"
+      },
+      {
+        "block_id": "MRwkdBcyzoDYy8xIVMNchq4nnSd",
+        "block_type": 32,
+        "children": [
+          "RVovdjnWrooIhRxVbnfc3VBZnzh",
+          "AO6GdJV1To98JuxtraucNWKmnTd"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "RVovdjnWrooIhRxVbnfc3VBZnzh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Suited for advanced features, role-based access control (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "RBAC",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") for cluster users;",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MRwkdBcyzoDYy8xIVMNchq4nnSd"
+      },
+      {
+        "block_id": "AO6GdJV1To98JuxtraucNWKmnTd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Require managing SDK versions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MRwkdBcyzoDYy8xIVMNchq4nnSd"
+      },
+      {
+        "block_id": "SKB4djF5BokXGxxofm4cxObXnLe",
+        "block_type": 32,
+        "children": [
+          "EW03dYDXQo97ydxPuejcrNm1nch"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "EW03dYDXQo97ydxPuejcrNm1nch",
+        "block_type": 2,
+        "parent_id": "SKB4djF5BokXGxxofm4cxObXnLe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Creation",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TGBOdxFs9oRuM5xS2Bwc9QuwnTf",
+        "block_type": 32,
+        "children": [
+          "KyLudKmn0oayayx64F2chIYKnng"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "KyLudKmn0oayayx64F2chIYKnng",
+        "block_type": 2,
+        "parent_id": "TGBOdxFs9oRuM5xS2Bwc9QuwnTf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " keys on the project page.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "W5BidabNsoZ7auxmUKIcPBqGnof",
+        "block_type": 32,
+        "children": [
+          "SqtedEtyNooJzmxa94scuXTJnvb"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SqtedEtyNooJzmxa94scuXTJnvb",
+        "block_type": 2,
+        "parent_id": "W5BidabNsoZ7auxmUKIcPBqGnof",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Add cluster users on the cluster management page.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "J5i2dnntHoAhytxOrj8c1U8NnAc",
+        "block_type": 32,
+        "children": [
+          "Xo4ZdbFLAosaGPxGX1ScOYe5nnc"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Xo4ZdbFLAosaGPxGX1ScOYe5nnc",
+        "block_type": 2,
+        "parent_id": "J5i2dnntHoAhytxOrj8c1U8NnAc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Management of Collections/Resources",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NQ4GdsIG0oUysLx1qwRc9kMvnef",
+        "block_type": 32,
+        "children": [
+          "Civ4dCIVToH8Z7xq1J7c5gdvnEd",
+          "HPs0dg0Y6o9w7Yx4eCdcjCqvnqg"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Civ4dCIVToH8Z7xq1J7c5gdvnEd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create, drop collections;",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NQ4GdsIG0oUysLx1qwRc9kMvnef"
+      },
+      {
+        "block_id": "HPs0dg0Y6o9w7Yx4eCdcjCqvnqg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage indexes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NQ4GdsIG0oUysLx1qwRc9kMvnef"
+      },
+      {
+        "block_id": "CeARduxZHo2TvsxVPlgcobiznkf",
+        "block_type": 32,
+        "children": [
+          "K3IGdZgHuoqeKZxWFcHc2JAOnMM",
+          "KMIOdymlWobpuTxsCMAcFQXNnvh",
+          "YMCVdfh2roA5lmx0dpzcW8I3nyc"
+        ],
+        "parent_id": "B9zGdy730oymSExiZ2SceVobnrd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "K3IGdZgHuoqeKZxWFcHc2JAOnMM",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create, drop collections; ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CeARduxZHo2TvsxVPlgcobiznkf"
+      },
+      {
+        "block_id": "KMIOdymlWobpuTxsCMAcFQXNnvh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage indexes;",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CeARduxZHo2TvsxVPlgcobiznkf"
+      },
+      {
+        "block_id": "YMCVdfh2roA5lmx0dpzcW8I3nyc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Access advanced collection features.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CeARduxZHo2TvsxVPlgcobiznkf"
+      },
+      {
+        "block_id": "NedJdtqZBo6yd6xRUvNcthWPnRd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb"
+      },
+      {
+        "block_id": "OMtNdAuMHoBIIOxvJQvczK4wnxf",
+        "block_type": 2,
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To create an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key, you must be an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Project Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23DWfPdLrB6oQIfYxTcSqcOEIxnSd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ALHBd3MnAoKSlPxoQcmckopon6d",
+        "block_type": 26,
+        "comment_ids": [
+          "7294273342343774212"
+        ],
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5827-1662%26t%3D4I6BDxLvNUPOouQe-4"
+          }
+        },
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb"
+      },
+      {
+        "block_id": "NcoFdc2vgoqERvxPl0Hcsl4Pnxb",
+        "block_type": 2,
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "With your project's ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key in hand, you can now connect to any cluster within the project. See ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Connect to Cluster",
+                "token": "IVFfws0lJi8gIVkRvrvc9aXvnNe",
+                "url": "https://zilliverse.feishu.cn/wiki/IVFfws0lJi8gIVkRvrvc9aXvnNe"
+              }
+            },
+            {
+              "text_run": {
+                "content": " to explore further details.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DmxfdvPrsoFtSmxUP35cRAKmnid",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " keys",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb"
+      },
+      {
+        "block_id": "LMJHdoMSCoew7Sx5LwKctc6inlg",
+        "block_type": 2,
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To view ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " keys created for a project, you must be an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Project Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23DWfPdLrB6oQIfYxTcSqcOEIxnSd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TbDndvb2ToqUL4x2V3ccXuHRnK1",
+        "block_type": 34,
+        "children": [
+          "O09QdNXhIozHoNxzYhycREnenAc",
+          "AnhgdIylaoQOl0x7s4tciOFxnUg"
+        ],
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "quote_container": {}
+      },
+      {
+        "block_id": "O09QdNXhIozHoNxzYhycREnenAc",
+        "block_type": 2,
+        "parent_id": "TbDndvb2ToqUL4x2V3ccXuHRnK1",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Note",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "s",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AnhgdIylaoQOl0x7s4tciOFxnUg",
+        "block_type": 2,
+        "comment_ids": [
+          "7294272043359453188"
+        ],
+        "parent_id": "TbDndvb2ToqUL4x2V3ccXuHRnK1",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To prevent unauthorized access, you should never share your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " keys or store them in publicly accessible locations. If you suspect that your API keys have been compromised, you should immediately ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "d",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7294272043359453188"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "e",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7294272043359453188"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "lete",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7294272043359453188"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " them and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "create ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "new one",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "s",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MaTJdLtTCoqupPxa4dkci5NWnVe",
+        "block_type": 2,
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AXT8dsy9Mo9E2jxcj4qc1pa7n3b",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5827-2192%26t%3D4I6BDxLvNUPOouQe-4"
+          }
+        },
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb"
+      },
+      {
+        "block_id": "HO2vdzx0woxsoox25ZYcCslKnFO",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Delete an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb"
+      },
+      {
+        "block_id": "VjB3dXmxkoVX8PxH7F1cwzs9nah",
+        "block_type": 2,
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key is no longer needed",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "you can delete",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "it.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KMW1dJxf2oicVKxSvGqc7tjongd",
+        "block_type": 2,
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To delete an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key, you must be an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Project Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23DWfPdLrB6oQIfYxTcSqcOEIxnSd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DDO5dYkS6oJGy8xZCgpcVc9Jnoa",
+        "block_type": 34,
+        "children": [
+          "Mxw7dnd85oHsA9x1J8xcA0pgncf",
+          "Lxd4doIvNothEsxOl7NcltRxnSf"
+        ],
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "quote_container": {}
+      },
+      {
+        "block_id": "Mxw7dnd85oHsA9x1J8xcA0pgncf",
+        "block_type": 2,
+        "parent_id": "DDO5dYkS6oJGy8xZCgpcVc9Jnoa",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "🚧 Warning",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Lxd4doIvNothEsxOl7NcltRxnSf",
+        "block_type": 2,
+        "parent_id": "DDO5dYkS6oJGy8xZCgpcVc9Jnoa",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Exercise caution when deleting an API key. Doing so will immediately revoke access to any resources that ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "were using the key.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZUkjdY67qoQYqMxr9C5c8mqGnhf",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5827-2207%26t%3D4I6BDxLvNUPOouQe-4"
+          }
+        },
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb"
+      },
+      {
+        "block_id": "OBMfdRB4Xo8y2Bx1WICc4DXvnSg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb"
+      },
+      {
+        "block_id": "K7ImdIsbkotazPxVXTKc9BASnCd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Connect to Cluster",
+                "token": "IVFfws0lJi8gIVkRvrvc9aXvnNe",
+                "url": "https://zilliverse.feishu.cn/wiki/IVFfws0lJi8gIVkRvrvc9aXvnNe"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb"
+      },
+      {
+        "block_id": "KLPsd29Onoi3EZxX0SccPmUhnKg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Cluster Credentials",
+                "token": "Ha8jwqxnniC8mDkXM4RcN4SFnKf",
+                "url": "https://zilliverse.feishu.cn/wiki/Ha8jwqxnniC8mDkXM4RcN4SFnKf"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FManage-Cluster-Credentials-562e60b054a64026b6f3e45ff6fe4338%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb"
+      },
+      {
+        "block_id": "RKfgdC28woJZswxfXKnc2DTpnvd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Set up Whitelist",
+                "token": "FnS1wY0iuia4qgkMycVclZyHnOf",
+                "url": "https://zilliverse.feishu.cn/wiki/FnS1wY0iuia4qgkMycVclZyHnOf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb"
+      },
+      {
+        "block_id": "TFhNduTkvojiDCxGesqcE6gGnPd",
+        "block_type": 2,
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Vr96dfSSLoEYbJx8F7Dcjxiwnng",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Set up a Private Link",
+                "token": "O5W3wHvmbiVSoLkzKgHcvB9XnUb",
+                "url": "https://zilliverse.feishu.cn/wiki/O5W3wHvmbiVSoLkzKgHcvB9XnUb"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FSet-up-a-Private-Link-099ca332eb354e5c9a43f24b875427f6%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb"
+      },
+      {
+        "block_id": "HmPrdvROQod0baxMj3NcjYB8nrh",
+        "block_type": 2,
+        "parent_id": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 74
+  }
+}

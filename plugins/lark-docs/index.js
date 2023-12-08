@@ -1,7 +1,6 @@
 const docScraper = require('./larkDocScraper.js')
 const docWriter = require('./larkDocWriter.js')
-const utils = require('./larkUtils.js')
-const Slugify = require('./larkSlugify.js')
+const Utils = require('./larkUtils.js')
 const fs = require('node:fs')
 require('dotenv/config')
 
@@ -11,93 +10,106 @@ module.exports = function (context, options) {
         extendCli(cli) {
             cli
                 .command('fetch-lark-docs')
-                .option('-r, --rootToken <rootToken>', 'Token of a root Lark doc')
-                .option('-d, --docToken <docToken>', 'Token of a child Lark doc')
-                .option('-t, --docTitle <docTitle>', 'Title of a child Lark doc')
-                .option('-s, --sidebarPos <sidebarPos>', 'Order of the child doc in the sidebar', 0)
-                .option('-o, --outputDir <outputDir>', 'Output Directory', 'docs/tutorials')
-                .option('-i, --imageDir <imageDir>', 'Image Directory', 'static/img')
-                .option('-p, --pubTarget <pubTarget>', 'Publish target', 'saas')
-                .option('-f, --faq', 'Write FAQs')
-                .option('-sk, --skipImageDown', 'Skip fetching images')
+                .option('-doc, --docTitle <docTitle>', 'Title of a child Lark doc')
+                .option('-tar, --pubTarget <pubTarget>', 'Target of the doc')
+                .option('-faq, --faq', 'Generate FAQ pages')
+                .option('-skipS, --skipSourceDown', 'Skip fetching document sources')
+                .option('-skipI, --skipImageDown', 'Skip fetching images')
                 .action(async (opts) => {
                     console.log('Fetching docs from Feishu...')
 
-                    if (opts.rootToken === undefined) {
-                        console.log('Please provide a root token')
+                    const options = context.siteConfig.plugins.filter(plugin => plugin[0].includes('lark-docs'))[0][1]
+
+                    if (options.root === undefined || options.base === undefined || opts.pubTarget === undefined) {
+                        console.log('Please provide a target')
                         return
-                    }
-
-                    if (opts.pubTarget !== 'saas' && opts.outputDir === 'docs/tutorials') {
-                        console.log('Output directory must be specified for non-SaaS docs')
-                        return
-                    }
-                    
-                    const scraper = new docScraper(opts.rootToken)
-                    await scraper.fetch()
-                    let docs = scraper.docs
-                    const slugify = new Slugify(docs)
-                    docs = await slugify.slugify()
-
-                    // fs.writeFileSync("docs.json", JSON.stringify(docs, null, 2))
-                    let pages = new utils(docs, 'title', 'obj.obj_type === "docx"', true).instances
-
-                    const writer = new docWriter(pages, null, opts.imageDir, opts.pubTarget, opts.skipImageDown)
-
-                    if (opts.docToken !== undefined || opts.docTitle !== undefined) {
-                        const page = pages.filter(page => page.obj_token === opts.docToken || page.title === opts.docTitle)[0]
-
-                        if (page === undefined) {
-                            console.log('Please provide a valid doc token or title')
-                            return
-                        }
-
-                        const meta = await writer.__is_to_publish(opts.docTitle)
-
-                        if (meta['publish']) {
-                            const page_slug = meta['slug']
-                            const page_beta = meta['beta']
-                            const notebook = meta['notebook']
-                            const file_path = opts.outputDir + '/' + page_slug + '.md'
-                            let sidebarPos = opts.sidebarPos
-    
-                            if (fs.existsSync(file_path)) {
-                                const page = fs.readFileSync(file_path, 'utf8')
-                                sidebarPos = page.split('\n').filter(line => line.startsWith('sidebar_position'))[0]
-    
-                                if (sidebarPos !== undefined) {
-                                    sidebarPos = sidebarPos.split(':')[1].trim()
-                                } else if (opts.sidebarPos !== undefined) {
-                                    console.log('Please provide a valid sidebar position for this doc')
-                                    return
-                                }
-                            }
-    
-                            const req = {
-                                path: opts.outputDir,
-                                page_title: opts.docTitle,
-                                page_slug: page_slug,
-                                page_beta: page_beta,
-                                notebook: notebook,
-                                sidebar_position: sidebarPos,
-                            }
-    
-                            writer.write_doc(req)
-                        } else {
-                            console.log('This page is not ready to publish!')
-                        }
-                    } else if (opts.faq) {
-                        const path = opts.outputDir + '/faqs'
-                        if (!fs.existsSync(path)) {
-                            fs.mkdirSync(path)
-                        }
-
-                        await writer.write_faqs(path)
                     } else {
-                        await writer.write_docs({
-                            path: opts.outputDir, 
-                            children: docs.children,
-                        })
+                        if (opts.docTitle === undefined && !opts.faq) {
+                            if (!opts.skipSourceDown) {
+                                const scraper = new docScraper(options.root, options.base)
+                                await scraper.fetch(recursive=true)
+                            }
+                            const { outputDir, imageDir } = options.targets.filter(target => target[0] === opts.pubTarget)[0][1]
+                            const writer = new docWriter(options.root, options.docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
+                            console.log(outputDir, imageDir)
+                            await writer.write_docs(outputDir, options.root)
+                        }
+    
+                        if (opts.docTitle !== undefined) {
+                            const scraper = new docScraper(options.root, options.base)
+                            var { outputDir, imageDir } = options.targets.filter(target => target[0] === opts.pubTarget)[0][1]
+                            var source
+    
+                            var token = fs.readdirSync(options.docSourceDir).filter(file => {
+                                source = JSON.parse(fs.readFileSync(options.docSourceDir + '/' + file, 'utf8'))
+                                return source.title === opts.docTitle
+                            }).map(file => {
+                                source = JSON.parse(fs.readFileSync(options.docSourceDir + '/' + file, 'utf8'))
+                                return source.node_token
+                            })[0]
+    
+                            if (token === undefined) {
+                                console.log('Please provide a valid doc token or title')
+                                return
+                            }
+    
+                            await scraper.fetch(recursive=false, page_token=token)
+    
+                            const writer = new docWriter(options.root, options.docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
+                            const meta = await writer.__is_to_publish(opts.docTitle)
+                            const utils = new Utils(options.root, options.docSourceDir)
+                            var file_path = outputDir + '/' + utils.determine_file_path(token, options.docSourceDir)
+    
+                            if (meta['publish']) {
+                                const page_slug = source.slug
+                                const page_beta = meta['beta']
+                                const notebook = meta['notebook']
+                                const sidebarPos = JSON.parse(fs.readFileSync(options.docSourceDir + '/' + source.parent_node_token + '.json', 'utf8')).children.map((child, index) => {
+                                    if (child.node_token === token) {
+                                        return index+1
+                                    }
+                                }).filter(index => index !== undefined)[0]
+                                
+    
+                                const req = {
+                                    path: file_path.split('/').slice(0, -1).join('/'),
+                                    page_title: opts.docTitle,
+                                    page_slug: page_slug,
+                                    page_beta: page_beta,
+                                    notebook: notebook,
+                                    page_token: token,
+                                    sidebar_position: sidebarPos,
+                                }
+    
+                                writer.write_doc(req)
+                            }
+                        }
+                                
+                        if (opts.faq) {
+                            const scraper = new docScraper(options.root, options.base)
+                            var { outputDir, imageDir } = options.targets.filter(target => target[0] === opts.pubTarget)[0][1]
+    
+                            var source
+    
+                            var token = fs.readdirSync(options.docSourceDir).filter(file => {
+                                source = JSON.parse(fs.readFileSync(options.docSourceDir + '/' + file, 'utf8'))
+                                return source.title === 'FAQs'
+                            }).map(file => {
+                                source = JSON.parse(fs.readFileSync(options.docSourceDir + '/' + file, 'utf8'))
+                                return source.node_token
+                            })[0]
+    
+                            await scraper.fetch(recursive=false, page_token=token)
+    
+                            const writer = new docWriter(options.root, options.docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
+    
+                            const path = outputDir + '/faqs'
+                            if (!fs.existsSync(path)) {
+                                fs.mkdirSync(path)
+                            }
+    
+                            await writer.write_faqs(path)
+                        }
                     }
                 })
         }

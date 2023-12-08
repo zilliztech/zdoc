@@ -1,7 +1,8 @@
 ---
-slug: /docs/question-answering-using-zilliz-cloud-and-cohere
+slug: /question-answering-using-zilliz-cloud-and-cohere
 beta: FALSE
 notebook: 82_integrations_cohere.ipynb
+token: WjZswh3lJi6k5BkyLaNchzodnib
 sidebar_position: 3
 ---
 
@@ -307,3 +308,4 @@ The output should be similar to the following:
 - [Documentation QA using Zilliz Cloud and LlamaIndex](./documentation-qa-using-zilliz-cloud-and-llamaindex) 
 
 - [Movie Search Using Zilliz Cloud and SentenceTransformers](./movie-search-using-zilliz-cloud-and-sentencetransformers) 
+

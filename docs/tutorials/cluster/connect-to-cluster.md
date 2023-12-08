@@ -1,7 +1,8 @@
 ---
-slug: /docs/connect-to-cluster
+slug: /connect-to-cluster
 beta: FALSE
 notebook: FALSE
+token: IVFfws0lJi8gIVkRvrvc9aXvnNe
 sidebar_position: 3
 ---
 
@@ -31,7 +32,7 @@ For those leaning towards the utilization of RESTful APIs over SDKs, it's import
 
 ## Connect to a cluster{#connect-to-a-cluster}
 
-Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. This token can either be an [API key](./manage-cluster-credentials) or a [cluster credential](./manage-cluster-credentials) comprised of a username-password duo.
+Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. This token can either be an [API key](./manage-cluster-credentials-gui) or a [cluster credential](./manage-cluster-credentials-gui) comprised of a username-password duo.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
@@ -176,3 +177,4 @@ curl --request GET \\
 - [Search and Query](./search-query-and-get) 
 
 - [Drop Collection](./drop-collection) 
+

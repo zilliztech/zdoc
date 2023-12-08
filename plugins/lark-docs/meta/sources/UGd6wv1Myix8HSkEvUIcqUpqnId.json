@@ -1,0 +1,47 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1698371448",
+  "node_token": "UGd6wv1Myix8HSkEvUIcqUpqnId",
+  "node_type": "origin",
+  "obj_create_time": "1698371448",
+  "obj_edit_time": "1698371455",
+  "obj_token": "EwAddquetoib6cxlf50cuxFVnCd",
+  "obj_type": "docx",
+  "origin_node_token": "UGd6wv1Myix8HSkEvUIcqUpqnId",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
+  "space_id": "7167193056431783939",
+  "title": "Use Array Fields",
+  "slug": "use-array-fields",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "EwAddquetoib6cxlf50cuxFVnCd",
+        "block_type": 1,
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use Array Fields",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      }
+    ],
+    "counts": 1
+  }
+}

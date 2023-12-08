@@ -1,0 +1,750 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689062590",
+  "node_token": "CV5vwnufwiVuQZkAktac6HDGnXc",
+  "node_type": "origin",
+  "obj_create_time": "1689062590",
+  "obj_edit_time": "1700113182",
+  "obj_token": "HArEdu7cBoQPmlxTmpccrCEMnre",
+  "obj_type": "docx",
+  "origin_node_token": "CV5vwnufwiVuQZkAktac6HDGnXc",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
+  "space_id": "7167193056431783939",
+  "title": "Monitor Credit Card Expiration",
+  "slug": "credit-card-expiration-monitor",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "HArEdu7cBoQPmlxTmpccrCEMnre",
+        "block_type": 1,
+        "children": [
+          "S5wGdTzY2ozSTAxzhYOcUMuDnab",
+          "TiKtdytVRonVTVx9jc9cyQ1wn5d",
+          "DsBHdyMkiojKiuxIOv2cJ3ownQc",
+          "TGdudcvtcouXjTxq7sVcCGeBn7c",
+          "B8SrdVf3yoizIzxdW1ycgZTHn0b",
+          "VCghdXEDyoTZzXxmpN7ch930nEb",
+          "NYWVd9zTaoG0eVxsxpgcsyTDnze",
+          "MjmgdXIVqooXCmx4Hpjci9Hynxh",
+          "Q6V6dZeZCodhYXx3aDjcIqbGnAg",
+          "FRzZdpZttoDZZkx1QJQcWO7knlc",
+          "XQHPd7qVVoogfQx98XccwN4nn9e",
+          "O1dhdq0PgocwEsxzsw7cFZTcnAh",
+          "DoHsdgm5QouCFyxNEvUcrh2Anlc",
+          "BUt7dKy7NoQ3wwxTWySceIT4nsb",
+          "XNPZdfpUdocGZpx5qybcPGQ6nLg",
+          "QaWdd3J8CoMTgsxFhVrcw2Rznrh"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Monitor Credit Card Expiration",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "S5wGdTzY2ozSTAxzhYOcUMuDnab",
+        "block_type": 2,
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud offers a credit card expiration monitor, which is turned off by default. If you've linked a credit card to your account, you have the option to activate this feature. Enabling it ensures that you will receive timely notifications from us prior to your credit card’s expiration date.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TiKtdytVRonVTVx9jc9cyQ1wn5d",
+        "block_type": 34,
+        "children": [
+          "NIBGdQ6mmoBMEmx1iHUch4ZRnqg",
+          "Jnr1dbibHoLouqx9xXicWeZMn2e"
+        ],
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre",
+        "quote_container": {}
+      },
+      {
+        "block_id": "NIBGdQ6mmoBMEmx1iHUch4ZRnqg",
+        "block_type": 2,
+        "parent_id": "TiKtdytVRonVTVx9jc9cyQ1wn5d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Jnr1dbibHoLouqx9xXicWeZMn2e",
+        "block_type": 2,
+        "parent_id": "TiKtdytVRonVTVx9jc9cyQ1wn5d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This is a feature exclusively available to clusters in the Standard and Enterprise plans.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DsBHdyMkiojKiuxIOv2cJ3ownQc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enable Credit Card Expiration Monitor",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre"
+      },
+      {
+        "block_id": "TGdudcvtcouXjTxq7sVcCGeBn7c",
+        "block_type": 2,
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "turn on",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " the credit card expiration monitor, follow ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " steps",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " below",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "B8SrdVf3yoizIzxdW1ycgZTHn0b",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Select ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Monitoring",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the project’s left navigation pane.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre"
+      },
+      {
+        "block_id": "VCghdXEDyoTZzXxmpN7ch930nEb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Navigate to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Monitor Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre"
+      },
+      {
+        "block_id": "NYWVd9zTaoG0eVxsxpgcsyTDnze",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Find the first condition in the",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Billing Monitor",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " card.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre"
+      },
+      {
+        "block_id": "MjmgdXIVqooXCmx4Hpjci9Hynxh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To activate the monitor, click the switch in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Status",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column. This action toggles the monitor’s state on or off. Verification of activation is confirmed when the switch’s indicator is positioned to the right, complemented by a change in background color to blue.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre"
+      },
+      {
+        "block_id": "Q6V6dZeZCodhYXx3aDjcIqbGnAg",
+        "block_type": 26,
+        "comment_ids": [
+          "7277518413990526980"
+        ],
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D6097-1685%26t%3DEdRY0ajqrpR7Litq-4"
+          }
+        },
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre"
+      },
+      {
+        "block_id": "FRzZdpZttoDZZkx1QJQcWO7knlc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre"
+      },
+      {
+        "block_id": "XQHPd7qVVoogfQx98XccwN4nn9e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Monitor CU Resources",
+                "token": "QPhmwMxRdiOFq5kj8E6c9GBgn9d",
+                "url": "https://zilliverse.feishu.cn/wiki/QPhmwMxRdiOFq5kj8E6c9GBgn9d"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre"
+      },
+      {
+        "block_id": "O1dhdq0PgocwEsxzsw7cFZTcnAh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "QPS Resource Monitor",
+                "token": "TKJawqMDPikhpMkQKcHc91mhnEd",
+                "url": "https://zilliverse.feishu.cn/wiki/TKJawqMDPikhpMkQKcHc91mhnEd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre"
+      },
+      {
+        "block_id": "DoHsdgm5QouCFyxNEvUcrh2Anlc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Query Latency Monitor",
+                "token": "W7o3wed82iclnOkEPbrcZU2NnBf",
+                "url": "https://zilliverse.feishu.cn/wiki/W7o3wed82iclnOkEPbrcZU2NnBf"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre"
+      },
+      {
+        "block_id": "BUt7dKy7NoQ3wwxTWySceIT4nsb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Load Capacity Resource Monitor",
+                "token": "NiIxwMY3bi9JH3kEwjXcON8pnJc",
+                "url": "https://zilliverse.feishu.cn/wiki/NiIxwMY3bi9JH3kEwjXcON8pnJc"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre"
+      },
+      {
+        "block_id": "XNPZdfpUdocGZpx5qybcPGQ6nLg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "View Cluster Metrics",
+                "token": "AlRswAKgzitjyJkK1TCc2g19n0g",
+                "url": "https://zilliverse.feishu.cn/wiki/AlRswAKgzitjyJkK1TCc2g19n0g"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FView-Cluster-Metrics-8bfa66aaa5b4434a9913407d0b407891%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre"
+      },
+      {
+        "block_id": "QaWdd3J8CoMTgsxFhVrcw2Rznrh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Advance Pay Balance Monitor",
+                "token": "Wlh2wJFuqiG3b7ke3Wpcy2Wdnmg",
+                "url": "https://zilliverse.feishu.cn/wiki/Wlh2wJFuqiG3b7ke3Wpcy2Wdnmg"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HArEdu7cBoQPmlxTmpccrCEMnre"
+      }
+    ],
+    "counts": 19
+  }
+}

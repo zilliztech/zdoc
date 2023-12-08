@@ -1,7 +1,8 @@
 ---
-slug: /docs/use-recycle-bin
+slug: /use-recycle-bin
 beta: FALSE
 notebook: FALSE
+token: Tr5lwpgrCiETZzkaFSYcBTDjnlz
 sidebar_position: 4
 ---
 
@@ -14,7 +15,7 @@ Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of e
 
 ## Prerequisites{#prerequisites}
 
-To restore a cluster in the recycle bin, you need to [add a payment method](/docs/payment-billing). 
+To restore a cluster in the recycle bin, you need to [add a payment method](./payment-billing). 
 
 ## Restore a dropped cluster in the recycle bin{#restore-a-dropped-cluster-in-the-recycle-bin}
 
@@ -25,6 +26,7 @@ To restore a cluster in the recycle bin, you need to [add a payment method](/doc
 1. Locate the cluster to restore. From the **Actions** dropdown, select **Restore Cluster**.
 
 1. Configure the restored cluster.
+
     1. You can restore the cluster to a different project under this organization, but not in a different cloud region.
 
     1. You can choose to retain the load status of the collections in the cluster.
@@ -50,3 +52,4 @@ During restoration, the status of your cluster will change from **CREATING** to 
 - [View Snapshot Details](./view-snapshot-details) 
 
 - [Restore from Snapshot](./restore-from-snapshot) 
+

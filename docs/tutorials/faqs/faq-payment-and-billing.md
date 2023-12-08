@@ -1,7 +1,8 @@
 ---
-slug: /docs/faq-payment-and-billing
+slug: /faq-payment-and-billing
 beta: null
 notebook: null
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 12
 ---
 

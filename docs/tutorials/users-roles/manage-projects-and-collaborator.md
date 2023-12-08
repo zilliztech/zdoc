@@ -1,7 +1,8 @@
 ---
-slug: /docs/manage-projects-and-collaborator
+slug: /manage-projects-and-collaborator
 beta: FALSE
 notebook: FALSE
+token: O3rEwwCCTiu0k1kAyygcKYwhnzg
 sidebar_position: 4
 ---
 

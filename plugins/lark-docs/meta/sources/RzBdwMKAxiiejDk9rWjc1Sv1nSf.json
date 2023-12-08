@@ -1,0 +1,157 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": true,
+  "node_create_time": "1699846655",
+  "node_token": "RzBdwMKAxiiejDk9rWjc1Sv1nSf",
+  "node_type": "origin",
+  "obj_create_time": "1699846655",
+  "obj_edit_time": "1701844150",
+  "obj_token": "DAeCddT9xoBzYoxyeltcIeD2nAd",
+  "obj_type": "docx",
+  "origin_node_token": "RzBdwMKAxiiejDk9rWjc1Sv1nSf",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "OUWXw5c4gia34ZkQUcEcMFbWn6s",
+  "space_id": "7167193056431783939",
+  "title": "Pipelines",
+  "slug": "pipelines",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "DAeCddT9xoBzYoxyeltcIeD2nAd",
+        "block_type": 1,
+        "children": [
+          "TPPldrIzBoTec2xKDuSc082Xnpg",
+          "Werod1yFqodVjqxNm8ZcW00nnph"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "TPPldrIzBoTec2xKDuSc082Xnpg",
+        "block_type": 2,
+        "parent_id": "DAeCddT9xoBzYoxyeltcIeD2nAd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Pipelines transform your unstructured data to a searchable vector collection, chaining up the embedding, ingestion, search, and deletion of your data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Werod1yFqodVjqxNm8ZcW00nnph",
+        "block_type": 2,
+        "parent_id": "DAeCddT9xoBzYoxyeltcIeD2nAd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 3
+  },
+  "children": [
+    {
+      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+      "has_child": false,
+      "node_create_time": "1699859454",
+      "node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
+      "node_type": "origin",
+      "obj_create_time": "1699859454",
+      "obj_edit_time": "1701670063",
+      "obj_token": "WVx8dp8wGoBBKexHzdicvLnynYc",
+      "obj_type": "docx",
+      "origin_node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+      "parent_node_token": "RzBdwMKAxiiejDk9rWjc1Sv1nSf",
+      "space_id": "7167193056431783939",
+      "title": "Understanding Pipelines",
+      "slug": "understanding-pipelines"
+    },
+    {
+      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+      "has_child": true,
+      "node_create_time": "1699859629",
+      "node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
+      "node_type": "origin",
+      "obj_create_time": "1699859629",
+      "obj_edit_time": "1701844635",
+      "obj_token": "GSLpdWWKpo2WFkxVKenc4qBynBh",
+      "obj_type": "docx",
+      "origin_node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+      "parent_node_token": "RzBdwMKAxiiejDk9rWjc1Sv1nSf",
+      "space_id": "7167193056431783939",
+      "title": "Create Pipelines",
+      "slug": "create-pipelines"
+    },
+    {
+      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+      "has_child": false,
+      "node_create_time": "1699859825",
+      "node_token": "XFEcwie5GiRlH5kLtvzcA8lWnNb",
+      "node_type": "origin",
+      "obj_create_time": "1699859825",
+      "obj_edit_time": "1701670361",
+      "obj_token": "XKz7dnRAyooJEHxjvaAciETmnfd",
+      "obj_type": "docx",
+      "origin_node_token": "XFEcwie5GiRlH5kLtvzcA8lWnNb",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+      "parent_node_token": "RzBdwMKAxiiejDk9rWjc1Sv1nSf",
+      "space_id": "7167193056431783939",
+      "title": "Run Pipelines",
+      "slug": "run-pipelines"
+    }
+  ]
+}

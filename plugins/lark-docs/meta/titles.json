@@ -69,7 +69,7 @@
     "Delete Snapshot": "delete-snapshot",
     "Create Cluster": "create-cluster",
     "customize-collection-schema": "customize-collection-schema",
-    "Get Started": "quick-start",
+    "Get Started": "get-started",
     "Payment & Billing": "payment-billing",
     "Advanced Data Types": "advanced-data-types",
     "Migration Guides": "migration-guides",
@@ -160,5 +160,6 @@
     "Understand Basics": "understand-basics",
     "Projects & Organizations": "projects-and-organizations",
     "Pipelines": "pipelines",
-    "Create Pipelines": "create-pipelines"
+    "Create Pipelines": "create-pipelines",
+    "Import Data": "import-data"
 }

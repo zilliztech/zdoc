@@ -1,7 +1,8 @@
 ---
-slug: /docs/register-with-zilliz-cloud
+slug: /register-with-zilliz-cloud
 beta: FALSE
 notebook: FALSE
+token: HriHwEU3qiQrgskz3a0cdkcpnyf
 sidebar_position: 1
 ---
 
@@ -37,14 +38,17 @@ Follow the steps below to create a Zilliz Cloud account using your work email an
 1. Enter your work email address in the **Work Email** field.
 
 1. Enter a password in the **Password** field.
+
     Ensure that your password does not exceed 128 characters and includes at least one uppercase letter, one lowercase letter, one numeral, and one special character.
 
 1. Check the box next to **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy**](https://zilliz.com/privacy-policy).
+
     We encourage you to read through our [Terms of Service](https://chat.openai.com/c/0b1274aa-d87a-4104-9a5f-b0daeb3fee59#) and [Privacy Policy](https://chat.openai.com/c/0b1274aa-d87a-4104-9a5f-b0daeb3fee59#) before proceeding.
 
 1. Click **Continue**. A confirmation code will be sent to the provided email address.
 
 1. Input the received confirmation code in the dialog box, then click **Verify**.
+
     If the confirmation code is not received, click **Resend Code** to attempt again.
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -111,7 +115,7 @@ Always use the same method you chose for registration when logging in to your Zi
 
 ## What’s next{#whats-next}
 
-- [Quick Start](./)
+- [Quick Start](./quick-start)
 
 - [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card) 
 

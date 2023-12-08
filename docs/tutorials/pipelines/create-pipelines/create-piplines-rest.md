@@ -1,7 +1,8 @@
 ---
-slug: /docs/create-piplines-rest
+slug: /create-piplines-rest
 beta: TRUE
 notebook: FALSE
+token: Frj7wEoUgiSDeYkkZ59cyYu1nEg
 sidebar_position: 2
 ---
 

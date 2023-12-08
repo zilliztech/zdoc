@@ -39,8 +39,10 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          path: 'docs',
+          breadcrumbs: true,
           sidebarPath: require.resolve('./sidebarsTutorial.js'),
-          routeBasePath: '/',
+          routeBasePath: 'docs',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // editUrl:
@@ -75,7 +77,22 @@ const config = {
         id: 'GTM-MBBF2KR',
       },
     ],
-    './plugins/lark-docs',
+    ['./plugins/lark-docs',
+    {
+      root: 'OUWXw5c4gia34ZkQUcEcMFbWn6s',
+      base: 'PnsobATKVayIDFs6hhQcChlGnje',
+      docSourceDir: './plugins/lark-docs/meta/sources',
+      targets: [
+        ['saas', {
+          outputDir: 'docs/tutorials',
+          imageDir: 'static/img',
+        }],
+        ['byoc', {
+          outputDir: 'docs/byoc',
+          imageDir: 'static/byoc',
+        }]
+      ]
+    }],
     './plugins/apifox-docs',
   ],
   themeConfig:
@@ -88,6 +105,7 @@ const config = {
         logo: {
           alt: 'Zilliz Logo',
           src: 'img/logo.svg',
+          href: '/docs/quick-start'
         },
         items: [
           {
@@ -102,7 +120,7 @@ const config = {
           // },
           // {to: '/api', label: 'API 参考', position: 'left'},
           {
-            href: '/',
+            href: '/docs/quick-start',
             label: "User Guides",
             position: 'left',
             className: 'header-link',
@@ -126,7 +144,7 @@ const config = {
             items: [
               {
                 label: 'Developers',
-                to: '/',
+                to: '/docs/quick-start',
               },
               {
                 label: 'Blogs',
@@ -165,7 +183,7 @@ const config = {
             items: [
               {
                 label: 'Developer Guides',
-                to: '/',
+                to: '/docs/quick-start',
               },
               {
                 label: 'API Reference',

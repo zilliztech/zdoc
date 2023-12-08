@@ -1,7 +1,8 @@
 ---
-slug: /docs/subscribe-by-adding-credit-card
+slug: /subscribe-by-adding-credit-card
 beta: FALSE
 notebook: FALSE
+token: TVnkwXupUiX3zDkzYPWcxKP3nvg
 sidebar_position: 1
 ---
 
@@ -33,6 +34,7 @@ In the **Payment** **Method** section found at the lower-right corner of your sc
  A dialog box will appear prompting you to enter:
 
 - Credit Card Information:
+
     - **Card number**
 
     - **Expiration**
@@ -40,6 +42,7 @@ In the **Payment** **Method** section found at the lower-right corner of your sc
     - **CVC**
 
 - Billing Information:
+
     - **First Name**
 
     - **Last Name**
@@ -49,6 +52,7 @@ In the **Payment** **Method** section found at the lower-right corner of your sc
     - **Email**
 
     - **Street Address **
+
         - We recommend using your company address. This address will be used to calculate tax and will appear on all issued invoices.
 
     - **Country / Region**
@@ -78,6 +82,7 @@ To update your credit card information, click on the pencil icon in the **Paymen
  A dialog box will appear prompting you to enter:
 
 - Credit Card Information:
+
     - **Card number**
 
     - **Expiration**
@@ -85,6 +90,7 @@ To update your credit card information, click on the pencil icon in the **Paymen
     - **CVC**
 
 - Billing information:
+
     - **First Name**
 
     - **Last Name**
@@ -94,6 +100,7 @@ To update your credit card information, click on the pencil icon in the **Paymen
     - **Email**
 
     - **Street Address **
+
         - We recommend using your company address. This address will be used to calculate tax and will appear on all issued invoices.
 
     - **Country / Region**
@@ -133,3 +140,4 @@ Currently, Zilliz Cloud does not support removing payment credit card on the web
 - [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace) 
 
 - [View Invoice](./view-invoice) 
+

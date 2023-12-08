@@ -1,0 +1,113 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": true,
+  "node_create_time": "1699859629",
+  "node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
+  "node_type": "origin",
+  "obj_create_time": "1699859629",
+  "obj_edit_time": "1701844635",
+  "obj_token": "GSLpdWWKpo2WFkxVKenc4qBynBh",
+  "obj_type": "docx",
+  "origin_node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "RzBdwMKAxiiejDk9rWjc1Sv1nSf",
+  "space_id": "7167193056431783939",
+  "title": "Create Pipelines",
+  "slug": "create-pipelines",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "GSLpdWWKpo2WFkxVKenc4qBynBh",
+        "block_type": 1,
+        "children": [
+          "GmJmd0o9oodXudxLgz4cpOBsn7l"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create Pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "GmJmd0o9oodXudxLgz4cpOBsn7l",
+        "block_type": 2,
+        "parent_id": "GSLpdWWKpo2WFkxVKenc4qBynBh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can create pipelines either on the Zilliz Cloud console or via RESTful APIs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 2
+  },
+  "children": [
+    {
+      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+      "has_child": false,
+      "node_create_time": "1700040191",
+      "node_token": "RfYVwRuvkicVqBkDugacSQOinvc",
+      "node_type": "origin",
+      "obj_create_time": "1700040191",
+      "obj_edit_time": "1701670162",
+      "obj_token": "NogBdCgUfoscyzxayiTcly7Unre",
+      "obj_type": "docx",
+      "origin_node_token": "RfYVwRuvkicVqBkDugacSQOinvc",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+      "parent_node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
+      "space_id": "7167193056431783939",
+      "title": "Create Pipelines on Web UI",
+      "slug": "create-piplines-gui"
+    },
+    {
+      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+      "has_child": false,
+      "node_create_time": "1700040247",
+      "node_token": "Frj7wEoUgiSDeYkkZ59cyYu1nEg",
+      "node_type": "origin",
+      "obj_create_time": "1700040247",
+      "obj_edit_time": "1701767755",
+      "obj_token": "IdIkdrMSPod67Gxq4dVcPqd4n2b",
+      "obj_type": "docx",
+      "origin_node_token": "Frj7wEoUgiSDeYkkZ59cyYu1nEg",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+      "parent_node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
+      "space_id": "7167193056431783939",
+      "title": "Create Pipelines via RESTful API",
+      "slug": "create-piplines-rest"
+    }
+  ]
+}

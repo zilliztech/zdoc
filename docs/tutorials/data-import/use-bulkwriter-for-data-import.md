@@ -1,7 +1,8 @@
 ---
-slug: /docs/use-bulkwriter-for-data-import
+slug: /use-bulkwriter-for-data-import
 beta: FALSE
 notebook: 06_use_remote-bulk-writer.ipynb
+token: YNbGwiEjAinaQfkSdNlcTehwn8I
 sidebar_position: 1
 ---
 
@@ -30,18 +31,19 @@ The following table compares the two writers.
 ## Procedure{#procedure}
 
 1. **Set up:**
+
     - Install the latest version of PyMilvus. For instructions on installation, refer to [Install SDKs](./install-sdks).
 
     - Download the example dataset from Kaggle. Visit [this link](https://www.kaggle.com/datasets/shiyu22chen/cleaned-medium-articles-dataset), log in, and click the **Download** button in the upper right corner.
 
-    <Admonition type="info" icon="📘" title="Notes">    
-    
-    
+    <Admonition type="info" icon="📘" title="Notes">
+
     This guide uses the example dataset to demonstrate a common roadmap for data processing. The ultimate goal is to generate a list of dictionaries so that you can feed them to **BulkWriter**.
 
     </Admonition>
 
 1. **Determine the schema:**
+
     - Decide on the schema for the collection you wish to import your dataset into. This involves selecting which fields to include from the dataset.
 
     ```python
@@ -71,6 +73,7 @@ The following table compares the two writers.
     ```
 
 1. **Process your dataset:**
+
     Process your dataset to match the collection schema you've defined. You can manipulate your dataset in any way you prefer, but the final output must be a list of dictionaries with each dictionary representing a row. This guide uses the Pandas library to process the example dataset in the following steps.
 
     1. First, the example dataset is read into a data frame.
@@ -89,6 +92,7 @@ The following table compares the two writers.
     ```
 
 1. **Choose a writer:**
+
     - Opt between a **LocalBulkWriter** and a **RemoteBulkWriter** based on your needs. 
 
     - A **LocalBulkWriter** generates files in two types, either JSON or NumPy.
@@ -139,6 +143,7 @@ The following table compares the two writers.
     ```
 
     - A **RemoteBulkWriter** generates only NumPy files and uploads them to the designated object storage bucket.
+
         **RemoteBulkWriter** uses MinIO’s Python Client, which is compatible with Amazon Web Services’ Simple Storage Service (AWS S3) and Google Cloud Storage (GCS). This allows you to write data to your AWS S3 and GCS buckets in bulk with ease.
 
         ```python
@@ -217,6 +222,7 @@ To check the results, you can do as follows:
 - For a **LocalBulkWriter**, use `writer.data_path` to get the path to the generated files.
 
 - For a **RemoteBulkWriter**, use `remote_writer.data_path` to get the path to the generated files. Note that the path is relative to the designated object storage bucket. Take a MinIO instance as an example, you can use the following command to check the generated files.
+
     ```python
     # To check the files in the remote folder
     
@@ -255,3 +261,4 @@ To check the results, you can do as follows:
 - [Import Data via RESTful API](./import-data-via-restful-api)
 
 - [Import Data via SDKs](./import-data-via-sdks)
+

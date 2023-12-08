@@ -1,7 +1,8 @@
 ---
-slug: /docs/subscribe-on-aws-marketplace
+slug: /subscribe-on-aws-marketplace
 beta: FALSE
 notebook: FALSE
+token: LDlOweEzmiLkdQkvPFec5lrcnbf
 sidebar_position: 2
 ---
 
@@ -27,20 +28,23 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribing to Zilliz Cloud as follows:
 
 1. Search for **Zilliz Cloud** in the search box, or [click here](https://aws.amazon.com/marketplace/search/results?searchTerms=zilliz+cloud) to view Zilliz Cloud on AWS.
+
     ![search_for_zilliz_on_aws](/img/search_for_zilliz_on_aws.png)
 
 1. Click **Zilliz Cloud**.
+
     Familiarize yourself with the services and pricing.
 
     ![view_purchase_options](/img/view_purchase_options.png)
 
 1. Click **View purchase options**, then **Subscribe**. Follow the prompt to **Set up your account** on Zilliz Cloud.
+
     ![aws_flash_message](/img/aws_flash_message.png)
 
 1. If you already have a Zilliz Cloud account, simply log in. If not, choose a [sign-up option](./register-with-zilliz-cloud) and follow the process. Ensure all query strings in the URL are retained to link your AWS identity to your Zilliz Cloud account.
+
     <Admonition type="info" icon="📘" title="Notes">
 
-    
     AWS Marketplace uses query strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.
 
     </Admonition>
@@ -48,6 +52,7 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 1. Fill out the required information to access $100 in long-term credits and decide if you want to receive updates from Zilliz Cloud.
 
 1. Go to **Billing** to ensure your AWS Marketplace subscription is set as your payment method.
+
     ![aws-marketplace-success](/img/aws-marketplace-success.png)
 
 ## Update AWS Marketplace subscription{#update-aws-marketplace-subscription}
@@ -59,9 +64,9 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 1. Sign in to AWS Marketplace with the original AWS account you used for the subscription.
 
 1. Cancel your Zilliz Cloud subscription. Refer to [Cancel your product subscription](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription) for more details.
-    <Admonition type="info" icon="📘" title="Notes">    
-    
-    
+
+    <Admonition type="info" icon="📘" title="Notes">
+
     It takes a few minutes for AWS Marketplace to complete the cancellation process.
 
     </Admonition>
@@ -77,11 +82,11 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 1. Sign in to AWS Marketplace with the original AWS account you used for the subscription.
 
 1. Cancel your Zilliz Cloud subscription. Refer to [Cancel your product subscription](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription) for more details.
+
     
 
-    <Admonition type="info" icon="📘" title="Notes">    
-    
-    
+    <Admonition type="info" icon="📘" title="Notes">
+
     It takes a few minutes for AWS Marketplace to complete the cancellation process.
 
     </Admonition>
@@ -135,3 +140,4 @@ To subscribe to Zilliz Cloud, please visit us on [AWS Marketplace](https://aws.a
 - [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card) 
 
 - [View Invoice](./view-invoice) 
+

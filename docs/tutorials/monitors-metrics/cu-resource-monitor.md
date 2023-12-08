@@ -1,7 +1,8 @@
 ---
-slug: /docs/cu-resource-monitor
+slug: /cu-resource-monitor
 beta: FALSE
 notebook: FALSE
+token: QPhmwMxRdiOFq5kj8E6c9GBgn9d
 sidebar_position: 1
 ---
 

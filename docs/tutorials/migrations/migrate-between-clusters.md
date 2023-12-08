@@ -1,7 +1,8 @@
 ---
-slug: /docs/migrate-between-clusters
+slug: /migrate-between-clusters
 beta: FALSE
 notebook: FALSE
+token: MTqjwwUKhiyns4kGV7Lc7PRlnwb
 sidebar_position: 3
 ---
 
@@ -16,7 +17,9 @@ Zilliz Cloud supports migrating data between Zilliz Cloud clusters. You can seam
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Ensure your payment method is set up to access this feature.
+- Ensure your payment method is set up to access this feature.
+
+- You can make use of the migration between clusters to change the CU settings for your data.
 
 </Admonition>
 
@@ -49,6 +52,7 @@ This feature is accessible to users on the Standard or Enterprise plans.
 1. Navigate to your target cluster. On the **Cluster Details** page, click **Actions** in the upper right corner, and then click **Migrate From**. Select **Dedicated Cluster**.
 
 1. In the dialogue box,
+
     1. Select your **Source Project**, **Source Cluster**, and **Source Collection**.
 
     1. Verify the information of the target cluster.
@@ -56,9 +60,11 @@ This feature is accessible to users on the Standard or Enterprise plans.
     1. Click **Confirm** to proceed. (Note: Only a running dedicated cluster can be chosen as the data migration source.)
 
 1. In the **Migration Records**, view the new migration record that appears. The status of this record will change from **MIGRATING** to **SUCCESSFUL** once the data migration is complete.
+
     ![cross-cluster-migration-en](/img/cross-cluster-migration-en.png)
 
 1. After the migration, click **Show Collection** under the **Action** column of this migration record to view the details of the migrated collection.
+
     ![view-collection-details-en](/img/view-collection-details-en.png)
 
 ## Related topics{#related-topics}
@@ -68,3 +74,4 @@ This feature is accessible to users on the Standard or Enterprise plans.
 - [Insert Entities](./insert-entities)
 
 - [AUTOINDEX Explained](./autoindex-explained) 
+

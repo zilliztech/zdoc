@@ -1,7 +1,8 @@
 ---
-slug: /docs/faq-data-import
+slug: /faq-data-import
 beta: null
 notebook: null
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 4
 ---
 

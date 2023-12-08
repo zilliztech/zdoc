@@ -1,7 +1,8 @@
 ---
-slug: /docs/set-up-maintenance-window
+slug: /set-up-maintenance-window
 beta: FALSE
 notebook: FALSE
+token: FUtxwSaoSiDKFikcDw8cKngKn1f
 sidebar_position: 2
 ---
 
@@ -37,3 +38,4 @@ To change the system maintenance window hours, click **Edit** to open the **Main
 - [Manage Timezone](./manage-timezone) 
 
 - [Manage Organization Information](./manage-orgs-and-members) 
+

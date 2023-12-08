@@ -1,0 +1,1337 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1699353029",
+  "node_token": "YXwjweT1Mi8hLckPrjdckUHdnMd",
+  "node_type": "origin",
+  "obj_create_time": "1699353029",
+  "obj_edit_time": "1700536101",
+  "obj_token": "W059dfmJso7kHwxk6Gbc7Gbhncd",
+  "obj_type": "docx",
+  "origin_node_token": "YXwjweT1Mi8hLckPrjdckUHdnMd",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "NM2OwCcfVijX8DkNsIxcdajEnr7",
+  "space_id": "7167193056431783939",
+  "title": "License",
+  "slug": "license",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "W059dfmJso7kHwxk6Gbc7Gbhncd",
+        "block_type": 1,
+        "children": [
+          "XSdDd4VNOo8mX8x6RRvcK4f4n0c",
+          "G1ORdztYvoYShwx1uegcGWZAnKf",
+          "WXyBdNsaro5Y72xqFqUcCvIvnkb",
+          "MtABdRbP3omR97xw6c8cpzXRnVg",
+          "JUdpdm5ruooqj4xwNM5cux0cnSe",
+          "Nm1pdZqSYoniHTxMP9ocE14Onhc",
+          "GGXKdUuUCo41iDxC8l4cXDrunJf",
+          "B10JdCmGyo04sTxLMpockZ4Jnph",
+          "QZd5dqddJoPFEgxYcO1cgeQTnOf",
+          "ChlydOeF5onaRTxS9upcOZ4PnRu",
+          "ER0UdEdnIo21YCxyJahcj6dUn7d",
+          "AIrldtDm3ovw8TxtXFYc756an5c",
+          "O7RIdw7UNouTzuxt0hRcdMCLnBa",
+          "Af2cdT3KjoBPK1xFj1ncKcHdnBf",
+          "XzPIdhsOQoQBXDxSlYdcDopzn6g",
+          "D1Ttdjt8Jok5jhxFHjwcx4lSnld",
+          "TCiedOQXsoU2TQxDH80cVQTjnCc",
+          "EIbGdZ7GaoseMfxx16ncOS2fn6g",
+          "JzmpdrDr4ocE5yxx1dlcot3dnaf",
+          "R0kTdOiJCoeYzUxPiRccCCGVnlg",
+          "DWs4dAcb5oyvFbxEqDmcnrvEnwh",
+          "QDVYdwblao5ZrBxjiJncSQNJnhe",
+          "MqNxdZwRRo1PmpxR8smcHUUYn3d",
+          "D5FSdwJqooCWOTx7N00cDqnjnob",
+          "CiBpd5Ym6oagEYxizZFcY6lTnj8",
+          "LEdCdteKgoSmzTxHCZRcFByQnCb",
+          "KVyqd21vVoi3u5xf03bc2mAInsb",
+          "KZrkdBbr9odKJix6uDycnlrtnlh",
+          "DDmqdZsN9orSX8xNT8VctOYqngh",
+          "L5p4d1cDWoT2Orx5GJNcbhYLnFc",
+          "EVZNdAnvBo3cu4xn9D0c2VQ9nFg",
+          "FrLIdPmyXoPLBExyT2Bcc872n9g"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "License",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "XSdDd4VNOo8mX8x6RRvcK4f4n0c",
+        "block_type": 2,
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The Zilliz Cloud Bring Your Own Cloud (BYOC) license offers a subscription model enabling you to utilize Zilliz Cloud services on your cloud infrastructure. This topic explores the BYOC license, emphasizing its usage, monitoring, and implications for users.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G1ORdztYvoYShwx1uegcGWZAnKf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "License overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "WXyBdNsaro5Y72xqFqUcCvIvnkb",
+        "block_type": 2,
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The BYOC license operates on a core-based subscription model, linking your subscription to the number of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CPU",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " cores dedicated to your cluster services. Key features include:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MtABdRbP3omR97xw6c8cpzXRnVg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Validity Period",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Each license has a specific start and end date, defining the period during which Zilliz Cloud services can be used.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "JUdpdm5ruooqj4xwNM5cux0cnSe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Core Allocation",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7301587998159257604",
+                    "7301618419583942660"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Under a BYOC license, a specific number of ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7301587998159257604",
+                    "7301618419583942660"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CPU",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7301587998159257604",
+                    "7301618419583942660"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " cores are allocated for running Zilliz Cloud clusters. This core allocation directly influences the cluster's performance and scalability",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7301587998159257604",
+                    "7301618419583942660"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7301618419583942660"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7301618419583942660",
+          "7301587998159257604"
+        ],
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "Nm1pdZqSYoniHTxMP9ocE14Onhc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View license information",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "GGXKdUuUCo41iDxC8l4cXDrunJf",
+        "block_type": 2,
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can manage and view your BYOC license details in the Zilliz Cloud console.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "B10JdCmGyo04sTxLMpockZ4Jnph",
+        "block_type": 2,
+        "comment_ids": [
+          "7303725044201897988"
+        ],
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To view license information, you must be ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303725044201897988"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QZd5dqddJoPFEgxYcO1cgeQTnOf",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D18775-681%26mode%3Ddesign%26t%3DRVY2QkGGYtGQ5gpX-4"
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "ChlydOeF5onaRTxS9upcOZ4PnRu",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Monitor license usage",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "ER0UdEdnIo21YCxyJahcj6dUn7d",
+        "block_type": 2,
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Check out the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Usage",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " progress bar on the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "License Information",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " page, which offers an easy-to-understand visual guide showing how you're using your license. Please take the appropriate action based on the color indicators:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AIrldtDm3ovw8TxtXFYc756an5c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Green",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Your license usage is comfortably within limits, with core usage below 70% and over 60 days of validity remaining. Keep monitoring to ensure it stays in this range.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "O7RIdw7UNouTzuxt0hRcdMCLnBa",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yellow",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": A nudge to start thinking about renewing or upgrading your license",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303726223505932292"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "with core usage between 70-99% or validity under 60 days. Time to assess your future needs and prepare for action.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7303726223505932292"
+        ],
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "Af2cdT3KjoBPK1xFj1ncKcHdnBf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Red",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": A clear signal that immediate action is required",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303726583477633028"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "with core usage over 100% or license expiration. Critical to renew or upgrade now to avoid operational disruptions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7303726583477633028"
+        ],
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "XzPIdhsOQoQBXDxSlYdcDopzn6g",
+        "block_type": 2,
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Contact our sales for help if you are in the yellow or red zone. We recommend you renew or upgrade your license before it expires or reaches its limit to avoid restrictions like the inability to create new clusters or scale up.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D1Ttdjt8Jok5jhxFHjwcx4lSnld",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D18786-810%26mode%3Ddesign%26t%3DRVY2QkGGYtGQ5gpX-4"
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "TCiedOQXsoU2TQxDH80cVQTjnCc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "License expiration or overuse",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "EIbGdZ7GaoseMfxx16ncOS2fn6g",
+        "block_type": 2,
+        "comment_ids": [
+          "7303727479264002051"
+        ],
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To prevent service disruptions, renew or upgrade your license if it is approaching",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " expiration or nearing the core usage limit",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303727479264002051"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Zilliz Cloud's flexible approach to fluctuating business needs includes:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JzmpdrDr4ocE5yxx1dlcot3dnaf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Core Usage Overuse",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Exceeding your core quota won't impact existing clusters, but you may be restricted from creating new clusters, scaling up, or activating new cloud regions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "R0kTdOiJCoeYzUxPiRccCCGVnlg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Expiration",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": A ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "one-month",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": true
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " grace period follows subscription expiration, allowing continued access to Zilliz Cloud services. This period is intended for subscription renewal or upgrade.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "DWs4dAcb5oyvFbxEqDmcnrvEnwh",
+        "block_type": 34,
+        "children": [
+          "H9z6d5m3SoT9vjxvOKlcDa9sn8d",
+          "WdK0d85dio9pO9xX44WcJgrYnVe"
+        ],
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd",
+        "quote_container": {}
+      },
+      {
+        "block_id": "H9z6d5m3SoT9vjxvOKlcDa9sn8d",
+        "block_type": 2,
+        "parent_id": "DWs4dAcb5oyvFbxEqDmcnrvEnwh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WdK0d85dio9pO9xX44WcJgrYnVe",
+        "block_type": 2,
+        "parent_id": "DWs4dAcb5oyvFbxEqDmcnrvEnwh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud simultaneously keeps track of your license's validity period and core usage, and applies restrictions accordingly if your license expires while cores are overused.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QDVYdwblao5ZrBxjiJncSQNJnhe",
+        "block_type": 4,
+        "comment_ids": [
+          "7303729455699804164"
+        ],
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Potential consequences of failing to renew or upgrade",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303729455699804164"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "MqNxdZwRRo1PmpxR8smcHUUYn3d",
+        "block_type": 2,
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Failing to renew or upgrade within the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "one-month",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": true
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " grace period results in your Zilliz Cloud account being frozen and service access revoked. The following operations are prohibited once frozen:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D5FSdwJqooCWOTx7N00cDqnjnob",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Creating, restarting, stopping, or scaling clusters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "CiBpd5Ym6oagEYxizZFcY6lTnj8",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Managing cluster users or passwords",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "LEdCdteKgoSmzTxHCZRcFByQnCb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Setting maintenance windows",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "KVyqd21vVoi3u5xf03bc2mAInsb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Modifying whitelist IP addresses",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "KZrkdBbr9odKJix6uDycnlrtnlh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Managing collections or indexes through the web console or SDKs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "DDmqdZsN9orSX8xNT8VctOYqngh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "L5p4d1cDWoT2Orx5GJNcbhYLnFc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Activate Your Cloud",
+                "token": "X08WweRsXiz0MPk4DIbcXYaInjc",
+                "url": "https://zilliverse.feishu.cn/wiki/X08WweRsXiz0MPk4DIbcXYaInjc"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "EVZNdAnvBo3cu4xn9D0c2VQ9nFg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Select the Right CU",
+                "token": "UgqvwKh2QiKE1kkYNLJcaHt0nkg",
+                "url": "https://zilliverse.feishu.cn/wiki/UgqvwKh2QiKE1kkYNLJcaHt0nkg"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      },
+      {
+        "block_id": "FrLIdPmyXoPLBExyT2Bcc872n9g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Cluster",
+                "token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
+                "url": "https://zilliverse.feishu.cn/wiki/U0Bsw2SZaihm2mkLza7cRCqTndg"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "W059dfmJso7kHwxk6Gbc7Gbhncd"
+      }
+    ],
+    "counts": 35
+  }
+}

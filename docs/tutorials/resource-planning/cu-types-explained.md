@@ -1,7 +1,8 @@
 ---
-slug: /docs/cu-types-explained
+slug: /cu-types-explained
 beta: FALSE
 notebook: FALSE
+token: UgqvwKh2QiKE1kkYNLJcaHt0nkg
 sidebar_position: 3
 ---
 

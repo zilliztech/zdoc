@@ -139,4 +139,11 @@ div[role="tabpanel"] .tabs > li.tabs__item--active {
   color: var(--ifm-color-primary-light);
 }
 
+nav.pagination-nav > a {
+  border: none;
+}
+
+nav.pagination-nav .pagination-nav__sublabel {
+  display: none;
+}
 

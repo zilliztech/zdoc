@@ -1,7 +1,8 @@
 ---
-slug: /docs/search-metrics-explained
+slug: /search-metrics-explained
 beta: TRUE
 notebook: FALSE
+token: TlfCwYUusikxUGkxsGGcO6eXnig
 sidebar_position: 5
 ---
 

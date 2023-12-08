@@ -1,0 +1,677 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689062289",
+  "node_token": "Fob2w8LZaifGSHkxjoZcHcTtngf",
+  "node_type": "origin",
+  "obj_create_time": "1689062289",
+  "obj_edit_time": "1699596533",
+  "obj_token": "UIHRdeM9joHMQMxSkpDcjbf7nnZ",
+  "obj_type": "docx",
+  "origin_node_token": "Fob2w8LZaifGSHkxjoZcHcTtngf",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "VvikwOKc9iZ5vBkgMnycrXKmnId",
+  "space_id": "7167193056431783939",
+  "title": "View Snapshot Details",
+  "slug": "view-snapshot-details",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "UIHRdeM9joHMQMxSkpDcjbf7nnZ",
+        "block_type": 1,
+        "children": [
+          "N8g0d2EFeoB8VkxRUOucEF8anYg",
+          "Him5dqGzooC4xQx2Pyfc6CzSnWe",
+          "B1HYdeFRgoDDAnxSZSacmbAsnIg",
+          "Mkbnd0DdAonr9KxdBNfc7hhDn4I",
+          "EmifdPYbuoAux3xxl5oc3m9incf",
+          "UC2Id1jP2oXKo8xHiLxcK5VunXc",
+          "M8QadFCu8ou9avxTD0BchuZnn9c",
+          "Y5uqdkSIKoCIHvx1vTwc3mGMnYd",
+          "RKkRddP0EoIMxcxDeJEcMFItnBq",
+          "OiMydT9iQoqJHax7fP6csFErnEb",
+          "WThCduGv0owgCNxK1izcYYWvnRd",
+          "JGs3dYNrJo99Ckx8yZ3cRj2Znlc",
+          "R7DndAJYioPw76xXAvZcxeXznOd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View Snapshot Details",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "N8g0d2EFeoB8VkxRUOucEF8anYg",
+        "block_type": 2,
+        "parent_id": "UIHRdeM9joHMQMxSkpDcjbf7nnZ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This guide walks you through how to check the details of automatically or manually created snapshots.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Him5dqGzooC4xQx2Pyfc6CzSnWe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Snapshot status",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UIHRdeM9joHMQMxSkpDcjbf7nnZ"
+      },
+      {
+        "block_id": "B1HYdeFRgoDDAnxSZSacmbAsnIg",
+        "block_type": 2,
+        "parent_id": "UIHRdeM9joHMQMxSkpDcjbf7nnZ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The status of a snapshot can vary, and the possible statuses are as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Mkbnd0DdAonr9KxdBNfc7hhDn4I",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CREATING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "SUnEdfZByomL3Sx4fEUcXwvPnDe"
+        ],
+        "parent_id": "UIHRdeM9joHMQMxSkpDcjbf7nnZ"
+      },
+      {
+        "block_id": "SUnEdfZByomL3Sx4fEUcXwvPnDe",
+        "block_type": 2,
+        "parent_id": "Mkbnd0DdAonr9KxdBNfc7hhDn4I",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If a snapshot is in this status, you cannot create another snapshot. However, you can click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "...",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Actions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column and choose ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Cancel",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to terminate the process.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EmifdPYbuoAux3xxl5oc3m9incf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "AVAILABLE",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Y34hdM7f2oMyMSxzUWrcOq5unJg"
+        ],
+        "parent_id": "UIHRdeM9joHMQMxSkpDcjbf7nnZ"
+      },
+      {
+        "block_id": "Y34hdM7f2oMyMSxzUWrcOq5unJg",
+        "block_type": 2,
+        "children": [
+          "TMdfdnpjIoC6aZxKuSJcuEQFngb",
+          "JtRidvvO0okGjPxyCaFcuikEnag",
+          "GVtydjKdAoBGrnx6YdBcSBbsnNQ"
+        ],
+        "parent_id": "EmifdPYbuoAux3xxl5oc3m9incf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After the status changes to this, you can click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "...",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the Actions column to",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TMdfdnpjIoC6aZxKuSJcuEQFngb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Check the collections in the backed-up cluster,",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Y34hdM7f2oMyMSxzUWrcOq5unJg"
+      },
+      {
+        "block_id": "JtRidvvO0okGjPxyCaFcuikEnag",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Restore from the snapshot to create a new cluster, or",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Y34hdM7f2oMyMSxzUWrcOq5unJg"
+      },
+      {
+        "block_id": "GVtydjKdAoBGrnx6YdBcSBbsnNQ",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Delete the snapshot.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Y34hdM7f2oMyMSxzUWrcOq5unJg"
+      },
+      {
+        "block_id": "UC2Id1jP2oXKo8xHiLxcK5VunXc",
+        "block_type": 2,
+        "parent_id": "UIHRdeM9joHMQMxSkpDcjbf7nnZ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If the status of your snapshot is neither of the two, errors may occur. Please try again. If you continue to experience errors, please contact us without hesitation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "M8QadFCu8ou9avxTD0BchuZnn9c",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View snapshot details",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UIHRdeM9joHMQMxSkpDcjbf7nnZ"
+      },
+      {
+        "block_id": "Y5uqdkSIKoCIHvx1vTwc3mGMnYd",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5552-1602%26mode%3Ddesign%26t%3DRAyt9jfOwuFhgrZw-4"
+          }
+        },
+        "parent_id": "UIHRdeM9joHMQMxSkpDcjbf7nnZ"
+      },
+      {
+        "block_id": "RKkRddP0EoIMxcxDeJEcMFItnBq",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UIHRdeM9joHMQMxSkpDcjbf7nnZ"
+      },
+      {
+        "block_id": "OiMydT9iQoqJHax7fP6csFErnEb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Snapshot",
+                "token": "HHXewT7wTiM1zqkySjHcMNX5n9b",
+                "url": "https://zilliverse.feishu.cn/wiki/HHXewT7wTiM1zqkySjHcMNX5n9b"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FCreate-Snapshot-da595014824d46109239ddecc3dbcfc0%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UIHRdeM9joHMQMxSkpDcjbf7nnZ"
+      },
+      {
+        "block_id": "WThCduGv0owgCNxK1izcYYWvnRd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Schedule Automatic Backups",
+                "token": "HDmKwGeGLi2P67kGdNXcigXDn3e",
+                "url": "https://zilliverse.feishu.cn/wiki/HDmKwGeGLi2P67kGdNXcigXDn3e"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FSchedule-Automatic-Backups-40b2a150791446f889ede7560706a557%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UIHRdeM9joHMQMxSkpDcjbf7nnZ"
+      },
+      {
+        "block_id": "JGs3dYNrJo99Ckx8yZ3cRj2Znlc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Restore from Snapshot",
+                "token": "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
+                "url": "https://zilliverse.feishu.cn/wiki/Dd6jwYIGiiz6HWkEPJqcpMA3n6g"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FRestore-from-Snapshot-a4770fbb774844cca755233e11f78d4c%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UIHRdeM9joHMQMxSkpDcjbf7nnZ"
+      },
+      {
+        "block_id": "R7DndAJYioPw76xXAvZcxeXznOd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Delete Snapshot",
+                "token": "SPTewoNSwiQe6MkBLjMcilNynOg",
+                "url": "https://zilliverse.feishu.cn/wiki/SPTewoNSwiQe6MkBLjMcilNynOg"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FDelete-Snapshot-2e9b72b0820f4db29c5be5dbfafe1cab%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "UIHRdeM9joHMQMxSkpDcjbf7nnZ"
+      }
+    ],
+    "counts": 19
+  }
+}

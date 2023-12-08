@@ -1,7 +1,8 @@
 ---
-slug: /docs/manage-timezone
+slug: /manage-timezone
 beta: FALSE
 notebook: FALSE
+token: MLIRwRbrtiawJgkMEdOcPQnRnVf
 sidebar_position: 1
 ---
 
@@ -27,3 +28,4 @@ To change the system time zone, click **Edit** to open the **Time Zone Settings*
 - [Set up Maintenance Window](./set-up-maintenance-window) 
 
 - [Manage Organization Information](./manage-orgs-and-members) 
+

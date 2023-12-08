@@ -1,7 +1,8 @@
 ---
-slug: /docs/faq-collection
+slug: /faq-collection
 beta: null
 notebook: null
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 3
 ---
 
@@ -19,6 +20,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 - [What is the concurrency for collection loading requests? How can I increase the number of concurrent requests?](#what-is-the-concurrency-for-collection-loading-requests-how-can-i-increase-the-number-of-concurrent-requests)
 - [Why do I fail to load collections? What can I do?](#why-do-i-fail-to-load-collections-what-can-i-do)
 - [Is there any limit to the number of fields I can add in a collection?](#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection)
+- [What's the difference between partitions and partition keys?](#whats-the-difference-between-partitions-and-partition-keys)
 
 ## FAQs
 
@@ -82,3 +84,11 @@ The failure is caused due to insufficient memory in your cluster. Please try sca
 ### Is there any limit to the number of fields I can add in a collection?{#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection}
 
 Yes. You can have a maximum of 64 fields in 1 collection.
+
+### What's the difference between partitions and partition keys?{#whats-the-difference-between-partitions-and-partition-keys}
+
+Partitions are used to organize data based on certain criteria.
+
+The partition key groups entities by the same key and speed up query performance.
+
+The difference is that data are physically isolated in partitions while partition keys group data logically. 

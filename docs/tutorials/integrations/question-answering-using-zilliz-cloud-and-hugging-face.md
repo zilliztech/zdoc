@@ -1,7 +1,8 @@
 ---
-slug: /docs/question-answering-using-zilliz-cloud-and-hugging-face
+slug: /question-answering-using-zilliz-cloud-and-hugging-face
 beta: FALSE
 notebook: 81_integrations_huggingface.ipynb
+token: RWxKwfwFniNU1skCVCgcrKHbnCd
 sidebar_position: 2
 ---
 
@@ -297,3 +298,4 @@ The output would vary with the subset of data you have downloaded if you leave [
 - [Documentation QA using Zilliz Cloud and LlamaIndex](./documentation-qa-using-zilliz-cloud-and-llamaindex) 
 
 - [Movie Search Using Zilliz Cloud and SentenceTransformers](./movie-search-using-zilliz-cloud-and-sentencetransformers) 
+

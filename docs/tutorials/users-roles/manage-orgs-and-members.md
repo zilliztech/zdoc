@@ -1,7 +1,8 @@
 ---
-slug: /docs/manage-orgs-and-members
+slug: /manage-orgs-and-members
 beta: FALSE
 notebook: FALSE
+token: BX8nwr7eHiZY3CkHnuYcGCj1n4e
 sidebar_position: 3
 ---
 
@@ -28,7 +29,7 @@ In the [organization and project](./a-panorama-view) hierarchy, you can manage y
 
 After joining an organization, you become an organization member and have permission to view system settings.
 
-For additional details on organization settings, see [Organization Settings](/docs/organization-settings).
+For additional details on organization settings, see [Organization Settings](./organization-settings).
 
 ![view-organization](/img/view-organization.png)
 

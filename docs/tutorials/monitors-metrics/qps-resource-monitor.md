@@ -1,7 +1,8 @@
 ---
-slug: /docs/qps-resource-monitor
+slug: /qps-resource-monitor
 beta: FALSE
 notebook: FALSE
+token: TKJawqMDPikhpMkQKcHc91mhnEd
 sidebar_position: 2
 ---
 

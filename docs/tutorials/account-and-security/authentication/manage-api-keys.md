@@ -1,7 +1,8 @@
 ---
-slug: /docs/manage-api-keys
+slug: /manage-api-keys
 beta: FALSE
 notebook: FALSE
+token: IFtRwms2yiPZx9kfiBacuaw6nJc
 sidebar_position: 1
 ---
 
@@ -18,13 +19,13 @@ To ensure security, only users with [Owner](./a-panorama-view) status, either at
 
 The following table compares API keys and username and password pairs, highlighting their scope, ease of use, creation, and management in accessing resources.
 
-|  Feature                                 |  API Keys                                                                                               |  Username and Password Pairs                                                                                                         |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-|  **Usage Scope**                         |  - Project-level resources;<br/> <br/>  - Manage all clusters and associated resources in a project.<br/>  |  - Cluster-level resources; <br/> <br/>  - Manage collections and associated resources in a cluster.<br/>                               |
-|  **Authentication**                      |  Authenticate RESTful API or SDK calls.                                                                 |  Authenticate RESTful API or SDK calls.                                                                                              |
-|  **Ease of Use**                         |  - User-friendly with a lower learning curve;<br/> <br/>  - No need to manage SDK versions.<br/>           |  - Suited for advanced features, role-based access control (RBAC) for cluster users;<br/> <br/>  - Require managing SDK versions.<br/>  |
-|  **Creation**                            |  Create API keys on the project page.                                                                   |  Add cluster users on the cluster management page.                                                                                   |
-|  **Management of Collections/Resources** |  - Create, drop collections;<br/> <br/>  - Manage indexes.<br/>                                            |  - Create, drop collections; <br/> <br/>  - Manage indexes;<br/> <br/>  - Access advanced collection features.<br/>                       |
+|  Feature                                 |  API Keys                                                                                                    |  Username and Password Pairs                                                                                                              |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+|  **Usage Scope**                         |  - Project-level resources;<br/> <br/>  - Manage all clusters and associated resources in a project.<br/> <br/>  |  - Cluster-level resources; <br/> <br/>  - Manage collections and associated resources in a cluster.<br/> <br/>                               |
+|  **Authentication**                      |  Authenticate RESTful API or SDK calls.                                                                      |  Authenticate RESTful API or SDK calls.                                                                                                   |
+|  **Ease of Use**                         |  - User-friendly with a lower learning curve;<br/> <br/>  - No need to manage SDK versions.<br/> <br/>           |  - Suited for advanced features, role-based access control (RBAC) for cluster users;<br/> <br/>  - Require managing SDK versions.<br/> <br/>  |
+|  **Creation**                            |  Create API keys on the project page.                                                                        |  Add cluster users on the cluster management page.                                                                                        |
+|  **Management of Collections/Resources** |  - Create, drop collections;<br/> <br/>  - Manage indexes.<br/> <br/>                                            |  - Create, drop collections; <br/> <br/>  - Manage indexes;<br/> <br/>  - Access advanced collection features.<br/> <br/>                       |
 
 ## Create an API key{#create-an-api-key}
 
@@ -64,7 +65,7 @@ Exercise caution when deleting an API key. Doing so will immediately revoke acce
 
 - [Connect to Cluster](./connect-to-cluster)
 
-- [Manage Cluster Credentials](./manage-cluster-credentials) 
+- [Manage Cluster Credentials](./manage-cluster-credentials-gui) 
 
 - [Set up Whitelist](./set-up-whitelist)
 

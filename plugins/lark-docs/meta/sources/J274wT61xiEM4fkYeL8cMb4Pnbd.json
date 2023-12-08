@@ -1,0 +1,1789 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689046022",
+  "node_token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
+  "node_type": "origin",
+  "obj_create_time": "1689046022",
+  "obj_edit_time": "1701742716",
+  "obj_token": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+  "obj_type": "docx",
+  "origin_node_token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "BDOHwqlMDiei78kdUefcjSQUnEg",
+  "space_id": "7167193056431783939",
+  "title": "Install SDKs",
+  "slug": "install-sdks",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "block_type": 1,
+        "children": [
+          "UzTzdsY2joWZIaxV1uGcmL5Yndc",
+          "SPz8dcDiqo6fvSxvOzCcL02mnLe",
+          "Fwckd56D1oAeK2xMiMzcPkcOnub",
+          "V7HgdI1C6oIljJxOzRpc30aQnef",
+          "Ny7zd7aLZorTB2xvq7jckiwrn1k",
+          "JBAydos4kovBDix0jBsc16FBnne",
+          "EajidnuiJo9O9xxRdxqc2NsHnaf",
+          "Ss8sdl9KNolHqNxrBLLcyurcnUg",
+          "HifHdxdehoEyhDxZoe5c9EIon5g",
+          "WHSvd3Ha5o85uexeqTHcmlRGnIb",
+          "YzIid5Ep8oWI2hx9Hl1clsk1n4c",
+          "KkljdpIrzoJgqOxxUEacvba5n9e",
+          "WDz6dyEeQoPepnx55CQcyEtcn8d",
+          "FcCcdYmH3oSGEAxWLKwccMCMnRd",
+          "GdJJdupWJowjYyxe9yhcsHr8nmh",
+          "A71vd6ZHBoAXJdxjX4DcuLPjn5e",
+          "BQQidMT6YorfAsxUOpmcgYYynOx",
+          "W4O5dhGCOoyIXWxBlCQcqDLenTh",
+          "JFsYdQcEko6Ib2xH4EtcXkw0nwf",
+          "QmhcdfBzFoCB9Hx3oI1c8mHSnTd",
+          "KmwDd80ROo4SU2x7TxTcD7r9nTd",
+          "Q2gwdPF5yoNzFDxwvz6cSdGnnAf",
+          "VdaldF050oRLL0x0tdRcF7E9n3e",
+          "JNjGdkH2FoW86zx3grucZFEkn8g",
+          "Kc3WdKwrGoAQMxx6hQccR00Wnac",
+          "BQUidQUHnoCsO9xaqXNcvoUkn4c",
+          "GUf9dSE7iof36dxJrNFcNlu6nYg",
+          "FR8vdQinBol5pzxvLkBcMkmxn2d",
+          "OL7id6OFgoDe9kxJ8yJcnpT8nOg"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Install SDKs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "UzTzdsY2joWZIaxV1uGcmL5Yndc",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Discover how to seamlessly install Milvus SDKs, allowing efficient connections to Zilliz Cloud clusters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SPz8dcDiqo6fvSxvOzCcL02mnLe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "Fwckd56D1oAeK2xMiMzcPkcOnub",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK options exist to facilitate cluster connections: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Python",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FJ274wT61xiEM4fkYeL8cMb4Pnbd%23Ny7zd7aLZorTB2xvq7jckiwrn1k"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Java",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FJ274wT61xiEM4fkYeL8cMb4Pnbd%23GdJJdupWJowjYyxe9yhcsHr8nmh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Go",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FJ274wT61xiEM4fkYeL8cMb4Pnbd%23KmwDd80ROo4SU2x7TxTcD7r9nTd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Node.js",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FJ274wT61xiEM4fkYeL8cMb4Pnbd%23HifHdxdehoEyhDxZoe5c9EIon5g"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "V7HgdI1C6oIljJxOzRpc30aQnef",
+        "block_type": 34,
+        "children": [
+          "JyhPdc40VohWucxyZUBcuZs3nhe",
+          "MopcdJhwAoFFuJxNhw1c57SOnGd",
+          "GCrgd9lnEoxDv8xV1yScUT2lnie"
+        ],
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "quote_container": {}
+      },
+      {
+        "block_id": "JyhPdc40VohWucxyZUBcuZs3nhe",
+        "block_type": 2,
+        "parent_id": "V7HgdI1C6oIljJxOzRpc30aQnef",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MopcdJhwAoFFuJxNhw1c57SOnGd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud consistently upgrades clusters to ensure version compatibility. For details, visit the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Set up Maintenance Window",
+                "token": "FUtxwSaoSiDKFikcDw8cKngKn1f",
+                "url": "https://zilliverse.feishu.cn/wiki/FUtxwSaoSiDKFikcDw8cKngKn1f"
+              }
+            },
+            {
+              "text_run": {
+                "content": " page. If connection issues arise due to SDK version discrepancies, heed the provided prompts to revert to a compatible SDK version. We'll notify you post-maintenance, post which you can upgrade your SDK without concerns.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "V7HgdI1C6oIljJxOzRpc30aQnef"
+      },
+      {
+        "block_id": "GCrgd9lnEoxDv8xV1yScUT2lnie",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "All SDKs below offer both a stable version and a beta version. The stable version is intended for common clusters, while the beta version corresponds to beta clusters. If you have upgraded your clusters to the beta version, ensure that you also upgraded your SDKs to the beta version.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "V7HgdI1C6oIljJxOzRpc30aQnef"
+      },
+      {
+        "block_id": "Ny7zd7aLZorTB2xvq7jckiwrn1k",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Install PyMilvus: Python SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "JBAydos4kovBDix0jBsc16FBnne",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PyMilvus is Milvus's Python SDK. Access its ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "source code on GitHub",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fmilvus-io%2Fpymilvus"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EajidnuiJo9O9xxRdxqc2NsHnaf",
+        "block_type": 34,
+        "children": [
+          "WL26dOoKBot7JExdlo3cZVPBn2O",
+          "F0zsd0k7LoyMacxcLozc25iJnpl"
+        ],
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "quote_container": {}
+      },
+      {
+        "block_id": "WL26dOoKBot7JExdlo3cZVPBn2O",
+        "block_type": 2,
+        "parent_id": "EajidnuiJo9O9xxRdxqc2NsHnaf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F0zsd0k7LoyMacxcLozc25iJnpl",
+        "block_type": 2,
+        "parent_id": "EajidnuiJo9O9xxRdxqc2NsHnaf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ensure your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Python",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " version exceeds ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "3.7",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " prior to installation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ss8sdl9KNolHqNxrBLLcyurcnUg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Install specific PyMilvus version for beta clusters\npython -m pip install pymilvus==2.3.1\n\n# Install specific PyMilvus version for common clusters\npython -m pip install pymilvus==2.2.17\n\n# Update PyMilvus to the newest version\npython -m pip install --upgrade pymilvus\n\n# Verify installation success\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "python -m pip list | grep pymilvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "HifHdxdehoEyhDxZoe5c9EIon5g",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Install Node.js ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "WHSvd3Ha5o85uexeqTHcmlRGnIb",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For Milvus's Node.js SDK, employ ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "npm",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "yarn",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Access its ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "source code on GitHub",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fmilvus-io%2Fmilvus-sdk-node"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YzIid5Ep8oWI2hx9Hl1clsk1n4c",
+        "block_type": 34,
+        "children": [
+          "EumKdisO2oUjp0xeg3uclzkHnOg",
+          "XG2ld9DeJoTZvtx7HVscI3Nvnrb"
+        ],
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "quote_container": {}
+      },
+      {
+        "block_id": "EumKdisO2oUjp0xeg3uclzkHnOg",
+        "block_type": 2,
+        "parent_id": "YzIid5Ep8oWI2hx9Hl1clsk1n4c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XG2ld9DeJoTZvtx7HVscI3Nvnrb",
+        "block_type": 2,
+        "parent_id": "YzIid5Ep8oWI2hx9Hl1clsk1n4c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ensure your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Node.js",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " version is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "14",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or above prior to installation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KkljdpIrzoJgqOxxUEacvba5n9e",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Installing a specific version for beta clusters\nnpm install @zilliz/milvus2-sdk-node@2.3.5\n# Alternatively,\nyarn add @zilliz/milvus2-sdk-node@2.3.5\n\n# Installing a specific version for common clusters\nnpm install @zilliz/milvus2-sdk-node@2.2.24\n# Alternatively,\nyarn add @zilliz/milvus2-sdk-node@2.2.24\n\n# Upgrade to the latest version\nnpm update @zilliz/milvus2-sdk-node\n# Alternatively,\nyarn upgrade @zilliz/milvus2-sdk-node\n\n# Verify installation\nnpm list | grep @zilliz/milvus2-sdk-node\n# or\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "yarn list | grep @zilliz/milvus2-sdk-node",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "WDz6dyEeQoPepnx55CQcyEtcn8d",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can use this ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as either a CommonJS or an ES6 module. Typically, for ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "npm init",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " projects, use CommonJS. For ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "npm init es6",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ones, ES6 is preferable.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FcCcdYmH3oSGEAxWLKwccMCMnRd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// Import the SDK as a CommonJS module\nconst { MilvusClient } = require(\"@zilliz/milvus2-sdk-node\")\n\n// Import the SDK as a ES6 module\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "import { MilvusClient } from \"@zilliz/milvus2-sdk-node\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "GdJJdupWJowjYyxe9yhcsHr8nmh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Install Java ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "A71vd6ZHBoAXJdxjX4DcuLPjn5e",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use Apache Maven or Gradle/Grails to obtain the SDK. Access the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "source code on GitHub",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fmilvus-io%2Fmilvus-sdk-java"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BQQidMT6YorfAsxUOpmcgYYynOx",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For Apache Maven, append this to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pom.xml",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " dependencies:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "W4O5dhGCOoyIXWxBlCQcqDLenTh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<!-- Use this for beta clusters -->\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<dependenc",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "y>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "     <groupId>io.milvus</groupId>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "     <a",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "rtifactId>milvus-sdk-java</artifactId>\n     <version>2.3.3</version>\n </dependency>\n \n <!-- Use this for common clusters -->\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " <dependenc",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "y>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "     <groupId>io.milvus</groupId>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "     <a",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "rtifactId>milvus-sdk-java</artifactId>\n     <version>2.2.15</version>\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " </dependency>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 66,
+            "wrap": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "JFsYdQcEko6Ib2xH4EtcXkw0nwf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For Gradle/Grails, execute:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "QmhcdfBzFoCB9Hx3oI1c8mHSnTd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Use this for beta clusters\ncompile 'io.milvus:milvus-sdk-java:2.3.3'\n\n# Use this for common clusters\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "compile 'io.milvus:milvus-sdk-java:2.2.15'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "KmwDd80ROo4SU2x7TxTcD7r9nTd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Install Go ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "Q2gwdPF5yoNzFDxwvz6cSdGnnAf",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The Go SDK is available via ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "go get",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Explore its ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "source code on GitHub",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fmilvus-io%2Fmilvus-sdk-go"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VdaldF050oRLL0x0tdRcF7E9n3e",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Run the following for beta clusters\ngo get -u github.com/milvus-io/milvus-sdk-go/v2@v2.3.3\n\n# Run the following for common clusters\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.2.8",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "JNjGdkH2FoW86zx3grucZFEkn8g",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "Kc3WdKwrGoAQMxx6hQccR00Wnac",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Cluster",
+                "token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
+                "url": "https://zilliverse.feishu.cn/wiki/U0Bsw2SZaihm2mkLza7cRCqTndg"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FCreate-Cluster-c46973ff29754741a82d67471551897f%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "BQUidQUHnoCsO9xaqXNcvoUkn4c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Collection",
+                "token": "QnKCw0v4TiFkITkneCmcy0mZnre",
+                "url": "https://zilliverse.feishu.cn/wiki/QnKCw0v4TiFkITkneCmcy0mZnre"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FCreate-Collection-e3b47847e3cd463ba141fba47e7c2603%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "GUf9dSE7iof36dxJrNFcNlu6nYg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Insert Entities",
+                "token": "HBZTwCHa6iTDE0kqNqZc5OJ8nqg",
+                "url": "https://zilliverse.feishu.cn/wiki/HBZTwCHa6iTDE0kqNqZc5OJ8nqg"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FInsert-Entities-375dd098632d4a5297617a51c69c7967%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "FR8vdQinBol5pzxvLkBcMkmxn2d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Search and Query",
+                "token": "YfMEwLHzeisARCk4VZ3cVhJmnjd",
+                "url": "https://zilliverse.feishu.cn/wiki/YfMEwLHzeisARCk4VZ3cVhJmnjd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FSearch-and-Query-40930370867642c6b8b65249cfb58c5b%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "OL7id6OFgoDe9kxJ8yJcnpT8nOg",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 37
+  }
+}

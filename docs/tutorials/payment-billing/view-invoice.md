@@ -1,7 +1,8 @@
 ---
-slug: /docs/view-invoice
+slug: /view-invoice
 beta: FALSE
 notebook: FALSE
+token: PBEbwjRu9iyyaFkZnuzcINHCnke
 sidebar_position: 5
 ---
 
@@ -45,3 +46,4 @@ On the **Billing Overview** page, you can view your current payment method, chec
 - [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace) 
 
 - [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card) 
+

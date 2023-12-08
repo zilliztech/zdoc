@@ -1,0 +1,1010 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1698025921",
+  "node_token": "TlfCwYUusikxUGkxsGGcO6eXnig",
+  "node_type": "origin",
+  "obj_create_time": "1698025921",
+  "obj_edit_time": "1698546404",
+  "obj_token": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+  "obj_type": "docx",
+  "origin_node_token": "TlfCwYUusikxUGkxsGGcO6eXnig",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+  "space_id": "7167193056431783939",
+  "title": "Similarity Metrics Explained",
+  "slug": "search-metrics-explained",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "block_type": 1,
+        "children": [
+          "YUUFdnu7zoCe8Cxf46jchorZn9g",
+          "N4htdwjgwojKTHxcg3YcwQWYn7b",
+          "LGp1dNqLgouMwaxBBSGcsx37n6d",
+          "SjTPdN8aOoILYPx95bKcverRnJb",
+          "NvpYdcmgcoauz4xSuFZcQ2eYn3f",
+          "Rnzmd4gskoob0sx0OeVcDs6Jnsg",
+          "R8PUdtkR4oP5xqxsU3GcPQzPnbf",
+          "NpACd8DXWo0Ye0xs8IScgfvBnff",
+          "Sq5JdDPRBoqYYRxijZJcIXoFnzf",
+          "BHCKdF0dIowBgEx1FMscU4DTnmh",
+          "SO9hdJ52UoXQ0MxgCMUckUrpnCc",
+          "AENidbVcNoD56PxkVNvcUrx3nve",
+          "HOHpdZpPOoXWJNxHHqKcLfCmnZr",
+          "QIhOdzcRjoadWLx7vkAckBAbnoe",
+          "J0gjd3aYpoB4FQx7QhAc0Trbnve",
+          "SAamdO58MosXUlxkFxUcIGt1nKh",
+          "SvXcdrfncob7ZvxyRFrcKyY4nl9",
+          "NgWqd8sHuoPTYdxc2NicJMs7nSc",
+          "CTPEdZRu6oH6UXx9W48cGc8onGg",
+          "LKsbdxEZ7oAU1nxuTzocV93ynFc",
+          "DD3ldSiSSo6VoaxrtQ6c1dBInkf",
+          "UkR3d1ZrEobSEkxZdJ4cdlp2nMd",
+          "JkhSdtJiYobT1DxTKwZc0OXEnlb",
+          "EEADdbUOqo5xxQx1ovSclYjQnDf",
+          "RXZHd189No5OiMxrGbfcMbdknvb"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Similarity Metrics Explained",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "YUUFdnu7zoCe8Cxf46jchorZn9g",
+        "block_type": 2,
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Similarity metrics are used to measure similarities among vectors. Choosing an appropriate distance metric helps improve classification and clustering performance significantly.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "N4htdwjgwojKTHxcg3YcwQWYn7b",
+        "block_type": 2,
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, Zilliz Cloud supports three types of similarity Metrics: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Euclidean distance (L2)",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Inner product (IP)",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Cosine similarity (COSINE)",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LGp1dNqLgouMwaxBBSGcsx37n6d",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Euclidean distance (L2)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb"
+      },
+      {
+        "block_id": "SjTPdN8aOoILYPx95bKcverRnJb",
+        "block_type": 2,
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Essentially, Euclidean distance measures the length of a segment that connects 2 points.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NvpYdcmgcoauz4xSuFZcQ2eYn3f",
+        "block_type": 2,
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The formula for Euclidean distance is as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Rnzmd4gskoob0sx0OeVcDs6Jnsg",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 196,
+          "token": "HtxnbRRwhoXGX8xYTJPcUS0KnCh",
+          "width": 634
+        },
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb"
+      },
+      {
+        "block_id": "R8PUdtkR4oP5xqxsU3GcPQzPnbf",
+        "block_type": 2,
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "where ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a = (a<sub>0</sub>, a<sub>1</sub>,..., a<sub>n-1</sub>)",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "b = (b<sub>0</sub>, b<sub>1</sub>,..., b<sub>n-1</sub>)",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " are two points in n-dimensional Euclidean space.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NpACd8DXWo0Ye0xs8IScgfvBnff",
+        "block_type": 2,
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "It's the most commonly used distance metric and is very useful when the data are continuous.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Sq5JdDPRBoqYYRxijZJcIXoFnzf",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "ATsWdD4SnoEwFexIAQacJrVPnYe",
+          "Cno4dMZTmoHAz2xXAJ6cjXx1njf"
+        ],
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb"
+      },
+      {
+        "block_id": "ATsWdD4SnoEwFexIAQacJrVPnYe",
+        "block_type": 2,
+        "parent_id": "Sq5JdDPRBoqYYRxijZJcIXoFnzf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Cno4dMZTmoHAz2xXAJ6cjXx1njf",
+        "block_type": 2,
+        "parent_id": "Sq5JdDPRBoqYYRxijZJcIXoFnzf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud only calculates the value before applying the square root when Euclidean distance is chosen as the distance metric.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BHCKdF0dIowBgEx1FMscU4DTnmh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Inner product (IP)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb"
+      },
+      {
+        "block_id": "SO9hdJ52UoXQ0MxgCMUckUrpnCc",
+        "block_type": 2,
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The IP distance between two embeddings is defined as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AENidbVcNoD56PxkVNvcUrx3nve",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 142,
+          "token": "X2NebUU5OogaZGxl7lwcrZhgnKg",
+          "width": 442
+        },
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb"
+      },
+      {
+        "block_id": "HOHpdZpPOoXWJNxHHqKcLfCmnZr",
+        "block_type": 2,
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "IP is more useful if you need to compare non-normalized data or when you care about magnitude and angle.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QIhOdzcRjoadWLx7vkAckBAbnoe",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "T6aDdopIZoYlFGx2lbZcYwwAnnh",
+          "WCzjduFwlon61ax61Ahc1WSxnhb"
+        ],
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb"
+      },
+      {
+        "block_id": "T6aDdopIZoYlFGx2lbZcYwwAnnh",
+        "block_type": 2,
+        "parent_id": "QIhOdzcRjoadWLx7vkAckBAbnoe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WCzjduFwlon61ax61Ahc1WSxnhb",
+        "block_type": 2,
+        "parent_id": "QIhOdzcRjoadWLx7vkAckBAbnoe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you use IP to calculate similarities between embeddings, you must normalize your embeddings. After normalization, the inner product equals cosine similarity.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "J0gjd3aYpoB4FQx7QhAc0Trbnve",
+        "block_type": 2,
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Suppose X' is normalized from embedding X:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SAamdO58MosXUlxkFxUcIGt1nKh",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 40,
+          "token": "CQOTbuIS6oqcp8xmIK6csUJdnbh",
+          "width": 265
+        },
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb"
+      },
+      {
+        "block_id": "SvXcdrfncob7ZvxyRFrcKyY4nl9",
+        "block_type": 2,
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The correlation between the two embeddings is as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NgWqd8sHuoPTYdxc2NicJMs7nSc",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 125,
+          "token": "UgebbKhefovb1KxFJfmcg1w1nng",
+          "width": 263
+        },
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb"
+      },
+      {
+        "block_id": "CTPEdZRu6oH6UXx9W48cGc8onGg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cosine similarity ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb"
+      },
+      {
+        "block_id": "LKsbdxEZ7oAU1nxuTzocV93ynFc",
+        "block_type": 2,
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cosine similarity uses the cosine of the angle between two sets of vectors to measure how similar they are. You can think of the two sets of vectors as line segments starting from the same point, such as [0,0,...], but pointing in different directions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DD3ldSiSSo6VoaxrtQ6c1dBInkf",
+        "block_type": 2,
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To calculate the cosine similarity between two sets of vectors ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "A = (a<sub>0</sub>, a<sub>1</sub>,..., a<sub>n-1</sub>)",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "B = (b<sub>0</sub>, b<sub>1</sub>,..., b<sub>n-1</sub>)",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", use the following formula:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UkR3d1ZrEobSEkxZdJ4cdlp2nMd",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 166,
+          "token": "WkObbyuhJoiG1IxJY59co6M5nag",
+          "width": 524
+        },
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb"
+      },
+      {
+        "block_id": "JkhSdtJiYobT1DxTKwZc0OXEnlb",
+        "block_type": 2,
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The cosine similarity is always in the interval ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "[-1, 1]",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". For example, two proportional vectors have a cosine similarity of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "1",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", two orthogonal vectors have a similarity of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "0",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and two opposite vectors have a similarity of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "-1",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". The larger the cosine, the smaller the angle between the two vectors, indicating that these two vectors are more similar to each other.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EEADdbUOqo5xxQx1ovSclYjQnDf",
+        "block_type": 2,
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "By subtracting their cosine similarity from 1, you can get the cosine distance between two vectors.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RXZHd189No5OiMxrGbfcMbdknvb",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "D87Idy4n8obogyxD0Z4ck1O2nLv",
+          "I6W6dqFYEo73t7xNS1kcqOw5nLd"
+        ],
+        "parent_id": "FbIPdV2BpoTuwux5N8gc4qxmncb"
+      },
+      {
+        "block_id": "D87Idy4n8obogyxD0Z4ck1O2nLv",
+        "block_type": 2,
+        "parent_id": "RXZHd189No5OiMxrGbfcMbdknvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "I6W6dqFYEo73t7xNS1kcqOw5nLd",
+        "block_type": 2,
+        "parent_id": "RXZHd189No5OiMxrGbfcMbdknvb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This is currently in beta. Upgrade your cluster to the beta version to utilize this new similarity metric.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 32
+  }
+}

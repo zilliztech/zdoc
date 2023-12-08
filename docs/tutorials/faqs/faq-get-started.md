@@ -1,7 +1,8 @@
 ---
-slug: /docs/faq-get-started
+slug: /faq-get-started
 beta: null
 notebook: null
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 1
 ---
 

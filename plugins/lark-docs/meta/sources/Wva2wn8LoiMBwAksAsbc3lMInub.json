@@ -1,0 +1,793 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1698025942",
+  "node_token": "Wva2wn8LoiMBwAksAsbc3lMInub",
+  "node_type": "origin",
+  "obj_create_time": "1698025942",
+  "obj_edit_time": "1700644735",
+  "obj_token": "VZLIdDtO1oFzIcxjRCwcUUNUnwd",
+  "obj_type": "docx",
+  "origin_node_token": "Wva2wn8LoiMBwAksAsbc3lMInub",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+  "space_id": "7167193056431783939",
+  "title": "Consistency Level",
+  "slug": "consistency-level",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "VZLIdDtO1oFzIcxjRCwcUUNUnwd",
+        "block_type": 1,
+        "children": [
+          "Uf4Td2JyFoJu1qxMTxPcqc4Nnhe",
+          "TtpRdKavRowHWUxSzsTcpmHin1c",
+          "ZHgod2CovovQGKxnEeQchMRvnHf",
+          "RQZBdx8gbo3UdaxvAM8cPZsAnHf",
+          "UQeSdkumWo3uBBx2wktcV7hZnXb",
+          "JzqrdxdnBoSfktxzievcPap5n3g",
+          "GL8Sd1OtZotreWxE2m2cTz6Jnqb",
+          "Tp51dS1sVok9d0xiL2GcyilTn7e",
+          "FIiydz9vmoBv85xwpYycnnf4n9g",
+          "YmzxdZjq4oEzX0xHhKUcLwuTnlc",
+          "BZQ5dQIDCo54EPx5vzpcYUglnzd",
+          "PyzddaxZloKQ6SxJjhWcmSaTn7e"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Consistency Level",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "Uf4Td2JyFoJu1qxMTxPcqc4Nnhe",
+        "block_type": 2,
+        "parent_id": "VZLIdDtO1oFzIcxjRCwcUUNUnwd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In distributed databases, consistency ensures that every node or replica offers the same data view during read or write operations. Zilliz Cloud provides ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "three",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " consistency levels: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Strong",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Bounded Staleness",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Eventually",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Bounded Staleness",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " set as the default.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TtpRdKavRowHWUxSzsTcpmHin1c",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Understanding the Balance: The PACELC Theorem",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VZLIdDtO1oFzIcxjRCwcUUNUnwd"
+      },
+      {
+        "block_id": "ZHgod2CovovQGKxnEeQchMRvnHf",
+        "block_type": 2,
+        "parent_id": "VZLIdDtO1oFzIcxjRCwcUUNUnwd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The PACELC theorem postulates that a distributed database must make trade-offs between consistency, availability, and latency. While high consistency guarantees accurate data, it may come at the cost of longer search latency. Conversely, low consistency offers faster search speeds but may compromise on data accuracy. Thus, the appropriate level of consistency depends on the specific use-case scenario.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RQZBdx8gbo3UdaxvAM8cPZsAnHf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Strong",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "JcvndOdQ1or50Kx7wxWc1Pb0nwd",
+          "QcnYdTLLbo8I6NxQw2vcoEbCn2d",
+          "M9XndVcx2otAfWxAKmAcBQs2nWi"
+        ],
+        "parent_id": "VZLIdDtO1oFzIcxjRCwcUUNUnwd"
+      },
+      {
+        "block_id": "JcvndOdQ1or50Kx7wxWc1Pb0nwd",
+        "block_type": 2,
+        "parent_id": "RQZBdx8gbo3UdaxvAM8cPZsAnHf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The strong level is the strictest level ensuring that users always read the most recent data version, and offers the highest accuracy but may lead to increased latency.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QcnYdTLLbo8I6NxQw2vcoEbCn2d",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 617,
+          "token": "Dv6obAFzsorbZtxcTkgcGlnBnWg",
+          "width": 877
+        },
+        "parent_id": "RQZBdx8gbo3UdaxvAM8cPZsAnHf"
+      },
+      {
+        "block_id": "M9XndVcx2otAfWxAKmAcBQs2nWi",
+        "block_type": 2,
+        "parent_id": "RQZBdx8gbo3UdaxvAM8cPZsAnHf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This consistency level is best for functional testing and critical applications like online financial systems where data accuracy is paramount.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UQeSdkumWo3uBBx2wktcV7hZnXb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Bounded staleness",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "G9L9dKX1QotxNlx0DH3ci0h8n7d",
+          "GeLQdofHioN1jJxB7T3c3oihnZb",
+          "MbuqduWhiooPS8xgEC0caChTnNb"
+        ],
+        "parent_id": "VZLIdDtO1oFzIcxjRCwcUUNUnwd"
+      },
+      {
+        "block_id": "G9L9dKX1QotxNlx0DH3ci0h8n7d",
+        "block_type": 2,
+        "parent_id": "UQeSdkumWo3uBBx2wktcV7hZnXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The bounded staleness level, as its name suggests, permits temporary data inconsistency but typically achieves global consistency after a short period. It offers a balance between latency and accuracy.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GeLQdofHioN1jJxB7T3c3oihnZb",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 711,
+          "token": "Mrx3b9ZxWos0Dgx2nw0ctbzGnyd",
+          "width": 1000
+        },
+        "parent_id": "UQeSdkumWo3uBBx2wktcV7hZnXb"
+      },
+      {
+        "block_id": "MbuqduWhiooPS8xgEC0caChTnNb",
+        "block_type": 2,
+        "parent_id": "UQeSdkumWo3uBBx2wktcV7hZnXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Bounded staleness is suitable for systems like video recommendation platforms, where occasional data inconsistencies don't drastically affect performance.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JzqrdxdnBoSfktxzievcPap5n3g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Eventually",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "R7cOdB4IvogRsrx2MtGcuCWlnDd",
+          "DnkgdBH1QoNCfXxJtDDcEdwLnUe",
+          "QQhUdBOuToaWmAx8HCAcflpinfg"
+        ],
+        "parent_id": "VZLIdDtO1oFzIcxjRCwcUUNUnwd"
+      },
+      {
+        "block_id": "R7cOdB4IvogRsrx2MtGcuCWlnDd",
+        "block_type": 2,
+        "parent_id": "JzqrdxdnBoSfktxzievcPap5n3g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The level of eventually indicates the most relaxed level, allowing data to converge to a consistent state over time without strict read-write order.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DnkgdBH1QoNCfXxJtDDcEdwLnUe",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 711,
+          "token": "VlGcbuuLcogaBcxLj85cMmN4n9e",
+          "width": 1000
+        },
+        "parent_id": "JzqrdxdnBoSfktxzievcPap5n3g"
+      },
+      {
+        "block_id": "QQhUdBOuToaWmAx8HCAcflpinfg",
+        "block_type": 2,
+        "parent_id": "JzqrdxdnBoSfktxzievcPap5n3g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "It maximizes search performance by sacrificing immediate consistency and therefore is best suitable for the scenarios prioritizing speed over immediate data accuracy, such as displaying product reviews.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GL8Sd1OtZotreWxE2m2cTz6Jnqb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Leveraging Guarantee Timestamp for Consistency",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VZLIdDtO1oFzIcxjRCwcUUNUnwd"
+      },
+      {
+        "block_id": "Tp51dS1sVok9d0xiL2GcyilTn7e",
+        "block_type": 2,
+        "parent_id": "VZLIdDtO1oFzIcxjRCwcUUNUnwd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To achieve these consistency levels, Zilliz Cloud employs the concept of the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Guarantee Timestamp",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fmilvus-io%2Fmilvus%2Fblob%2Ff3f46d3bb2dcae2de0bdb7bc0f7b20a72efceaab%2Fdocs%2Fdeveloper_guides%2Fhow-guarantee-ts-works.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (GuaranteeTs). This timestamp informs ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " nodes to delay searches or queries until all data up to the GuaranteeTs are available for viewing. Depending on the selected consistency level, the GuaranteeTs value adjusts:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FIiydz9vmoBv85xwpYycnnf4n9g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Strong",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Matches the latest system timestamp, ensuring all data up to this point is visible before queries.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VZLIdDtO1oFzIcxjRCwcUUNUnwd"
+      },
+      {
+        "block_id": "YmzxdZjq4oEzX0xHhKUcLwuTnlc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Bounded Staleness",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Slightly predates the latest system timestamp, permitting queries on slightly older data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VZLIdDtO1oFzIcxjRCwcUUNUnwd"
+      },
+      {
+        "block_id": "BZQ5dQIDCo54EPx5vzpcYUglnzd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Eventually",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Sets a minimal value to bypass consistency checks, enabling immediate queries on available data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VZLIdDtO1oFzIcxjRCwcUUNUnwd"
+      },
+      {
+        "block_id": "PyzddaxZloKQ6SxJjhWcmSaTn7e",
+        "block_type": 2,
+        "parent_id": "VZLIdDtO1oFzIcxjRCwcUUNUnwd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To delve deeper into this mechanism, consult the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "How GuaranteeTs Works",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fconsistency.md%23%3A~%3Atext%3DHow%2520GuaranteeTs%2520Works"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " section for a detailed breakdown of consistency levels.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 22
+  }
+}

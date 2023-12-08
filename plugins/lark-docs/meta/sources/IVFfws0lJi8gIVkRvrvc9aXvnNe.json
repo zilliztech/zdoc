@@ -1,0 +1,1134 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689055049",
+  "node_token": "IVFfws0lJi8gIVkRvrvc9aXvnNe",
+  "node_type": "origin",
+  "obj_create_time": "1689055049",
+  "obj_edit_time": "1700315179",
+  "obj_token": "NA7ydNrsQo0XdhxdzRRctPBSn1d",
+  "obj_type": "docx",
+  "origin_node_token": "IVFfws0lJi8gIVkRvrvc9aXvnNe",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "BIy4we6qXiq8NpkHfXgcxuONngb",
+  "space_id": "7167193056431783939",
+  "title": "Connect to Cluster",
+  "slug": "connect-to-cluster",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d",
+        "block_type": 1,
+        "children": [
+          "QtwkdAznlomNRjxQZJ6cQbDvn5g",
+          "KmGBdLOcIoqIuax6l1ccphlAnbh",
+          "RlaGdsjsDoeChlxZGcqcpOMMn6a",
+          "LdXDd7Ub0oUjfbxvFY1c0P0sn0c",
+          "Nss5d7uz6oKGI2xT7nAcOlc3nNd",
+          "RNHndG6MCon2roxVs6xcR7Nunnb",
+          "AOHBd8W9noQnwuxGmr9cl0x9njf",
+          "LuDNdLuA9oV8mYxaDIvcdvnhnCh",
+          "XxmFd8flboOWGkxt2HxcgoBVnvd",
+          "G3AxdRIpOote0qxBfDTcHcTanOc",
+          "BMuqdcdTKoPcNNxL2DNcKWWfnNb",
+          "R3YBdB0LpolJTIxeOJkcDrTjnV3",
+          "MAlrdEpsPo4YFnxsBCZcnbDrnvb",
+          "Ykc0dbaLVoBnRlx5MnvcucwUn7b",
+          "Rn9CdKNgcon688x26tQcpBIenAf",
+          "PeW5dKKvnoQHGQx5OxHcHi1unac",
+          "ELM5dQ1DtoqEPKxIg1Jc7oaEnzb",
+          "BA26dLfUYoZ19Jx2RZbchkovnme",
+          "T1g7dS6Ydokc08xNeOtcRF14nOh",
+          "DWrCdzleKoCGutxANlPc6ZJrnm2",
+          "HQW3dkbHZoGUvtxZtEOcJsQYn6d",
+          "QpaZd9n4UolbWnxlgmSccJ20nyC",
+          "ISWydM3ERod8GkxhRDJcGjmanbe",
+          "KZILd5DAAoNhuZxzBqycYMEJncc"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Connect to Cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "QtwkdAznlomNRjxQZJ6cQbDvn5g",
+        "block_type": 2,
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This article offers a systematic guide on connecting to a cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KmGBdLOcIoqIuax6l1ccphlAnbh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "RlaGdsjsDoeChlxZGcqcpOMMn6a",
+        "block_type": 2,
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ensure the following prerequisites are met before proceeding:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LdXDd7Ub0oUjfbxvFY1c0P0sn0c",
+        "block_type": 2,
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Nss5d7uz6oKGI2xT7nAcOlc3nNd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have registered an account with Zilliz Cloud. For details, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Register with Zilliz Cloud",
+                "token": "HriHwEU3qiQrgskz3a0cdkcpnyf",
+                "url": "https://zilliverse.feishu.cn/wiki/HriHwEU3qiQrgskz3a0cdkcpnyf"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "RNHndG6MCon2roxVs6xcR7Nunnb",
+        "block_type": 2,
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AOHBd8W9noQnwuxGmr9cl0x9njf",
+        "block_type": 2,
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LuDNdLuA9oV8mYxaDIvcdvnhnCh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have activated your cloud. For details, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Activate Your Cloud",
+                "token": "X08WweRsXiz0MPk4DIbcXYaInjc",
+                "url": "https://zilliverse.feishu.cn/wiki/X08WweRsXiz0MPk4DIbcXYaInjc"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "XxmFd8flboOWGkxt2HxcgoBVnvd",
+        "block_type": 2,
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G3AxdRIpOote0qxBfDTcHcTanOc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have created a cluster. For details, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Cluster",
+                "token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
+                "url": "https://zilliverse.feishu.cn/wiki/U0Bsw2SZaihm2mkLza7cRCqTndg"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "BMuqdcdTKoPcNNxL2DNcKWWfnNb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have installed a Milvus ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " applicable to your use case. For details, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Install SDKs",
+                "token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
+                "url": "https://zilliverse.feishu.cn/wiki/J274wT61xiEM4fkYeL8cMb4Pnbd"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "R3YBdB0LpolJTIxeOJkcDrTjnV3",
+        "block_type": 34,
+        "children": [
+          "JJ07daiEkoY39exQGDecahkRnoh",
+          "UDVFdA01iobtFbxujMXcigtYn4d"
+        ],
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d",
+        "quote_container": {}
+      },
+      {
+        "block_id": "JJ07daiEkoY39exQGDecahkRnoh",
+        "block_type": 2,
+        "parent_id": "R3YBdB0LpolJTIxeOJkcDrTjnV3",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Note ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UDVFdA01iobtFbxujMXcigtYn4d",
+        "block_type": 2,
+        "parent_id": "R3YBdB0LpolJTIxeOJkcDrTjnV3",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For those leaning towards the utilization of RESTful APIs over SDKs, it's important to understand that a continuous connection cannot be established. This is attributed to the HTTP protocol's unidirectional communication mode.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MAlrdEpsPo4YFnxsBCZcnbDrnvb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Connect to a cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "Ykc0dbaLVoBnRlx5MnvcucwUn7b",
+        "block_type": 2,
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. This token can either be an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FHa8jwqxnniC8mDkXM4RcN4SFnKf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "cluster credential",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FHa8jwqxnniC8mDkXM4RcN4SFnKf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " comprised of a username-password duo.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Rn9CdKNgcon688x26tQcpBIenAf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Starter API\n# Connect using a MilvusClient object\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\nCLUSTER_ENDPOINT=\"YOUR_CLUSTER_ENDPOINT\" # Set your cluster endpoint\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "TOKEN=\"YOUR_CLUSTER_TOKEN\" # Set your token",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\n# Initialize a MilvusClient instance\n# Replace uri and API key with your own\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console\n    token=TOKEN # API key or a colon-separated cluster username and password\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\n# =============\n# Advanced API\n\n# Connect with a connections object\nfrom pymilvus import connections\n\nconnections.connect(\n  alias='default', \n  #  Public endpoint obtained from Zilliz Cloud\n  uri=CLUSTER_ENDPOINT,\n  # API key or a colon-separated cluster username and password\n  token=TOKEN, \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "PeW5dKKvnoQHGQx5OxHcHi1unac",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "const { MilvusClient } = require(\"@zilliz/milvus2-sdk-node\")\n\nconst address = \"YOUR_CLUSTER_ENDPOINT\"\nconst token = \"YOUR_CLUSTER_TOKEN\"\n\nasync function main () {\n\n    // Connect to the cluster\n    const client = new MilvusClient({address, token})\n    \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "ELM5dQ1DtoqEPKxIg1Jc7oaEnzb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.client.MilvusServiceClient;\nimport io.milvus.param.ConnectParam;\n\npublic final class QuickStartDemo {\n\n    public static void main(String[] args) {\n        String clusterEndpoint = \"YOUR_CLUSTER_ENDPOINT\";\n        String token = \"YOUR_CLUSTER_TOKEN\";\n\n        // 1. Connect to Zilliz Cloud\n\n        ConnectParam connectParam = ConnectParam.newBuilder()\n            .withUri(clusterEndpoint)\n            .withToken(token)\n            .build();   \n            \n        MilvusServiceClient client = new MilvusServiceClient(connectParam);\n\n        System.out.println(\"Connected to Zilliz Cloud!\");\n\n        // Output:\n        // Connected to Zilliz Cloud!\n        \n    }\n    \n }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "BA26dLfUYoZ19Jx2RZbchkovnme",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import \"github.com/milvus-io/milvus-sdk-go/v2/client\"\n\nfunc main() {\n    CLUSTER_ENDPOINT := \"YOUR_CLUSTER_ENDPOINT\"\n    TOKEN := \"YOUR_CLUSTER_TOKEN\"\n    COLLNAME := \"medium_articles_2020\"\n\n    // 1. Connect to cluster\n\n    connParams := client.Config{\n        Address: CLUSTER_ENDPOINT,\n        APIKey:  TOKEN,\n    }\n\n    conn, err := client.NewClient(context.Background(), connParams)\n\n    if err != nil {\n        log.Fatal(\"Failed to connect to Zilliz Cloud:\", err.Error())\n    }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "T1g7dS6Ydokc08xNeOtcRF14nOh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# token=\"username:password\" or token=\"your-api-key\"\ncurl --request GET \\\\\n    --url \"${PUBLIC_ENDPOINT}/v1/vector/collections\" \\\\\n    --header \"Authorization: Bearer ${TOKEN}\" \\\\\n    --header 'accept: application/json' \\\\\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    --header 'content-type: application/json'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "DWrCdzleKoCGutxANlPc6ZJrnm2",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "HQW3dkbHZoGUvtxZtEOcJsQYn6d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Collection",
+                "token": "QnKCw0v4TiFkITkneCmcy0mZnre",
+                "url": "https://zilliverse.feishu.cn/wiki/QnKCw0v4TiFkITkneCmcy0mZnre"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FCreate-Collection-e3b47847e3cd463ba141fba47e7c2603%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "QpaZd9n4UolbWnxlgmSccJ20nyC",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Insert Entities",
+                "token": "HBZTwCHa6iTDE0kqNqZc5OJ8nqg",
+                "url": "https://zilliverse.feishu.cn/wiki/HBZTwCHa6iTDE0kqNqZc5OJ8nqg"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FDrop-Collection-523172cacd21488c9910e759287f5604%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "ISWydM3ERod8GkxhRDJcGjmanbe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Search and Query",
+                "token": "YfMEwLHzeisARCk4VZ3cVhJmnjd",
+                "url": "https://zilliverse.feishu.cn/wiki/YfMEwLHzeisARCk4VZ3cVhJmnjd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FInsert-Entities-375dd098632d4a5297617a51c69c7967%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      },
+      {
+        "block_id": "KZILd5DAAoNhuZxzBqycYMEJncc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Drop Collection",
+                "token": "KxK7wHZrciDa0skHrW1c6nkWn5f",
+                "url": "https://zilliverse.feishu.cn/wiki/KxK7wHZrciDa0skHrW1c6nkWn5f"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FSearch-and-Query-40930370867642c6b8b65249cfb58c5b%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
+      }
+    ],
+    "counts": 27
+  }
+}

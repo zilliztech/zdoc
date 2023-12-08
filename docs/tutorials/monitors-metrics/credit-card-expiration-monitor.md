@@ -1,7 +1,8 @@
 ---
-slug: /docs/credit-card-expiration-monitor
+slug: /credit-card-expiration-monitor
 beta: FALSE
 notebook: FALSE
+token: CV5vwnufwiVuQZkAktac6HDGnXc
 sidebar_position: 5
 ---
 
@@ -45,3 +46,4 @@ To turn on the credit card expiration monitor, follow the steps below:
 - [View Cluster Metrics](./monitor-metrics) 
 
 - [Advance Pay Balance Monitor](./advance-pay-balance-monitor) 
+

@@ -1,0 +1,2176 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689045935",
+  "node_token": "LMfdwRwKIiJtywkwbHVcGnOFnRf",
+  "node_type": "origin",
+  "obj_create_time": "1689045935",
+  "obj_edit_time": "1698286344",
+  "obj_token": "NCntd2lfuogqfNxeEmMcKPSunNf",
+  "obj_type": "docx",
+  "origin_node_token": "LMfdwRwKIiJtywkwbHVcGnOFnRf",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "BDOHwqlMDiei78kdUefcjSQUnEg",
+  "space_id": "7167193056431783939",
+  "title": "Free Trials",
+  "slug": "free-trials",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "NCntd2lfuogqfNxeEmMcKPSunNf",
+        "block_type": 1,
+        "children": [
+          "E3dZdZ12roMm7exO2yScoZ0dnOW",
+          "APrMd1WjfoMdr2xom8ScMbUZnUf",
+          "MlsfdhG6Io3TzHxbvHZc7sKcnzf",
+          "XfPhdBWdVo4trnx94FjcVHiOn7b",
+          "RfpUdsEqXov3MgxQqiycTKYHnhb",
+          "TowkdIWQSocc2oxjDoXcnjOpnwb",
+          "PbjMdf8TkoNpRfxPGlvcQE8rnie",
+          "KvV3dRMWboEpXoxQ35ncZHu5nBf",
+          "MANtdVogao3HJ8xZxoecQoyenQd",
+          "UtCddrrSdoHDiIxmj2wcLAqTnBb",
+          "YmUodvtvoo33NOxqXWNcisaqnte",
+          "BJuadJ5eMo3kwVxUV9ocJaldnPg",
+          "YH4ddmbgPodo76xea3gclbPCnCh",
+          "HRpud7gluoqWAOx9Tp3cvIwKnoe",
+          "FDo9dUmMLoCEnvxGL2fcc4KMnuc",
+          "DMSjd5izVoQDgpx1lLec1O3FnSc",
+          "HjVkd3aHjoOhetxUvY9cHq7Rn6g",
+          "LlJndZHRAo5nIxxRJbqcF4OanRg",
+          "QynIdd8oCo5243xyZ0zc147AnVd",
+          "NPO3dWUJ3oVFkGxYSQhcqKsTnQg",
+          "FgUPdhymKocumXxjqHOcZMion4b",
+          "NdV1dF1Yko2fGhxYjOecq3B0nze",
+          "ADiMdGRK0owjGyxBiN4cWF65nKo",
+          "OK9IdhCWKonVuUxtNcUcSg9gn2b",
+          "N9VPd9WofoUdJUxVmAjcaurLnVC"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Free Trials",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "E3dZdZ12roMm7exO2yScoZ0dnOW",
+        "block_type": 2,
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud offers three subscription plans: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Starter",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Standard",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Enterprise",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "APrMd1WjfoMdr2xom8ScMbUZnUf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Starter plan",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "MlsfdhG6Io3TzHxbvHZc7sKcnzf",
+        "block_type": 2,
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This plan is ideal for hobbyists or developers keen on experimenting with Zilliz Cloud. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XfPhdBWdVo4trnx94FjcVHiOn7b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Features",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "KB3jdwMeloR6lxxMZZRc5xUUndb"
+        ],
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "KB3jdwMeloR6lxxMZZRc5xUUndb",
+        "block_type": 2,
+        "parent_id": "XfPhdBWdVo4trnx94FjcVHiOn7b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A serverless cluster on GCP.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RfpUdsEqXov3MgxQqiycTKYHnhb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cost",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "XFD9dSCsRowrNPxvSINcucxHnDJ"
+        ],
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "XFD9dSCsRowrNPxvSINcucxHnDJ",
+        "block_type": 2,
+        "parent_id": "RfpUdsEqXov3MgxQqiycTKYHnhb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Free. No credit card required.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TowkdIWQSocc2oxjDoXcnjOpnwb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Configuration",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Kjh0dIm8Do7O3BxGeALc1sNanOb"
+        ],
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "Kjh0dIm8Do7O3BxGeALc1sNanOb",
+        "block_type": 2,
+        "parent_id": "TowkdIWQSocc2oxjDoXcnjOpnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Minimal setup required.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PbjMdf8TkoNpRfxPGlvcQE8rnie",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Free Trial",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "QwVqdPd9XoLRAJxLo94cngmYnEf"
+        ],
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "QwVqdPd9XoLRAJxLo94cngmYnEf",
+        "block_type": 2,
+        "parent_id": "PbjMdf8TkoNpRfxPGlvcQE8rnie",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes. You can create up to two collections, with each holding roughly 500,000 768-dimensional vectors.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KvV3dRMWboEpXoxQ35ncZHu5nBf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Recommended user cases",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "MkGgdohDbonjcPxZrYQccQjznoh"
+        ],
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "MkGgdohDbonjcPxZrYQccQjznoh",
+        "block_type": 2,
+        "parent_id": "KvV3dRMWboEpXoxQ35ncZHu5nBf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Opt for this if you're new to vector databases or aiming to quickly develop an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " application.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MANtdVogao3HJ8xZxoecQoyenQd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Standard plan",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "UtCddrrSdoHDiIxmj2wcLAqTnBb",
+        "block_type": 2,
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This plan is tailored for small to mid-sized teams with moderate workloads.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YmUodvtvoo33NOxqXWNcisaqnte",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Features",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "ITW9dBwyioo1A9xyBkAcWUm2nMd"
+        ],
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "ITW9dBwyioo1A9xyBkAcWUm2nMd",
+        "block_type": 2,
+        "parent_id": "YmUodvtvoo33NOxqXWNcisaqnte",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A dedicated cluster on both ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and GCP. Ideal for processing large-scale data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BJuadJ5eMo3kwVxUV9ocJaldnPg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cost",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "OTb7dvnGEoxx7txLV0zc329Gnoh"
+        ],
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "OTb7dvnGEoxx7txLV0zc329Gnoh",
+        "block_type": 2,
+        "parent_id": "BJuadJ5eMo3kwVxUV9ocJaldnPg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Charged based on usage, with a starting bonus of $100 free credits for new users.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YH4ddmbgPodo76xea3gclbPCnCh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Free Trial",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "GRjpdrCXto2aU9xHrktcSSnZn5d"
+        ],
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "GRjpdrCXto2aU9xHrktcSSnZn5d",
+        "block_type": 2,
+        "parent_id": "YH4ddmbgPodo76xea3gclbPCnCh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes. A 30-day trial is provided. If you associate an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace account with Zilliz Cloud, you'll receive an additional $100 in free credits. Moreover, adding a payment method extends the validity of these credits to a year.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HRpud7gluoqWAOx9Tp3cvIwKnoe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Recommended use cases",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Sf3ldjqiuoRVQSxWSPzcxvtrnxb"
+        ],
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "Sf3ldjqiuoRVQSxWSPzcxvtrnxb",
+        "block_type": 2,
+        "parent_id": "HRpud7gluoqWAOx9Tp3cvIwKnoe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Suitable for larger-scale ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Proof of Concept",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "PoC",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") projects. If the provided 4 CUs aren't adequate, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "reach out to us",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliz.com%2Fcontact-sales"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for a larger cluster or more credits.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FDo9dUmMLoCEnvxGL2fcc4KMnuc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enterprise plan",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "DMSjd5izVoQDgpx1lLec1O3FnSc",
+        "block_type": 2,
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This plan is crafted for large-scale organizations demanding dedicated clusters with enhanced features, robust security, and round-the-clock support.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HjVkd3aHjoOhetxUvY9cHq7Rn6g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Features",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "ZKYHdXcaZoqiM9x4QYscHCgxnGg"
+        ],
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "ZKYHdXcaZoqiM9x4QYscHCgxnGg",
+        "block_type": 2,
+        "parent_id": "HjVkd3aHjoOhetxUvY9cHq7Rn6g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Advanced functionalities with 24/7/365 support.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LlJndZHRAo5nIxxRJbqcF4OanRg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Availability",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "JwzFd0rM2odkWUxGzaecK4bLn2b"
+        ],
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "JwzFd0rM2odkWUxGzaecK4bLn2b",
+        "block_type": 2,
+        "parent_id": "LlJndZHRAo5nIxxRJbqcF4OanRg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On both ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and GCP.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QynIdd8oCo5243xyZ0zc147AnVd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cost",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "UaWFdfeF2ohzh5x3LYCchzz7nzb"
+        ],
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "UaWFdfeF2ohzh5x3LYCchzz7nzb",
+        "block_type": 2,
+        "parent_id": "QynIdd8oCo5243xyZ0zc147AnVd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Check our ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pricing page",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliz.com%2Fpricing"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NPO3dWUJ3oVFkGxYSQhcqKsTnQg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Free trial comparison",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "block_type": 31,
+        "children": [
+          "J9hRdJx73op7bHxpb08chpjunPb",
+          "Rgz2df1gjo6k7BxG1jecG6Lon1f",
+          "QbhPd1gPmoWGbGxJvbvcCcr8nqc",
+          "ASzhdQPgLo1fToxTD6qcOujanju",
+          "KPQCdWgC1oDRSXx1EKNc87Ojnth",
+          "JIAMdq3VhobtukxD8jfc2cIyn4c",
+          "If7nd3udsoec3KxmsYNcH0menVc",
+          "UrPtdp6y6ozVO2xCXrycngtbn5d",
+          "VPTOdUdi9oj9oxxYHl5cgrCUnBd",
+          "EGIEd2coioiGvVxgSjncc6IHnie",
+          "QYnbdnPXtotESMx62sFcx27PnGg",
+          "BVJxdtLpYoYzZExA1cqcM7qgn6f",
+          "MrAmdUvonoS8mdxRVQkcgJAanuf",
+          "CYAEd2qJ0oSUKPxTD2Zc7VNrnsS",
+          "TWkPd6Z3KoD66ZxyBKyc0rhInng",
+          "UDkOd9TNPoihlExz01Acih5in8f",
+          "KGuWdBsdwoUuBjxPNB0cfD6FnVg",
+          "Btejdw5esonFEexNjP4cmLTPn6c",
+          "Ij2OdSQXQoAmfexnQaKcqOo2nPW",
+          "VenCd5TImoUmQbxGMlvchTcpnLh",
+          "GXhgdFiKEohNlyxIWhac2UvJn2e"
+        ],
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf",
+        "table": {
+          "cells": [
+            "J9hRdJx73op7bHxpb08chpjunPb",
+            "Rgz2df1gjo6k7BxG1jecG6Lon1f",
+            "QbhPd1gPmoWGbGxJvbvcCcr8nqc",
+            "ASzhdQPgLo1fToxTD6qcOujanju",
+            "KPQCdWgC1oDRSXx1EKNc87Ojnth",
+            "JIAMdq3VhobtukxD8jfc2cIyn4c",
+            "If7nd3udsoec3KxmsYNcH0menVc",
+            "UrPtdp6y6ozVO2xCXrycngtbn5d",
+            "VPTOdUdi9oj9oxxYHl5cgrCUnBd",
+            "EGIEd2coioiGvVxgSjncc6IHnie",
+            "QYnbdnPXtotESMx62sFcx27PnGg",
+            "BVJxdtLpYoYzZExA1cqcM7qgn6f",
+            "MrAmdUvonoS8mdxRVQkcgJAanuf",
+            "CYAEd2qJ0oSUKPxTD2Zc7VNrnsS",
+            "TWkPd6Z3KoD66ZxyBKyc0rhInng",
+            "UDkOd9TNPoihlExz01Acih5in8f",
+            "KGuWdBsdwoUuBjxPNB0cfD6FnVg",
+            "Btejdw5esonFEexNjP4cmLTPn6c",
+            "Ij2OdSQXQoAmfexnQaKcqOo2nPW",
+            "VenCd5TImoUmQbxGMlvchTcpnLh",
+            "GXhgdFiKEohNlyxIWhac2UvJn2e"
+          ],
+          "property": {
+            "column_size": 3,
+            "column_width": [
+              169,
+              131,
+              420
+            ],
+            "header_row": true,
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 7
+          }
+        }
+      },
+      {
+        "block_id": "J9hRdJx73op7bHxpb08chpjunPb",
+        "block_type": 32,
+        "children": [
+          "WiSHdmMojo6JfUxxTOncsDULn7d"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "WiSHdmMojo6JfUxxTOncsDULn7d",
+        "block_type": 2,
+        "parent_id": "J9hRdJx73op7bHxpb08chpjunPb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Item",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Rgz2df1gjo6k7BxG1jecG6Lon1f",
+        "block_type": 32,
+        "children": [
+          "DPCpdm7GZoXmeWxtrm8cmDWun1e"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "DPCpdm7GZoXmeWxtrm8cmDWun1e",
+        "block_type": 2,
+        "parent_id": "Rgz2df1gjo6k7BxG1jecG6Lon1f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Starter",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QbhPd1gPmoWGbGxJvbvcCcr8nqc",
+        "block_type": 32,
+        "children": [
+          "BNX4diIgAouxRkxbF7oc3yFMnzf"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "BNX4diIgAouxRkxbF7oc3yFMnzf",
+        "block_type": 2,
+        "parent_id": "QbhPd1gPmoWGbGxJvbvcCcr8nqc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Standard",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ASzhdQPgLo1fToxTD6qcOujanju",
+        "block_type": 32,
+        "children": [
+          "ViPsdMdOVoeLvYxGuKgccLy8nif"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ViPsdMdOVoeLvYxGuKgccLy8nif",
+        "block_type": 2,
+        "parent_id": "ASzhdQPgLo1fToxTD6qcOujanju",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cluster type",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KPQCdWgC1oDRSXx1EKNc87Ojnth",
+        "block_type": 32,
+        "children": [
+          "FbC2dR62eoV6OQxRAaNcAIQDnfb"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "FbC2dR62eoV6OQxRAaNcAIQDnfb",
+        "block_type": 2,
+        "parent_id": "KPQCdWgC1oDRSXx1EKNc87Ojnth",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Serverless",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JIAMdq3VhobtukxD8jfc2cIyn4c",
+        "block_type": 32,
+        "children": [
+          "SCEyd4k5coednOx4OUScmUZMn5c"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SCEyd4k5coednOx4OUScmUZMn5c",
+        "block_type": 2,
+        "parent_id": "JIAMdq3VhobtukxD8jfc2cIyn4c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Dedicated",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "If7nd3udsoec3KxmsYNcH0menVc",
+        "block_type": 32,
+        "children": [
+          "U8SAd2XU8o7uFvxl1SlcdJiHncg"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "U8SAd2XU8o7uFvxl1SlcdJiHncg",
+        "block_type": 2,
+        "parent_id": "If7nd3udsoec3KxmsYNcH0menVc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cost",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UrPtdp6y6ozVO2xCXrycngtbn5d",
+        "block_type": 32,
+        "children": [
+          "C2ynd4SXaoDTiyxxQ0vcv0d4nJf"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "C2ynd4SXaoDTiyxxQ0vcv0d4nJf",
+        "block_type": 2,
+        "parent_id": "UrPtdp6y6ozVO2xCXrycngtbn5d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Free",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VPTOdUdi9oj9oxxYHl5cgrCUnBd",
+        "block_type": 32,
+        "children": [
+          "UhRDd85EkozrDPxesgYc45runYf"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "UhRDd85EkozrDPxesgYc45runYf",
+        "block_type": 2,
+        "parent_id": "VPTOdUdi9oj9oxxYHl5cgrCUnBd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Deducted from free credits",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EGIEd2coioiGvVxgSjncc6IHnie",
+        "block_type": 32,
+        "children": [
+          "AsHidd4mho1XBcxK6sAcBLoxn1b"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "AsHidd4mho1XBcxK6sAcBLoxn1b",
+        "block_type": 2,
+        "parent_id": "EGIEd2coioiGvVxgSjncc6IHnie",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Trial Duration",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QYnbdnPXtotESMx62sFcx27PnGg",
+        "block_type": 32,
+        "children": [
+          "Gme5dnKPjoZnRLxgeSMcGViPnse"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Gme5dnKPjoZnRLxgeSMcGViPnse",
+        "block_type": 2,
+        "parent_id": "QYnbdnPXtotESMx62sFcx27PnGg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Permanent",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BVJxdtLpYoYzZExA1cqcM7qgn6f",
+        "block_type": 32,
+        "children": [
+          "HSiidRspboCaD9xh46tcYABanSb"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "HSiidRspboCaD9xh46tcYABanSb",
+        "block_type": 2,
+        "parent_id": "BVJxdtLpYoYzZExA1cqcM7qgn6f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "30 days",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MrAmdUvonoS8mdxRVQkcgJAanuf",
+        "block_type": 32,
+        "children": [
+          "JkH5diALjo8dZoxuml7cjqR3npe"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "JkH5diALjo8dZoxuml7cjqR3npe",
+        "block_type": 2,
+        "parent_id": "MrAmdUvonoS8mdxRVQkcgJAanuf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use Case",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CYAEd2qJ0oSUKPxTD2Zc7VNrnsS",
+        "block_type": 32,
+        "children": [
+          "E658dcV9aotZ8exQTHac1b4znPh"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "E658dcV9aotZ8exQTHac1b4znPh",
+        "block_type": 2,
+        "parent_id": "CYAEd2qJ0oSUKPxTD2Zc7VNrnsS",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Quick start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TWkPd6Z3KoD66ZxyBKyc0rhInng",
+        "block_type": 32,
+        "children": [
+          "LoHHd98cboqiKAx3LrhcMDwinjh"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "LoHHd98cboqiKAx3LrhcMDwinjh",
+        "block_type": 2,
+        "parent_id": "TWkPd6Z3KoD66ZxyBKyc0rhInng",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PoC",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UDkOd9TNPoihlExz01Acih5in8f",
+        "block_type": 32,
+        "children": [
+          "Nri8d7cjCo9Fk4xZ1rycCdP2ndf"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Nri8d7cjCo9Fk4xZ1rycCdP2ndf",
+        "block_type": 2,
+        "parent_id": "UDkOd9TNPoihlExz01Acih5in8f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Max. collections",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KGuWdBsdwoUuBjxPNB0cfD6FnVg",
+        "block_type": 32,
+        "children": [
+          "ClsqdgmAto3UebxMTOic82uInub"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ClsqdgmAto3UebxMTOic82uInub",
+        "block_type": 2,
+        "parent_id": "KGuWdBsdwoUuBjxPNB0cfD6FnVg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Btejdw5esonFEexNjP4cmLTPn6c",
+        "block_type": 32,
+        "children": [
+          "Qz3AdtmZvoTdadxV4q1cbwBmnse"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Qz3AdtmZvoTdadxV4q1cbwBmnse",
+        "block_type": 2,
+        "parent_id": "Btejdw5esonFEexNjP4cmLTPn6c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Self-provisioned",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ij2OdSQXQoAmfexnQaKcqOo2nPW",
+        "block_type": 32,
+        "children": [
+          "E0oxdFftKokCYwxHzkdcf4wen5d"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "E0oxdFftKokCYwxHzkdcf4wen5d",
+        "block_type": 2,
+        "parent_id": "Ij2OdSQXQoAmfexnQaKcqOo2nPW",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CUs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VenCd5TImoUmQbxGMlvchTcpnLh",
+        "block_type": 32,
+        "children": [
+          "G7Aedqfcwo6HOIxF0m2ckZ4Unqp"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "G7Aedqfcwo6HOIxF0m2ckZ4Unqp",
+        "block_type": 2,
+        "parent_id": "VenCd5TImoUmQbxGMlvchTcpnLh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Shared",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GXhgdFiKEohNlyxIWhac2UvJn2e",
+        "block_type": 32,
+        "children": [
+          "AIwwdmnvQoLjsBxc3jycJJhWnx4"
+        ],
+        "parent_id": "FgUPdhymKocumXxjqHOcZMion4b",
+        "table_cell": {}
+      },
+      {
+        "block_id": "AIwwdmnvQoLjsBxc3jycJJhWnx4",
+        "block_type": 2,
+        "parent_id": "GXhgdFiKEohNlyxIWhac2UvJn2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "4 CUs for self-provisioning",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NdV1dF1Yko2fGhxYjOecq3B0nze",
+        "block_type": 2,
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For detailed guidelines on cluster creation, refer to our ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Cluster",
+                "token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
+                "url": "https://zilliverse.feishu.cn/wiki/U0Bsw2SZaihm2mkLza7cRCqTndg"
+              }
+            },
+            {
+              "text_run": {
+                "content": " section.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ADiMdGRK0owjGyxBiN4cWF65nKo",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "OK9IdhCWKonVuUxtNcUcSg9gn2b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Register with Zilliz Cloud",
+                "token": "HriHwEU3qiQrgskz3a0cdkcpnyf",
+                "url": "https://zilliverse.feishu.cn/wiki/HriHwEU3qiQrgskz3a0cdkcpnyf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      },
+      {
+        "block_id": "N9VPd9WofoUdJUxVmAjcaurLnVC",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Cluster",
+                "token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
+                "url": "https://zilliverse.feishu.cn/wiki/U0Bsw2SZaihm2mkLza7cRCqTndg"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NCntd2lfuogqfNxeEmMcKPSunNf"
+      }
+    ],
+    "counts": 80
+  }
+}

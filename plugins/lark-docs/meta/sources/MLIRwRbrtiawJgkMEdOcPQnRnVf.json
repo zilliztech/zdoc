@@ -1,0 +1,452 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689062713",
+  "node_token": "MLIRwRbrtiawJgkMEdOcPQnRnVf",
+  "node_type": "origin",
+  "obj_create_time": "1689062713",
+  "obj_edit_time": "1698634845",
+  "obj_token": "J7CrdT5GEoKVfzxnSaNcoUnnnsb",
+  "obj_type": "docx",
+  "origin_node_token": "MLIRwRbrtiawJgkMEdOcPQnRnVf",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
+  "space_id": "7167193056431783939",
+  "title": "Manage Timezone",
+  "slug": "manage-timezone",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "J7CrdT5GEoKVfzxnSaNcoUnnnsb",
+        "block_type": 1,
+        "children": [
+          "DpYcdR8FOo4MdGxrflZcrnabndI",
+          "QoT1dwbFOoPqgpxLZRWcFK3rn8g",
+          "GD79dqNwAoDz82xEt9BciRKqntb",
+          "Jfy0d1mvboHl0KxTz9BcooolnHe",
+          "D8RHdveDloin9yxLKPhczozbnGb",
+          "MUBkdqe5yoVUOcxRIvVcRVeanfh",
+          "UZImdKmLvoRqE4xmKkLcyuuQnbg",
+          "VBsodgRZcobI6mx59sIcprGnn7c",
+          "OvvxdD2TXoGovZx2KcTc2PkCnGg"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage Timezone",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "DpYcdR8FOo4MdGxrflZcrnabndI",
+        "block_type": 2,
+        "parent_id": "J7CrdT5GEoKVfzxnSaNcoUnnnsb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The system time zone is set to where your first login occurs and applies to all time strings displayed on Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QoT1dwbFOoPqgpxLZRWcFK3rn8g",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "current time zone",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7CrdT5GEoKVfzxnSaNcoUnnnsb"
+      },
+      {
+        "block_id": "GD79dqNwAoDz82xEt9BciRKqntb",
+        "block_type": 2,
+        "parent_id": "J7CrdT5GEoKVfzxnSaNcoUnnnsb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To view the current time zone, you can either be an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Member",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Jfy0d1mvboHl0KxTz9BcooolnHe",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5802-1673%26t%3DWiVR6us0KUmNWAVU-4"
+          }
+        },
+        "parent_id": "J7CrdT5GEoKVfzxnSaNcoUnnnsb"
+      },
+      {
+        "block_id": "D8RHdveDloin9yxLKPhczozbnGb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Edit ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "time zone",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7CrdT5GEoKVfzxnSaNcoUnnnsb"
+      },
+      {
+        "block_id": "MUBkdqe5yoVUOcxRIvVcRVeanfh",
+        "block_type": 2,
+        "parent_id": "J7CrdT5GEoKVfzxnSaNcoUnnnsb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To change the system time zone, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Edit",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to open the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Time Zone Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " dialog box, and select a time zone from the drop-down list. You can also enter the name of a time zone to quickly filter the desired time zone.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UZImdKmLvoRqE4xmKkLcyuuQnbg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7CrdT5GEoKVfzxnSaNcoUnnnsb"
+      },
+      {
+        "block_id": "VBsodgRZcobI6mx59sIcprGnn7c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Set up Maintenance Window",
+                "token": "FUtxwSaoSiDKFikcDw8cKngKn1f",
+                "url": "https://zilliverse.feishu.cn/wiki/FUtxwSaoSiDKFikcDw8cKngKn1f"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FSet-up-Maintenance-Window-4bee5173e4604eb9ba284f5053450a79%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7CrdT5GEoKVfzxnSaNcoUnnnsb"
+      },
+      {
+        "block_id": "OvvxdD2TXoGovZx2KcTc2PkCnGg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Organization Information",
+                "token": "BX8nwr7eHiZY3CkHnuYcGCj1n4e",
+                "url": "https://zilliverse.feishu.cn/wiki/BX8nwr7eHiZY3CkHnuYcGCj1n4e"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J7CrdT5GEoKVfzxnSaNcoUnnnsb"
+      }
+    ],
+    "counts": 10
+  }
+}

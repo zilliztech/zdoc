@@ -1,0 +1,1025 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689062683",
+  "node_token": "PBEbwjRu9iyyaFkZnuzcINHCnke",
+  "node_type": "origin",
+  "obj_create_time": "1689062683",
+  "obj_edit_time": "1698316758",
+  "obj_token": "CFfkdoW30oE6RCxvMPOc7fbRnyf",
+  "obj_type": "docx",
+  "origin_node_token": "PBEbwjRu9iyyaFkZnuzcINHCnke",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
+  "space_id": "7167193056431783939",
+  "title": "View Invoice",
+  "slug": "view-invoice",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf",
+        "block_type": 1,
+        "children": [
+          "Tv9OdNf2DoTE48xbwyQceWpCnzh",
+          "OTPKdUKkYoWcruxnEcycpYYGnff",
+          "HaZedsAJtoWu56xWvMFcFSyonKh",
+          "N14KdoYrtotRUyxLesZcGJd7nBc",
+          "XhyTd3gdko9Z3DxcW6lcpr4JnEh",
+          "KbIOdH6dOo8J7qx02bkcrDZKn8e",
+          "Txzdd93g2oE4rnx1incc5DU4nhf",
+          "Xf96dk7yIoSpA9xxnrCcM4TEnoe",
+          "K4z3daK1mokCmixykzcc0uiwnGD",
+          "WfFEdL5rhoGKByx3XRhcHaIJn51",
+          "Zs1VdO15eoEPzJxqlA8cdWOfn7e",
+          "JJfuda48NoAwluxi50Pcn91hnLh",
+          "Ye2ydDDlSoKYJKx2rXgc6atXnSg",
+          "FkNGdMnPIozysDxvqSmcLtomnjd",
+          "Tsg0d3dSTo6IGtxPXvWcQGk7nme",
+          "JE0Lduhq7o22tOxaoGkcFAGdn3c",
+          "KxaAdoZM0o2EHFx288BcSwC3nQh"
+        ],
+        "comment_ids": [
+          "7275918054530596868"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View Invoice",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7275918054530596868"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "Tv9OdNf2DoTE48xbwyQceWpCnzh",
+        "block_type": 2,
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The total cost for using Zilliz Cloud services is determined by several components: compute, storage, backup, and migration costs. To help you monitor and manage your expenditures, you can access detailed invoices for both current and past billing cycles.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OTPKdUKkYoWcruxnEcycpYYGnff",
+        "block_type": 2,
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Please note that access to view invoices is restricted to organization owners.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HaZedsAJtoWu56xWvMFcFSyonKh",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D13554-2595%26mode%3Ddesign%26t%3DPKuZ7Ez2DAHmoGBJ-4"
+          }
+        },
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf"
+      },
+      {
+        "block_id": "N14KdoYrtotRUyxLesZcGJd7nBc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View invoices",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf"
+      },
+      {
+        "block_id": "XhyTd3gdko9Z3DxcW6lcpr4JnEh",
+        "block_type": 2,
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To view your billing records, navigate to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Billing",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the left sidebar and select the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Invoices",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab. Within Zilliz Cloud, there are five possible billing statuses, each representing a different state of your payment. The table below outlines these statuses:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KbIOdH6dOo8J7qx02bkcrDZKn8e",
+        "block_type": 31,
+        "children": [
+          "XOzFdmS7ooo3Pjxrf0McVW1BnEb",
+          "RucTdhFbmo49ClxVPBPcPocInvc",
+          "WLK8d5rlYo6nsbx8mJQcF3A4n2b",
+          "LP5qdSCAvo8wuexxSjmch5minZd",
+          "A5WSdpCFeoUTAnxRBADcevifntd",
+          "C23hdBYkToprhgxaTLIcyXrLnpc",
+          "LLkLd50Awoh8TaxOCbHcmjoYn8g",
+          "Fyt1dwrpzo2Ahfx5yCVcbY60noh",
+          "SEp9d0jtEoDYt0xbEqJc3AcHnqf",
+          "EQ4ld2izqoZcKSxWYygcylsLn3c",
+          "XNY4dBhYpotHd5xEi8dczNEmnCc",
+          "Yd1IdCf84oCiMDxeZ34cnsAjnMg"
+        ],
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf",
+        "table": {
+          "cells": [
+            "XOzFdmS7ooo3Pjxrf0McVW1BnEb",
+            "RucTdhFbmo49ClxVPBPcPocInvc",
+            "WLK8d5rlYo6nsbx8mJQcF3A4n2b",
+            "LP5qdSCAvo8wuexxSjmch5minZd",
+            "A5WSdpCFeoUTAnxRBADcevifntd",
+            "C23hdBYkToprhgxaTLIcyXrLnpc",
+            "LLkLd50Awoh8TaxOCbHcmjoYn8g",
+            "Fyt1dwrpzo2Ahfx5yCVcbY60noh",
+            "SEp9d0jtEoDYt0xbEqJc3AcHnqf",
+            "EQ4ld2izqoZcKSxWYygcylsLn3c",
+            "XNY4dBhYpotHd5xEi8dczNEmnCc",
+            "Yd1IdCf84oCiMDxeZ34cnsAjnMg"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              100,
+              217
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 6
+          }
+        }
+      },
+      {
+        "block_id": "XOzFdmS7ooo3Pjxrf0McVW1BnEb",
+        "block_type": 32,
+        "children": [
+          "H96ldtsM7oVinFxNDqhcJ8qinGh"
+        ],
+        "parent_id": "KbIOdH6dOo8J7qx02bkcrDZKn8e",
+        "table_cell": {}
+      },
+      {
+        "block_id": "H96ldtsM7oVinFxNDqhcJ8qinGh",
+        "block_type": 2,
+        "parent_id": "XOzFdmS7ooo3Pjxrf0McVW1BnEb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Status",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RucTdhFbmo49ClxVPBPcPocInvc",
+        "block_type": 32,
+        "children": [
+          "IfvWdmTNio8LVnxpxFkcIUaen8f"
+        ],
+        "parent_id": "KbIOdH6dOo8J7qx02bkcrDZKn8e",
+        "table_cell": {}
+      },
+      {
+        "block_id": "IfvWdmTNio8LVnxpxFkcIUaen8f",
+        "block_type": 2,
+        "parent_id": "RucTdhFbmo49ClxVPBPcPocInvc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Definition",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WLK8d5rlYo6nsbx8mJQcF3A4n2b",
+        "block_type": 32,
+        "children": [
+          "GmjndY8sXoSg9vxvBvCcL8DUnKg"
+        ],
+        "parent_id": "KbIOdH6dOo8J7qx02bkcrDZKn8e",
+        "table_cell": {}
+      },
+      {
+        "block_id": "GmjndY8sXoSg9vxvBvCcL8DUnKg",
+        "block_type": 2,
+        "parent_id": "WLK8d5rlYo6nsbx8mJQcF3A4n2b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Paid",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LP5qdSCAvo8wuexxSjmch5minZd",
+        "block_type": 32,
+        "children": [
+          "CUkqd7idcoMh0TxIQq0chmi4nOe"
+        ],
+        "parent_id": "KbIOdH6dOo8J7qx02bkcrDZKn8e",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CUkqd7idcoMh0TxIQq0chmi4nOe",
+        "block_type": 2,
+        "parent_id": "LP5qdSCAvo8wuexxSjmch5minZd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Payment has been completed with no outstanding amounts.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A5WSdpCFeoUTAnxRBADcevifntd",
+        "block_type": 32,
+        "children": [
+          "EBqRdE7U9oCJwYxlCpac5QognNh"
+        ],
+        "parent_id": "KbIOdH6dOo8J7qx02bkcrDZKn8e",
+        "table_cell": {}
+      },
+      {
+        "block_id": "EBqRdE7U9oCJwYxlCpac5QognNh",
+        "block_type": 2,
+        "parent_id": "A5WSdpCFeoUTAnxRBADcevifntd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Free",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C23hdBYkToprhgxaTLIcyXrLnpc",
+        "block_type": 32,
+        "children": [
+          "NqV2dNY0Co8YD5x5yl4cEA4JnTd"
+        ],
+        "parent_id": "KbIOdH6dOo8J7qx02bkcrDZKn8e",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NqV2dNY0Co8YD5x5yl4cEA4JnTd",
+        "block_type": 2,
+        "parent_id": "C23hdBYkToprhgxaTLIcyXrLnpc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "All amounts due are paid with credits.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LLkLd50Awoh8TaxOCbHcmjoYn8g",
+        "block_type": 32,
+        "children": [
+          "SDVudLoZ8omeXoxd0nbcncSBnhg"
+        ],
+        "parent_id": "KbIOdH6dOo8J7qx02bkcrDZKn8e",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SDVudLoZ8omeXoxd0nbcncSBnhg",
+        "block_type": 2,
+        "parent_id": "LLkLd50Awoh8TaxOCbHcmjoYn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overdue",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Fyt1dwrpzo2Ahfx5yCVcbY60noh",
+        "block_type": 32,
+        "children": [
+          "ICNldxIOJohlIxxw8pHcf0DunEi"
+        ],
+        "parent_id": "KbIOdH6dOo8J7qx02bkcrDZKn8e",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ICNldxIOJohlIxxw8pHcf0DunEi",
+        "block_type": 2,
+        "parent_id": "Fyt1dwrpzo2Ahfx5yCVcbY60noh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The invoice is billed but not paid within the due timeframe.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SEp9d0jtEoDYt0xbEqJc3AcHnqf",
+        "block_type": 32,
+        "children": [
+          "GzcMd1feGoY84lxqGmCcJEi1nng"
+        ],
+        "parent_id": "KbIOdH6dOo8J7qx02bkcrDZKn8e",
+        "table_cell": {}
+      },
+      {
+        "block_id": "GzcMd1feGoY84lxqGmCcJEi1nng",
+        "block_type": 2,
+        "parent_id": "SEp9d0jtEoDYt0xbEqJc3AcHnqf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Unbilled",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EQ4ld2izqoZcKSxWYygcylsLn3c",
+        "block_type": 32,
+        "children": [
+          "KQmsdCi10oCtm3xSf7dcUqBenWe"
+        ],
+        "parent_id": "KbIOdH6dOo8J7qx02bkcrDZKn8e",
+        "table_cell": {}
+      },
+      {
+        "block_id": "KQmsdCi10oCtm3xSf7dcUqBenWe",
+        "block_type": 2,
+        "parent_id": "EQ4ld2izqoZcKSxWYygcylsLn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Transactions that occur after the billing cycle but before the statement is generated. These amounts are not immediately due but will be included in the next billing cycle.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XNY4dBhYpotHd5xEi8dczNEmnCc",
+        "block_type": 32,
+        "children": [
+          "ULEgd9wKyotzDoxdfGfcXWEcnFg"
+        ],
+        "parent_id": "KbIOdH6dOo8J7qx02bkcrDZKn8e",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ULEgd9wKyotzDoxdfGfcXWEcnFg",
+        "block_type": 2,
+        "parent_id": "XNY4dBhYpotHd5xEi8dczNEmnCc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Unpaid",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Yd1IdCf84oCiMDxeZ34cnsAjnMg",
+        "block_type": 32,
+        "children": [
+          "Ib6AdMe8JoJ22Zx84zRcfaR2nQe"
+        ],
+        "parent_id": "KbIOdH6dOo8J7qx02bkcrDZKn8e",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Ib6AdMe8JoJ22Zx84zRcfaR2nQe",
+        "block_type": 2,
+        "parent_id": "Yd1IdCf84oCiMDxeZ34cnsAjnMg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The invoice is billed and is within the due timeframe.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Txzdd93g2oE4rnx1incc5DU4nhf",
+        "block_type": 2,
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Xf96dk7yIoSpA9xxnrCcM4TEnoe",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5813-1719%26t%3DWiVR6us0KUmNWAVU-4"
+          }
+        },
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf"
+      },
+      {
+        "block_id": "K4z3daK1mokCmixykzcc0uiwnGD",
+        "block_type": 2,
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To view specific details for an invoice, click on the respective billing period entry. This will bring you to a detailed page where you have the options to download the invoice as a PDF file or print the invoice directly.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WfFEdL5rhoGKByx3XRhcHaIJn51",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D9222-5463%26mode%3Ddesign%26t%3D2JDGU6o9z15UAvTp-4"
+          }
+        },
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf"
+      },
+      {
+        "block_id": "Zs1VdO15eoEPzJxqlA8cdWOfn7e",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View payment method",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf"
+      },
+      {
+        "block_id": "JJfuda48NoAwluxi50Pcn91hnLh",
+        "block_type": 2,
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Billing Overview",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " page, you can view your current payment method, check remaining credits, and see your Advance Pay balance.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ye2ydDDlSoKYJKx2rXgc6atXnSg",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D9222-5460%26mode%3Ddesign%26t%3D2JDGU6o9z15UAvTp-4"
+          }
+        },
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf"
+      },
+      {
+        "block_id": "FkNGdMnPIozysDxvqSmcLtomnjd",
+        "block_type": 2,
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Tsg0d3dSTo6IGtxPXvWcQGk7nme",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf"
+      },
+      {
+        "block_id": "JE0Lduhq7o22tOxaoGkcFAGdn3c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Subscribe on AWS Marketplace",
+                "token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
+                "url": "https://zilliverse.feishu.cn/wiki/LDlOweEzmiLkdQkvPFec5lrcnbf"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FSubscribe-on-AWS-Marketplace-4fd89ccb93cf4323bef04cf845a1e976%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf"
+      },
+      {
+        "block_id": "KxaAdoZM0o2EHFx288BcSwC3nQh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Subscribe by Adding Credit Card",
+                "token": "TVnkwXupUiX3zDkzYPWcxKP3nvg",
+                "url": "https://zilliverse.feishu.cn/wiki/TVnkwXupUiX3zDkzYPWcxKP3nvg"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FSubscribe-by-Adding-Credit-Card-7939e50c76bb473eb121f1feff57d4c8%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CFfkdoW30oE6RCxvMPOc7fbRnyf"
+      }
+    ],
+    "counts": 42
+  }
+}

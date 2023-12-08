@@ -1,7 +1,8 @@
 ---
-slug: /docs/faq-monitors-and-metrics
+slug: /faq-monitors-and-metrics
 beta: null
 notebook: null
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 9
 ---
 

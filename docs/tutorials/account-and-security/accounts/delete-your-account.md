@@ -1,7 +1,8 @@
 ---
-slug: /docs/delete-your-account
+slug: /delete-your-account
 beta: FALSE
 notebook: FALSE
+token: GMdhwQQCRi2QaLkimNOcc3qNnbh
 sidebar_position: 2
 ---
 
@@ -17,6 +18,7 @@ Once you have created an account on Zilliz Cloud, you can manage your account in
 1. Go to your **Profile** and click **Account Settings**.
 
 1. Click the pencil icon next to the Account section to edit the following account information:
+
     - First Name and Last Name
 
     - Company 
@@ -25,7 +27,7 @@ Once you have created an account on Zilliz Cloud, you can manage your account in
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Direct modification of the account's email address is not available. If you need to change your email, refer to our guide in [FAQs](/docs/faq-account).
+Direct modification of the account's email address is not available. If you need to change your email, refer to our guide in [FAQs](./faq-account).
 
 </Admonition>
 
@@ -118,3 +120,4 @@ Ensure you meet the following criteria before proceeding:
 - [Delete Your Organization](./delete-your-org)
 
 - [View Activities](./view-activities) 
+

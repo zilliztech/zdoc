@@ -1,0 +1,2826 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": false,
+  "node_create_time": "1699859825",
+  "node_token": "XFEcwie5GiRlH5kLtvzcA8lWnNb",
+  "node_type": "origin",
+  "obj_create_time": "1699859825",
+  "obj_edit_time": "1701670361",
+  "obj_token": "XKz7dnRAyooJEHxjvaAciETmnfd",
+  "obj_type": "docx",
+  "origin_node_token": "XFEcwie5GiRlH5kLtvzcA8lWnNb",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "RzBdwMKAxiiejDk9rWjc1Sv1nSf",
+  "space_id": "7167193056431783939",
+  "title": "Run Pipelines",
+  "slug": "run-pipelines",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "XKz7dnRAyooJEHxjvaAciETmnfd",
+        "block_type": 1,
+        "children": [
+          "Hr3DdBA8loJcTmxd8rlcVATZnjb",
+          "EK59d8qk7oBP1VxnidlcbXsGnPd",
+          "D6eVdMyTOowYcNxLun0cLBhcn9g",
+          "Nobod2mAuooLmdxdnKVc1EDOnqI",
+          "YAHDdMEFmosyMdxK72qcw6COnnc",
+          "MeKBddBU7owxb8x0xRNcp0LvnDe",
+          "CtuYdcGmkokKr6xK9XRc3jndnq8",
+          "NP2cdcWhSoMObHxSjRhcAlGrnBt",
+          "EXisdLPUso5qi1xgmvXcBJTMnre",
+          "ESSNdKAmyoE83ixEkEIc1h7RnKd",
+          "EKeddWYnGoP4tCxviYbcn0CCn0f",
+          "NHSHdsoyKoNRJUx65jacmn33n2b",
+          "VpX0dUDGTo2TaLxHTtCcanccnzd",
+          "MZTrd11icoJxk8xbQjOcomORnCc",
+          "U6pUdNCZeoOVScxThelc4HgGn0g",
+          "CVH1dUQuaof5uqxo56YczHcUnFc",
+          "LAUDd0sxZoKTQbxyJMkcvIE1nPf",
+          "N8XBdlC5uo525XxGQLkcs1B6n4g",
+          "BjRudZefromOBnxEfZRcUruJnnJ",
+          "KfHIdJuoeoKkaHxYIKgcy8RznNf",
+          "Vz0edFSTYodgIOxA9yacrW4xndh",
+          "KAwsdfnKyoQEAVx112nc0w2Un8b",
+          "NGTBdpgPtoPAzgxl8zTczI0xnXD",
+          "YlmKd9hJpoJautxVudBcX4juncx",
+          "YzN0d9VrnocUXUx22mTcx6vZnkd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Run Pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "Hr3DdBA8loJcTmxd8rlcVATZnjb",
+        "block_type": 2,
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On the Web ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "UI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you can run Pipelines by simply clicking the \"▶︎\" button next to each pipeline. In this guide, you will learn how to run Pipelines via RESTful ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EK59d8qk7oBP1VxnidlcbXsGnPd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Run an Ingestion pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      },
+      {
+        "block_id": "D6eVdMyTOowYcNxLun0cLBhcn9g",
+        "block_type": 13,
+        "comment_ids": [
+          "7303739855683878915"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before running the pipeline, upload your document to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS S3",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.aws.amazon.com%2FAmazonS3%2Flatest%2Fuserguide%2Fupload-objects.html"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Google Cloud Storage (GCS)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.google.com%2Fstorage%2Fdocs%2Fuploads-downloads"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Supported file types include ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".txt",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".pdf",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".md",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".html",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".epub",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".csv",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".doc",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".docx",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".xls",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".xlsx",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".ppt",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".pptx",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303739855683878915"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      },
+      {
+        "block_id": "Nobod2mAuooLmdxdnKVc1EDOnqI",
+        "block_type": 13,
+        "comment_ids": [
+          "7306702562324185092"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once you have uploaded the document, obtain an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "S3 presigned URL",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.aws.amazon.com%2FAmazonS3%2Flatest%2Fuserguide%2FShareObjectPreSignedURL.html"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "GCS",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306702562324185092"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.google.com%2Fstorage%2Fdocs%2Faccess-control%2Fsigned-urls"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " signed URL",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306702562324185092"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.google.com%2Fstorage%2Fdocs%2Faccess-control%2Fsigned-urls"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306702562324185092"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      },
+      {
+        "block_id": "YAHDdMEFmosyMdxK72qcw6COnnc",
+        "block_type": 13,
+        "children": [
+          "EZnfduQp6oyu9Exg0QTcPwlonCg"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Input the URL in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_url",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      },
+      {
+        "block_id": "EZnfduQp6oyu9Exg0QTcPwlonCg",
+        "block_type": 34,
+        "children": [
+          "FWE4dVodlotNZWxVAmbc2k9Snzb",
+          "OTFyd4y1CoqqpTxoJXscqbCNnue"
+        ],
+        "parent_id": "YAHDdMEFmosyMdxK72qcw6COnnc",
+        "quote_container": {}
+      },
+      {
+        "block_id": "FWE4dVodlotNZWxVAmbc2k9Snzb",
+        "block_type": 2,
+        "parent_id": "EZnfduQp6oyu9Exg0QTcPwlonCg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OTFyd4y1CoqqpTxoJXscqbCNnue",
+        "block_type": 2,
+        "parent_id": "EZnfduQp6oyu9Exg0QTcPwlonCg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You should use a URL that is either not encoded or encoded in UTF-8. Ensure that the URL remains valid for at least one hour.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MeKBddBU7owxb8x0xRNcp0LvnDe",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Define the metadata field to store. The input field name should be consistent with what you defined when ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "creating the Ingestion pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FFrj7wEoUgiSDeYkkZ59cyYu1nEg%3Fchunked%3Dfalse%23LHrXd9HCwoH5cnxLJoJc9HD9nDg"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and adding the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "PRESERVE",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function. The value of this field should also follow the predefined field type.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      },
+      {
+        "block_id": "CtuYdcGmkokKr6xK9XRc3jndnq8",
+        "block_type": 2,
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following example runs the Ingestion",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " pipeline ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "my_doc_ingestion_pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (assuming its ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pipelineId",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pipe-6ca5dd1b4672659d3c3487",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "publish",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "_year",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is the metadata field we want to preserve. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NP2cdcWhSoMObHxSjRhcAlGrnBt",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "curl --request POST \\\n    --header \"Content-Type: application/json\" \\\n    --header \"Authorization: Bearer ${YOUR_CLUSTER_TOKEN}\" \\\n    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487/run\" \\\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    -d '",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \"data\": {\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        \"doc_url\": \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "https://storage.googleapis.com/example-bucket/zilliz_concept_doc.md?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=example%40example-project.iam.gserviceaccount.com%2F20181026%2Fus-central1%2Fstorage%2Fgoog4_request&X-Goog-Date=20181026T181309Z&X-Goog-Expires=900&X-Goog-SignedHeaders=host&X-Goog-Signature=247a2aa45f169edf4d187d54e7cc46e4731b1e6273242c4f4c39a1d2507a0e58706e25e3a85a7dbb891d62afa8496def8e260c1db863d9ace85ff0a184b894b117fe46d1225c82f2aa19efd52cf21d3e2022b3b868dcc1aca2741951ed5bf3bb25a34f5e9316a2841e8ff4c530b22ceaa1c5ce09c7cbb5732631510c20580e61723f5594de3aea497f195456a2ff2bdd0d13bad47289d8611b6f9cfeef0c46",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306831126042411012"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "c91a455b94e90a66924f722292d21e24d31dcfb38ce0c0f353ffa5a9756fc2a9f2b40bc2113206a81e324fc4fd6823a29163fa845c8ae7eca1fcf6e5bb48b3200983c56c5ca81fffb151cca7402beddfc4a76b133447032ea7abedc098d2eb14a7",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306086095782543364",
+                    "7306831126042411012"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\", \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "publish",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "_year",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306821017040191492"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\": 2023\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": true
+          }
+        },
+        "comment_ids": [
+          "7306831126042411012",
+          "7306821017040191492",
+          "7306086095782543364"
+        ],
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      },
+      {
+        "block_id": "EXisdLPUso5qi1xgmvXcBJTMnre",
+        "block_type": 2,
+        "comment_ids": [
+          "7306081613539131395"
+        ],
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Below is an example ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "response.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306081613539131395"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ESSNdKAmyoE83ixEkEIc1h7RnKd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "  \"code\": 200,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "  \"data\": {",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    \"doc_name\": \"zilliz_concept_doc.md\",\n    \"num_chunks\": 123\n  }\n}\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      },
+      {
+        "block_id": "EKeddWYnGoP4tCxviYbcn0CCn0f",
+        "block_type": 2,
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The field ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " plays a crucial role in document deduplication within Zilliz Cloud Ingestion pipelines.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NHSHdsoyKoNRJUx65jacmn33n2b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overwriting Documents: If two documents have the same ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in separate Ingestions, the document from the first Ingestion will be overwritten by the one in the second Ingestion.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      },
+      {
+        "block_id": "VpX0dUDGTo2TaLxHTtCcanccnzd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Duplicate Documents: Conversely, if identical documents are assigned different ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " values, they will be ingested as separate entities. This means the same content could be stored twice in the database.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      },
+      {
+        "block_id": "MZTrd11icoJxk8xbQjOcomORnCc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Run a Search pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      },
+      {
+        "block_id": "U6pUdNCZeoOVScxThelc4HgGn0g",
+        "block_type": 2,
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following example runs the Search pipeline named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "my_text_search_pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(assuming its ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pipelineId",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pipe-26a18a66ffc8c0edfdb874",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". The query text is \"How many collections can a cluster with more than 8 CUs hold?\".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CVH1dUQuaof5uqxo56YczHcUnFc",
+        "block_type": 2,
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " input field name should be consistent with what you defined when adding the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SEARCH_DOC_CHUNK",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function. The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "limit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " parameter defines the number of results to return in a vector similarity search. The maximum value of the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "limit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " parameter is 100.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LAUDd0sxZoKTQbxyJMkcvIE1nPf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "curl --request POST \\\n    --header \"Content-Type: application/json\" \\\n    --header \"Authorization: Bearer ${YOUR_CLUSTER_TOKEN}\" \\\n    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-26a18a66ffc8c0edfdb874/run\" \\\n    -d '{\n      \"data\": {\n        \"query_text\": \"How many collections can a cluster with more than 8 CUs hold?\"\n      },\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "      \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "params",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306089901169049603"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\":{\n          \"limit\": 1,\n          \"offset\": 0,\n          \"outputFields\": [ \"chunk_text\", \"chunk_id\", \"doc_name\" ],\n          \"filter\": \"chunk_id >= 0\", \n      }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    }'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": true
+          }
+        },
+        "comment_ids": [
+          "7306089901169049603"
+        ],
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      },
+      {
+        "block_id": "N8XBdlC5uo525XxGQLkcs1B6n4g",
+        "block_type": 2,
+        "comment_ids": [
+          "7306086726831915012",
+          "7306083266692595715"
+        ],
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Below is an example ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "res",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306083266692595715"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ponse.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306083266692595715",
+                    "7306086726831915012"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BjRudZefromOBnxEfZRcUruJnnJ",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{\n",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303420694522855427"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "  \"code\": 200,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303420694522855427"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "  \"data\": {",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303420694522855427"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303420694522855427"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \"result\": [",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303420694522855427"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n      {\n        \"id\": \"445951244000281783\",\n        \"distance\": 0.7270776033401489,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        \"chunk_text\": \"",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306834053624709124"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "After determining the CU type, you must also specify its size. Note that the\\nnumber of collections a cluster can hold varies based on its CU size. A\\ncluster with less than 8 CUs can hold no more than 32 collections, while a\\ncluster with more than 8 CUs can hold as many as 256 collections.\\n\\nAll collections in a cluster share the CUs associated with the cluster. To\\nsave CUs, you can unload some collections. When a collection is unloaded, its\\ndata is moved to disk storage and its CUs are freed up for use by other\\ncollections. You can load the collection back into memory when you need to\\nquery it. Keep in mind that loading a collection requires some time, so you\\nshould only do so when necessary.\\n\\n## Collection\\n\\nA collection collects data in a two-dimensional table with a fixed number of\\ncolumns and a variable number of rows. In the table, each column corresponds\\nto a field, and each row represents an entity.\\n\\nThe following figure shows a sample collection that comprises six entities and\\neight fields.\\n\\n### Fields\\n\\nIn most cases, people describe an object in terms of its attributes, including\\nsize, weight, position, etc. These attributes of the object are similar to the\\nfields in a collection.\\n\\nAmong all the fields in a collection, the primary key is one of the most\\nspecial, because the values stored in this field are unique throughout the\\nentire collection. Each primary key maps to a different record in the\\ncollection.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306834053624709124"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\",",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306834053624709124"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n        \"chunk_id\": 123,\n        \"doc_name\": \"zilliz_concept_doc.md\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "      }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303420694522855427"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ]",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303420694522855427"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303420694522855427"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n  }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303420694522855427"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303420694522855427"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": true
+          }
+        },
+        "comment_ids": [
+          "7306834053624709124",
+          "7303420694522855427"
+        ],
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      },
+      {
+        "block_id": "KfHIdJuoeoKkaHxYIKgcy8RznNf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Run a Deletion pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      },
+      {
+        "block_id": "Vz0edFSTYodgIOxA9yacrW4xndh",
+        "block_type": 2,
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following example runs the Deletion pipeline named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "my_doc_deletion_pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(assuming its ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pipelineId",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pipe-7227d0729d73e63002ed46",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KAwsdfnKyoQEAVx112nc0w2Un8b",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "curl --request POST \\\n    --header \"Content-Type: application/json\" \\\n    --header \"Authorization: Bearer ${YOUR_CLUSTER_TOKEN}\" \\\n    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-7227d0729d73e63002ed46/run\" \\\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    -d '",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \"data\": {\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        \"doc_name\": \"zilliz_concept_doc.md\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": true
+          }
+        },
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      },
+      {
+        "block_id": "NGTBdpgPtoPAzgxl8zTczI0xnXD",
+        "block_type": 2,
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If a document with the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " you specified exists, all chunks in this document will be deleted. If the document with the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " does not exist, the request can still be executed but the value of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "num_deleted_chunks",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the output will be 0.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YlmKd9hJpoJautxVudBcX4juncx",
+        "block_type": 2,
+        "comment_ids": [
+          "7306083762553896963"
+        ],
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Below is an example ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "response.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306083762553896963"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YzN0d9VrnocUXUx22mTcx6vZnkd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "  \"code\": 200,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "  \"data\": {",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \"num_deleted_chunks\": ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "567",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n  }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
+      }
+    ],
+    "counts": 29
+  }
+}

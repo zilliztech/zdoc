@@ -1,0 +1,1339 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689062495",
+  "node_token": "QPhmwMxRdiOFq5kj8E6c9GBgn9d",
+  "node_type": "origin",
+  "obj_create_time": "1689062495",
+  "obj_edit_time": "1700445229",
+  "obj_token": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+  "obj_type": "docx",
+  "origin_node_token": "QPhmwMxRdiOFq5kj8E6c9GBgn9d",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
+  "space_id": "7167193056431783939",
+  "title": "Monitor CU Resources",
+  "slug": "cu-resource-monitor",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+        "block_type": 1,
+        "children": [
+          "PENrdUzAAozvkBxe1Asc6bHdnYc",
+          "SYODdoko9o9ygTxeYK6czQFBnab",
+          "IhKgdDejzotFjZxefAUchhMCnVd",
+          "Cv8idSp27oXKB5xXKoJccU2unkg",
+          "JD4zdS7aBoIhMUxZ5EScuW8JnEE",
+          "W3Vjdi1lMojG0axDKAZcdAaYnef",
+          "WL1QdPA2IoMpkbxXUNYcbzx6nqU",
+          "DxukdruVJoG21ixLYJQc7a53nyb",
+          "QF3cdyBuAoie8yx3PL1cmCBCnUd",
+          "AA7Mds1Reo9ZCVxKaTxcrvoanbf",
+          "YJSSd0d2AoLpjLx4RPfcJeBSn3f",
+          "WWPPdPPSDowz96xEjYFcZ0WBnre",
+          "Wh17dKwTJoPiGYxKwLocqJmknEd",
+          "QRaedwTZNo6JCHxXxcac3prGnHd",
+          "Ipxid9EUgojIyUx49MDcKVxdnNe",
+          "XyQUd9KhMo5shBxQA06c0zGgnGf",
+          "Ml15dJ0jToINg0xrsrSchVbdnuc",
+          "HSlddEpNaoWCQHxS6kjccsJfnZe",
+          "O7yhdleBqofv3YxghYZceyOAnld",
+          "LC31dW3Wgo1i3VxuJz3cmeNon2b",
+          "NRHideY51osjZvxM3fHc2QYqnse",
+          "DMUWd1whdopXW9xMqjCccvkpnYb",
+          "FiRvd48xhoxdgwxpVbycZ3qhn3d",
+          "RA7jdOgQcoiuTxxfGmRc48j3nJb",
+          "SBpWdTPS9olGDAxB9XTcGhzmn5g",
+          "CzkrdboyxoKSK6xBriwcfWL0nne",
+          "FBdqdmmGpoWsqcxfU86cr0AbnEb",
+          "S3aEdxwBNouPMix3UWwcW59wnwd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Monitor CU Resources",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "PENrdUzAAozvkBxe1Asc6bHdnYc",
+        "block_type": 2,
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To effectively scale your cluster, it is recommended to activate the CU resource monitor. This tool tracks both ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CPU",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and memory usage, expressed as a percentage, and responds based on the higher of the two values.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SYODdoko9o9ygTxeYK6czQFBnab",
+        "block_type": 2,
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IhKgdDejzotFjZxefAUchhMCnVd",
+        "block_type": 34,
+        "children": [
+          "HJXpdheKyoP2aPxTsL5cd66Ynpd",
+          "B9KId3pwVo2NGYxMDtWcn4qLnle"
+        ],
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+        "quote_container": {}
+      },
+      {
+        "block_id": "HJXpdheKyoP2aPxTsL5cd66Ynpd",
+        "block_type": 2,
+        "parent_id": "IhKgdDejzotFjZxefAUchhMCnVd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "B9KId3pwVo2NGYxMDtWcn4qLnle",
+        "block_type": 2,
+        "parent_id": "IhKgdDejzotFjZxefAUchhMCnVd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This is a feature ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "exclusively ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "available to clusters in the Standard and Enterprise plans.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Cv8idSp27oXKB5xXKoJccU2unkg",
+        "block_type": 2,
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JD4zdS7aBoIhMUxZ5EScuW8JnEE",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set alert condition",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "W3Vjdi1lMojG0axDKAZcdAaYnef",
+        "block_type": 2,
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To configure the alert conditions for CU usage within a project, follow the steps below:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WL1QdPA2IoMpkbxXUNYcbzx6nqU",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Select ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Monitoring",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the project’s left navigation pane.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "DxukdruVJoG21ixLYJQc7a53nyb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Navigate to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Monitor Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "QF3cdyBuAoie8yx3PL1cmCBCnUd",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Find the initial condition in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Resource Alerts",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " card. By default, notifications are set to be sent when ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CU Usage",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " exceeds ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "90%",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for a duration of more than ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "10 minutes",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "AA7Mds1Reo9ZCVxKaTxcrvoanbf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "…",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Actions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column, and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "select",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Edit",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "YJSSd0d2AoLpjLx4RPfcJeBSn3f",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Adjust the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CU ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "usage threshold and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Duration",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " settings as per your requirements in the dialog box that appears. Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Save",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to apply your customized alert condition.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "WWPPdPPSDowz96xEjYFcZ0WBnre",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enable the monitor",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "Wh17dKwTJoPiGYxKwLocqJmknEd",
+        "block_type": 2,
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To activate the monitor, click the switch in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Status",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column. This action toggles the monitor’s state on or off. Verification of activation is confirmed when the switch’s indicator is positioned to the right, complemented by a change in background color to blue.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QRaedwTZNo6JCHxXxcac3prGnHd",
+        "block_type": 2,
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ipxid9EUgojIyUx49MDcKVxdnNe",
+        "block_type": 26,
+        "comment_ids": [
+          "7277517961769058307"
+        ],
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D10200-462%26mode%3Ddesign%26t%3Dal00w2Wh40pqpWEM-4"
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "XyQUd9KhMo5shBxQA06c0zGgnGf",
+        "block_type": 2,
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ml15dJ0jToINg0xrsrSchVbdnuc",
+        "block_type": 2,
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HSlddEpNaoWCQHxS6kjccsJfnZe",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D19285-683%26mode%3Ddesign%26t%3DzJIQiLiwtepUkABq-4"
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "O7yhdleBqofv3YxghYZceyOAnld",
+        "block_type": 2,
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LC31dW3Wgo1i3VxuJz3cmeNon2b",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "NRHideY51osjZvxM3fHc2QYqnse",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "QPS Resource Monitor",
+                "token": "TKJawqMDPikhpMkQKcHc91mhnEd",
+                "url": "https://zilliverse.feishu.cn/wiki/TKJawqMDPikhpMkQKcHc91mhnEd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FQPS-Resource-Monitor-af248f73c2744cf581acfeea24f0543a%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "DMUWd1whdopXW9xMqjCccvkpnYb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Query Latency Monitor",
+                "token": "W7o3wed82iclnOkEPbrcZU2NnBf",
+                "url": "https://zilliverse.feishu.cn/wiki/W7o3wed82iclnOkEPbrcZU2NnBf"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "FiRvd48xhoxdgwxpVbycZ3qhn3d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Load Capacity Resource Monitor",
+                "token": "NiIxwMY3bi9JH3kEwjXcON8pnJc",
+                "url": "https://zilliverse.feishu.cn/wiki/NiIxwMY3bi9JH3kEwjXcON8pnJc"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "RA7jdOgQcoiuTxxfGmRc48j3nJb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "View Cluster Metrics",
+                "token": "AlRswAKgzitjyJkK1TCc2g19n0g",
+                "url": "https://zilliverse.feishu.cn/wiki/AlRswAKgzitjyJkK1TCc2g19n0g"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FView-Cluster-Metrics-8bfa66aaa5b4434a9913407d0b407891%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "SBpWdTPS9olGDAxB9XTcGhzmn5g",
+        "block_type": 2,
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CzkrdboyxoKSK6xBriwcfWL0nne",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Credit Card Expiration Monitor",
+                "token": "CV5vwnufwiVuQZkAktac6HDGnXc",
+                "url": "https://zilliverse.feishu.cn/wiki/CV5vwnufwiVuQZkAktac6HDGnXc"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "FBdqdmmGpoWsqcxfU86cr0AbnEb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Advance Pay Balance Monitor",
+                "token": "Wlh2wJFuqiG3b7ke3Wpcy2Wdnmg",
+                "url": "https://zilliverse.feishu.cn/wiki/Wlh2wJFuqiG3b7ke3Wpcy2Wdnmg"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd"
+      },
+      {
+        "block_id": "S3aEdxwBNouPMix3UWwcW59wnwd",
+        "block_type": 2,
+        "parent_id": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 31
+  }
+}

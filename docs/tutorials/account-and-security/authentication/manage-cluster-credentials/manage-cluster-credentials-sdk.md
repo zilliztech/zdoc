@@ -1,7 +1,8 @@
 ---
-slug: /docs/manage-cluster-credentials-sdk
+slug: /manage-cluster-credentials-sdk
 beta: FALSE
 notebook: 13_use_built-in_roles.ipynb
+token: ZAp4w4SWaiJal2kaMhjcItyvnJh
 sidebar_position: 2
 ---
 
@@ -11,7 +12,7 @@ import TabItem from '@theme/TabItem';
 
 # Manage Cluster Credentials via SDKs
 
-In addition to [managing cluster credentials on web UI](./manage-cluster-credentials), Zilliz Cloud extends its functionality by offering SDKs for credential management. This integration enhances flexibility and provides more customization options than the web UI alone.
+In addition to [managing cluster credentials on web UI](./manage-cluster-credentials-gui), Zilliz Cloud extends its functionality by offering SDKs for credential management. This integration enhances flexibility and provides more customization options than the web UI alone.
 
 In the backend, there are three built-in role options:
 

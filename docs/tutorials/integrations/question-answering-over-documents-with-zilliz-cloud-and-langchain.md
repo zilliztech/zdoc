@@ -1,7 +1,8 @@
 ---
-slug: /docs/question-answering-over-documents-with-zilliz-cloud-and-langchain
+slug: /question-answering-over-documents-with-zilliz-cloud-and-langchain
 beta: FALSE
 notebook: 83_integrations_langchain.ipynb
+token: VSL7w4qDdiW0onkmrpucHCiBnIC
 sidebar_position: 4
 ---
 
@@ -188,3 +189,4 @@ The returned results include a `content` argument as the **output_text**.
 - [Documentation QA using Zilliz Cloud and LlamaIndex](./documentation-qa-using-zilliz-cloud-and-llamaindex) 
 
 - [Movie Search Using Zilliz Cloud and SentenceTransformers](./movie-search-using-zilliz-cloud-and-sentencetransformers) 
+

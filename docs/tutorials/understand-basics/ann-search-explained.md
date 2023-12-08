@@ -1,7 +1,8 @@
 ---
-slug: /docs/ann-search-explained
+slug: /ann-search-explained
 beta: FALSE
 notebook: FALSE
+token: CWHGw3g9Ui9GEHkjhu2cHBOInXf
 sidebar_position: 4
 ---
 

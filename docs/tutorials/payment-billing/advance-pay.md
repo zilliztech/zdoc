@@ -1,7 +1,8 @@
 ---
-slug: /docs/advance-pay
+slug: /advance-pay
 beta: FALSE
 notebook: FALSE
+token: K8hFwmeBQiCSO4ktT9ScD9zMnua
 sidebar_position: 4
 ---
 

@@ -1,7 +1,8 @@
 ---
-slug: /docs/autoindex-explained
+slug: /autoindex-explained
 beta: FALSE
 notebook: FALSE
+token: EA2twSf5oiERMDkriKScU9GInc4
 sidebar_position: 1
 ---
 

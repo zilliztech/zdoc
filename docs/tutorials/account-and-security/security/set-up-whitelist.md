@@ -1,7 +1,8 @@
 ---
-slug: /docs/set-up-whitelist
+slug: /set-up-whitelist
 beta: FALSE
 notebook: FALSE
+token: FnS1wY0iuia4qgkMycVclZyHnOf
 sidebar_position: 1
 ---
 
@@ -29,6 +30,7 @@ Ensure the following prerequisites are met before proceeding:
 1. In the left-side navigation pane, choose **Security** > **+ Add IP Address**.
 
 1. In the dialog box that appears, specify **IP Address (CIDR)** and **Description**.
+
     The following table describes the fields.
 
     |  **Field**         |  **Description**                                                                                                                        |
@@ -54,7 +56,7 @@ Ensure the following prerequisites are met before proceeding:
 
 - [Manage API Keys](./manage-api-keys)
 
-- [Manage Cluster Credentials](./manage-cluster-credentials)
+- [Manage Cluster Credentials](./manage-cluster-credentials-gui)
 
 - [Set up a Private Link](./setup-a-private-link)
 

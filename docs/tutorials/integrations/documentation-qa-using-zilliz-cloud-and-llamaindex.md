@@ -1,7 +1,8 @@
 ---
-slug: /docs/documentation-qa-using-zilliz-cloud-and-llamaindex
+slug: /documentation-qa-using-zilliz-cloud-and-llamaindex
 beta: FALSE
 notebook: 85_integrations_llamaindex.ipynb
+token: MejAw3lkkiA6uhkxcAqcMxOSnEb
 sidebar_position: 6
 ---
 
@@ -35,7 +36,7 @@ pip install pymilvus llama-index
 We are going to use `git` to pull the Milvus website data. A majority of the documents come in the form of markdown files.
 
 ```bash
-git clone <https://github.com/milvus-io/milvus-docs>
+git clone https://github.com/milvus-io/milvus-docs
 ```
 
 ## Parameters{#parameters}
@@ -136,3 +137,4 @@ print(str(response))
 - [Image Search with Zilliz Cloud and PyTorch](./image-search-with-zilliz-cloud-and-pytorch) 
 
 - [Movie Search Using Zilliz Cloud and SentenceTransformers](./movie-search-using-zilliz-cloud-and-sentencetransformers) 
+

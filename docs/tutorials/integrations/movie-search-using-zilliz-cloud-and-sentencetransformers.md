@@ -1,7 +1,8 @@
 ---
-slug: /docs/movie-search-using-zilliz-cloud-and-sentencetransformers
+slug: /movie-search-using-zilliz-cloud-and-sentencetransformers
 beta: FALSE
 notebook: 86_integrations_sentencetransformers.ipynb
+token: KPlpwDwupiZu0ZkYOu3cY3EWn7f
 sidebar_position: 7
 ---
 
@@ -237,3 +238,4 @@ Wild Country ---- 0.9238440990447998
 - [Image Search with Zilliz Cloud and PyTorch](./image-search-with-zilliz-cloud-and-pytorch) 
 
 - [Documentation QA using Zilliz Cloud and LlamaIndex](./documentation-qa-using-zilliz-cloud-and-llamaindex) 
+

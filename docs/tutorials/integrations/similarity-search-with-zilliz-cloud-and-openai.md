@@ -1,7 +1,8 @@
 ---
-slug: /docs/similarity-search-with-zilliz-cloud-and-openai
+slug: /similarity-search-with-zilliz-cloud-and-openai
 beta: FALSE
 notebook: 80_integrations_openai.ipynb
+token: SeQxwhBEaimlzykxXLacoJuTnAb
 sidebar_position: 1
 ---
 
@@ -70,7 +71,7 @@ Since the embedding process for a free OpenAI account can be time-consuming, we 
 
 </Admonition>
 
-The following snippet deals with Zilliz Cloud and setting up the cluster for this use case. Within Zilliz Cloud, we need to set up a collection and index it. For more information on how to set up and use Zilliz Cloud, refer to this [link](./).
+The following snippet deals with Zilliz Cloud and setting up the cluster for this use case. Within Zilliz Cloud, we need to set up a collection and index it. For more information on how to set up and use Zilliz Cloud, refer to this [link](./quick-start).
 
 ```python
 # Connect to Zilliz Cloud and create a collection
@@ -207,3 +208,4 @@ A full example of this is available [here](https://colab.research.google.com/dri
 - [Documentation QA using Zilliz Cloud and LlamaIndex](./documentation-qa-using-zilliz-cloud-and-llamaindex) 
 
 - [Movie Search Using Zilliz Cloud and SentenceTransformers](./movie-search-using-zilliz-cloud-and-sentencetransformers) 
+

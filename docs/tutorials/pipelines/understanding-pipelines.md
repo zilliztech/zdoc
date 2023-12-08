@@ -1,7 +1,8 @@
 ---
-slug: /docs/understanding-pipelines
+slug: /understanding-pipelines
 beta: TRUE
 notebook: FALSE
+token: Z2MUw8RaRiwlm4kGXAGcI6ybnFA
 sidebar_position: 1
 ---
 

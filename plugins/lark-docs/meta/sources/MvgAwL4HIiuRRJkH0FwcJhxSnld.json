@@ -1,0 +1,1520 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1697778473",
+  "node_token": "MvgAwL4HIiuRRJkH0FwcJhxSnld",
+  "node_type": "origin",
+  "obj_create_time": "1697778473",
+  "obj_edit_time": "1700115198",
+  "obj_token": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+  "obj_type": "docx",
+  "origin_node_token": "MvgAwL4HIiuRRJkH0FwcJhxSnld",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "VTZZwCkkCi7FwnklLDhcMJwvnQb",
+  "space_id": "7167193056431783939",
+  "title": "Import Data via SDKs",
+  "slug": "import-data-via-sdks",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+        "block_type": 1,
+        "children": [
+          "AoEldHhjiozYfjxb5C5co9lxn4c",
+          "F389d6EuboKJXQxOBTicEeiQntc",
+          "NNzSdt3juoHc6FxWl62c9FGCnNe",
+          "IKhxdwMKZohCG9xi64qcFbjmnVb",
+          "My7bdahw4oV4qQxPWK3c87drnRb",
+          "IWZVdUFKqo4F6GxDwATcmKGxnqc",
+          "NoGOd5M6NomUnYxZrVKc1QfFnZb",
+          "I1Vdd76tmoeYKIxr4Iqcw25Fnr7",
+          "UTh8d5bWLo25rgxdNhLcFYsJnFd",
+          "FXQWdVbfvodhF2xmOBEcS3Ijn05",
+          "Cx8XdYznWo9qcHxiExHc49EznVe",
+          "VaijdOjWMoaCsBx4kn9cKHPvnWe",
+          "NcAtdluGyoaducx7u2ecx5CXnzd",
+          "Bmh2dRsGhoryjixi8yTc8t0InUf",
+          "YzqHdHXgio2QgKxTsl2cLcaRnrc",
+          "CsRgdZ3HNoepH3x2z8dcM1t4ntg",
+          "FnB5dSpxMoGoH9xgKPscp3Efnym",
+          "KWwPdsQ3IoPZFZxavtecd12Rnih",
+          "XYGPdcFXaoVeZcxl0FdcX2O6nbb",
+          "JGh1dVeKDoUyj2xFXxccCsVJnnf",
+          "FUY6d9268oF69jxNAgZceJD1nvc",
+          "PTCXdZrHootJBbxXjjtcYxginOc",
+          "DLd6dJU9koNCu3xVwpicjV1Snkh"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Import Data via SDKs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "AoEldHhjiozYfjxb5C5co9lxn4c",
+        "block_type": 2,
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This guide helps you learn how to use our SDKs to import data into a collection with the bulk-writer and bulk-insert APIs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F389d6EuboKJXQxOBTicEeiQntc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "NNzSdt3juoHc6FxWl62c9FGCnNe",
+        "block_type": 2,
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ensure that",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IKhxdwMKZohCG9xi64qcFbjmnVb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have installed the latest SDKs. For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Install SDKs",
+                "token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
+                "url": "https://zilliverse.feishu.cn/wiki/J274wT61xiEM4fkYeL8cMb4Pnbd"
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Currently, the bulk-writer and bulk-import APIs are available only in the Python SDK.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "My7bdahw4oV4qQxPWK3c87drnRb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have created a cluster on Zilliz Cloud. For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Cluster",
+                "token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
+                "url": "https://zilliverse.feishu.cn/wiki/U0Bsw2SZaihm2mkLza7cRCqTndg"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "IWZVdUFKqo4F6GxDwATcmKGxnqc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have downloaded ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the example dataset in CSV format",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdrive.google.com%2Ffile%2Fd%2F12RkoDPAlk-sclXdjeXT6DMFVsQr4612w%2Fview%3Fusp%3Dsharing"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". To learn more about the dataset, read ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the introduction here",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.kaggle.com%2Fdatasets%2Fshiyu22chen%2Fcleaned-medium-articles-dataset"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "NoGOd5M6NomUnYxZrVKc1QfFnZb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Procedure",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "I1Vdd76tmoeYKIxr4Iqcw25Fnr7",
+        "block_type": 2,
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In order to import your data into Zilliz Cloud, utilizing the bulk-writer ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to transform your dataset into a suitable format is necessary. Once this step is complete, you can then easily bulk-import the converted dataset by making use of the bulk-import API.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UTh8d5bWLo25rgxdNhLcFYsJnFd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Converting your data",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "FXQWdVbfvodhF2xmOBEcS3Ijn05",
+        "block_type": 2,
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this part, you need to call the bulk-writer ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to create a RemoteBulkWriter, which allows you to rewrite your dataset to a cloud object storage bucket. For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Prepare Data Import",
+                "token": "YNbGwiEjAinaQfkSdNlcTehwn8I",
+                "url": "https://zilliverse.feishu.cn/wiki/YNbGwiEjAinaQfkSdNlcTehwn8I"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Cx8XdYznWo9qcHxiExHc49EznVe",
+        "block_type": 13,
+        "children": [
+          "PiHpd7TuSoFiA2xNJXGcaZgan5f",
+          "OS41dsmr8oE66LxqD8LcP9OKnad"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Fetch the schema of the collection you have already created.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "PiHpd7TuSoFiA2xNJXGcaZgan5f",
+        "block_type": 2,
+        "parent_id": "Cx8XdYznWo9qcHxiExHc49EznVe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "According to the dataset, the collection schema contains two fields: id and vector. The id field acts as the primary key and increments automatically. The vector field has a dimension of 768. All other fields in the dataset are considered dynamic fields.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OS41dsmr8oE66LxqD8LcP9OKnad",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import (\n    connections,\n    FieldSchema, CollectionSchema, DataType,\n    Collection,\n    utility,\n    bulk_import,\n    get_import_progress,\n    list_import_jobs,\n)\n\n# set up your collection\n\nconnections.connect(\n  alias='default', \n  #  Public endpoint obtained from Zilliz Cloud\n  uri=CLUSTER_ENDPOINT,\n  # API key or a colon-separated cluster username and password\n  token=TOKEN, \n)\n\n# Get an existing collection\ncollection = Collection(\"medium_articles_2020\")\n\n# Get the schema of the collection\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema = collection.schema",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Cx8XdYznWo9qcHxiExHc49EznVe"
+      },
+      {
+        "block_id": "VaijdOjWMoaCsBx4kn9cKHPvnWe",
+        "block_type": 13,
+        "children": [
+          "Mz9CdMd1ZoXMQxxt8glclpifnFf",
+          "EUIodgZRroOGHQx3MGicZIvpnqg"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Make your dataset consumable for the bulk-writer ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "Mz9CdMd1ZoXMQxxt8glclpifnFf",
+        "block_type": 2,
+        "parent_id": "VaijdOjWMoaCsBx4kn9cKHPvnWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The example dataset is in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CSV",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " format. You can use the Pandas library to process it. The ultimate goal is to generate a list of dictionaries so that you can feed them to BulkWriter in the next step.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EUIodgZRroOGHQx3MGicZIvpnqg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import json\nimport pandas as pd\n\n# Read the dataset into a data frame\ndataset = pd.read_csv(\"New_Medium_data.csv\")\n\n# To retrieve a row from the dataset, do as follows:\nrow = dataset.iloc[0].to_dict()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "row[\"vector\"] = json.loads(row[\"vector\"])",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VaijdOjWMoaCsBx4kn9cKHPvnWe"
+      },
+      {
+        "block_id": "NcAtdluGyoaducx7u2ecx5CXnzd",
+        "block_type": 13,
+        "children": [
+          "Upl7d5Gn5o8oCsxtfS1csuFznTg",
+          "QCGbdxPgKoBwX5xy04ecSXTQnpf"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Pass the schema to the RemoteBulkWriter along with other necessary parameters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "Upl7d5Gn5o8oCsxtfS1csuFznTg",
+        "block_type": 2,
+        "parent_id": "NcAtdluGyoaducx7u2ecx5CXnzd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The example below shows the use of an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " S3 bucket. Use a bucket located on the same cloud as your Zilliz Cloud cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QCGbdxPgKoBwX5xy04ecSXTQnpf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import RemoteBulkWriter\n\n# To connect to AWS S3\n# For details on creating IAM keys, refer to \n# https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey\n\nconnect_param = RemoteBulkWriter.ConnectParam(\n    endpoint=\"s3.amazonaws.com\",\n    access_key=IAM_ACCESS_KEY,\n    secret_key=IAM_SECRET_KEY,\n    bucket_name=YOUR_BUCKET_NAME,\n)\n\n# To connect to Google Cloud Storage\n# For details on creating HMAC keys, refer to \n# https://cloud.google.com/storage/docs/authentication/managing-hmackeys#create\n#\n# connect_param = RemoteBulkWriter.ConnectParam(\n#     endpoint=\"storage.googleapis.com\",\n#     access_key=HMAC_ACCESS_KEY,\n#     secret_key=HMAC_SECRET_KEY,\n#     bucket_name=YOUR_BUCKET_NAME,\n# )\n\n# Instantiate a writer\nwriter = RemoteBulkWriter(\n    schema=schema, # Schema of the target collection\n    remote_path=\"bulk_data\", # Remote output folder relative to the root of the specified bucket\n    connect_param=connect_param, # Bucket connection\n)\n\n# Feed data rows to the writer\nfor i in range(len(dataset)):\n    try:\n        row = dataset.iloc[i].to_dict()\n        row[\"vector\"] = json.loads(row[\"vector\"])\n        writer.append_row(row)\n    except Exception as e:\n        print(e)\n        break;\n\nwriter.commit()\nprint(writer.data_path)\n\n# Output\n# A path relative to the designated bucket\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# /bulk_data/8f808cdc-ce4d-4aed-89b9-2f343d44b2e0",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "NcAtdluGyoaducx7u2ecx5CXnzd"
+      },
+      {
+        "block_id": "Bmh2dRsGhoryjixi8yTc8t0InUf",
+        "block_type": 13,
+        "children": [
+          "LX4bdTc6IoQSerxe5OrcnuFDnHb",
+          "CvURdusHRoJ6BKxuWnBcnuKfnVb"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Check the result.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "LX4bdTc6IoQSerxe5OrcnuFDnHb",
+        "block_type": 2,
+        "parent_id": "Bmh2dRsGhoryjixi8yTc8t0InUf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following example demonstrates how to use MinIO’s Python client to verify the generated files in a specified storage bucket. Feel free to use any other methods to perform the check.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CvURdusHRoJ6BKxuWnBcnuKfnVb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from minio import Minio\n\nminio_client = Minio(\n    endpoint=\"s3.amazonaws.com\",\n    access_key=IAM_ACCESS_KEY,\n    secret_key=IAM_SECRET_KEY,\n    secure=True,\n)\n\nfound = minio_client.bucket_exists(YOUR_BUCKET_NAME)\n\nif found:\n    objects = minio_client.list_objects(YOUR_BUCKET_NAME, prefix=str(remote_path)[1:], recursive=True)\n    files = [ x.object_name for x in objects ]\n\n# Output\n# [\n#    'bulk_data/08a92d25-c703-4694-bfaa-5be4e8d0f6f9/1/vector.npy'\n#    'bulk_data/08a92d25-c703-4694-bfaa-5be4e8d0f6f9/1/$meta.npy'\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Bmh2dRsGhoryjixi8yTc8t0InUf"
+      },
+      {
+        "block_id": "YzqHdHXgio2QgKxTsl2cLcaRnrc",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Bulk-inserting data",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "CsRgdZ3HNoepH3x2z8dcM1t4ntg",
+        "block_type": 2,
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "As an alternative to the RESTful ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you can use its Python wrapper, PyMilvus’ bulk-import API.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FnB5dSpxMoGoH9xgKPscp3Efnym",
+        "block_type": 13,
+        "children": [
+          "YmGgdItn4ofcwaxul25cd0denwc"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Import the bulk-import APIs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "YmGgdItn4ofcwaxul25cd0denwc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import time\nfrom pymilvus import (\n    bulk_import,\n    get_import_progress,\n    list_import_jobs,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "FnB5dSpxMoGoH9xgKPscp3Efnym"
+      },
+      {
+        "block_id": "KWwPdsQ3IoPZFZxavtecd12Rnih",
+        "block_type": 13,
+        "children": [
+          "K36YdbUMJoIEGoxZo7ucMh0pnrh",
+          "NIVWdd5T7osSS5xjML2cJd0un4c"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Start a bulk-import task.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "K36YdbUMJoIEGoxZo7ucMh0pnrh",
+        "block_type": 2,
+        "parent_id": "KWwPdsQ3IoPZFZxavtecd12Rnih",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can get the ID of the bulk-import task from the return.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " In the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "bulk_import",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " request, you should use your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Key instead of the cluster credentials. To get an API key, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage API Keys",
+                "token": "IFtRwms2yiPZx9kfiBacuaw6nJc",
+                "url": "https://zilliverse.feishu.cn/wiki/IFtRwms2yiPZx9kfiBacuaw6nJc"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NIVWdd5T7osSS5xjML2cJd0un4c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "resp = bulk_import(\n    url=CLOUD_PLATFORM_ENDPOINT, # Cluster endpoint\n    api_key=API_KEY, # Your Zilliz Cloud API Key\n    object_url=OBJECT_URL, # Your object storage url\n    access_key=MINIO_ACCESS_KEY, # Your object storage access key\n    secret_key=MINIO_SECRET_KEY, # Your object storage secret key\n    cluster_id=CLUSTER_ID, # Your cluster ID\n    collection_name=COLLECTION_NAME # Your collection name\n)\n\nprint(resp.json())\n\n# Output\n# {\n#     'code': 200, \n#     'data': {\n#         'jobId': '84e3f533-0c13-4823-a3f0-db4e62dac2a6'\n#      }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KWwPdsQ3IoPZFZxavtecd12Rnih"
+      },
+      {
+        "block_id": "XYGPdcFXaoVeZcxl0FdcX2O6nbb",
+        "block_type": 13,
+        "children": [
+          "Op7fd9wIwo1bISxsPrScOX48n2e",
+          "WhczdGLdBoOST7xOY24c69cin9g",
+          "BGxFdG7w6oYY9Ax3v39calU9nkb"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Get the import progress.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "Op7fd9wIwo1bISxsPrScOX48n2e",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "job_id = resp.json()['data']['jobId']\nresp = get_import_progress(\n    url=CLOUD_PLATFORM_ENDPOINT,\n    api_key=API_KEY,\n    job_id=JOB_ID,\n    cluster_id=INSTANCE_ID\n)\n\n# Send request until the bulk-import progress ends.\nwhile resp.json()[\"data\"][\"readyPercentage\"] < 1:\n    time.sleep(5)\n    print(resp.json())\n\n    resp = get_import_progress(\n        url=CLOUD_PLATFORM_ENDPOINT,\n        api_key=API_KEY,\n        job_id=JOB_ID,\n        cluster_id=INSTANCE_ID\n    )\n\n# Output\n# {\n#     'code': 200, \n#     'data': {\n#         'collectionName': 'medium_articles', \n#         'fileName': 'medium_articles/293dbffc-465e-4ce1-b25b-a692c9b77dd8/1/', \n#         'fileSize': 28340716, \n#         'readyPercentage': 0, # Watch this for the progress\n#         'completeTime': None, \n#         'errorMessage': None, \n#         'jobId': '84e3f533-0c13-4823-a3f0-db4e62dac2a6', \n#         'details': [\n#              {\n#                  'fileName': 'medium_articles/293dbffc-465e-4ce1-b25b-a692c9b77dd8/1/', \n#                  'fileSize': 28340716, \n#                  'readyPercentage': 0, \n#                  'completeTime': None, \n#                  'errorMessage': None\n#              }\n#          ]\n#    }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "XYGPdcFXaoVeZcxl0FdcX2O6nbb"
+      },
+      {
+        "block_id": "WhczdGLdBoOST7xOY24c69cin9g",
+        "block_type": 2,
+        "parent_id": "XYGPdcFXaoVeZcxl0FdcX2O6nbb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you also want to know about all bulk-import tasks, you can call the list-import-jobs ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BGxFdG7w6oYY9Ax3v39calU9nkb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "resp = list_import_jobs(\n    url=CLOUD_PLATFORM_ENDPOINT,\n    api_key=API_KEY,\n    cluster_id=CLUSTER_ID,\n    page_size=10,\n    current_page=1,\n)\n\n# Output\n# {\n#     \"code\": 200,\n#     \"data\": {\n#         \"tasks\": [\n#             {\n#                 \"collectionName\": \"medium_articles\",\n#                 \"jobId\": \"26f90492-f4df-4e20-81ab-a602be653baa\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#             ...\n#             {\n#                 \"collectionName\": \"medium_articles\",\n#                 \"jobId\": \"d84f5ebc-a485-4058-83fd-2cced63e3bd8\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#             {\n#                 \"collectionName\": \"medium_articles\",\n#                 \"jobId\": \"d8238794-0d1b-48a2-b435-c90d3f52278c\",\n#                 \"state\": \"ImportCompleted\"\n#             }\n#         ],\n#         \"count\": 6,\n#         \"currentPage\": 1,\n#         \"pageSize\": 10\n#     }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "XYGPdcFXaoVeZcxl0FdcX2O6nbb"
+      },
+      {
+        "block_id": "JGh1dVeKDoUyj2xFXxccCsVJnnf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "FUY6d9268oF69jxNAgZceJD1nvc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Import Data on Web UI",
+                "token": "KkdswLx2bi4bgCkY6bEc7Do9neh",
+                "url": "https://zilliverse.feishu.cn/wiki/KkdswLx2bi4bgCkY6bEc7Do9neh"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "PTCXdZrHootJBbxXjjtcYxginOc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Import Data via RESTful API",
+                "token": "ZOikw2pIUiAZj9kuLYRcdhLnnoc",
+                "url": "https://zilliverse.feishu.cn/wiki/ZOikw2pIUiAZj9kuLYRcdhLnnoc"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "DLd6dJU9koNCu3xVwpicjV1Snkh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Prepare Data Import",
+                "token": "YNbGwiEjAinaQfkSdNlcTehwn8I",
+                "url": "https://zilliverse.feishu.cn/wiki/YNbGwiEjAinaQfkSdNlcTehwn8I"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      }
+    ],
+    "counts": 38
+  }
+}

@@ -1,7 +1,8 @@
 ---
-slug: /docs/cloud-providers-and-regions
+slug: /cloud-providers-and-regions
 beta: FALSE
 notebook: FALSE
+token: CPLrwghdWiSvGBkdeEecGjgLnSb
 sidebar_position: 6
 ---
 
@@ -56,3 +57,4 @@ Currently, all clusters running on Microsoft Azure support Beta version features
 - [Select the Right CU](./cu-types-explained)
 
 - [Pricing Calculator](./pricing-calculator)
+

@@ -1,7 +1,8 @@
 ---
-slug: /docs/delete-your-org
+slug: /delete-your-org
 beta: FALSE
 notebook: FALSE
+token: OCc5wCndbipOkzk8tkUc9IuJnle
 sidebar_position: 3
 ---
 
@@ -55,3 +56,4 @@ The action of deleting an organization cannot be undone. Please take extra cauti
 - [Manage Projects and Collaborators](./manage-projects-and-collaborator)
 
 - [View Activities](./view-activities)
+
