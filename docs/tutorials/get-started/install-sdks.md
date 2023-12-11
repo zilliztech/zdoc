@@ -37,7 +37,7 @@ Ensure your **Python** version exceeds **3.7** prior to installation.
 
 ```bash
 # Install specific PyMilvus version for beta clusters
-python -m pip install pymilvus==2.3.1
+python -m pip install pymilvus==2.3.4
 
 # Install specific PyMilvus version for common clusters
 python -m pip install pymilvus==2.2.17
