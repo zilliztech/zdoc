@@ -43,6 +43,17 @@ const config = {
           breadcrumbs: true,
           sidebarPath: require.resolve('./sidebarsTutorial.js'),
           routeBasePath: 'docs',
+          lastVersion: 'current',
+          versions: {
+            current: {
+              label: 'User Guides (Cloud)',
+            },
+            'byoc': {
+              label: 'User Guides (BYOC)',
+              path: 'byoc',
+              banner: 'none'
+            },
+          },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // editUrl:
@@ -120,10 +131,19 @@ const config = {
           // },
           // {to: '/api', label: 'API 参考', position: 'left'},
           {
-            href: '/docs/quick-start',
-            label: "User Guides",
+            type: 'dropdown',
+            label: 'User Guides',
             position: 'left',
-            className: 'header-link',
+            items: [
+              {
+                label: 'User Guides (Cloud)',
+                to: 'docs/quick-start',
+              },
+              {
+                label: 'User Guides (BYOC)',
+                to: 'docs/byoc/quick-start',
+              }
+            ]
           },
           {
             href: '/reference',
