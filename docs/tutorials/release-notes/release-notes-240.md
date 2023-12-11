@@ -16,7 +16,7 @@ We are excited to announce the release of Zilliz Cloud 2.4.0. Now Zilliz Cloud s
 
 We're excited to announce a significant expansion in our offerings: Zilliz Cloud services are now accessible on Azure, starting with the East US region. This marks a key milestone as our platform now seamlessly integrates with the three major public clouds: AWS, GCP, and Azure, ensuring a consistent and unified user experience across multiple environments. If your business requirements necessitate deployment in regions beyond Azure East US, please [__contact us__](https://support.zilliz.com/hc/en-us) for further support.
 
-### Pipeline{#pipeline}
+### Pipelines{#pipelines}
 
 Today, we are thrilled to introduce Zilliz Cloud Pipelines (Beta), a new addition to Zilliz Cloud. Pipelines is designed to unlock the potential of unstructured data by seamlessly transforming it into vector embeddings and ingesting them into Zilliz Cloud for storage and retrieval. This solution simplifies data workflows by consolidating processes like embedding, ingestion, storage, and retrieval, providing a welcome relief for developers who would otherwise grapple with integrating multiple stacks when building modern search applications, such as the cutting-edge [__Retrieval Augmented Generation (RAG)__](https://zilliz.com/use-cases/llm-retrieval-augmented-generation).
 
