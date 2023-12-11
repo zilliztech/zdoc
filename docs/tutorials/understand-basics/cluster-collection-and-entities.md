@@ -72,6 +72,14 @@ Zilliz Cloud provides three types of CUs, each of which have its own application
 
 Unlike Milvus instances, Zilliz Cloud clusters only support the **AUTOINDEX** algorithm for indexing. This algorithm is optimized for the three types of computing units (CUs) supported by Zilliz Cloud. For more information, see [AUTOINDEX Explained](./autoindex-explained).
 
+## Partitions{#partitions}
+
+A partition is a division of a collection. Zilliz Cloud supports dividing collection data into multiple parts on physical storage. This process is called partitioning, and each partition can contain multiple segments.
+
+By allocating entities to specific partitions, Zilliz Cloud effectively isolates and groups entities, thereby enhancing query performance by focusing on a smaller subset of data rather than the entire collection.
+
+For more information, see [Use Partitions](./use-partitions).
+
 ## Entities{#entities}
 
 Entities in a collection are data records sharing the same set of fields, like a book in a library or a gene in a genome. As to an entity, the data stored in each field forms the entity.
