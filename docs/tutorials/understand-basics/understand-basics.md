@@ -13,3 +13,12 @@ import Admonition from '@theme/Admonition';
 
 Explanations about the common terms we use when discussing how to use Zilliz Cloud.
 
+
+
+
+
+
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 2
+sidebar_position: 4
 slug: /modify-cluster
 title: Modify Cluster
 ---

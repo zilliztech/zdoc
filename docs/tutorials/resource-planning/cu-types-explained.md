@@ -69,12 +69,23 @@ The above metrics are based on tests considering only primary keys and vectors. 
 
 Performance metrics, notably latency and queries per second (QPS), are vital. The Performance-optimized CU distinctly outperforms its counterparts in latency and throughput, particularly for standard `top-k` values ranging from 10 to 250.
 
-|  top_k |  QPS for Performance-optimized CU (768-dim 1M vectors) |  QPS for Capacity-optimized CU (768-dim 5M vectors) |  QPS for Cost-optimized CU (768-dim 5M vectors) |
-| ------ | ------------------------------------------------------ | --------------------------------------------------- | -------------------------------------------------------------------------------- |
-|  10    |  520                                                   |  100                                                |  30                                             |
-|  100   |  440                                                   |  80                                                 |  25                                             |
-|  250   |  270                                                   |  60                                                 |  20                                             |
-|  1000  |  150                                                   |  40                                                 |  10                                             |
+The following table shows the test result of how each CU type performs in terms of QPS.
+
+|  top_k |  QPS for Performance-optimized CU (768-dim 1M vectors)<br/> <br/>   |  QPS for Capacity-optimized CU (768-dim 5M vectors) |  QPS for Cost-optimized CU (768-dim 5M vectors) |
+| ------ | ----------------------------------------------------------------- | --------------------------------------------------- | -------------------------------------------------------------------------------- |
+|  10    |  520                                                              |  100                                                |  30                                             |
+|  100   |  440                                                              |  80                                                 |  25                                             |
+|  250   |  270                                                              |  60                                                 |  20                                             |
+|  1000  |  150                                                              |  40                                                 |  10                                             |
+
+The following table shows the test result of how each CU type performs in terms of latency.
+
+|  top_k<br/> <br/>   |  Latency of Performance-optimized CU (768-dim 1M vectors)<br/> <br/>   |  Latency of Capacity-optimized CU (768-dim 5M vectors)<br/> <br/>   |  Latency of Cost-optimized CU (768-dim 5M vectors) |
+| ----------------- | -------------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+|  10               |  < 10 ms                                                             |  < 50 ms<br/> <br/>                                                 |  < 100 ms                                          |
+|  100              |  < 10 ms                                                             |  < 50 ms                                                          |  < 100 ms                                          |
+|  250              |  < 10 ms                                                             |  < 50 ms                                                          |  < 100 ms                                          |
+|  1000             |  10 - 20 ms                                                          |  50 - 100 ms                                                      |  100 - 200 ms                                      |
 
 ## Scenario breakdown{#scenario-breakdown}
 

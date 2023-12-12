@@ -12,3 +12,7 @@ import Admonition from '@theme/Admonition';
 # Security
 
 Learn more about how to set up whitelist and private links to secure the access to your data on Zilliz Cloud.
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

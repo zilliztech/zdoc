@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 5
+sidebar_position: 6
 slug: /suspend-cluster
 title: Suspend Cluster
 ---
@@ -100,7 +100,7 @@ The properties in the returned response are listed in the following table.
 | ---- | ------------- |
 | 80001 | The token is illegal |
 | 80002 | The token is invalid |
-| 80020 | Invalid clusterId or you do not have permission to access that Cluster. |
+| 80020 | Cluster not exist or you don't have permission. |
 | 80021 | Serverless cluster not support this operation. |
 | 90102 | The cluster does not exist in current region. |
 | 90103 | The clusterId parameter is empty in the request path. |

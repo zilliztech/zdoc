@@ -1,5 +1,5 @@
 ---
-slug: /authentication
+slug: /manage-cluster-credentials
 beta: false
 notebook: false
 token: XiOsw8A3eibZInk1aJNceBqznLb
@@ -9,11 +9,9 @@ sidebar_position: 2
 import Admonition from '@theme/Admonition';
 
 
-# Authentication
+# Manage Cluster Credentials
 
-Learn more about the management of API keys, cluster credentials, and multi-factor authentication (MFA) measures.
-
-
+There are two possible ways for you to manage your cluster credentials, namely on the Zilliz Cloud console or via SDKs.
 
 
 

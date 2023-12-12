@@ -1,9 +1,11 @@
 const fs = require('node:fs')
+const path = require('node:path')
 
 class larkUtils {
-    constructor(rootToken, docSourceDir) {
+    constructor(rootToken, docSourceDir, outputDir) {
         this.docSourceDir = docSourceDir
         this.rootToken = rootToken
+        this.outputDir = outputDir
         this.file_path = ''
     }
 
@@ -12,6 +14,27 @@ class larkUtils {
         this.__iterate_path(source.parent_node_token)
 
         return this.file_path
+    }
+
+    post_process_file_paths() {
+        const paths = fs.readdirSync(this.outputDir, {recursive: true})
+        const folders = paths.filter(path => fs.statSync(`${this.outputDir}/${path}`).isDirectory())
+        console.log(folders)
+
+        for (const folder of folders) {
+            const files = fs.readdirSync(`${this.outputDir}/${folder}`)
+
+            if (files.length === 1 && files[0] === folder.split('/').slice(-1)[0] + '.md') {
+                fs.rmdirSync(`${this.outputDir}/${folder}`)
+            }   
+
+            if (files.length > 1) {
+                const index_file = `${this.outputDir}/${folder}/${folder.split('/').slice(-1)[0]}.md`
+                const original = fs.readFileSync(index_file, {encoding: 'utf-8', flag: 'r'})
+                const new_lines = "import DocCardList from '@theme/DocCardList';\n\n<DocCardList />"
+                fs.writeFileSync(index_file, original + '\n\n' + new_lines, {encoding: 'utf-8', flag: 'w'})
+            }
+        }
     }
 
     __fetch_doc_source (type, value) {

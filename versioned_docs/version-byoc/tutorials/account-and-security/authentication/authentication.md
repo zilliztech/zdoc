@@ -12,3 +12,7 @@ import Admonition from '@theme/Admonition';
 # Authentication
 
 Learn more about the management of API keys, cluster credentials, and multi-factor authentication (MFA) measures.
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

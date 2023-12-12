@@ -12,7 +12,7 @@ import TabItem from '@theme/TabItem';
 
 # Create Collection
 
-This tutorial will guide you through the steps to set up a collection for your cluster.
+This tutorial will guide you through the steps to set up a collection for your cluster. You can find[ the detailed explanations about collections, schema, and index here](./cluster-collection-and-entities).
 
 ## Procedure{#procedure}
 

@@ -12,3 +12,11 @@ import Admonition from '@theme/Admonition';
 # Resource Planning
 
 Topics related to resource planning before you move your data to Zilliz Cloud.
+
+
+
+
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

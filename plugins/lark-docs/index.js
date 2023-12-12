@@ -15,8 +15,8 @@ module.exports = function (context, options) {
                 .option('-faq, --faq', 'Generate FAQ pages')
                 .option('-skipS, --skipSourceDown', 'Skip fetching document sources')
                 .option('-skipI, --skipImageDown', 'Skip fetching images')
+                .option('-post, --postProcess', 'Post process file paths')
                 .action(async (opts) => {
-                    console.log('Fetching docs from Feishu...')
 
                     const options = context.siteConfig.plugins.filter(plugin => plugin[0].includes('lark-docs'))[0][1]
 
@@ -24,20 +24,22 @@ module.exports = function (context, options) {
                         console.log('Please provide a target')
                         return
                     } else {
-                        if (opts.docTitle === undefined && !opts.faq) {
+                        const { outputDir, imageDir } = options.targets.filter(target => target[0] === opts.pubTarget)[0][1]
+                        const utils = new Utils(options.root, options.docSourceDir, outputDir)
+                        if (opts.docTitle === undefined && !opts.faq && opts.post) {
+                            console.log('Fetching docs from Feishu...')
                             if (!opts.skipSourceDown) {
                                 const scraper = new docScraper(options.root, options.base)
                                 await scraper.fetch(recursive=true)
                             }
-                            const { outputDir, imageDir } = options.targets.filter(target => target[0] === opts.pubTarget)[0][1]
                             const writer = new docWriter(options.root, options.docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
-                            console.log(outputDir, imageDir)
                             await writer.write_docs(outputDir, options.root)
+
+                            utils.post_process_file_paths()
                         }
     
                         if (opts.docTitle !== undefined) {
                             const scraper = new docScraper(options.root, options.base)
-                            var { outputDir, imageDir } = options.targets.filter(target => target[0] === opts.pubTarget)[0][1]
                             var source
     
                             var token = fs.readdirSync(options.docSourceDir).filter(file => {
@@ -57,7 +59,7 @@ module.exports = function (context, options) {
     
                             const writer = new docWriter(options.root, options.docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
                             const meta = await writer.__is_to_publish(opts.docTitle)
-                            const utils = new Utils(options.root, options.docSourceDir)
+
                             var file_path = outputDir + '/' + utils.determine_file_path(token, options.docSourceDir)
     
                             if (meta['publish']) {
@@ -87,7 +89,6 @@ module.exports = function (context, options) {
                                 
                         if (opts.faq) {
                             const scraper = new docScraper(options.root, options.base)
-                            var { outputDir, imageDir } = options.targets.filter(target => target[0] === opts.pubTarget)[0][1]
     
                             var source
     
@@ -109,6 +110,11 @@ module.exports = function (context, options) {
                             }
     
                             await writer.write_faqs(path)
+                        }
+
+                        if (opts.postProcess) {
+                            console.log('Post processing file paths')
+                            utils.post_process_file_paths()
                         }
                     }
                 })

@@ -99,10 +99,6 @@ const config = {
       ]
     }],
     './plugins/apifox-docs',
-    [ 'docusaurus-lunr-search', {
-      languages: ['en', 'zh'],
-      highlightResult: true
-    }]
   ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -118,30 +114,18 @@ const config = {
         },
         items: [
           {
+            type: 'docsVersionDropdown',
+            position: 'right',
+          },
+          {
             type: 'search',
             position: 'right',
           },
-          // {
-          //   type: 'docSidebar',
-          //   sidebarId: 'tutorialSidebar',
-          //   position: 'left',
-          //   label: '文档',
-          // },
-          // {to: '/api', label: 'API 参考', position: 'left'},
           {
-            type: 'dropdown',
+            href: '/docs/quick-start',
             label: 'User Guides',
             position: 'left',
-            items: [
-              {
-                label: 'User Guides (Cloud)',
-                to: 'docs/quick-start',
-              },
-              {
-                label: 'User Guides (BYOC)',
-                to: 'docs/byoc/quick-start',
-              }
-            ]
+            className: 'header-link',
           },
           {
             href: '/reference',
@@ -280,26 +264,15 @@ const config = {
       },
     }),
   themes: [
-    // ... Your other themes.
-    // [
-    //   require.resolve('@easyops-cn/docusaurus-search-local'),
-    //   /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
-    //   ({
-    //     // ... Your options.
-    //     // `hashed` is recommended as long-term-cache of index file is possible.
-    //     hashed: true,
-    //     // For Docs using Chinese, The `language` is recommended to set to:
-    //     // ```
-    //     indexBlog: false,
-    //     language: ['en', 'zh'],
-    //     docsDir: ['docs', 'reference'],
-    //     docsRouteBasePath: 'docs',
-    //     highlightSearchTermsOnTargetPage: true,
-    //     searchContextByPaths: ['/docs/tutorials', '/reference/api'],
-    //     docsPluginIdForPreferredVersion: 'reference',
-    //     // ```
-    //   }),
-    // ],
+    [ '@easyops-cn/docusaurus-search-local', {
+      id: 'saas',
+      hashed: true,
+      indexBlog: false,
+      language: ['en', 'zh'],
+      docsDir: ['docs', 'reference'],
+      docsRouteBasePath: 'docs',
+      highlightSearchTermsOnTargetPage: true,
+    }],
     'docusaurus-theme-frontmatter',
   ],
   scripts: [
