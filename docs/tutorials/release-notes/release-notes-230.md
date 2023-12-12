@@ -1,7 +1,8 @@
 ---
-slug: /docs/release-notes-230
+slug: /release-notes-230
 beta: FALSE
 notebook: FALSE
+token: MocQwCCItiHYEbkkJtOcROPTnod
 sidebar_position: 1
 ---
 

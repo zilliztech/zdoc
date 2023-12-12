@@ -1,7 +1,8 @@
 ---
-slug: /docs/create-built-in-roles
+slug: /create-built-in-roles
 beta: FALSE
 notebook: FALSE
+token: AFNZwDcXNiChK0ke5h5c65xZnje
 sidebar_position: 2
 ---
 
@@ -36,7 +37,7 @@ The system categorizes cluster built-in roles into the following types, each def
 
 - `Read-Only`: Viewing rights for most cluster resources, but no creation, modification, or deletion capabilities.
 
-To manage cluster users with various roles, see [Manage Cluster Credentials](./manage-cluster-credentials).
+To manage cluster users with various roles, see [Manage Cluster Credentials](./manage-cluster-credentials-gui).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -117,3 +118,4 @@ The table below outlines the permissions associated with each built-in role, del
 - [Manage Organizations and Members](./manage-orgs-and-members)
 
 - [Manage Projects and Collaborators](./manage-projects-and-collaborator)
+

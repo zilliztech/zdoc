@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 16
+sidebar_position: 19
 slug: /get-import-progress
 title: Get Import Progress
 ---
@@ -114,12 +114,12 @@ The properties in the returned response are listed in the following table.
 | ---- | ------------- |
 | 40021 | The cluster ID does not exist. |
 | 40022 | No access to this cluster. Please request access from your admin. |
-| 80020 | Invalid clusterId or you do not have permission to access that Cluster. |
-| 80020 | Invalid clusterId or you do not have permission to access that Cluster. |
+| 80020 | Cluster not exist or you don't have permission. |
+| 80020 | Cluster not exist or you don't have permission. |
 | 90102 | The cluster does not exist in current region. |
 | 90102 | The cluster does not exist in current region. |
 | 90103 | The clusterId parameter is empty in the request path. |
 | 90104 | The clusterId parameter is empty in the request parameter. |
-| 90117 | "Invalid domain name used |
+| 90117 | Invalid domain name used |
 | 90144 | No jobId record found under this cluster |
 

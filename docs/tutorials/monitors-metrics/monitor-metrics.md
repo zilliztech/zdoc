@@ -1,7 +1,8 @@
 ---
-slug: /docs/monitor-metrics
+slug: /monitor-metrics
 beta: FALSE
 notebook: FALSE
+token: AlRswAKgzitjyJkK1TCc2g19n0g
 sidebar_position: 7
 ---
 
@@ -19,15 +20,19 @@ Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To acces
 The **Metrics** tab presents various graphical representations, including:
 
 - **CU**
+
     This graph depicts fluctuations in usage, measured as a percentage per second, of either CPU or memory—whichever is higher—over a chosen time frame.
 
 - **Storage Use**
+
     This chart shows changes in block storage consumption, calculated in gigabytes per second, throughout a selected time period.
 
 - **QPS**
+
     This curve illustrates variations in the number of queries processed per second during a defined time interval.
 
 - **Query Latency**
+
     This graph represents shifts in query latency, measured in milliseconds, over a chosen duration.
 
 ## Modify Curve Window Size{#modify-curve-window-size}

@@ -1,7 +1,8 @@
 ---
-slug: /docs/load-capacity-resource-monitor
+slug: /load-capacity-resource-monitor
 beta: FALSE
 notebook: FALSE
+token: NiIxwMY3bi9JH3kEwjXcON8pnJc
 sidebar_position: 4
 ---
 

@@ -1,7 +1,8 @@
 ---
-slug: /docs/schedule-automatic-backups
+slug: /schedule-automatic-backups
 beta: FALSE
 notebook: FALSE
+token: HDmKwGeGLi2P67kGdNXcigXDn3e
 sidebar_position: 2
 ---
 
@@ -39,3 +40,4 @@ The default setting configures that Zilliz Cloud automatically creates a snapsho
 - [Restore from Snapshot](./restore-from-snapshot) 
 
 - [Delete Snapshot](./delete-snapshot) 
+

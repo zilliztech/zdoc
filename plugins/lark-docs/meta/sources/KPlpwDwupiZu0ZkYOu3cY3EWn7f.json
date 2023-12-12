@@ -1,0 +1,1498 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689059114",
+  "node_token": "KPlpwDwupiZu0ZkYOu3cY3EWn7f",
+  "node_type": "origin",
+  "obj_create_time": "1689059114",
+  "obj_edit_time": "1700705692",
+  "obj_token": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
+  "obj_type": "docx",
+  "origin_node_token": "KPlpwDwupiZu0ZkYOu3cY3EWn7f",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "M1PDwYLKsi4TQRka9xUcDhMjnzc",
+  "space_id": "7167193056431783939",
+  "title": "Movie Search Using Zilliz Cloud and SentenceTransformers",
+  "slug": "movie-search-using-zilliz-cloud-and-sentencetransformers",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
+        "block_type": 1,
+        "children": [
+          "FhfAdFq6GoILbhxSzEpcqUDUndf",
+          "RoR9dpTf2onh0JxfKkPcH7P7n6e",
+          "AkSXd7gSSo9cbLx29rAcuZvbnob",
+          "DtBpdjqgnomhxLx47mTc17PknNe",
+          "ObOZdXBOLoiJlox1bmTccJpAnbb",
+          "XbObdTXM7o5iXhxTDpjclLTknAh",
+          "MlcgdrpDZoNXlvxf1uwcAcQqnzk",
+          "AIBcdO4jyojw1BxZzymccr7lnGg",
+          "BwzDdegoHoRlqyxIaxEcqw5JnCb",
+          "YLpbdt62RobOMLxJX19c1fXCnRf",
+          "FUHSdhXF6obKZHxTdILcck7inNc",
+          "KVBydEyH6oe3ZoxFnDccZ61knqD",
+          "E6iTdx1PeoAhgGx72l7cAk9Fnif",
+          "KrErdv60XoWQ1XxzyLwcmXqPnld",
+          "MV25d9bKToltmux5tNhc3QYAnNb",
+          "BRt9dvs8PoXDjhx0ZrBc7VqZnkh",
+          "GvpcdtaXuo40kcxT7a8cvJnVnCh",
+          "TXoRd0J9BonedGxCbK6c7F0dnie",
+          "TF2hdsEk0ozUj4xEKlLcIBxMnkd",
+          "KNrqdQFitoMI1ux9SQYcyieBnqc",
+          "BqvbdD8Fgou7opxtloWcufTBnXg",
+          "PCi5dQpfvoU6bdxMvp8cLdcBnwe",
+          "PmtkdsSXDooWiXxRJAsckGmgnxd",
+          "ZCzAdKmEEoo8HYxS64kcEzdvnqg",
+          "ENAvdDT5Toclugx2B1ucjhcbnwy",
+          "MPrkdju6XoKsCJx8u1LcLJ0Mnyc",
+          "UQsrdDSNtoZi3Zx2ZrbcPLIon6e",
+          "XuFDdhJqnoe86Pxv1J4c0iCInIg",
+          "VhSUdrJuUo9KgtxSeVpcYVjAnHh",
+          "GQMedRefBopsMRxKhV4cIuxJnNg",
+          "Arfidfom6oESpkxz6rbcDuuNntd",
+          "XPzbdmRoFoEVDnxDBZFc4gnVnkf",
+          "K1efdCAqHo0e4IxI7gRcGv65ndf",
+          "E4uodztfSo2BQHxNTLEc7ro0nWd",
+          "QmWmdPBneoF2kJxKaHccMih7nRg",
+          "Cy8sdPEBfooG2WxCjczcm9GwnPd",
+          "QmmsdYnNhobUK7xFHrsc7xFBndg",
+          "FDDDdDnIzoVfbrx9OYDcr7Nnnug",
+          "FFR3dh0Daovgf3xrdz3cF5IVnXf",
+          "GkFSdvA7FoLnYpxShAicm5LGnod",
+          "Mc7XdULdrogdnmxW8JNcjGHqnfh",
+          "N8r5dGXCMoVTXXxArvlc3Mv4nFf"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Movie Search Using Zilliz Cloud and SentenceTransformers",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "FhfAdFq6GoILbhxSzEpcqUDUndf",
+        "block_type": 2,
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this example, we are going to go over a Wikipedia article search using Zilliz Cloud and the SentenceTransformers library. The dataset we will search through is the Wikipedia-Movie-Plots Dataset found on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Kaggle",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.kaggle.com%2Fdatasets%2Fjrobischon%2Fwikipedia-movie-plots"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". For this example, we have re-hosted the data in a public Google drive.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RoR9dpTf2onh0JxfKkPcH7P7n6e",
+        "block_type": 2,
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This example was run on a Zilliz Cloud cluster using 1 CU.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AkSXd7gSSo9cbLx29rAcuZvbnob",
+        "block_type": 2,
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Let's get started.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DtBpdjqgnomhxLx47mTc17PknNe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "ObOZdXBOLoiJlox1bmTccJpAnbb",
+        "block_type": 2,
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For this example, we are going to be using ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pymilvus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to connect to use Zilliz Cloud, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "sentencetransformers",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to generate vector embeddings, and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "gdown",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to download the example dataset.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XbObdTXM7o5iXhxTDpjclLTknAh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pip install pymilvus sentence-transformers gdown",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "MlcgdrpDZoNXlvxf1uwcAcQqnzk",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Prepare data",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "AIBcdO4jyojw1BxZzymccr7lnGg",
+        "block_type": 2,
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "We are going to use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "gdown",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to grab the zip from Google Drive and then decompress it with the built-in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "zipfile",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " library.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BwzDdegoHoRlqyxIaxEcqw5JnCb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import gdown\n\nurl = 'https://drive.google.com/uc?id=11ISS45aO2ubNCGaC3Lvd3D7NT8Y7MeO8'\nzipball = '../movies.zip'\noutput_folder = '../movies'\ngdown.download(url, zipball)\n\nwith zipfile.ZipFile(zipball,\"r\") as zip_ref:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    zip_ref.extractall(output_folder)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "YLpbdt62RobOMLxJX19c1fXCnRf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "FUHSdhXF6obKZHxTdILcck7inNc",
+        "block_type": 2,
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Here we can find the main arguments that need to be modified for running with your own accounts. Beside each is a description of what it is.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KVBydEyH6oe3ZoxFnDccZ61knqD",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Parameters for set up Zilliz Cloud\nCOLLECTION_NAME = 'movies_db'  # Collection name\nDIMENSION = 384  # Embeddings size\nURI = 'YOUR_CLUSTER_ENDPOINT'  # Endpoint URI obtained from Zilliz Cloud\nTOKEN = 'YOUR_CLUSTER_TOKEN'  # API key or a colon-separated cluster username and password\n\n# Inference Arguments\nBATCH_SIZE = 128\n\n# Search Arguments\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "TOP_K = 3",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "E6iTdx1PeoAhgGx72l7cAk9Fnif",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set up Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "KrErdv60XoWQ1XxzyLwcmXqPnld",
+        "block_type": 2,
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "At this point, we are going to begin setting up Zilliz Cloud. The steps are as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MV25d9bKToltmux5tNhc3QYAnNb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Connect to the Zilliz Cloud cluster using the provided URI.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "BRt9dvs8PoXDjhx0ZrBc7VqZnkh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import connections\n\n# Connect to Milvus Database\nconnections.connect(\n    uri=URI, \n    token=TOKEN\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "GvpcdtaXuo40kcxT7a8cvJnVnCh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If the collection already exists, drop it.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "TXoRd0J9BonedGxCbK6c7F0dnie",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import utility\n\n# Remove any previous collections with the same name\nif utility.has_collection(COLLECTION_NAME):\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    utility.drop_collection(COLLECTION_NAME)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "TF2hdsEk0ozUj4xEKlLcIBxMnkd",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create the collection that holds the id, title of the movie, and the embeddings of the plot text.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "KNrqdQFitoMI1ux9SQYcyieBnqc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import FieldSchema, CollectionSchema, DataType, Collection\n\n# Create collection which includes the id, title, and embedding.\nfields = [\n    FieldSchema(name='id', dtype=DataType.INT64, is_primary=True, auto_id=True),\n    FieldSchema(name='title', dtype=DataType.VARCHAR, max_length=200),  # VARCHARS need a maximum length, so for this example they are set to 200 characters\n    FieldSchema(name='embedding', dtype=DataType.FLOAT_VECTOR, dim=DIMENSION)\n]\nschema = CollectionSchema(fields=fields)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection = Collection(name=COLLECTION_NAME, schema=schema)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "BqvbdD8Fgou7opxtloWcufTBnXg",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create an index on the newly created collection and load it into memory.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "PCi5dQpfvoU6bdxMvp8cLdcBnwe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Create an IVF_FLAT index for collection.\nindex_params = {\n    'index_type': 'AUTOINDEX',\n    'metric_type': 'L2',\n    'params': {}\n}\ncollection.create_index(field_name=\"embedding\", index_params=index_params)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection.load()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "PmtkdsSXDooWiXxRJAsckGmgnxd",
+        "block_type": 2,
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once these steps are done the collection is ready to be inserted into and searched. Any data added will be indexed automatically and be available for search immediately. If the data is very fresh, the search might be slower as brute force searching will be used on data that is still in process of getting indexed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZCzAdKmEEoo8HYxS64kcEzdvnqg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Insert the data",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "ENAvdDT5Toclugx2B1ucjhcbnwy",
+        "block_type": 2,
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For this example, we are going to use the SentenceTransformers miniLM model to create embeddings of the plot text. This model returns 384-dimensional embeddings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MPrkdju6XoKsCJx8u1LcLJ0Mnyc",
+        "block_type": 2,
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In these next few steps we will:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UQsrdDSNtoZi3Zx2ZrbcPLIon6e",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Load the data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "XuFDdhJqnoe86Pxv1J4c0iCInIg",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Embed the plot text data using SentenceTransformers.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "VhSUdrJuUo9KgtxSeVpcYVjAnHh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Insert the data into Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "GQMedRefBopsMRxKhV4cIuxJnNg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import csv\nfrom sentence_transformers import SentenceTransformer\n\ntransformer = SentenceTransformer('all-MiniLM-L6-v2')\n\n# Extract the book titles\ndef csv_load(file):\n    with open(file, newline='') as f:\n        reader = csv.reader(f, delimiter=',')\n        for row in reader:\n            if '' in (row[1], row[7]):\n                continue\n            yield (row[1], row[7])\n\n# Extract embedding from text using OpenAI\ndef embed_insert(data):\n    embeds = transformer.encode(data[1])\n    ins = [\n            data[0],\n            [x for x in embeds]\n    ]\n    collection.insert(ins)\n\nimport time\n\ndata_batch = [[],[]]\n\nwith open('../movies/plots.csv') as f:\n    total = len(f.readlines()) / BATCH_SIZE\n\nfor title, plot in tqdm(csv_load('{}/plots.csv'.format(output_folder)), total=total):\n    data_batch[0].append(title)\n    data_batch[1].append(plot)\n    if len(data_batch[0]) % BATCH_SIZE == 0:\n        embed_insert(data_batch)\n        data_batch = [[],[]]\n\n# Embed and insert the remainder\nif len(data_batch[0]) != 0:\n    embed_insert(data_batch)\n\n# Call a flush to index any unsealed segments.\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection.flush()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "Arfidfom6oESpkxz6rbcDuuNntd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Perform ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the search",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "XPzbdmRoFoEVDnxDBZFc4gnVnkf",
+        "block_type": 2,
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "With all the data inserted into Zilliz Cloud, we can start performing our searches. In this example, we are going to search for movies based on the plot. Because we are doing a batch search, the search time is shared across the movie searches.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "K1efdCAqHo0e4IxI7gRcGv65ndf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Search for titles that closest match these phrases.\nsearch_terms = ['A movie about cars', 'A movie about monsters']\n\n# Search the database based on input text\ndef embed_search(data):\n    embeds = transformer.encode(data)\n    return [x for x in embeds]\n\nsearch_data = embed_search(search_terms)\n\nstart = time.time()\nres = collection.search(\n    data=search_data,  # Embeded search value\n    anns_field=\"embedding\",  # Search across embeddings\n    param={},\n    limit = TOP_K,  # Limit to top_k results per search\n    output_fields=['title']  # Include title field in result\n)\nend = time.time()\n\nfor hits_i, hits in enumerate(res):\n    print('Title:', search_terms[hits_i])\n    print('Search Time:', end-start)\n    print('Results:')\n    for hit in hits:\n        print( hit.entity.get('title'), '----', hit.distance)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    print()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "E4uodztfSo2BQHxNTLEc7ro0nWd",
+        "block_type": 2,
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output should be similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QmWmdPBneoF2kJxKaHccMih7nRg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Title: A movie about cars\nSearch Time: 0.04272913932800293\nResults:\nRed Line 7000 ---- 0.9104408621788025\nThe Mysterious Mr. Valentine ---- 0.9127437472343445\nTomboy ---- 0.9254708290100098\n\nTitle: A movie about monsters\nSearch Time: 0.04272913932800293\nResults:\nMonster Hunt ---- 0.8105474710464478\nThe Astro-Zombies ---- 0.8998500108718872\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Wild Country ---- 0.9238440990447998",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "Cy8sdPEBfooG2WxCjczcm9GwnPd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related integrations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "QmmsdYnNhobUK7xFHrsc7xFBndg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Similarity Search with Zilliz Cloud and OpenAI",
+                "token": "SeQxwhBEaimlzykxXLacoJuTnAb",
+                "url": "https://zilliverse.feishu.cn/wiki/SeQxwhBEaimlzykxXLacoJuTnAb"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "FDDDdDnIzoVfbrx9OYDcr7Nnnug",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering Using Zilliz Cloud and HuggingFace",
+                "token": "RWxKwfwFniNU1skCVCgcrKHbnCd",
+                "url": "https://zilliverse.feishu.cn/wiki/RWxKwfwFniNU1skCVCgcrKHbnCd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "FFR3dh0Daovgf3xrdz3cF5IVnXf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering Using Zilliz Cloud and Cohere",
+                "token": "WjZswh3lJi6k5BkyLaNchzodnib",
+                "url": "https://zilliverse.feishu.cn/wiki/WjZswh3lJi6k5BkyLaNchzodnib"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "GkFSdvA7FoLnYpxShAicm5LGnod",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering over Documents with Zilliz Cloud and LangChain",
+                "token": "VSL7w4qDdiW0onkmrpucHCiBnIC",
+                "url": "https://zilliverse.feishu.cn/wiki/VSL7w4qDdiW0onkmrpucHCiBnIC"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "Mc7XdULdrogdnmxW8JNcjGHqnfh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Image Search with Zilliz Cloud and PyTorch",
+                "token": "XnWswbO9Zi4sykkgRzec8el8nyd",
+                "url": "https://zilliverse.feishu.cn/wiki/XnWswbO9Zi4sykkgRzec8el8nyd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      },
+      {
+        "block_id": "N8r5dGXCMoVTXXxArvlc3Mv4nFf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Documentation QA using Zilliz Cloud and LlamaIndex",
+                "token": "MejAw3lkkiA6uhkxcAqcMxOSnEb",
+                "url": "https://zilliverse.feishu.cn/wiki/MejAw3lkkiA6uhkxcAqcMxOSnEb"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+      }
+    ],
+    "counts": 43
+  }
+}

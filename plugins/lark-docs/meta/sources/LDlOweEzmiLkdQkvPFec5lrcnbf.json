@@ -1,0 +1,4422 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689062622",
+  "node_token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
+  "node_type": "origin",
+  "obj_create_time": "1689062622",
+  "obj_edit_time": "1699622191",
+  "obj_token": "G0qudBnqjoxXb6xywOjcLtBhnTb",
+  "obj_type": "docx",
+  "origin_node_token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
+  "space_id": "7167193056431783939",
+  "title": "Subscribe on AWS Marketplace",
+  "slug": "subscribe-on-aws-marketplace",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "G0qudBnqjoxXb6xywOjcLtBhnTb",
+        "block_type": 1,
+        "children": [
+          "OrgPdFyJtoV6OUxygewcBFMhnLc",
+          "GLpWdIvavo9egNxQ3zlcDVzfnqc",
+          "URWOdV2EjoRUmvxFfgbcUMXlnuc",
+          "ZY3ld9mIqoWZtyxbgQGcyevwnfe",
+          "UxMbdb9uFo5wBEx3ZmZcTNYbnru",
+          "CVGqd4VRdoK1mKxVnEzcI4Bwnah",
+          "Nkx6dSToToWx2pxzLiBcmSmFnCf",
+          "APS3drZ9VoLA7DxrFf1ckXRmnHd",
+          "ET3rdAe6roCaCaxmmqCcL6xInBb",
+          "YH5zdnH34oMKwWx2V33clxS2nAb",
+          "QHMbdPP6soqctXxkhGZcVMW6nwa",
+          "GXWudsT59oa6moxCNjDcTc5ZnYb",
+          "ShPEd9iskoDrtkx39qucsGkLnVS",
+          "ErqSdSGI4oLuRJxvLz5cM4Q7n4j",
+          "XJdgdSNFjo2QffxJUHpct9HYn1d",
+          "GeBSdu3pzoaWCFxoCdAcOp0xneh",
+          "ZRUxdguKwoPwo9x2dchcffNgnTg",
+          "Xwcnd5XqjoxNmrxnceNcOyLZnpf",
+          "WjHLd7UdCo48HWxdFlWcyt9insg",
+          "QhUvddA8ooejRhxhGH2csC1snwf",
+          "YbA9d2cpyoPdVbxI92pcOFyenAh",
+          "C0dFd7U2so63Eixkx8UcbyGEnUb",
+          "YGHgdpvsxo4MBYx9TFic7UVLnje",
+          "PY7ZdMRU9o2yG2xfiamc5DHmnuf",
+          "AzmLdIvlGo5B2Wx6C1ac6zrwned",
+          "ZpdzdsqX7oskCDxakuhc7YSHnWd",
+          "N5EXd2UQeoIAnfxPbhMc7iS2nFf",
+          "D4pldg5InoPKLsxzU3Rct1ARnOg",
+          "VE0tdFBf3oltMnxr38uc3rvEnpf",
+          "NKJPdhwbloskhRxh50OcnuiJnne",
+          "VJuhdIj0noFo2kxiX00cugbZnHb",
+          "GStCdo7lboiBRSxSwboc98d4nBf",
+          "R54fdOCpToLvGuxND3CcnTpFnQg",
+          "OZzzdGM6OoBAd1xvj7EcdpDwnXf",
+          "Tw2jdVx8poieIgx8t9XcHTdQnmQ",
+          "Qefhdjsrso3trIx6m6pcAYZKnBc",
+          "R4L0dls5cooWK8xOXc5cFnGNnyh"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Subscribe on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "OrgPdFyJtoV6OUxygewcBFMhnLc",
+        "block_type": 2,
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on AWS Marketplace.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GLpWdIvavo9egNxQ3zlcDVzfnqc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "URWOdV2EjoRUmvxFfgbcUMXlnuc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ensure you have an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace account.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "ZY3ld9mIqoWZtyxbgQGcyevwnfe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set your ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7295588995940106243"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7295588995940106243"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Buyer ID's default payment method to the Invoicing Plan. ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7295588995940106243"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Learn how to change your default payment method",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7295588995940106243"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fchat.openai.com%2Fc%2F0b1274aa-d87a-4104-9a5f-b0daeb3fee59%23"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7295588995940106243"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7295588995940106243"
+        ],
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "UxMbdb9uFo5wBEx3ZmZcTNYbnru",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you’re an existing Zilliz Cloud user, use a different email to subscribe on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "CVGqd4VRdoK1mKxVnEzcI4Bwnah",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If your AWS account is part of an organization, you must be authorized to make purchases by the billing administrator.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "Nkx6dSToToWx2pxzLiBcmSmFnCf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Subscribe on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "APS3drZ9VoLA7DxrFf1ckXRmnHd",
+        "block_type": 2,
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "V",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "isit ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS Marketplace",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Faws.amazon.com%2Fmarketplace"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and start subscribing to Zilliz Cloud as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ET3rdAe6roCaCaxmmqCcL6xInBb",
+        "block_type": 13,
+        "children": [
+          "Ld0WddHWwoanyzxuzCMcxCVfn73"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search for ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the search box, or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "click here",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Faws.amazon.com%2Fmarketplace%2Fsearch%2Fresults%3FsearchTerms%3Dzilliz%2Bcloud"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to view Zilliz Cloud on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "Ld0WddHWwoanyzxuzCMcxCVfn73",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5816-1761%26t%3DV6lYxQf3yeNwkINF-4"
+          }
+        },
+        "parent_id": "ET3rdAe6roCaCaxmmqCcL6xInBb"
+      },
+      {
+        "block_id": "YH5zdnH34oMKwWx2V33clxS2nAb",
+        "block_type": 13,
+        "children": [
+          "NwBydohtRoBO7ExFYOncasdtnod",
+          "A6pndJ2PAo0ORsxtGp4cwok7nye"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "NwBydohtRoBO7ExFYOncasdtnod",
+        "block_type": 2,
+        "parent_id": "YH5zdnH34oMKwWx2V33clxS2nAb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Familiarize yourself with the services and pricing.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A6pndJ2PAo0ORsxtGp4cwok7nye",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5816-1766%26t%3DV6lYxQf3yeNwkINF-4"
+          }
+        },
+        "parent_id": "YH5zdnH34oMKwWx2V33clxS2nAb"
+      },
+      {
+        "block_id": "QHMbdPP6soqctXxkhGZcVMW6nwa",
+        "block_type": 13,
+        "children": [
+          "Il5odyqaPoBGKkx9i10cKPcunBh"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "View purchase options",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", then ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Subscribe",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Follow the prompt to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Set up your account",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " on Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "Il5odyqaPoBGKkx9i10cKPcunBh",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5816-1771%26t%3DV6lYxQf3yeNwkINF-4"
+          }
+        },
+        "parent_id": "QHMbdPP6soqctXxkhGZcVMW6nwa"
+      },
+      {
+        "block_id": "GXWudsT59oa6moxCNjDcTc5ZnYb",
+        "block_type": 13,
+        "children": [
+          "Ws0OdjbL3oDCQFxv4H6cuA7rnpb"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you already have a Zilliz Cloud account, simply log in. If not, choose a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "sign-up option",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FHriHwEU3qiQrgskz3a0cdkcpnyf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and follow the process. Ensure all ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " strings in the URL are retained to link your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " identity to your Zilliz Cloud account.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "Ws0OdjbL3oDCQFxv4H6cuA7rnpb",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "OTsedoOhzoa0pZxCv2qc6PvInbd",
+          "Jq6mdmUbkome0sx7bE9crF4ln1g"
+        ],
+        "parent_id": "GXWudsT59oa6moxCNjDcTc5ZnYb"
+      },
+      {
+        "block_id": "OTsedoOhzoa0pZxCv2qc6PvInbd",
+        "block_type": 2,
+        "parent_id": "Ws0OdjbL3oDCQFxv4H6cuA7rnpb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Jq6mdmUbkome0sx7bE9crF4ln1g",
+        "block_type": 2,
+        "parent_id": "Ws0OdjbL3oDCQFxv4H6cuA7rnpb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace uses ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ShPEd9iskoDrtkx39qucsGkLnVS",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Fill out the required information to access $100 in long-term credits and decide if you want to receive updates from Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "ErqSdSGI4oLuRJxvLz5cM4Q7n4j",
+        "block_type": 13,
+        "children": [
+          "WISOdQo1AoL1DpxFCbVcZymhn8g"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Go to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Billing",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to ensure your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace subscription is set as your payment method.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "WISOdQo1AoL1DpxFCbVcZymhn8g",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5816-1786%26t%3DV6lYxQf3yeNwkINF-4"
+          }
+        },
+        "parent_id": "ErqSdSGI4oLuRJxvLz5cM4Q7n4j"
+      },
+      {
+        "block_id": "XJdgdSNFjo2QffxJUHpct9HYn1d",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Update ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace subscription",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "GeBSdu3pzoaWCFxoCdAcOp0xneh",
+        "block_type": 2,
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After successfully subscribing from ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace, you can always update your subscription at any time that you see fit. More specifically, you can either change the AWS Marketplace account used for the subscription to another one or switch your payment method from an AWS Marketplace subscription to a credit card.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZRUxdguKwoPwo9x2dchcffNgnTg",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Change ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace subscription account",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "Xwcnd5XqjoxNmrxnceNcOyLZnpf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Sign in to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace with the original AWS account you used for the subscription.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "WjHLd7UdCo48HWxdFlWcyt9insg",
+        "block_type": 13,
+        "children": [
+          "JGOTdtIz8oBEJpxKSdvcz6Qtnic"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cancel your Zilliz Cloud subscription. Refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Cancel your product subscription",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.aws.amazon.com%2Fmarketplace%2Flatest%2Fbuyerguide%2Fcancel-subscription.html%23cancel-saas-subscription"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for more details.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "JGOTdtIz8oBEJpxKSdvcz6Qtnic",
+        "block_type": 34,
+        "children": [
+          "S9B2dOZhgoGoAsxsvdCcqlm8nZg",
+          "D88mdeV4Eoa0s5xk7KgcoshlnNc"
+        ],
+        "parent_id": "WjHLd7UdCo48HWxdFlWcyt9insg",
+        "quote_container": {}
+      },
+      {
+        "block_id": "S9B2dOZhgoGoAsxsvdCcqlm8nZg",
+        "block_type": 2,
+        "parent_id": "JGOTdtIz8oBEJpxKSdvcz6Qtnic",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Note",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D88mdeV4Eoa0s5xk7KgcoshlnNc",
+        "block_type": 2,
+        "parent_id": "JGOTdtIz8oBEJpxKSdvcz6Qtnic",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "It takes a few minutes for ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace to complete the cancellation process.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QhUvddA8ooejRhxhGH2csC1snwf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Sign out of your original ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " account.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "YbA9d2cpyoPdVbxI92pcOFyenAh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Sign in to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace with the new AWS account you want to use for the subscription.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "C0dFd7U2so63Eixkx8UcbyGEnUb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Follow steps 1 to 4 in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Subscribe on AWS Marketplace",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FLDlOweEzmiLkdQkvPFec5lrcnbf%23Nkx6dSToToWx2pxzLiBcmSmFnCf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " section to complete your subscription to Zilliz Cloud with the new account.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "YGHgdpvsxo4MBYx9TFic7UVLnje",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Switch to payment credit card",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "PY7ZdMRU9o2yG2xfiamc5DHmnuf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Sign in to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace with the original AWS account you used for the subscription.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "AzmLdIvlGo5B2Wx6C1ac6zrwned",
+        "block_type": 13,
+        "children": [
+          "QZsgduHP8osXN5xdD2QcK0OZnld",
+          "KlCMdYKdgofX86xp0EBcurVxnbC"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cancel your Zilliz Cloud subscription. Refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Cancel your product subscription",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.aws.amazon.com%2Fmarketplace%2Flatest%2Fbuyerguide%2Fcancel-subscription.html%23cancel-saas-subscription"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for more details.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "QZsgduHP8osXN5xdD2QcK0OZnld",
+        "block_type": 2,
+        "parent_id": "AzmLdIvlGo5B2Wx6C1ac6zrwned",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KlCMdYKdgofX86xp0EBcurVxnbC",
+        "block_type": 34,
+        "children": [
+          "AXy4d2ZyoocI9pxRnRAciFZMn7b",
+          "KqVydjjwooep8JxhZ5kc83jwnML"
+        ],
+        "parent_id": "AzmLdIvlGo5B2Wx6C1ac6zrwned",
+        "quote_container": {}
+      },
+      {
+        "block_id": "AXy4d2ZyoocI9pxRnRAciFZMn7b",
+        "block_type": 2,
+        "parent_id": "KlCMdYKdgofX86xp0EBcurVxnbC",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Note",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KqVydjjwooep8JxhZ5kc83jwnML",
+        "block_type": 2,
+        "parent_id": "KlCMdYKdgofX86xp0EBcurVxnbC",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "It takes a few minutes for ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace to complete the cancellation process.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZpdzdsqX7oskCDxakuhc7YSHnWd",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Follow the steps in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Add a payment method",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FUgd9dlygComG36xn2rWcJADrn4b%23AroZdE7XLo0WOfxfgrKcsOU1nqh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to add a payment credit card.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "N5EXd2UQeoIAnfxPbhMc7iS2nFf",
+        "block_type": 13,
+        "comment_ids": [
+          "7293458465740210179"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Check out your current payment method in your billing overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7293458465740210179"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "D4pldg5InoPKLsxzU3Rct1ARnOg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cancel ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace subscription",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "VE0tdFBf3oltMnxr38uc3rvEnpf",
+        "block_type": 2,
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To cancel your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace subscription, you need to open the AWS Marketplace console and follow the instructions ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "here",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.aws.amazon.com%2Fmarketplace%2Flatest%2Fbuyerguide%2Fcancel-subscription.html"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NKJPdhwbloskhRxh50OcnuiJnne",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace p",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ricing terms",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "VJuhdIj0noFo2kxiX00cugbZnHb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud Standard Plan",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "GGrndG4d8oPpQmxdPwyc3yfPncg"
+        ],
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "block_type": 31,
+        "children": [
+          "ULuAdRXGGorNCFxsA5ac7bcKnYc",
+          "Hx8Ad014vougDPxxZPGcXAUyn0e",
+          "NrGfdQgqho1pcqxenf8cfiFAnbc",
+          "O2uPdX0eTooI0YxITUycmT61nPb",
+          "Fbn9dA2aboN18cxKMPGcdsMHnfe",
+          "WCwmdqvJ5ozmMaxfCrfcGeVinDh",
+          "IcXqdh6Y4onXhexAe6xcBOv0n8U",
+          "SAcidXWjlowREZxnZyZczaOon7g",
+          "VGIKdFPj9oBVjPx2xFScNT3enYg",
+          "KAcUdJvASoy76mxw5LJcK3eTnxc",
+          "Mo9fdDEgvozod1xkcYLcZ1Mangc",
+          "LgBHdBfojooyfixxOwUcq7KanIh",
+          "DeQ0dcrHSotxDYxwKcBcPn2un3g",
+          "GHU4dUAHWoBaDFxOsm2cC8V4n1b",
+          "DiaHdzRuOo1yqBx7tPIcQH3mn3d",
+          "Lsx6djt7aojlXqxhupBcAeSjnQb",
+          "F4bqdRaspo8YqgxSKRFc0rxfnDg",
+          "HfJqdNGR2oCSMEx34AEcyyTmnoh",
+          "JA9tdfr6ZofDbpxv50ScuB2Enid",
+          "EfdkdhjgIoQpK6xvDefc15PPnt8",
+          "WtzKdTjinoi1mexUPuvcQ5m2nwf",
+          "TgIvdGxx8oxmk9xkHA7cwZMsnZE"
+        ],
+        "parent_id": "VJuhdIj0noFo2kxiX00cugbZnHb",
+        "table": {
+          "cells": [
+            "ULuAdRXGGorNCFxsA5ac7bcKnYc",
+            "Hx8Ad014vougDPxxZPGcXAUyn0e",
+            "NrGfdQgqho1pcqxenf8cfiFAnbc",
+            "O2uPdX0eTooI0YxITUycmT61nPb",
+            "Fbn9dA2aboN18cxKMPGcdsMHnfe",
+            "WCwmdqvJ5ozmMaxfCrfcGeVinDh",
+            "IcXqdh6Y4onXhexAe6xcBOv0n8U",
+            "SAcidXWjlowREZxnZyZczaOon7g",
+            "VGIKdFPj9oBVjPx2xFScNT3enYg",
+            "KAcUdJvASoy76mxw5LJcK3eTnxc",
+            "Mo9fdDEgvozod1xkcYLcZ1Mangc",
+            "LgBHdBfojooyfixxOwUcq7KanIh",
+            "DeQ0dcrHSotxDYxwKcBcPn2un3g",
+            "GHU4dUAHWoBaDFxOsm2cC8V4n1b",
+            "DiaHdzRuOo1yqBx7tPIcQH3mn3d",
+            "Lsx6djt7aojlXqxhupBcAeSjnQb",
+            "F4bqdRaspo8YqgxSKRFc0rxfnDg",
+            "HfJqdNGR2oCSMEx34AEcyyTmnoh",
+            "JA9tdfr6ZofDbpxv50ScuB2Enid",
+            "EfdkdhjgIoQpK6xvDefc15PPnt8",
+            "WtzKdTjinoi1mexUPuvcQ5m2nwf",
+            "TgIvdGxx8oxmk9xkHA7cwZMsnZE"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              523,
+              150
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 11
+          }
+        }
+      },
+      {
+        "block_id": "ULuAdRXGGorNCFxsA5ac7bcKnYc",
+        "block_type": 32,
+        "children": [
+          "NLVrdaPB5oP5IlxLRZgctMF4neh"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NLVrdaPB5oP5IlxLRZgctMF4neh",
+        "block_type": 2,
+        "parent_id": "ULuAdRXGGorNCFxsA5ac7bcKnYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Units",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Hx8Ad014vougDPxxZPGcXAUyn0e",
+        "block_type": 32,
+        "children": [
+          "ISMjd6mLnotFP6xdNwTcfwtynjd"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ISMjd6mLnotFP6xdNwTcfwtynjd",
+        "block_type": 2,
+        "parent_id": "Hx8Ad014vougDPxxZPGcXAUyn0e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cost",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NrGfdQgqho1pcqxenf8cfiFAnbc",
+        "block_type": 32,
+        "children": [
+          "Nu3IdGF4eoW3yCxYwO9cmr0yn4b"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Nu3IdGF4eoW3yCxYwO9cmr0yn4b",
+        "block_type": 2,
+        "parent_id": "NrGfdQgqho1pcqxenf8cfiFAnbc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " performance-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O2uPdX0eTooI0YxITUycmT61nPb",
+        "block_type": 32,
+        "children": [
+          "JQPSduQphoTBjbxBQdWcolk7ngg"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "JQPSduQphoTBjbxBQdWcolk7ngg",
+        "block_type": 2,
+        "parent_id": "O2uPdX0eTooI0YxITUycmT61nPb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.159 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Fbn9dA2aboN18cxKMPGcdsMHnfe",
+        "block_type": 32,
+        "children": [
+          "LE9PdLVxxoxZMgx6vHWcRwrankg"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "LE9PdLVxxoxZMgx6vHWcRwrankg",
+        "block_type": 2,
+        "parent_id": "Fbn9dA2aboN18cxKMPGcdsMHnfe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " capacity-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WCwmdqvJ5ozmMaxfCrfcGeVinDh",
+        "block_type": 32,
+        "children": [
+          "KLQAdp0Jro0orhxTJ2WcGqi2nJg"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "KLQAdp0Jro0orhxTJ2WcGqi2nJg",
+        "block_type": 2,
+        "parent_id": "WCwmdqvJ5ozmMaxfCrfcGeVinDh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.159 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IcXqdh6Y4onXhexAe6xcBOv0n8U",
+        "block_type": 32,
+        "children": [
+          "YxwZdGSkToR8dJxyut3cwB6Lnjf"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "YxwZdGSkToR8dJxyut3cwB6Lnjf",
+        "block_type": 2,
+        "parent_id": "IcXqdh6Y4onXhexAe6xcBOv0n8U",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " cost-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SAcidXWjlowREZxnZyZczaOon7g",
+        "block_type": 32,
+        "children": [
+          "Fmk9daLCnom87Txny0DcNNaIngb"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Fmk9daLCnom87Txny0DcNNaIngb",
+        "block_type": 2,
+        "parent_id": "SAcidXWjlowREZxnZyZczaOon7g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.107 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VGIKdFPj9oBVjPx2xFScNT3enYg",
+        "block_type": 32,
+        "children": [
+          "NO6cdu5pkoqig2xB8fTcrdThnRe"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NO6cdu5pkoqig2xB8fTcrdThnRe",
+        "block_type": 2,
+        "parent_id": "VGIKdFPj9oBVjPx2xFScNT3enYg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GB for storage on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " per month as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KAcUdJvASoy76mxw5LJcK3eTnxc",
+        "block_type": 32,
+        "children": [
+          "RpcHdH4ffoTr91xxkpvcv3EDnUb"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "RpcHdH4ffoTr91xxkpvcv3EDnUb",
+        "block_type": 2,
+        "parent_id": "KAcUdJvASoy76mxw5LJcK3eTnxc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.025 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Mo9fdDEgvozod1xkcYLcZ1Mangc",
+        "block_type": 32,
+        "children": [
+          "Dl5BdRDr2oofLvxbO9AcTHb9nFW"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Dl5BdRDr2oofLvxbO9AcTHb9nFW",
+        "block_type": 2,
+        "parent_id": "Mo9fdDEgvozod1xkcYLcZ1Mangc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GB for backup service on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LgBHdBfojooyfixxOwUcq7KanIh",
+        "block_type": 32,
+        "children": [
+          "QDLxdmv3KorCS7x6jhPc2mTxnbg"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QDLxdmv3KorCS7x6jhPc2mTxnbg",
+        "block_type": 2,
+        "parent_id": "LgBHdBfojooyfixxOwUcq7KanIh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.025 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DeQ0dcrHSotxDYxwKcBcPn2un3g",
+        "block_type": 32,
+        "children": [
+          "UccGdoStvoBAuEx6TdScq7wHn3c"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "UccGdoStvoBAuEx6TdScq7wHn3c",
+        "block_type": 2,
+        "parent_id": "DeQ0dcrHSotxDYxwKcBcPn2un3g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GCP performance-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GHU4dUAHWoBaDFxOsm2cC8V4n1b",
+        "block_type": 32,
+        "children": [
+          "JLDBd2bb4omzeyxlfQGc88gknMm"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "JLDBd2bb4omzeyxlfQGc88gknMm",
+        "block_type": 2,
+        "parent_id": "GHU4dUAHWoBaDFxOsm2cC8V4n1b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.137 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DiaHdzRuOo1yqBx7tPIcQH3mn3d",
+        "block_type": 32,
+        "children": [
+          "JoiGdnK3Rooe4LxKacgc6dM5nmi"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "JoiGdnK3Rooe4LxKacgc6dM5nmi",
+        "block_type": 2,
+        "parent_id": "DiaHdzRuOo1yqBx7tPIcQH3mn3d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GCP capacity-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Lsx6djt7aojlXqxhupBcAeSjnQb",
+        "block_type": 32,
+        "children": [
+          "AF2AdknFpoLZc1x9Y0ccmyYsnRc"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "AF2AdknFpoLZc1x9Y0ccmyYsnRc",
+        "block_type": 2,
+        "parent_id": "Lsx6djt7aojlXqxhupBcAeSjnQb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.137 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F4bqdRaspo8YqgxSKRFc0rxfnDg",
+        "block_type": 32,
+        "children": [
+          "C8igdpJ9woL8UlxawBDcrlyInMh"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "C8igdpJ9woL8UlxawBDcrlyInMh",
+        "block_type": 2,
+        "parent_id": "F4bqdRaspo8YqgxSKRFc0rxfnDg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GCP cost-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HfJqdNGR2oCSMEx34AEcyyTmnoh",
+        "block_type": 32,
+        "children": [
+          "BkaldhjQKo58VAx2zR4cvr15n9d"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "BkaldhjQKo58VAx2zR4cvr15n9d",
+        "block_type": 2,
+        "parent_id": "HfJqdNGR2oCSMEx34AEcyyTmnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.091 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JA9tdfr6ZofDbpxv50ScuB2Enid",
+        "block_type": 32,
+        "children": [
+          "PUzRduyRLohYkhxj04AckzR7nje"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PUzRduyRLohYkhxj04AckzR7nje",
+        "block_type": 2,
+        "parent_id": "JA9tdfr6ZofDbpxv50ScuB2Enid",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GB for storage on GCP per month as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EfdkdhjgIoQpK6xvDefc15PPnt8",
+        "block_type": 32,
+        "children": [
+          "Fss9dd33Go8IsgxfFBIcqhZXnIg"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Fss9dd33Go8IsgxfFBIcqhZXnIg",
+        "block_type": 2,
+        "parent_id": "EfdkdhjgIoQpK6xvDefc15PPnt8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.02 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WtzKdTjinoi1mexUPuvcQ5m2nwf",
+        "block_type": 32,
+        "children": [
+          "I1mOdVshzonhFAxbuSnceLYTnMh"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "I1mOdVshzonhFAxbuSnceLYTnMh",
+        "block_type": 2,
+        "parent_id": "WtzKdTjinoi1mexUPuvcQ5m2nwf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GB for backup service on GCP as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TgIvdGxx8oxmk9xkHA7cwZMsnZE",
+        "block_type": 32,
+        "children": [
+          "QzW0dmhSsoQpflxw8oxcm1CsnMJ"
+        ],
+        "parent_id": "GGrndG4d8oPpQmxdPwyc3yfPncg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QzW0dmhSsoQpflxw8oxcm1CsnMJ",
+        "block_type": 2,
+        "parent_id": "TgIvdGxx8oxmk9xkHA7cwZMsnZE",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.02 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GStCdo7lboiBRSxSwboc98d4nBf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud Enterprise Plan",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "QMQndQvLZoobvgx7ZEBcoCLcnse"
+        ],
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "block_type": 31,
+        "children": [
+          "OJgpdLlCmoduKXxRrKCctCginWg",
+          "A3cYdNoY1o8wSux8z3ncEoNgnup",
+          "RwObddBfToPvzexo3nTcYSjOn2c",
+          "Bz2JdFmhaoXLbOx0WlCcabZCnSg",
+          "JyZddVWEmopgvyxyAfMciDmqnFQ",
+          "ZbxhdSP74owJESxKRYEco6VPnxb",
+          "EVSgdFWxQozc91xpryvcGoPDnff",
+          "Svgvd0aJoooHuPx4OQwclKe7n1d",
+          "LrvfdzkL4oJgFax9YRncKpZMnUe",
+          "BRmmdwaYdoRrf3xavgjcrVoMnEd",
+          "XGwCdwfUCo1C04xvllCcXneyndb",
+          "Wp1rds3Qoo0YnGxzVyucObrSnSh",
+          "VQstdcul7oVazrxREpncY8Ejn1e",
+          "FJqodR0uyo2Gklx3cAzc6cRGnph",
+          "LV7VduVQYoBWWCxJ5X7c3qzKnlg",
+          "QK2kdm5xZo7G0Rxmnr8cMEhVn6g",
+          "Ci1FdC7pwoSwGCxRurFcsxapn7g",
+          "IiUhd4dCTo4kfvxzDjAcLIAYnGe",
+          "Bjm1dd5e2oP5zdxlBMnc2nL9nue",
+          "Sd6zdGFGToKp5gxSYETcNjJfnOc",
+          "P5yudeM5OoCt2AxGtZmcyweanLd",
+          "EEEpdSXu4oKcvYx0TztcYP4rnVb"
+        ],
+        "parent_id": "GStCdo7lboiBRSxSwboc98d4nBf",
+        "table": {
+          "cells": [
+            "OJgpdLlCmoduKXxRrKCctCginWg",
+            "A3cYdNoY1o8wSux8z3ncEoNgnup",
+            "RwObddBfToPvzexo3nTcYSjOn2c",
+            "Bz2JdFmhaoXLbOx0WlCcabZCnSg",
+            "JyZddVWEmopgvyxyAfMciDmqnFQ",
+            "ZbxhdSP74owJESxKRYEco6VPnxb",
+            "EVSgdFWxQozc91xpryvcGoPDnff",
+            "Svgvd0aJoooHuPx4OQwclKe7n1d",
+            "LrvfdzkL4oJgFax9YRncKpZMnUe",
+            "BRmmdwaYdoRrf3xavgjcrVoMnEd",
+            "XGwCdwfUCo1C04xvllCcXneyndb",
+            "Wp1rds3Qoo0YnGxzVyucObrSnSh",
+            "VQstdcul7oVazrxREpncY8Ejn1e",
+            "FJqodR0uyo2Gklx3cAzc6cRGnph",
+            "LV7VduVQYoBWWCxJ5X7c3qzKnlg",
+            "QK2kdm5xZo7G0Rxmnr8cMEhVn6g",
+            "Ci1FdC7pwoSwGCxRurFcsxapn7g",
+            "IiUhd4dCTo4kfvxzDjAcLIAYnGe",
+            "Bjm1dd5e2oP5zdxlBMnc2nL9nue",
+            "Sd6zdGFGToKp5gxSYETcNjJfnOc",
+            "P5yudeM5OoCt2AxGtZmcyweanLd",
+            "EEEpdSXu4oKcvYx0TztcYP4rnVb"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              523,
+              150
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 11
+          }
+        }
+      },
+      {
+        "block_id": "OJgpdLlCmoduKXxRrKCctCginWg",
+        "block_type": 32,
+        "children": [
+          "RisjdM5L6oBuVSxPdtkcCt3ynSd"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "RisjdM5L6oBuVSxPdtkcCt3ynSd",
+        "block_type": 2,
+        "parent_id": "OJgpdLlCmoduKXxRrKCctCginWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Units",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A3cYdNoY1o8wSux8z3ncEoNgnup",
+        "block_type": 32,
+        "children": [
+          "Dp2td7i0GoE2uKxDqWIclNksnLh"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Dp2td7i0GoE2uKxDqWIclNksnLh",
+        "block_type": 2,
+        "parent_id": "A3cYdNoY1o8wSux8z3ncEoNgnup",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cost",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RwObddBfToPvzexo3nTcYSjOn2c",
+        "block_type": 32,
+        "children": [
+          "HMRvdEPpKoMrQkxQ1OLcGGOHnjg"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "HMRvdEPpKoMrQkxQ1OLcGGOHnjg",
+        "block_type": 2,
+        "parent_id": "RwObddBfToPvzexo3nTcYSjOn2c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " performance-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Bz2JdFmhaoXLbOx0WlCcabZCnSg",
+        "block_type": 32,
+        "children": [
+          "JGPQdxAtaowN25xocqicx6JInjh"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "JGPQdxAtaowN25xocqicx6JInjh",
+        "block_type": 2,
+        "parent_id": "Bz2JdFmhaoXLbOx0WlCcabZCnSg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.248 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JyZddVWEmopgvyxyAfMciDmqnFQ",
+        "block_type": 32,
+        "children": [
+          "DL98dcX3aoIApwxcJ5Lcjpvlnbd"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "DL98dcX3aoIApwxcJ5Lcjpvlnbd",
+        "block_type": 2,
+        "parent_id": "JyZddVWEmopgvyxyAfMciDmqnFQ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " capacity-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZbxhdSP74owJESxKRYEco6VPnxb",
+        "block_type": 32,
+        "children": [
+          "PyCKdo67soamSNxoI2zc0xAsns9"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PyCKdo67soamSNxoI2zc0xAsns9",
+        "block_type": 2,
+        "parent_id": "ZbxhdSP74owJESxKRYEco6VPnxb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.248 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EVSgdFWxQozc91xpryvcGoPDnff",
+        "block_type": 32,
+        "children": [
+          "HlpZdfgsAodITWxsd6pcJ9hUnPm"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "HlpZdfgsAodITWxsd6pcJ9hUnPm",
+        "block_type": 2,
+        "parent_id": "EVSgdFWxQozc91xpryvcGoPDnff",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " cost-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Svgvd0aJoooHuPx4OQwclKe7n1d",
+        "block_type": 32,
+        "children": [
+          "KwtgdXfV1o8KMSxd8eqcw9wpnib"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "KwtgdXfV1o8KMSxd8eqcw9wpnib",
+        "block_type": 2,
+        "parent_id": "Svgvd0aJoooHuPx4OQwclKe7n1d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.159 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LrvfdzkL4oJgFax9YRncKpZMnUe",
+        "block_type": 32,
+        "children": [
+          "FVzed3vqpo8hDTxQZGRcXirnnad"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "FVzed3vqpo8hDTxQZGRcXirnnad",
+        "block_type": 2,
+        "parent_id": "LrvfdzkL4oJgFax9YRncKpZMnUe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GB for storage on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " per month as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BRmmdwaYdoRrf3xavgjcrVoMnEd",
+        "block_type": 32,
+        "children": [
+          "G7midqxcBooAvkx0jm0cegIgnwd"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "G7midqxcBooAvkx0jm0cegIgnwd",
+        "block_type": 2,
+        "parent_id": "BRmmdwaYdoRrf3xavgjcrVoMnEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.025 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XGwCdwfUCo1C04xvllCcXneyndb",
+        "block_type": 32,
+        "children": [
+          "Ogr2d2kkfoPzQsxsTe9cG80YnHb"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Ogr2d2kkfoPzQsxsTe9cG80YnHb",
+        "block_type": 2,
+        "parent_id": "XGwCdwfUCo1C04xvllCcXneyndb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GB for backup service on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Wp1rds3Qoo0YnGxzVyucObrSnSh",
+        "block_type": 32,
+        "children": [
+          "VYMId1IWpoPflGxR1OecXsS0nyd"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "VYMId1IWpoPflGxR1OecXsS0nyd",
+        "block_type": 2,
+        "parent_id": "Wp1rds3Qoo0YnGxzVyucObrSnSh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.025 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VQstdcul7oVazrxREpncY8Ejn1e",
+        "block_type": 32,
+        "children": [
+          "TDaOdJUuQoiHl2xvLVEcQ2pcnCg"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "TDaOdJUuQoiHl2xvLVEcQ2pcnCg",
+        "block_type": 2,
+        "parent_id": "VQstdcul7oVazrxREpncY8Ejn1e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GCP performance-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FJqodR0uyo2Gklx3cAzc6cRGnph",
+        "block_type": 32,
+        "children": [
+          "Uzv4db5AEomBWdxCQI5cV0mhnIc"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Uzv4db5AEomBWdxCQI5cV0mhnIc",
+        "block_type": 2,
+        "parent_id": "FJqodR0uyo2Gklx3cAzc6cRGnph",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.215 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LV7VduVQYoBWWCxJ5X7c3qzKnlg",
+        "block_type": 32,
+        "children": [
+          "Sm4sd7zdOoO6aTxb4DfcvddrnAc"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Sm4sd7zdOoO6aTxb4DfcvddrnAc",
+        "block_type": 2,
+        "parent_id": "LV7VduVQYoBWWCxJ5X7c3qzKnlg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GCP capacity-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QK2kdm5xZo7G0Rxmnr8cMEhVn6g",
+        "block_type": 32,
+        "children": [
+          "MuZOdlk54oLbrVxdyyycY0Eynff"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "MuZOdlk54oLbrVxdyyycY0Eynff",
+        "block_type": 2,
+        "parent_id": "QK2kdm5xZo7G0Rxmnr8cMEhVn6g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.215 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ci1FdC7pwoSwGCxRurFcsxapn7g",
+        "block_type": 32,
+        "children": [
+          "VVXldiKKqoIYBMxsft3csTwrnpf"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "VVXldiKKqoIYBMxsft3csTwrnpf",
+        "block_type": 2,
+        "parent_id": "Ci1FdC7pwoSwGCxRurFcsxapn7g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GCP cost-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IiUhd4dCTo4kfvxzDjAcLIAYnGe",
+        "block_type": 32,
+        "children": [
+          "CAVOdQBGIoMz9wxQjBVcks5bnCc"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CAVOdQBGIoMz9wxQjBVcks5bnCc",
+        "block_type": 2,
+        "parent_id": "IiUhd4dCTo4kfvxzDjAcLIAYnGe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.137 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Bjm1dd5e2oP5zdxlBMnc2nL9nue",
+        "block_type": 32,
+        "children": [
+          "UCfAdD6xuo3Byjx73TfcXEk5n9e"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "UCfAdD6xuo3Byjx73TfcXEk5n9e",
+        "block_type": 2,
+        "parent_id": "Bjm1dd5e2oP5zdxlBMnc2nL9nue",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GB for storage on GCP per month as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Sd6zdGFGToKp5gxSYETcNjJfnOc",
+        "block_type": 32,
+        "children": [
+          "VLphdh41Jo0GSMxnlIDc1vvrnHu"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "VLphdh41Jo0GSMxnlIDc1vvrnHu",
+        "block_type": 2,
+        "parent_id": "Sd6zdGFGToKp5gxSYETcNjJfnOc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.02 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "P5yudeM5OoCt2AxGtZmcyweanLd",
+        "block_type": 32,
+        "children": [
+          "GtggdBBTJoGrlhxdcJdc9Eb3nAf"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "GtggdBBTJoGrlhxdcJdc9Eb3nAf",
+        "block_type": 2,
+        "parent_id": "P5yudeM5OoCt2AxGtZmcyweanLd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GB for backup service on GCP as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EEEpdSXu4oKcvYx0TztcYP4rnVb",
+        "block_type": 32,
+        "children": [
+          "Xl7QdOKthoLF48x3G8YcIwrhnXf"
+        ],
+        "parent_id": "QMQndQvLZoobvgx7ZEBcoCLcnse",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Xl7QdOKthoLF48x3G8YcIwrhnXf",
+        "block_type": 2,
+        "parent_id": "EEEpdSXu4oKcvYx0TztcYP4rnVb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.02 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "R54fdOCpToLvGuxND3CcnTpFnQg",
+        "block_type": 2,
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Using the above table, if you have deployed a vector database in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Standard Plan",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " on Zilliz Cloud with one performance-optimized CU, you will be charged 159 units per hour, that is $0.159/hour.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OZzzdGM6OoBAd1xvj7EcdpDwnXf",
+        "block_type": 2,
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To subscribe to Zilliz Cloud, please visit us on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS Marketplace",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Faws.amazon.com%2Fmarketplace%2Fpp%2Fprodview-iqbidum7feuio%3Fsr%3D0-1%26ref_%3Dbeagle%26applicationId%3DAWSMPContessa"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Tw2jdVx8poieIgx8t9XcHTdQnmQ",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "Qefhdjsrso3trIx6m6pcAYZKnBc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Subscribe by Adding Credit Card",
+                "token": "TVnkwXupUiX3zDkzYPWcxKP3nvg",
+                "url": "https://zilliverse.feishu.cn/wiki/TVnkwXupUiX3zDkzYPWcxKP3nvg"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FSubscribe-by-Adding-Credit-Card-7939e50c76bb473eb121f1feff57d4c8%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
+        "block_id": "R4L0dls5cooWK8xOXc5cFnGNnyh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "View Invoice",
+                "token": "PBEbwjRu9iyyaFkZnuzcINHCnke",
+                "url": "https://zilliverse.feishu.cn/wiki/PBEbwjRu9iyyaFkZnuzcINHCnke"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FView-Invoice-7f05461a55c24fc99d6aaa5040b19bbb%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      }
+    ],
+    "counts": 143
+  }
+}

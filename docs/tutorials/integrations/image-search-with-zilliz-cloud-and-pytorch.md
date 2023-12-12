@@ -1,7 +1,8 @@
 ---
-slug: /docs/image-search-with-zilliz-cloud-and-pytorch
+slug: /image-search-with-zilliz-cloud-and-pytorch
 beta: FALSE
 notebook: 84_integrations_pytorch.ipynb
+token: XnWswbO9Zi4sykkgRzec8el8nyd
 sidebar_position: 5
 ---
 
@@ -288,3 +289,4 @@ The search result image should be similar to the following:
 - [Documentation QA using Zilliz Cloud and LlamaIndex](./documentation-qa-using-zilliz-cloud-and-llamaindex) 
 
 - [Movie Search Using Zilliz Cloud and SentenceTransformers](./movie-search-using-zilliz-cloud-and-sentencetransformers) 
+

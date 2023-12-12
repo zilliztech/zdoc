@@ -1,7 +1,8 @@
 ---
-slug: /docs/create-piplines-gui
+slug: /create-piplines-gui
 beta: TRUE
 notebook: FALSE
+token: RfYVwRuvkicVqBkDugacSQOinvc
 sidebar_position: 1
 ---
 

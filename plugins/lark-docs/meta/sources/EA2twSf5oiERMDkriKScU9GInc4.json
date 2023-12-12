@@ -1,0 +1,845 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689055409",
+  "node_token": "EA2twSf5oiERMDkriKScU9GInc4",
+  "node_type": "origin",
+  "obj_create_time": "1689055409",
+  "obj_edit_time": "1699857158",
+  "obj_token": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+  "obj_type": "docx",
+  "origin_node_token": "EA2twSf5oiERMDkriKScU9GInc4",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+  "space_id": "7167193056431783939",
+  "title": "AUTOINDEX Explained",
+  "slug": "autoindex-explained",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "block_type": 1,
+        "children": [
+          "ABgedpHqvoioZ8x3WRmcMix1n7d",
+          "FasUdHLRRoxsPJxq41LcS4yan6d",
+          "PFNadBC9fo6u4Wx5tDFcuA7knxg",
+          "CjpfdLjzpo2wPcx7tBvcRqsPnHe",
+          "CVfcdVlSAoR8EkxiDsLcnahxn3c",
+          "Gj9ld9lfFof2XQxzKs1c9zzSn2b",
+          "WpqYdSO14o9TOtxL6yNcabnpnng",
+          "MlyIdcZgJorSA3xRRkVctP5Ynxd",
+          "Sc1VdDL1JoDnetxeNQ6cMx52nnd",
+          "G1mZdBx0poHqIoxfsi2cczGunIe",
+          "ZflsdB1ZjoLgVRxpcUycZnGZntn",
+          "MxqedycB4opqNwxuHe9cjq6gnQf",
+          "T2b0dbknQo07FTx4BUtc0R6Cn17",
+          "WJPIdz98lo9LFux9lF3cIRkendg",
+          "ZfBfda3qyosAfPxLWZJc524DnJg",
+          "Z4zxd93CoonJAOxujvYcDoMmnQc",
+          "WnozdwHs1o9VAwxhsEtcCPyQncc",
+          "AQGbdMXQloLQUhxkGfcc1cyan0e",
+          "WmL1dps23obzedxw2YKc5XsRnBf",
+          "UL26dtOkzoMfFxxDRIdc5townpg"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "AUTOINDEX Explained",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "ABgedpHqvoioZ8x3WRmcMix1n7d",
+        "block_type": 2,
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud offers Performance-optimized, Capacity-optimized, and Cost-optimized clusters. Because of their different purposes, building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AUTOINDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " comes into play.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FasUdHLRRoxsPJxq41LcS4yan6d",
+        "block_type": 2,
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "AUTOINDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is a proprietary index type available on Zilliz Cloud that can help you achieve better search performance. Whenever you want to index a vector field in your collection on Zilliz Cloud, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AUTOINDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " applies.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PFNadBC9fo6u4Wx5tDFcuA7knxg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Features and benefits",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e"
+      },
+      {
+        "block_id": "CjpfdLjzpo2wPcx7tBvcRqsPnHe",
+        "block_type": 2,
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "AUTOINDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " offers a significant performance advantage over open-source Milvus, achieving up to 3x QPS on specific datasets.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CVfcdVlSAoR8EkxiDsLcnahxn3c",
+        "block_type": 2,
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "AUTOINDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " delivers high performance in these aspects:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Gj9ld9lfFof2XQxzKs1c9zzSn2b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Leverage Single Instruction, Multiple Data (SIMD) to speed up queries and storage, squeezing every possible bit of performance out of machines.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e"
+      },
+      {
+        "block_id": "WpqYdSO14o9TOtxL6yNcabnpnng",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Optimize data graphing and cropping strategies to significantly reduce the number of data points accessed when searching.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e"
+      },
+      {
+        "block_id": "MlyIdcZgJorSA3xRRkVctP5Ynxd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Implement a dynamic quantization strategy to reduce distance calculation costs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e"
+      },
+      {
+        "block_id": "Sc1VdDL1JoDnetxeNQ6cMx52nnd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cost efficiency",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e"
+      },
+      {
+        "block_id": "G1mZdBx0poHqIoxfsi2cczGunIe",
+        "block_type": 2,
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "AUTOINDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " supports pure in-memory, hybrid disk, and memory-mapped (MMAP) modes to meet users' varying needs for capacity and performance. In in-memory mode, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AUTOINDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " uses dynamic quantization to significantly reduce memory usage. In hybrid disk mode, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AUTOINDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " can dynamically cache data and use algorithms to minimize I/O operations and maintain high performance.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZflsdB1ZjoLgVRxpcUycZnGZntn",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Autonomous tuning",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e"
+      },
+      {
+        "block_id": "MxqedycB4opqNwxuHe9cjq6gnQf",
+        "block_type": 2,
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Approximate nearest neighbor (ANN) algorithms require a trade-off between recall and performance. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " parameters have a significant impact on the results. If the query parameter size is too small, the recall will be extremely low and may not meet business requirements. Conversely, if the query parameter size is excessively large, the performance will be severely degraded.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T2b0dbknQo07FTx4BUtc0R6Cn17",
+        "block_type": 2,
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Choosing ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " parameters requires a lot of domain-specific knowledge, which greatly increases the learning curve for users. To address this issue, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AUTOINDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " has developed an intelligent algorithm that facilitates the selection of query parameters. By analyzing the distribution of users' datasets during index building, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AUTOINDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " achieves a trade-off between recall and performance, powered by a machine learning model for query parameter recommendation. This way, users no longer need to manually set query parameters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WJPIdz98lo9LFux9lF3cIRkendg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Index building and search settings",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e"
+      },
+      {
+        "block_id": "ZfBfda3qyosAfPxLWZJc524DnJg",
+        "block_type": 2,
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The process of building an index involves sorting out the entities in a collection in a specific order so that results can be retrieved more quickly.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Z4zxd93CoonJAOxujvYcDoMmnQc",
+        "block_type": 2,
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Indexing a floating vector on Zilliz Cloud is not an obstacle. Simply set the index type to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AUTOINDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and choose the metric type for Zilliz Cloud to determine the most suitable configurations for the index-building and search processes. The metric type determines how the distances between vectors are measured and is the only thing you need to consider.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WnozdwHs1o9VAwxhsEtcCPyQncc",
+        "block_type": 2,
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The difference between the index-building and search settings on Milvus and Zilliz Cloud are shown below:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AQGbdMXQloLQUhxkGfcc1cyan0e",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# For index-building\n# On Milvus\nindex_params = {\n    # Another option is IP.\n    \"metric_type\": \"L2\", \n    # There are six more options available there.\n    \"index_type\": \"IVF_FLAT\",\n    # This varies with the specified index type.\n    \"params\": {\n        # This is the parameter required for IVF_FLAT to work.\n        \"nlist\": 1024\n    }\n}\n\n# On Zilliz Cloud\nindex_params = {\n    # Always set this to AUTOINDEX\n    \"index_type\": \"AUTOINDEX\", \n    # This is the only parameter you should think about.\n    \"metric_type\": \"L2\",\n    # Leave this empty for AUTOINDEX to work \n    \"params\": {} \n}\n\n# For searches\n# On Milvus\nsearch_params = {\n    # Set this to the metric type used to build the index\n    \"metric_type\": \"L2\", \n    # Applicable tuning parameters vary with the index type\n    \"params\": {\n        \"nprobe\": 10\n    }\n}\n\n# On Zilliz Cloud\nsearch_params = {\n    # The value remains the same as the metric type specified during index building.\n    \"metric_type\": \"L2\" \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e"
+      },
+      {
+        "block_id": "WmL1dps23obzedxw2YKc5XsRnBf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Conclusion",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e"
+      },
+      {
+        "block_id": "UL26dtOkzoMfFxxDRIdc5townpg",
+        "block_type": 2,
+        "parent_id": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "We hope this article has helped you better understand AUTOINDEX, a powerful tool that simplifies the process of building and optimizing indexes for vector fields in collections on Zilliz Cloud. By automatically determining the most suitable configurations for your searches and indexes, AUTOINDEX saves users time and effort when compared to traditional methods. Whether you are using a Performance-optimized or Capacity-optimized cluster, AUTOINDEX can help you achieve faster and more efficient searches with optimized indexes tailored to your needs. If you have any questions about AUTOINDEX or any other feature of Zilliz Cloud, don't hesitate to reach out to our team. We are always happy to help!",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 21
+  }
+}

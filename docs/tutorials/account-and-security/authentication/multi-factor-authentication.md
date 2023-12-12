@@ -1,7 +1,8 @@
 ---
-slug: /docs/multi-factor-authentication
+slug: /multi-factor-authentication
 beta: FALSE
 notebook: FALSE
+token: KHAMwm0HUiU6qdkH2LOcu0FFnug
 sidebar_position: 3
 ---
 

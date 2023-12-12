@@ -1,7 +1,8 @@
 ---
-slug: /docs/view-activities
+slug: /view-activities
 beta: FALSE
 notebook: FALSE
+token: BZyrwZqAViYxsJk0fOhcJFbynAe
 sidebar_position: 8
 ---
 
@@ -27,11 +28,11 @@ You can access and review the activities at the organization level through the f
 To enhance your control and ease in navigating through the organization activities, you can apply filters by type and time range. Utilizing a combination of these filtering conditions provides a more tailored view of the activity list.
 
 - **Filter by time range**
+
     Choose a start and end date to display activities occurring within a specific time frame. After setting your desired time range, click **Apply** to view all activities within this period.
 
-    <Admonition type="info" icon="📘" title="Notes">    
-    
-    
+    <Admonition type="info" icon="📘" title="Notes">
+
     Ensure that the time span between your chosen start date and end date does not exceed 30 days.
 
     </Admonition>
@@ -39,6 +40,7 @@ To enhance your control and ease in navigating through the organization activiti
     ![filter-by-time-range](/img/filter-by-time-range.png)
 
 - **Filter by activity type**
+
     Select your preferred activity type from the activity list. Zilliz Cloud categorizes activities into three types: **Info**, **Warning**, and **Error**.
 
     |  **Activity Type** |  **Description**                                                                                                                                                                                  |

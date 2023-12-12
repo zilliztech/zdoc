@@ -1,0 +1,1156 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689059084",
+  "node_token": "MejAw3lkkiA6uhkxcAqcMxOSnEb",
+  "node_type": "origin",
+  "obj_create_time": "1689059084",
+  "obj_edit_time": "1701853380",
+  "obj_token": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+  "obj_type": "docx",
+  "origin_node_token": "MejAw3lkkiA6uhkxcAqcMxOSnEb",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "M1PDwYLKsi4TQRka9xUcDhMjnzc",
+  "space_id": "7167193056431783939",
+  "title": "Documentation QA using Zilliz Cloud and LlamaIndex",
+  "slug": "documentation-qa-using-zilliz-cloud-and-llamaindex",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "block_type": 1,
+        "children": [
+          "Q5ZsdYMbhoQf7WxwuZecQxAjnae",
+          "OXVZdSqhCoxOAixVDHHciAZcnVg",
+          "PyTTd3FbWoZo49xl7IEcPPkInAb",
+          "LcePdhrWroLkjtxBRnicWjYcnRg",
+          "Mb7XdgINvoHOo3x0QFWcOj71nHe",
+          "HE3gdslC4oJIsXxLRnFceJJCn2b",
+          "OwYldcrHuo45RgxIzCbcZBlcnHg",
+          "Uu6mdsorRoYo0lxLh2jcp6qrnHc",
+          "Tmafd3yozochiNxlMi8czsAjnDb",
+          "CvGpdL2rIobRTux706QckJ8TnNb",
+          "QFySdWdIjoPFdgxtc5qchuHannf",
+          "Sy8odh5wlomoSPxwP8ycsjMjnmd",
+          "Cskbdu4Cso97qrxJccpc4DUhnnc",
+          "YCKYd0QbUourrrx5eGpcmnVRnIe",
+          "NJkcdqQVqouxc3xZvrAcwJw6nog",
+          "CrajdCQIlojzc3xQcytcdm4Anfc",
+          "SW6XdVCM6oVd0VxWZyOcTyzEnFh",
+          "JVkudBwcVoAE81xGIR1csn8hnEc",
+          "W3JedYoMpoWSuGxcOXtcG80znhf",
+          "QNxGduzgLoG4ZVxYTyIcJqxZnkc",
+          "IHtPdyZ9noR7rLxM9HncyZwJnOh",
+          "DLefdYturouqb1x5D81czz5Ln5e",
+          "Ml35dslwmouwoYxj22cc3JFbnWf",
+          "EakndB2eYoLY6gxn2Bscfa2nnye",
+          "EQGcdZ9uEoQhNyxcC4tc1iZLnsg",
+          "RKFHdIISroUeoJxcha8c1Pdhnyb",
+          "J6SEda7v4oUmgpxypgWcUhbenub",
+          "MGGbdZIZ2oL9qkxbxq2cdATZnig",
+          "UOyvdbGCqoXYkTxMPy6cSsNpnOh",
+          "Zg5kdOKpPoypUUxffJxcVAWVnLe"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Documentation ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "QA",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " using Zilliz Cloud and LlamaIndex",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "Q5ZsdYMbhoQf7WxwuZecQxAjnae",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This guide demonstrates how to integrate LlamaIndex with Zilliz Cloud to retrieve information from designated sources.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OXVZdSqhCoxOAixVDHHciAZcnVg",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "With ChatGPT taking the headlines, many companies are wondering how they can take advantage of it for their current products. One big use case that stands out is improving the tedious and limited search functionality of product documentation. Currently, if a user wants to figure out how to use a product, they must comb through all the document pages hoping to come up with an answer. What if we could replace this tedious process with ChatGPT? What if ChatGPT could summarize all the info that is needed and answer any questions that a user might have? This is where LlamaIndex and Zilliz Cloud come in.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PyTTd3FbWoZo49xl7IEcPPkInAb",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "LlamaIndex and Zilliz Cloud are worth together to ingest and retrieve relevant information. LlamaIndex begins by taking in all the different documents you may have and embedding them using OpenAI. Once we have the embeddings we can push them into Zilliz Cloud along with any relevant text and metadata. When a user wants to ask a question, LlamaIndex will search through Zilliz Cloud for the closest answers and use ChatGPT to summarize those answers.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LcePdhrWroLkjtxBRnicWjYcnRg",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For this example, the documentation that we are going to be searching through is the documentation found on the Milvus ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "website",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Mb7XdgINvoHOo3x0QFWcOj71nHe",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This example was run on a Zilliz Cloud cluster using 1 CU.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HE3gdslC4oJIsXxLRnFceJJCn2b",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Let's get started.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OwYldcrHuo45RgxIzCbcZBlcnHg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "Uu6mdsorRoYo0lxLh2jcp6qrnHc",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For this example, we are going to be using ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pymilvus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to connect to use Zilliz Cloud and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "llama-index",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to handle the data manipulation and pipelining. This example will also require having an OpenAI ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key for embedding generation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Tmafd3yozochiNxlMi8czsAjnDb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pip install pymilvus llama-index",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "CvGpdL2rIobRTux706QckJ8TnNb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Prepare data",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "QFySdWdIjoPFdgxtc5qchuHannf",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "We are going to use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "git",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to pull the Milvus website data. A majority of the documents come in the form of markdown files.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Sy8odh5wlomoSPxwP8ycsjMjnmd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "git clone ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "https://github.com/milvus-io/milvus-docs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "Cskbdu4Cso97qrxJccpc4DUhnnc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "YCKYd0QbUourrrx5eGpcmnVRnIe",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Here we can find the main parameters that need to be modified for running with your own accounts. Beside each is a description of what it is.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NJkcdqQVqouxc3xZvrAcwJw6nog",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from os import environ\n\n# 1. Set up the name of the collection to be created.\nCOLLECTION_NAME = 'document_qa_db'\n\n# 2. Set up the dimension of the embeddings.\nDIMENSION = 1536\n\n# 3. Set the inference parameters\nBATCH_SIZE = 128\nTOP_K = 3\n\n# 4. Set up the connection parameters for your Zilliz Cloud cluster.\nURI = 'YOUR_CLUSTER_ENDPOINT'\n\nTOKEN = 'YOUR_CLUSTER_TOKEN'\n\n# OpenAI API key\nenviron[\"OPENAI_API_KEY\"] = \"YOUR_OPENAI_API_KEY\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "environ[\"TOKENIZERS_PARALLELISM\"] = \"false\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "CrajdCQIlojzc3xQcytcdm4Anfc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Consume the knowledge",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "SW6XdVCM6oVd0VxWZyOcTyzEnFh",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once we have our data on the system we can proceed to consume it using LlamaIndex and upload it to Zilliz Cloud. This comes in the form of two steps. We begin by loading in a markdown reader from ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Llama Hub",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fllamahub.ai%2F"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and converting all our markdowns into documents.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JVkudBwcVoAE81xGIR1csn8hnEc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from llama_index import download_loader\nfrom glob import glob\n\n# Load the markdown reader from the hub\nMarkdownReader = download_loader(\"MarkdownReader\")\nmarkdownreader = MarkdownReader()\n\n# Grab all markdown files and convert them using the reader\ndocs = []\nfor file in glob(\"./milvus-docs/site/en/**/*.md\", recursive=True):\n    docs.extend(markdownreader.load_data(file=file))\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(len(docs))",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "W3JedYoMpoWSuGxcOXtcG80znhf",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once we have our documents formed, we can proceed to push them through into Zilliz Cloud. This step requires the configs for both Zilliz Cloud and OpenAI.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QNxGduzgLoG4ZVxYTyIcJqxZnkc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from llama_index import download_loader, VectorStoreIndex, ServiceContext\nfrom llama_index.vector_stores import MilvusVectorStore\n\n# Push all markdown files into Zilliz Cloud\nvector_store = MilvusVectorStore(\n    uri=URI, \n    token=TOKEN, \n    collection_name=COLLECTION_NAME, \n    similarity_metric=\"L2\",\n    dim=DIMENSION,\n)\n\nembed_model = HuggingFaceEmbedding(model_name=\"sentence-transformers/all-MiniLM-L12-v2\")\nservice_context = ServiceContext.from_defaults(embed_model=embed_model)\n\nindex = VectorStoreIndex.from_documents(\n    documents=docs, \n    service_context=service_context,\n    show_progress=True\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "IHtPdyZ9noR7rLxM9HncyZwJnOh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ask question",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "DLefdYturouqb1x5D81czz5Ln5e",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "With our documents loaded into Zilliz Cloud, we can begin asking questions. The questions will be searched against the knowledge base and any relevant documents will be used to generate an answer.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ml35dslwmouwoYxj22cc3JFbnWf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "query_engine = index.as_query_engine()\nresponse = query_engine.query(\"What is IVF_FLAT?\")\nprint(str(response))\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# IVF_FLAT is an index used in Milvus that divides vector space into list clusters. It compares the distances between the target vector and the centroids of all the clusters to return the nearest clusters. Then, it compares the distances between the target vector and the vectors in the selected clusters to find the nearest vectors. IVF_FLAT has performance advantages over FLAT when the number of vectors exceeds a certain threshold.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "EakndB2eYoLY6gxn2Bscfa2nnye",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related integrations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "EQGcdZ9uEoQhNyxcC4tc1iZLnsg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Similarity Search with Zilliz Cloud and OpenAI",
+                "token": "SeQxwhBEaimlzykxXLacoJuTnAb",
+                "url": "https://zilliverse.feishu.cn/wiki/SeQxwhBEaimlzykxXLacoJuTnAb"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "RKFHdIISroUeoJxcha8c1Pdhnyb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering Using Zilliz Cloud and HuggingFace",
+                "token": "RWxKwfwFniNU1skCVCgcrKHbnCd",
+                "url": "https://zilliverse.feishu.cn/wiki/RWxKwfwFniNU1skCVCgcrKHbnCd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "J6SEda7v4oUmgpxypgWcUhbenub",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering Using Zilliz Cloud and Cohere",
+                "token": "WjZswh3lJi6k5BkyLaNchzodnib",
+                "url": "https://zilliverse.feishu.cn/wiki/WjZswh3lJi6k5BkyLaNchzodnib"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "MGGbdZIZ2oL9qkxbxq2cdATZnig",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering over Documents with Zilliz Cloud and LangChain",
+                "token": "VSL7w4qDdiW0onkmrpucHCiBnIC",
+                "url": "https://zilliverse.feishu.cn/wiki/VSL7w4qDdiW0onkmrpucHCiBnIC"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "UOyvdbGCqoXYkTxMPy6cSsNpnOh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Image Search with Zilliz Cloud and PyTorch",
+                "token": "XnWswbO9Zi4sykkgRzec8el8nyd",
+                "url": "https://zilliverse.feishu.cn/wiki/XnWswbO9Zi4sykkgRzec8el8nyd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "Zg5kdOKpPoypUUxffJxcVAWVnLe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Movie Search Using Zilliz Cloud and SentenceTransformers",
+                "token": "KPlpwDwupiZu0ZkYOu3cY3EWn7f",
+                "url": "https://zilliverse.feishu.cn/wiki/KPlpwDwupiZu0ZkYOu3cY3EWn7f"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FMovie-Search-Using-Zilliz-Cloud-and-SentenceTransformers-dbc328c7f00a4562b6b209df9bafba87%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      }
+    ],
+    "counts": 31
+  }
+}

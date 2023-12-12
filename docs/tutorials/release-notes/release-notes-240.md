@@ -1,8 +1,9 @@
 ---
-slug: /docs/release-notes-240
+slug: /release-notes-240
 beta: FALSE
 notebook: FALSE
-sidebar_position: 0
+token: A5lpwIZcZiTLqakdt6rcCmPcnEe
+sidebar_position: 1
 ---
 
 import Admonition from '@theme/Admonition';
@@ -28,7 +29,7 @@ Zilliz Cloud Pipelines consists of three specific pipelines: Ingestion, Search, 
 
 - **Deletion Pipeline** allows you to remove all chunks in a specified document from a Zilliz Cloud collection, offering you full control over your own data and releasing the storage capacity of your Zilliz collections.
 
-To learn more information, please refer to this [__documentation__](/docs/understanding-pipelines).
+To learn more information, please refer to this [__documentation__](./understanding-pipelines).
 
 ## RBAC and Credential Management in Your Clusters{#rbac-and-credential-management-in-your-clusters}
 
@@ -36,7 +37,7 @@ In this release, we introduce enhanced functionality for managing RBAC (Role-Bas
 
 ## New Cluster Manipulation API Endpoints{#new-cluster-manipulation-api-endpoints}
 
-In this release, we also introduced a set of new RESTful API endpoints for you to create, modify, and drop clusters as well as another API endpoint for you to list projects. For details, see the [reference documents](/reference/cluster-operations) here.
+In this release, we also introduced a set of new RESTful API endpoints for you to create, modify, and drop clusters as well as another API endpoint for you to list projects. For details, see the [reference documents](https://docs.zilliz.com/reference/cluster-operations) here.
 
 ## Enhancements{#enhancements}
 

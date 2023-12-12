@@ -1,0 +1,1258 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689059030",
+  "node_token": "VSL7w4qDdiW0onkmrpucHCiBnIC",
+  "node_type": "origin",
+  "obj_create_time": "1689059030",
+  "obj_edit_time": "1699869378",
+  "obj_token": "WIZkd84r5o3HicxNSSuckNibnYf",
+  "obj_type": "docx",
+  "origin_node_token": "VSL7w4qDdiW0onkmrpucHCiBnIC",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "M1PDwYLKsi4TQRka9xUcDhMjnzc",
+  "space_id": "7167193056431783939",
+  "title": "Question Answering over Documents with Zilliz Cloud and LangChain",
+  "slug": "question-answering-over-documents-with-zilliz-cloud-and-langchain",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "WIZkd84r5o3HicxNSSuckNibnYf",
+        "block_type": 1,
+        "children": [
+          "LipXdFqGLoktcgxE6UTc5wdGnff",
+          "JcShdP70LoSIWKxxUQbc846rnzf",
+          "NVtAduWvXoIiVbxRYnccJiY6nrf",
+          "VNHAdLggMoTwoGxQ78ZcbZHynCh",
+          "C78zd3VDQoc4uPx3rumcPJWVn5b",
+          "O1N5dzexyoMznQx54EqcoD0Unza",
+          "OW5ldZPmfoGb77xltPycbyBAn3f",
+          "EG71dSscIokJzLxxt9bcR9LOnfe",
+          "YYjtdK1KcoeSKBxEIcscS42XnAb",
+          "Y7rQdHz0coyZy1xCHbacI0YYnFe",
+          "Twh2dtIJioXx9BxF6UNc9d8XnhI",
+          "TIRuda4lOohuTAxZqdoceV9Unjh",
+          "HfDvdqp0NodSdZxZE8mc3MvIn4d",
+          "OvGHdrNhFoPD4extgiEckAUknnc",
+          "NQk9dTF4OoVtYZxktC5cc69Tnte",
+          "J9fhd9zdborwngxyGLwc2qMYngb",
+          "LUxZd6fQMo1gj1xNaT1cWqrVnMh",
+          "KVQidj6qtoZZFYxoO7sceWbRnrf",
+          "BUXrdxR40opRVux2DTgcD0ZYnzg",
+          "EBzYdKCyXo0dy1xDU0OclO83nZd",
+          "YhtrdqKeOomYAoxwNUEc6N9nn6f",
+          "YVHwdKumNo2uF2xjeG5cuCvKngd",
+          "HmXQdkzmqozQwrx86JQcAs9Bnmg",
+          "CaXVdROKjo46eGx4g2bcTTaYndd",
+          "Kdn3dXolPox8dvxJnMPcnwfBnAe",
+          "BGqMdGnKPoE8RWxyYCmc9ffjnqb",
+          "ILCUdAsA5okuiTxCxBGc37O8nKe",
+          "VhtPdLsBroppSFxX1q4cPFngnRf",
+          "XLRrdvcxsopx2bxElpHco3fbnmg",
+          "NZRfdYdVIoUIf7xDweYcUwv1nTf",
+          "MFuLdS0AXo7FUzxlctEc1SWFnDv",
+          "VICKdt57ZoUmb9xlTAgckQrsnPf",
+          "NmlKd3WEboCSFTx0wwTcbAulnAg"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Question Answering over Documents with Zilliz Cloud and LangChain",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "LipXdFqGLoktcgxE6UTc5wdGnff",
+        "block_type": 2,
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This guide demonstrates how to build an LLM-driven question-answering application using Zilliz Cloud and LangChain.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JcShdP70LoSIWKxxUQbc846rnzf",
+        "block_type": 2,
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For this example, we will use a 1 CU cluster and the OpenAI embedding ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to embed texts. Let's get started!",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NVtAduWvXoIiVbxRYnccJiY6nrf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "VNHAdLggMoTwoGxQ78ZcbZHynCh",
+        "block_type": 2,
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Code snippets on this page require ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pymilvus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "langchain",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to be installed. Additionally, OpenAI's embedding ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " has been used to embed documents into the vector store, so ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "openai",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "tiktoken",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " are also required. If these packages are not already installed on your system, run the following commands to install them.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C78zd3VDQoc4uPx3rumcPJWVn5b",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "python -m pip install --upgrade pymilvus langchain openai tiktoken",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "O1N5dzexyoMznQx54EqcoD0Unza",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "OW5ldZPmfoGb77xltPycbyBAn3f",
+        "block_type": 2,
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This section outlines the necessary steps to set up parameters for the code snippets that follow. Replace the default values with your own.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EG71dSscIokJzLxxt9bcR9LOnfe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from langchain.embeddings.openai import OpenAIEmbeddings\nfrom langchain.vectorstores.zilliz import Zilliz\nfrom langchain.document_loaders import WebBaseLoader\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\nfrom langchain.chat_models import ChatOpenAI\nfrom langchain.schema.runnable import RunnablePassthrough\nfrom langchain.prompts import PromptTemplate\n\nimport os\n\n# 1. Set up the name of the collection to be created.\nCOLLECTION_NAME = 'doc_qa_db'\n\n# 2. Set up the dimension of the embeddings.\nDIMENSION = 768\n\n# 3. Set up the cohere api key\nOPENAI_API_KEY = \"YOUR_OPENAI_API_KEY\"\nos.environ[\"OPENAI_API_KEY\"] = OPENAI_API_KEY\n\n# 4. Set up the connection parameters for your Zilliz Cloud cluster.\nURI = 'YOUR_CLUSTER_ENDPOINT'\n\n# 5. Set up the token for your Zilliz Cloud cluster.\n# You can either use an API key or a set of cluster username and password joined by a colon.\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "TOKEN = 'YOUR_CLUSTER_TOKEN'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "YYjtdK1KcoeSKBxEIcscS42XnAb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Prepare data",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "Y7rQdHz0coyZy1xCHbacI0YYnFe",
+        "block_type": 2,
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before diving in, complete the following steps:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Twh2dtIJioXx9BxF6UNc9d8XnhI",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Prepare the documents that you want the LLM to consider during inference.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "TIRuda4lOohuTAxZqdoceV9Unjh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set up an embedding model to convert documents into vector embeddings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "HfDvdqp0NodSdZxZE8mc3MvIn4d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set up a vector store to save the vector embeddings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "OvGHdrNhFoPD4extgiEckAUknnc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Use the WebBaseLoader to load specified web pages into documents\nloader = WebBaseLoader([\n    'https://milvus.io/docs/overview.md',\n    'https://milvus.io/docs/release_notes.md',\n    'https://milvus.io/docs/architecture_overview.md',\n    'https://milvus.io/docs/four_layers.md',\n    'https://milvus.io/docs/main_components.md',\n    'https://milvus.io/docs/data_processing.md',\n    'https://milvus.io/docs/bitset.md',\n    'https://milvus.io/docs/boolean.md',\n    'https://milvus.io/docs/consistency.md',\n    'https://milvus.io/docs/coordinator_ha.md',\n    'https://milvus.io/docs/replica.md',\n    'https://milvus.io/docs/knowhere.md',\n    'https://milvus.io/docs/schema.md',\n    'https://milvus.io/docs/dynamic_schema.md',\n    'https://milvus.io/docs/json_data_type.md',\n    'https://milvus.io/docs/metric.md',\n    'https://milvus.io/docs/partition_key.md',\n    'https://milvus.io/docs/multi_tenancy.md',\n    'https://milvus.io/docs/timestamp.md',\n    'https://milvus.io/docs/users_and_roles.md',\n    'https://milvus.io/docs/index.md',\n    'https://milvus.io/docs/disk_index.md',\n    'https://milvus.io/docs/scalar_index.md',\n    'https://milvus.io/docs/performance_faq.md',\n    'https://milvus.io/docs/product_faq.md',\n    'https://milvus.io/docs/operational_faq.md',\n    'https://milvus.io/docs/troubleshooting.md',\n])\n\ndocs = loader.load()\n\n# Split the documents into smaller chunks\ntext_splitter = RecursiveCharacterTextSplitter(chunk_size=1024, chunk_overlap=0)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "all_splits = text_splitter.split_documents(docs)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "NQk9dTF4OoVtYZxktC5cc69Tnte",
+        "block_type": 2,
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After preparing the documents, the next step is to convert them into vector embeddings and save them in the vector store.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "J9fhd9zdborwngxyGLwc2qMYngb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "embeddings = OpenAIEmbeddings()\nconnection_args = { 'uri': URI, 'token': TOKEN }\n\nvector_store = Zilliz(\n    embedding_function=embeddings, \n    connection_args=connection_args,\n    collection_name=COLLECTION_NAME,\n    drop_old=True,\n).from_documents(\n    all_splits,\n    embedding=embeddings,\n    collection_name=COLLECTION_NAME,\n    connection_args=connection_args,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "LUxZd6fQMo1gj1xNaT1cWqrVnMh",
+        "block_type": 2,
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To perform text-to-text similarity searches, use the following code snippet. The results will return the most relevant text in the document to the queries.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KVQidj6qtoZZFYxoO7sceWbRnrf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "query = \"What are the main components of Milvus?\"\ndocs = vector_store.similarity_search(query)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(len(docs))",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "BUXrdxR40opRVux2DTgcD0ZYnzg",
+        "block_type": 2,
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output should be similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EBzYdKCyXo0dy1xDU0OclO83nZd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "4",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "YhtrdqKeOomYAoxwNUEc6N9nn6f",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ask your question",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "YVHwdKumNo2uF2xjeG5cuCvKngd",
+        "block_type": 2,
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After preparing the documents, you can set up a chain to include them in a prompt. This will allow LLM to use the docs as a reference when preparing answers.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HmXQdkzmqozQwrx86JQcAs9Bnmg",
+        "block_type": 2,
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following code snippet sets up a RAG chain using OpenAI as the LLM and a RAG prompt.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CaXVdROKjo46eGx4g2bcTTaYndd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "llm = ChatOpenAI(model_name=\"gpt-3.5-turbo\", temperature=0) \nretriever = vector_store.as_retriever()\n\ntemplate = \"\"\"Use the following pieces of context to answer the question at the end. \nIf you don't know the answer, just say that you don't know, don't try to make up an answer. \nUse three sentences maximum and keep the answer as concise as possible. \nAlways say \"thanks for asking!\" at the end of the answer. \n{context}\nQuestion: {question}\nHelpful Answer:\"\"\"\nrag_prompt = PromptTemplate.from_template(template)\n\nrag_chain = (\n    {\"context\": retriever, \"question\": RunnablePassthrough()}\n    | rag_prompt\n    | llm\n)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(rag_chain.invoke(\"Explain IVF_FLAT in Milvus.\"))",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "Kdn3dXolPox8dvxJnMPcnwfBnAe",
+        "block_type": 2,
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The returned results include a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "content",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " argument as the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "output_text",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BGqMdGnKPoE8RWxyYCmc9ffjnqb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Output\n#\n# content='IVF_FLAT is an index mechanism in Milvus that divides a vector space into clusters. It compares the distances between a target vector and the centers of all clusters to find the nearest clusters. Then, it compares the distances between the target vector and the vectors in the selected clusters to find the nearest vectors. IVF_FLAT demonstrates performance advantages when the number of vectors exceeds the value of nlist. Thanks for asking!'\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "ILCUdAsA5okuiTxCxBGc37O8nKe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related integrations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "VhtPdLsBroppSFxX1q4cPFngnRf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Similarity Search with Zilliz Cloud and OpenAI",
+                "token": "SeQxwhBEaimlzykxXLacoJuTnAb",
+                "url": "https://zilliverse.feishu.cn/wiki/SeQxwhBEaimlzykxXLacoJuTnAb"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "XLRrdvcxsopx2bxElpHco3fbnmg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering Using Zilliz Cloud and HuggingFace",
+                "token": "RWxKwfwFniNU1skCVCgcrKHbnCd",
+                "url": "https://zilliverse.feishu.cn/wiki/RWxKwfwFniNU1skCVCgcrKHbnCd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "NZRfdYdVIoUIf7xDweYcUwv1nTf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering Using Zilliz Cloud and Cohere",
+                "token": "WjZswh3lJi6k5BkyLaNchzodnib",
+                "url": "https://zilliverse.feishu.cn/wiki/WjZswh3lJi6k5BkyLaNchzodnib"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "MFuLdS0AXo7FUzxlctEc1SWFnDv",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Image Search with Zilliz Cloud and PyTorch",
+                "token": "XnWswbO9Zi4sykkgRzec8el8nyd",
+                "url": "https://zilliverse.feishu.cn/wiki/XnWswbO9Zi4sykkgRzec8el8nyd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FImage-Search-with-Zilliz-Cloud-and-PyTorch-ad512b1053b64b869ce884caf5eff0a8%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "VICKdt57ZoUmb9xlTAgckQrsnPf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Documentation QA using Zilliz Cloud and LlamaIndex",
+                "token": "MejAw3lkkiA6uhkxcAqcMxOSnEb",
+                "url": "https://zilliverse.feishu.cn/wiki/MejAw3lkkiA6uhkxcAqcMxOSnEb"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FDocumentation-QA-using-Zilliz-Cloud-and-LlamaIndex-ed7cdfce4b384b34923c21842d264dcc%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      },
+      {
+        "block_id": "NmlKd3WEboCSFTx0wwTcbAulnAg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Movie Search Using Zilliz Cloud and SentenceTransformers",
+                "token": "KPlpwDwupiZu0ZkYOu3cY3EWn7f",
+                "url": "https://zilliverse.feishu.cn/wiki/KPlpwDwupiZu0ZkYOu3cY3EWn7f"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FMovie-Search-Using-Zilliz-Cloud-and-SentenceTransformers-dbc328c7f00a4562b6b209df9bafba87%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WIZkd84r5o3HicxNSSuckNibnYf"
+      }
+    ],
+    "counts": 34
+  }
+}

@@ -1,7 +1,8 @@
 ---
-slug: /docs/advance-pay-balance-monitor
+slug: /advance-pay-balance-monitor
 beta: FALSE
 notebook: FALSE
+token: Wlh2wJFuqiG3b7ke3Wpcy2Wdnmg
 sidebar_position: 6
 ---
 
@@ -51,3 +52,4 @@ To activate the monitor, click the switch in the **Status** column. This action 
 - [Load Capacity Resource Monitor](./load-capacity-resource-monitor) 
 
 - [View Cluster Metrics](./monitor-metrics) 
+

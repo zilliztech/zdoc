@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 7
+sidebar_position: 10
 slug: /create-collection
 title: Create Collection
 ---
@@ -117,9 +117,9 @@ The properties in the returned response are listed in the following table.
 | 80000 | Incorrect parameter: xxx |
 | 80001 | The token is illegal |
 | 80002 | The token is invalid |
-| 80007 | " This CU Size requires significant resource consumption. If you want to use it |
-| 80010 | "Duplicated ClusterName. You have already created a running Cluster with the same name. To avoid complexity in management |
-| 80014 | Your input cuSize value is not supported yet. |
+| 80007 | This CU Size requires significant resource consumption. If you want to use it |
+| 80010 | Duplicated ClusterName. You have already created a running Cluster with the same name. To avoid complexity in management |
+| 80014 | Invalid projectId. The projectId should like proj-xxxxxx |
 | 80022 | Dedicated cluster not support this operation. |
 | 90013 | The parameter shardsNum should have a value range between 1 and 32. |
 | 90014 | The length of parameter description can not exceed 4096. |
@@ -141,5 +141,5 @@ The properties in the returned response are listed in the following table.
 | 90114 | The index field name can only be added to a vector field. |
 | 90122 | No dimension key field. |
 | 90136 | No create collection content provided. |
-| 90139 | "Type mismatch for field 'xxx'. expected type:xxx |
+| 90139 | Type mismatch for field 'xxx'. expected type:xxx |
 

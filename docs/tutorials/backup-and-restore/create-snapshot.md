@@ -1,7 +1,8 @@
 ---
-slug: /docs/create-snapshot
+slug: /create-snapshot
 beta: FALSE
 notebook: FALSE
+token: HHXewT7wTiM1zqkySjHcMNX5n9b
 sidebar_position: 1
 ---
 
@@ -45,3 +46,4 @@ Data transfer used to create the snapshots is separately charged at the rate of 
 - [Restore from Snapshot](./restore-from-snapshot) 
 
 - [Delete Snapshot](./delete-snapshot) 
+

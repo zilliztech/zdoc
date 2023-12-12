@@ -1,7 +1,8 @@
 ---
-slug: /docs/run-pipelines
+slug: /run-pipelines
 beta: TRUE
 notebook: FALSE
+token: XFEcwie5GiRlH5kLtvzcA8lWnNb
 sidebar_position: 3
 ---
 
@@ -20,9 +21,8 @@ On the Web UI, you can run Pipelines by simply clicking the "▶︎" button next
 
 1. Input the URL in the `doc_url` field. 
 
-    <Admonition type="info" icon="📘" title="Notes">    
-    
-    
+    <Admonition type="info" icon="📘" title="Notes">
+
     You should use a URL that is either not encoded or encoded in UTF-8. Ensure that the URL remains valid for at least one hour.
 
     </Admonition>

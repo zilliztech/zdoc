@@ -39,20 +39,27 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          path: 'docs',
+          breadcrumbs: true,
           sidebarPath: require.resolve('./sidebarsTutorial.js'),
-          routeBasePath: '/',
+          routeBasePath: 'docs',
+          lastVersion: 'current',
+          versions: {
+            current: {
+              label: 'User Guides (Cloud)',
+            },
+            'byoc': {
+              label: 'User Guides (BYOC)',
+              path: 'byoc',
+              banner: 'none'
+            },
+          },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // editUrl:
           //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
-        // blog: {
-        //   showReadingTime: true,
-        //   // Please change this to your repo.
-        //   // Remove this to remove the "edit this page" links.
-        //   editUrl:
-        //     'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        // },
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
@@ -75,7 +82,22 @@ const config = {
         id: 'GTM-MBBF2KR',
       },
     ],
-    './plugins/lark-docs',
+    ['./plugins/lark-docs',
+    {
+      root: 'OUWXw5c4gia34ZkQUcEcMFbWn6s',
+      base: 'PnsobATKVayIDFs6hhQcChlGnje',
+      docSourceDir: './plugins/lark-docs/meta/sources',
+      targets: [
+        ['saas', {
+          outputDir: 'docs/tutorials',
+          imageDir: 'static/img',
+        }],
+        ['paas', {
+          outputDir: 'versioned_docs/version-byoc/tutorials',
+          imageDir: 'static/byoc',
+        }]
+      ]
+    }],
     './plugins/apifox-docs',
   ],
   themeConfig:
@@ -88,22 +110,20 @@ const config = {
         logo: {
           alt: 'Zilliz Logo',
           src: 'img/logo.svg',
+          href: '/docs/quick-start'
         },
         items: [
+          {
+            type: 'docsVersionDropdown',
+            position: 'right',
+          },
           {
             type: 'search',
             position: 'right',
           },
-          // {
-          //   type: 'docSidebar',
-          //   sidebarId: 'tutorialSidebar',
-          //   position: 'left',
-          //   label: '文档',
-          // },
-          // {to: '/api', label: 'API 参考', position: 'left'},
           {
-            href: '/',
-            label: "User Guides",
+            href: '/docs/quick-start',
+            label: 'User Guides',
             position: 'left',
             className: 'header-link',
           },
@@ -126,7 +146,7 @@ const config = {
             items: [
               {
                 label: 'Developers',
-                to: '/',
+                to: '/docs/quick-start',
               },
               {
                 label: 'Blogs',
@@ -165,7 +185,7 @@ const config = {
             items: [
               {
                 label: 'Developer Guides',
-                to: '/',
+                to: '/docs/quick-start',
               },
               {
                 label: 'API Reference',
@@ -244,25 +264,15 @@ const config = {
       },
     }),
   themes: [
-    // ... Your other themes.
-    [
-      require.resolve('@easyops-cn/docusaurus-search-local'),
-      /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
-      ({
-        // ... Your options.
-        // `hashed` is recommended as long-term-cache of index file is possible.
-        hashed: true,
-        // For Docs using Chinese, The `language` is recommended to set to:
-        // ```
-        indexBlog: false,
-        language: ['en', 'zh'],
-        docsDir: ['docs', 'reference'],
-        docsRouteBasePath: ['/', '/docs/tutorials', '/reference/api'],
-        highlightSearchTermsOnTargetPage: true,
-        searchContextByPaths: ['/', '/docs/tutorials', '/reference/api'],
-        // ```
-      }),
-    ],
+    [ '@easyops-cn/docusaurus-search-local', {
+      id: 'saas',
+      hashed: true,
+      indexBlog: false,
+      language: ['en', 'zh'],
+      docsDir: ['docs', 'reference'],
+      docsRouteBasePath: 'docs',
+      highlightSearchTermsOnTargetPage: true,
+    }],
     'docusaurus-theme-frontmatter',
   ],
   scripts: [

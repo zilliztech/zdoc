@@ -1,0 +1,5369 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": false,
+  "node_create_time": "1700040191",
+  "node_token": "RfYVwRuvkicVqBkDugacSQOinvc",
+  "node_type": "origin",
+  "obj_create_time": "1700040191",
+  "obj_edit_time": "1701670162",
+  "obj_token": "NogBdCgUfoscyzxayiTcly7Unre",
+  "obj_type": "docx",
+  "origin_node_token": "RfYVwRuvkicVqBkDugacSQOinvc",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
+  "space_id": "7167193056431783939",
+  "title": "Create Pipelines on Web UI",
+  "slug": "create-piplines-gui",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "NogBdCgUfoscyzxayiTcly7Unre",
+        "block_type": 1,
+        "children": [
+          "QZT3dQzZVoZx5HxEG6Ncyo3qncf",
+          "MUCndwPjyoZkVdxu7ucc4WWqnFj",
+          "OQ1vdim8qoivC2xxBfbcIecbnMc",
+          "PYpgd4wAAo7vASxA33BcMPffnpg",
+          "A4Jyd2DU9oB4EZx7sENchc3ynYG",
+          "HIVRdI4rZolj1Mx72skceLJJnng",
+          "CRb3dGi0poTo9XxlAYvc0uRYn6c",
+          "AWtPdpM5FozbuXxeDzqcFIwanEh",
+          "CSX3dSzzfoYzEGxla1RcLBcNnAh",
+          "FghHdKCIPoCOLPxgTppc9LtLnOd",
+          "AvI8d2HzPoEmwaxXWfQcQTwpnTc",
+          "YyZ6dup2zokHdVxbz2nc3e6YnOc",
+          "Dwg2d4jkeoZeN0x1gOKcIoyunOg",
+          "XY8pdlFq3oSZkYxVBX9cDfDWneb",
+          "XRGjdnaKboETgrxeu4ncAfxFnhg",
+          "HP1fdnQaAodwYvxjrvFcS3cLn7e",
+          "E7dfdJzOboGEDqxBR4rc8nnYncg",
+          "YeTDdHd9eoIbOIxSJiHcxGR0nMf",
+          "FuuhdZHiio1difxRw07c7agAnev",
+          "EyWrdOjb9oOhL5xSPrucYrbanBh",
+          "BYDbdvl7AoPsZYx4wtccWOB0nYe",
+          "Oxdldcfrgod98CxWgshcvFdEnOe",
+          "UQJVdHHGuoQXybxG9C4cjym5nEh",
+          "LB84dyYy7oiHysxCDe8cmioxnPg",
+          "EH1Pdk83noMLsuxH80ncd7IrnqQ",
+          "JJ29dTIaaoBkhoxV2FAc2Zqpnlc",
+          "PiEXdLP7ooN0WLx2lmQcqtwpnld",
+          "VoLZdTYnPoy99kx0CJ4ckBxwnUw",
+          "IGUtdhOc5otQOixa5ibczsydn4e",
+          "FrKfdH7cQolT8cxKYSuccjZEnLd",
+          "OpRVdKrEDoUcgexfT3icBbThnTd",
+          "XBGMd9sICoUKF2xkiEKcuXEznPc",
+          "ShkudVmkBoMmCsx8mp3ceT0anxd",
+          "OZZ8d75MRokfonxchQkcP9Q7nSf",
+          "QvKCde297oHk9Bxrq5rcuDqtnMb",
+          "BpMfdeyCCoC8srxHRVjccOLZnvf",
+          "LzsXdY83HomNANxbkErc0jiHnKd",
+          "E4ITdPTjTo9I71xQQLhcPC6Wn4g"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create Pipelines on Web ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "UI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "QZT3dQzZVoZx5HxEG6Ncyo3qncf",
+        "block_type": 2,
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " web ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "UI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " provides a simplified and intuitive way of creating Pipelines. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MUCndwPjyoZkVdxu7ucc4WWqnFj",
+        "block_type": 2,
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OQ1vdim8qoivC2xxBfbcIecbnMc",
+        "block_type": 34,
+        "children": [
+          "X8iSdpcvHov0JTxerFkc75SunMM",
+          "FbLGdU9XnoJjkzxYJ1LcMUYOnzc"
+        ],
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre",
+        "quote_container": {}
+      },
+      {
+        "block_id": "X8iSdpcvHov0JTxerFkc75SunMM",
+        "block_type": 2,
+        "parent_id": "OQ1vdim8qoivC2xxBfbcIecbnMc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FbLGdU9XnoJjkzxYJ1LcMUYOnzc",
+        "block_type": 2,
+        "comment_ids": [
+          "7306514165282144259"
+        ],
+        "parent_id": "OQ1vdim8qoivC2xxBfbcIecbnMc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, pipelines only work with collections in a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "serverless cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306514165282144259"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FCDOJd3wbeoPsxyxfguxcfe89n5g%3Fchunked%3Dfalse%23X6z6dlvhkoBxj6xvn48cGzefnHf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PYpgd4wAAo7vASxA33BcMPffnpg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create an Ingestion pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "A4Jyd2DU9oB4EZx7sENchc3ynYG",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Navigate to your project.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "HIVRdI4rZolj1Mx72skceLJJnng",
+        "block_type": 13,
+        "children": [
+          "Ow5Sdae8Xo8KSsxYXW1cY2jznag"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Pipelines",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the navigation panel. Then click",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " + Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "Ow5Sdae8Xo8KSsxYXW1cY2jznag",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-3305%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "HIVRdI4rZolj1Mx72skceLJJnng"
+      },
+      {
+        "block_id": "CRb3dGi0poTo9XxlAYvc0uRYn6c",
+        "block_type": 13,
+        "children": [
+          "WfdgdUGceox0mwxoDwQc4HYcnff",
+          "PYvPdzTdIo0qiZx2HlScOQp2nxf"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Choose the type of pipeline to create. Click on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Pipeline ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "button in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Ingestion Pipeline ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "column.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "WfdgdUGceox0mwxoDwQc4HYcnff",
+        "block_type": 34,
+        "children": [
+          "ATkldoqwroPUEvx8FcjcxuMinsc",
+          "LL5gdJRsao6SX7xDg4DcFEWdnIu"
+        ],
+        "parent_id": "CRb3dGi0poTo9XxlAYvc0uRYn6c",
+        "quote_container": {}
+      },
+      {
+        "block_id": "ATkldoqwroPUEvx8FcjcxuMinsc",
+        "block_type": 2,
+        "parent_id": "WfdgdUGceox0mwxoDwQc4HYcnff",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LL5gdJRsao6SX7xDg4DcFEWdnIu",
+        "block_type": 2,
+        "comment_ids": [
+          "7306514022424264708"
+        ],
+        "parent_id": "WfdgdUGceox0mwxoDwQc4HYcnff",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You must create an Ingestion pipeline first before creating Search and Deletion pipelines.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306514022424264708"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PYvPdzTdIo0qiZx2HlScOQp2nxf",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4176%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "CRb3dGi0poTo9XxlAYvc0uRYn6c"
+      },
+      {
+        "block_id": "AWtPdpM5FozbuXxeDzqcFIwanEh",
+        "block_type": 13,
+        "children": [
+          "AnwHdXPmjoHYYHxIQaVcjVbdngf",
+          "GAuFdHtwjo3Z8uxijoHcdlPonXb"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Configure the Ingestion pipeline you wish to create.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "AnwHdXPmjoHYYHxIQaVcjVbdngf",
+        "block_type": 31,
+        "children": [
+          "OpRDdmV2loBbmxxkIndcQoHlnNh",
+          "Eiq1dZT1soJigOxkwKEcr75knns",
+          "OIQCdr4m1oxlkBx8LcJcenfQnwb",
+          "NpIadZPuToAgA3xee7scIh2Nncb",
+          "WjI9ddsmTojCQPxqHctcmftQn5g",
+          "AEJ9dH1J5oBosEx9nxlcizEZn7c",
+          "LCsCdgt5ooO7eOxlDLwcORlenIg",
+          "Hex3dQg6AosLGQxt8IBcHnwanCc",
+          "NAY7doQHgod84LxaEWsc3QP7nRh",
+          "T24JdbY5toklyfxa6bKc5rdVnRh"
+        ],
+        "parent_id": "AWtPdpM5FozbuXxeDzqcFIwanEh",
+        "table": {
+          "cells": [
+            "OpRDdmV2loBbmxxkIndcQoHlnNh",
+            "Eiq1dZT1soJigOxkwKEcr75knns",
+            "OIQCdr4m1oxlkBx8LcJcenfQnwb",
+            "NpIadZPuToAgA3xee7scIh2Nncb",
+            "WjI9ddsmTojCQPxqHctcmftQn5g",
+            "AEJ9dH1J5oBosEx9nxlcizEZn7c",
+            "LCsCdgt5ooO7eOxlDLwcORlenIg",
+            "Hex3dQg6AosLGQxt8IBcHnwanCc",
+            "NAY7doQHgod84LxaEWsc3QP7nRh",
+            "T24JdbY5toklyfxa6bKc5rdVnRh"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              180,
+              315
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 5
+          }
+        }
+      },
+      {
+        "block_id": "OpRDdmV2loBbmxxkIndcQoHlnNh",
+        "block_type": 32,
+        "children": [
+          "AZtcdaGN7oYNmix619mcAOZPnzf"
+        ],
+        "parent_id": "AnwHdXPmjoHYYHxIQaVcjVbdngf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "AZtcdaGN7oYNmix619mcAOZPnzf",
+        "block_type": 2,
+        "parent_id": "OpRDdmV2loBbmxxkIndcQoHlnNh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameters",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Eiq1dZT1soJigOxkwKEcr75knns",
+        "block_type": 32,
+        "children": [
+          "QpPPdqHqroEYbUxAeCmc3beYnbb"
+        ],
+        "parent_id": "AnwHdXPmjoHYYHxIQaVcjVbdngf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QpPPdqHqroEYbUxAeCmc3beYnbb",
+        "block_type": 2,
+        "parent_id": "Eiq1dZT1soJigOxkwKEcr75knns",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OIQCdr4m1oxlkBx8LcJcenfQnwb",
+        "block_type": 32,
+        "children": [
+          "LjwsdPMr4oRua4xET2kcEGJ4nAG"
+        ],
+        "parent_id": "AnwHdXPmjoHYYHxIQaVcjVbdngf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "LjwsdPMr4oRua4xET2kcEGJ4nAG",
+        "block_type": 2,
+        "parent_id": "OIQCdr4m1oxlkBx8LcJcenfQnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Target Cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NpIadZPuToAgA3xee7scIh2Nncb",
+        "block_type": 32,
+        "children": [
+          "Eltcd7jbaogN3OxaiQhcs0Zdnwg"
+        ],
+        "parent_id": "AnwHdXPmjoHYYHxIQaVcjVbdngf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Eltcd7jbaogN3OxaiQhcs0Zdnwg",
+        "block_type": 2,
+        "parent_id": "NpIadZPuToAgA3xee7scIh2Nncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The cluster where",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "new ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " will be automatically created with this Ingestion pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Currently, this can only be",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "serverless ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WjI9ddsmTojCQPxqHctcmftQn5g",
+        "block_type": 32,
+        "children": [
+          "Qkmtdzt2bogjYZxgbRycEiudnud"
+        ],
+        "parent_id": "AnwHdXPmjoHYYHxIQaVcjVbdngf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Qkmtdzt2bogjYZxgbRycEiudnud",
+        "block_type": 2,
+        "parent_id": "WjI9ddsmTojCQPxqHctcmftQn5g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Collection Name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AEJ9dH1J5oBosEx9nxlcizEZn7c",
+        "block_type": 32,
+        "children": [
+          "OqBKdZ7K3oYWUBxtzEocrNHentc"
+        ],
+        "parent_id": "AnwHdXPmjoHYYHxIQaVcjVbdngf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OqBKdZ7K3oYWUBxtzEocrNHentc",
+        "block_type": 2,
+        "comment_ids": [
+          "7303735917066665987"
+        ],
+        "parent_id": "AEJ9dH1J5oBosEx9nxlcizEZn7c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the auto-",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303735917066665987"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "created",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303735917066665987"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303735917066665987"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LCsCdgt5ooO7eOxlDLwcORlenIg",
+        "block_type": 32,
+        "children": [
+          "Wa9Od2JE0o5QwExR097c31mPn3D"
+        ],
+        "parent_id": "AnwHdXPmjoHYYHxIQaVcjVbdngf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Wa9Od2JE0o5QwExR097c31mPn3D",
+        "block_type": 2,
+        "parent_id": "LCsCdgt5ooO7eOxlDLwcORlenIg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Pipeline Name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Hex3dQg6AosLGQxt8IBcHnwanCc",
+        "block_type": 32,
+        "children": [
+          "QUD4drXoyoyTTUxv2XbcNYCcnug"
+        ],
+        "parent_id": "AnwHdXPmjoHYYHxIQaVcjVbdngf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QUD4drXoyoyTTUxv2XbcNYCcnug",
+        "block_type": 2,
+        "comment_ids": [
+          "7303735917066665987"
+        ],
+        "parent_id": "Hex3dQg6AosLGQxt8IBcHnwanCc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "N",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303735917066665987"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ame of the new Ingestion pipeline. It should only contain lowercase letters, numbers, and underscores.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303735917066665987"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NAY7doQHgod84LxaEWsc3QP7nRh",
+        "block_type": 32,
+        "children": [
+          "FZXxdhi1AoWqQOxBhtpc1YuwnSc"
+        ],
+        "parent_id": "AnwHdXPmjoHYYHxIQaVcjVbdngf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "FZXxdhi1AoWqQOxBhtpc1YuwnSc",
+        "block_type": 2,
+        "parent_id": "NAY7doQHgod84LxaEWsc3QP7nRh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description (Optional)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T24JdbY5toklyfxa6bKc5rdVnRh",
+        "block_type": 32,
+        "children": [
+          "EAekd2lcXoJ3gwx62Hjcp27Yn8c"
+        ],
+        "parent_id": "AnwHdXPmjoHYYHxIQaVcjVbdngf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "EAekd2lcXoJ3gwx62Hjcp27Yn8c",
+        "block_type": 2,
+        "comment_ids": [
+          "7303735917066665987"
+        ],
+        "parent_id": "T24JdbY5toklyfxa6bKc5rdVnRh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The description of the new Ingestion pipeline.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303735917066665987"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GAuFdHtwjo3Z8uxijoHcdlPonXb",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4202%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "AWtPdpM5FozbuXxeDzqcFIwanEh"
+      },
+      {
+        "block_id": "CSX3dSzzfoYzEGxla1RcLBcNnAh",
+        "block_type": 13,
+        "children": [
+          "GtsRdfeieoeSd0x5NNRc0Euzn87",
+          "U1hpdk4jeoD4JhxkbtFcqwPGnTc"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Add a function to the Ingestion pipeline. For each Ingestion pipeline, you can add ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "exactly",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " one ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "INDEX_DOC",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function and up to five ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "PRESERVE",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " functions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "GtsRdfeieoeSd0x5NNRc0Euzn87",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Add an ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303736180053770244"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "INDEX_DOC",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7303736180053770244"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303736180053770244"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "E42gdXv7KozRx0xhsvEcZH4Pnxg",
+          "VUFUdizr3o3stJxY1bLcx4Crn4f",
+          "NddAdP1j2o46N3xxgyNcU1Q9nMe",
+          "Rd4gdDrYXocQzJxd9PscJ9uRnjc"
+        ],
+        "comment_ids": [
+          "7303736180053770244"
+        ],
+        "parent_id": "CSX3dSzzfoYzEGxla1RcLBcNnAh"
+      },
+      {
+        "block_id": "E42gdXv7KozRx0xhsvEcZH4Pnxg",
+        "block_type": 2,
+        "parent_id": "GtsRdfeieoeSd0x5NNRc0Euzn87",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "An ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "INDEX_DOC",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function splits your document into multiple smaller chunks, vectorizes each of them, and saves the generated vector embeddings into the collection. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VUFUdizr3o3stJxY1bLcx4Crn4f",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enter function name.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GtsRdfeieoeSd0x5NNRc0Euzn87"
+      },
+      {
+        "block_id": "NddAdP1j2o46N3xxgyNcU1Q9nMe",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Choose document language. The language you choose ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "will help decide",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " the model used ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "for generating vector embeddings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GtsRdfeieoeSd0x5NNRc0Euzn87"
+      },
+      {
+        "block_id": "Rd4gdDrYXocQzJxd9PscJ9uRnjc",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Add",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to save your function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GtsRdfeieoeSd0x5NNRc0Euzn87"
+      },
+      {
+        "block_id": "U1hpdk4jeoD4JhxkbtFcqwPGnTc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Add a ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306516821652291587"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "PRESERVE",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306516821652291587"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306516821652291587"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "M3KedkjtvookwexIp9LcyGOAnKg",
+          "Rhqzds5W2oZheHxENNgcXAJZnBc",
+          "JoAwdRmUBo8WzKxNwrHcnS68nvf",
+          "AnpSduOUMoKfS1xGOkPcuw3jnl2"
+        ],
+        "comment_ids": [
+          "7306516821652291587"
+        ],
+        "parent_id": "CSX3dSzzfoYzEGxla1RcLBcNnAh"
+      },
+      {
+        "block_id": "M3KedkjtvookwexIp9LcyGOAnKg",
+        "block_type": 2,
+        "parent_id": "U1hpdk4jeoD4JhxkbtFcqwPGnTc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "PRESERVE",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function adds additional scalar fields to the collection along with data ingestion.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Rhqzds5W2oZheHxENNgcXAJZnBc",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enter function name.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U1hpdk4jeoD4JhxkbtFcqwPGnTc"
+      },
+      {
+        "block_id": "JoAwdRmUBo8WzKxNwrHcnS68nvf",
+        "block_type": 13,
+        "children": [
+          "AZgDd6bNQoJRYqxotsqc0j36nfh"
+        ],
+        "comment_ids": [
+          "7306841551765127171"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Configure the input field name and type. Supported input field types include ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "B",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ool",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "I",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "nt",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "8",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "I",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "nt",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "16",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "I",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "nt",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "32",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "I",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "nt",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "64",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "F",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "loat",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "D",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ouble",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "V",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ar",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "C",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "har",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306841551765127171"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U1hpdk4jeoD4JhxkbtFcqwPGnTc"
+      },
+      {
+        "block_id": "AZgDd6bNQoJRYqxotsqc0j36nfh",
+        "block_type": 34,
+        "children": [
+          "Sxptd5QJSodRj6xooOWc3F13nrh",
+          "U4Bydf1QBoVoOLxFnNlc8gGfn1d",
+          "J32MdQrADoEWiQxz3YFc3fXgnch",
+          "ERfUdpNsdodOPexVDu4clyk3nWe"
+        ],
+        "parent_id": "JoAwdRmUBo8WzKxNwrHcnS68nvf",
+        "quote_container": {}
+      },
+      {
+        "block_id": "Sxptd5QJSodRj6xooOWc3F13nrh",
+        "block_type": 2,
+        "parent_id": "AZgDd6bNQoJRYqxotsqc0j36nfh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "U4Bydf1QBoVoOLxFnNlc8gGfn1d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "output field name ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "must",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " be identical to the input field name. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "The input field name defines the field name used when running the Ingestion pipeline. The output field name defines the field name in",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " the",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " vector collection schema where the preserved value is kept.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "AZgDd6bNQoJRYqxotsqc0j36nfh"
+      },
+      {
+        "block_id": "J32MdQrADoEWiQxz3YFc3fXgnch",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "VarChar",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " fields, the value should be a string with a maximum length of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "100",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7307071895793565699"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " alphanumeric characters",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7307071895793565699"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7307071895793565699"
+        ],
+        "parent_id": "AZgDd6bNQoJRYqxotsqc0j36nfh"
+      },
+      {
+        "block_id": "ERfUdpNsdodOPexVDu4clyk3nWe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When storing ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "date-time",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7307072756779892740"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in scalar fields, it is recommended to use the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Int16",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " data type for year data, and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Int32",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for timestamps.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7307072756779892740"
+        ],
+        "parent_id": "AZgDd6bNQoJRYqxotsqc0j36nfh"
+      },
+      {
+        "block_id": "AnpSduOUMoKfS1xGOkPcuw3jnl2",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Add",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to save your function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U1hpdk4jeoD4JhxkbtFcqwPGnTc"
+      },
+      {
+        "block_id": "FghHdKCIPoCOLPxgTppc9LtLnOd",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Create Ingestion Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "AvI8d2HzPoEmwaxXWfQcQTwpnTc",
+        "block_type": 13,
+        "children": [
+          "BuCfdpCa4ojhjoxRd7nc7AGanw2"
+        ],
+        "comment_ids": [
+          "7306517696766181380"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Optionally, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "you can continue creating",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306517696766181380"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Search pipeline and a Deletion pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306517696766181380"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " that is auto-configured",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306517696766181380"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to be compatible with the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "just-created",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Ingestion pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "We strongly recommend accepting it to save the hassle of creating them manually.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "BuCfdpCa4ojhjoxRd7nc7AGanw2",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4208%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "AvI8d2HzPoEmwaxXWfQcQTwpnTc"
+      },
+      {
+        "block_id": "YyZ6dup2zokHdVxbz2nc3e6YnOc",
+        "block_type": 2,
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Dwg2d4jkeoZeN0x1gOKcIoyunOg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a Search pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "XY8pdlFq3oSZkYxVBX9cDfDWneb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Navigate to your project.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "XRGjdnaKboETgrxeu4ncAfxFnhg",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Pipelines",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the navigation panel. Then click",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " + Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "HP1fdnQaAodwYvxjrvFcS3cLn7e",
+        "block_type": 13,
+        "children": [
+          "S8HIdkvQooigTgxTUgkcuf90niG"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Choose the type of pipeline to create. Click on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Pipeline ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "button in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Search Pipeline ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "column.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "S8HIdkvQooigTgxTUgkcuf90niG",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4210%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "HP1fdnQaAodwYvxjrvFcS3cLn7e"
+      },
+      {
+        "block_id": "E7dfdJzOboGEDqxBR4rc8nnYncg",
+        "block_type": 13,
+        "children": [
+          "B0PydpQhWonym3xSJ26c2oQlndf",
+          "GgWtdwkv5oenzDxMkCKc6Mzknpb"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Configure the Search pipeline you wish to create.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "B0PydpQhWonym3xSJ26c2oQlndf",
+        "block_type": 31,
+        "children": [
+          "CGzNd9DPWoUvYGxvogEc4ZVvn3f",
+          "RljCdcn3jowjuHx33LJc6Idzntw",
+          "LGnfd1IvjoGzMSxPaPhc9YvKnLe",
+          "VhPbdAWlyo40nyx5KZfc4RYzn3c",
+          "Z9gedIsKXoYt92x0zkPcacN5nBg",
+          "CvQkdIISvo7Qjnx94wXcnLYInQd"
+        ],
+        "parent_id": "E7dfdJzOboGEDqxBR4rc8nnYncg",
+        "table": {
+          "cells": [
+            "CGzNd9DPWoUvYGxvogEc4ZVvn3f",
+            "RljCdcn3jowjuHx33LJc6Idzntw",
+            "LGnfd1IvjoGzMSxPaPhc9YvKnLe",
+            "VhPbdAWlyo40nyx5KZfc4RYzn3c",
+            "Z9gedIsKXoYt92x0zkPcacN5nBg",
+            "CvQkdIISvo7Qjnx94wXcnLYInQd"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              180,
+              315
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 3
+          }
+        }
+      },
+      {
+        "block_id": "CGzNd9DPWoUvYGxvogEc4ZVvn3f",
+        "block_type": 32,
+        "children": [
+          "AeaSdV0cKohuQzxV1oPcnl9Fnye"
+        ],
+        "parent_id": "B0PydpQhWonym3xSJ26c2oQlndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "AeaSdV0cKohuQzxV1oPcnl9Fnye",
+        "block_type": 2,
+        "parent_id": "CGzNd9DPWoUvYGxvogEc4ZVvn3f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameters",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RljCdcn3jowjuHx33LJc6Idzntw",
+        "block_type": 32,
+        "children": [
+          "JBFhd2bo1oHqrhxETP0c1Mvqnbt"
+        ],
+        "parent_id": "B0PydpQhWonym3xSJ26c2oQlndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "JBFhd2bo1oHqrhxETP0c1Mvqnbt",
+        "block_type": 2,
+        "parent_id": "RljCdcn3jowjuHx33LJc6Idzntw",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LGnfd1IvjoGzMSxPaPhc9YvKnLe",
+        "block_type": 32,
+        "children": [
+          "PUaCdSOt3oLZk7x8cPscLmjcnvc"
+        ],
+        "parent_id": "B0PydpQhWonym3xSJ26c2oQlndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PUaCdSOt3oLZk7x8cPscLmjcnvc",
+        "block_type": 2,
+        "parent_id": "LGnfd1IvjoGzMSxPaPhc9YvKnLe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Pipeline Name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VhPbdAWlyo40nyx5KZfc4RYzn3c",
+        "block_type": 32,
+        "children": [
+          "TWpXdnwgCowVQyxU9gocrqnrnof"
+        ],
+        "parent_id": "B0PydpQhWonym3xSJ26c2oQlndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "TWpXdnwgCowVQyxU9gocrqnrnof",
+        "block_type": 2,
+        "parent_id": "VhPbdAWlyo40nyx5KZfc4RYzn3c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the new Search pipeline. It should only contain lowercase letters, numbers, and underscores only.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Z9gedIsKXoYt92x0zkPcacN5nBg",
+        "block_type": 32,
+        "children": [
+          "GXjkdGmPAoOaVex5cn4cHS3fnOb"
+        ],
+        "parent_id": "B0PydpQhWonym3xSJ26c2oQlndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "GXjkdGmPAoOaVex5cn4cHS3fnOb",
+        "block_type": 2,
+        "parent_id": "Z9gedIsKXoYt92x0zkPcacN5nBg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description (Optional)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CvQkdIISvo7Qjnx94wXcnLYInQd",
+        "block_type": 32,
+        "children": [
+          "X6BEdeBnqoElfRxDqBvcliVJnQh"
+        ],
+        "parent_id": "B0PydpQhWonym3xSJ26c2oQlndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "X6BEdeBnqoElfRxDqBvcliVJnQh",
+        "block_type": 2,
+        "parent_id": "CvQkdIISvo7Qjnx94wXcnLYInQd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The description of the new Search pipeline.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GgWtdwkv5oenzDxMkCKc6Mzknpb",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4220%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "E7dfdJzOboGEDqxBR4rc8nnYncg"
+      },
+      {
+        "block_id": "YeTDdHd9eoIbOIxSJiHcxGR0nMf",
+        "block_type": 13,
+        "children": [
+          "IaLfdkW9qoIDT0xbdD1ciiOFnae",
+          "TNdldlHdPobTU2xJkKlcPcXSnbb",
+          "B48RdFhaqofTEVxI6LscQbabnNh",
+          "KpL4dACKtob3CUxBgqjcYBg0nNh"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Add a function to the Search pipeline. You can add ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "exactly ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "one ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SEARCH_DOC_CHUNK",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "IaLfdkW9qoIDT0xbdD1ciiOFnae",
+        "block_type": 34,
+        "children": [
+          "GyvJdle1doF6rJx1r3HcGjxknjc",
+          "EO4RdH9FSorMtwxfvzMcoHUTnQg"
+        ],
+        "parent_id": "YeTDdHd9eoIbOIxSJiHcxGR0nMf",
+        "quote_container": {}
+      },
+      {
+        "block_id": "GyvJdle1doF6rJx1r3HcGjxknjc",
+        "block_type": 2,
+        "parent_id": "IaLfdkW9qoIDT0xbdD1ciiOFnae",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EO4RdH9FSorMtwxfvzMcoHUTnQg",
+        "block_type": 2,
+        "comment_ids": [
+          "7303513883560443906"
+        ],
+        "parent_id": "IaLfdkW9qoIDT0xbdD1ciiOFnae",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For convenience, the",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "web ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "UI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " forces the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "input field name",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303513883560443906"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "to be ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query_text",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " To customize it, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "you can",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "create a Search pipeline via RESTful API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FFrj7wEoUgiSDeYkkZ59cyYu1nEg%3Fchunked%3Dfalse%23Iqg7dasuToChqzxmo5ecnxjLnBd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TNdldlHdPobTU2xJkKlcPcXSnbb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enter function name.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YeTDdHd9eoIbOIxSJiHcxGR0nMf"
+      },
+      {
+        "block_id": "B48RdFhaqofTEVxI6LscQbabnNh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Choose ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Target Cluster",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Target collection",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "The Target Cluster must be",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " serverless cluster and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the T",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "arget ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "C",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ollection ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "must be created by an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Ingestion pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", otherwise the Search pipeline won't be compatible",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YeTDdHd9eoIbOIxSJiHcxGR0nMf"
+      },
+      {
+        "block_id": "KpL4dACKtob3CUxBgqjcYBg0nNh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Add",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to save your function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YeTDdHd9eoIbOIxSJiHcxGR0nMf"
+      },
+      {
+        "block_id": "FuuhdZHiio1difxRw07c7agAnev",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Create Search Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "EyWrdOjb9oOhL5xSPrucYrbanBh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a Deletion pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "BYDbdvl7AoPsZYx4wtccWOB0nYe",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Navigate to your project.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "Oxdldcfrgod98CxWgshcvFdEnOe",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Pipelines",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the navigation panel. Then click",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " + Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "UQJVdHHGuoQXybxG9C4cjym5nEh",
+        "block_type": 13,
+        "children": [
+          "YXahd5RCVoamDuxIj75c8s3pnIf"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Choose the type of pipeline to create. Click on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Pipeline ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "button in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Deletion Pipeline ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "column.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "YXahd5RCVoamDuxIj75c8s3pnIf",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4222%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "UQJVdHHGuoQXybxG9C4cjym5nEh"
+      },
+      {
+        "block_id": "LB84dyYy7oiHysxCDe8cmioxnPg",
+        "block_type": 13,
+        "children": [
+          "KxHdd6fT0ovuPhxlDT9c5iIrn9f",
+          "QWagdGyaHoIB6exgOUqcGoCxn2g"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Configure the Deletion pipeline you wish to create.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "KxHdd6fT0ovuPhxlDT9c5iIrn9f",
+        "block_type": 31,
+        "children": [
+          "EWBkdLE8koCP2qx3l1tcfO0inkg",
+          "GAl0dzTfioSmp0xfe5cchr9ZnBh",
+          "DeZddRxNPoma1MxfZ7JckkBanee",
+          "HMlgd5KhioTYFQxXzyAcGg8VnPb",
+          "XFXndGadKoHkfTx5ptwccigynif",
+          "GOjmdwcTlooR9pxUQCAcVJHRn7c"
+        ],
+        "parent_id": "LB84dyYy7oiHysxCDe8cmioxnPg",
+        "table": {
+          "cells": [
+            "EWBkdLE8koCP2qx3l1tcfO0inkg",
+            "GAl0dzTfioSmp0xfe5cchr9ZnBh",
+            "DeZddRxNPoma1MxfZ7JckkBanee",
+            "HMlgd5KhioTYFQxXzyAcGg8VnPb",
+            "XFXndGadKoHkfTx5ptwccigynif",
+            "GOjmdwcTlooR9pxUQCAcVJHRn7c"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              180,
+              315
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 3
+          }
+        }
+      },
+      {
+        "block_id": "EWBkdLE8koCP2qx3l1tcfO0inkg",
+        "block_type": 32,
+        "children": [
+          "DwM6dk2DSodct4xwJF8cIzJgnAd"
+        ],
+        "parent_id": "KxHdd6fT0ovuPhxlDT9c5iIrn9f",
+        "table_cell": {}
+      },
+      {
+        "block_id": "DwM6dk2DSodct4xwJF8cIzJgnAd",
+        "block_type": 2,
+        "parent_id": "EWBkdLE8koCP2qx3l1tcfO0inkg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameters",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GAl0dzTfioSmp0xfe5cchr9ZnBh",
+        "block_type": 32,
+        "children": [
+          "J389deiQFoXe6BxvgrSc9GX9nvd"
+        ],
+        "parent_id": "KxHdd6fT0ovuPhxlDT9c5iIrn9f",
+        "table_cell": {}
+      },
+      {
+        "block_id": "J389deiQFoXe6BxvgrSc9GX9nvd",
+        "block_type": 2,
+        "parent_id": "GAl0dzTfioSmp0xfe5cchr9ZnBh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DeZddRxNPoma1MxfZ7JckkBanee",
+        "block_type": 32,
+        "children": [
+          "Oi0ndji34o9ESoxPkpvc8jgpnQf"
+        ],
+        "parent_id": "KxHdd6fT0ovuPhxlDT9c5iIrn9f",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Oi0ndji34o9ESoxPkpvc8jgpnQf",
+        "block_type": 2,
+        "parent_id": "DeZddRxNPoma1MxfZ7JckkBanee",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Pipeline Name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HMlgd5KhioTYFQxXzyAcGg8VnPb",
+        "block_type": 32,
+        "children": [
+          "XxlHdUwKQoHJHxxMFokcHuJenFd"
+        ],
+        "parent_id": "KxHdd6fT0ovuPhxlDT9c5iIrn9f",
+        "table_cell": {}
+      },
+      {
+        "block_id": "XxlHdUwKQoHJHxxMFokcHuJenFd",
+        "block_type": 2,
+        "parent_id": "HMlgd5KhioTYFQxXzyAcGg8VnPb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the new Deletion pipeline. It should only contain lowercase letters, numbers, and underscores.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XFXndGadKoHkfTx5ptwccigynif",
+        "block_type": 32,
+        "children": [
+          "OuNCdULTMovGmBxph3NcXwGZnjg"
+        ],
+        "parent_id": "KxHdd6fT0ovuPhxlDT9c5iIrn9f",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OuNCdULTMovGmBxph3NcXwGZnjg",
+        "block_type": 2,
+        "parent_id": "XFXndGadKoHkfTx5ptwccigynif",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description (Optional)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GOjmdwcTlooR9pxUQCAcVJHRn7c",
+        "block_type": 32,
+        "children": [
+          "NlQLdTlgmosaWixDYW1cpuIInSg"
+        ],
+        "parent_id": "KxHdd6fT0ovuPhxlDT9c5iIrn9f",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NlQLdTlgmosaWixDYW1cpuIInSg",
+        "block_type": 2,
+        "parent_id": "GOjmdwcTlooR9pxUQCAcVJHRn7c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The description of the new Deletion pipeline.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QWagdGyaHoIB6exgOUqcGoCxn2g",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4228%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "LB84dyYy7oiHysxCDe8cmioxnPg"
+      },
+      {
+        "block_id": "EH1Pdk83noMLsuxH80ncd7IrnqQ",
+        "block_type": 13,
+        "children": [
+          "RfrxdD6eCoX0B8xnXzJcAyiNnme",
+          "C2vOdJpWwo4FRrxiNOcc8JUrn6c",
+          "Bnq1dwS3Vog54Wx8FVqczMKCnmd"
+        ],
+        "comment_ids": [
+          "7306520934700187651"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Add a function to",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " the",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Deletion",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " pipeline. You can ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306520934700187651"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306520934700187651"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "dd ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306520934700187651"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "exactly ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306520934700187651"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "one ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306520934700187651"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "PURGE_DOC_INDEX",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7306520934700187651"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306520934700187651"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "RfrxdD6eCoX0B8xnXzJcAyiNnme",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enter function name.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EH1Pdk83noMLsuxH80ncd7IrnqQ"
+      },
+      {
+        "block_id": "C2vOdJpWwo4FRrxiNOcc8JUrn6c",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The input field name must be doc_name.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EH1Pdk83noMLsuxH80ncd7IrnqQ"
+      },
+      {
+        "block_id": "Bnq1dwS3Vog54Wx8FVqczMKCnmd",
+        "block_type": 13,
+        "comment_ids": [
+          "7306521188135305220"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Add",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to save your function",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306521188135305220"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EH1Pdk83noMLsuxH80ncd7IrnqQ"
+      },
+      {
+        "block_id": "JJ29dTIaaoBkhoxV2FAc2Zqpnlc",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Create Deletion Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "PiEXdLP7ooN0WLx2lmQcqtwpnld",
+        "block_type": 2,
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VoLZdTYnPoy99kx0CJ4ckBxwnUw",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage your pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "IGUtdhOc5otQOixa5ibczsydn4e",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View your pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "FrKfdH7cQolT8cxKYSuccjZEnLd",
+        "block_type": 2,
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Pipelines",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " on the left navigation. You will see all the available pipelines and their ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "detailed information",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OpRVdKrEDoUcgexfT3icBbThnTd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Run a pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "XBGMd9sICoUKF2xkiEKcuXEznPc",
+        "block_type": 2,
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To run a pipeline, click on the \"▶︎\" icon next to it under ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Actions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ShkudVmkBoMmCsx8mp3ceT0anxd",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4232%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "OZZ8d75MRokfonxchQkcP9Q7nSf",
+        "block_type": 5,
+        "comment_ids": [
+          "7303736652323848195",
+          "7303514321143840769"
+        ],
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Drop a pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303514321143840769",
+                    "7303736652323848195"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "QvKCde297oHk9Bxrq5rcuDqtnMb",
+        "block_type": 2,
+        "comment_ids": [
+          "7306521414482411523"
+        ],
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you no longer need a pipeline, simply click the \"🗑\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " icon",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306521414482411523"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to drop it. Note that dropping a pipeline will not remove ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " auto-",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "created",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " where it ingested data",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BpMfdeyCCoC8srxHRVjccOLZnvf",
+        "block_type": 34,
+        "children": [
+          "M5nwdspFooYFeQxHeeqcItFBnqb",
+          "Ex5yd6ma9o4K0NxBxqQcQywYnIO",
+          "AZrRdVS43oCWH1xALptcr6rhnYe"
+        ],
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre",
+        "quote_container": {}
+      },
+      {
+        "block_id": "M5nwdspFooYFeQxHeeqcItFBnqb",
+        "block_type": 2,
+        "parent_id": "BpMfdeyCCoC8srxHRVjccOLZnvf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "🚧 Warning",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ex5yd6ma9o4K0NxBxqQcQywYnIO",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Dropped pipelines cannot be recovered. Please be cautious with the action.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BpMfdeyCCoC8srxHRVjccOLZnvf"
+      },
+      {
+        "block_id": "AZrRdVS43oCWH1xALptcr6rhnYe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Dropping a data-ingestion pipeline does not affect the collection created along with the pipeline. Your data is safe.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BpMfdeyCCoC8srxHRVjccOLZnvf"
+      },
+      {
+        "block_id": "LzsXdY83HomNANxbkErc0jiHnKd",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4239%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
+      },
+      {
+        "block_id": "E4ITdPTjTo9I71xQQLhcPC6Wn4g",
+        "block_type": 2,
+        "parent_id": "NogBdCgUfoscyzxayiTcly7Unre",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 126
+  }
+}

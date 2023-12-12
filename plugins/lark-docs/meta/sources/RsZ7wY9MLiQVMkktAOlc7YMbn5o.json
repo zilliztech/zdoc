@@ -1,0 +1,221 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": true,
+  "node_create_time": "1689059629",
+  "node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
+  "node_type": "origin",
+  "obj_create_time": "1689059629",
+  "obj_edit_time": "1701844967",
+  "obj_token": "KKEOdP5XkofOkoxgjErcl8l6ndf",
+  "obj_type": "docx",
+  "origin_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "OUWXw5c4gia34ZkQUcEcMFbWn6s",
+  "space_id": "7167193056431783939",
+  "title": "Monitors & Metrics",
+  "slug": "monitors-metrics",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "KKEOdP5XkofOkoxgjErcl8l6ndf",
+        "block_type": 1,
+        "children": [
+          "MUwidOElLo7HQ2xXbmGc8tRVnWL"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Monitors & Metrics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "MUwidOElLo7HQ2xXbmGc8tRVnWL",
+        "block_type": 2,
+        "parent_id": "KKEOdP5XkofOkoxgjErcl8l6ndf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud provides handy monitors and metrics for you to know what is happening in your clusters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 2
+  },
+  "children": [
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1689062495",
+      "node_token": "QPhmwMxRdiOFq5kj8E6c9GBgn9d",
+      "node_type": "origin",
+      "obj_create_time": "1689062495",
+      "obj_edit_time": "1700445229",
+      "obj_token": "B2XCd5JxVoInsRxNebUcnJqZnBd",
+      "obj_type": "docx",
+      "origin_node_token": "QPhmwMxRdiOFq5kj8E6c9GBgn9d",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
+      "space_id": "7167193056431783939",
+      "title": "Monitor CU Resources",
+      "slug": "cu-resource-monitor"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1689062513",
+      "node_token": "TKJawqMDPikhpMkQKcHc91mhnEd",
+      "node_type": "origin",
+      "obj_create_time": "1689062513",
+      "obj_edit_time": "1700445426",
+      "obj_token": "LxZGdWcyNoBZ9wxV3BGcy7xrn1d",
+      "obj_type": "docx",
+      "origin_node_token": "TKJawqMDPikhpMkQKcHc91mhnEd",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
+      "space_id": "7167193056431783939",
+      "title": "Monitor QPS",
+      "slug": "qps-resource-monitor"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1689062546",
+      "node_token": "W7o3wed82iclnOkEPbrcZU2NnBf",
+      "node_type": "origin",
+      "obj_create_time": "1689062546",
+      "obj_edit_time": "1700445554",
+      "obj_token": "F7K2dGwouoXUOqxlhZGceXUSnrf",
+      "obj_type": "docx",
+      "origin_node_token": "W7o3wed82iclnOkEPbrcZU2NnBf",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
+      "space_id": "7167193056431783939",
+      "title": "Monitor Query Latency",
+      "slug": "query-latency-monitor"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1689062567",
+      "node_token": "NiIxwMY3bi9JH3kEwjXcON8pnJc",
+      "node_type": "origin",
+      "obj_create_time": "1689062567",
+      "obj_edit_time": "1700445783",
+      "obj_token": "NCdidgmLfo5EVTxSCaScYawPn6d",
+      "obj_type": "docx",
+      "origin_node_token": "NiIxwMY3bi9JH3kEwjXcON8pnJc",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
+      "space_id": "7167193056431783939",
+      "title": "Monitor Load Capacity",
+      "slug": "load-capacity-resource-monitor"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1689062590",
+      "node_token": "CV5vwnufwiVuQZkAktac6HDGnXc",
+      "node_type": "origin",
+      "obj_create_time": "1689062590",
+      "obj_edit_time": "1700113182",
+      "obj_token": "HArEdu7cBoQPmlxTmpccrCEMnre",
+      "obj_type": "docx",
+      "origin_node_token": "CV5vwnufwiVuQZkAktac6HDGnXc",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
+      "space_id": "7167193056431783939",
+      "title": "Monitor Credit Card Expiration",
+      "slug": "credit-card-expiration-monitor"
+    },
+    {
+      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+      "has_child": false,
+      "node_create_time": "1693383647",
+      "node_token": "Wlh2wJFuqiG3b7ke3Wpcy2Wdnmg",
+      "node_type": "origin",
+      "obj_create_time": "1693383647",
+      "obj_edit_time": "1700113096",
+      "obj_token": "FE6SdTVB2oQscRxYmnvcNHKfnBe",
+      "obj_type": "docx",
+      "origin_node_token": "Wlh2wJFuqiG3b7ke3Wpcy2Wdnmg",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+      "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
+      "space_id": "7167193056431783939",
+      "title": "Check Advance Pay Balance",
+      "slug": "advance-pay-balance-monitor"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1689756480",
+      "node_token": "AlRswAKgzitjyJkK1TCc2g19n0g",
+      "node_type": "origin",
+      "obj_create_time": "1689756480",
+      "obj_edit_time": "1700445842",
+      "obj_token": "DlAtdcn8woaukUxoS9mcBv5BnWb",
+      "obj_type": "docx",
+      "origin_node_token": "AlRswAKgzitjyJkK1TCc2g19n0g",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
+      "space_id": "7167193056431783939",
+      "title": "View Cluster Metrics",
+      "slug": "monitor-metrics"
+    },
+    {
+      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+      "has_child": false,
+      "node_create_time": "1694570106",
+      "node_token": "BZyrwZqAViYxsJk0fOhcJFbynAe",
+      "node_type": "origin",
+      "obj_create_time": "1694570106",
+      "obj_edit_time": "1700472296",
+      "obj_token": "ErtHdu9e2on4cNxT4z1cWVfZn3g",
+      "obj_type": "docx",
+      "origin_node_token": "BZyrwZqAViYxsJk0fOhcJFbynAe",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+      "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
+      "space_id": "7167193056431783939",
+      "title": "View Activities",
+      "slug": "view-activities"
+    }
+  ]
+}

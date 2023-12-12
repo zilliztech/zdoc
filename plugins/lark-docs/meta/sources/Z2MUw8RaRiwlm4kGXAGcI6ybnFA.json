@@ -1,0 +1,2558 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": false,
+  "node_create_time": "1699859454",
+  "node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
+  "node_type": "origin",
+  "obj_create_time": "1699859454",
+  "obj_edit_time": "1701670063",
+  "obj_token": "WVx8dp8wGoBBKexHzdicvLnynYc",
+  "obj_type": "docx",
+  "origin_node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "RzBdwMKAxiiejDk9rWjc1Sv1nSf",
+  "space_id": "7167193056431783939",
+  "title": "Understanding Pipelines",
+  "slug": "understanding-pipelines",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "block_type": 1,
+        "children": [
+          "TuNXdXcnzoAiTexCHj6cxOXGnwd",
+          "QtksdzGjBofZPQxxSoTcEfQzn8b",
+          "US5Mdjy7doHGSxxYyePcsmyvnEd",
+          "U6pzdJP3Po8aIwxv2WNc8NBnnQh",
+          "QqjiduOoforXWzxnsbbcp4Omn7d",
+          "RI8wdfuhNoxwobxRQXjc9z9onPd",
+          "NjKHdMg5AoNFhUxbcrkca4mznde",
+          "AMLqdFy6Goqodkxk1UwcNQYZnfg",
+          "D7vHdCmuVodjzsxIiH0cEgM7nKg",
+          "VzCcdnjUgoJmuhxixmmcRnrin5b",
+          "NXpNdSfPfolk6yxQHLpcN289nag",
+          "WYGlddPhFoZjq0xxZzIclFOZn8g",
+          "T8W8djV56owMgxxV96Xcdvm2nfb",
+          "ID20dAtPWoPTwvxeN9VcKQIgnmb",
+          "FNzidG3Sbo0GLqxzbANccM3rnoh",
+          "KDkxdJyYSoDvJXxN2GPcpnCkn6e",
+          "MUjsdnMvgo98FAxUvPkc19a9nmc",
+          "FLAHdjBgXoPmoYxE1mlcgA8cnZj",
+          "XcU2dZYOyoS59zxb5DMcuRBtnUg",
+          "AmwgdgNmeokhXax2Jb9ckitnnqf",
+          "LXe7daOuooZwuex3HeKc1Snsnke",
+          "HZ1fd7JJdoj3Xox34B3ch63kncf",
+          "NtkJdpAJPoWVA0xaIUocyFd0n0b",
+          "TKPvdbCHLomjHLx9GsDcRdzLnxe",
+          "XLcfdMwyIoP4Bmx0LdCcX3KTnCe",
+          "X7P1ddUdBoyzgmxSypWciOKendf",
+          "PkQqdu9R7oVBlQxCtO3cuSANnsg",
+          "DzdUd1r5konKyQxf7e8c6aWbn2d",
+          "T03XdMzvjooAi2xmH28ce4TWnP7",
+          "RNd7dmSVborXQWxh9YfcN9xznih",
+          "Q1ufdNBXeobCLhxjhwycKc5YnUe",
+          "LdNud2xHko0TfHxW4rtc2MGTnQe",
+          "C13rdq67ZoldIXxbZMoc8EI1nrf"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Understanding Pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "TuNXdXcnzoAiTexCHj6cxOXGnwd",
+        "block_type": 2,
+        "comment_ids": [
+          "7308576424196538372",
+          "7304604978013290499"
+        ],
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604978013290499"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604978013290499",
+                    "7308576424196538372"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "s",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604978013290499",
+                    "7308576424196538372"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is a robust solution for transforming unstructured data such as documents, text pieces and images into a searchable vector ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604978013290499"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604978013290499"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FKfI3wa2ZCiEJyzkkvKSc5FennId%23Ht5adrJhToY5sJxb9KtcZKuYn7f"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". This ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604978013290499"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "guide provides",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604978013290499"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " a",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604978013290499"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " detailed description",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604978013290499"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " of the three main ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604978013290499"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604978013290499"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " types and their ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604978013290499"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "functions",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604978013290499"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604978013290499"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QtksdzGjBofZPQxxSoTcEfQzn8b",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-684%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "US5Mdjy7doHGSxxYyePcsmyvnEd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "U6pzdJP3Po8aIwxv2WNc8NBnnQh",
+        "block_type": 2,
+        "comment_ids": [
+          "7304604496196911107"
+        ],
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In many modern services and applications, there is a need to search by semantics. From searching for a chunk of text that matches the meaning of a ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604496196911107"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604496196911107"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", to finding images that look similar to each other. A typical retrieval system that finishes such task are built with data preparation and embedding, a process of representing text or images as numerical vectors in a multi-dimensional space. It requires deep know-how and engineering speciality to build such systems. Zilliz Cloud Pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604496196911107"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "s",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604496196911107"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " empowers such use cases with a simple yet flexible interface.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7304604496196911107"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QqjiduOoforXWzxnsbbcp4Omn7d",
+        "block_type": 2,
+        "comment_ids": [
+          "7306046308955521028"
+        ],
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "we offer Pipelines for",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " semantic search ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "in text documents, providing a critical building block of",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Retrieval Augmented Generation (RAG) applications.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " More Pipelines will be added in the future for more ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "semantic search use cases,",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306046308955521028"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " such as image search, video frame search and multi-modal search.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RI8wdfuhNoxwobxRQXjc9z9onPd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ingestion ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "p",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "NjKHdMg5AoNFhUxbcrkca4mznde",
+        "block_type": 2,
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ingestion pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "s can",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "process",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " unstructured data into searchable vector embeddings and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "store",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " them in Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Vector Databases",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AMLqdFy6Goqodkxk1UwcNQYZnfg",
+        "block_type": 2,
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "An Ingestion pipeline contains several functions, each describing a transformation of some input field, such as generating vector embeddings for auto-splitted chunks of the input document, or preserving some input value as additional information that can be retrieved during vector search.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D7vHdCmuVodjzsxIiH0cEgM7nKg",
+        "block_type": 2,
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "One Ingestion pipeline maps to exactly one ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Vector Database ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " on Zilliz Cloud. As part of creating the Ingestion ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "p",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ipeline, the collection will be automatically created with the schema inferred from the functions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VzCcdnjUgoJmuhxixmmcRnrin5b",
+        "block_type": 2,
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ingestion pipeline allows two types of functions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NXpNdSfPfolk6yxQHLpcN289nag",
+        "block_type": 5,
+        "comment_ids": [
+          "7303507312722001924"
+        ],
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "INDEX_DOC ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303507312722001924"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "f",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303507312722001924"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "unction",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303507312722001924"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "WYGlddPhFoZjq0xxZzIclFOZn8g",
+        "block_type": 2,
+        "comment_ids": [
+          "7306421507837853700",
+          "7303730250578493444",
+          "7303506938963230723"
+        ],
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The INDEX_DOC function ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "splits",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "input",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306421507837853700"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " text ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306421507837853700"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "document",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7306421507837853700"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " into chunks",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and generates",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector embedding for each chunk. This function maps ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "input field ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_url",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "four ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303730250578493444"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "output fields (",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303730250578493444"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_name",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303506938963230723",
+                    "7303730250578493444"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303506938963230723",
+                    "7303730250578493444"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "chunk_id",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303506938963230723",
+                    "7303730250578493444"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303506938963230723",
+                    "7303730250578493444"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "chunk_text",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303506938963230723",
+                    "7303730250578493444"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303506938963230723",
+                    "7303730250578493444"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "embedding",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303506938963230723",
+                    "7303730250578493444"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303730250578493444"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as the scalar and vector fields of the auto-generated collection. The field names cannot be changed.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303730250578493444"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T8W8djV56owMgxxV96Xcdvm2nfb",
+        "block_type": 34,
+        "children": [
+          "FhcVd23hwox6FKx0AdbcYa05nUd",
+          "DF7ndDqbpoixm5xyfphclF6tn1f"
+        ],
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "quote_container": {}
+      },
+      {
+        "block_id": "FhcVd23hwox6FKx0AdbcYa05nUd",
+        "block_type": 2,
+        "parent_id": "T8W8djV56owMgxxV96Xcdvm2nfb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DF7ndDqbpoixm5xyfphclF6tn1f",
+        "block_type": 2,
+        "parent_id": "T8W8djV56owMgxxV96Xcdvm2nfb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "n Ingestion pipeline requires one and only one INDEX_DOC function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ID20dAtPWoPTwvxeN9VcKQIgnmb",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PRESERVE ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "f",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "unction",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "FNzidG3Sbo0GLqxzbANccM3rnoh",
+        "block_type": 2,
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "PRESERVE ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "function ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "stores ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "user-defined input fields as additional scalar fields in the auto-generated collection for storing metadata. You can use PRESERVE functions to preserve the metadata of your documents. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "A single PRESERVE function preserves one field, and up to five PRESERVE functions can be added to one Ingestion pipeline.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KDkxdJyYSoDvJXxN2GPcpnCkn6e",
+        "block_type": 5,
+        "comment_ids": [
+          "7302313791458033668"
+        ],
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7302313791458033668"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7302313791458033668"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "cr",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7302313791458033668"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "eating a ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7302313791458033668"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "k",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7302313791458033668"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "nowledge ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7302313791458033668"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "b",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7302313791458033668"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ase",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7302313791458033668"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "MUjsdnMvgo98FAxUvPkc19a9nmc",
+        "block_type": 2,
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you have documents and metadata such as author, publish date. You can use the Ingestion pipeline to easily build a knowledge base that supports vector similarity search. The text chunks from the documents, together with its vector embedding and associated metadata will be kept in vector database.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FLAHdjBgXoPmoYxE1mlcgA8cnZj",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-1141%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "XcU2dZYOyoS59zxb5DMcuRBtnUg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "p",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "AmwgdgNmeokhXax2Jb9ckitnnqf",
+        "block_type": 2,
+        "comment_ids": [
+          "7303731857836376068",
+          "7303510135324966913"
+        ],
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Search pipeline enable",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "s",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " semantic search by converting ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303731857836376068"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303731857836376068"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " string",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303731857836376068"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " into ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector embedding and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "then ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "retrieving top-K ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303510135324966913"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "similar vectors ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303510135324966913"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "with its",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303510135324966913"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " corresponding text",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303510135324966913"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and other metadata",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303510135324966913"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " A Search pipeline allows one type of function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LXe7daOuooZwuex3HeKc1Snsnke",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "SEARCH_DOC_CHUNK ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "f",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "unction",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "HZ1fd7JJdoj3Xox34B3ch63kncf",
+        "block_type": 2,
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This function converts ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " text into vector embeddings and retrieves the top-K most relevant document chunks.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NtkJdpAJPoWVA0xaIUocyFd0n0b",
+        "block_type": 5,
+        "comment_ids": [
+          "7302313900488540163"
+        ],
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7302313900488540163"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7302313900488540163"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "retrieving the most relevant entities",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7302313900488540163"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "TKPvdbCHLomjHLx9GsDcRdzLnxe",
+        "block_type": 2,
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you have a collection managed by an Ingestion pipeline, you can use Search pipeline to retrieve the top-K most relevant chunks and their associated information.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XLcfdMwyIoP4Bmx0LdCcX3KTnCe",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-1596%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "X7P1ddUdBoyzgmxSypWciOKendf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Deletion ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "p",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "PkQqdu9R7oVBlQxCtO3cuSANnsg",
+        "block_type": 2,
+        "comment_ids": [
+          "7303732508389670915"
+        ],
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Deletion pipeline ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "removes all chunks in a specified document from a collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "A Deletion pipeline allows",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7303732508389670915"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "one type of function.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DzdUd1r5konKyQxf7e8c6aWbn2d",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PURGE_DOC_INDEX ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "f",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "unction",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "T03XdMzvjooAi2xmH28ce4TWnP7",
+        "block_type": 2,
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This function deletes all document chunks with the specified ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "doc_name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", effectively removing the entire document.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RNd7dmSVborXQWxh9YfcN9xznih",
+        "block_type": 5,
+        "comment_ids": [
+          "7302313868474712068"
+        ],
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example: Easily purge all data of a document",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7302313868474712068"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "Q1ufdNBXeobCLhxjhwycKc5YnUe",
+        "block_type": 2,
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For a collection managed by Ingestion pipeline, deleting all entities (each with a single doc chunk) of a document is made easy with a Deletion pipeline. Simply create a Deletion pipeline and run it with a doc_name specified. All chunks of that doc will be purged.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LdNud2xHko0TfHxW4rtc2MGTnQe",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-2056%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+          }
+        },
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
+      },
+      {
+        "block_id": "C13rdq67ZoldIXxbZMoc8EI1nrf",
+        "block_type": 2,
+        "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 36
+  }
+}

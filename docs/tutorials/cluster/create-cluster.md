@@ -1,7 +1,8 @@
 ---
-slug: /docs/create-cluster
+slug: /create-cluster
 beta: FALSE
 notebook: FALSE
+token: U0Bsw2SZaihm2mkLza7cRCqTndg
 sidebar_position: 1
 ---
 
@@ -29,12 +30,13 @@ Ensure:
 1. Select the appropriate organization and project.
 
 1. Click **+ Create Cluster**.
+
     ![create_cluster_01](/img/create_cluster_01.png)
 
 1. In the **Create New Cluster** section, choose the **Starter** plan and fill in the required parameters. 
-    <Admonition type="info" icon="📘" title="Notes">    
-    
-    
+
+    <Admonition type="info" icon="📘" title="Notes">
+
     Each user is permitted one free serverless cluster. For additional clusters, opt for the Standard or Enterprise plans.
 
     </Admonition>
@@ -49,16 +51,17 @@ Ensure:
 1. Process with **Next: Create Collection**. 
 
 1. In the **Create Collection for Your New Cluster** section, select **New Collection**.
+
     ![create_cluster_03](/img/create_cluster_03.png)
 
     Specify the parameters for the new collection as below:
 
-    |  **Parameter**       |  **Description**                                                                                                                                                                                                                                                                                                                       |
-    | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    |  **Collection name** |  The name of the collection.                                                                                                                                                                                                                                                                                                           |
-    |  **Dimension**       |  The dimension of the vector data in the collection. The default value is 768.                                                                                                                                                                                                                                                         |
-    |  **Metric Type**     |  The metric type measures the similarity between vectors. Valid values:<br/> <br/>  - Euclidean: measures the distance between two vectors in a plane. The smaller the result, the more similar the two vectors.<br/> <br/>  - Inner product: multiplies two vectors. The more positive the result, the more similar the two vectors.<br/>  |
-    |  **Description**     |  The description of the collection. This parameter is optional.                                                                                                                                                                                                                                                                        |
+    |  **Parameter**       |  **Description**                                                                                                                                                                                                                                                                                                                            |
+    | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    |  **Collection name** |  The name of the collection.                                                                                                                                                                                                                                                                                                                |
+    |  **Dimension**       |  The dimension of the vector data in the collection. The default value is 768.                                                                                                                                                                                                                                                              |
+    |  **Metric Type**     |  The metric type measures the similarity between vectors. Valid values:<br/> <br/>  - Euclidean: measures the distance between two vectors in a plane. The smaller the result, the more similar the two vectors.<br/> <br/>  - Inner product: multiplies two vectors. The more positive the result, the more similar the two vectors.<br/> <br/>  |
+    |  **Description**     |  The description of the collection. This parameter is optional.                                                                                                                                                                                                                                                                             |
 
 1. Click **Create Collection and Cluster**.  A dialog box will display the public endpoint and API key for the cluster. Record these details for future access.
 
@@ -69,6 +72,7 @@ Ensure:
 1. Select the desired organization and project.
 
 1. Click **+ Create Cluster**.
+
     ![create_cluster_01](/img/create_cluster_01.png)
 
 1. On the **Create New Cluster** page, opt for the **Standard** or **Enterprise** plan and fill out the relevant parameters.
@@ -103,3 +107,4 @@ After you create the cluster, you can check its status on the cluster list page.
 - [Drop Collection](./drop-collection) 
 
 - [Example Dataset](./example-dataset) 
+

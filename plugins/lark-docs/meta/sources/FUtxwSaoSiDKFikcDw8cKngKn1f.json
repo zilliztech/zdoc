@@ -1,0 +1,576 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689062734",
+  "node_token": "FUtxwSaoSiDKFikcDw8cKngKn1f",
+  "node_type": "origin",
+  "obj_create_time": "1689062734",
+  "obj_edit_time": "1693377853",
+  "obj_token": "BvUwdOP7roWBYkxyGWMcKXo9nOb",
+  "obj_type": "docx",
+  "origin_node_token": "FUtxwSaoSiDKFikcDw8cKngKn1f",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
+  "space_id": "7167193056431783939",
+  "title": "Set up Maintenance Window",
+  "slug": "set-up-maintenance-window",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb",
+        "block_type": 1,
+        "children": [
+          "KlM9ddRJuoYKDyxg2rXcvSZUnWf",
+          "EOytdAHDGoqQC5x24lFcCfLGnig",
+          "O81HdfowpoUVSDx078LcUjFAnKg",
+          "XW2WduUbYoBA9UxxJrbc4gHcnwp",
+          "DWEMd2l0JoQRHIxo7Pjc7YBpnlb",
+          "YjZid9PW0onrO9x2xnccklwgnCb",
+          "IIwIdzK1tok287xJJo2cEOf4nzh",
+          "U26tdBzcloKtl5xW1y1cS1aBnyg",
+          "CcUcdevSPoRaJXxibSyc201mn5f",
+          "BXldd3bp3oSJ9Ux6uj6cM1yHnJd",
+          "SKRQd1HtCoM9UrxHa9Hc5AhxnXc",
+          "QBbUd5X0RovegsxDPjrc7mOPnig",
+          "HhKCdT7aLoNy1RxIUFccX3yKnlg",
+          "TBaOdUipxor39JxcJL9cut0Xnjf"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set up Maintenance Window",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "KlM9ddRJuoYKDyxg2rXcvSZUnWf",
+        "block_type": 2,
+        "parent_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can set up a maintenance window to allow Zilliz Cloud to schedule maintenance for your hosted cluster. This makes impactful maintenance events more predictable and less disruptive for your workload.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EOytdAHDGoqQC5x24lFcCfLGnig",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5812-1688%26t%3DWiVR6us0KUmNWAVU-4"
+          }
+        },
+        "parent_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb"
+      },
+      {
+        "block_id": "O81HdfowpoUVSDx078LcUjFAnKg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb"
+      },
+      {
+        "block_id": "XW2WduUbYoBA9UxxJrbc4gHcnwp",
+        "block_type": 2,
+        "parent_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, the maintenance window setting is global and applies to all clusters hosted on Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DWEMd2l0JoQRHIxo7Pjc7YBpnlb",
+        "block_type": 2,
+        "parent_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "By default, Zilliz Cloud blocks most impactful updates from 0 AM to 2 PM local time daily to avoid disruptions during peak business hours. You will receive a notification in advance for an upcoming maintenance event on a specific day. On that day, Zilliz Cloud takes action during the preferred window hours.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YjZid9PW0onrO9x2xnccklwgnCb",
+        "block_type": 2,
+        "parent_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A maintenance event usually lasts two hours and may cause service interruptions. The default maintenance window is between 2 AM and 4 AM local time. You can adjust the maintenance window by selecting an option in \"Preferred Time\" to fit your needs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IIwIdzK1tok287xJJo2cEOf4nzh",
+        "block_type": 2,
+        "parent_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You will receive another notification after a maintenance event has finished. Zilliz Cloud also lists the start and end of every maintenance event in \"Activities\" for further checks in case you miss the notifications.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "U26tdBzcloKtl5xW1y1cS1aBnyg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View current window hours",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb"
+      },
+      {
+        "block_id": "CcUcdevSPoRaJXxibSyc201mn5f",
+        "block_type": 2,
+        "parent_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To view the current time zone, choose ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the left navigation pane and find the currently applied maintenance window hours under ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Window Hours",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "System Maintenance Window",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " area.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BXldd3bp3oSJ9Ux6uj6cM1yHnJd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Edit current window hours",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb"
+      },
+      {
+        "block_id": "SKRQd1HtCoM9UrxHa9Hc5AhxnXc",
+        "block_type": 2,
+        "parent_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To change the system maintenance window hours, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Edit",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to open the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Maintenance Window Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " dialog box, and select a time window from the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Window Hours",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " drop-down list.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QBbUd5X0RovegsxDPjrc7mOPnig",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb"
+      },
+      {
+        "block_id": "HhKCdT7aLoNy1RxIUFccX3yKnlg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Timezone",
+                "token": "MLIRwRbrtiawJgkMEdOcPQnRnVf",
+                "url": "https://zilliverse.feishu.cn/wiki/MLIRwRbrtiawJgkMEdOcPQnRnVf"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FManage-Timezone-cbff58ff62b14b7e8fda7805c7a7945b%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb"
+      },
+      {
+        "block_id": "TBaOdUipxor39JxcJL9cut0Xnjf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Organization Information",
+                "token": "BX8nwr7eHiZY3CkHnuYcGCj1n4e",
+                "url": "https://zilliverse.feishu.cn/wiki/BX8nwr7eHiZY3CkHnuYcGCj1n4e"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BvUwdOP7roWBYkxyGWMcKXo9nOb"
+      }
+    ],
+    "counts": 15
+  }
+}

@@ -1,7 +1,8 @@
 ---
-slug: /docs/a-panorama-view
+slug: /a-panorama-view
 beta: FALSE
 notebook: FALSE
+token: CA04wUpF0id2sckrZjqcAOZGnnz
 sidebar_position: 1
 ---
 
@@ -24,7 +25,7 @@ Zilliz Cloud facilitates access control across three distinct scopes:
 
 Organizations serve as a means to group projects that share common objectives, such as encompassing all projects under a particular business unit.
 
-In an organization, you can create several projects and manage organization-level resources, including [billing](/docs/payment-billing), [organization members](./manage-orgs-and-members), [activities](./view-activities), [organization settings](/docs/organization-settings), and [recycle bin](./use-recycle-bin).
+In an organization, you can create several projects and manage organization-level resources, including [billing](./payment-billing), [organization members](./manage-orgs-and-members), [activities](./view-activities), [organization settings](./organization-settings), and [recycle bin](./use-recycle-bin).
 
 ![a-panorama-view-2](/img/a-panorama-view-2.png)
 
@@ -32,7 +33,7 @@ In an organization, you can create several projects and manage organization-leve
 
 Projects are logical containers within an organization that group clusters and other associated resources.
 
-In a project, you can create several clusters and manage cluster-level resources, including [project collaborators](./manage-projects-and-collaborator), [API keys](./manage-api-keys), [security](/docs/security), and [monitoring](/docs/monitors-metrics).
+In a project, you can create several clusters and manage cluster-level resources, including [project collaborators](./manage-projects-and-collaborator), [API keys](./manage-api-keys), [security](./security), and [monitoring](./monitors-metrics).
 
 ![a-panorama-view-3](/img/a-panorama-view-3.png)
 
@@ -88,3 +89,4 @@ At the project level, two roles are introduced to enable finer-grained access co
 - [Delete Your Organization](./delete-your-org)
 
 - [Manage Projects and Collaborators](./manage-projects-and-collaborator)
+

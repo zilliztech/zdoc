@@ -1,0 +1,655 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689055221",
+  "node_token": "EcMiwjPhRiwTL0kHuvjcaW1Bng1",
+  "node_type": "origin",
+  "obj_create_time": "1689055221",
+  "obj_edit_time": "1699511005",
+  "obj_token": "VTeCdbeqhoHPaFxmDKIcNYVinfg",
+  "obj_type": "docx",
+  "origin_node_token": "EcMiwjPhRiwTL0kHuvjcaW1Bng1",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
+  "space_id": "7167193056431783939",
+  "title": "Delete Entities",
+  "slug": "delete-entities",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg",
+        "block_type": 1,
+        "children": [
+          "QvH5d7ltlohu8axvNctchbGNnEc",
+          "MfMDdoHTFo9AX4xKXUocwoi8nFb",
+          "MCPld8SRso9M5RxMDX6cj1BBnBf",
+          "CULZdbLhXo6gawxqWMqcaYQUnKc",
+          "LGnXd8HSdoHSkVxo1ZYcMhESnod",
+          "KrOOdjlteoFm9VxLHjscP10AnEe",
+          "VjzXdHuFzo1ZuqxeOUjcx3minHe",
+          "PfYqdur8Ko704zxBBlCch63Rnwe",
+          "Mmw3dJB1moTbS8xxWHPcnvUJnJd",
+          "UDycdruQGoEyDzxQA8VcP6SvnGg",
+          "NhzfdT1a2ojDSzx7MaTcynu4ntq",
+          "BjpIdTllAoQobOxveWQcCkkynwh",
+          "PVFrdahzrofQ9IxXh0ZcjqTunwd",
+          "DoWGdsqlJoBqi6xmhuMcQ43An3g"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Delete Entities",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "QvH5d7ltlohu8axvNctchbGNnEc",
+        "block_type": 2,
+        "parent_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Entities on Zilliz Cloud refer to data objects stored in a cluster, containing data for processing, search, and queries. If an entity is no longer needed, you can perform operations to delete it.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MfMDdoHTFo9AX4xKXUocwoi8nFb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Delete entities",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg"
+      },
+      {
+        "block_id": "MCPld8SRso9M5RxMDX6cj1BBnBf",
+        "block_type": 2,
+        "parent_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If an entity is outdated or no longer needed, you can run the following sample code to delete it:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CULZdbLhXo6gawxqWMqcaYQUnKc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Starter API\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Delete a single entity using a MilvusClient object\nfrom pymilvus import MilvusClient\n\nres = client.delete(\n    collection_name=\"medium_articles_2020\", # Collection name\n    pks=253 # Entity ID, Use a list for multiple entities, such as [246, 253]\n)\n\nprint(res)\n\n# Output:\n# [253]\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# =============\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Advanced API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\n# Delete a single entity using a Collection object\nfrom pymilvus import Collection\n\ncollection.delete(expr=\"id in [253]\") \n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Include the IDs of all entities to delete in the expr, such as 'id in [246, 253]'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg"
+      },
+      {
+        "block_id": "LGnXd8HSdoHSkVxo1ZYcMhESnod",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "async function main () {\n\n    // Continued\n\n    res = await client.delete({\n        collection_name: \"medium_articles_2020\",\n        ids: [253] // Include the IDs of all entities to delete, such as [246, 253]\n    });\n    \n    console.log(res)\n    \n    // Output\n    //  {\n    //   succ_index: [],\n    //   err_index: [],\n    //   status: { error_code: 'Success', reason: '' },\n    //   IDs: { int_id: { data: [Array] }, id_field: 'int_id' },\n    //   acknowledged: false,\n    //   insert_cnt: '0',\n    //   delete_cnt: '1',\n    //   upsert_cnt: '0',\n    //   timestamp: '442192913812684801'\n    // }\n    \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg"
+      },
+      {
+        "block_id": "KrOOdjlteoFm9VxLHjscP10AnEe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import java.util.List;\n\nimport io.milvus.param.highlevel.dml.DeleteIdsParam;\nimport io.milvus.param.highlevel.dml.response.DeleteResponse;\n\npublic class UseCustomizedSchemaDemo \n{\n    public static void main( String[] args )\n    {\n        // (Continued)\n        String data_file = \"/medium_articles_2020_dpr.json\";\n        String content;\n\n        // read a local file\n        Path file = Path.of(data_file);\n        try {\n            content = Files.readString(file);\n        } catch (Exception e) {\n            System.err.println(\"Failed to read file: \" + e.getMessage());\n            return;\n        }\n\n        System.out.println(\"Successfully read file\");\n\n        // Output:\n        // Successfully read file\n\n        // Load dataset\n        JSONObject dataset = JSON.parseObject(content);\n\n        // Insert your data in rows, all the fields not pre-defined in the schema \n        // are recognized as pre-defined schema\n        List<JSONObject> rows = getRows(dataset.getJSONArray(\"rows\"), 1000);\n        \n        List<String> ids = Lists.newArrayList(\"1\");\n        // List<String> ids = Lists.newArrayList(\"1\", \"2\", \"3\");\n        \n        DeleteIdsParam deleteParam = DeleteIdsParam.newBuilder()\n                .withCollectionName(collectionName)\n                .withPrimaryIds(ids)\n                .build();\n\n        R<DeleteResponse> deleteRes = client.delete(deleteParam);\n\n        if (deleteRes.getException() != null) {\n            System.err.println(\"Failed to delete: \" + deleteRes.getException().getMessage());\n            return;\n        }\n\n        System.out.println(deleteRes.getData().toString());\n\n        // Output:\n        // deleteIds=[]\n    }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg"
+      },
+      {
+        "block_id": "VjzXdHuFzo1ZuqxeOUjcx3minHe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "func main() {\n\n    // (Continued)\n    \n    err = conn.Delete(context.Background(), COLLNAME, \"\", \"id in [253]\")\n    // err = conn.Delete(context.Background(), COLLNAME, \"\", \"id in [253, 254]\")\n\n    if err != nil {\n        log.Fatal(\"Failed to delete rows:\", err.Error())\n    }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg"
+      },
+      {
+        "block_id": "PfYqdur8Ko704zxBBlCch63Rnwe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "curl --request POST \\\n     --url \"${PUBLIC_ENDPOINT}/v1/vector/delete\" \\\n     --header \"Authorization: Bearer ${API_KEY}\" \\\n     --header 'accept: application/json' \\\n     --header 'content-type: application/json' \\\n     --data \"{\n        \\\"collectionName\\\": \\\"medium_articles_2020\\\",\n        \\\"id\\\": 253\n      }\"\n\n# Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# {\"code\":200,\"data\":{}}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg"
+      },
+      {
+        "block_id": "Mmw3dJB1moTbS8xxWHPcnvUJnJd",
+        "block_type": 2,
+        "parent_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The preceding code deletes an entity with ID ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "253",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from collection ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "medium_articles_2020",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UDycdruQGoEyDzxQA8VcP6SvnGg",
+        "block_type": 34,
+        "children": [
+          "WLOQdPS9moP3gYxmXy5c9bW6ncb",
+          "KiAvd5HTqohhpjx6T6ucV5cWnSc"
+        ],
+        "parent_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg",
+        "quote_container": {}
+      },
+      {
+        "block_id": "WLOQdPS9moP3gYxmXy5c9bW6ncb",
+        "block_type": 2,
+        "parent_id": "UDycdruQGoEyDzxQA8VcP6SvnGg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "🚧 Warning",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KiAvd5HTqohhpjx6T6ucV5cWnSc",
+        "block_type": 2,
+        "parent_id": "UDycdruQGoEyDzxQA8VcP6SvnGg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Deleting entities is an irreversible operation. Make sure you have a backup or the data is no longer needed before proceeding with the operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NhzfdT1a2ojDSzx7MaTcynu4ntq",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg"
+      },
+      {
+        "block_id": "BjpIdTllAoQobOxveWQcCkkynwh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Collection",
+                "token": "QnKCw0v4TiFkITkneCmcy0mZnre",
+                "url": "https://zilliverse.feishu.cn/wiki/QnKCw0v4TiFkITkneCmcy0mZnre"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg"
+      },
+      {
+        "block_id": "PVFrdahzrofQ9IxXh0ZcjqTunwd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Insert Entities",
+                "token": "HBZTwCHa6iTDE0kqNqZc5OJ8nqg",
+                "url": "https://zilliverse.feishu.cn/wiki/HBZTwCHa6iTDE0kqNqZc5OJ8nqg"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FInsert-Entities-375dd098632d4a5297617a51c69c7967%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg"
+      },
+      {
+        "block_id": "DoWGdsqlJoBqi6xmhuMcQ43An3g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Search and Query",
+                "token": "YfMEwLHzeisARCk4VZ3cVhJmnjd",
+                "url": "https://zilliverse.feishu.cn/wiki/YfMEwLHzeisARCk4VZ3cVhJmnjd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FSearch-and-Query-40930370867642c6b8b65249cfb58c5b%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VTeCdbeqhoHPaFxmDKIcNYVinfg"
+      }
+    ],
+    "counts": 17
+  }
+}

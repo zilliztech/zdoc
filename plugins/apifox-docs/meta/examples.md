@@ -167,19 +167,19 @@ Success response:
 {
     "code": 200,
     "data": {
-       "clusterId": "string",
-       "clusterName": "string",
-       "description": "string",
-       "regionId": "string",
-       "clusterType": "string",
-       "cuSize": "string",
-       "status": "string",
-       "connectAddress": "string",
-       "privateLinkAddress": "string",
-       "createTime": "string",
-       "storageSize": "string",
-       "snapshotNumber": "string",
-       "createProgress": "string"
+        "clusterId": "in03-45a099b7822fb6a",
+        "clusterName": "Cluster-01",
+        "description": "",
+        "regionId": "gcp-us-west1",
+        "clusterType": "",
+        "cuSize": 0,
+        "status": "RUNNING",
+        "connectAddress": "https://in03-45a099b7822fb6a.api.gcp-us-west1.cloud-uat3.zilliz.com",
+        "privateLinkAddress": "",
+        "createTime": "2023-12-12T11:32:43Z",
+        "storageSize": 0,
+        "snapshotNumber": 0,
+        "createProgress": 100
     }
 }
 ```

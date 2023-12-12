@@ -1,7 +1,8 @@
 ---
-slug: /docs/restore-from-snapshot
+slug: /restore-from-snapshot
 beta: FALSE
 notebook: FALSE
+token: Dd6jwYIGiiz6HWkEPJqcpMA3n6g
 sidebar_position: 4
 ---
 
@@ -41,3 +42,4 @@ After the status of the target cluster changes from **CREATING** to **RESTORING*
 - [View Snapshot Details](./view-snapshot-details) 
 
 - [Delete Snapshot](./delete-snapshot) 
+

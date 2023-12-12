@@ -1,7 +1,8 @@
 ---
-slug: /docs/migrate-from-elasticsearch
+slug: /migrate-from-elasticsearch
 beta: FALSE
 notebook: FALSE
+token: Y8nwwbi0KiwtVZkMaSQcsPcwnkf
 sidebar_position: 2
 ---
 
@@ -98,3 +99,4 @@ Review the table below to understand how Elasticsearch field types map to Zilliz
 - [Insert Entities](./insert-entities)
 
 - [AUTOINDEX Explained](./autoindex-explained)
+

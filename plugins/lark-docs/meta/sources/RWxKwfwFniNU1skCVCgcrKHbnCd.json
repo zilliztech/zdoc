@@ -1,0 +1,1319 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689058962",
+  "node_token": "RWxKwfwFniNU1skCVCgcrKHbnCd",
+  "node_type": "origin",
+  "obj_create_time": "1689058962",
+  "obj_edit_time": "1699860255",
+  "obj_token": "Caamd7cfqo8ip0x5SZ4cJaaxnbI",
+  "obj_type": "docx",
+  "origin_node_token": "RWxKwfwFniNU1skCVCgcrKHbnCd",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "M1PDwYLKsi4TQRka9xUcDhMjnzc",
+  "space_id": "7167193056431783939",
+  "title": "Question Answering Using Zilliz Cloud and HuggingFace",
+  "slug": "question-answering-using-zilliz-cloud-and-hugging-face",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI",
+        "block_type": 1,
+        "children": [
+          "T8oQdTalFoX9aVxg8qOcaFfWnCd",
+          "UpQxdu9uEoCry3xRJV6c88NfnZb",
+          "PzeIdH2kvowEbzxBnLucv6TUnXf",
+          "HCV6dwro2oxmLrxGdvvcpKhVnAh",
+          "A3QgdCDEKoMs9nxe7f4cxDfHnVE",
+          "ITn8dKbjaoMhiqx9NFDcIDVTnyh",
+          "L9yIdqFzhoO6AcxTKHlclrYfnHd",
+          "Rq5sdcJc7orgDkxwQT0c7rzEnBe",
+          "LkkOdTeqOoTFjgxP7O9cRE0gnab",
+          "QJGFddkmsos3iWxo4PDcjUDKnkd",
+          "FPfudjNeCofwFSxs4w1cTafhncg",
+          "Rv8tdFbtyoGHfOxfMFdcEfATnkf",
+          "AFnkdVGtwoNkKqxf7aGclMOcnDf",
+          "FobHdz6EYoPT7Sxlf1ic4iFxnFc",
+          "LWfBdIZTboRhOgxBev5cRzNFneh",
+          "LOzydaikGoGYn2xigu8czoCjnGg",
+          "CttBdDm3RohBTdx930bcxlXHnae",
+          "G1zydJED5o6yNgxp2vqcd56enwb",
+          "DUN0dtoXfoqCE1xuqr8co2qMnFh",
+          "FwuXdhoYVoQZqcxXAwccCmGKnze",
+          "Gd8KddytMou3mJxMdKIc608incg",
+          "WfQTdS9mToq8BZx9jZOcrY5rnKh",
+          "BCF5dM0lKo1haSxcyBvcKCOAn2d",
+          "CHqYdWgwroKESMxig3ZciYwnnGb",
+          "PnhwdxAe7omd2px4vTOcdOggnvh",
+          "FdKjdPfyNoP0WBxMGFLcC7XSnPe",
+          "ZtFfdRnlAoR0LJxbDuXcA7Sin2g",
+          "BHVBdogrno6bo0xLrjTcR1Qgned",
+          "LiOmdkeGToMNHnxFLfjcyY7snye",
+          "UFVDdomRUo20NYxEDNxcrfaTnfd",
+          "ClQYdW3hNoaQs4xTU3TctxwsnCh",
+          "SY2ddhQ6uopPqjxPTSPc09sPnlc"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Question Answering Using Zilliz Cloud and HuggingFace",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "T8oQdTalFoX9aVxg8qOcaFfWnCd",
+        "block_type": 2,
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This page illustrates how to build a question-answering system using Zilliz Cloud as the vector database and Hugging Face as the embedding system.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UpQxdu9uEoCry3xRJV6c88NfnZb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "PzeIdH2kvowEbzxBnLucv6TUnXf",
+        "block_type": 2,
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The code snippets on this page require the following packages to be installed: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pymilvus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "transformers",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "datasets",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". The packages ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "transformers",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "datasets",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " are the Hugging Face packages to create the pipeline, and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pymilvus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is the client for Zilliz Cloud. If these packages are not present on your system, run the following commands to install them:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HCV6dwro2oxmLrxGdvvcpKhVnAh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pip install transformers datasets pymilvus torch",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "A3QgdCDEKoMs9nxe7f4cxDfHnVE",
+        "block_type": 2,
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Then you need to load the modules to be used in this guide.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ITn8dKbjaoMhiqx9NFDcIDVTnyh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import connections, DataType, CollectionSchema, FieldSchema, Collection, utility\nfrom datasets import load_dataset_builder, load_dataset, Dataset\nfrom transformers import AutoTokenizer, AutoModel\nfrom torch import clamp, sum\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "import time",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "L9yIdqFzhoO6AcxTKHlclrYfnHd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "Rq5sdcJc7orgDkxwQT0c7rzEnBe",
+        "block_type": 2,
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Here we can find the parameters used in the following snippets. Some of them need to be changed to fit your environment. Beside each is a description of what it is.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LkkOdTeqOoTFjgxP7O9cRE0gnab",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 1. Set the name of a dataset available on HuggingFace.\nDATASET = 'squad' \n\n# 2. Set parameters for the generation of a subset of the dataset.\nMODEL = 'bert-base-cased'\nTOKENIZATION_BATCH_SIZE = 1000\nINFERENCE_BATCH_SIZE = 64\nINSERT_RATIO = 0.01\n\n# 3. Set up the name of the collection to be created.\nCOLLECTION_NAME = 'huggingface_db'\n\n# 4. Set up the dimension of the embeddings.\nDIMENSION = 768\n\n# 5. Set the number of records to return.\nLIMIT = 100\n\n# 6. Set up the connection parameters for your Zilliz Cloud cluster.\nURI = 'YOUR_CLUSTER_ENDPOINT'\nTOKEN = 'YOUR_CLUSTER_TOKEN'\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "QJGFddkmsos3iWxo4PDcjUDKnkd",
+        "block_type": 2,
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To know more about the model and dataset used on this page, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "bert-base-uncased",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fhuggingface.co%2Fbert-base-uncased"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "squad",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fhuggingface.co%2Fdatasets%2Fsquad"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FPfudjNeCofwFSxs4w1cTafhncg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "Rv8tdFbtyoGHfOxfMFdcEfATnkf",
+        "block_type": 2,
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This section deals with Zilliz Cloud and setting up the cluster for this use case. Within Zilliz Cloud, we need to set up a collection and index it.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AFnkdVGtwoNkKqxf7aGclMOcnDf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Connect to Zilliz Cloud and create a collection\n\nconnections.connect(\n    alias='default',\n    # Public endpoint obtained from Zilliz Cloud\n    uri=URI,\n    token=TOKEN\n)\n\nif COLLECTION_NAME in utility.list_collections():\n    utility.drop_collection(COLLECTION_NAME)\n\nfields = [\n    FieldSchema(name='id', dtype=DataType.INT64, is_primary=True, auto_id=True),\n    FieldSchema(name='original_question', dtype=DataType.VARCHAR, max_length=1000),\n    FieldSchema(name='answer', dtype=DataType.VARCHAR, max_length=1000),\n    FieldSchema(name='original_question_embedding', dtype=DataType.FLOAT_VECTOR, dim=DIMENSION)\n]\n\nschema = CollectionSchema(fields=fields)\n\ncollection = Collection(\n    name=COLLECTION_NAME,\n    schema=schema,\n)\n\nindex_params = {\n    'metric_type': 'L2',\n    'index_type': 'AUTOINDEX',\n    'params': {}\n}\n\ncollection.create_index(\n    field_name='original_question_embedding',\n    index_params=index_params\n)\n\ncollection.load()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "FobHdz6EYoPT7Sxlf1ic4iFxnFc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Insert data",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "LWfBdIZTboRhOgxBev5cRzNFneh",
+        "block_type": 2,
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once we have the collection set up, we need to start inserting our data. This is done in three steps",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LOzydaikGoGYn2xigu8czoCjnGg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "tokenizing the original question,",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "CttBdDm3RohBTdx930bcxlXHnae",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "embedding the tokenized question, and",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "G1zydJED5o6yNgxp2vqcd56enwb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "inserting the embedding, original question, and answer.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "DUN0dtoXfoqCE1xuqr8co2qMnFh",
+        "block_type": 2,
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this example, the data includes the original question, the original question's embedding, and the answer to the original question.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FwuXdhoYVoQZqcxXAwccCmGKnze",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Load the dataset and extract a subset\n\ndata_dataset = load_dataset(DATASET, split='all')\ndata_dataset = data_dataset.train_test_split(test_size=INSERT_RATIO, seed=42)['test']\ndata_dataset = data_dataset.map(\n    lambda val: {'answer': val['answers']['text'][0]}, \n    remove_columns=['answers']\n)\n\ntokenizer = AutoTokenizer.from_pretrained(MODEL)\n\n# Tokenize the question into the format that BERT takes\ndef tokenize_question(batch):\n    results = tokenizer(\n        batch['question'],\n        add_special_tokens=True,\n        truncation=True,\n        padding = \"max_length\", \n        return_attention_mask = True, \n        return_tensors = \"pt\"\n    )\n\n    batch['input_ids'] = results['input_ids']\n    batch['token_type_ids'] = results['token_type_ids']\n    batch['attention_mask'] = results['attention_mask']\n\n    return batch\n\n# Generate the tokens for each entry\ndata_dataset = data_dataset.map(\n    tokenize_question, \n    batched=True, \n    batch_size=TOKENIZATION_BATCH_SIZE\n)\n\n# Set the output format to torch so it can be pushed into embedding model\ndata_dataset.set_format(\n    type='torch', \n    columns=['input_ids', 'token_type_ids', 'attention_mask'],\n    output_all_columns=True\n)\n\n# Embed the tokenized question and take the mean pool with respect to attention mask of hidden layer\n\nmodel = AutoModel.from_pretrained(MODEL)\n\ndef embed(batch):\n    sentence_embs = model(\n        input_ids=batch['input_ids'],\n        token_type_ids=batch['token_type_ids'],\n        attention_mask=batch['attention_mask']\n    )[0]\n    input_mask_expanded = batch['attention_mask'].unsqueeze(-1).expand(sentence_embs.size()).float()\n    batch['question_embedding'] = sum(sentence_embs * input_mask_expanded, 1) / clamp(input_mask_expanded.sum(1), min=1e-9)\n    return batch\n\ndata_dataset = data_dataset.map(\n    embed, \n    batched=True, \n    batch_size=INFERENCE_BATCH_SIZE,\n    remove_columns=['input_ids', 'token_type_ids', 'attention_mask']\n)\n\n# Due to the varchar constraint we are going to limit the question size when inserting\ndef insert_function(batch):\n    insertable = [\n        {\n            'original_question': x,\n            'answer': batch['answer'][i],\n            'original_question_embedding': batch['question_embedding'].tolist()[i]\n        } for i, x in enumerate(batch['question'])\n    ]\n\n    collection.insert(data=insertable)\n\ndata_dataset.map(insert_function, batched=True, batch_size=64)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "time.sleep(5)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "Gd8KddytMou3mJxMdKIc608incg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ask questions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "WfQTdS9mToq8BZx9jZOcrY5rnKh",
+        "block_type": 2,
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once all the data is inserted and indexed within Zilliz Cloud, we can ask questions and see what the closest answers are.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BCF5dM0lKo1haSxcyBvcKCOAn2d",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "questions = {'question':['When did the premier league start?', 'Where did people learn russian?']}\nquestion_dataset = Dataset.from_dict(questions)\n\nquestion_dataset = question_dataset.map(tokenize_question, batched = True, batch_size=TOKENIZATION_BATCH_SIZE)\nquestion_dataset.set_format('torch', columns=['input_ids', 'token_type_ids', 'attention_mask'], output_all_columns=True)\nquestion_dataset = question_dataset.map(embed, remove_columns=['input_ids', 'token_type_ids', 'attention_mask'], batched = True, batch_size=INFERENCE_BATCH_SIZE)\n\ndef search(batch):\n    res = collection.search(\n        data=batch['question_embedding'].tolist(),\n        anns_field='original_question_embedding',\n        param={},\n        output_fields=['answer', 'original_question'], \n        limit = LIMIT\n    )\n    overall_id = []\n    overall_distance = []\n    overall_answer = []\n    overall_original_question = []\n    for hits in res:\n        overall_id.append(hits.ids)\n        overall_distance.append(hits.distances)\n        overall_answer.append([ x.entity.get(\"answer\") for x in hits])\n        overall_original_question.append([ x.entity.get(\"original_question\") for x in hits])\n    return {\n        'id': overall_id,\n        'distance': overall_distance,\n        'answer': overall_answer,\n        'original_question': overall_original_question\n    }\nquestion_dataset = question_dataset.map(search, batched=True, batch_size = 1)\n\nret = \"\"\n\nfor x in question_dataset:\n    ret += \"\\n\\n\"\n    ret += \"Question:\\n\"\n    ret += x[\"question\"] + \"\\n\"\n    ret += \"Answer, Distance, Original Question\\n\"\n    for x in zip(x[\"answer\"], x[\"distance\"], x[\"original_question\"]):\n        ret += str(x) + \"\\n\"\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    print(ret)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "CHqYdWgwroKESMxig3ZciYwnnGb",
+        "block_type": 2,
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output would vary with the subset of data you have downloaded if you leave ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FCaamd7cfqo8ip0x5SZ4cJaaxnbI%23FobHdz6EYoPT7Sxlf1ic4iFxnFc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "seed",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FCaamd7cfqo8ip0x5SZ4cJaaxnbI%23FobHdz6EYoPT7Sxlf1ic4iFxnFc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " parameter of the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FCaamd7cfqo8ip0x5SZ4cJaaxnbI%23FobHdz6EYoPT7Sxlf1ic4iFxnFc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "train_test_split()",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FCaamd7cfqo8ip0x5SZ4cJaaxnbI%23FobHdz6EYoPT7Sxlf1ic4iFxnFc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " method",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FCaamd7cfqo8ip0x5SZ4cJaaxnbI%23FobHdz6EYoPT7Sxlf1ic4iFxnFc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " unspecified, and should be similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PnhwdxAe7omd2px4vTOcdOggnvh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Output\n#\n# Question:\n# When did the premier league start?\n# Answer, Distance, Original Question\n# ('1992', tensor(15.8973), 'In what year was the Premier League created?')\n# ('mid-fifteenth century', tensor(21.2091), 'When did Sikhism begin?')\n# ('around July 3', tensor(21.5117), \"When does Tucson's monsoon usually start?\")\n# ('March 20, 1880', tensor(21.7186), 'When did Tucson get a railroad?')\n# ('the Football Bowl Subdivision', tensor(22.8579), 'What is the name of the highest level of college football?')\n# ('the district of Germersheim', tensor(23.1635), 'When did the expert commission deliver its report?')\n# ('at an Earth Day rally', tensor(23.4384), 'Where did Kerry and Teresa meet?')\n# ('April 26', tensor(23.4490), 'When did the torch arrive in Nagano?')\n# ('1630', tensor(23.5346), 'When was Boston founded?')\n# ('with the signing of the Treaty of Coche by both the centralist government of the time and the Federal Forces', tensor(23.6430), 'How did the federal war end? ')\n\n\n# Question:\n# Where did people learn russian?\n# Answer, Distance, Original Question\n# ('accomplishments', tensor(23.7489), 'What did Czech historians emphasize about their countrymen?')\n# ('people were asked to rate themselves on a scale from completely heterosexual to completely homosexual.', tensor(23.7928), 'What where people asked to do in these research studies?')\n# ('Wardenclyffe', tensor(24.7777), 'What did Tesla establish following his Colorado experiments?')\n# ('traders', tensor(26.1855), 'Along with fishermen, what sort of Japanese people visited the Marshalls?')\n# ('1816 to 1821', tensor(26.2205), 'During what years did Chopin receive instruction from  Żywny?')\n# ('Poland, Bulgaria, the Czech Republic, Slovakia, Hungary, Albania, former East Germany and Cuba', tensor(26.3033), 'Where was Russian schooling mandatory in the 20th century?')\n# ('March 20, 1880', tensor(26.4897), 'When did Tucson get a railroad?')\n# ('Worms', tensor(26.6245), 'Where did Luther refuse to change his beliefs?')\n# ('Collaborationist units', tensor(26.8737), 'What type of soldiers came from Hong Kong? ')\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ('1996', tensor(27.1454), 'When did Ross Sackett study time and energy for hunter-gartherer groups?')",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "FdKjdPfyNoP0WBxMGFLcC7XSnPe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related integrations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "ZtFfdRnlAoR0LJxbDuXcA7Sin2g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Similarity Search with Zilliz Cloud and OpenAI",
+                "token": "SeQxwhBEaimlzykxXLacoJuTnAb",
+                "url": "https://zilliverse.feishu.cn/wiki/SeQxwhBEaimlzykxXLacoJuTnAb"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "BHVBdogrno6bo0xLrjTcR1Qgned",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering Using Zilliz Cloud and Cohere",
+                "token": "WjZswh3lJi6k5BkyLaNchzodnib",
+                "url": "https://zilliverse.feishu.cn/wiki/WjZswh3lJi6k5BkyLaNchzodnib"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FQuestion-Answering-Using-Zilliz-Cloud-and-Cohere-0e07f039b61d45dd8d8f4d52483ca39b%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "LiOmdkeGToMNHnxFLfjcyY7snye",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering over Documents with Zilliz Cloud and LangChain",
+                "token": "VSL7w4qDdiW0onkmrpucHCiBnIC",
+                "url": "https://zilliverse.feishu.cn/wiki/VSL7w4qDdiW0onkmrpucHCiBnIC"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FQuestion-Answering-over-Documents-with-Zilliz-Cloud-and-LangChain-e02e81fa1d8e428d851f8a3ca069decb%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "UFVDdomRUo20NYxEDNxcrfaTnfd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Image Search with Zilliz Cloud and PyTorch",
+                "token": "XnWswbO9Zi4sykkgRzec8el8nyd",
+                "url": "https://zilliverse.feishu.cn/wiki/XnWswbO9Zi4sykkgRzec8el8nyd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FImage-Search-with-Zilliz-Cloud-and-PyTorch-ad512b1053b64b869ce884caf5eff0a8%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "ClQYdW3hNoaQs4xTU3TctxwsnCh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Documentation QA using Zilliz Cloud and LlamaIndex",
+                "token": "MejAw3lkkiA6uhkxcAqcMxOSnEb",
+                "url": "https://zilliverse.feishu.cn/wiki/MejAw3lkkiA6uhkxcAqcMxOSnEb"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FDocumentation-QA-using-Zilliz-Cloud-and-LlamaIndex-ed7cdfce4b384b34923c21842d264dcc%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      },
+      {
+        "block_id": "SY2ddhQ6uopPqjxPTSPc09sPnlc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Movie Search Using Zilliz Cloud and SentenceTransformers",
+                "token": "KPlpwDwupiZu0ZkYOu3cY3EWn7f",
+                "url": "https://zilliverse.feishu.cn/wiki/KPlpwDwupiZu0ZkYOu3cY3EWn7f"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FMovie-Search-Using-Zilliz-Cloud-and-SentenceTransformers-dbc328c7f00a4562b6b209df9bafba87%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Caamd7cfqo8ip0x5SZ4cJaaxnbI"
+      }
+    ],
+    "counts": 33
+  }
+}

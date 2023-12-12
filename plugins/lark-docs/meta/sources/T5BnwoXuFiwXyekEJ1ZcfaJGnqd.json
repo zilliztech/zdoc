@@ -1,0 +1,139 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": true,
+  "node_create_time": "1698025686",
+  "node_token": "T5BnwoXuFiwXyekEJ1ZcfaJGnqd",
+  "node_type": "origin",
+  "obj_create_time": "1698025686",
+  "obj_edit_time": "1701843991",
+  "obj_token": "Wvk2dEXeho7XwOxe9vQcgdyfnqd",
+  "obj_type": "docx",
+  "origin_node_token": "T5BnwoXuFiwXyekEJ1ZcfaJGnqd",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "OUWXw5c4gia34ZkQUcEcMFbWn6s",
+  "space_id": "7167193056431783939",
+  "title": "Data Import",
+  "slug": "data-import",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Wvk2dEXeho7XwOxe9vQcgdyfnqd",
+        "block_type": 1,
+        "children": [
+          "GRvqdavHeoK4YgxfFoScLYslnJb",
+          "VwTgdk8T9o56HTx0NGbc9Cqdn6d"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Data Import",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "GRvqdavHeoK4YgxfFoScLYslnJb",
+        "block_type": 2,
+        "parent_id": "Wvk2dEXeho7XwOxe9vQcgdyfnqd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A comprehensive guide on how to import data to Zilliz Cloud, taking you from zero to hero.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VwTgdk8T9o56HTx0NGbc9Cqdn6d",
+        "block_type": 2,
+        "parent_id": "Wvk2dEXeho7XwOxe9vQcgdyfnqd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 3
+  },
+  "children": [
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": false,
+      "node_create_time": "1694400461",
+      "node_token": "YNbGwiEjAinaQfkSdNlcTehwn8I",
+      "node_type": "origin",
+      "obj_create_time": "1694400461",
+      "obj_edit_time": "1699522112",
+      "obj_token": "S7WEdHeJ1oaQ4mxhVOjcpIEtn9b",
+      "obj_type": "docx",
+      "origin_node_token": "YNbGwiEjAinaQfkSdNlcTehwn8I",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_node_token": "T5BnwoXuFiwXyekEJ1ZcfaJGnqd",
+      "space_id": "7167193056431783939",
+      "title": "Prepare Data Import",
+      "slug": "use-bulkwriter-for-data-import"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": true,
+      "node_create_time": "1701844170",
+      "node_token": "VTZZwCkkCi7FwnklLDhcMJwvnQb",
+      "node_type": "origin",
+      "obj_create_time": "1701844170",
+      "obj_edit_time": "1701854491",
+      "obj_token": "MomDdhGAioojyTxn3HfcUrNqnjb",
+      "obj_type": "docx",
+      "origin_node_token": "VTZZwCkkCi7FwnklLDhcMJwvnQb",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "T5BnwoXuFiwXyekEJ1ZcfaJGnqd",
+      "space_id": "7167193056431783939",
+      "title": "Import Data",
+      "slug": "import-data"
+    }
+  ]
+}

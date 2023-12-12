@@ -1,0 +1,318 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689062332",
+  "node_token": "SPTewoNSwiQe6MkBLjMcilNynOg",
+  "node_type": "origin",
+  "obj_create_time": "1689062332",
+  "obj_edit_time": "1689755679",
+  "obj_token": "JLXAdKkbYo4hl9xuZB1chmBRn4g",
+  "obj_type": "docx",
+  "origin_node_token": "SPTewoNSwiQe6MkBLjMcilNynOg",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "VvikwOKc9iZ5vBkgMnycrXKmnId",
+  "space_id": "7167193056431783939",
+  "title": "Delete Snapshot",
+  "slug": "delete-snapshot",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "JLXAdKkbYo4hl9xuZB1chmBRn4g",
+        "block_type": 1,
+        "children": [
+          "FfxudnXMooGtBYxFHEcc73tbnuc",
+          "LdbjdrAQnorlAqxzkr9cJYcwnvh",
+          "QHhkdxHFKofpWzxBFlCcg5VAnkh",
+          "ZMt3dk80nopSg6xRUcGclA7unic",
+          "SySUd7D1boSOumxFaQycX9y7nAh",
+          "DanIdhrh0orRGtxKHYicHtuAn6g",
+          "AnRvdjPhuokXFXxCY25cdAKlnCb",
+          "B5ZkdgwK9opKZcxZ3J2cQLY6nSC"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Delete Snapshot",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "FfxudnXMooGtBYxFHEcc73tbnuc",
+        "block_type": 2,
+        "parent_id": "JLXAdKkbYo4hl9xuZB1chmBRn4g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud automatically removes the snapshots when they reach the end of their retention period. You can manually delete any available snapshots before then.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LdbjdrAQnorlAqxzkr9cJYcwnvh",
+        "block_type": 26,
+        "comment_ids": [
+          "7277517598231838723"
+        ],
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5568-1778%26t%3DN9g5OXyZ7udTtSaY-4"
+          }
+        },
+        "parent_id": "JLXAdKkbYo4hl9xuZB1chmBRn4g"
+      },
+      {
+        "block_id": "QHhkdxHFKofpWzxBFlCcg5VAnkh",
+        "block_type": 2,
+        "parent_id": "JLXAdKkbYo4hl9xuZB1chmBRn4g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You will be prompted to verify your request to delete a snapshot before Zilliz Cloud actually performs the deletion.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZMt3dk80nopSg6xRUcGclA7unic",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JLXAdKkbYo4hl9xuZB1chmBRn4g"
+      },
+      {
+        "block_id": "SySUd7D1boSOumxFaQycX9y7nAh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Snapshot",
+                "token": "HHXewT7wTiM1zqkySjHcMNX5n9b",
+                "url": "https://zilliverse.feishu.cn/wiki/HHXewT7wTiM1zqkySjHcMNX5n9b"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FCreate-Snapshot-da595014824d46109239ddecc3dbcfc0%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JLXAdKkbYo4hl9xuZB1chmBRn4g"
+      },
+      {
+        "block_id": "DanIdhrh0orRGtxKHYicHtuAn6g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Schedule Automatic Backups",
+                "token": "HDmKwGeGLi2P67kGdNXcigXDn3e",
+                "url": "https://zilliverse.feishu.cn/wiki/HDmKwGeGLi2P67kGdNXcigXDn3e"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FSchedule-Automatic-Backups-40b2a150791446f889ede7560706a557%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JLXAdKkbYo4hl9xuZB1chmBRn4g"
+      },
+      {
+        "block_id": "AnRvdjPhuokXFXxCY25cdAKlnCb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "View Snapshot Details",
+                "token": "Fob2w8LZaifGSHkxjoZcHcTtngf",
+                "url": "https://zilliverse.feishu.cn/wiki/Fob2w8LZaifGSHkxjoZcHcTtngf"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FView-Snapshot-Details-2202261e89fb4c7da21975b43dfe4a35%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JLXAdKkbYo4hl9xuZB1chmBRn4g"
+      },
+      {
+        "block_id": "B5ZkdgwK9opKZcxZ3J2cQLY6nSC",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Restore from Snapshot",
+                "token": "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
+                "url": "https://zilliverse.feishu.cn/wiki/Dd6jwYIGiiz6HWkEPJqcpMA3n6g"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FRestore-from-Snapshot-a4770fbb774844cca755233e11f78d4c%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JLXAdKkbYo4hl9xuZB1chmBRn4g"
+      }
+    ],
+    "counts": 9
+  }
+}

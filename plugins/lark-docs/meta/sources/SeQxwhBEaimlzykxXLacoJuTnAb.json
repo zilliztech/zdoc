@@ -1,0 +1,1184 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689058929",
+  "node_token": "SeQxwhBEaimlzykxXLacoJuTnAb",
+  "node_type": "origin",
+  "obj_create_time": "1689058929",
+  "obj_edit_time": "1699860075",
+  "obj_token": "KBBVdlAwBotcx1xnd7Ncop3HnEd",
+  "obj_type": "docx",
+  "origin_node_token": "SeQxwhBEaimlzykxXLacoJuTnAb",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "M1PDwYLKsi4TQRka9xUcDhMjnzc",
+  "space_id": "7167193056431783939",
+  "title": "Similarity Search with Zilliz Cloud and OpenAI",
+  "slug": "similarity-search-with-zilliz-cloud-and-openai",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd",
+        "block_type": 1,
+        "children": [
+          "E90jdurWRoZULZxLrSYcBZzlnEg",
+          "EEY9djQJOoDtIdxoBY7cngWBnEf",
+          "UrrFdVfHHoqtOYxETIacI1GUnRf",
+          "BE8Hd2ijvourLoxcNzQcyOrrndg",
+          "IBfRdd63QokE1Tx2LbLc0USVnTg",
+          "Z6wfdJxveobvbFxrQDpcvpeinph",
+          "Hzcjd19McoWIXxxCwI9cV8NnnAe",
+          "H7MXdH2wuoZCLLx7g0icqM9Mnve",
+          "Dtsmd1y2DoXhgtxUqVkc6fnqnPd",
+          "WbXCdPjQUoiMtZxwclacfDhknzg",
+          "Q05ldp76HoOBL0x71jZcOKt4n6c",
+          "EKxyde2ytoUH5kx4xW9cw1NFnId",
+          "C0O7dsFkcoTcvAxXqUccJLyknFp",
+          "Qeu6diUNloeBBWxl6SdcfsO9nGE",
+          "ToBidnKvsoIB3sxFG7UcEmsinve",
+          "EgKyd7fGyoPNoMxPZ8ecUSnCnrh",
+          "E1k9dnjMyoEdXfx3q7TcwWwbnZb",
+          "BfS8doXfBoR2Mext6fXcX9DAnmh",
+          "DWbWd0Uz5oZwWXxtrw5cXy8Hn2b",
+          "PpbmdwUh0oNJRUx8qTfcYDpinog",
+          "V1JgdXbXGoKTBLxh1zqcRPJSn2d",
+          "RpqAdcoOzo32ssxTeSTcqHwMnzb",
+          "PzcZdb94foQBb5xyX1lcZpIunWd",
+          "ONHpdEFFnojFWwxqOhYcf0y2n1z",
+          "NZTVdmyjqoHMhKxaWgrcdQULnCd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Similarity Search with Zilliz Cloud and OpenAI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "E90jdurWRoZULZxLrSYcBZzlnEg",
+        "block_type": 2,
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This page discusses integrating vector databases with OpenAI's embedding ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EEY9djQJOoDtIdxoBY7cngWBnEf",
+        "block_type": 2,
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "We will demonstrate how to use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "OpenAI's Embedding API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fbeta.openai.com%2Fdocs%2Fguides%2Fembeddings"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " with our vector database to search for book titles. Many existing book search solutions, such as those used by public libraries, rely on keyword matching rather than a semantic understanding of the title's meaning. Using a trained model to represent the input data is known as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "semantic search",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and can be applied to a variety of different text-based use cases, including anomaly detection and document search.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UrrFdVfHHoqtOYxETIacI1GUnRf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Get started",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd"
+      },
+      {
+        "block_id": "BE8Hd2ijvourLoxcNzQcyOrrndg",
+        "block_type": 2,
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To follow along, you'll need an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key from the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "OpenAI website",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fopenai.com%2Fapi%2F"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Also, be sure to visit our ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "cloud landing page",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliz.com%2Fcloud"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for $100 free credits that you can use to spin up a new cluster if you don’t have one already.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IBfRdd63QokE1Tx2LbLc0USVnTg",
+        "block_type": 2,
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "We'll also need to prepare the data for this example. You can obtain the book titles from ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "here",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.kaggle.com%2Fdatasets%2Fjealousleopard%2Fgoodreadsbooks"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Let's create a function that loads book titles from our ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CSV",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Z6wfdJxveobvbFxrQDpcvpeinph",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import csv\nimport json\nimport random\nimport openai\nimport time\nfrom pymilvus import connections, FieldSchema, CollectionSchema, DataType, Collection, utility\n\n# Extract the book titles\ndef csv_load(file):\n    with open(file, newline='') as f:\n        reader=csv.reader(f, delimiter=',')\n        for row in reader:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "            yield row[1]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd"
+      },
+      {
+        "block_id": "Hzcjd19McoWIXxxCwI9cV8NnnAe",
+        "block_type": 2,
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "With this, we're ready to move on to generating embeddings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "H7MXdH2wuoZCLLx7g0icqM9Mnve",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Searching book titles",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd"
+      },
+      {
+        "block_id": "Dtsmd1y2DoXhgtxUqVkc6fnqnPd",
+        "block_type": 2,
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Here we can find the main parameters that need to be modified for running with your own accounts. Beside each is a description of what it is.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WbXCdPjQUoiMtZxwclacfDhknzg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 1. Go to https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks, download the dataset, and save it locally.\nFILE = '../books.csv'\n\n# 2. Set up the name of the collection to be created.\nCOLLECTION_NAME = 'title_db'\n\n# 3. Set up the dimension of the embeddings.\nDIMENSION = 1536\n\n# 4. Set up the number of records to process.\nCOUNT = 100\n\n# 5. Set up the connection parameters for your Zilliz Cloud cluster.\nURI = 'YOUR_CLUSTER_ENDPOINT'\nTOKEN = 'YOUR_CLUSTER_TOKEN'\n\n# 6. Set up the OpenAI engine and API key to use.\nOPENAI_ENGINE = 'text-embedding-ada-002'  # Which engine to use\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "openai.api_key = 'YOUR_OPENAI_API_KEY'  # Use your own Open AI API Key here",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd"
+      },
+      {
+        "block_id": "Q05ldp76HoOBL0x71jZcOKt4n6c",
+        "block_type": 34,
+        "children": [
+          "KF7Xd8ZOYouSgsxJaQTcEp95nnb",
+          "DHaUdWGy6oc6DOx2R9UckZiPn2d"
+        ],
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd",
+        "quote_container": {}
+      },
+      {
+        "block_id": "KF7Xd8ZOYouSgsxJaQTcEp95nnb",
+        "block_type": 2,
+        "parent_id": "Q05ldp76HoOBL0x71jZcOKt4n6c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DHaUdWGy6oc6DOx2R9UckZiPn2d",
+        "block_type": 2,
+        "parent_id": "Q05ldp76HoOBL0x71jZcOKt4n6c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Since the embedding process for a free OpenAI account can be time-consuming, we use a small dataset to balance the execution time of the script and the precision of the search results. You can adjust the value of the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "COUNT",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " constant to your liking.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EKxyde2ytoUH5kx4xW9cw1NFnId",
+        "block_type": 2,
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following snippet deals with Zilliz Cloud and setting up the cluster for this use case. Within Zilliz Cloud, we need to set up a collection and index it. For more information on how to set up and use Zilliz Cloud, refer to this ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "link",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FIoFmw0VkNiJ7jBksjYKcR191nxd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C0O7dsFkcoTcvAxXqUccJLyknFp",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Connect to Zilliz Cloud and create a collection\nconnections.connect(\n    alias='default',\n    # Public endpoint obtained from Zilliz Cloud\n    uri=URI,\n    token=TOKEN\n)\n\nif COLLECTION_NAME in utility.list_collections():\n    utility.drop_collection(COLLECTION_NAME)\n\nfields = [\n    FieldSchema(name='id', dtype=DataType.INT64, descrition='Ids', is_primary=True, auto_id=False),\n    FieldSchema(name='title', dtype=DataType.VARCHAR, description='Title texts', max_length=200),\n    FieldSchema(name='embedding', dtype=DataType.FLOAT_VECTOR, description='Embedding vectors', dim=DIMENSION)\n]\n\nschema = CollectionSchema(fields=fields, description='Title collection')\n\ncollection = Collection(\n    name=COLLECTION_NAME,\n    schema=schema,\n)\n\nindex_params = {\n    'metric_type': 'L2',\n    'index_type': 'AUTOINDEX',\n    'params': {'nlist': 1024}\n}\n\ncollection.create_index(\n    field_name='embedding',\n    index_params=index_params\n)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection.load()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd"
+      },
+      {
+        "block_id": "Qeu6diUNloeBBWxl6SdcfsO9nGE",
+        "block_type": 2,
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After setting up the collection, we can begin inserting our data, which involves three steps: reading the data, embedding the titles, and inserting into Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ToBidnKvsoIB3sxFG7UcEmsinve",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Load the csv file and extract embeddings from the text\ndef csv_load(file):\n    with open(file, newline='') as f:\n        reader=csv.reader(f, delimiter=',')\n        for row in reader:\n            yield row[1]\n\ndef embed(text):\n    return openai.Embedding.create(\n        input=text, \n        engine=OPENAI_ENGINE)[\"data\"][0][\"embedding\"]\n\n# Insert each title and its embeddings\n\ninserted = []\n\nfor idx, text in enumerate(random.sample(sorted(csv_load(FILE)), k=COUNT)):\n    ins = {\n        'id': idx,\n        'title': (text[:198] + '..') if len(text) > 200 else text,\n        'embedding': embed(text)\n    }\n    collection.insert(data=ins)\n    time.sleep(3)\n    inserted.append(ins)\n\n# Search for similar titles\ndef search(text):\n    res = collection.search(\n        data=[embed(text)],\n        anns_field='embedding',\n        param={\"metric_type\": \"L2\", \"params\": {\"nprobe\": 10}},\n        output_fields=['title'],\n        limit=5,\n    )\n\n    ret = []\n\n    for hits in res:\n        for hit in hits:\n            row = []\n            row.extend([hit.id, hit.distance, hit.entity.get('title')])\n            ret.append(row)\n\n    return ret\n\nsearch_terms = [\n    'self-improvement',\n    'landscape',\n]\n\nfor x in search_terms:\n    print('Search term: ', x)\n    for x in search(x):\n        print(x)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    print()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd"
+      },
+      {
+        "block_id": "EgKyd7fGyoPNoMxPZ8ecUSnCnrh",
+        "block_type": 2,
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You should see the following as the output:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "E1k9dnjMyoEdXfx3q7TcwWwbnZb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Output\n#\n# Search term:  self-improvement\n# [9, 0.40222519636154175, 'Awakening Intuition: Using Your Mind-Body Network for Insight and Healing']\n# [66, 0.40565189719200134, 'The War of Art: Break Through the Blocks & Win Your Inner Creative Battles']\n# [73, 0.4130449891090393, 'The Organized Student: Teaching Children the Skills for Success in School and Beyond']\n# [34, 0.41660943627357483, 'The Consolation of Philosophy']\n# [61, 0.4331777095794678, 'Orientalism']\n\n# Search term:  landscape\n# [61, 0.3965946137905121, 'Orientalism']\n# [24, 0.4071578085422516, 'Andreas Gursky']\n# [1, 0.4108707904815674, 'The Art of Warfare']\n# [45, 0.4112565815448761, 'Sunshine']\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# [39, 0.41171979904174805, 'Wonderful Life: The Burgess Shale and the Nature of History']",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd"
+      },
+      {
+        "block_id": "BfS8doXfBoR2Mext6fXcX9DAnmh",
+        "block_type": 2,
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A full example of this is available ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "here",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcolab.research.google.com%2Fdrive%2F1bAX1Ah7ub4uVibQIT82LvdPmrRCzCXKM%3Fusp%3Dsharing"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DWbWd0Uz5oZwWXxtrw5cXy8Hn2b",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related integrations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd"
+      },
+      {
+        "block_id": "PpbmdwUh0oNJRUx8qTfcYDpinog",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering Using Zilliz Cloud and HuggingFace",
+                "token": "RWxKwfwFniNU1skCVCgcrKHbnCd",
+                "url": "https://zilliverse.feishu.cn/wiki/RWxKwfwFniNU1skCVCgcrKHbnCd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FQuestion-Answering-Using-Zilliz-Cloud-and-Hugging-Face-e97086355e054fbbb5a10730dc2300a7%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd"
+      },
+      {
+        "block_id": "V1JgdXbXGoKTBLxh1zqcRPJSn2d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering Using Zilliz Cloud and Cohere",
+                "token": "WjZswh3lJi6k5BkyLaNchzodnib",
+                "url": "https://zilliverse.feishu.cn/wiki/WjZswh3lJi6k5BkyLaNchzodnib"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FQuestion-Answering-Using-Zilliz-Cloud-and-Cohere-0e07f039b61d45dd8d8f4d52483ca39b%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd"
+      },
+      {
+        "block_id": "RpqAdcoOzo32ssxTeSTcqHwMnzb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering over Documents with Zilliz Cloud and LangChain",
+                "token": "VSL7w4qDdiW0onkmrpucHCiBnIC",
+                "url": "https://zilliverse.feishu.cn/wiki/VSL7w4qDdiW0onkmrpucHCiBnIC"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FQuestion-Answering-over-Documents-with-Zilliz-Cloud-and-LangChain-e02e81fa1d8e428d851f8a3ca069decb%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd"
+      },
+      {
+        "block_id": "PzcZdb94foQBb5xyX1lcZpIunWd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Image Search with Zilliz Cloud and PyTorch",
+                "token": "XnWswbO9Zi4sykkgRzec8el8nyd",
+                "url": "https://zilliverse.feishu.cn/wiki/XnWswbO9Zi4sykkgRzec8el8nyd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FImage-Search-with-Zilliz-Cloud-and-PyTorch-ad512b1053b64b869ce884caf5eff0a8%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd"
+      },
+      {
+        "block_id": "ONHpdEFFnojFWwxqOhYcf0y2n1z",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Documentation QA using Zilliz Cloud and LlamaIndex",
+                "token": "MejAw3lkkiA6uhkxcAqcMxOSnEb",
+                "url": "https://zilliverse.feishu.cn/wiki/MejAw3lkkiA6uhkxcAqcMxOSnEb"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FDocumentation-QA-using-Zilliz-Cloud-and-LlamaIndex-ed7cdfce4b384b34923c21842d264dcc%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd"
+      },
+      {
+        "block_id": "NZTVdmyjqoHMhKxaWgrcdQULnCd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Movie Search Using Zilliz Cloud and SentenceTransformers",
+                "token": "KPlpwDwupiZu0ZkYOu3cY3EWn7f",
+                "url": "https://zilliverse.feishu.cn/wiki/KPlpwDwupiZu0ZkYOu3cY3EWn7f"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FMovie-Search-Using-Zilliz-Cloud-and-SentenceTransformers-dbc328c7f00a4562b6b209df9bafba87%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KBBVdlAwBotcx1xnd7Ncop3HnEd"
+      }
+    ],
+    "counts": 28
+  }
+}

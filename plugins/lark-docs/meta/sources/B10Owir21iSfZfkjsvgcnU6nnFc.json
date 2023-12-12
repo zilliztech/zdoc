@@ -1,0 +1,85 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": true,
+  "node_create_time": "1701225831",
+  "node_token": "B10Owir21iSfZfkjsvgcnU6nnFc",
+  "node_type": "origin",
+  "obj_create_time": "1701225831",
+  "obj_edit_time": "1701225841",
+  "obj_token": "MsL9dVpxyowWNyxu9JdcFy9XnIg",
+  "obj_type": "docx",
+  "origin_node_token": "B10Owir21iSfZfkjsvgcnU6nnFc",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
+  "space_id": "7167193056431783939",
+  "title": "Manage Cluster Credentials",
+  "slug": "manage-cluster-credentials",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "MsL9dVpxyowWNyxu9JdcFy9XnIg",
+        "block_type": 1,
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage Cluster Credentials",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      }
+    ],
+    "counts": 1
+  },
+  "children": [
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1689059918",
+      "node_token": "Ha8jwqxnniC8mDkXM4RcN4SFnKf",
+      "node_type": "origin",
+      "obj_create_time": "1689059918",
+      "obj_edit_time": "1701227332",
+      "obj_token": "RmO3dMMHEoUAuRxCSXgcxhaXnug",
+      "obj_type": "docx",
+      "origin_node_token": "Ha8jwqxnniC8mDkXM4RcN4SFnKf",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "B10Owir21iSfZfkjsvgcnU6nnFc",
+      "space_id": "7167193056431783939",
+      "title": "Manage Cluster Credentials on Web UI",
+      "slug": "manage-cluster-credentials-gui"
+    },
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": false,
+      "node_create_time": "1701225793",
+      "node_token": "ZAp4w4SWaiJal2kaMhjcItyvnJh",
+      "node_type": "origin",
+      "obj_create_time": "1701225793",
+      "obj_edit_time": "1701323681",
+      "obj_token": "OVP9dgfMFovPCaxN18WcX9G5nue",
+      "obj_type": "docx",
+      "origin_node_token": "ZAp4w4SWaiJal2kaMhjcItyvnJh",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_node_token": "B10Owir21iSfZfkjsvgcnU6nnFc",
+      "space_id": "7167193056431783939",
+      "title": "Manage Cluster Credentials via SDKs",
+      "slug": "manage-cluster-credentials-sdk"
+    }
+  ]
+}

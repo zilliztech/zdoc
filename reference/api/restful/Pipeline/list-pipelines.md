@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 22
+sidebar_position: 25
 slug: /list-pipelines
 title: List Pipelines
 ---

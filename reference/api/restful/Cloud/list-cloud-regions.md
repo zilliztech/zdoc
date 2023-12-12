@@ -109,5 +109,5 @@ The properties in the returned response are listed in the following table.
 | ---- | ------------- |
 | 80001 | The token is illegal |
 | 80002 | The token is invalid |
-| 90117 | "Invalid domain name used |
+| 90117 | Invalid domain name used |
 

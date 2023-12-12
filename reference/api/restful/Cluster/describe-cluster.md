@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 3
+sidebar_position: 4
 slug: /describe-cluster
 title: Describe Cluster
 ---
@@ -32,19 +32,19 @@ Success response:
 {
     "code": 200,
     "data": {
-       "clusterId": "string",
-       "clusterName": "string",
-       "description": "string",
-       "regionId": "string",
-       "clusterType": "string",
-       "cuSize": "string",
-       "status": "string",
-       "connectAddress": "string",
-       "privateLinkAddress": "string",
-       "createTime": "string",
-       "storageSize": "string",
-       "snapshotNumber": "string",
-       "createProgress": "string"
+        "clusterId": "in03-45a099b7822fb6a",
+        "clusterName": "Cluster-01",
+        "description": "",
+        "regionId": "gcp-us-west1",
+        "clusterType": "",
+        "cuSize": 0,
+        "status": "RUNNING",
+        "connectAddress": "https://in03-45a099b7822fb6a.api.gcp-us-west1.cloud-uat3.zilliz.com",
+        "privateLinkAddress": "",
+        "createTime": "2023-12-12T11:32:43Z",
+        "storageSize": 0,
+        "snapshotNumber": 0,
+        "createProgress": 100
     }
 }
 ```
@@ -122,7 +122,7 @@ The properties in the returned response are listed in the following table.
 | `data.connectAddress`   | **string**<br/>The public endpoint of the cluster. You can use this to connect to your cluster from public networks. |
 | `data.privateLinkAddress`   | **string**<br/>The private endpoint of the cluster. You can use this to connect to your cluster from your VPSs in the same cloud region. |
 | `data.createTime`   | **string**<br/>The time when this cluster has been creaated. |
-| `data.storageSize`   | **integer(sint64)**<br/>The storage size of the cluster. |
+| `data.storageSize`   | **integer(sint64)**<br/>The storage size of the cluster in MB. |
 | `data.snapshotNumber`   | **integer**<br/>The number of snapshofts created from the cluster. |
 | `data.createProgress`   | **integer**<br/>The creation progress of the cluster. |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
@@ -133,7 +133,7 @@ The properties in the returned response are listed in the following table.
 | ---- | ------------- |
 | 80001 | The token is illegal |
 | 80002 | The token is invalid |
-| 80020 | Invalid clusterId or you do not have permission to access that Cluster. |
+| 80020 | Cluster not exist or you don't have permission. |
 | 90103 | The clusterId parameter is empty in the request path. |
-| 90117 | "Invalid domain name used |
+| 90117 | Invalid domain name used |
 

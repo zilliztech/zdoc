@@ -1,7 +1,8 @@
 ---
-slug: /docs/migrate-from-milvus
+slug: /migrate-from-milvus
 beta: FALSE
 notebook: FALSE
+token: IO4fwm5fJiroaoktKeIcbdkDnRb
 sidebar_position: 1
 ---
 
@@ -30,6 +31,7 @@ To prepare migration data for Milvus 0.9.x through 1.x, you need to
 1. Stop the Milvus installation or at least stop performing any DML operations in it.
 
 1. Export the metadata of the installation to `meta.json`.
+
     - For those installations using MySQL as the backend, run
 
     ```bash
@@ -43,6 +45,7 @@ To prepare migration data for Milvus 0.9.x through 1.x, you need to
     ```
 
 1. Copy the `tables` folder of your Milvus installation, then move both `meta.json` and the `tables` folder to an empty folder.
+
     Once this step is done, the structure of the empty folder should look like this:
 
     ```bash
@@ -64,6 +67,7 @@ To prepare migration data for Milvus 2.x, do as follows:
 1. Download [**milvus-backup**](https://github.com/zilliztech/milvus-backup/releases). Always use the latest release.
 
 1. Create a **configs** folder side by side with the downloaded binary, and download [**backup.yaml**](https://raw.githubusercontent.com/zilliztech/milvus-backup/master/configs/backup.yaml) into the **configs** folder.
+
     Once the step is done, the structure of your workspace folder should look like this:
 
     ```plaintext
@@ -74,6 +78,7 @@ To prepare migration data for Milvus 2.x, do as follows:
     ```
 
 1. Customize **backup.yaml**.
+
     In normal cases, you do not need to customize this file. But before going on, check whether the following configuration items are correct:
 
     - `milvus.address`
@@ -90,32 +95,36 @@ To prepare migration data for Milvus 2.x, do as follows:
 
     - `rootPath`
 
-    <Admonition type="info" icon="📘" title="Notes">    
-    
-    
+    <Admonition type="info" icon="📘" title="Notes">
+
     - For a Milvus instance installed using Docker Compose, `minio.bucketName` defaults to `a-bucket` and `rootPath` defaults to `files`.    
     
-    - For a Milvus instance installed on Kubernetes, `minio.bucketName` defaults to `milvus-bucket` and `rootPath` defaults to `file`.    
+    - For a Milvus instance installed on Kubernetes, `minio.bucketName` defaults to `milvus-bucket` and `rootPath` defaults to `file`.
 
     </Admonition>
 
 1. Create a backup of your Milvus installation.
+
     ```plaintext
     ./milvus-backup --config backup.yaml create -n my_backup
     ```
 
 1. Get the backup file.
+
     ```plaintext
     ./milvus-backup --config backup.yaml get -n my_backup
     ```
 
 1. Check the backup files.
+
     - If you set `minio.address` and `minio.port` to an S3 bucket, your backup file are already in the S3 bucket.
 
     - If you set `minio.address` and `minio.port` to a Minio bucket, you can download them using Minio Console or the **mc** client. 
+
         - To download from [Minio Console](https://min.io/docs/minio/kubernetes/upstream/administration/minio-console.html), log into Minio Console, locate the bucket specified in `minio.address`, select the files in the bucket, and click **Download** to download them.
 
         - If you prefer [the ](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)[**mc**](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)[ client](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install), do as follows:
+
             ```plaintext
             # configure a Minio host
             mc alias set my_minio https://<minio_endpoint> <accessKey> <secretKey>
@@ -160,3 +169,4 @@ Once the collections are loaded, you are free to interact with them using your p
 - [Select the Right CU](./cu-types-explained)
 
 - [API Comparison](./api-comparison) 
+

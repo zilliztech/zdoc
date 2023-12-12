@@ -1,7 +1,8 @@
 ---
-slug: /docs/cluster-collection-and-entities
+slug: /cluster-collection-and-entities
 beta: FALSE
 notebook: FALSE
+token: KfI3wa2ZCiEJyzkkvKSc5FennId
 sidebar_position: 2
 ---
 

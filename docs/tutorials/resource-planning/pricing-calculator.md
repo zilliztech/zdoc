@@ -1,7 +1,8 @@
 ---
-slug: /docs/pricing-calculator
+slug: /pricing-calculator
 beta: FALSE
 notebook: FALSE
+token: N985w1llIi7z1SkhTH5cAoKcnKb
 sidebar_position: 4
 ---
 
@@ -75,3 +76,4 @@ Our calculator is designed to estimate costs for clusters up to 32 [CUs](./cu-ty
 - [Select the Right CU](./cu-types-explained)
 
 - [Cloud Providers & Regions](./cloud-providers-and-regions)
+

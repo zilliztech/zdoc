@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 4
+sidebar_position: 7
 slug: /resume-cluster
 title: Resume Cluster
 ---
@@ -100,9 +100,9 @@ The properties in the returned response are listed in the following table.
 | ---- | ------------- |
 | 80001 | The token is illegal |
 | 80002 | The token is invalid |
-| 80020 | Invalid clusterId or you do not have permission to access that Cluster. |
+| 80020 | Cluster not exist or you don't have permission. |
 | 80021 | Serverless cluster not support this operation. |
 | 90102 | The cluster does not exist in current region. |
 | 90103 | The clusterId parameter is empty in the request path. |
-| 90117 | "Invalid domain name used |
+| 90117 | Invalid domain name used |
 

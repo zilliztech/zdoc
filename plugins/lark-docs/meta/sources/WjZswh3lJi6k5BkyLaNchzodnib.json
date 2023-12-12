@@ -1,0 +1,1504 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689058990",
+  "node_token": "WjZswh3lJi6k5BkyLaNchzodnib",
+  "node_type": "origin",
+  "obj_create_time": "1689058990",
+  "obj_edit_time": "1699869027",
+  "obj_token": "BlVSdLqHGoAPQnx53OictPAjnMh",
+  "obj_type": "docx",
+  "origin_node_token": "WjZswh3lJi6k5BkyLaNchzodnib",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "M1PDwYLKsi4TQRka9xUcDhMjnzc",
+  "space_id": "7167193056431783939",
+  "title": "Question Answering Using Zilliz Cloud and Cohere",
+  "slug": "question-answering-using-zilliz-cloud-and-cohere",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "BlVSdLqHGoAPQnx53OictPAjnMh",
+        "block_type": 1,
+        "children": [
+          "TXSTdh9QKoiiOPxH1EVc6oAgnih",
+          "Y845d8pmsowIhNxDK8dc49zZnud",
+          "P4BxdcC2monLd8xTD9UcXrbWn3b",
+          "A7l3dAk2MoMPEMxerFRcuGdjnAf",
+          "Jt4wdEkCEopIhnxSTq6c12kqn4d",
+          "RO6qdV8fCoRVZfxHzFUcp6TLnWh",
+          "DNFZdylVfoz0XcxswGjcg4jYnKg",
+          "Gw0mdd42eoxAkOxRLoLcwRSSneg",
+          "Ri2mdkRoTozkuGxXmHmcsN5EnMh",
+          "Wt4RdIRNXozmg9xLFqtcbz34nHf",
+          "X6r2dPZgyo4jacxh59HcqE6endx",
+          "TyvpdvGipoZES6xi00ucftSpn6e",
+          "IYz3d7CFTogbHbx3e3Xc3H9yndg",
+          "C6mCd435IoteeWxhG9RcKlJmnBh",
+          "GlfRd5sbmoWNeDx68GWcvGumn8b",
+          "JKnZduc0gol5Z9xZIn6cnJ4Enqd",
+          "TBMXdMxCHodxfaxjDWqcwh74nRg",
+          "HlnGdYbYDoZfBJxG884cfuXwnmd",
+          "MzRQd8KEnoRcqTxx7N7c4A7SnDh",
+          "TjosdO00Po0jrixIwx9cN1OBnYc",
+          "TWSbd39vno2hjYxEAu9cZKb8nBC",
+          "N6SGd23A3oDc9vxX6GlcUgkCnYf",
+          "KstEdJyOHoVWZIxDhfAcSGeEn2e",
+          "RnC2dpgheoQuEaxQUTJcVBAFnQf",
+          "KCkfdlzmNowAnGxVA50cPc2Bnuf",
+          "VIhNdsIEkoDj1ixVAcjchFXJnKg",
+          "PngOd5fgmol5KwxGmOIcZ1zCnDc",
+          "UyaadJzatom5RFxkEWwckNITnxh",
+          "WOaIdTwsrotIVjxlJ57ceqetnIb",
+          "PXqpd6UpdoWKrUxE1QDcj1KCnMc",
+          "X8OydXlPQoaBSjxDEoYccYkYnyf",
+          "Z7o9djVSwowHwCxuZs2c4lfnn2g",
+          "B8THdpab2o1xCbxn9sQcnBgNnjh",
+          "Y3wrdJdyoos46Lx1X0Acv2pSnff",
+          "MyKMdCA7AoLgdGxRnWycdRC0nie",
+          "ICpKd5daBoIys2x0sU7cIEWSnke",
+          "PCI2dW9iyoG9EgxPK7hcBbekn0c",
+          "DgdGdziW4omQHkxwLencAVZOn3c"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Question Answering Using Zilliz Cloud and Cohere",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "TXSTdh9QKoiiOPxH1EVc6oAgnih",
+        "block_type": 2,
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This page illustrates how to create a question-answering system based on the SQuAD dataset using Zilliz Cloud as the vector database and Cohere as the embedding system.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Y845d8pmsowIhNxDK8dc49zZnud",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "P4BxdcC2monLd8xTD9UcXrbWn3b",
+        "block_type": 2,
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Code snippets on this page require ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pymilvus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "cohere",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pandas",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "numpy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "tqdm",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " installed. Among these packages, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pymilvus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is the client for Zilliz Cloud. If these packages are not present on your system, run the following commands to install them:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A7l3dAk2MoMPEMxerFRcuGdjnAf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pip install pymilvus cohere pandas numpy tqdm openai tiktoken",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "Jt4wdEkCEopIhnxSTq6c12kqn4d",
+        "block_type": 2,
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Then you need to load the modules to be used in this guide.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RO6qdV8fCoRVZfxHzFUcp6TLnWh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import connections, DataType, CollectionSchema, FieldSchema, Collection, utility\nimport cohere\nimport pandas\nimport numpy as np\nfrom tqdm import tqdm\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "import time, os, json",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "DNFZdylVfoz0XcxswGjcg4jYnKg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "Gw0mdd42eoxAkOxRLoLcwRSSneg",
+        "block_type": 2,
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Here we can find the parameters used in the following snippets. Some of them need to be changed to fit your environment. Beside each is a description of what it is.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ri2mdkRoTozkuGxXmHmcsN5EnMh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 1. Set the The SQuAD dataset url.\nFILE = 'https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json' \n\n# 2. Set up the name of the collection to be created.\nCOLLECTION_NAME = 'question_answering_db'\n\n# 3. Set up the dimension of the embeddings.\nDIMENSION = 768\n\n# 4. Set the number of entities to create and the number of entities to insert at a time.\nCOUNT = 5000\nBATCH_SIZE = 96\n\n# 5. Set up the cohere api key\nCOHERE_API_KEY = \"YOUR_COHERE_API_KEY\"\n\n# 6. Set up the connection parameters for your Zilliz Cloud cluster.\nURI = 'YOUR_CLUSTER_ENDPOINT'\n\n# 7. Set up the token for your Zilliz Cloud cluster.\n# You can either use an API key or a set of cluster username and password joined by a colon.\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "TOKEN = 'YOUR_CLUSTER_TOKEN'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "Wt4RdIRNXozmg9xLFqtcbz34nHf",
+        "block_type": 2,
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To know more about the model and dataset used on this page, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Cohere",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcohere.ai%2F"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SQuAD",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Frajpurkar.github.io%2FSQuAD-explorer%2F"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X6r2dPZgyo4jacxh59HcqE6endx",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Prepare dataset",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "TyvpdvGipoZES6xi00ucftSpn6e",
+        "block_type": 2,
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this example, we are going to use the Stanford Question Answering Dataset (SQuAD) as our truth source for answering questions. This dataset comes in the form of a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " file and we are going to use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pandas",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to load it in.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IYz3d7CFTogbHbx3e3Xc3H9yndg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Download the dataset\ndataset = pandas.read_json(FILE)\n\n# Clean up the dataset by grabbing all the question answer pairs\nsimplified_records = []\nfor x in dataset['data']:\n    for y in x['paragraphs']:\n        for z in y['qas']:\n            if len(z['answers']) != 0:\n                simplified_records.append({'question': z['question'], 'answer': z['answers'][0]['text']})\n\n# Grab the amount of records based on COUNT\nsimplified_records = pandas.DataFrame.from_records(simplified_records)\nsimplified_records = simplified_records.sample(n=min(COUNT, len(simplified_records)), random_state = 42)\n\n# Check if the length of the cleaned dataset matches COUNT\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(len(simplified_records))",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "C6mCd435IoteeWxhG9RcKlJmnBh",
+        "block_type": 2,
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output should be the number of records in the dataset.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GlfRd5sbmoWNeDx68GWcvGumn8b",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "5000",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "JKnZduc0gol5Z9xZIn6cnJ4Enqd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "TBMXdMxCHodxfaxjDWqcwh74nRg",
+        "block_type": 2,
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This section deals with Zilliz Cloud and setting up the cluster for this use case. Within Zilliz Cloud, we need to set up a collection and index it.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HlnGdYbYDoZfBJxG884cfuXwnmd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Connect to Zilliz Cloud and create a collection\n\nconnections.connect(\n    alias='default',\n    # Public endpoint obtained from Zilliz Cloud\n    uri=URI,\n    token=TOKEN\n)\n\nif COLLECTION_NAME in utility.list_collections():\n    utility.drop_collection(COLLECTION_NAME)\n\nfields = [\n    FieldSchema(name='id', dtype=DataType.INT64, is_primary=True, auto_id=True),\n    FieldSchema(name='original_question', dtype=DataType.VARCHAR, max_length=1000),\n    FieldSchema(name='answer', dtype=DataType.VARCHAR, max_length=1000),\n    FieldSchema(name='original_question_embedding', dtype=DataType.FLOAT_VECTOR, dim=DIMENSION)\n]\n\nschema = CollectionSchema(fields=fields)\n\ncollection = Collection(\n    name=COLLECTION_NAME,\n    schema=schema,\n)\n\nindex_params = {\n    'metric_type': 'L2',\n    'index_type': 'AUTOINDEX',\n    'params': {'nlist': 1024}\n}\n\ncollection.create_index(\n    field_name='original_question_embedding', \n    index_params=index_params\n)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection.load()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "MzRQd8KEnoRcqTxx7N7c4A7SnDh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Insert data",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "TjosdO00Po0jrixIwx9cN1OBnYc",
+        "block_type": 2,
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once we have the collection set up, we need to start inserting our data. This is done in three steps:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TWSbd39vno2hjYxEAu9cZKb8nBC",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "reading the data,",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "N6SGd23A3oDc9vxX6GlcUgkCnYf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "embedding the original questions, and",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "KstEdJyOHoVWZIxDhfAcSGeEn2e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "inserting the data into the collection we've just created on Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "RnC2dpgheoQuEaxQUTJcVBAFnQf",
+        "block_type": 2,
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this example, the data includes the original question, the original question's embedding, and the answer to the original question.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KCkfdlzmNowAnGxVA50cPc2Bnuf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Set up a Cohere client\ncohere_client = cohere.Client(COHERE_API_KEY)\n\n# Extract embeddings from questions using Cohere\ndef embed(texts, input_type):\n    res = cohere_client.embed(texts, model='multilingual-22-12', input_type=input_type)\n    return res.embeddings\n\n# Insert each question, answer, and qustion embedding\ntotal = pandas.DataFrame()\nfor batch in tqdm(np.array_split(simplified_records, (COUNT/BATCH_SIZE) + 1)):\n    questions = batch['question'].tolist()\n    embeddings = embed(questions, \"search_document\")\n    \n    data = [\n        {\n            'original_question': x,\n            'answer': batch['answer'].tolist()[i],\n            'original_question_embedding': embeddings[i]\n        } for i, x in enumerate(questions)\n    ]\n\n    collection.insert(data=data)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "time.sleep(10)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "VIhNdsIEkoDj1ixVAcjchFXJnKg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ask questions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "PngOd5fgmol5KwxGmOIcZ1zCnDc",
+        "block_type": 2,
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once all the data is inserted into the Zilliz Cloud collection, we can ask the system questions by taking our question phrase, embedding it with Cohere, and searching with Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UyaadJzatom5RFxkEWwckNITnxh",
+        "block_type": 34,
+        "children": [
+          "R08Gdf9CxouOSJx2AiZcJje4nVh",
+          "M5tsdzguMoWcvGxkbaCcNl0UnBd"
+        ],
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh",
+        "quote_container": {}
+      },
+      {
+        "block_id": "R08Gdf9CxouOSJx2AiZcJje4nVh",
+        "block_type": 2,
+        "parent_id": "UyaadJzatom5RFxkEWwckNITnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Note",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "M5tsdzguMoWcvGxkbaCcNl0UnBd",
+        "block_type": 2,
+        "parent_id": "UyaadJzatom5RFxkEWwckNITnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Searches performed on data right after insertion might be a little slower as searching unindexed data is done in a brute-force manner. Once the new data is automatically indexed, the searches will speed up.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WOaIdTwsrotIVjxlJ57ceqetnIb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Search the cluster for an answer to a question text\n# Search the cluster for an answer to a question text\ndef search(text, top_k = 5):\n\n    # AUTOINDEX does not require any search params \n    search_params = {}\n\n    results = collection.search(\n        data = embed([text], \"search_query\"),  # Embeded the question\n        anns_field='original_question_embedding',\n        param=search_params,\n        limit = top_k,  # Limit to top_k results per search\n        output_fields=['original_question', 'answer']  # Include the original question and answer in the result\n    )\n\n    distances = results[0].distances\n    entities = [ x.entity.to_dict()['entity'] for x in results[0] ]\n\n    ret = [ {\n        \"answer\": x[1][\"answer\"],\n        \"distance\": x[0],\n        \"original_question\": x[1]['original_question']\n    } for x in zip(distances, entities)]\n\n    return ret\n            \n\n# Ask these questions\nsearch_questions = ['What kills bacteria?', 'What\\'s the biggest dog?']\n\n# Print out the results in order of [answer, similarity score, original question]\n\nret = [ { \"question\": x, \"candidates\": search(x) } for x in search_questions ]\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(ret)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "PXqpd6UpdoWKrUxE1QDcj1KCnMc",
+        "block_type": 2,
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output should be similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X8OydXlPQoaBSjxDEoYccYkYnyf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Output\n#\n# [\n#     {\n#         \"question\": \"What kills bacteria?\",\n#         \"candidates\": [\n#             {\n#                 \"answer\": \"farming\",\n#                 \"distance\": 25.10422134399414,\n#                 \"original_question\": \"What makes bacteria resistant to antibiotic treatment?\"\n#             },\n#             {\n#                 \"answer\": \"converting nitrogen gas to nitrogenous compounds\",\n#                 \"distance\": 25.26958465576172,\n#                 \"original_question\": \"What do bacteria do in soil?\"\n#             },\n#             {\n#                 \"answer\": \"slowing down the multiplication of bacteria or killing the bacteria\",\n#                 \"distance\": 26.225540161132812,\n#                 \"original_question\": \"How do antibiotics work?\"\n#             },\n#             {\n#                 \"answer\": \"Phage therapy\",\n#                 \"distance\": 30.04580307006836,\n#                 \"original_question\": \"What has been talked about to treat resistant bacteria?\"\n#             },\n#             {\n#                 \"answer\": \"antibiotic target\",\n#                 \"distance\": 32.077369689941406,\n#                 \"original_question\": \"What can be absent from the bacterial genome?\"\n#             }\n#         ]\n#     },\n#     {\n#         \"question\": \"What's the biggest dog?\",\n#         \"candidates\": [\n#             {\n#                 \"answer\": \"English Mastiff\",\n#                 \"distance\": 12.71607780456543,\n#                 \"original_question\": \"What breed was the largest dog known to have lived?\"\n#             },\n#             {\n#                 \"answer\": \"part of the family\",\n#                 \"distance\": 27.21062469482422,\n#                 \"original_question\": \"Most people today describe their dogs as what?\"\n#             },\n#             {\n#                 \"answer\": \"77.5 million\",\n#                 \"distance\": 28.54041290283203,\n#                 \"original_question\": \"How many people in the United States are said to own dog?\"\n#             },\n#             {\n#                 \"answer\": \"Rico\",\n#                 \"distance\": 28.770610809326172,\n#                 \"original_question\": \"What is the name of the dog that could ID over 200 things?\"\n#             },\n#             {\n#                 \"answer\": \"about six\",\n#                 \"distance\": 31.739566802978516,\n#                 \"original_question\": \"What is the average number of pups in a litter?\"\n#             }\n#         ]\n#     }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "Z7o9djVSwowHwCxuZs2c4lfnn2g",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related integrations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "B8THdpab2o1xCbxn9sQcnBgNnjh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Similarity Search with Zilliz Cloud and OpenAI",
+                "token": "SeQxwhBEaimlzykxXLacoJuTnAb",
+                "url": "https://zilliverse.feishu.cn/wiki/SeQxwhBEaimlzykxXLacoJuTnAb"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "Y3wrdJdyoos46Lx1X0Acv2pSnff",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering Using Zilliz Cloud and HuggingFace",
+                "token": "RWxKwfwFniNU1skCVCgcrKHbnCd",
+                "url": "https://zilliverse.feishu.cn/wiki/RWxKwfwFniNU1skCVCgcrKHbnCd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "MyKMdCA7AoLgdGxRnWycdRC0nie",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Question Answering over Documents with Zilliz Cloud and LangChain",
+                "token": "VSL7w4qDdiW0onkmrpucHCiBnIC",
+                "url": "https://zilliverse.feishu.cn/wiki/VSL7w4qDdiW0onkmrpucHCiBnIC"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FQuestion-Answering-over-Documents-with-Zilliz-Cloud-and-LangChain-e02e81fa1d8e428d851f8a3ca069decb%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "ICpKd5daBoIys2x0sU7cIEWSnke",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Image Search with Zilliz Cloud and PyTorch",
+                "token": "XnWswbO9Zi4sykkgRzec8el8nyd",
+                "url": "https://zilliverse.feishu.cn/wiki/XnWswbO9Zi4sykkgRzec8el8nyd"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FImage-Search-with-Zilliz-Cloud-and-PyTorch-ad512b1053b64b869ce884caf5eff0a8%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "PCI2dW9iyoG9EgxPK7hcBbekn0c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Documentation QA using Zilliz Cloud and LlamaIndex",
+                "token": "MejAw3lkkiA6uhkxcAqcMxOSnEb",
+                "url": "https://zilliverse.feishu.cn/wiki/MejAw3lkkiA6uhkxcAqcMxOSnEb"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FDocumentation-QA-using-Zilliz-Cloud-and-LlamaIndex-ed7cdfce4b384b34923c21842d264dcc%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      },
+      {
+        "block_id": "DgdGdziW4omQHkxwLencAVZOn3c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Movie Search Using Zilliz Cloud and SentenceTransformers",
+                "token": "KPlpwDwupiZu0ZkYOu3cY3EWn7f",
+                "url": "https://zilliverse.feishu.cn/wiki/KPlpwDwupiZu0ZkYOu3cY3EWn7f"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.notion.so%2FMovie-Search-Using-Zilliz-Cloud-and-SentenceTransformers-dbc328c7f00a4562b6b209df9bafba87%3Fpvs%3D21"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BlVSdLqHGoAPQnx53OictPAjnMh"
+      }
+    ],
+    "counts": 41
+  }
+}

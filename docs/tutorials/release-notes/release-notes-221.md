@@ -1,7 +1,8 @@
 ---
-slug: /docs/release-notes-221
+slug: /release-notes-221
 beta: FALSE
 notebook: FALSE
+token: YtxBwrPfBiuFDdk10GVcYY1DnGg
 sidebar_position: 2
 ---
 
@@ -33,3 +34,4 @@ We are pleased to announce that we now support a new AWS region: US East 1 (aws-
 - Enhanced UI of the credit expiration monitoring feature
 
 - Improved user experience in the Playground feature
+

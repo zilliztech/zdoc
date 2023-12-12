@@ -1,0 +1,3954 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1697536250",
+  "node_token": "PVo3wlyoriD6BkkpGpmcD7ULnXd",
+  "node_type": "origin",
+  "obj_create_time": "1697536250",
+  "obj_edit_time": "1700112714",
+  "obj_token": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+  "obj_type": "docx",
+  "origin_node_token": "PVo3wlyoriD6BkkpGpmcD7ULnXd",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
+  "space_id": "7167193056431783939",
+  "title": "Search and Query with Advanced Expressions",
+  "slug": "search-and-query-advanced-expressions",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "block_type": 1,
+        "children": [
+          "YLrddiBS5o4WI6xXCZNczyZnnsr",
+          "NA1od7rlwoEmG0xSmCncrqIBnmc",
+          "J7N1dmvQsojnxexLf0VcoDecnnh",
+          "GfgDdyoHsoxwQ9xDLXLcgQ7Rn2b",
+          "FKzNdCL60oESSex0qUOcaWXbnHd",
+          "TXDYdW5jPoi0knxdLoAcqaWCnrb",
+          "E8NqdpcJgoirEMxAPXVcGSoZn7e",
+          "Hr7edFOanoOQlAxyYbLcCnJznJg",
+          "Lk3TdshU0oB9fpx0RSUccHH5nhb",
+          "FoHadiMyHoqRH1xEosUcdnTvn2d",
+          "EqN5dwKeLowE1JxBaYhcXSyBnhf",
+          "EjbidA1Sdou3d5xOysVcEkzWnhe",
+          "YvqGdSH2PoXPBpxzLG6cEhzCnkw",
+          "FiH4dsiKWopHINxC3qoc1DYBn2e",
+          "T64LdPcaVoNWLkxvyD7clECunFh",
+          "DyuZdmPXbopruWxD0iTcb7UmnbJ",
+          "HvkcdA1B2oAUCXxPF0FcMt2Xn1b",
+          "N78BdGk8dohDV1xwsMxcfyfQnQg",
+          "CAcgdHkQooRvmixrgErcU7KlnTe",
+          "YYBFdwC6OoLZgZxZCTecQ9tVnYf",
+          "KJcHd6Be8o4r7Rx5QYrcd1AznND",
+          "PTFVde0AtouAsrxaroHc0qWnn0d",
+          "ZiL8dEO05oFt3GxdfkQcdvUknjg",
+          "KysJdpVMIovitZx7ZnjcS9qonpd",
+          "LvdtdrwtDoFzAZxPNZucKtQynBe",
+          "FgFXdPaLHod1VZxJ3mfcsVIIn7f",
+          "GjJtdiJEKozPQ4xCeqHcnBxUn3c",
+          "QLvjd03puoImcVxKFt6cLeexnqK",
+          "JVl8d0Wm7oIrsFxTjfTchzlNn2b",
+          "Bl9ldBvkGo7z20xJ7BmcJ4f5nFf",
+          "YemcdCpk3oVN6fxGf82cHEffnJh",
+          "O3ABdVe4QoxNf6xlYAicEJF1n0i",
+          "ZHd0deFmNognBKxxRwFcBOWcnkf",
+          "PnU2dqBMtoeHOqxnwiccAoRBnxf",
+          "O1l4dxnfDoUGx2x0l8qcydAqnQd",
+          "LToRd5uIZovJ8kxB0gbcYTYsnDf",
+          "GSt1dWP1Qo41KGxrzV3cvnPhnBg",
+          "MNkSd14pSoRcKjxpdBRcrqwxnYc",
+          "AkOldyA4joqpW6xyt4acsSROnxc",
+          "CGAhd2sXQonXYZx5zLNcTjFNnDd",
+          "UiLzd4Ey8onmbzxEgROc9fFDnGg",
+          "Q672dXg8koiigJx0Y7rcHtAGnic",
+          "FxIcdyZKzoZexwxMJ2Tci52CnLc",
+          "HKxmd73JnoFXfdx6benc8WaCnah",
+          "ZrrqdKpUFoueR5xAIHycg7mrnvc",
+          "BVmWdyBryoZFThxf8GNccWwnnRe",
+          "DVsid0MljoGVIzxehlZcZNB8nNG",
+          "HBMddUT6To8QG0xL25XcNsnCn4d",
+          "QOH1dkZI9oBUHAxew3Lc3PCsnQh",
+          "IWlgdwGpIoN4VKxmBI5croVZnTf",
+          "Lw2idk8aao11n6x8RgHcxDEVnZb",
+          "LRP2dMz8HoxpJPxxYnUcglE6nBb",
+          "P3JMdIfzoo1oZnxZvitc06iqnRh",
+          "Bhw6dJkfuoIxLUxxbvUcBNe8nue",
+          "MgMOd8HO4o0MtDxXzcBcKEK3nFb",
+          "ThrHdqtdwo98EDxZppMcoeyTnzc",
+          "Kgb1dtzRtoKepQxji6jcv2bcnmh",
+          "ZrGzdOXrmobL0sxVtU7cNIKwnPL",
+          "SURCdjDmCo7IqhxKnkzceJBnnbh"
+        ],
+        "comment_ids": [
+          "7297123047377682435"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Advanced Expressions",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7297123047377682435"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "YLrddiBS5o4WI6xXCZNczyZnnsr",
+        "block_type": 2,
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This guide will walk you through the necessary steps and provide examples to help you use advanced expressions ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "count()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "json_contains()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " within Zilliz Cloud for search or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " operations.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NA1od7rlwoEmG0xSmCncrqIBnmc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "J7N1dmvQsojnxexLf0VcoDecnnh",
+        "block_type": 2,
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud now includes Beta support for advanced expressions ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "count()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "json_contains()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GfgDdyoHsoxwQ9xDLXLcgQ7Rn2b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "count()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Retrieves the number of entities within a collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "FKzNdCL60oESSex0qUOcaWXbnHd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "json_contains()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Determines if a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key includes a certain element.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "TXDYdW5jPoi0knxdLoAcqaWCnrb",
+        "block_type": 34,
+        "children": [
+          "FGFNdsB5MoWFTjxhxj5cSIaRnIg",
+          "UXDXd3uf9oqyPtx4aRHcOvZVnmd"
+        ],
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "quote_container": {}
+      },
+      {
+        "block_id": "FGFNdsB5MoWFTjxhxj5cSIaRnIg",
+        "block_type": 2,
+        "parent_id": "TXDYdW5jPoi0knxdLoAcqaWCnrb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UXDXd3uf9oqyPtx4aRHcOvZVnmd",
+        "block_type": 2,
+        "parent_id": "TXDYdW5jPoi0knxdLoAcqaWCnrb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The support for advanced expressions ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "count()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "json_contains()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is available as a Beta feature. The feature and the documentation may change anytime during the Beta stage.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "E8NqdpcJgoirEMxAPXVcGSoZn7e",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "Hr7edFOanoOQlAxyYbLcCnJznJg",
+        "block_type": 2,
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before using advanced expressions, make sure the following conditions are met:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Lk3TdshU0oB9fpx0RSUccHH5nhb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have upgraded your cluster to the Beta version.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "FoHadiMyHoqRH1xEosUcdnTvn2d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have downloaded the example dataset. For details, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Example Dataset",
+                "token": "FCgWwFVtQiUy9GkDlQNcA0xZnPa",
+                "url": "https://zilliverse.feishu.cn/wiki/FCgWwFVtQiUy9GkDlQNcA0xZnPa"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "EqN5dwKeLowE1JxBaYhcXSyBnhf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Prepare your dataset",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "EjbidA1Sdou3d5xOysVcEkzWnhe",
+        "block_type": 2,
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before using ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "json_contains()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you'll need to define a JSON field, here referred to as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "article_meta",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Then, create a collection that matches your dataset's schema.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YvqGdSH2PoXPBpxzLG6cEhzCnkw",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 0. Connect to cluster\nconnections.connect(\n    uri=CLUSTER_ENDPOINT, # Public endpoint obtained from Zilliz Cloud\n    token=TOKEN, # API key or a colon-separated cluster username and password\n)\n\n# 1. Define fields\nfields = [\n    FieldSchema(name=\"id\", dtype=DataType.INT64, is_primary=True, auto_id=True, max_length=100),\n    FieldSchema(name=\"title\", dtype=DataType.VARCHAR, max_length=512),\n    FieldSchema(name=\"title_vector\", dtype=DataType.FLOAT_VECTOR, dim=768),\n    # The following field is a JSON field\n    FieldSchema(name=\"article_meta\", dtype=DataType.JSON)\n]\n\n# 2. Build the schema\nschema = CollectionSchema(\n    fields,\n    description=\"Schema of Medium articles\",\n    enable_dynamic_field=False\n)\n\n# 3. Create collection\ncollection = Collection(\n    name=\"medium_articles_with_json\", \n    description=\"Medium articles published between Jan and August in 2020 in prominent publications\",\n    schema=schema\n)\n\n# 4. index the vector field\nindex_params = {\n    \"index_type\": \"AUTOINDEX\",\n    \"metric_type\": \"L2\",\n    \"params\": {}\n}\n\ncollection.create_index(\n  field_name=\"title_vector\", \n  index_params=index_params\n)\n\n# 5. load the collection\ncollection.load()\n\n# Get loading progress\nprogress = utility.loading_progress(COLLECTION_NAME)\n\nprint(progress)\n\n# Output\n#\n# {\n#     \"loading_progress\": \"100%\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "FiH4dsiKWopHINxC3qoc1DYBn2e",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "async function main() {\n    // 1. Connect to the cluster\n    const client = new MilvusClient({address, token})\n    \n    // 2. Define fields\n    fields = [\n        {\n            name: \"id\",\n            data_type: DataType.Int64,\n            is_primary_key: true,\n            auto_id: true\n        },\n        {\n            name: \"title\",\n            data_type: DataType.VarChar,\n            max_length: 512\n        },\n        {\n            name: \"title_vector\",\n            data_type: DataType.FloatVector,\n            dim: 768\n        },\n        {\n            name: \"article_meta\",\n            // This field is a JSON field.\n            data_type: DataType.JSON\n        }\n    ]\n    \n    // 3. Create collection\n    res = await client.createCollection({\n        collection_name: collectionName,\n        fields: fields\n    })\n\n    console.log(res)\n\n    // Output\n    // \n    // { error_code: 'Success', reason: '', code: 0 }\n    // \n\n    // 4. Create index\n    res = await client.createIndex({\n        collection_name: collectionName,\n        field_name: \"title_vector\",\n        index_type: \"IVF_FLAT\",\n        metric_type: \"L2\",\n        params: {\n            nlist: 16384\n        }\n    })\n\n    console.log(res)\n\n    // Output\n    // \n    // { error_code: 'Success', reason: '', code: 0 }\n    // \n\n    res = await client.loadCollection({\n        collection_name: collectionName\n    })\n\n    console.log(res)\n\n    // Output\n    // \n    // { error_code: 'Success', reason: '', code: 0 }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    // ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "T64LdPcaVoNWLkxvyD7clECunFh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 1. Connect to cluster\nConnectParam connectParam = ConnectParam.newBuilder()\n    .withUri(clusterEndpoint)\n    .withToken(token)\n    .build();\n\nMilvusServiceClient client = new MilvusServiceClient(connectParam);\n\nSystem.out.println(\"Connected to Zilliz Cloud!\");\n// Output:\n// Connected to Zilliz Cloud!\n\n// 2. Create cluster\nFieldType id = FieldType.newBuilder()\n    .withName(\"id\")\n    .withDataType(DataType.Int64)\n    .withPrimaryKey(true)\n    .withAutoID(true)\n    .build();\n\nFieldType title = FieldType.newBuilder()\n    .withName(\"title\")\n    .withDataType(DataType.VarChar)\n    .withMaxLength(512)\n    .build();\n\nFieldType title_vector = FieldType.newBuilder()\n    .withName(\"title_vector\")\n    .withDataType(DataType.FloatVector)\n    .withDimension(768)\n    .build(); \n\n// The following field is a JSON field.\nFieldType article_meta = FieldType.newBuilder()\n    .withName(\"article_meta\")\n    .withDataType(DataType.JSON)\n    .build();\n\nCreateCollectionParam createCollectionParam = CreateCollectionParam.newBuilder()\n    .withCollectionName(collectionName)\n    .withDescription(\"Schema of Medium articles\")\n    .addFieldType(id)\n    .addFieldType(title)\n    .addFieldType(title_vector)\n    .addFieldType(article_meta)\n    .build();\n\nR<RpcStatus> collection = client.createCollection(createCollectionParam);\n\nif (collection.getException() != null) {\n    System.err.println(\"Failed to create collection: \" + collection.getException().getMessage());\n    return;\n}\n\nSystem.out.println(\"Successfully created a collection with name: \" + collectionName);\n// Output:\n// Successfully created a collection with name: medium_articles\n\n// 3. Index and load the collection\n\n// Create index\nCreateIndexParam createIndexParam = CreateIndexParam.newBuilder()\n    .withCollectionName(collectionName)\n    .withFieldName(\"title_vector\")\n    .withIndexName(\"title_vector_index\")\n    .withIndexType(IndexType.AUTOINDEX)\n    .withMetricType(MetricType.L2)\n    .build();\n\nR<RpcStatus> res = client.createIndex(createIndexParam);\n\nif (res.getException() != null) {\n    System.err.println(\"Failed to create index: \" + res.getException().getMessage());\n    return;\n}\n\nSystem.out.println(\"Successfully created index\");\n// Output:\n// Successfully created index\n\n// Load collection\nLoadCollectionParam loadCollectionParam = LoadCollectionParam.newBuilder()\n    .withCollectionName(collectionName)\n    .build();\n\nR<RpcStatus> loadCollectionRes = client.loadCollection(loadCollectionParam);\n\nif (loadCollectionRes.getException() != null) {\n    System.err.println(\"Failed to load collection: \" + loadCollectionRes.getException().getMessage());\n    return;\n}\n\nGetLoadingProgressParam getLoadingProgressParam = GetLoadingProgressParam.newBuilder()\n    .withCollectionName(collectionName)\n    .build();\n\nR<GetLoadingProgressResponse> getLoadingProgressRes = client.getLoadingProgress(getLoadingProgressParam);\n\nif (getLoadingProgressRes.getException() != null) {\n    System.err.println(\"Failed to get loading progress: \" + getLoadingProgressRes.getException().getMessage());\n    return;\n}\n\nSystem.out.println(\"Successfully loaded collection\");\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// Successfully loaded collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "DyuZdmPXbopruWxD0iTcb7UmnbJ",
+        "block_type": 2,
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After creating and indexing the collection, format the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "example dataset",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FFCgWwFVtQiUy9GkDlQNcA0xZnPa%3Ffrom%3Dfrom_copylink"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to align with the collection schema. The following example illustrates how to extend the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "article_meta",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field with two new rows, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "tags_1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "tags_2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HvkcdA1B2oAUCXxPF0FcMt2Xn1b",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 6. Prepare data\n\n# Prepare a list of rows\nwith open(\"path/to/medium_articles_2020_dpr.json\") as f:\n    data = json.load(f)\n    list_of_rows = data['rows']\n\n    rows = []\n    for row in list_of_rows:\n        # Remove the id field because auto-id is enabled for the primary key\n        del row['id']\n        # Create the article_meta field and \n        row['article_meta'] = {}\n        # Move the following keys into the article_meta field\n        row['article_meta']['link'] = row.pop('link')\n        row['article_meta']['reading_time'] = row.pop('reading_time')\n        row['article_meta']['publication'] = row.pop('publication')\n        row['article_meta']['claps'] = row.pop('claps')\n        row['article_meta']['responses'] = row.pop('responses')\n        row['article_meta']['tags_1'] = [ random.randint(0, 40) for x in range(40)]\n        row['article_meta']['tags_2'] = [ [ random.randint(0, 40) for y in range(4) ] for x in range(10) ]\n        # Append this row to the data_rows list\n        rows.append(row)\n\nprint(rows[:1])\n\n# Output\n#\n# [\n#     {\n#         \"title\": \"The Reported Mortality Rate of Coronavirus Is Not Important\",\n#         \"title_vector\": [\n#             0.041732933,\n#             0.013779674,\n#             -0.027564144,\n#             -0.013061441,\n#             0.009748648,\n#             0.00082446384,\n#             -0.00071647146,\n#             0.048612226,\n#             -0.04836573,\n#             -0.04567751,\n#             \"(758 more items hidden)\"\n#         ],\n#         \"article_meta\": {\n#             \"link\": \"https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912\",\n#             \"reading_time\": 13,\n#             \"publication\": \"The Startup\",\n#             \"claps\": 1100,\n#             \"responses\": 18,\n#             \"tags_1\": [\n#                 20,\n#                 39,\n#                 4,\n#                 4,\n#                 11,\n#                 30,\n#                 6,\n#                 23,\n#                 29,\n#                 1,\n#                 \"(30 more items hidden)\"\n#             ],\n#             \"tags_2\": [\n#                 [\n#                     37,\n#                     29,\n#                     23,\n#                     27\n#                 ],\n#                 [\n#                     6,\n#                     34,\n#                     17,\n#                     33\n#                 ],\n#                 [\n#                     39,\n#                     9,\n#                     15,\n#                     37\n#                 ],\n#                 [\n#                     3,\n#                     28,\n#                     21,\n#                     10\n#                 ],\n#                 [\n#                     40,\n#                     15,\n#                     36,\n#                     20\n#                 ],\n#                 [\n#                     15,\n#                     24,\n#                     40,\n#                     26\n#                 ],\n#                 [\n#                     8,\n#                     36,\n#                     18,\n#                     19\n#                 ],\n#                 [\n#                     36,\n#                     21,\n#                     16,\n#                     28\n#                 ],\n#                 [\n#                     14,\n#                     6,\n#                     32,\n#                     18\n#                 ],\n#                 [\n#                     23,\n#                     31,\n#                     36,\n#                     39\n#                 ]\n#             ]\n#         }\n#     }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "N78BdGk8dohDV1xwsMxcfyfQnQg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 5. Prepare dataset\n    \n    const data = JSON.parse(fs.readFileSync(data_file))\n\n    // read rows\n    const rows = data[\"rows\"]\n    rows.forEach(row => {\n        // add a new field in the row object\n        row.article_meta = {}\n        // move the following fields into the new field\n        row.article_meta.link = row.link\n        delete row.link\n        row.article_meta.reading_time = row.reading_time\n        delete row.reading_time\n        row.article_meta.publication = row.publication\n        delete row.publication\n        row.article_meta.claps = row.claps\n        delete row.claps\n        row.article_meta.responses = row.responses\n        delete row.responses\n        row.article_meta.tags_1 = Array.from({length: 40}, () => Math.floor(Math.random() * 40));   \n        row.article_meta.tags_2 = Array.from({length: 10}, () => Array.from({length: 4}, () => Math.floor(Math.random() * 40)))      \n    });\n\n    console.log(Object.keys(rows[0]))\n\n    // Output\n    // \n    // [ 'id', 'title', 'title_vector', 'article_meta' ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    // ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "CAcgdHkQooRvmixrgErcU7KlnTe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 4. Read a local file\nPath file = Path.of(data_file);\nString content;\n\ntry {\n    content = Files.readString(file);\n} catch (Exception e) {\n    System.err.println(\"Failed to read file: \" + e.getMessage());\n    return;\n}\n\nSystem.out.println(\"Successfully read file\");\n// Output:\n// Successfully read file\n\n// Load dataset\nJSONObject dataset = JSON.parseObject(content);\n\n// In addition to the original data, we also need to add some tags fields.\n// The tags fields are used to demonstrate the use of the advanced expression.\n// For details, examine the getRows function\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List<JSONObject> rows = getRows(dataset.getJSONArray(\"rows\"), 5979);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "YYBFdwC6OoLZgZxZCTecQ9tVnYf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Insert data into the collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "KJcHd6Be8o4r7Rx5QYrcd1AznND",
+        "block_type": 2,
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Insert your prepared data into the collection with the following code:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PTFVde0AtouAsrxaroHc0qWnn0d",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 7. Insert data\nresults = collection.insert(rows)\n\nprint(f\"Data inserted successfully! inserted rows: {results.insert_count}\")\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Data inserted successfully! inserted rows: 5979",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "ZiL8dEO05oFt3GxdfkQcdvUknjg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "    //insert vectors\n    res = await client.insert({\n        collection_name: collectionName,\n        data: rows\n    })\n\n    console.log(res)\n\n    // Output\n    // \n    // {\n    //   succ_index: [\n    //      0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11,\n    //     12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,\n    //     24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,\n    //     36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,\n    //     48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,\n    //     60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71,\n    //     72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83,\n    //     84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95,\n    //     96, 97, 98, 99,\n    //     ... 5879 more items\n    //   ],\n    //   err_index: [],\n    //   status: { error_code: 'Success', reason: '', code: 0 },\n    //   IDs: { int_id: { data: [Array] }, id_field: 'int_id' },\n    //   acknowledged: false,\n    //   insert_cnt: '5979',\n    //   delete_cnt: '0',\n    //   upsert_cnt: '0',\n    //   timestamp: '445318026051190787'\n    // }\n    // \n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    await sleep(5000)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "KysJdpVMIovitZx7ZnjcS9qonpd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "InsertParam insertParam = InsertParam.newBuilder()\n    .withCollectionName(collectionName)\n    .withRows(rows)\n    .build();\n\nR<MutationResult> insertResponse = client.insert(insertParam);\n\nif (insertResponse.getStatus() != R.Status.Success.getCode()) {\n    System.err.println(insertResponse.getMessage());\n}\n\nMutationResultWrapper mutationResultWrapper = new MutationResultWrapper(insertResponse.getData());\n\nSystem.out.println(\"Successfully insert entities: \" + mutationResultWrapper.getInsertCount());\n// Output:\n// Successfully insert entities: 5979\n\n// Wait for a while\ntry {\n    // pause execution for 5 seconds\n    Thread.sleep(5000);\n} catch (InterruptedException e) {\n    // handle the exception\n    Thread.currentThread().interrupt();\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "LvdtdrwtDoFzAZxPNZucKtQynBe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "count()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "FgFXdPaLHod1VZxJ3mfcsVIIn7f",
+        "block_type": 2,
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can include ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "count()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "output_fields",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " during a search or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to receive the count of entities within a collection. If you wish to count entities based on specific criteria, the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "expr",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " parameter will help you filter the data accordingly.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GjJtdiJEKozPQ4xCeqHcnBxUn3c",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Count all entities",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "QLvjd03puoImcVxKFt6cLeexnqK",
+        "block_type": 2,
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " the total number of entities with the following code:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JVl8d0Wm7oIrsFxTjfTchzlNn2b",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "num_of_entities = collection.query(expr=\"\",output_fields=[\"count(*)\"])\n\nprint(num_of_entities)\nprint(num_of_entities[0])\n\n# Output:\n# [{'count(*)': 5979}]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# {'count(*)': 5979}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "Bl9ldBvkGo7z20xJ7BmcJ4f5nFf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "    // 6. Count entities\n\n    counts = await client.query({\n        collection_name: collectionName,\n        filter: \"\",\n        output_fields: [\"count(*)\"]\n    })\n\n    console.log(counts)\n\n    // Output\n    // \n    // {\n    //   status: { error_code: 'Success', reason: '', code: 0 },\n    //   data: [ { 'count(*)': '5979' } ]\n    // }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    // ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "YemcdCpk3oVN6fxGf82cHEffnJh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 5. Count the entities using the 'count(*)' field\n\nList<String> outputFields1 = new ArrayList<>();\noutputFields1.add(\"count(*)\");\n\nQueryParam queryParam1 = QueryParam.newBuilder()\n    .withCollectionName(collectionName)\n    .withExpr(\"\")\n    .withOutFields(outputFields1)\n    .build();\n\nR<QueryResults> queryResponse1 = client.query(queryParam1);\n\nif (queryResponse1.getException() != null) {\n    System.err.println(\"Failed to query: \" + queryResponse1.getException().getMessage());\n    return;\n}\n\nQueryResultsWrapper queryResultsWrapper1 = new QueryResultsWrapper(queryResponse1.getData());\n\nint count1 = ((Long) queryResultsWrapper1.getFieldWrapper(\"count(*)\").getFieldData().get(0)).intValue();\n\nSystem.out.println(\"The collection contains exactly \" + count1 + \" entities!\");\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// The collection contains exactly 5979 entities!",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "O3ABdVe4QoxNf6xlYAicEJF1n0i",
+        "block_type": 2,
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The provided code snippet will return the total number of entities as no conditions are set by the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "expr",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " parameter.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZHd0deFmNognBKxxRwFcBOWcnkf",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Count entities based on conditions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "PnU2dqBMtoeHOqxnwiccAoRBnxf",
+        "block_type": 2,
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " the number of entities meeting certain criteria:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O1l4dxnfDoUGx2x0l8qcydAqnQd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "entities = collection.query(\n    expr='article_meta[\"claps\"] > 30 and article_meta[\"reading_time\"] < 10',\n    output_fields=[\"count(*)\"]\n)\n\nprint(entities)\nprint(entities[0])\n\n# Output:\n# [{'count(*)': 4304}]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# {'count(*)': 4304}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "LToRd5uIZovJ8kxB0gbcYTYsnDf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "    // 7. Count entities with condition\n\n    // matches all articles with tags_1 having the member 16\n    const expr_1 = 'JSON_CONTAINS(article_meta[\"tags_1\"], 16)'\n\n    // matches all articles with tags_2 having the member [5, 3, 39, 8]\n    const expr_2 = 'JSON_CONTAINS(article_meta[\"tags_2\"], [5, 3, 39, 8])'\n\n    // matches all articles with tags_1 having a member from [5, 3, 39, 8]\n    const expr_3 = 'JSON_CONTAINS_ANY(article_meta[\"tags_1\"], [5, 3, 39, 8])'\n\n    // matches all articles with tags_1 having all members from [2, 4, 6]\n    const expr_4 = 'JSON_CONTAINS_ALL(article_meta[\"tags_1\"], [2, 4, 6])'\n\n    counts = await client.query({\n        collection_name: collectionName,\n        filter: expr_1,\n        output_fields: [\"count(*)\"]\n    })\n\n    console.log(counts)\n\n    // Output\n    // \n    // {\n    //   status: { error_code: 'Success', reason: '', code: 0 },\n    //   data: [ { 'count(*)': '3825' } ]\n    // }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    // ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "GSt1dWP1Qo41KGxrzV3cvnPhnBg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 6. Count the entities with filters\n\nList<String> outputFields2 = new ArrayList<>();\noutputFields2.add(\"count(*)\");\n\nQueryParam queryParam2 = QueryParam.newBuilder()\n    .withCollectionName(collectionName)\n    .withExpr(\"article_meta[\\\"claps\\\"] > 30 and article_meta[\\\"reading_time\\\"] < 10\")\n    .withOutFields(outputFields2)\n    .build();\n\nR<QueryResults> queryResponse2 = client.query(queryParam2);\n\nif (queryResponse2.getException() != null) {\n    System.err.println(\"Failed to query: \" + queryResponse2.getException().getMessage());\n    return;\n}\n\nQueryResultsWrapper queryResultsWrapper2 = new QueryResultsWrapper(queryResponse2.getData());\n\nint count2 = ((Long) queryResultsWrapper2.getFieldWrapper(\"count(*)\").getFieldData().get(0)).intValue();\n\nSystem.out.println(\"The collection contains exactly \" + count2 + \" entities!\");\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// The collection contains exactly 4304 entities!",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "MNkSd14pSoRcKjxpdBRcrqwxnYc",
+        "block_type": 2,
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The code snippet above will count the entities that satisfy both conditions:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AkOldyA4joqpW6xyt4acsSROnxc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "More than 30 claps within ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "article_meta",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'s ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "claps",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "CGAhd2sXQonXYZx5zLNcTjFNnDd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Less than 10-min ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "reading_time",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " within ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "article_meta",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "UiLzd4Ey8onmbzxEgROc9fFDnGg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "json_contains()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "Q672dXg8koiigJx0Y7rcHtAGnic",
+        "block_type": 2,
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "json_contains()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to verify if a specific value is present within a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key during search or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " operations.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FxIcdyZKzoZexwxMJ2Tci52CnLc",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "json_contains()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in a vector search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "HKxmd73JnoFXfdx6benc8WaCnah",
+        "block_type": 2,
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON_CONTAINS()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to filter results where ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "article_meta[\"tags_1\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " includes element ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "16",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZrrqdKpUFoueR5xAIHycg7mrnvc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Define search parameters\nsearch_params = {\n    \"metric_type\": \"L2\",\n    \"params\": {\"nprobe\": 10}\n}\n\nres = collection.search(\n    data=[query_vector],\n    anns_field=\"title_vector\",\n    param={\"metric_type\": \"L2\", \"params\": {\"nprobe\": 10}},\n    limit=5,\n    expr='JSON_CONTAINS(article_meta[\"tags_1\"], 16)',\n    output_fields=[\"title\", \"article_meta\"]\n)\n\nids = [ hits.ids for hits in res ]\n\nprint(ids)\n\n# Output\n#\n# [\n#     [\n#         445311585782930475,\n#         445311585782930509,\n#         445311585782928309,\n#         445311585782929013,\n#         445311585782925710\n#     ]\n# ]\n\n\n\ndistances = [ hits.distances for hits in res ]\n\nprint(distances)\n\n# Output\n#\n# [\n#     [\n#         0.36103832721710205,\n#         0.37674015760421753,\n#         0.416297972202301,\n#         0.4928317368030548,\n#         0.49443864822387695\n#     ]\n# ]\n\ndef get_tags_1(value, target):\n    try:\n        return value.index(target) >= 0\n    except (ValueError):\n        return False\n\nresults = [ {\n    \"id\": hit.id,\n    \"distance\": hit.distance,\n    \"entity\": {\n        \"title\": hit.entity.get(\"title\"),\n        \"link\": hit.entity.get(\"article_meta\")['link'],\n        \"tags_1\": get_tags_1(hit.entity.get(\"article_meta\")[\"tags_1\"], 16),\n    }\n} for hits in res for hit in hits ]\n\nprint(results)\n\n# Output\n#\n# [\n#     {\n#         \"id\": 445311585782930475,\n#         \"distance\": 0.36103832721710205,\n#         \"entity\": {\n#             \"title\": \"The Hidden Side Effect of the Coronavirus\",\n#             \"link\": \"https://medium.com/swlh/the-hidden-side-effect-of-the-coronavirus-b6a7a5ee9586\",\n#             \"tags_1\": true\n#         }\n#     },\n#     {\n#         \"id\": 445311585782930509,\n#         \"distance\": 0.37674015760421753,\n#         \"entity\": {\n#             \"title\": \"Why The Coronavirus Mortality Rate is Misleading\",\n#             \"link\": \"https://towardsdatascience.com/why-the-coronavirus-mortality-rate-is-misleading-cc63f571b6a6\",\n#             \"tags_1\": true\n#         }\n#     },\n#     {\n#         \"id\": 445311585782928309,\n#         \"distance\": 0.416297972202301,\n#         \"entity\": {\n#             \"title\": \"Coronavirus shows what ethical Amazon could look like\",\n#             \"link\": \"https://medium.com/swlh/coronavirus-shows-what-ethical-amazon-could-look-like-7c80baf2c663\",\n#             \"tags_1\": true\n#         }\n#     },\n#     {\n#         \"id\": 445311585782929013,\n#         \"distance\": 0.4928317368030548,\n#         \"entity\": {\n#             \"title\": \"Will Coronavirus Impact Freelancers\\u2019 Ability to Rent?\",\n#             \"link\": \"https://medium.com/swlh/will-coronavirus-impact-freelancers-ability-to-rent-ae11f2847bab\",\n#             \"tags_1\": true\n#         }\n#     },\n#     {\n#         \"id\": 445311585782925710,\n#         \"distance\": 0.49443864822387695,\n#         \"entity\": {\n#             \"title\": \"Choosing the right performance metrics can save lives against Coronavirus\",\n#             \"link\": \"https://towardsdatascience.com/choosing-the-right-performance-metrics-can-save-lives-against-coronavirus-2f27492f6638\",\n#             \"tags_1\": true\n#         }\n#     }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "BVmWdyBryoZFThxf8GNccWwnnRe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "    // 8. Check if a specific element exists in JSON field\n\n    // Search\n\n    res = await client.search({\n        collection_name: collectionName,\n        vector: rows[0].title_vector,\n        limit: 5,\n        filter: expr_3,\n        output_fields: [\"title\", \"article_meta\"]\n    })\n\n    console.log(res)\n\n    // Output\n    // \n    // {\n    //   status: { error_code: 'Success', reason: '', code: 0 },\n    //   results: [\n    //     {\n    //       score: 0,\n    //       id: '0',\n    //       title: 'The Reported Mortality Rate of Coronavirus Is Not Important',\n    //       article_meta: [Object]\n    //     },\n    //     {\n    //       score: 0.29999834299087524,\n    //       id: '3177',\n    //       title: 'Following the Spread of Coronavirus',\n    //       article_meta: [Object]\n    //     },\n    //     {\n    //       score: 0.36103832721710205,\n    //       id: '5607',\n    //       title: 'The Hidden Side Effect of the Coronavirus',\n    //       article_meta: [Object]\n    //     },\n    //     {\n    //       score: 0.37674015760421753,\n    //       id: '5641',\n    //       title: 'Why The Coronavirus Mortality Rate is Misleading',\n    //       article_meta: [Object]\n    //     },\n    //     {\n    //       score: 0.416297972202301,\n    //       id: '3441',\n    //       title: 'Coronavirus shows what ethical Amazon could look like',\n    //       article_meta: [Object]\n    //     }\n    //   ]\n    // }\n    // \n\n    tags_1 = res.results.map((item) => item.article_meta[\"tags_1\"])\n\n    console.log(tags_1)\n\n    // Output\n    // \n    // [\n    //   [\n    //     24, 20, 37, 11,  3, 16, 26, 39, 18, 34,\n    //     13, 25,  9, 37, 29, 30, 18, 34, 27, 22,\n    //      6, 23,  3,  5, 14,  0, 23,  2, 36, 37,\n    //     31, 28,  7, 18, 16,  1,  9, 12, 17,  3\n    //   ],\n    //   [\n    //      9,  6, 34, 16,  2,  5, 15, 36,  6, 37,\n    //     17,  7,  7, 13, 21,  6, 33, 37, 16, 24,\n    //     35, 32, 17, 11, 33, 16, 22, 22, 39, 36,\n    //      7, 37, 15, 21, 31, 16,  8, 37, 18, 17\n    //   ],\n    //   [\n    //     23, 10, 35, 32, 23,  1,  1, 31, 10, 20,\n    //     20,  2, 15,  3,  3, 22,  8, 27, 24, 18,\n    //     36, 24, 22,  1, 24, 31,  9, 20, 25, 22,\n    //     10, 36, 29, 25,  3, 17, 37,  2,  6,  0\n    //   ],\n    //   [\n    //     37, 22, 38, 32, 20, 27,  3, 28, 23, 26,\n    //     23, 22, 24,  7, 38, 23,  2,  5, 19,  6,\n    //     14, 38, 24, 27, 11,  9, 30, 18, 38,  2,\n    //     19, 16,  9,  1, 12, 16,  4,  0,  5,  2\n    //   ],\n    //   [\n    //     18, 38, 28, 36,  0, 31, 31, 39,  1, 21,\n    //     18,  0, 18, 38, 20, 31, 17,  1, 37,  7,\n    //     29, 33, 13, 32, 29, 27, 27, 39, 19, 36,\n    //     30,  4, 21,  6, 31, 26, 35,  7, 11, 24\n    //   ]\n    // ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    // ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "DVsid0MljoGVIzxehlZcZNB8nNG",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 7. Search with advanced filters\n\n// matches all articles with tags_1 having the member 16\nString expr_1 = \"JSON_CONTAINS(article_meta[\\\"tags_1\\\"], 16)\";\n\n// matches all articles with tags_2 having the member [5, 3, 39, 8]\nString expr_2 = \"JSON_CONTAINS(article_meta[\\\"tags_2\\\"], [5, 3, 39, 8])\";\n\n// matches all articles with tags_1 having a member from [5, 3, 39, 8]\nString expr_3 = \"JSON_CONTAINS_ANY(article_meta[\\\"tags_1\\\"], [5, 3, 39, 8])\";\n\n// matches all articles with tags_1 having all members from [2, 4, 6]\nString expr_4 = \"JSON_CONTAINS_ALL(article_meta[\\\"tags_1\\\"], [2, 4, 6])\";\n\n// prepare query vector\nList<List<Float>> queryVectors = new ArrayList<>();\nList<Float> queryVector1 = rows.get(0).getJSONArray(\"title_vector\").toJavaList(Float.class);\nqueryVectors.add(queryVector1);\n\n// prepare output field\nList<String> outputFields = new ArrayList<>();\noutputFields.add(\"title\");\noutputFields.add(\"article_meta\");\n\n// Search vectors in a collection\nSearchParam searchParam = SearchParam.newBuilder()\n    .withCollectionName(collectionName)\n    .withVectorFieldName(\"title_vector\")\n    .withVectors(queryVectors)\n    .withTopK(5)   \n    .withMetricType(MetricType.L2)  \n    .withParams(\"{\\\"nprobe\\\":10}\")\n    .withConsistencyLevel(ConsistencyLevelEnum.BOUNDED)\n    .withOutFields(outputFields)\n    .withExpr(expr_1)\n    .build();\n\nR<SearchResults> response = client.search(searchParam);\n\nSearchResultsWrapper wrapper = new SearchResultsWrapper(response.getData().getResults());\n\nList<List<JSONObject>> results = new ArrayList<>();\n\nfor (int i = 0; i < queryVectors.size(); ++i) {\n    List<SearchResultsWrapper.IDScore> scores = wrapper.getIDScore(i);\n    List<JSONObject> entities = new ArrayList<>();\n    for (int j = 0; j < scores.size(); ++j) {\n        SearchResultsWrapper.IDScore score = scores.get(j);\n        JSONObject entity = new JSONObject(1, true);\n        entity.put(\"id\", score.getLongID());\n        entity.put(\"distance\", score.getScore());\n        entity.put(\"title\", scores.get(j).get(\"title\"));\n        entity.put(\"reading_time\", ((JSONObject) scores.get(j).get(\"article_meta\")).getLong(\"reading_time\"));\n        entity.put(\"claps\", ((JSONObject) scores.get(j).get(\"article_meta\")).getLong(\"claps\"));\n        entity.put(\"tags_1\", ((JSONObject) scores.get(j).get(\"article_meta\")).getJSONArray(\"tags_1\").indexOf(16) >= 0);\n        entities.add(entity);\n    }\n    \n    results.add(entities);\n}\n\nSystem.out.println(results);\n\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// [[{\"id\":445337000188379768,\"distance\":0.29999834,\"title\":\"Following the Spread of Coronavirus\",\"reading_time\":10,\"claps\":215,\"tags_1\":true}, {\"id\":445337000188382232,\"distance\":0.37674016,\"title\":\"Why The Coronavirus Mortality Rate is Misleading\",\"reading_time\":9,\"claps\":2900,\"tags_1\":true}, {\"id\":445337000188377529,\"distance\":0.4360938,\"title\":\"Mortality Rate As an Indicator of an Epidemic Outbreak\",\"reading_time\":6,\"claps\":65,\"tags_1\":true}, {\"id\":445337000188379663,\"distance\":0.4627558,\"title\":\"Can we learn anything from the progression of influenza to analyze the COVID-19 pandemic better?\",\"reading_time\":5,\"claps\":2,\"tags_1\":true}, {\"id\":445337000188380919,\"distance\":0.48078254,\"title\":\"Ever Wondered How Epidemiologists Simulate COVID-19 Deaths?\",\"reading_time\":4,\"claps\":20,\"tags_1\":true}]]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "HBMddUT6To8QG0xL25XcNsnCn4d",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "json_contains()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "QOH1dkZI9oBUHAxew3Lc3PCsnQh",
+        "block_type": 2,
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON_CONTAINS_ALL()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to filter results where ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "article_meta[\"tags_1\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " includes all elements in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "[2, 4, 6]",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IWlgdwGpIoN4VKxmBI5croVZnTf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "res = collection.query(\n    limit=5,\n    expr='JSON_CONTAINS_ALL(article_meta[\"tags_1\"], [2, 4, 6])',\n    output_fields=[\"title\", \"article_meta\"]\n)\n\nres = [ {\n    \"title\": x.get(\"title\"),\n    \"article_meta\": {\n        \"link\": x.get(\"article_meta\")['link'],\n        \"reading_time\": x.get(\"article_meta\")['reading_time'],\n        \"publication\": x.get(\"article_meta\")['publication'],\n        \"claps\": x.get(\"article_meta\")['claps'],\n        \"responses\": x.get(\"article_meta\")['responses'],\n        \"tags_1\": get_tags_1(x.get(\"article_meta\")['tags_1'], 2),\n    },\n} for x in res ]\n\nprint(res)\n\n# Output\n#\n# [\n#     {\n#         \"title\": \"The Reported Mortality Rate of Coronavirus Is Not Important\",\n#         \"article_meta\": {\n#             \"link\": \"https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912\",\n#             \"reading_time\": 13,\n#             \"publication\": \"The Startup\",\n#             \"claps\": 1100,\n#             \"responses\": 18,\n#             \"tags_1\": true\n#         }\n#     },\n#     {\n#         \"title\": \"Dashboards in Python: 3 Advanced Examples for Dash Beginners and Everyone Else\",\n#         \"article_meta\": {\n#             \"link\": \"https://medium.com/swlh/dashboards-in-python-3-advanced-examples-for-dash-beginners-and-everyone-else-b1daf4e2ec0a\",\n#             \"reading_time\": 14,\n#             \"publication\": \"The Startup\",\n#             \"claps\": 726,\n#             \"responses\": 3,\n#             \"tags_1\": true\n#         }\n#     },\n#     {\n#         \"title\": \"Would you rather have 8% of $25 or 25% of $8?\",\n#         \"article_meta\": {\n#             \"link\": \"https://medium.com/swlh/would-you-rather-have-8-of-25-or-25-of-8-486b3bc48f28\",\n#             \"reading_time\": 3,\n#             \"publication\": \"The Startup\",\n#             \"claps\": 208,\n#             \"responses\": 5,\n#             \"tags_1\": true\n#         }\n#     },\n#     {\n#         \"title\": \"Big Reasons for Expanding Your Vocabulary, and How to Do It.\",\n#         \"article_meta\": {\n#             \"link\": \"https://medium.com/swlh/big-reasons-for-expanding-your-vocabulary-and-how-to-do-it-c78766e4df2\",\n#             \"reading_time\": 8,\n#             \"publication\": \"The Startup\",\n#             \"claps\": 417,\n#             \"responses\": 3,\n#             \"tags_1\": true\n#         }\n#     },\n#     {\n#         \"title\": \"How to Find Things and Do Research in a Discovery Phase\",\n#         \"article_meta\": {\n#             \"link\": \"https://medium.com/swlh/how-to-find-things-and-do-research-in-a-discovery-phase-6c3e4f50b208\",\n#             \"reading_time\": 5,\n#             \"publication\": \"The Startup\",\n#             \"claps\": 330,\n#             \"responses\": 0,\n#             \"tags_1\": true\n#         }\n#     }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "Lw2idk8aao11n6x8RgHcxDEVnZb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "    // Query\n\n    res = await client.query({\n        collection_name: collectionName,\n        filter: expr_4,\n        limit: 5,\n        output_fields: [\"title\", \"article_meta\"]\n    })\n\n    console.log(res)\n\n    // Output\n    // \n    // {\n    //   status: { error_code: 'Success', reason: '', code: 0 },\n    //   data: [\n    //     {\n    //       title: 'Maternity leave shouldn’t set women back',\n    //       article_meta: [Object],\n    //       id: '3'\n    //     },\n    //     {\n    //       title: 'Python NLP Tutorial: Information Extraction and Knowledge Graphs',\n    //       article_meta: [Object],\n    //       id: '4'\n    //     },\n    //     {\n    //       title: 'Building Comprehensible Customer Churn Prediction Models',\n    //       article_meta: [Object],\n    //       id: '7'\n    //     },\n    //     {\n    //       title: '5 Underrated Traits That Separate Exceptional Teams From the Rest',\n    //       article_meta: [Object],\n    //       id: '8'\n    //     },\n    //     {\n    //       title: 'Building high performance startup teams',\n    //       article_meta: [Object],\n    //       id: '10'\n    //     }\n    //   ]\n    // }\n    // \n\n    tags_1 = res.data.map((item) => item.article_meta[\"tags_1\"])\n\n    console.log(tags_1)\n\n    // Output\n    // \n    // [\n    //   [\n    //      2, 34, 25, 19, 19,  6,  3, 37, 16,  1,\n    //     27,  9,  9, 26, 27, 34, 30, 12, 11, 36,\n    //     30,  3,  1,  2, 24,  4, 14, 33, 32, 14,\n    //     26, 12, 22, 28, 10,  6,  2, 39, 10, 34\n    //   ],\n    //   [\n    //     37,  3, 11, 27, 20,  6,  4, 33,  7,  4,\n    //     37, 39, 29, 19, 35, 24, 29, 25, 38, 25,\n    //      7, 27,  8, 19, 27,  7, 15, 36,  8, 28,\n    //     29, 13, 13, 30, 29, 30, 22,  2, 35, 30\n    //   ],\n    //   [\n    //      4, 26,  1, 31, 10,  5, 33, 8,  0,  2,\n    //     39, 37, 38, 25, 12, 28, 19, 9, 13, 29,\n    //     22, 19, 24, 25,  3, 34, 22, 3,  9,  3,\n    //      8, 27, 36, 26,  5, 20, 18, 6, 26, 30\n    //   ],\n    //   [\n    //     27,  1,  5, 27, 14,  4,  2, 35,  6, 35,\n    //     34,  0, 22, 37, 33,  4,  0, 26,  7,  1,\n    //     22, 21,  8, 28, 31, 24, 33, 22, 27, 22,\n    //     19, 20,  3, 34,  8, 13, 24, 28, 25, 34\n    //   ],\n    //   [\n    //     38, 12,  4, 18, 17,  2, 25, 31,  7, 23,\n    //      0, 10, 23, 35, 37, 32, 26,  9, 32, 27,\n    //      8, 38,  5, 30, 10, 10,  7, 25, 29, 10,\n    //     27, 23, 34, 27, 38,  0,  6, 38, 34, 23\n    //   ]\n    // ]\n    // \n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "LRP2dMz8HoxpJPxxYnUcglE6nBb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7297146474168909852"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Query",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7297146474168909852"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\nQueryParam queryParam = QueryParam.newBuilder()\n    .withCollectionName(collectionName)\n    .withExpr(expr_1)\n    .withOutFields(outputFields)\n    .withLimit(5L)\n    .build();\n\nR<QueryResults> queryResponse = client.query(queryParam);\n\nif (queryResponse.getException() != null) {\n    System.err.println(\"Failed to query: \" + queryResponse.getException().getMessage());\n    return;\n}\n\nQueryResultsWrapper queryResultsWrapper = new QueryResultsWrapper(queryResponse.getData());\n\nList<List<JSONObject>> queryResults = new ArrayList<>();\n\nList<Long> ids = (List<Long>) queryResultsWrapper.getFieldWrapper(\"id\").getFieldData();\nList<String> titles = (List<String>) queryResultsWrapper.getFieldWrapper(\"title\").getFieldData();\nList<?> articleMetas = queryResultsWrapper.getFieldWrapper(\"article_meta\").getFieldData();\nList<JSONObject> entities = new ArrayList<>();\nfor (int j = 0; j < ids.size(); ++j) {\n    JSONObject entity = new JSONObject();\n    entity.put(\"id\", ids.get(j));\n    entity.put(\"title\", titles.get(j));\n\n    byte[] articleMetaBytes = (byte[]) articleMetas.get(j);\n    JSONObject articleMeta = JSON.parseObject(new String(articleMetaBytes));\n\n    articleMeta.put(\"tags_1\", articleMeta.getJSONArray(\"tags_1\").indexOf(16) >= 0);\n    articleMeta.remove(\"tags_2\");\n\n    entity.put(\"article_meta\", articleMeta);\n    entities.add(entity);\n}\n\nqueryResults.add(entities);\n\nSystem.out.println(queryResults);        \n\n// Output:\n// [[\n//     {\n//         \"article_meta\": {\n//             \"reading_time\": 13,\n//             \"tags_1\": true,\n//             \"publication\": \"The Startup\",\n//             \"link\": \"https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912\",\n//             \"responses\": 18,\n//             \"claps\": 1100\n//         },\n//         \"id\": 445535516305953765,\n//         \"title\": \"The Reported Mortality Rate of Coronavirus Is Not Important\"\n//     },\n//     {\n//         \"article_meta\": {\n//             \"reading_time\": 6,\n//             \"tags_1\": true,\n//             \"publication\": \"The Startup\",\n//             \"link\": \"https://medium.com/swlh/how-can-we-best-switch-in-python-458fb33f7835\",\n//             \"responses\": 7,\n//             \"claps\": 500\n//         },\n//         \"id\": 445535516305953767,\n//         \"title\": \"How Can We Best Switch in Python?\"\n//     },\n//     {\n//         \"article_meta\": {\n//             \"reading_time\": 6,\n//             \"tags_1\": true,\n//             \"publication\": \"The Startup\",\n//             \"link\": \"https://medium.com/swlh/science-monday-can-you-drink-as-much-water-as-tom-brady-1a45cb802be8\",\n//             \"responses\": 5,\n//             \"claps\": 142\n//         },\n//         \"id\": 445535516305953771,\n//         \"title\": \"Science Monday: Can You Drink As Much Water As Tom Brady?\"\n//     },\n//     {\n//         \"article_meta\": {\n//             \"reading_time\": 13,\n//             \"tags_1\": true,\n//             \"publication\": \"The Startup\",\n//             \"link\": \"https://medium.com/swlh/building-comprehensible-customer-churn-prediction-models-ca61ecce529d\",\n//             \"responses\": 4,\n//             \"claps\": 261\n//         },\n//         \"id\": 445535516305953772,\n//         \"title\": \"Building Comprehensible Customer Churn Prediction Models\"\n//     },\n//     {\n//         \"article_meta\": {\n//             \"reading_time\": 11,\n//             \"tags_1\": true,\n//             \"publication\": \"The Startup\",\n//             \"link\": \"https://medium.com/swlh/building-high-performance-startup-teams-1a0611c0bdd4\",\n//             \"responses\": 0,\n//             \"claps\": 188\n//         },\n//         \"id\": 445535516305953775,\n//         \"title\": \"Building high performance startup teams\"\n//     }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ]]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "comment_ids": [
+          "7297146474168909852"
+        ],
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "P3JMdIfzoo1oZnxZvitc06iqnRh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Expression reference",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "Bhw6dJkfuoIxLUxxbvUcBNe8nue",
+        "block_type": 2,
+        "comment_ids": [
+          "7297122883011608579"
+        ],
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following table describes the supported boolean expressions that you can use in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "expr",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " when s",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "earching or",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7297122883011608579"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " querying with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "json_contains()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MgMOd8HO4o0MtDxXzcBcKEK3nFb",
+        "block_type": 31,
+        "children": [
+          "WhXAdApTAorDVmxzSEdcD1qrnDV",
+          "X2wydZBSYo9VDuxKWfGcafkbnjf",
+          "GSkkd8P13ojhXGxysLlciHa0nXb",
+          "NycOdmi5Qo6FTCxkrj1cjPrEnrd",
+          "E5O4dUQsKoapGBxuh4dcktCHnve",
+          "KISadhv32oCy51xtG11c0DbInXb",
+          "QC1wd4L2uoCfczxgWvZcrVAUnKg",
+          "Oc3Kdi3HHo0ci7x2XR2cLkeLnzd",
+          "A0ZMdWhfcokwuNxeGtqccw38nAU",
+          "SoKEdshcVoprgTxamFLcbbYCnWg",
+          "PStbdKPtxoSep4x0qAjctdPqnNb",
+          "QtJfdMj8doDKWWxFbmEcus51nAe"
+        ],
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
+        "table": {
+          "cells": [
+            "WhXAdApTAorDVmxzSEdcD1qrnDV",
+            "X2wydZBSYo9VDuxKWfGcafkbnjf",
+            "GSkkd8P13ojhXGxysLlciHa0nXb",
+            "NycOdmi5Qo6FTCxkrj1cjPrEnrd",
+            "E5O4dUQsKoapGBxuh4dcktCHnve",
+            "KISadhv32oCy51xtG11c0DbInXb",
+            "QC1wd4L2uoCfczxgWvZcrVAUnKg",
+            "Oc3Kdi3HHo0ci7x2XR2cLkeLnzd",
+            "A0ZMdWhfcokwuNxeGtqccw38nAU",
+            "SoKEdshcVoprgTxamFLcbbYCnWg",
+            "PStbdKPtxoSep4x0qAjctdPqnNb",
+            "QtJfdMj8doDKWWxFbmEcus51nAe"
+          ],
+          "property": {
+            "column_size": 3,
+            "column_width": [
+              187,
+              347,
+              299
+            ],
+            "header_row": true,
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 4
+          }
+        }
+      },
+      {
+        "block_id": "WhXAdApTAorDVmxzSEdcD1qrnDV",
+        "block_type": 32,
+        "children": [
+          "OmabdQToZom7aLxjxXHcpq5nnfg"
+        ],
+        "parent_id": "MgMOd8HO4o0MtDxXzcBcKEK3nFb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OmabdQToZom7aLxjxXHcpq5nnfg",
+        "block_type": 2,
+        "parent_id": "WhXAdApTAorDVmxzSEdcD1qrnDV",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Expression",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X2wydZBSYo9VDuxKWfGcafkbnjf",
+        "block_type": 32,
+        "children": [
+          "M3hzdngNzoIbwIxHZ9FcZcjAnFh"
+        ],
+        "parent_id": "MgMOd8HO4o0MtDxXzcBcKEK3nFb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "M3hzdngNzoIbwIxHZ9FcZcjAnFh",
+        "block_type": 2,
+        "parent_id": "X2wydZBSYo9VDuxKWfGcafkbnjf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GSkkd8P13ojhXGxysLlciHa0nXb",
+        "block_type": 32,
+        "children": [
+          "UubRdnVBSotn7PxqYIscfxqQnEd"
+        ],
+        "parent_id": "MgMOd8HO4o0MtDxXzcBcKEK3nFb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "UubRdnVBSotn7PxqYIscfxqQnEd",
+        "block_type": 2,
+        "parent_id": "GSkkd8P13ojhXGxysLlciHa0nXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Remarks",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NycOdmi5Qo6FTCxkrj1cjPrEnrd",
+        "block_type": 32,
+        "children": [
+          "Y3h8dIMVioxzJBx7czEcAFgln0c"
+        ],
+        "parent_id": "MgMOd8HO4o0MtDxXzcBcKEK3nFb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Y3h8dIMVioxzJBx7czEcAFgln0c",
+        "block_type": 2,
+        "parent_id": "NycOdmi5Qo6FTCxkrj1cjPrEnrd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "json_contains",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON_CONTAINS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "E5O4dUQsKoapGBxuh4dcktCHnve",
+        "block_type": 32,
+        "children": [
+          "ColddsA6FoGxCMxH3nCcUptCnTf",
+          "WQa5dEHjkoJZgtxhPwZcbsHFnee"
+        ],
+        "parent_id": "MgMOd8HO4o0MtDxXzcBcKEK3nFb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ColddsA6FoGxCMxH3nCcUptCnTf",
+        "block_type": 2,
+        "parent_id": "E5O4dUQsKoapGBxuh4dcktCHnve",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "expr_1 = 'JSON_CONTAINS(article_meta[\"tags_1\"], 16)'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WQa5dEHjkoJZgtxhPwZcbsHFnee",
+        "block_type": 2,
+        "parent_id": "E5O4dUQsKoapGBxuh4dcktCHnve",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "expr_2 = 'JSON_CONTAINS(article_meta[\"tags_2\"], [5, 3, 39, 8])'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KISadhv32oCy51xtG11c0DbInXb",
+        "block_type": 32,
+        "children": [
+          "PcVEdRtjaoz09ixhVmCcwW7Ingg",
+          "Hernd4eYIo7TtlxuwgUcHvaFnPe",
+          "Jykvdk6Hdoa7wNx7zRQcjpD0n1d"
+        ],
+        "parent_id": "MgMOd8HO4o0MtDxXzcBcKEK3nFb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PcVEdRtjaoz09ixhVmCcwW7Ingg",
+        "block_type": 2,
+        "parent_id": "KISadhv32oCy51xtG11c0DbInXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "expr_1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " evaluates to true if ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "article_meta[\"tags_1\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " contains element ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "16",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Hernd4eYIo7TtlxuwgUcHvaFnPe",
+        "block_type": 2,
+        "parent_id": "KISadhv32oCy51xtG11c0DbInXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "expr_2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "evaluates to true if ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "article_meta[\"tags_2\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " contains element ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "[5, 3, 39, 8]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Jykvdk6Hdoa7wNx7zRQcjpD0n1d",
+        "block_type": 2,
+        "parent_id": "KISadhv32oCy51xtG11c0DbInXb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QC1wd4L2uoCfczxgWvZcrVAUnKg",
+        "block_type": 32,
+        "children": [
+          "Bq9CdqF9PogGBxxmhuXcCin6nFb"
+        ],
+        "parent_id": "MgMOd8HO4o0MtDxXzcBcKEK3nFb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Bq9CdqF9PogGBxxmhuXcCin6nFb",
+        "block_type": 2,
+        "parent_id": "QC1wd4L2uoCfczxgWvZcrVAUnKg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "json_contains_any",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON_CONTAINS_ANY",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Oc3Kdi3HHo0ci7x2XR2cLkeLnzd",
+        "block_type": 32,
+        "children": [
+          "EkXKdUl80osqGwxquJScBZIfnTe"
+        ],
+        "parent_id": "MgMOd8HO4o0MtDxXzcBcKEK3nFb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "EkXKdUl80osqGwxquJScBZIfnTe",
+        "block_type": 2,
+        "parent_id": "Oc3Kdi3HHo0ci7x2XR2cLkeLnzd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "expr_3 = 'JSON_CONTAINS_ANY(article_meta[\"tags_1\"], [5, 3, 39, 8])'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A0ZMdWhfcokwuNxeGtqccw38nAU",
+        "block_type": 32,
+        "children": [
+          "FJxVdx8RfoXQ0dxzMFJccgfInCY"
+        ],
+        "parent_id": "MgMOd8HO4o0MtDxXzcBcKEK3nFb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "FJxVdx8RfoXQ0dxzMFJccgfInCY",
+        "block_type": 2,
+        "parent_id": "A0ZMdWhfcokwuNxeGtqccw38nAU",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "expr_3",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " evaluates to true if ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "article_meta[\"tags_1\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " contains any element in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "[5, 3, 39, 8]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SoKEdshcVoprgTxamFLcbbYCnWg",
+        "block_type": 32,
+        "children": [
+          "A5RRdyPBVo7ZSSxkDqqcv95nnCc"
+        ],
+        "parent_id": "MgMOd8HO4o0MtDxXzcBcKEK3nFb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "A5RRdyPBVo7ZSSxkDqqcv95nnCc",
+        "block_type": 2,
+        "parent_id": "SoKEdshcVoprgTxamFLcbbYCnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "json_contains_all",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON_CONTAINS_ALL",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PStbdKPtxoSep4x0qAjctdPqnNb",
+        "block_type": 32,
+        "children": [
+          "HUqzdda6RoFJCoxBd3ycMmSCnLv",
+          "R9yFdDM5zocsmDxhYo8cRM82nxS"
+        ],
+        "parent_id": "MgMOd8HO4o0MtDxXzcBcKEK3nFb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "HUqzdda6RoFJCoxBd3ycMmSCnLv",
+        "block_type": 2,
+        "parent_id": "PStbdKPtxoSep4x0qAjctdPqnNb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "expr_4 = 'JSON_CONTAINS_ALL(article_meta[\"tags_1\"], [2, 4, 6])'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "R9yFdDM5zocsmDxhYo8cRM82nxS",
+        "block_type": 2,
+        "parent_id": "PStbdKPtxoSep4x0qAjctdPqnNb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QtJfdMj8doDKWWxFbmEcus51nAe",
+        "block_type": 32,
+        "children": [
+          "Jl09dfu6So3wIKxpJumc25pFnfc",
+          "SHTAdg3Txo0nqWxWJ5HcDSs9nUg"
+        ],
+        "parent_id": "MgMOd8HO4o0MtDxXzcBcKEK3nFb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Jl09dfu6So3wIKxpJumc25pFnfc",
+        "block_type": 2,
+        "parent_id": "QtJfdMj8doDKWWxFbmEcus51nAe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "expr_4",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " evaluates to true if ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "article_meta[\"tags_1\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " contains all elements in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "[2, 4, 6]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SHTAdg3Txo0nqWxWJ5HcDSs9nUg",
+        "block_type": 2,
+        "parent_id": "QtJfdMj8doDKWWxFbmEcus51nAe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ThrHdqtdwo98EDxZppMcoeyTnzc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "Kgb1dtzRtoKepQxji6jcv2bcnmh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Collection",
+                "token": "QnKCw0v4TiFkITkneCmcy0mZnre",
+                "url": "https://zilliverse.feishu.cn/wiki/QnKCw0v4TiFkITkneCmcy0mZnre"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "ZrGzdOXrmobL0sxVtU7cNIKwnPL",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "JavaScript Object Notation (JSON)",
+                "token": "H04VwNGoaimjcLkxoH4cs5TQnNd",
+                "url": "https://zilliverse.feishu.cn/wiki/H04VwNGoaimjcLkxoH4cs5TQnNd"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      },
+      {
+        "block_id": "SURCdjDmCo7IqhxKnkzceJBnnbh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "[Beta] Search and Query with Iterators",
+                "token": "SSKfwgLfKiX6XpkYYDycL0rln92",
+                "url": "https://zilliverse.feishu.cn/wiki/SSKfwgLfKiX6XpkYYDycL0rln92"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2R9ddkUUo1LLhxsgPmcAb16n1c"
+      }
+    ],
+    "counts": 91
+  }
+}

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 2
+sidebar_position: 3
 slug: /list-clusters
 title: List Clusters
 ---
@@ -132,5 +132,5 @@ The properties in the returned response are listed in the following table.
 | 80002 | The token is invalid |
 | 80003 | The parameter value for 'pageSize' should be between 5 and 100. |
 | 80004 | The parameter 'currentPage' should have a value between 1 and the maximum value of Int. |
-| 90117 | "Invalid domain name used |
+| 90117 | Invalid domain name used |
 

@@ -7,13 +7,12 @@ const fetch = require('node-fetch')
 const cheerio = require('cheerio')
 
 class larkDocWriter {
-    constructor(pages=[], page_blocks=[], imageDir='static/img', target='saas', skip_image_download=false) {
-        this.pages = pages
-        this.page_blocks = page_blocks
-        this.titles = JSON.parse(fs.readFileSync('plugins/lark-docs/meta/titles.json'))
+    constructor(root_token, docSourceDir='plugins/lark-docs/meta/sources', imageDir='static/img', target='saas', skip_image_download=false) {
+        this.root_token = root_token
+        this.docSourceDir = docSourceDir
+        this.page_blocks = []
         this.blocks = []
         this.target = target
-        this.current_page = null
         this.skip_image_download = skip_image_download
         this.block_types = [
             "page",
@@ -140,62 +139,71 @@ class larkDocWriter {
         this.downloader = new Downloader({}, imageDir)
     }
 
-    async write_docs({
-        path,
-        children,
-    }) {
+    __fetch_doc_source (type, value) {
+        const file = fs.readdirSync(this.docSourceDir).filter(file => {
+            const page = JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, {encoding: 'utf-8', flag: 'r'}))
+            return page[type] === value
+        })
+
+        if (file.length > 0) {
+            return JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file[0]}`, {encoding: 'utf-8', flag: 'r'}))
+        } else {
+            throw new Error(`Cannot find ${title} in ${this.docSourceDir}`)
+        }
+    }
+
+    async write_docs(path, token) {
         const forEachAsync = async (array, callback) => {
             for (let index = 0; index < array.length; index++) {
                 await callback(array[index], index, array);
             }
         }
 
-        let current_path = path
-        let titles = JSON.parse(fs.readFileSync('plugins/lark-docs/meta/titles.json', {encoding: 'utf-8', flag: 'r'}))
-        if (children) {
-            children = children.filter(child => child.obj_type != 'bitable' && child != undefined)
+        var current_path = path
+        const node = this.__fetch_doc_source('node_token', token)
+
+        if (node.has_child) {
+            const children = node.children.filter(child => child.obj_type != 'bitable' && child != undefined)
             await forEachAsync(children, async (child, index) => {
-                if (child.children) {
-                    let title = child.title
-                    let slug = ''
-                    if (titles[title]) {
-                        slug = titles[title]
-                    } else {
-                        slug = slugify(title, {lower: true, strict: true})
-                        titles[title] = slug
-                        fs.writeFileSync('plugins/lark-docs/meta/titles.json', JSON.stringify(titles, null, 4))
+                if (child.has_child) {
+                    if (!fs.existsSync(`${current_path}/${child.slug}`)) {
+                        fs.mkdirSync(`${current_path}/${child.slug}`)
                     }
-                    console.log(`${current_path}/${slug}`)
-                    if (!fs.existsSync(`${current_path}/${slug}`)) {
-                        fs.mkdirSync(`${current_path}/${slug}`)
-                    }
-                    this.__category_meta(`${current_path}/${slug}`, title, index+1)
-                    await this.write_docs({
-                        path: `${current_path}/${slug}`,
-                        children: child.children
+                    // this.__category_meta(`${current_path}/${slug}`, title, index+1)
+                    await this.write_doc({
+                        path: `${current_path}/${child.slug}`,
+                        page_title: child.title,
+                        page_slug: child.slug,
+                        page_beta: false,
+                        notebook: false,
+                        page_token: child.node_token,
+                        sidebar_position: index+1
                     })
+                    await this.write_docs(`${current_path}/${child.slug}`, child.node_token)
                 } else {
                     switch (child.title) {
                         case 'FAQs':
                             if (!fs.existsSync(`${current_path}/faqs`)) {
                                 fs.mkdirSync(`${current_path}/faqs`)
                             }
-                            this.__category_meta(`${current_path}/faqs`, 'FAQs', index+1)
+                            // this.__category_meta(`${current_path}/faqs`, 'FAQs', index+1)
                             await this.write_faqs(`${current_path}/faqs`)
                             break;
                         default:
                             const meta = await this.__is_to_publish(child.title)
                             if (meta['publish']) {
-                                const slug = meta['slug']
+                                const token = child.node_token
+                                const slug = child.slug
                                 const beta = meta['beta']
                                 const notebook = meta['notebook']
                                 console.log(`${current_path}/${slug}.md`)
                                 await this.write_doc({
                                     path: current_path,
                                     page_title: child.title,
-                                    page_slug: slug,
+                                    page_slug: child.slug,
                                     page_beta: beta,
                                     notebook: notebook,
+                                    page_token: token,
                                     sidebar_position: index+1
                                 })
                             }
@@ -207,35 +215,34 @@ class larkDocWriter {
     }
 
     async write_doc ({
-        path, 
-        page_token, 
+        path,  
         page_title, 
         page_slug,
         page_beta,
         notebook,
+        page_token,
         sidebar_position
     }) {
         let obj;
         let blocks;
         if (page_token) {
-            obj = this.pages.filter(page => page.obj_token == page_token)[0]
+            obj = this.__fetch_doc_source('node_token', page_token)
             if (obj) {
                 blocks = obj.blocks.items
             }
         } 
         
         if (page_title) {
-            obj = this.pages.filter(page => page.title == page_title)[0]
+            obj = this.__fetch_doc_source('title', page_title)
             if (obj) {
                 blocks = obj.blocks.items
             }
         }
 
-        if (blocks.length === 0) {
-            blocks = this.page_blocks
-        } else {
+        if (blocks) {
             this.page_blocks = blocks
         }
+
 
         let page = this.page_blocks.filter(block => block.block_type == 1)[0]
 
@@ -248,15 +255,19 @@ class larkDocWriter {
                 beta: page_beta,
                 notebook: notebook,
                 path: path, 
+                token: page_token,
                 sidebar_position: sidebar_position
             })
         }
     }
 
     async write_faqs (path) {
-        this.page_blocks = this.pages.filter((page) => {
-            return page.title === 'FAQs'
-        })[0].blocks.items
+        const source = this.__fetch_doc_source('title', 'FAQs')
+        const blocks = source.blocks.items
+
+        if (blocks) {
+            this.page_blocks = blocks
+        }
 
         let page = this.page_blocks.filter(block => block.block_type == 1)[0]
 
@@ -282,11 +293,18 @@ class larkDocWriter {
                 sub_pages.push(sub_page)
             }
 
+            // Write FAQs root page
+            let title = 'FAQs'
+            let slug = 'faqs'
+            let front_matter = this.__front_matters(slug, null, null, source.node_token, 999)
+            const markdown = `${front_matter}\n\n# ${title}\n\n`
+            fs.writeFileSync(`${path}/${slug}.md`, markdown)
+
             sub_pages.forEach((sub_page, index) => {
                 let title = sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
                 let short_description = sub_page.filter(line => line.length > 0)[1]
                 let slug = slugify(title, {lower: true, strict: true})
-                let front_matter = this.__front_matters(slug, null, null, index+1)
+                let front_matter = this.__front_matters(slug, null, null, source.node_token, index+1)
                 let links = []
 
                 sub_page = sub_page.map(line => {
@@ -310,22 +328,22 @@ class larkDocWriter {
         }
     }
 
-    __category_meta(path, label, position) {
-        const titles = JSON.parse(fs.readFileSync('plugins/lark-docs/meta/titles.json'))
-        const meta = JSON.stringify({
-            label,
-            position,
-            link: {
-                type: "generated-index",
-                title: label,
-                slug: titles[label] ? '/docs/' + titles[label] : (slugify(label, {lower: true, strict: true}), titles[label] = '/docs/' + slugify(label, {lower: true, strict: true}))
-            }
-        }, null, 4)
-        fs.writeFileSync(`${path}/_category_.json`, meta)
-    }
+    // __category_meta(path, label, position) {
+    //     const titles = JSON.parse(fs.readFileSync('plugins/lark-docs/meta/titles.json'))
+    //     const meta = JSON.stringify({
+    //         label,
+    //         position,
+    //         link: {
+    //             type: "generated-index",
+    //             title: label,
+    //             slug: titles[label] ? '/docs/' + titles[label] : (slugify(label, {lower: true, strict: true}), titles[label] = '/docs/' + slugify(label, {lower: true, strict: true}))
+    //         }
+    //     }, null, 4)
+    //     fs.writeFileSync(`${path}/_category_.json`, meta)
+    // }
 
     async __listed_docs() {
-        const app_id = this.pages[0].children.slice(-1)[0].obj_token
+        const app_id = this.__fetch_doc_source('node_token', this.root_token).children.slice(-1)[0].obj_token
         const token = await this.tokenFetcher.token()
         let url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${app_id}/tables`
         const table_id = (await (await fetch(url, {
@@ -402,9 +420,8 @@ class larkDocWriter {
         return markdown.replace(/\n{3,}/g, '\n\n')
     }
 
-    async __write_page({slug, beta, notebook, path, sidebar_position}) {
-        this.current_page = slug
-        let front_matter = this.__front_matters(slug, beta, notebook, sidebar_position)
+    async __write_page({slug, beta, notebook, path, token, sidebar_position}) {
+        let front_matter = this.__front_matters(slug, beta, notebook, token, sidebar_position)
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.target)
         if (!this.sdks) {
@@ -421,11 +438,19 @@ class larkDocWriter {
         }).length
 
         let imports = await this.__imports(tabs > 0)
-        slug = slug === "/" ? "quick-start" : slug
-        fs.writeFileSync(`${path}/${slug}.md`, front_matter + '\n\n' + imports + '\n\n' + markdown)
+
+        var file_path = `${path}/${slug}.md`
+
+        // if (path.endsWith(slug)) {
+        //     file_path = `${path}/index.md`
+        // }
+
+        // console.log(file_path)
+
+        fs.writeFileSync(file_path, front_matter + '\n\n' + imports + '\n\n' + markdown)
     }
 
-    __front_matters (slug, beta, notebook, sidebar_position=undefined) {
+    __front_matters (slug, beta, notebook, token, sidebar_position=undefined) {
         var sidebar_label = fs.readFileSync('plugins/lark-docs/meta/sidebarLables.json', {encoding: 'utf-8', flag: 'r'})
 
         if (sidebar_label[slug]) {
@@ -434,17 +459,19 @@ class larkDocWriter {
             sidebar_label = ''
         }
 
-        let displayed_sidebar = this.target === 'saas' ? "" : "displayed_sidebar: paasSidebar\n"
-        slug = this.target === 'saas' ? `/docs/${slug}` : `/docs/byoc/${slug}`
-        slug = slug.replace(/\/\//g, '/').replace(/^\//, '')
-        slug = slug === 'docs/' ? '' : slug
+        // let displayed_sidebar = this.target === 'saas' ? "" : "displayed_sidebar: paasSidebar\n"
+        // slug = this.target === 'saas' ? `/${slug}` : `/byoc/${slug}`
+        // slug = `/${slug}`
+        // slug = slug.replace(/\/\//g, '/').replace(/^\//, '')
+        // slug = slug === 'docs/' ? '' : slug
 
         let front_matter = '---\n' + 
-        displayed_sidebar +
+        // displayed_sidebar +
         `slug: /${slug}` + '\n' +
         sidebar_label +
         `beta: ${beta}` + '\n' +
         `notebook: ${notebook}` + '\n' +
+        `token: ${token}` + '\n' +
         `sidebar_position: ${sidebar_position}` + '\n' +
         '---'
 
@@ -474,6 +501,9 @@ class larkDocWriter {
     
         for (let idx = 0; idx < blocks.length; idx++) {
             const block = blocks[idx];
+            if (!block) {
+                continue;
+            }
             console.log(block['block_id'], this.block_types[block['block_type']-1], block['block_type']);
             const prev_block = idx > 0 ? blocks[idx-1] : null;
             const next_block = idx < blocks.length-1 ? blocks[idx+1] : null;
@@ -774,7 +804,9 @@ class larkDocWriter {
     async __table(table, indent) {
         const cells = table['cells'];
         const properties = table['property'];
-        const cell_blocks = cells.map(cell => this.__retrieve_block_by_id(cell).children);
+        const cell_blocks = cells.map(cell => {
+            return this.__retrieve_block_by_id(cell).children
+        });
         const cell_texts = await Promise.all(cell_blocks.map(async (cell) => {
             let blocks = cell.map(block => this.__retrieve_block_by_id(block));
             return (await this.__markdown(blocks, 1)).replace(/\n/g, '<br> ');
@@ -810,6 +842,10 @@ class larkDocWriter {
     }
 
     __retrieve_block_by_id(block_id) {
+        if (!this.page_blocks) {
+            throw new Error('Page blocks not found');
+        }
+        // console.log(this.page_blocks)
         return this.page_blocks.find(x => x['block_id'] === block_id);
     }
 
@@ -903,21 +939,15 @@ class larkDocWriter {
             const token = url.pathname.split('/').pop();
             const header = url.hash.slice(1);
             const key = url.pathname.split('/')[1] === 'wiki' ? 'origin_node_token' : 'obj_token';
-            const page = this.pages.filter(x => x[key] === token)[0];
+            const page = this.__fetch_doc_source(key, token);
 
             if (page) {
                 const title = page['title'];
                 const meta = await this.__is_to_publish(title);
                 const slug = meta['slug'];
-                // if (this.titles[title]) {
-                //     slug = this.titles[title]
-                // } else {
-                //     slug = slugify(title, {strict: true, lower: true})
-                //     this.titles[title] = slug
-                //     fs.writeFileSync('plugins/lark-docs/meta/titles.json', JSON.stringify(this.titles, null, 4))
-                // }
 
-                let newUrl = this.current_page && this.current_page.endsWith("/") ? this.target === 'saas' ? `./docs/${slug}` : `./byoc/${slug}` : `./${slug}`;
+                // let newUrl = this.target === 'saas' ? `./${slug}` : `./byoc/${slug}`;
+                let newUrl = `./${slug}`;
 
                 if (header) {
                     const headerBlock = page['blocks']['items'].filter(x => x['block_id'] === header)[0];
@@ -938,8 +968,8 @@ class larkDocWriter {
             }
         }
 
-        if (url.startsWith('https://docs.zilliz.com')) {
-            url = url.replace('https://docs.zilliz.com', '');
+        if (url.startsWith('https://docs.zilliz.com/docs/')) {
+            url = url.replace('https://docs.zilliz.com/docs/', './');
         }
             
         return url;

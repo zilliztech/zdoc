@@ -1,7 +1,8 @@
 ---
-slug: /docs/delete-snapshot
+slug: /delete-snapshot
 beta: FALSE
 notebook: FALSE
+token: SPTewoNSwiQe6MkBLjMcilNynOg
 sidebar_position: 5
 ---
 
@@ -25,3 +26,4 @@ You will be prompted to verify your request to delete a snapshot before Zilliz C
 - [View Snapshot Details](./view-snapshot-details) 
 
 - [Restore from Snapshot](./restore-from-snapshot) 
+

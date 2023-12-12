@@ -1,0 +1,639 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1698051774",
+  "node_token": "GqyhwKVspiYRwDk8OaucNfgJnhd",
+  "node_type": "origin",
+  "obj_create_time": "1698051774",
+  "obj_edit_time": "1698052011",
+  "obj_token": "CnzddJbT2ogdLSx90bxc9fImnPf",
+  "obj_type": "docx",
+  "origin_node_token": "GqyhwKVspiYRwDk8OaucNfgJnhd",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
+  "space_id": "7167193056431783939",
+  "title": "Release Notes v2.2.0",
+  "slug": "release-notes-220",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "CnzddJbT2ogdLSx90bxc9fImnPf",
+        "block_type": 1,
+        "children": [
+          "UlFtdYYZqo9cUaxiE0ncpL2jn8e",
+          "AhYPdMPGCoBZVCxWXhIcZ4Zvnmb",
+          "IvoMdQn5ioFYkZxeEGlcXhy8nEd",
+          "Ssd7d1aiPonMtox8oTzct4jHnj8",
+          "IWzqdal6Yo8D2PxXWg5cni8Vn9o",
+          "ZzRGdYknYofyhLx58Bcc6xztn9c",
+          "E3Lxd0tvooQM4xxRCalc5Yu9nxb",
+          "MWTqdRBfcohNGpxD6iWcblPZnOO",
+          "ZE1zdBQBdoQO5cxtg9ccBIljnHf",
+          "Z76sdYu6Ao5FsuxH4Hmc6F7znBc",
+          "A1ocdV1qqo3EyHx9cIKc86ZOnqe",
+          "PqEPduLzVo8fYxxiPtLcaddcnTd",
+          "Ne1CdNITpovHYsxQOMucO6HjnLb",
+          "XAPcd2HMHoDyY2x7AB8cXHhgn1b",
+          "FVgWdIxDNoLnaqx3f95ciZm2nYb",
+          "FcVBdWzRnoJKC1xdSPEcM22snxb",
+          "VW0AdEdyPoN8wQxRMDrcvY7ynNe",
+          "FPQxdvA5ko1N6KxZVulcXwjon3e",
+          "TjWQdQbtaojHOWxmaPaceKwunWe"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Release Notes v2.2.0",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "UlFtdYYZqo9cUaxiE0ncpL2jn8e",
+        "block_type": 2,
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "We are pleased to announce the release of Zilliz Cloud 2.2.0, which boasts a suite of new features designed to enhance your user experience.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AhYPdMPGCoBZVCxWXhIcZ4Zvnmb",
+        "block_type": 2,
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "(Release date: Sept. 13th, 2023)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IvoMdQn5ioFYkZxeEGlcXhy8nEd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf"
+      },
+      {
+        "block_id": "Ssd7d1aiPonMtox8oTzct4jHnj8",
+        "block_type": 2,
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This release introduces our newly launched ticket system, which ensures swift and streamlined support. Additionally, our updated data import and migration tools allow for seamless transitions between your Zilliz Cloud clusters and provide improved support for importing multiple files at once. We invite you to explore these tools and experience their benefits firsthand.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IWzqdal6Yo8D2PxXWg5cni8Vn9o",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Data Migration Across Zilliz Cloud Clusters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf"
+      },
+      {
+        "block_id": "ZzRGdYknYofyhLx58Bcc6xztn9c",
+        "block_type": 2,
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this release, users are empowered with a streamlined ability to migrate data effortlessly within Zilliz Cloud, ensuring efficient data consolidation, configurations, and balancing.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "E3Lxd0tvooQM4xxRCalc5Yu9nxb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Effortless Migration: Seamlessly shift data across multiple Zilliz Cloud clusters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf"
+      },
+      {
+        "block_id": "MWTqdRBfcohNGpxD6iWcblPZnOO",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enhanced Security: Bolstered data security during migration to safeguard your data's integrity and confidentiality.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf"
+      },
+      {
+        "block_id": "ZE1zdBQBdoQO5cxtg9ccBIljnHf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Real-time Monitoring: An intuitive UI for users to monitor migration progress and receive status updates instantaneously.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf"
+      },
+      {
+        "block_id": "Z76sdYu6Ao5FsuxH4Hmc6F7znBc",
+        "block_type": 2,
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "See details at ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Migrate Between Clusters",
+                "token": "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
+                "url": "https://zilliverse.feishu.cn/wiki/MTqjwwUKhiyns4kGV7Lc7PRlnwb"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A1ocdV1qqo3EyHx9cIKc86ZOnqe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Easy Migration from ElasticSearch to Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf"
+      },
+      {
+        "block_id": "PqEPduLzVo8fYxxiPtLcaddcnTd",
+        "block_type": 2,
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Transitioning from ElasticSearch to Zilliz Cloud has never been easier. We've crafted a pathway, supplemented with comprehensive documentation and built-in tools, ensuring you experience a smooth switch and consistent data post-migration. See details at ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Migrate from Elasticsearch",
+                "token": "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
+                "url": "https://zilliverse.feishu.cn/wiki/Y8nwwbi0KiwtVZkMaSQcsPcwnkf"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ne1CdNITpovHYsxQOMucO6HjnLb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "New Ticket System Go-Live",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf"
+      },
+      {
+        "block_id": "XAPcd2HMHoDyY2x7AB8cXHhgn1b",
+        "block_type": 2,
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Our brand-new ticketing system provides Zilliz Cloud users with a direct channel to our team. Whether you're submitting feedback, reporting issues, or seeking expert support, we've designed the system for efficiency and clarity. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Explore the ticket system today and experience streamlined support.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fsupport.zilliz.com%2Fhc%2Fen-us%2F"
+                  },
+                  "strikethrough": false,
+                  "underline": true
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FVgWdIxDNoLnaqx3f95ciZm2nYb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enhanced Data Import Capabilities",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf"
+      },
+      {
+        "block_id": "FcVBdWzRnoJKC1xdSPEcM22snxb",
+        "block_type": 2,
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "We've revolutionized the way you import data into Zilliz Cloud:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VW0AdEdyPoN8wQxRMDrcvY7ynNe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Folder Import: Break free from the constraints of the previous single-file mode. You can now import data using an entire folder of files, streamlining bulk data ingestion.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf"
+      },
+      {
+        "block_id": "FPQxdvA5ko1N6KxZVulcXwjon3e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Import Task Monitoring: Oversee your data import tasks in real-time via the Zilliz Cloud Web Console, ensuring transparency and control over your data uploads.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf"
+      },
+      {
+        "block_id": "TjWQdQbtaojHOWxmaPaceKwunWe",
+        "block_type": 2,
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Check for the details at ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Prepare Data Import",
+                "token": "YNbGwiEjAinaQfkSdNlcTehwn8I",
+                "url": "https://zilliverse.feishu.cn/wiki/YNbGwiEjAinaQfkSdNlcTehwn8I"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 20
+  }
+}

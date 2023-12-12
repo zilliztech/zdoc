@@ -1,0 +1,229 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": true,
+  "node_create_time": "1689055354",
+  "node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+  "node_type": "origin",
+  "obj_create_time": "1689055354",
+  "obj_edit_time": "1701843774",
+  "obj_token": "VkdwdhPL4oZwBUxeX2Xc9tZFnQb",
+  "obj_type": "docx",
+  "origin_node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "OUWXw5c4gia34ZkQUcEcMFbWn6s",
+  "space_id": "7167193056431783939",
+  "title": "Understand Basics",
+  "slug": "understand-basics",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "VkdwdhPL4oZwBUxeX2Xc9tZFnQb",
+        "block_type": 1,
+        "children": [
+          "O732d0XOXod6Upx29EPcobGlnBf",
+          "Gcludw8UOoWXJnxVxwpcNE71noe"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Understand Basics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "O732d0XOXod6Upx29EPcobGlnBf",
+        "block_type": 2,
+        "parent_id": "VkdwdhPL4oZwBUxeX2Xc9tZFnQb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Explanations about the common terms we use when discussing how to use Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Gcludw8UOoWXJnxVxwpcNE71noe",
+        "block_type": 2,
+        "parent_id": "VkdwdhPL4oZwBUxeX2Xc9tZFnQb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 3
+  },
+  "children": [
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1689055409",
+      "node_token": "EA2twSf5oiERMDkriKScU9GInc4",
+      "node_type": "origin",
+      "obj_create_time": "1689055409",
+      "obj_edit_time": "1699857158",
+      "obj_token": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+      "obj_type": "docx",
+      "origin_node_token": "EA2twSf5oiERMDkriKScU9GInc4",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+      "space_id": "7167193056431783939",
+      "title": "AUTOINDEX Explained",
+      "slug": "autoindex-explained"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1689055369",
+      "node_token": "KfI3wa2ZCiEJyzkkvKSc5FennId",
+      "node_type": "origin",
+      "obj_create_time": "1689055369",
+      "obj_edit_time": "1702027959",
+      "obj_token": "J16ndYKnsoIIIEx4jLdcvvC4nSe",
+      "obj_type": "docx",
+      "origin_node_token": "KfI3wa2ZCiEJyzkkvKSc5FennId",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+      "space_id": "7167193056431783939",
+      "title": "Cluster, Collection & Entities",
+      "slug": "cluster-collection-and-entities"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1689055599",
+      "node_token": "TqMFwNyDbiY9qekBfPNcbpuvnib",
+      "node_type": "origin",
+      "obj_create_time": "1689055599",
+      "obj_edit_time": "1701764657",
+      "obj_token": "F3jWdRGdmoHc41xczChcVS1Vnob",
+      "obj_type": "docx",
+      "origin_node_token": "TqMFwNyDbiY9qekBfPNcbpuvnib",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+      "space_id": "7167193056431783939",
+      "title": "Schema Explained",
+      "slug": "schema-explained"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1689055561",
+      "node_token": "CWHGw3g9Ui9GEHkjhu2cHBOInXf",
+      "node_type": "origin",
+      "obj_create_time": "1689055561",
+      "obj_edit_time": "1689750347",
+      "obj_token": "OZtZdBS64olLnixiz97cDfg1nne",
+      "obj_type": "docx",
+      "origin_node_token": "CWHGw3g9Ui9GEHkjhu2cHBOInXf",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+      "space_id": "7167193056431783939",
+      "title": "ANN Search Explained",
+      "slug": "ann-search-explained"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1698025921",
+      "node_token": "TlfCwYUusikxUGkxsGGcO6eXnig",
+      "node_type": "origin",
+      "obj_create_time": "1698025921",
+      "obj_edit_time": "1698546404",
+      "obj_token": "FbIPdV2BpoTuwux5N8gc4qxmncb",
+      "obj_type": "docx",
+      "origin_node_token": "TlfCwYUusikxUGkxsGGcO6eXnig",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+      "space_id": "7167193056431783939",
+      "title": "Similarity Metrics Explained",
+      "slug": "search-metrics-explained"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1698025942",
+      "node_token": "Wva2wn8LoiMBwAksAsbc3lMInub",
+      "node_type": "origin",
+      "obj_create_time": "1698025942",
+      "obj_edit_time": "1700644735",
+      "obj_token": "VZLIdDtO1oFzIcxjRCwcUUNUnwd",
+      "obj_type": "docx",
+      "origin_node_token": "Wva2wn8LoiMBwAksAsbc3lMInub",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+      "space_id": "7167193056431783939",
+      "title": "Consistency Level",
+      "slug": "consistency-level"
+    },
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": false,
+      "node_create_time": "1693477481",
+      "node_token": "SIhBwKFJri4u2CkyD3ucnO7an3g",
+      "node_type": "origin",
+      "obj_create_time": "1693477481",
+      "obj_edit_time": "1700472337",
+      "obj_token": "HAEQdkX3No0cm0xg8VocaRmOnsh",
+      "obj_type": "docx",
+      "origin_node_token": "SIhBwKFJri4u2CkyD3ucnO7an3g",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_node_token": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+      "space_id": "7167193056431783939",
+      "title": "Data Security",
+      "slug": "data-security"
+    }
+  ]
+}

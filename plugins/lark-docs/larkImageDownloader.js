@@ -16,7 +16,7 @@ class larkImageDownloader {
         this.limiter = new Bottleneck({
             maxConcurrent: 1,
             minTime: 52,
-        }); 
+        });
     }    
 
     async downloadImages() {
