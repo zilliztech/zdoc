@@ -5,7 +5,7 @@
   "node_token": "MvgAwL4HIiuRRJkH0FwcJhxSnld",
   "node_type": "origin",
   "obj_create_time": "1697778473",
-  "obj_edit_time": "1702269205",
+  "obj_edit_time": "1702363169",
   "obj_token": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
   "obj_type": "docx",
   "origin_node_token": "MvgAwL4HIiuRRJkH0FwcJhxSnld",
@@ -444,7 +444,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "Check prepare data",
+                "content": "Check prepare",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "d",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " data",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
