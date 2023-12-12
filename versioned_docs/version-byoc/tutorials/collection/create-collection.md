@@ -12,7 +12,7 @@ import TabItem from '@theme/TabItem';
 
 # Create Collection
 
-This tutorial will guide you through the steps to set up a collection for your cluster.
+This tutorial will guide you through the steps to set up a collection for your cluster. You can find[ the detailed explanations about collections, schema, and index here](./cluster-collection-and-entities).
 
 ## Procedure{#procedure}
 
@@ -323,13 +323,12 @@ Harness these types as building blocks for your collection's schema.
 
 ## Limits{#limits}
 
-For a serverless cluster, you can create up to two collections. For a dedicated cluster, the number of collections you can create varies with the CU that your cluster uses.
+The number of collections you can create varies with the CU that your cluster uses.
 
-|                                      |  Maximum number of collections |
-| ------------------------------------ | ------------------------------ |
-|  Serverless cluster                  |  **2**                         |
-|  Dedicated cluster (8 CUs and less)  |  **32**                        |
-|  Dedicated cluster (More than 8 CUs) |  **256**                       |
+|                  |  Maximum number of collections |
+| ---------------- | ------------------------------ |
+|  8 CUs and less  |  **32**                        |
+|  More than 8 CUs |  **256**                       |
 
 ## Related topics{#related-topics}
 

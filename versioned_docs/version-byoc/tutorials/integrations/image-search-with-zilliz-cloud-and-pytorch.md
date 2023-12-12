@@ -274,7 +274,7 @@ plt.savefig('search_result.png')
 
 The search result image should be similar to the following:
 
-![image_search](/img/image_search.png)
+![image_search](/byoc/image_search.png)
 
 ## Related integrations{#related-integrations}
 

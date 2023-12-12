@@ -5,7 +5,7 @@
   "node_token": "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
   "node_type": "origin",
   "obj_create_time": "1693562324",
-  "obj_edit_time": "1701844749",
+  "obj_edit_time": "1702026315",
   "obj_token": "QadbdhBPJoEfkrxzUi4cHeOjnKf",
   "obj_type": "docx",
   "origin_node_token": "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
@@ -23,6 +23,7 @@
         "children": [
           "Ojk9dTi6QoXMlxxRkyNcTwLbnue",
           "G1CcdftPPot8sfxI97icWUSInOg",
+          "FPt9dgRFlo2wqPxZquMciyApnCv",
           "Fp3Gd6icbo6sTIxW2ZzcWRBMnKg",
           "FblMdy3X1oyDwOxgRU0cGyswnye",
           "PEIzdL2opoC6uYxnpWNchBWEnAg",
@@ -34,6 +35,7 @@
           "KIkAd7PlZo0wTYxi4Q9cGmLVnah",
           "LeWvd51y5oVrT1xvm4OchmIlnMg",
           "QveqduPOwoLiD7xPG4RcviCwnOh",
+          "EKPhdawdxowZ0zxDrj1c0qkqnlh",
           "BZVZdtt3MoA6AhxrYbZcmEzZnog",
           "SllwdxGneoOuGJxvb6dc6O3dn3C",
           "KJHmd8X8EotvQjxO69ncXdR6nyb",
@@ -68,6 +70,9 @@
       {
         "block_id": "Ojk9dTi6QoXMlxxRkyNcTwLbnue",
         "block_type": 2,
+        "comment_ids": [
+          "7310141832854388740"
+        ],
         "parent_id": "QadbdhBPJoEfkrxzUi4cHeOjnKf",
         "text": {
           "elements": [
@@ -85,9 +90,24 @@
             },
             {
               "text_run": {
-                "content": "You can seamlessly transfer data from a serverless cluster to a dedicated cluster or between two dedicated clusters.",
+                "content": "You can seamlessly transfer data from a serverless cluster to a dedicated cluster or between",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " two dedicated clusters.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7310141832854388740"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -126,6 +146,31 @@
           }
         },
         "parent_id": "QadbdhBPJoEfkrxzUi4cHeOjnKf"
+      },
+      {
+        "block_id": "FPt9dgRFlo2wqPxZquMciyApnCv",
+        "block_type": 2,
+        "parent_id": "QadbdhBPJoEfkrxzUi4cHeOjnKf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To gain enhanced control over resources and performance beyond what a serverless cluster offers, consider transitioning your business from a serverless cluster to a dedicated cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "Fp3Gd6icbo6sTIxW2ZzcWRBMnKg",
@@ -781,6 +826,31 @@
           }
         },
         "parent_id": "QadbdhBPJoEfkrxzUi4cHeOjnKf"
+      },
+      {
+        "block_id": "EKPhdawdxowZ0zxDrj1c0qkqnlh",
+        "block_type": 2,
+        "parent_id": "QadbdhBPJoEfkrxzUi4cHeOjnKf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "By migrating between dedicated clusters, you can modify your cluster type, region, or size your cluster configuration at ease, without interrupting your business on the original cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "BZVZdtt3MoA6AhxrYbZcmEzZnog",
@@ -1760,6 +1830,6 @@
         "parent_id": "QadbdhBPJoEfkrxzUi4cHeOjnKf"
       }
     ],
-    "counts": 33
+    "counts": 35
   }
 }

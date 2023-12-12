@@ -12,15 +12,13 @@ import TabItem from '@theme/TabItem';
 
 # Quick Start
 
-This tutorial guides you through CRUD tasks in a serverless cluster. You are expecting to learn the basic CRUD operations in Zilliz Cloud clusters.
+This tutorial guides you through CRUD tasks in a cluster. You are expecting to learn the basic CRUD operations in Zilliz Cloud clusters.
 
 ## Before you start{#before-you-start}
 
 Throughout this guide, we will use Zilliz Cloud's SDKs and RESTful API. Before you begin, ensure that:
 
-- You have registered an account with Zilliz Cloud at [https://cloud.zilliz.com/signup](https://cloud.zilliz.com/signup). For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
-
-- You have subscribed to the **Starter** plan and created a serverless cluster in a project. For details, see [Free Trials](./free-trials) and [Create Cluster](./create-cluster).
+- You have activated your cloud and created a cluster in a project. For details, see [Activate Your Cloud](./activate-your-cloud) and [Create Cluster](./create-cluster).
 
 - You have installed the preferred SDKs. Currently, there are four SDKs available, and they are [Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), and [Node.js](./install-sdks#install-nodejs-sdk). For details, see [Install SDKs](./install-sdks).
 
@@ -28,7 +26,7 @@ Throughout this guide, we will use Zilliz Cloud's SDKs and RESTful API. Before y
 
 ## Create a collection{#create-a-collection}
 
-Zilliz Cloud automatically creates a collection when you create a serverless cluster. It has dynamic schema enabled, with **id** and **vector** acting as predefined fields for the primary key and the vector field, respectively. The **autoId** attribute is enabled by default for the primary key. 
+Zilliz Cloud automatically creates a collection when you create a cluster. It has dynamic schema enabled, with **id** and **vector** acting as predefined fields for the primary key and the vector field, respectively. The **autoId** attribute is enabled by default for the primary key. 
 
 If you want to create a new collection, follow these steps:
 
@@ -177,12 +175,6 @@ curl --location --request POST "${PUBLIC_ENDPOINT}/v1/vector/collections/create"
 </Tabs>
 
 If you need full control of your collection, such as schema definition and manual enabling of dynamic schema, refer to [Create Collection](./create-collection) and [Enable Dynamic Schema](./enable-dynamic-schema).
-
-<Admonition type="info" icon="📘" title="Notes">
-
-Each serverless cluster contains a maximum of two collections with basic settings. If you encounter an error while creating a collection, please check the number of collections on the Zilliz Cloud console.
-
-</Admonition>
 
 ## View collections{#view-collections}
 
@@ -2284,8 +2276,6 @@ curl --request POST \
 </Tabs>
 
 ## Related topics{#related-topics}
-
-- [Register with Zilliz Cloud](./register-with-zilliz-cloud)
 
 - [Example Dataset](./example-dataset)
 

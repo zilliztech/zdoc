@@ -17,276 +17,292 @@ This guide helps you learn how to use our SDKs to import data into a collection 
 
 Ensure that
 
-- You have installed the latest SDKs. For details, refer to [Install SDKs](./install-sdks). Currently, the bulk-writer and bulk-import APIs are available only in the Python SDK.
+- You have installed the dependencies, including PyMilvus and MinIO Python Client. For details, refer to [Install SDKs](./install-sdks).
 
-- You have created a cluster on Zilliz Cloud. For details, refer to [Create Cluster](./create-cluster).
+- You have prepared the example dataset. For details, refer to [Prepare Data Import](./use-bulkwriter-for-data-import).
 
-- You have downloaded [the example dataset in CSV format](https://drive.google.com/file/d/12RkoDPAlk-sclXdjeXT6DMFVsQr4612w/view?usp=sharing). To learn more about the dataset, read [the introduction here](https://www.kaggle.com/datasets/shiyu22chen/cleaned-medium-articles-dataset).
+- You have created an output folder for the storage of the BulkWriter output.
 
 ## Procedure{#procedure}
 
 In order to import your data into Zilliz Cloud, utilizing the bulk-writer API to transform your dataset into a suitable format is necessary. Once this step is complete, you can then easily bulk-import the converted dataset by making use of the bulk-import API.
 
-### Converting your data{#converting-your-data}
+### Import dependencies{#import-dependencies}
 
-In this part, you need to call the bulk-writer API to create a RemoteBulkWriter, which allows you to rewrite your dataset to a cloud object storage bucket. For details, refer to [Prepare Data Import](./use-bulkwriter-for-data-import).
+Before anything else, import the required dependencies.
 
-1. Fetch the schema of the collection you have already created.
+```python
+from urllib.parse import urlparse
+import time, json
 
-    According to the dataset, the collection schema contains two fields: id and vector. The id field acts as the primary key and increments automatically. The vector field has a dimension of 768. All other fields in the dataset are considered dynamic fields.
+from minio import Minio
 
-    ```python
-    from pymilvus import (
-        connections,
-        FieldSchema, CollectionSchema, DataType,
-        Collection,
-        utility,
-        bulk_import,
-        get_import_progress,
-        list_import_jobs,
-    )
-    
-    # set up your collection
-    
-    connections.connect(
-      alias='default', 
-      #  Public endpoint obtained from Zilliz Cloud
-      uri=CLUSTER_ENDPOINT,
-      # API key or a colon-separated cluster username and password
-      token=TOKEN, 
-    )
-    
-    # Get an existing collection
-    collection = Collection("medium_articles_2020")
-    
-    # Get the schema of the collection
-    schema = collection.schema
-    ```
+from pymilvus import (
+    connections,
+    FieldSchema, CollectionSchema, DataType,
+    Collection,
+    utility,
+    bulk_import,
+    get_import_progress,
+    list_import_jobs,
+)
 
-1. Make your dataset consumable for the bulk-writer API.
+# Check the prepared data files you have
 
-    The example dataset is in CSV format. You can use the Pandas library to process it. The ultimate goal is to generate a list of dictionaries so that you can feed them to BulkWriter in the next step.
+ACCESS_KEY = "YOUR_OBJECT_STORAGE_ACCESS_KEY"
+SECRET_KEY = "YOUR_OBJECT_STORAGE_SECRET_KEY"
+BUCKET_NAME = "YOUR_OBJECT_STORAGE_BUCKET_NAME"
+REMOTE_PATH = "DATA_FILES_PATH_IN_BLOCK_STORAGE"
+```
 
-    ```python
-    import json
-    import pandas as pd
-    
-    # Read the dataset into a data frame
-    dataset = pd.read_csv("New_Medium_data.csv")
-    
-    # To retrieve a row from the dataset, do as follows:
-    row = dataset.iloc[0].to_dict()
-    row["vector"] = json.loads(row["vector"])
-    ```
+### Check prepare data{#check-prepare-data}
 
-1. Pass the schema to the RemoteBulkWriter along with other necessary parameters.
+Once you have prepared your data using a LocalBulkWriter and upload the generated file to your object storage, or prepared your data using a RemoteBulkWriter and got the path to the remote folder. You are ready to import them to a Zilliz Cloud collection.
 
-    The example below shows the use of an AWS S3 bucket. Use a bucket located on the same cloud as your Zilliz Cloud cluster.
+To check whether they are ready, do as follows:
 
-    ```python
-    from pymilvus import RemoteBulkWriter
-    
-    # To connect to AWS S3
-    # For details on creating IAM keys, refer to 
-    # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey
-    
-    connect_param = RemoteBulkWriter.ConnectParam(
-        endpoint="s3.amazonaws.com",
-        access_key=IAM_ACCESS_KEY,
-        secret_key=IAM_SECRET_KEY,
-        bucket_name=YOUR_BUCKET_NAME,
-    )
-    
-    # To connect to Google Cloud Storage
-    # For details on creating HMAC keys, refer to 
-    # https://cloud.google.com/storage/docs/authentication/managing-hmackeys#create
-    #
-    # connect_param = RemoteBulkWriter.ConnectParam(
-    #     endpoint="storage.googleapis.com",
-    #     access_key=HMAC_ACCESS_KEY,
-    #     secret_key=HMAC_SECRET_KEY,
-    #     bucket_name=YOUR_BUCKET_NAME,
-    # )
-    
-    # Instantiate a writer
-    writer = RemoteBulkWriter(
-        schema=schema, # Schema of the target collection
-        remote_path="bulk_data", # Remote output folder relative to the root of the specified bucket
-        connect_param=connect_param, # Bucket connection
-    )
-    
-    # Feed data rows to the writer
-    for i in range(len(dataset)):
-        try:
-            row = dataset.iloc[i].to_dict()
-            row["vector"] = json.loads(row["vector"])
-            writer.append_row(row)
-        except Exception as e:
-            print(e)
-            break;
-    
-    writer.commit()
-    print(writer.data_path)
-    
-    # Output
-    # A path relative to the designated bucket
-    # /bulk_data/8f808cdc-ce4d-4aed-89b9-2f343d44b2e0
-    ```
+```python
+client = Minio(
+    endpoint="storage.googleapis.com", # use 's3.amazonaws.com' for GCS
+    access_key=ACCESS_KEY,
+    secret_key=SECRET_KEY,
+    secure=True)
 
-1. Check the result.
+objects = client.list_objects(
+    bucket_name=BUCKET_NAME,
+    prefix=REMOTE_PATH,
+    recursive=True
+)
 
-    The following example demonstrates how to use MinIO’s Python client to verify the generated files in a specified storage bucket. Feel free to use any other methods to perform the check.
+print([obj.object_name for obj in objects])
 
-    ```python
-    from minio import Minio
-    
-    minio_client = Minio(
-        endpoint="s3.amazonaws.com",
-        access_key=IAM_ACCESS_KEY,
-        secret_key=IAM_SECRET_KEY,
-        secure=True,
-    )
-    
-    found = minio_client.bucket_exists(YOUR_BUCKET_NAME)
-    
-    if found:
-        objects = minio_client.list_objects(YOUR_BUCKET_NAME, prefix=str(remote_path)[1:], recursive=True)
-        files = [ x.object_name for x in objects ]
-    
-    # Output
-    # [
-    #    'bulk_data/08a92d25-c703-4694-bfaa-5be4e8d0f6f9/1/vector.npy'
-    #    'bulk_data/08a92d25-c703-4694-bfaa-5be4e8d0f6f9/1/$meta.npy'
-    # ]
-    ```
+# Output
+#
+# [
+#     "DATA_FILES_PATH_IN_BLOCK_STORAGE/1/claps.npy",
+#     "DATA_FILES_PATH_IN_BLOCK_STORAGE/1/id.npy",
+#     "DATA_FILES_PATH_IN_BLOCK_STORAGE/1/link.npy",
+#     "DATA_FILES_PATH_IN_BLOCK_STORAGE/1/publication.npy",
+#     "DATA_FILES_PATH_IN_BLOCK_STORAGE/1/reading_time.npy",
+#     "DATA_FILES_PATH_IN_BLOCK_STORAGE/1/responses.npy",
+#     "DATA_FILES_PATH_IN_BLOCK_STORAGE/1/title.npy",
+#     "DATA_FILES_PATH_IN_BLOCK_STORAGE/1/vector.npy"
+# ]
 
-### Bulk-inserting data{#bulk-inserting-data}
+```
 
-As an alternative to the RESTful API, you can use its Python wrapper, PyMilvus’ bulk-import API.
+### Create collection and import data{#create-collection-and-import-data}
 
-1. Import the bulk-import APIs.
+Once your data files are ready, connect to a Zilliz Cloud cluster, create a collection out of the schema, and import the data from the files in the storage bucket.
 
-    ```python
-    import time
-    from pymilvus import (
-        bulk_import,
-        get_import_progress,
-        list_import_jobs,
-    )
-    ```
+Since Zilliz Cloud does not allow cross-cloud data transmission, you need to create your cluster on the same public cloud that houses your prepared dataset.
 
-1. Start a bulk-import task.
+```python
+# set up your collection
 
-    You can get the ID of the bulk-import task from the return. In the `bulk_import` request, you should use your API Key instead of the cluster credentials. To get an API key, refer to [Manage API Keys](./manage-api-keys).
+CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
+CLUSTER_TOKEN = "YOUR_CLUSTER_TOKEN"
+COLLECTION_NAME = "medium_articles"
+API_KEY = "YOUR_CLUSTER_TOKEN"
+CLUSTER_ID = urlparse(CLUSTER_ENDPOINT).netloc.split(".")[0] if urlparse(CLUSTER_ENDPOINT).netloc.startswith("in") else None
+CLOUD_REGION = [ x for x in urlparse(CLUSTER_ENDPOINT).netloc.split(".") if x.startswith("gcp") or x.startswith("aws") or x.startswith("ali")][0] if urlparse(CLUSTER_ENDPOINT).netloc.startswith("in") else None
 
-    ```python
-    resp = bulk_import(
-        url=CLOUD_PLATFORM_ENDPOINT, # Cluster endpoint
-        api_key=API_KEY, # Your Zilliz Cloud API Key
-        object_url=OBJECT_URL, # Your object storage url
-        access_key=MINIO_ACCESS_KEY, # Your object storage access key
-        secret_key=MINIO_SECRET_KEY, # Your object storage secret key
-        cluster_id=CLUSTER_ID, # Your cluster ID
-        collection_name=COLLECTION_NAME # Your collection name
-    )
-    
-    print(resp.json())
-    
-    # Output
-    # {
-    #     'code': 200, 
-    #     'data': {
-    #         'jobId': '84e3f533-0c13-4823-a3f0-db4e62dac2a6'
-    #      }
-    # }
-    ```
+if CLOUD_REGION is None:
+    raise Exception("Invalid cluster endpoint")
+elif CLOUD_REGION.startswith("gcp"):
+    OBJECT_URL = f"gs://{BUCKET_NAME}/{REMOTE_PATH}/"
+elif CLOUD_REGION.startswith("aws"):
+    OBJECT_URL = f"s3://{BUCKET_NAME}/{REMOTE_PATH}/"
+elif CLOUD_REGION.startswith("ali"):
+    OBJECT_URL = f"oss://{BUCKET_NAME}/{REMOTE_PATH}/"
 
-1. Get the import progress.
+fields = [
+    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
+    FieldSchema(name="title", dtype=DataType.VARCHAR, max_length=512),
+    FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=768),
+    FieldSchema(name="link", dtype=DataType.VARCHAR, max_length=512),
+    FieldSchema(name="reading_time", dtype=DataType.INT64),
+    FieldSchema(name="publication", dtype=DataType.VARCHAR, max_length=512),
+    FieldSchema(name="claps", dtype=DataType.INT64),
+    FieldSchema(name="responses", dtype=DataType.INT64)
+]
 
-    ```python
-    job_id = resp.json()['data']['jobId']
-    resp = get_import_progress(
-        url=CLOUD_PLATFORM_ENDPOINT,
+schema = CollectionSchema(fields)
+
+connections.connect(
+    uri=CLUSTER_ENDPOINT,
+    token=CLUSTER_TOKEN,
+    secure=True
+)
+
+collection = Collection(COLLECTION_NAME, schema)
+
+collection.create_index(
+    field_name="vector",
+    index_params={
+        "index_type": "AUTOINDEX",
+        "metric_type": "L2"
+    }
+)
+
+collection.load()
+
+# bulk-import your data from the prepared data files
+
+res = bulk_import(
+    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
+    api_key=API_KEY,
+    object_url=OBJECT_URL,
+    access_key=ACCESS_KEY,
+    secret_key=SECRET_KEY,
+    cluster_id=CLUSTER_ID,
+    collection_name=COLLECTION_NAME
+)
+
+print(res.json())
+
+# Output
+#
+# {
+#     "code": 200,
+#     "data": {
+#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a"
+#     }
+# }
+```
+
+### Check bulk import progress{#check-bulk-import-progress}
+
+You can check the progress of a specified bulk-import job.
+
+```python
+job_id = res.json()['data']['jobId']
+res = get_import_progress(
+    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
+    api_key=API_KEY,
+    job_id=job_id,
+    cluster_id=CLUSTER_ID
+)
+
+# check the bulk-import progress
+
+while res.json()["data"]["readyPercentage"] < 1:
+    time.sleep(5)
+
+    res = get_import_progress(
+        url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
         api_key=API_KEY,
-        job_id=JOB_ID,
-        cluster_id=INSTANCE_ID
+        job_id=job_id,
+        cluster_id=CLUSTER_ID
     )
-    
-    # Send request until the bulk-import progress ends.
-    while resp.json()["data"]["readyPercentage"] < 1:
-        time.sleep(5)
-        print(resp.json())
-    
-        resp = get_import_progress(
-            url=CLOUD_PLATFORM_ENDPOINT,
-            api_key=API_KEY,
-            job_id=JOB_ID,
-            cluster_id=INSTANCE_ID
-        )
-    
-    # Output
-    # {
-    #     'code': 200, 
-    #     'data': {
-    #         'collectionName': 'medium_articles', 
-    #         'fileName': 'medium_articles/293dbffc-465e-4ce1-b25b-a692c9b77dd8/1/', 
-    #         'fileSize': 28340716, 
-    #         'readyPercentage': 0, # Watch this for the progress
-    #         'completeTime': None, 
-    #         'errorMessage': None, 
-    #         'jobId': '84e3f533-0c13-4823-a3f0-db4e62dac2a6', 
-    #         'details': [
-    #              {
-    #                  'fileName': 'medium_articles/293dbffc-465e-4ce1-b25b-a692c9b77dd8/1/', 
-    #                  'fileSize': 28340716, 
-    #                  'readyPercentage': 0, 
-    #                  'completeTime': None, 
-    #                  'errorMessage': None
-    #              }
-    #          ]
-    #    }
-    # }
-    ```
 
-    If you also want to know about all bulk-import tasks, you can call the list-import-jobs API as follows:
+print(res.json())
 
-    ```python
-    resp = list_import_jobs(
-        url=CLOUD_PLATFORM_ENDPOINT,
-        api_key=API_KEY,
-        cluster_id=CLUSTER_ID,
-        page_size=10,
-        current_page=1,
-    )
-    
-    # Output
-    # {
-    #     "code": 200,
-    #     "data": {
-    #         "tasks": [
-    #             {
-    #                 "collectionName": "medium_articles",
-    #                 "jobId": "26f90492-f4df-4e20-81ab-a602be653baa",
-    #                 "state": "ImportCompleted"
-    #             },
-    #             ...
-    #             {
-    #                 "collectionName": "medium_articles",
-    #                 "jobId": "d84f5ebc-a485-4058-83fd-2cced63e3bd8",
-    #                 "state": "ImportCompleted"
-    #             },
-    #             {
-    #                 "collectionName": "medium_articles",
-    #                 "jobId": "d8238794-0d1b-48a2-b435-c90d3f52278c",
-    #                 "state": "ImportCompleted"
-    #             }
-    #         ],
-    #         "count": 6,
-    #         "currentPage": 1,
-    #         "pageSize": 10
-    #     }
-    # }
-    ```
+# Output
+#
+# {
+#     "code": 200,
+#     "data": {
+#         "collectionName": "medium_articles",
+#         "fileName": "DATA_FILES_PATH_IN_BLOCK_STORAGE/1/",
+#         "fileSize": 26571700,
+#         "readyPercentage": 1,
+#         "completeTime": "2023-10-28T06:51:49Z",
+#         "errorMessage": null,
+#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a",
+#         "details": [
+#             {
+#                 "fileName": "DATA_FILES_PATH_IN_BLOCK_STORAGE/1/",
+#                 "fileSize": 26571700,
+#                 "readyPercentage": 1,
+#                 "completeTime": "2023-10-28T06:51:49Z",
+#                 "errorMessage": null
+#             }
+#         ]
+#     }
+# }
+```
+
+### List all bulk-import jobs{#list-all-bulk-import-jobs}
+
+If you also want to know about all bulk-import tasks, you can call the list-import-jobs API as follows:
+
+```python
+# list bulk-import jobs
+
+res = list_import_jobs(
+    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
+    api_key=API_KEY,
+    cluster_id=CLUSTER_ID,
+    page_size=10,
+    current_page=1,
+)
+
+print(res.json())
+
+# Output
+#
+# {
+#     "code": 200,
+#     "data": {
+#         "tasks": [
+#             {
+#                 "collectionName": "medium_articles",
+#                 "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a",
+#                 "state": "ImportCompleted"
+#             },
+#             {
+#                 "collectionName": "medium_articles",
+#                 "jobId": "53632e6c-c078-4476-b840-10c4793d9c08",
+#                 "state": "ImportCompleted"
+#             },
+#             {
+#                 "collectionName": "medium_articles",
+#                 "jobId": "95e7d4c4-cf60-4ce1-ac49-145459ee0f99",
+#                 "state": "ImportCompleted"
+#             },
+#             {
+#                 "collectionName": "medium_articles",
+#                 "jobId": "ddca617e-8f2f-4612-9d6a-12b6edb69833",
+#                 "state": "ImportCompleted"
+#             },
+#             {
+#                 "collectionName": "medium_articles",
+#                 "jobId": "79fb0137-9e28-48e0-b7b1-e96706bb921f",
+#                 "state": "ImportCompleted"
+#             },
+#             {
+#                 "collectionName": "YOUR_COLLECTION_NAME",
+#                 "jobId": "dd391fed-822f-4e17-b5a7-8a43d49f1eb7",
+#                 "state": "ImportCompleted"
+#             },
+#             {
+#                 "collectionName": "YOUR_COLLECTION_NAME",
+#                 "jobId": "cf11ac48-2e1e-47d3-ab88-0e38736d9629",
+#                 "state": "ImportCompleted"
+#             },
+#             {
+#                 "collectionName": "YOUR_COLLECTION_NAME",
+#                 "jobId": "3fe83873-6154-4d99-aa40-4328bd724a65",
+#                 "state": "ImportCompleted"
+#             },
+#             {
+#                 "collectionName": "YOUR_COLLECTION_NAME",
+#                 "jobId": "9d6cd64d-cfe3-46fd-9864-b417226324e8",
+#                 "state": "ImportCompleted"
+#             },
+#             {
+#                 "collectionName": "YOUR_COLLECTION_NAME",
+#                 "jobId": "aa6c0712-83a1-4729-96a3-f87b0c8b4a00",
+#                 "state": "ImportCompleted"
+#             }
+#         ],
+#         "count": 15,
+#         "currentPage": 1,
+#         "pageSize": 10
+#     }
+# }
+```
 
 ## Related topics{#related-topics}
 

@@ -31,13 +31,13 @@ After joining an organization, you become an organization member and have permis
 
 For additional details on organization settings, see [Organization Settings](./organization-settings).
 
-![view-organization](/img/view-organization.png)
+![view-organization-byoc](/byoc/view-organization-byoc.png)
 
 ## Edit organization name{#edit-organization-name}
 
 To edit the organization name, you must be an [Organization Owner](./a-panorama-view#organization-roles).
 
-![edit-organization-name](/img/edit-organization-name.png)
+![edit-organization-name-byoc](/byoc/edit-organization-name-byoc.png)
 
 ## Invite a user to join your organization{#invite-a-user-to-join-your-organization}
 
@@ -53,13 +53,13 @@ Each time you can invite one or more users with the same role to the organizatio
 
 </Admonition>
 
-![invite-user-to-org](/img/invite-user-to-org.png)
+![invite-user-to-org-byoc](/byoc/invite-user-to-org-byoc.png)
 
 ## Revoke or resend an invitation{#revoke-or-resend-an-invitation}
 
 After you invite a user to join your organization, Zilliz Cloud sends an invitation email to the user. You can revoke or resend the invitation before the user accepts it.
 
-![revoke-or-resend-org-invitation](/img/revoke-or-resend-org-invitation.png)
+![revoke-or-resend-org-invitation-byoc](/byoc/revoke-or-resend-org-invitation-byoc.png)
 
 ## Edit a member's role or remove a member{#edit-a-members-role-or-remove-a-member}
 
@@ -67,7 +67,7 @@ Once a user accepts the invitation, they join your organization as a member. Sub
 
 To edit a member's role or remove an organization member, you must be an [Organization Owner](./a-panorama-view#organization-roles).
 
-![edit-user-role-or-remove-org-user](/img/edit-user-role-or-remove-org-user.png)
+![edit-user-role-or-remove-org-user-byoc](/byoc/edit-user-role-or-remove-org-user-byoc.png)
 
 ## Leave an organization{#leave-an-organization}
 
@@ -81,13 +81,11 @@ Once you leave an organization, your access to the organization and associated r
 
 </Admonition>
 
-![leave-organization](/img/leave-organization.png)
+![leave-organization-byoc](/byoc/leave-organization-byoc.png)
 
 ## Related topics{#related-topics}
 
 - [A Panorama View](./a-panorama-view)
-
-- [Delete Your Organization](./delete-your-org)
 
 - [Add Project Collaborators](./manage-projects-and-collaborator) 
 

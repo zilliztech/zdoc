@@ -1,5 +1,5 @@
 ---
-slug: /data-models-explained
+slug: /schema-explained
 beta: FALSE
 notebook: FALSE
 token: TqMFwNyDbiY9qekBfPNcbpuvnib

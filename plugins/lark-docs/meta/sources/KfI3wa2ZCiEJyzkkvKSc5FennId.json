@@ -5,7 +5,7 @@
   "node_token": "KfI3wa2ZCiEJyzkkvKSc5FennId",
   "node_type": "origin",
   "obj_create_time": "1689055369",
-  "obj_edit_time": "1700704488",
+  "obj_edit_time": "1702027959",
   "obj_token": "J16ndYKnsoIIIEx4jLdcvvC4nSe",
   "obj_type": "docx",
   "origin_node_token": "KfI3wa2ZCiEJyzkkvKSc5FennId",
@@ -50,10 +50,17 @@
           "NWPUdpNOAo2ol6xGDjAc49BhnWd",
           "BegXd36aKoyfIpxyr8ncXRXSnVh",
           "Wz7Mdf43Qo12qrxzFXMcxA3Tn81",
+          "L3ukdJESzoFNscxbxGYcK0VQnTd",
+          "LhHEdQyx4oxV4dxBm9BcH7UUnwb",
+          "ZRYVdj4rjoh70cxNpj2cJELqn8b",
+          "Ovz6d7Bvwot3FhxU3SwcvqeGnUe",
           "F3i3dRcHQoTSuYxeQrQcmIbLnnb",
           "Rtb4d87W4oRD32xz98qcsoPmn0c",
           "Mo3idwJJMoAjsFxtRibcFmffnLe",
           "C5rudVdWTogxmQx9EWdc5P6Wnub"
+        ],
+        "comment_ids": [
+          "7310132248426905603"
         ],
         "page": {
           "elements": [
@@ -62,6 +69,9 @@
                 "content": "Cluster, Collection & Entities",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7310132248426905603"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1282,6 +1292,163 @@
         }
       },
       {
+        "block_id": "L3ukdJESzoFNscxbxGYcK0VQnTd",
+        "block_type": 4,
+        "comment_ids": [
+          "7310132295231815684"
+        ],
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Partitions",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7310132295231815684"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J16ndYKnsoIIIEx4jLdcvvC4nSe"
+      },
+      {
+        "block_id": "LhHEdQyx4oxV4dxBm9BcH7UUnwb",
+        "block_type": 2,
+        "parent_id": "J16ndYKnsoIIIEx4jLdcvvC4nSe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A partition is a division of a collection. Zilliz Cloud supports dividing collection data into multiple parts on physical storage. This process is called partitioning, and each partition can contain multiple segments.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZRYVdj4rjoh70cxNpj2cJELqn8b",
+        "block_type": 2,
+        "parent_id": "J16ndYKnsoIIIEx4jLdcvvC4nSe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "By allocating entities to specific partitions, Zilliz Cloud effectively isolates and groups entities, thereby enhancing ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " performance by focusing on a smaller subset of data rather than the entire collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ovz6d7Bvwot3FhxU3SwcvqeGnUe",
+        "block_type": 2,
+        "parent_id": "J16ndYKnsoIIIEx4jLdcvvC4nSe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For more information, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Use Partitions",
+                "token": "RnqlwR30LiIrOwk4GWYcT7xvnLb",
+                "url": "https://zilliverse.feishu.cn/wiki/RnqlwR30LiIrOwk4GWYcT7xvnLb"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "F3i3dRcHQoTSuYxeQrQcmIbLnnb",
         "block_type": 4,
         "heading2": {
@@ -1484,6 +1651,6 @@
         }
       }
     ],
-    "counts": 36
+    "counts": 40
   }
 }

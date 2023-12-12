@@ -41,9 +41,7 @@ To manage cluster users with various roles, see [Manage Cluster Credentials](./m
 
 <Admonition type="info" icon="📘" title="Notes">
 
-- These built-in roles are only applicable to dedicated clusters. Serverless clusters support only the `Read-Write` role. For more information on cluster types, see [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
-
-- If you encounter an error while using the built-in roles feature with a dedicated cluster, please [contact us](https://zilliz.com/contact-sales) for troubleshooting assistance.
+- If you encounter an error while using the built-in roles feature with a cluster, please [contact us](https://zilliz.com/contact-sales) for troubleshooting assistance.
 
 </Admonition>
 

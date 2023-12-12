@@ -5,7 +5,7 @@
   "node_token": "UgqvwKh2QiKE1kkYNLJcaHt0nkg",
   "node_type": "origin",
   "obj_create_time": "1689055813",
-  "obj_edit_time": "1700620538",
+  "obj_edit_time": "1702275736",
   "obj_token": "JZAsdh6Cpok9GIxpOo0caUnondg",
   "obj_type": "docx",
   "origin_node_token": "UgqvwKh2QiKE1kkYNLJcaHt0nkg",
@@ -45,7 +45,10 @@
           "ZFH8dFAdqoZYsYxiBFAcysRIn5b",
           "Bb5UdubfMorsCIxUaTocdpkQnCf",
           "ZRS0dPcrcoXC6GxINfscB4xRn7g",
+          "JtvTdUWYvocVCkxn2LXcqDtVnsc",
           "JXS3dcw03oDdi2xBupXcsbhPnXg",
+          "RNLvdJR8Zo0DN0x7hf2cRLeYnOe",
+          "EhXxdSTpBonXU5xIJGHcCWuknfg",
           "UFoSdbpVgomNhYxH71Bcr2banSa",
           "UlDEdyhENo19tLxNhD4ceL7bn9b",
           "GNhndqmgNoIM4XxXDTHcwWg4nxf",
@@ -2709,6 +2712,9 @@
       {
         "block_id": "Bb5UdubfMorsCIxUaTocdpkQnCf",
         "block_type": 5,
+        "comment_ids": [
+          "7311212844543475715"
+        ],
         "heading3": {
           "elements": [
             {
@@ -2716,6 +2722,9 @@
                 "content": "Evaluate performance",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7311212844543475715"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2739,7 +2748,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "Performance metrics, notably latency and queries per second (QPS), are vital. The Performance-optimized CU distinctly outperforms its counterparts in latency and throughput, particularly for standard ",
+                "content": "Performance metrics, notably latency and queries per second (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "QPS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "), are vital. The Performance-optimized CU distinctly outperforms its counterparts in latency and throughput, particularly for standard ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2764,6 +2797,55 @@
             {
               "text_run": {
                 "content": " values ranging from 10 to 250.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JtvTdUWYvocVCkxn2LXcqDtVnsc",
+        "block_type": 2,
+        "parent_id": "JZAsdh6Cpok9GIxpOo0caUnondg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following table shows the test result of how each CU type performs in terms of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "QPS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2962,7 +3044,8 @@
         "block_id": "ScfAdHnfOoMgT4xKiIMctHzNnHc",
         "block_type": 32,
         "children": [
-          "NCOOdDHx2o4UKBxZwUncPHidnRe"
+          "NCOOdDHx2o4UKBxZwUncPHidnRe",
+          "VEepdyPWso5RN3x4JrvcplDCnWl"
         ],
         "parent_id": "JXS3dcw03oDdi2xBupXcsbhPnXg",
         "table_cell": {}
@@ -2976,6 +3059,31 @@
             {
               "text_run": {
                 "content": "QPS for Performance-optimized CU (768-dim 1M vectors)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VEepdyPWso5RN3x4JrvcplDCnWl",
+        "block_type": 2,
+        "parent_id": "ScfAdHnfOoMgT4xKiIMctHzNnHc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3725,6 +3833,1079 @@
         }
       },
       {
+        "block_id": "RNLvdJR8Zo0DN0x7hf2cRLeYnOe",
+        "block_type": 2,
+        "parent_id": "JZAsdh6Cpok9GIxpOo0caUnondg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following table shows the test result of how each CU type performs in terms of latency.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "block_type": 31,
+        "children": [
+          "EHNqdmOrJo38eAxno6Ec7J5Qnc0",
+          "O8lRdeKFfoYdxixcFuucXaWHnHg",
+          "BfpLdkTW2opMSqxys5ccurVrngb",
+          "QS2FdkZpzo7pozx0WuacqFgPndc",
+          "BHlSdSI2koGDxXxw031cfChlnoc",
+          "VVpqduvZRoewmAxp3xQc7bn6n3g",
+          "HB78dM4bVoaH3cxCzDUcv5hZnmf",
+          "UUY3dvBgoovQeHxV8BccoU4ynOb",
+          "SfE2dd7GBop5D9xqCQPcDvP0nbb",
+          "F6HidGnjkobyZCxIVDacPIAvnae",
+          "OCWGdTnTUoaFX2xSFxAcnWl4nwo",
+          "X030d48HRop3enxznmBcKe0Enhd",
+          "BkpPdElgRoaqbnxOK6ycDDXkn5c",
+          "K5wjdNVsAot2M2xi1HucX7T3nco",
+          "JCNtdVbvPoSWPBxsR6VcUimQnQb",
+          "Dqgqd2rFboDvABxZNW8c4D5qngg",
+          "DtTzdzI20o9BPsxUJzMcVtgynTf",
+          "PABOdr4H3otVOUx0JSncL1pNnyc",
+          "Lbp0dPoCUo59dOxUyDVcztDNn0g",
+          "AYxJd9Wpkoh6Isx6IKMc46QDneg"
+        ],
+        "parent_id": "JZAsdh6Cpok9GIxpOo0caUnondg",
+        "table": {
+          "cells": [
+            "EHNqdmOrJo38eAxno6Ec7J5Qnc0",
+            "O8lRdeKFfoYdxixcFuucXaWHnHg",
+            "BfpLdkTW2opMSqxys5ccurVrngb",
+            "QS2FdkZpzo7pozx0WuacqFgPndc",
+            "BHlSdSI2koGDxXxw031cfChlnoc",
+            "VVpqduvZRoewmAxp3xQc7bn6n3g",
+            "HB78dM4bVoaH3cxCzDUcv5hZnmf",
+            "UUY3dvBgoovQeHxV8BccoU4ynOb",
+            "SfE2dd7GBop5D9xqCQPcDvP0nbb",
+            "F6HidGnjkobyZCxIVDacPIAvnae",
+            "OCWGdTnTUoaFX2xSFxAcnWl4nwo",
+            "X030d48HRop3enxznmBcKe0Enhd",
+            "BkpPdElgRoaqbnxOK6ycDDXkn5c",
+            "K5wjdNVsAot2M2xi1HucX7T3nco",
+            "JCNtdVbvPoSWPBxsR6VcUimQnQb",
+            "Dqgqd2rFboDvABxZNW8c4D5qngg",
+            "DtTzdzI20o9BPsxUJzMcVtgynTf",
+            "PABOdr4H3otVOUx0JSncL1pNnyc",
+            "Lbp0dPoCUo59dOxUyDVcztDNn0g",
+            "AYxJd9Wpkoh6Isx6IKMc46QDneg"
+          ],
+          "property": {
+            "column_size": 4,
+            "column_width": [
+              100,
+              260,
+              232,
+              149
+            ],
+            "header_row": true,
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 5
+          }
+        }
+      },
+      {
+        "block_id": "EHNqdmOrJo38eAxno6Ec7J5Qnc0",
+        "block_type": 32,
+        "children": [
+          "JNZBdwbRmovZyhxSqENcxeF8n1g",
+          "Ex0gdOsfUo80tBxFYp4cjmMCnmg"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "JNZBdwbRmovZyhxSqENcxeF8n1g",
+        "block_type": 2,
+        "parent_id": "EHNqdmOrJo38eAxno6Ec7J5Qnc0",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "top_k",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ex0gdOsfUo80tBxFYp4cjmMCnmg",
+        "block_type": 2,
+        "parent_id": "EHNqdmOrJo38eAxno6Ec7J5Qnc0",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O8lRdeKFfoYdxixcFuucXaWHnHg",
+        "block_type": 32,
+        "children": [
+          "F5SXdE3GAotxzSxh7rOczYtxnVc",
+          "PsZKdbte2ofy6Ax3SYYcGvRwnge"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "F5SXdE3GAotxzSxh7rOczYtxnVc",
+        "block_type": 2,
+        "parent_id": "O8lRdeKFfoYdxixcFuucXaWHnHg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Latency of Performance-optimized CU (768-dim 1M vectors)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PsZKdbte2ofy6Ax3SYYcGvRwnge",
+        "block_type": 2,
+        "parent_id": "O8lRdeKFfoYdxixcFuucXaWHnHg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BfpLdkTW2opMSqxys5ccurVrngb",
+        "block_type": 32,
+        "children": [
+          "Tbahd5XwsoNKwvxvt35c0TJ5nnh",
+          "KNmodOUqIoqPgBxhcmFcr4xcn1f"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Tbahd5XwsoNKwvxvt35c0TJ5nnh",
+        "block_type": 2,
+        "parent_id": "BfpLdkTW2opMSqxys5ccurVrngb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Latency of Capacity-optimized CU (768-dim 5M vectors)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KNmodOUqIoqPgBxhcmFcr4xcn1f",
+        "block_type": 2,
+        "parent_id": "BfpLdkTW2opMSqxys5ccurVrngb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QS2FdkZpzo7pozx0WuacqFgPndc",
+        "block_type": 32,
+        "children": [
+          "W61QdDbbsoWQ9dxyX3HctBa0ncd"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "W61QdDbbsoWQ9dxyX3HctBa0ncd",
+        "block_type": 2,
+        "parent_id": "QS2FdkZpzo7pozx0WuacqFgPndc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">Latency of Cost-optimized CU (768-dim 5M vectors)</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BHlSdSI2koGDxXxw031cfChlnoc",
+        "block_type": 32,
+        "children": [
+          "NAHmdemTyo4rAtxaX6Hck9ewnVh"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NAHmdemTyo4rAtxaX6Hck9ewnVh",
+        "block_type": 2,
+        "parent_id": "BHlSdSI2koGDxXxw031cfChlnoc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "10",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VVpqduvZRoewmAxp3xQc7bn6n3g",
+        "block_type": 32,
+        "children": [
+          "Yrhbdfje6odVUpxnAZhcjavDnhd"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Yrhbdfje6odVUpxnAZhcjavDnhd",
+        "block_type": 2,
+        "parent_id": "VVpqduvZRoewmAxp3xQc7bn6n3g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "< 10 ms",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HB78dM4bVoaH3cxCzDUcv5hZnmf",
+        "block_type": 32,
+        "children": [
+          "ECrAdb9uHoxd5DxbKTdcEyZSnSd",
+          "STRidb5wjoHY1Ux3szOcsWYdn6f"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ECrAdb9uHoxd5DxbKTdcEyZSnSd",
+        "block_type": 2,
+        "parent_id": "HB78dM4bVoaH3cxCzDUcv5hZnmf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "< 50 ms",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "STRidb5wjoHY1Ux3szOcsWYdn6f",
+        "block_type": 2,
+        "parent_id": "HB78dM4bVoaH3cxCzDUcv5hZnmf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UUY3dvBgoovQeHxV8BccoU4ynOb",
+        "block_type": 32,
+        "children": [
+          "FbYtdzUTlocmvGxk9rzcLStan0f"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "FbYtdzUTlocmvGxk9rzcLStan0f",
+        "block_type": 2,
+        "parent_id": "UUY3dvBgoovQeHxV8BccoU4ynOb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">< 100 ms</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SfE2dd7GBop5D9xqCQPcDvP0nbb",
+        "block_type": 32,
+        "children": [
+          "Gy9udk1DnoOd0Yx9yy1cdIL3nAd"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Gy9udk1DnoOd0Yx9yy1cdIL3nAd",
+        "block_type": 2,
+        "parent_id": "SfE2dd7GBop5D9xqCQPcDvP0nbb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "100",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F6HidGnjkobyZCxIVDacPIAvnae",
+        "block_type": 32,
+        "children": [
+          "EF9WdhZ24oX6KyxS2oRcJwF2nXm"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "EF9WdhZ24oX6KyxS2oRcJwF2nXm",
+        "block_type": 2,
+        "parent_id": "F6HidGnjkobyZCxIVDacPIAvnae",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "< 10 ms",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OCWGdTnTUoaFX2xSFxAcnWl4nwo",
+        "block_type": 32,
+        "children": [
+          "ED1tdei9Yoj4fBxYh4JchmWRnYG"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ED1tdei9Yoj4fBxYh4JchmWRnYG",
+        "block_type": 2,
+        "parent_id": "OCWGdTnTUoaFX2xSFxAcnWl4nwo",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "< 50 ms",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X030d48HRop3enxznmBcKe0Enhd",
+        "block_type": 32,
+        "children": [
+          "OVJ5dEkXMoHYc6x1p8PcQf5OnYc"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OVJ5dEkXMoHYc6x1p8PcQf5OnYc",
+        "block_type": 2,
+        "parent_id": "X030d48HRop3enxznmBcKe0Enhd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">< 100 ms</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BkpPdElgRoaqbnxOK6ycDDXkn5c",
+        "block_type": 32,
+        "children": [
+          "LbCtdLkpyoY1tAx0CwocfNXbncg"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "LbCtdLkpyoY1tAx0CwocfNXbncg",
+        "block_type": 2,
+        "parent_id": "BkpPdElgRoaqbnxOK6ycDDXkn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "250",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "K5wjdNVsAot2M2xi1HucX7T3nco",
+        "block_type": 32,
+        "children": [
+          "QrhqdBOhRo0tPexuH2UcNnUAnsd"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QrhqdBOhRo0tPexuH2UcNnUAnsd",
+        "block_type": 2,
+        "parent_id": "K5wjdNVsAot2M2xi1HucX7T3nco",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "< 10 ms",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JCNtdVbvPoSWPBxsR6VcUimQnQb",
+        "block_type": 32,
+        "children": [
+          "D4pBdMuXdoG1A8xnVC0c3u7Jn4f"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "D4pBdMuXdoG1A8xnVC0c3u7Jn4f",
+        "block_type": 2,
+        "parent_id": "JCNtdVbvPoSWPBxsR6VcUimQnQb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "< 50 ms",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Dqgqd2rFboDvABxZNW8c4D5qngg",
+        "block_type": 32,
+        "children": [
+          "KXjRd4XJ0oShutxwCkIcEIRinqh"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "KXjRd4XJ0oShutxwCkIcEIRinqh",
+        "block_type": 2,
+        "parent_id": "Dqgqd2rFboDvABxZNW8c4D5qngg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">< 100 ms</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DtTzdzI20o9BPsxUJzMcVtgynTf",
+        "block_type": 32,
+        "children": [
+          "I3v2dpfw1oGkAbxwcrmcRjPin2f"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "I3v2dpfw1oGkAbxwcrmcRjPin2f",
+        "block_type": 2,
+        "parent_id": "DtTzdzI20o9BPsxUJzMcVtgynTf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1000",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PABOdr4H3otVOUx0JSncL1pNnyc",
+        "block_type": 32,
+        "children": [
+          "RfWXdF4rWoaJS3xaK6VcdzlQnXe"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "RfWXdF4rWoaJS3xaK6VcdzlQnXe",
+        "block_type": 2,
+        "parent_id": "PABOdr4H3otVOUx0JSncL1pNnyc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "10 - 20 ms",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Lbp0dPoCUo59dOxUyDVcztDNn0g",
+        "block_type": 32,
+        "children": [
+          "M4wqd3KoqoSj68xPYQUcK63Jn0d"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "M4wqd3KoqoSj68xPYQUcK63Jn0d",
+        "block_type": 2,
+        "parent_id": "Lbp0dPoCUo59dOxUyDVcztDNn0g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "50 - 100 ms",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AYxJd9Wpkoh6Isx6IKMc46QDneg",
+        "block_type": 32,
+        "children": [
+          "HU87doq1hoSMk7x6Y6RczvARn8b"
+        ],
+        "parent_id": "EhXxdSTpBonXU5xIJGHcCWuknfg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "HU87doq1hoSMk7x6Y6RczvARn8b",
+        "block_type": 2,
+        "parent_id": "AYxJd9Wpkoh6Isx6IKMc46QDneg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">100 - 200 ms</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "UFoSdbpVgomNhYxH71Bcr2banSa",
         "block_type": 4,
         "heading2": {
@@ -4395,6 +5576,6 @@
         }
       }
     ],
-    "counts": 169
+    "counts": 217
   }
 }

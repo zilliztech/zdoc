@@ -3,7 +3,7 @@ slug: /multi-factor-authentication
 beta: FALSE
 notebook: FALSE
 token: KHAMwm0HUiU6qdkH2LOcu0FFnug
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';
@@ -33,7 +33,7 @@ Similarly, MFA settings for GitHub-linked accounts are managed by GitHub. For mo
 
 </Admonition>
 
-![enable_mfa_en](/img/enable_mfa_en.png)
+![enable_mfa_en](/byoc/enable_mfa_en.png)
 
 ### Disable MFA{#disable-mfa}
 

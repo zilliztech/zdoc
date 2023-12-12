@@ -459,13 +459,14 @@ class larkDocWriter {
             sidebar_label = ''
         }
 
-        let displayed_sidebar = this.target === 'saas' ? "" : "displayed_sidebar: paasSidebar\n"
-        slug = this.target === 'saas' ? `/${slug}` : `/byoc/${slug}`
-        slug = slug.replace(/\/\//g, '/').replace(/^\//, '')
+        // let displayed_sidebar = this.target === 'saas' ? "" : "displayed_sidebar: paasSidebar\n"
+        // slug = this.target === 'saas' ? `/${slug}` : `/byoc/${slug}`
+        // slug = `/${slug}`
+        // slug = slug.replace(/\/\//g, '/').replace(/^\//, '')
         // slug = slug === 'docs/' ? '' : slug
 
         let front_matter = '---\n' + 
-        displayed_sidebar +
+        // displayed_sidebar +
         `slug: /${slug}` + '\n' +
         sidebar_label +
         `beta: ${beta}` + '\n' +
@@ -945,7 +946,8 @@ class larkDocWriter {
                 const meta = await this.__is_to_publish(title);
                 const slug = meta['slug'];
 
-                let newUrl = this.target === 'saas' ? `./${slug}` : `./byoc/${slug}`;
+                // let newUrl = this.target === 'saas' ? `./${slug}` : `./byoc/${slug}`;
+                let newUrl = `./${slug}`;
 
                 if (header) {
                     const headerBlock = page['blocks']['items'].filter(x => x['block_id'] === header)[0];

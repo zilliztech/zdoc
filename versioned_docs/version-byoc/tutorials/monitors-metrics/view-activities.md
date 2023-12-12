@@ -21,7 +21,7 @@ You can access and review the activities at the organization level through the f
 
 1. Click on **Activities** in the left navigation pane. Here, you will be able to see a summary of activities, the precise time each activity took place, and the identity of the operator involved in a specific activity.
 
-![view-activities](/img/view-activities.png)
+![view-activities](/byoc/view-activities.png)
 
 ## Filter activities{#filter-activities}
 
@@ -37,7 +37,7 @@ To enhance your control and ease in navigating through the organization activiti
 
     </Admonition>
 
-    ![filter-by-time-range](/img/filter-by-time-range.png)
+    ![filter-by-time-range](/byoc/filter-by-time-range.png)
 
 - **Filter by activity type**
 
@@ -49,13 +49,11 @@ To enhance your control and ease in navigating through the organization activiti
     |  Warning           |  Updates regarding resource states that necessitate your attention.<br/> <br/>   E.g., "Cluster in01-xxxxxxxxxxxxxxx was deleted."                                                                  |
     |  Error             |  Notifications of payment failures or other system malfunctions requiring immediate attention or action. <br/> <br/>  E.g., "The payment for the invoice invo-xxxxxxxxxxxxxxxxxxxxxxxx has failed." |
 
-    ![filter-by-activity-type](/img/filter-by-activity-type.png)
+    ![filter-by-activity-type](/byoc/filter-by-activity-type.png)
 
 ## Related topics{#related-topics}
 
 - [Manage Organization Information](./manage-orgs-and-members)
-
-- [Delete Your Organization](./delete-your-org)
 
 - [Delete Your Account](./delete-your-account) 
 

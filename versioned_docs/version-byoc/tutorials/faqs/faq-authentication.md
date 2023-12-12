@@ -3,7 +3,7 @@ slug: /faq-authentication
 beta: null
 notebook: null
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
-sidebar_position: 11
+sidebar_position: 10
 ---
 
 # FAQ: Authentication

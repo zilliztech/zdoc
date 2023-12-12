@@ -25,11 +25,11 @@ Make sure the following conditions are met:
 
 ## Prepare data files{#prepare-data-files}
 
-Zilliz Cloud supports data import from local or remote files in JSON or NumPy formats. If your data is in a different format, convert it using the **BulkWriter** tool. For details, see [Prepare Data Import](./use-bulkwriter-for-data-import).
+Zilliz Cloud supports data import from remote files in JSON or NumPy formats. If your data is in a different format, convert it using the **BulkWriter** tool. For details, see [Prepare Data Import](./use-bulkwriter-for-data-import).
 
 The following figure demonstrates how to prepare your data in JSON or NumPy formats.
 
-![data_import-preparetion_en](/img/data_import-preparetion_en.png)
+![data_import-preparetion_en](/byoc/data_import-preparetion_en.png)
 
 When preparing data files, consider the following based on the file format:
 
@@ -104,7 +104,7 @@ with open('path/to/medium_articles_2020_dpr.json') as f:
 
 ## Import data using the RESTful API{#import-data-using-the-restful-api}
 
-To import data, you must first upload them to an object storage bucket, such as AWS S3 or Google Cloud Storage (GCS). Once uploaded, obtain the file path and bucket credentials for Zilliz Cloud to pull data from your bucket. For supported object paths, see [Supported object paths](./import-data-via-restful-api#supported-object-paths).
+To import data, you must first upload them to an object storage bucket. Once uploaded, obtain the file path and bucket credentials for Zilliz Cloud to pull data from your bucket. For supported object paths, see [Supported object paths](./import-data-via-restful-api#supported-object-paths).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -156,14 +156,6 @@ If you are importing data from AWS S3, you can use either S3 URI or object URL. 
 
 For more details, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
 
-If you are importing data from Google Cloud Storage (GSC), you can use either authenticated URL, public URL, or gsutil URI. The following are some examples:
-
-- https://storage.googleapis.com/YOUR_BUCKET_NAME/OBJECT_NAME (GSC public URL)
-
-- gs://YOUR_BUCKET_NAME/OBJECT_NAME (GSC gsutil URI)
-
-For more details, see [Share the object](https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object).
-
 ## Verify the result{#verify-the-result}
 
 If the command output is similar as follows, the data is imported successfully:
@@ -179,5 +171,5 @@ If the command output is similar as follows, the data is imported successfully:
 
 You can also go to the Zilliz Cloud console to view the result and job details:
 
-![data_import_complete_restful](/img/data_import_complete_restful.png)
+![data_import_complete_restful](/byoc/data_import_complete_restful.png)
 

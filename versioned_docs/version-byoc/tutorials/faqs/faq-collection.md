@@ -29,9 +29,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 ### How many collections are allowed in a single cluster?{#how-many-collections-are-allowed-in-a-single-cluster}
 
-A serverless cluster can have up to 2 collections.  If you have reached the upper limit and need to create more collections, please [migrate to a dedicated cluster](./migrate-between-clusters#from-serverless-to-dedicated-cluster).
-
-The number of collections allowed in a dedicated cluster varies with the cluster CU size. For clusters with 8 CUs or less, you can create a maximum of 32 collections. For clusters with more than 8 CUs,  you can create a maximum of 256 collections. For more information about the limits, please see [Create Collection](./create-collection#limits).
+The number of collections allowed in a  cluster varies with the cluster CU size. For clusters with 8 CUs or less, you can create a maximum of 32 collections. For clusters with more than 8 CUs,  you can create a maximum of 256 collections. For more information about the limits, please see [Create Collection](./create-collection#limits).
 
 If you have reached the maximum number of collections allowed in a cluster, you can:
 
@@ -45,7 +43,7 @@ If you have reached the maximum number of collections allowed in a cluster, you 
 
 You can view the status of dynamic schema via Zilliz Cloud web console. Choose the collection and navigate to the **Schema** tab. You can see if dynamic schema is enabled or not in the upper right corner. For more details, see [Enable Dynamic Schema](./enable-dynamic-schema).
 
-![faq_dynamic_schema_enabled](/img/faq_dynamic_schema_enabled.png)
+![faq_dynamic_schema_enabled](/byoc/faq_dynamic_schema_enabled.png)
 
 ### If dynamic schema was disabled when the collection was created, can I enable it later?{#if-dynamic-schema-was-disabled-when-the-collection-was-created-can-i-enable-it-later}
 

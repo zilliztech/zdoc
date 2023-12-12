@@ -5,7 +5,7 @@
   "node_token": "CPLrwghdWiSvGBkdeEecGjgLnSb",
   "node_type": "origin",
   "obj_create_time": "1689055655",
-  "obj_edit_time": "1700623751",
+  "obj_edit_time": "1702026822",
   "obj_token": "BVoCd10pyoJDsnx1L7dc16kqnQf",
   "obj_type": "docx",
   "origin_node_token": "CPLrwghdWiSvGBkdeEecGjgLnSb",
@@ -22,6 +22,7 @@
         "block_type": 1,
         "children": [
           "GQ6JdWClPoW50gxzL1RcOBgMn4f",
+          "Y8ssdFBD2ovhJyxc83ScRy6tnaf",
           "UlbAdddbmohTgVx8yH4c8DJqnbc",
           "Zmowdaf9oopdGQxL5JFc4BkhnZe",
           "EFGtdEGDgopMwFxxhZsce7bKnPf",
@@ -40,6 +41,9 @@
           "LggndsQaDoPcN0xxqslcbhzDnXy",
           "TWRzdpmBJoVz7IxRPcdcYIeZnCh"
         ],
+        "comment_ids": [
+          "7310142705810948100"
+        ],
         "page": {
           "elements": [
             {
@@ -47,6 +51,9 @@
                 "content": "Cloud Providers & Regions",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7310142705810948100"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -87,13 +94,137 @@
         }
       },
       {
+        "block_id": "Y8ssdFBD2ovhJyxc83ScRy6tnaf",
+        "block_type": 2,
+        "parent_id": "BVoCd10pyoJDsnx1L7dc16kqnQf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud provides clusters across various regions on Amazon Web Services (AWS), ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Google Cloud Platform",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "GCP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "), and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Microsoft Azure",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". To request a new region, feel free to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "contact us",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliz.com%2Fcloud-region-request%3F"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "UlbAdddbmohTgVx8yH4c8DJqnbc",
         "block_type": 4,
         "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "Amazon Web Services (AWS)",
+                "content": "AWS",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -143,7 +274,31 @@
             },
             {
               "text_run": {
-                "content": " Amazon Web Services (AWS).",
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1530,52 +1685,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Google Cloud Platform",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7262547857480105987"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " (",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7262547857480105987"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
                 "content": "GCP",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7262547857480105987"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -1616,30 +1726,6 @@
             },
             {
               "text_run": {
-                "content": "Google Cloud Platform",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " (",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
                 "content": "GCP",
                 "text_element_style": {
                   "bold": false,
@@ -1652,7 +1738,7 @@
             },
             {
               "text_run": {
-                "content": ").",
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3222,6 +3308,6 @@
         "parent_id": "BVoCd10pyoJDsnx1L7dc16kqnQf"
       }
     ],
-    "counts": 129
+    "counts": 130
   }
 }

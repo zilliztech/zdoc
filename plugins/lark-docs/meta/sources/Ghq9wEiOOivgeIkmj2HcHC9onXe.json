@@ -5,7 +5,7 @@
   "node_token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
   "node_type": "origin",
   "obj_create_time": "1689055977",
-  "obj_edit_time": "1701772508",
+  "obj_edit_time": "1702025297",
   "obj_token": "EvTZdgR6CoVhAQxSUK9cEdfsnOc",
   "obj_type": "docx",
   "origin_node_token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
@@ -3701,18 +3701,6 @@
           "elements": [
             {
               "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
                 "content": "Starter",
                 "text_element_style": {
                   "bold": true,
@@ -3725,31 +3713,7 @@
             },
             {
               "text_run": {
-                "content": ": Limited to one cluster per user on ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "GCP",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ", accommodating up to two collections with basic settings.",
+                "content": ": Limited to one cluster per user on GCP, accommodating up to two collections with basic settings.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

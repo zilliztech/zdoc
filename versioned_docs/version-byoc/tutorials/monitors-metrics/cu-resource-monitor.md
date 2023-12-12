@@ -13,12 +13,6 @@ import Admonition from '@theme/Admonition';
 
 To effectively scale your cluster, it is recommended to activate the CU resource monitor. This tool tracks both CPU and memory usage, expressed as a percentage, and responds based on the higher of the two values.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-This is a feature exclusively available to clusters in the Standard and Enterprise plans.
-
-</Admonition>
-
 ## Set alert condition{#set-alert-condition}
 
 To configure the alert conditions for CU usage within a project, follow the steps below:
@@ -37,7 +31,7 @@ To configure the alert conditions for CU usage within a project, follow the step
 
 To activate the monitor, click the switch in the **Status** column. This action toggles the monitor’s state on or off. Verification of activation is confirmed when the switch’s indicator is positioned to the right, complemented by a change in background color to blue.
 
-![cu-monitor](/img/cu-monitor.png)
+![cu-monitor-byoc](/byoc/cu-monitor-byoc.png)
 
 ## Related topics{#related-topics}
 
@@ -48,8 +42,4 @@ To activate the monitor, click the switch in the **Status** column. This action 
 - [Load Capacity Resource Monitor](./load-capacity-resource-monitor)
 
 - [View Cluster Metrics](./monitor-metrics) 
-
-- [Credit Card Expiration Monitor](./credit-card-expiration-monitor)
-
-- [Advance Pay Balance Monitor](./advance-pay-balance-monitor) 
 

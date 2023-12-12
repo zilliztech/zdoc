@@ -19,15 +19,17 @@ Zilliz Cloud facilitates access control across three distinct scopes:
 
 - Project
 
-![a-panorama-view-1](/img/a-panorama-view-1.png)
+![a-panorama-view-1](/byoc/a-panorama-view-1.png)
 
 ## Understand organizations{#understand-organizations}
 
 Organizations serve as a means to group projects that share common objectives, such as encompassing all projects under a particular business unit.
 
-In an organization, you can create several projects and manage organization-level resources, including [billing](./payment-billing), [organization members](./manage-orgs-and-members), [activities](./view-activities), [organization settings](./organization-settings), and [recycle bin](./use-recycle-bin).
+The **Default Organization**, operating with the BYOC license, will be labeled as **BYOC** in the web console for clarity and ease of management.
 
-![a-panorama-view-2](/img/a-panorama-view-2.png)
+In an organization, you can create several projects and manage organization-level resources, including [license](./license), [organization members](./manage-orgs-and-members), [activities](./view-activities), [organization settings](./organization-settings), and [recycle bin](./use-recycle-bin).
+
+![paas-a-panorama-view-2](/byoc/paas-a-panorama-view-2.png)
 
 ## Understand projects{#understand-projects}
 
@@ -35,7 +37,7 @@ Projects are logical containers within an organization that group clusters and o
 
 In a project, you can create several clusters and manage cluster-level resources, including [project collaborators](./manage-projects-and-collaborator), [API keys](./manage-api-keys), [security](./security), and [monitoring](./monitors-metrics).
 
-![a-panorama-view-3](/img/a-panorama-view-3.png)
+![a-panorama-view-3](/byoc/a-panorama-view-3.png)
 
 ## Organization roles{#organization-roles}
 
@@ -55,38 +57,36 @@ At the project level, two roles are introduced to enable finer-grained access co
 
 ## Access levels{#access-levels}
 
-|  Permission / Access Level                                                                                                          |  Organization Owner       |  Project Owner            |  Project Member |
-| ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------------- | --------------- |
-|  **Organization Level**                                                                                                             |                           |                           |                 |
-|  Managing projects                                                                                                                  |  ✔︎                       |  ✘                        |  ✘              |
-|  Managing organization members                                                                                                      |  ✔︎                       |  ✘                        |  ✘              |
-|  Billing                                                   |  ✔︎<br/> <br/>              |  ✘                        |  ✘              |
-|  Recycle bin                                                                                                                        |  ✔︎                       |  ✘                        |  ✘              |
-|  Managing system settings                                                                                                           |  ✔︎                       |  ✘                        |  ✘              |
-|  Viewing activities                                                                                                                 |  ✔︎                       |  ✘                        |  ✘              |
-|  Monitoring                                                                                                                         |  ✔︎                       |  ✔︎                       |  ✔︎             |
-|  Other (docs, support, account settings)                                                                                            |  ✔︎                       |  ✘                        |  ✘              |
-|  **Project Level**                                                                                                                  |                           |                           |                 |
-|  Managing project collaborators                                                                                                     |  ✔︎                       |  ✔︎                       |  ✘              |
-|  Managing security settings<br/> <br/>  - Whitelists<br/> <br/>  <br/> <br/>  - Private links<br/> <br/>   |  <br/> <br/>  ✔︎<br/> <br/>   |  <br/> <br/>  ✔︎<br/> <br/>   |  <br/> <br/>  ✘   |
-|  Managing API keys                                                                                                                  |  ✔︎                       |  ✔︎                       |  ✘              |
-|  Playground                                                                                                                         |  ✔︎                       |  ✔︎                       |  ✔︎             |
-|  **Cluster Level**                                                                                                                  |                           |                           |                 |
-|  Managing clusters                                                                                                                  |  ✔︎                       |  ✔︎                       |  ✘              |
-|  Backup, restore, migration                                                                                                         |  ✔︎                       |  ✔︎                       |  ✘              |
-|  Managing cluster users                                                                                                             |  ✔︎                       |  ✔︎                       |  ✘              |
-|  Connection                                                                                                                         |  ✔︎                       |  ✔︎                       |  ✔︎             |
-|  Viewing cluster details and metrics                                                                                                |  ✔︎                       |  ✔︎                       |  ✔︎             |
-|  Managing collections                                                                                                               |  ✔︎                       |  ✔︎                       |  ✔︎             |
-|  Managing indexes                                                                                                                   |  ✔︎                       |  ✔︎                       |  ✔︎             |
+|  Permission / Access Level                                                                                                          |  Organization Owner                             |  Project Owner                       |  Project Member                      |
+| ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------ | ------------------------------------ |
+|  **Organization Level**                                                                                                             |                                                 |                                      |                                      |
+|  Managing projects                                                                                                                  |  ✔︎                                             |  ✘                                   |  ✘                                   |
+|  Managing organization members                                                                                                      |  ✔︎                                             |  ✘                                   |  ✘                                   |
+|  License                                                   |  ✔︎<br/> <br/>                                    |  ✘                                   |  ✘                                   |
+|  Recycle bin                                                                                                                        |  ✔︎                                             |  ✘                                   |  ✘                                   |
+|  Managing system settings                                                                                                           |  ✔︎                                             |  ✘                                   |  ✘                                   |
+|  Viewing activities                                                                                                                 |  ✔︎                                             |  ✘                                   |  ✘                                   |
+|  Monitoring                                                                                                                         |  ✔︎                                             |  ✔︎                                  |  ✔︎                                  |
+|  Other (docs, support, account settings)                                                                                            |  ✔︎                                             |  ✘                                   |  ✘                                   |
+|  **Project Level**                                                                                                                  |                                                 |                                      |                                      |
+|  Managing project collaborators                                                                                                     |  ✔︎                                             |  ✔︎                                  |  ✘                                   |
+|  Managing security settings<br/> <br/>  - Whitelists<br/> <br/>   |  <br/> <br/>  ✔︎<br/> <br/>                         |  <br/> <br/>  ✔︎<br/> <br/>              |  <br/> <br/>  ✘                        |
+|  Managing API keys                                                                                                                  |  ✔︎                                             |  ✔︎                                  |  ✘                                   |
+|                                                                                          |  <br/> <br/>   |   |   |
+|  **Cluster Level**                                                                                                                  |                                                 |                                      |                                      |
+|  Managing clusters                                                                                                                  |  ✔︎                                             |  ✔︎                                  |  ✘                                   |
+|  Backup, restore, migration                                                                                                         |  ✔︎                                             |  ✔︎                                  |  ✘                                   |
+|  Managing cluster users                                                                                                             |  ✔︎                                             |  ✔︎                                  |  ✘                                   |
+|  Connection                                                                                                                         |  ✔︎                                             |  ✔︎                                  |  ✔︎                                  |
+|  Viewing cluster details and metrics                                                                                                |  ✔︎                                             |  ✔︎                                  |  ✔︎                                  |
+|  Managing collections                                                                                                               |  ✔︎                                             |  ✔︎                                  |  ✔︎                                  |
+|  Managing indexes                                                                                                                   |  ✔︎                                             |  ✔︎                                  |  ✔︎                                  |
 
 *Here, "✔︎" indicates that the user role has permission for the specific task.*
 
 ## Related topics{#related-topics}
 
 - [Manage Organizations and Members](./manage-orgs-and-members)
-
-- [Delete Your Organization](./delete-your-org)
 
 - [Manage Projects and Collaborators](./manage-projects-and-collaborator)
 

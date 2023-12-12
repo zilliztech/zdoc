@@ -18,7 +18,7 @@ This article offers a systematic guide on connecting to a cluster.
 
 Ensure the following prerequisites are met before proceeding:
 
-- You have registered an account with Zilliz Cloud. For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
+- You have activated your cloud. For details, see [Activate Your Cloud](./activate-your-cloud).
 
 - You have created a cluster. For details, see [Create Cluster](./create-cluster).
 

@@ -13,59 +13,7 @@ import Admonition from '@theme/Admonition';
 
 This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
 
-## Serverless cluster{#serverless-cluster}
-
-After creating a serverless cluster, you will see the following in the console.
-
-![serverless-cluster-lifecycle](/img/serverless-cluster-lifecycle.png)
-
-<Admonition type="info" icon="📘" title="Notes">
-
-You have the option to create one serverless cluster without charge. In addition, you can create up to two collections within the cluster.
-
-</Admonition>
-
-### Connect to cluster{#connect-to-cluster}
-
-In the **Connect** section, you can find the **Public Endpoint** and **Token** used to connect to the cluster.
-
-For details, refer to [Connect to Cluster](./connect-to-cluster).
-
-### Drop cluster{#drop-cluster}
-
-In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
-
-### Migrate to dedicated cluster{#migrate-to-dedicated-cluster}
-
-In the **Actions** drop-down button, select **Migrate to Dedicated Cluster.**
-
-On the page that opens,
-
-- Select the subscription plan and **Target Project**,
-
-- Enter the **Cluster Name** and password,
-
-- Specify the **Cloud Provider** and **Cloud Region**, and
-
-- Determine the **CU settings**.
-
-![migrate-to-dedicated](/img/migrate-to-dedicated.png)
-
-After you complete the form and click on **Migrate Cluster**, Zilliz Cloud creates a dedicated cluster based on the specified settings and migrates data from the serverless cluster to the dedicated one.
-
-The dedicated cluster status will switch from **CREATING** to **RESTORING**, and finally to **RUNNING**. Once this is complete, you can connect to the dedicated cluster and manipulate the restored data.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-This feature is available once you set up your payment method.
-
-</Admonition>
-
-## Dedicated cluster{#dedicated-cluster}
-
-Once you have created a dedicated cluster, you will see the following in the console.
-
-![dedicated-cluster-lifecycle](/img/dedicated-cluster-lifecycle.png)
+Once you have created a cluster, you will see the following in the console.
 
 ### Establish Connection{#establish-connection}
 
@@ -75,10 +23,6 @@ Once you have created a dedicated cluster, you will see the following in the con
 
     For more information, refer to [Connect to Cluster](./connect-to-cluster).
 
-- **Set up private link**
-
-    To establish a more secure connection to your cluster, you can create a private link instead of using the public endpoint provided. Refer to [Set up a Private Link](./setup-a-private-link) for further details.
-
 ### Manage collections and data{#manage-collections-and-data}
 
 - **Collections**
@@ -87,7 +31,7 @@ Once you have created a dedicated cluster, you will see the following in the con
 
     For details on data import, refer to [Data Import](./data-import).
 
-    ![manage-collections](/img/manage-collections.png)
+    ![manage-collections](/byoc/manage-collections.png)
 
 - **Backups**
 
@@ -95,7 +39,7 @@ Once you have created a dedicated cluster, you will see the following in the con
 
 - **Data migrations**
 
-    In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrate Between Clusters](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster).
+    In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus.
 
 ### Users and access control{#users-and-access-control}
 
@@ -105,7 +49,7 @@ Once you have created a dedicated cluster, you will see the following in the con
 
     For details, refer to [Manage Cluster Credentials](./manage-cluster-credentials-gui).
 
-    ![manage-users](/img/manage-users.png)
+    ![manage-users](/byoc/manage-users.png)
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -135,24 +79,11 @@ Once you have created a dedicated cluster, you will see the following in the con
 
     </Admonition>
 
-- **Upgrade service plan**
-
-    For standard users, click **Upgrade** right to the service **Plan** in the **Summary** section to upgrade your plan to **Enterprise**. Zilliz Cloud upgrades your service plan only after you confirm this operation in the **Upgrade to Enterprise Plan** dialog box.
-
-    For the differences between all the available subscription plans, refer to [Select Service Tiers](./select-zilliz-cloud-service-plans).
-
 - **Suspend & resume cluster**
 
     In the **Actions** drop-down button, select **Suspend** to stop the cluster. Once you confirm this operation in the **Suspend Cluster** dialog box, the cluster status changes from **RUNNING** to **SUSPENDING**, during which you cannot perform other actions to the cluster.
 
     Once the status changes to **SUSPENDED**, you will only be charged for storage. Wisely suspending some of your clusters can save you money.
-
-    
-
-    |  **Cloud Provider** |  **Storage Pricing**   |
-    | ------------------- | ---------------------- |
-    |  AWS storage        |  $0.025 / GB per month |
-    |  GCP storage        |  $0.020 / GB per month |
 
     
 
@@ -167,12 +98,6 @@ Once you have created a dedicated cluster, you will see the following in the con
 ## Related topics{#related-topics}
 
 - [Connect to Cluster](./connect-to-cluster)
-
-- [Set up a Private Link](./setup-a-private-link)
-
-- [Migrate Between Clusters](./migrate-between-clusters)
-
-- [Select Service Tiers](./select-zilliz-cloud-service-plans)
 
 - [Backup & Restore](./backup-and-restore)
 

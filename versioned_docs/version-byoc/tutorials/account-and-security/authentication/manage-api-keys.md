@@ -31,7 +31,7 @@ The following table compares API keys and username and password pairs, highlight
 
 To create an API key, you must be an [Organization Owner](./a-panorama-view#organization-roles) or a [Project Owner](./a-panorama-view#project-roles).
 
-![create-api-key](/img/create-api-key.png)
+![create-api-key](/byoc/create-api-key.png)
 
 With your project's API key in hand, you can now connect to any cluster within the project. See [Connect to Cluster](./connect-to-cluster) to explore further details.
 
@@ -45,7 +45,7 @@ To prevent unauthorized access, you should never share your API keys or store th
 
 </Admonition>
 
-![view-api-keys](/img/view-api-keys.png)
+![view-api-keys](/byoc/view-api-keys.png)
 
 ## Delete an API key{#delete-an-api-key}
 
@@ -59,7 +59,7 @@ Exercise caution when deleting an API key. Doing so will immediately revoke acce
 
 </Admonition>
 
-![delete-api-key](/img/delete-api-key.png)
+![delete-api-key](/byoc/delete-api-key.png)
 
 ## Related topics{#related-topics}
 
@@ -68,6 +68,4 @@ Exercise caution when deleting an API key. Doing so will immediately revoke acce
 - [Manage Cluster Credentials](./manage-cluster-credentials-gui) 
 
 - [Set up Whitelist](./set-up-whitelist)
-
-- [Set up a Private Link](./setup-a-private-link) 
 

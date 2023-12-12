@@ -17,9 +17,9 @@ This topic offers a step-by-step guide on how to migrate data from Elasticsearch
 
 Make sure the following steps are performed:
 
-- You have registered an account with Zilliz Cloud. For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
+- You have activated your cloud. For details, see [Activate Your Cloud](./activate-your-cloud).
 
-- You have created a **Dedicated** cluster on Zilliz Cloud. For details, see [Create Cluster](./create-cluster) and [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
+- You have created a cluster. For details, see [Create Cluster](./create-cluster).
 
 - You have created an Elasticsearch cluster running on version 7.x or later. For details, see [Installing Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html).
 
@@ -33,7 +33,7 @@ To interact with your Elasticsearch cluster on Zilliz Cloud, establish a connect
 
 [Connect to your cluster](https://www.elastic.co/guide/en/cloud-enterprise/current/ece-connect.html#ece-connect) and [Get API key information](https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-get-api-key.html) can guide you on obtaining the required information.
 
-![connect_to_es](/img/connect_to_es.png)
+![connect_to_es](/byoc/connect_to_es.png)
 
 ## Transition from Elasticsearch index to Zilliz Cloud collection{#transition-from-elasticsearch-index-to-zilliz-cloud-collection}
 
@@ -43,7 +43,7 @@ In Zilliz Cloud, collections are analogous to Elasticsearch indexes. To migrate:
 
 1. Select a source index and desired fields from the left frame; they will appear in the Zilliz Cloud collection on the right frame.
 
-![migrate_index](/img/migrate_index.png)
+![migrate_index](/byoc/migrate_index.png)
 
 New collections are named `Collection_n` by default, where `n` is a unique numerical identifier.
 
@@ -75,7 +75,7 @@ Data inserted into the Elasticsearch source index during migration may not synch
 
 </Admonition>
 
-![verify_collection_es](/img/verify_collection_es.png)
+![verify_collection_es](/byoc/verify_collection_es.png)
 
 ## Field mapping reference{#field-mapping-reference}
 

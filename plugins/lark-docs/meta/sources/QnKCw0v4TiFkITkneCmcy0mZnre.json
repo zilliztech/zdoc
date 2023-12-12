@@ -5,7 +5,7 @@
   "node_token": "QnKCw0v4TiFkITkneCmcy0mZnre",
   "node_type": "origin",
   "obj_create_time": "1689055127",
-  "obj_edit_time": "1701675828",
+  "obj_edit_time": "1702285149",
   "obj_token": "UbeSdMepfoUxSaxAehMcA6N3nIg",
   "obj_type": "docx",
   "origin_node_token": "QnKCw0v4TiFkITkneCmcy0mZnre",
@@ -81,14 +81,65 @@
       {
         "block_id": "WCZydUbXsoGaSDx23b2cmBaonha",
         "block_type": 2,
+        "comment_ids": [
+          "7310131550410358787"
+        ],
         "parent_id": "UbeSdMepfoUxSaxAehMcA6N3nIg",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "This tutorial will guide you through the steps to set up a collection for your cluster.",
+                "content": "This tutorial will guide y",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ou through the steps to set up a collection for your cluster. You can find",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7310131550410358787"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " the detailed explanations about collections, schema, and index here",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7310131550410358787"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FKfI3wa2ZCiEJyzkkvKSc5FennId"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7310131550410358787"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,

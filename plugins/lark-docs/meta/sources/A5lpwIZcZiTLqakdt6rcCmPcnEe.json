@@ -1,50 +1,50 @@
 {
   "creator": "ou_8554528ee6e965bad56710acde1c7847",
   "has_child": false,
-  "node_create_time": "1698146417",
-  "node_token": "Tr5lwpgrCiETZzkaFSYcBTDjnlz",
+  "node_create_time": "1702263637",
+  "node_token": "A5lpwIZcZiTLqakdt6rcCmPcnEe",
   "node_type": "origin",
-  "obj_create_time": "1698146417",
-  "obj_edit_time": "1702297714",
-  "obj_token": "KbDmdFWjGoP2Yqxmcrkc776XnR0",
+  "obj_create_time": "1702263637",
+  "obj_edit_time": "1702284809",
+  "obj_token": "AQXPdm3KWoACwPxjgxuc3sypnve",
   "obj_type": "docx",
-  "origin_node_token": "Tr5lwpgrCiETZzkaFSYcBTDjnlz",
+  "origin_node_token": "A5lpwIZcZiTLqakdt6rcCmPcnEe",
   "origin_space_id": "7167193056431783939",
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
-  "parent_node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
+  "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
   "space_id": "7167193056431783939",
-  "title": "Use Recycle Bin",
-  "slug": "use-recycle-bin",
+  "title": "Release Notes v2.4.0",
+  "slug": "release-notes-240",
   "blocks": {
     "items": [
       {
-        "block_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0",
+        "block_id": "AQXPdm3KWoACwPxjgxuc3sypnve",
         "block_type": 1,
         "children": [
-          "E3SvdT105oHMZjxXamTcGmt9nPf",
-          "K4t4dYFnZofaeJxtQDYcY937nBe",
-          "TkLIdlsuRoHEoyxYyzOcIoZpnbe",
-          "QoAndG0y1o5ZLBx5oeRc9QJPnCb",
-          "SU81dvlgqojA4Dx4YzWcOF2JnGy",
-          "YwL1d2t4EojZ2hxmivCceanKnGf",
-          "EwPBd1NluoBiZixWYYXcz5VynTf",
-          "I9JGdl5wVon6e1xcdcBcAKEDnIf",
-          "RuRgdTmsVoLHm2xl5lEctWmonkh",
-          "WVEPdHNaioxcQ9xwsFKctMXTneg",
-          "CBigdECoyofiAqxW1Wwczn6unlb",
-          "Svz4d8sOSobCKzxPGR5cMYYCn7d",
-          "XWiAd2KBxoIUsaxh2K4cs0BynCc",
-          "ZEaYd0ZgLoF5Ztx1HofcMovinSf",
-          "VaEXd4NybomlGfxoleycWOeVnwc",
-          "VgAzdOaqRotavyx9PIec6qmQnDZ",
-          "SR17dME0hoGKlzxPGSmcS5idnlb",
-          "SdlkdO7QmowafUxefc7cafN1nUf"
+          "SvP0dd2BEowUvexu7nNcgynCnDg",
+          "XKGZdjBjToPUVBxd5pKcJoZLnjc",
+          "B9bNd9dVQo76pUxizTsc1gYMnlf",
+          "UvlldbfVhoJG4Mx1Qvtc57xMneb",
+          "MNuRdKIrZoRVeHx4cUNcNHXpn7g",
+          "MgzvdehoBovNNexj9BgchOpUnkc",
+          "W8M2d6KQrolF3Jx9pGWcdBQ8n9e",
+          "JzP0dnINkonOG0xDfKNcNDTCnfe",
+          "SkofdWArQoiXrIxyqshcPpIXnEh",
+          "MV9gdQhcUomRKCxFDlEcG18znte",
+          "F4IXdtSiho5JkoxMvMtcscswnwb",
+          "IiQAdqZUcoSqpLxEJ4KcrGECnPg",
+          "CDIydeTS4oqaeBx0VekcH3HVn2b",
+          "QL1kdVpacoCgv8xdZh9c11FjnIh",
+          "EEKOdyyr1oW6k6xMU8bcu7G2nLg",
+          "HMe4dUnbcottwQxz400clRoInkD",
+          "K0dQdJGycohEThxtGGIcaFufnHd",
+          "PuVid8YvkozI14xiIl0cnurangb"
         ],
         "page": {
           "elements": [
             {
               "text_run": {
-                "content": "Use Recycle Bin",
+                "content": "Release Notes v2.4.0",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -62,14 +62,62 @@
         "parent_id": ""
       },
       {
-        "block_id": "E3SvdT105oHMZjxXamTcGmt9nPf",
+        "block_id": "SvP0dd2BEowUvexu7nNcgynCnDg",
         "block_type": 2,
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0",
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of every cluster that has been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration.",
+                "content": "We are excited to announce the release of Zilliz Cloud 2.4.0. Now Zilliz Cloud services are available on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Azure",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", starting with the East US region. Additionally, we introduce Zilliz Cloud Pipelines (Beta) which transforms unstructured data into vector embeddings for ingestion and retrieval. The release also brings improved ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "RBAC",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and credential management within Clusters, with three predefined roles (admin, read-write, read-only) for user administration. Other updates include enhanced error message content and stability improvements for more reliable service.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -87,62 +135,25 @@
         }
       },
       {
-        "block_id": "K4t4dYFnZofaeJxtQDYcY937nBe",
-        "block_type": 2,
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "<exclude target=\"",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "paas",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\">",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "TkLIdlsuRoHEoyxYyzOcIoZpnbe",
+        "block_id": "XKGZdjBjToPUVBxd5pKcJoZLnjc",
         "block_type": 4,
         "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "Prerequisites",
+                "content": "Zilliz Cloud on ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Azure",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -158,17 +169,17 @@
             "folded": false
           }
         },
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0"
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve"
       },
       {
-        "block_id": "QoAndG0y1o5ZLBx5oeRc9QJPnCb",
+        "block_id": "B9bNd9dVQo76pUxizTsc1gYMnlf",
         "block_type": 2,
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0",
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "To restore a cluster in the recycle bin, you need to ",
+                "content": "We're excited to announce a significant expansion in our offerings: Zilliz Cloud services are now accessible on ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -180,22 +191,70 @@
             },
             {
               "text_run": {
-                "content": "add a payment method",
+                "content": "Azure",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", starting with the East US region. This marks a key milestone as our platform now seamlessly integrates with the three major public clouds: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", GCP, and Azure, ensuring a consistent and unified user experience across multiple environments. If your business requirements necessitate deployment in regions beyond Azure East US, please ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "contact us",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fpayment-billing"
+                    "url": "https%3A%2F%2Fsupport.zilliz.com%2Fhc%2Fen-us"
                   },
                   "strikethrough": false,
-                  "underline": false
+                  "underline": true
                 }
               }
             },
             {
               "text_run": {
-                "content": ". ",
+                "content": " for further support.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -213,38 +272,13 @@
         }
       },
       {
-        "block_id": "SU81dvlgqojA4Dx4YzWcOF2JnGy",
-        "block_type": 2,
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "</exclude>",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "YwL1d2t4EojZ2hxmivCceanKnGf",
+        "block_id": "UvlldbfVhoJG4Mx1Qvtc57xMneb",
         "block_type": 4,
         "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "Restore a dropped cluster in the recycle bin",
+                "content": "Pipelines",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -260,41 +294,17 @@
             "folded": false
           }
         },
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0"
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve"
       },
       {
-        "block_id": "EwPBd1NluoBiZixWYYXcz5VynTf",
-        "block_type": 13,
-        "ordered": {
+        "block_id": "MNuRdKIrZoRVeHx4cUNcNHXpn7g",
+        "block_type": 2,
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve",
+        "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Navigate to the organization the dropped cluster belongs to.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0"
-      },
-      {
-        "block_id": "I9JGdl5wVon6e1xcdcBcAKEDnIf",
-        "block_type": 13,
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Access the ",
+                "content": "Today, we are thrilled to introduce Zilliz Cloud Pipelines (Beta), a new addition to Zilliz Cloud. Pipelines is designed to unlock the potential of unstructured data by seamlessly transforming it into vector embeddings and ingesting them into Zilliz Cloud for storage and retrieval. This solution simplifies data workflows by consolidating processes like embedding, ingestion, storage, and retrieval, providing a welcome relief for developers who would otherwise grapple with integrating multiple stacks when building modern search applications, such as the cutting-edge ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -306,86 +316,17 @@
             },
             {
               "text_run": {
-                "content": "Recycle Bin",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " via the left navigation menu or the top navigation icon.",
+                "content": "Retrieval Augmented Generation (RAG)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliz.com%2Fuse-cases%2Fllm-retrieval-augmented-generation"
+                  },
                   "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0"
-      },
-      {
-        "block_id": "RuRgdTmsVoLHm2xl5lEctWmonkh",
-        "block_type": 13,
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Locate the cluster to restore. From the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Actions",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " dropdown, select ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Restore Cluster",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
+                  "text_color": 5,
+                  "underline": true
                 }
               }
             },
@@ -406,182 +347,17 @@
             "align": 1,
             "folded": false
           }
-        },
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0"
+        }
       },
       {
-        "block_id": "WVEPdHNaioxcQ9xwsFKctMXTneg",
-        "block_type": 13,
-        "children": [
-          "SsBCdytEnopMepxgCcCcUgx4n6b",
-          "R18sd82YBoq5i8xJhd9cAaWRnyf",
-          "CvBedRwNToTTVMxBSOMcIlPBnKf"
-        ],
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Configure the restored cluster.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0"
-      },
-      {
-        "block_id": "SsBCdytEnopMepxgCcCcUgx4n6b",
-        "block_type": 13,
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "You can restore the cluster to a different project under this organization, but not in a different cloud region.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "WVEPdHNaioxcQ9xwsFKctMXTneg"
-      },
-      {
-        "block_id": "R18sd82YBoq5i8xJhd9cAaWRnyf",
-        "block_type": 13,
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "You can choose to retain the load status of the collections in the cluster.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "WVEPdHNaioxcQ9xwsFKctMXTneg"
-      },
-      {
-        "block_id": "CvBedRwNToTTVMxBSOMcIlPBnKf",
-        "block_type": 13,
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "You can rename the cluster and reset its size and password for connection.  ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "WVEPdHNaioxcQ9xwsFKctMXTneg"
-      },
-      {
-        "block_id": "CBigdECoyofiAqxW1Wwczn6unlb",
-        "block_type": 13,
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Click ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Restore",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ". Zilliz Cloud will start creating the cluster with the specified attributes and restore your data to the created cluster.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0"
-      },
-      {
-        "block_id": "Svz4d8sOSobCKzxPGR5cMYYCn7d",
-        "block_type": 34,
-        "children": [
-          "VwAcdYCSxoLMB3xrLJAcBzKdnvw",
-          "XCeldzva3o6LgLxoGeFcxeOHn0e"
-        ],
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0",
-        "quote_container": {}
-      },
-      {
-        "block_id": "VwAcdYCSxoLMB3xrLJAcBzKdnvw",
+        "block_id": "MgzvdehoBovNNexj9BgchOpUnkc",
         "block_type": 2,
-        "parent_id": "Svz4d8sOSobCKzxPGR5cMYYCn7d",
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "📘 Notes",
+                "content": "Zilliz Cloud Pipelines consists of three specific pipelines: Ingestion, Search, and Deletion.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -599,14 +375,149 @@
         }
       },
       {
-        "block_id": "XCeldzva3o6LgLxoGeFcxeOHn0e",
+        "block_id": "W8M2d6KQrolF3Jx9pGWcdBQ8n9e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ingestion pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is the workhorse that processes unstructured data, transforming it into searchable vector embeddings and ingesting them into Zilliz Vector Database for storage and retrieval.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve"
+      },
+      {
+        "block_id": "JzP0dnINkonOG0xDfKNcNDTCnfe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search pipelines",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " facilitate semantic search by converting a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " string into vector embeddings and sending them into Zilliz Cloud for retrieving the top-K most similar vectors.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve"
+      },
+      {
+        "block_id": "SkofdWArQoiXrIxyqshcPpIXnEh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Deletion Pipeline",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " allows you to remove all chunks in a specified document from a Zilliz Cloud collection, offering you full control over your own data and releasing the storage capacity of your Zilliz collections.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve"
+      },
+      {
+        "block_id": "MV9gdQhcUomRKCxFDlEcG18znte",
         "block_type": 2,
-        "parent_id": "Svz4d8sOSobCKzxPGR5cMYYCn7d",
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "During restoration, the status of your cluster will change from ",
+                "content": "To learn more information, please refer to this ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -618,67 +529,22 @@
             },
             {
               "text_run": {
-                "content": "CREATING",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " to ",
+                "content": "documentation",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Funderstanding-pipelines"
+                  },
                   "strikethrough": false,
-                  "underline": false
+                  "underline": true
                 }
               }
             },
             {
               "text_run": {
-                "content": "RESTORING",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " and finally ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "RUNNING",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ". When the cluster is running, all your deleted data are restored.",
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -696,24 +562,135 @@
         }
       },
       {
-        "block_id": "XWiAd2KBxoIUsaxh2K4cs0BynCc",
-        "block_type": 26,
-        "iframe": {
-          "component": {
-            "iframe_type": 8,
-            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D17199-600%26mode%3Ddesign%26t%3DzmVL7cw74ALDBcDH-4"
+        "block_id": "F4IXdtSiho5JkoxMvMtcscswnwb",
+        "block_type": 4,
+        "comment_ids": [
+          "7311181696970604546"
+        ],
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RBAC",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7311181696970604546"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and Credential Management in Your Clusters",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7311181696970604546"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
           }
         },
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0"
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve"
       },
       {
-        "block_id": "ZEaYd0ZgLoF5Ztx1HofcMovinSf",
+        "block_id": "IiQAdqZUcoSqpLxEJ4KcrGECnPg",
+        "block_type": 2,
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this release, we introduce enhanced functionality for managing ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "RBAC",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (Role-Based Access Control) and credentials within each Cluster. This streamlined approach allows users to efficiently administer Cluster users. To access these features, navigate to the 'Clusters' section, select 'your_cluster', and then proceed to the 'Users' tab. This release includes three predefined roles for simplified user management: 'admin', 'read-write', and 'read-only', each tailored to suit different levels of access and control needs. For more comprehensive details and guidance on utilizing these new capabilities, see the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "documentation",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FAFNZwDcXNiChK0ke5h5c65xZnje"
+                  },
+                  "strikethrough": false,
+                  "underline": true
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CDIydeTS4oqaeBx0VekcH3HVn2b",
         "block_type": 4,
         "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "Related topics",
+                "content": "New Cluster Manipulation ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -721,39 +698,11 @@
                   "strikethrough": false,
                   "underline": false
                 }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0"
-      },
-      {
-        "block_id": "VaEXd4NybomlGfxoleycWOeVnwc",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Create Snapshot",
-                "token": "HHXewT7wTiM1zqkySjHcMNX5n9b",
-                "url": "https://zilliverse.feishu.cn/wiki/HHXewT7wTiM1zqkySjHcMNX5n9b"
               }
             },
             {
               "text_run": {
-                "content": " ",
+                "content": "API",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -761,39 +710,11 @@
                   "strikethrough": false,
                   "underline": false
                 }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0"
-      },
-      {
-        "block_id": "VgAzdOaqRotavyx9PIec6qmQnDZ",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Schedule Automatic Backups",
-                "token": "HDmKwGeGLi2P67kGdNXcigXDn3e",
-                "url": "https://zilliverse.feishu.cn/wiki/HDmKwGeGLi2P67kGdNXcigXDn3e"
               }
             },
             {
               "text_run": {
-                "content": " ",
+                "content": " Endpoints",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -809,31 +730,29 @@
             "folded": false
           }
         },
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0"
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve"
       },
       {
-        "block_id": "SR17dME0hoGKlzxPGSmcS5idnlb",
-        "block_type": 12,
-        "bullet": {
+        "block_id": "QL1kdVpacoCgv8xdZh9c11FjnIh",
+        "block_type": 2,
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve",
+        "text": {
           "elements": [
             {
-              "mention_doc": {
-                "obj_type": 16,
+              "text_run": {
+                "content": "In this release, we also introduced a set of new RESTful ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
-                },
-                "title": "View Snapshot Details",
-                "token": "Fob2w8LZaifGSHkxjoZcHcTtngf",
-                "url": "https://zilliverse.feishu.cn/wiki/Fob2w8LZaifGSHkxjoZcHcTtngf"
+                }
               }
             },
             {
               "text_run": {
-                "content": " ",
+                "content": "API",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -841,39 +760,62 @@
                   "strikethrough": false,
                   "underline": false
                 }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0"
-      },
-      {
-        "block_id": "SdlkdO7QmowafUxefc7cafN1nUf",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Restore from Snapshot",
-                "token": "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
-                "url": "https://zilliverse.feishu.cn/wiki/Dd6jwYIGiiz6HWkEPJqcpMA3n6g"
               }
             },
             {
               "text_run": {
-                "content": " ",
+                "content": " endpoints for you to create, modify, and drop clusters as well as another API endpoint for you to list projects. For details, see the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "reference documents",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fcluster-operations"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " here.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EEKOdyyr1oW6k6xMU8bcu7G2nLg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enhancements",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -889,9 +831,84 @@
             "folded": false
           }
         },
-        "parent_id": "KbDmdFWjGoP2Yqxmcrkc776XnR0"
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve"
+      },
+      {
+        "block_id": "HMe4dUnbcottwQxz400clRoInkD",
+        "block_type": 2,
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This release also includes a series of enhancements:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "K0dQdJGycohEThxtGGIcaFufnHd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Improved content for a set of error messages.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve"
+      },
+      {
+        "block_id": "PuVid8YvkozI14xiIl0cnurangb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Stability Enhancements: Addressing known issues to further enhance the reliability of our service.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve"
       }
     ],
-    "counts": 24
+    "counts": 19
   }
 }

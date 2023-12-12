@@ -5,7 +5,7 @@
   "node_token": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
   "node_type": "origin",
   "obj_create_time": "1693553299",
-  "obj_edit_time": "1700473587",
+  "obj_edit_time": "1702297927",
   "obj_token": "FNlcdU22Loec6BxE8uEcjFK9npd",
   "obj_type": "docx",
   "origin_node_token": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
@@ -361,14 +361,77 @@
       {
         "block_id": "I6NTdgKYOoxyHUx7QcGcBq0pnWb",
         "block_type": 2,
+        "comment_ids": [
+          "7311314126712832003"
+        ],
         "parent_id": "TNQUduPzNoqPMWx6tgbcGSwMn8b",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Direct modification of the account's email address is not available. If you need to change your email, refer to our guide",
+                "content": "Direct modification of the account's email address is not available.",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7311314126712832003"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7311314126712832003"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7311314126712832003"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " If you need to change your email, refer to our guide",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7311314126712832003"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -381,6 +444,9 @@
                 "content": " in ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7311314126712832003"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -393,6 +459,9 @@
                 "content": "FAQs",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7311314126712832003"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "link": {
@@ -405,9 +474,12 @@
             },
             {
               "text_run": {
-                "content": ".",
+                "content": ".</exclude>",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7311314126712832003"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,

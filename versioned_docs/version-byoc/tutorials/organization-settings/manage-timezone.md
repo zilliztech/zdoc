@@ -17,7 +17,7 @@ The system time zone is set to where your first login occurs and applies to all 
 
 To view the current time zone, you can either be an [Organization Owner](./a-panorama-view#organization-roles) or an [Organization Member](./a-panorama-view#organization-roles).
 
-![timezone-settings](/img/timezone-settings.png)
+![timezone-settings](/byoc/timezone-settings.png)
 
 ## Edit the time zone{#edit-the-time-zone}
 

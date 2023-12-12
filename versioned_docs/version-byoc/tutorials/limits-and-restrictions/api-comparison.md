@@ -17,65 +17,65 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 
 ## Scenario-specific privileges{#scenario-specific-privileges}
 
-|                                   |  **API**                       |  **Ops on GUI** |  **Starter tier** |  **Standard & Enterprise tiers** |
-| --------------------------------- | ------------------------------ | --------------- | ----------------- | -------------------------------- |
-|  Alias                            |  alterAlias()                  |  ✘              |  ✘                |  ✘                               |
-|                                   |  createAlias()                 |  ✘              |  ✘                |  ✘                               |
-|                                   |  dropAlias()                   |  ✘              |  ✘                |  ✘                               |
-|  Authentication                   |  createCredential()            |  ✔︎             |  ✘                |  ✔︎                              |
-|                                   |  deleteCredential()            |  ✔︎             |  ✘                |  ✔︎                              |
-|                                   |  listCredUsers()               |  ✔︎             |  ✘                |  ✔︎                              |
-|                                   |  updateCredential()            |  ✔︎             |  ✘                |  ✔︎                              |
-|  BulkInsert                       |  bulkInsert()                  |  ✔︎             |  ✘                |  ✘                               |
-|                                   |  getBulkInsertState()          |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  listBulkInsertTasks()         |  ✔︎             |  ✔︎               |  ✔︎                              |
-|  Collection                       |  getCollectionStatistics()     |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  getLoadingProgress()          |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  getPersistentSgementInfo()    |  ✘              |  ✘                |  ✘                               |
-|                                   |  getQuerySegmentInfo()         |  ✘              |  ✘                |  ✘                               |
-|                                   |  getReplicas()                 |  ✘              |  ✘                |  ✘                               |
-|                                   |  insert()                      |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  loadCollection()              |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  releaseCollection()           |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  showCollections()             |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  getLoadState()                |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  renameCollection()            |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  upsert()                      |  ✘              |  ✔︎               |  ✔︎                              |
-|  Database                         |  ListDatabases                 |  ✘              |  ✘                |  ✘                               |
-|                                   |  DropDatabase                  |  ✘              |  ✘                |  ✘                               |
-|                                   |  CreateDatabase                |  ✘              |  ✘                |  ✘                               |
-|  Index                            |  createIndex()                 |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  describeIndex()               |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  dropIndex()                   |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  getIndexBuildProgress()       |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  getIndexState()               |  ✔︎             |  ✔︎               |  ✔︎                              |
-|  Management                       |  getCompactionState()          |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  getCompactionStateWithPlan()  |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  getFlushState()               |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  getMetrics()                  |  ✘              |  ✘                |  ✘                               |
-|                                   |  loadBalance()                 |  ✘              |  ✘                |  ✘                               |
-|                                   |  manualCompact()               |  ✘              |  ✘                |  ✔︎                              |
-|  Partition                        |  createPartition()             |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  dropPartition()               |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  getPartitionStatistics()      |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  hasPartiotion()               |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  loadPartitions()              |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  releasePartitions()           |  ✘              |  ✔︎               |  ✔︎                              |
-|                                   |  showPartitions()              |  ✘              |  ✔︎               |  ✔︎                              |
-|  Search & Query                   |  search()                      |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  query()                       |  ✘              |  ✔︎               |  ✔︎                              |
-|  Role-based access control (RBAC) |  addUserToRole()               |  ✔︎             |  ✘<br/> <br/>       |  ✔︎<br/> <br/>                     |
-|                                   |  createRole()                  |  ✘              |  ✘                |  ✘                               |
-|                                   |  dropRole()                    |  ✘              |  ✘                |  ✘                               |
-|                                   |  grantRolePrivilege()          |  ✘              |  ✘                |  ✘                               |
-|                                   |  removeUserFromRole()          |  ✔︎             |  ✘                |  ✔︎                              |
-|                                   |  revokeRolePrivilege()         |  ✘              |  ✘                |  ✘                               |
-|                                   |  selectGrantForRole()          |  ✘              |  ✘                |  ✔︎                              |
-|                                   |  selectGrantForRoleAndObject() |  ✘              |  ✘                |  ✔︎                              |
-|                                   |  selectRole()                  |  ✘              |  ✘                |  ✔︎                              |
-|                                   |  selectUser()                  |  ✘              |  ✘                |  ✔︎                              |
-|  System                           |  getVersion()                  |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  checkHealth()                 |  ✘              |  ✔︎               |  ✔︎                              |
+|                                   |  **API**                       |  **Ops on GUI** |  **BYOC** |
+| --------------------------------- | ------------------------------ | --------------- | --------- |
+|  Alias                            |  alterAlias()                  |  ✘              |  ✘        |
+|                                   |  createAlias()                 |  ✘              |  ✘        |
+|                                   |  dropAlias()                   |  ✘              |  ✘        |
+|  Authentication                   |  createCredential()            |  ✔︎             |  ✔︎       |
+|                                   |  deleteCredential()            |  ✔︎             |  ✔︎       |
+|                                   |  listCredUsers()               |  ✔︎             |  ✔︎       |
+|                                   |  updateCredential()            |  ✔︎             |  ✔︎       |
+|  BulkInsert                       |  bulkInsert()                  |  ✔︎             |  ✘        |
+|                                   |  getBulkInsertState()          |  ✔︎             |  ✔︎       |
+|                                   |  listBulkInsertTasks()         |  ✔︎             |  ✔︎       |
+|  Collection                       |  getCollectionStatistics()     |  ✘              |  ✔︎       |
+|                                   |  getLoadingProgress()          |  ✔︎             |  ✔︎       |
+|                                   |  getPersistentSgementInfo()    |  ✘              |  ✘        |
+|                                   |  getQuerySegmentInfo()         |  ✘              |  ✘        |
+|                                   |  getReplicas()                 |  ✘              |  ✘        |
+|                                   |  insert()                      |  ✘              |  ✔︎       |
+|                                   |  loadCollection()              |  ✔︎             |  ✔︎       |
+|                                   |  releaseCollection()           |  ✔︎             |  ✔︎       |
+|                                   |  showCollections()             |  ✔︎             |  ✔︎       |
+|                                   |  getLoadState()                |  ✔︎             |  ✔︎       |
+|                                   |  renameCollection()            |  ✔︎             |  ✔︎       |
+|                                   |  upsert()                      |  ✘              |  ✔︎       |
+|  Database                         |  ListDatabases                 |  ✘              |  ✘        |
+|                                   |  DropDatabase                  |  ✘              |  ✘        |
+|                                   |  CreateDatabase                |  ✘              |  ✘        |
+|  Index                            |  createIndex()                 |  ✔︎             |  ✔︎       |
+|                                   |  describeIndex()               |  ✔︎             |  ✔︎       |
+|                                   |  dropIndex()                   |  ✔︎             |  ✔︎       |
+|                                   |  getIndexBuildProgress()       |  ✔︎             |  ✔︎       |
+|                                   |  getIndexState()               |  ✔︎             |  ✔︎       |
+|  Management                       |  getCompactionState()          |  ✘              |  ✔︎       |
+|                                   |  getCompactionStateWithPlan()  |  ✘              |  ✔︎       |
+|                                   |  getFlushState()               |  ✘              |  ✔︎       |
+|                                   |  getMetrics()                  |  ✘              |  ✘        |
+|                                   |  loadBalance()                 |  ✘              |  ✘        |
+|                                   |  manualCompact()               |  ✘              |  ✔︎       |
+|  Partition                        |  createPartition()             |  ✘              |  ✔︎       |
+|                                   |  dropPartition()               |  ✘              |  ✔︎       |
+|                                   |  getPartitionStatistics()      |  ✘              |  ✔︎       |
+|                                   |  hasPartiotion()               |  ✘              |  ✔︎       |
+|                                   |  loadPartitions()              |  ✘              |  ✔︎       |
+|                                   |  releasePartitions()           |  ✘              |  ✔︎       |
+|                                   |  showPartitions()              |  ✘              |  ✔︎       |
+|  Search & Query                   |  search()                      |  ✔︎             |  ✔︎       |
+|                                   |  query()                       |  ✘              |  ✔︎       |
+|  Role-based access control (RBAC) |  addUserToRole()               |  ✘              |  ✔︎       |
+|                                   |  createRole()                  |  ✘              |  ✘        |
+|                                   |  dropRole()                    |  ✘              |  ✘        |
+|                                   |  grantRolePrivilege()          |  ✘              |  ✘        |
+|                                   |  removeUserFromRole()          |  ✘              |  ✔︎       |
+|                                   |  revokeRolePrivilege           |  ✘              |  ✘        |
+|                                   |  selectGrantForRole()          |  ✘              |  ✔︎       |
+|                                   |  selectGrantForRoleAndObject() |  ✘              |  ✔︎       |
+|                                   |  selectRole()                  |  ✘              |  ✔︎       |
+|                                   |  selectUser()                  |  ✘              |  ✔︎       |
+|  System                           |  getVersion()                  |  ✔︎             |  ✔︎       |
+|                                   |  checkHealth()                 |  ✘              |  ✔︎       |
 
 ## Related topics{#related-topics}
 

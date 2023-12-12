@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To access this feature, navigate to the **Metrics** tab within one of your clusters, as illustrated in the figure below.
 
-![view_system_metrics](/img/view_system_metrics.png)
+![view_system_metrics](/byoc/view_system_metrics.png)
 
 ## Understanding Metrics{#understanding-metrics}
 
@@ -58,8 +58,4 @@ To alter the curve window size, opt for a suitable time range from the drop-down
 - [Query Latency Monitor](./query-latency-monitor) 
 
 - [Load Capacity Resource Monitor](./load-capacity-resource-monitor)
-
-- [Credit Card Expiration Monitor](./credit-card-expiration-monitor) 
-
-- [Advance Pay Balance Monitor](./advance-pay-balance-monitor) 
 

@@ -146,17 +146,15 @@ To prepare migration data for Milvus 2.x, do as follows:
 
 Once the migration data is ready, upload it to Zilliz Cloud.
 
-![migration_procedure](/img/migration_procedure.png)
+Upload the prepared migration data to a personal S3 block storage bucket and fill in the folder path and authentication credentials in the Zilliz Cloud console.
 
-If you have uploaded the prepared migration data to a personal S3 block storage bucket, select **Import a folder from S3** and fill in the folder path and authentication credentials.
-
-To upload a local folder to Zilliz Cloud, select **Import a local folder** and drag the folder to the drop zone. Note that you can upload a local folder of no more than 1 GB to Zilliz Cloud.
+![migration-procedure-byoc](/byoc/migration-procedure-byoc.png)
 
 ## Verify the migration results{#verify-the-migration-results}
 
 Once the migration job status switches from **MIGRATING** to **SUCCESSFUL**, the migration is complete.
 
-![verify_collection](/img/verify_collection.png)
+![verify_collection](/byoc/verify_collection.png)
 
 Note that Zilliz Cloud exclusively supports [AUTOINDEX](./autoindex-explained) for optimized indexing, and will automatically index your migrated collection using this algorithm.
 

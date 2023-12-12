@@ -25,25 +25,13 @@ Make sure the following conditions are met:
 
 ## Prepare data files{#prepare-data-files}
 
-Zilliz Cloud supports data import from local or remote files in JSON or NumPy formats. If your data is in a different format, convert it using the **BulkWriter** tool. For details, see [Prepare Data Import](./use-bulkwriter-for-data-import).
+Zilliz Cloud supports data import from remote files in JSON or NumPy formats. If your data is in a different format, convert it using the **BulkWriter** tool. For details, see [Prepare Data Import](./use-bulkwriter-for-data-import).
 
-The [example dataset](./example-dataset) used in this tutorial is a row-based JSON file that can be directly [imported locally](./import-data-on-web-ui#local-json-file).
+The [example dataset](./example-dataset) used in this tutorial is a row-based JSON file.
 
 The following figure demonstrates how to prepare your data in JSON or NumPy formats.
 
-![data_import-preparetion_en](/img/data_import-preparetion_en.png)
-
-### Local JSON file{#local-json-file}
-
-- Each import operation supports a single JSON file.
-
-- Maximum file size: 512 MB for serverless clusters, 1 GB for dedicated clusters. For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
-
-- The JSON file must include a top-level key named "rows". The value of this key should be an array of dictionaries, with each dictionary representing an entity to import. The keys in each dictionary should align with the schema of the target collection.
-
-- If `autoId` is set to `true` for the primary key, exclude the primary key from the dictionary. Zilliz Cloud will automatically generate the primary keys.
-
-- If `enable_dynamic_field` is set to `true` in the collection schema, any dictionary keys not defined in the collection schema will be stored as key-value pairs in the same magic field `$meta`. You can retrieve them as schema-defined fields during searches and queries.
+![data_import-preparetion_en](/byoc/data_import-preparetion_en.png)
 
 ### Remote files{#remote-files}
 
@@ -120,19 +108,13 @@ with open('path/to/medium_articles_2020_dpr.json') as f:
 
 ## Import data on the web UI{#import-data-on-the-web-ui}
 
-Once data files are ready, you can import them directly from your local drive or upload them to an object storage bucket, such as AWS S3 or Google Cloud GCS, for data imports.
+Once data files are ready, you can upload them to an object storage bucket for data imports.
 
 <Admonition type="info" icon="📘" title="Notes">
 
 For successful data import, ensure that the object storage bucket you use is located in the same cloud as your cluster.
 
 </Admonition>
-
-### Local JSON file{#local-json-file}
-
-To import data, you can either drag and drop a local file into the upload area, or click **upload a file** and select the file.
-
-![import_data_from_local_files](/img/import_data_from_local_files.png)
 
 ### Remote files from an object storage bucket{#remote-files-from-an-object-storage-bucket}
 
@@ -142,7 +124,7 @@ To import NumPy files in a batch, provide the path to the folder containing all 
 
 For supported object paths, see [Supported object paths](./import-data-on-web-ui#supported-object-paths).
 
-![import_data_from_object_storage](/img/import_data_from_object_storage.png)
+![import_data_from_object_storage](/byoc/import_data_from_object_storage.png)
 
 ### Supported object paths{#supported-object-paths}
 
@@ -156,23 +138,15 @@ If you are importing data from AWS S3, you can use either S3 URI or object URL. 
 
 For more details, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
 
-If you are importing data from Google Cloud Storage (GSC), you can use either authenticated URL, public URL, or gsutilURI. The following are some examples:
-
-- https://storage.googleapis.com/YOUR_BUCKET_NAME/OBJECT_NAME (GSC public URL)
-
-- gs://YOUR_BUCKET_NAME/OBJECT_NAME (GSC gsutilURI)
-
-For more details, see [Share the object](https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object).
-
 ## Verify the result{#verify-the-result}
 
 After you click **Import**, the process starts, and you can view the import progress in real time.
 
-![data_import_progress](/img/data_import_progress.png)
+![data_import_progress](/byoc/data_import_progress.png)
 
 After the import is complete, you will receive the following information. At this point, you can view job details or start exploring the imported data for what interests you.
 
-![data_import_complete](/img/data_import_complete.png)
+![data_import_complete](/byoc/data_import_complete.png)
 
 ## Related topics{#related-topics}
 

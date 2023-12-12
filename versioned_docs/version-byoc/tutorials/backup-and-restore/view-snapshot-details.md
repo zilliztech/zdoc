@@ -29,7 +29,7 @@ If the status of your snapshot is neither of the two, errors may occur. Please t
 
 ## View snapshot details{#view-snapshot-details}
 
-![view_snapshot_details](/img/view_snapshot_details.png)
+![view_snapshot_details](/byoc/view_snapshot_details.png)
 
 ## Related topics{#related-topics}
 

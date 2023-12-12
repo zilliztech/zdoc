@@ -328,6 +328,9 @@
       {
         "block_id": "ZdCUdpApfoqCPOxEjllcrfPlnph",
         "block_type": 5,
+        "comment_ids": [
+          "7310133819498840068"
+        ],
         "heading3": {
           "elements": [
             {
@@ -335,6 +338,9 @@
                 "content": "Connect to cluster",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7310133819498840068"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,

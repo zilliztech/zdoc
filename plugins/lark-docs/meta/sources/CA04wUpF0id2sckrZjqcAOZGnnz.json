@@ -5,7 +5,7 @@
   "node_token": "CA04wUpF0id2sckrZjqcAOZGnnz",
   "node_type": "origin",
   "obj_create_time": "1698024383",
-  "obj_edit_time": "1700553539",
+  "obj_edit_time": "1702024348",
   "obj_token": "D81Rd5CdKoTXXNxfLwHcfX3AnAc",
   "obj_type": "docx",
   "origin_node_token": "CA04wUpF0id2sckrZjqcAOZGnnz",
@@ -4026,7 +4026,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "Playground",
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">Playground</exclude>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4047,7 +4071,8 @@
         "block_id": "XTkUdzDXJoIgnIxm13XcHlgonYd",
         "block_type": 32,
         "children": [
-          "SUQ4daNFyoBg8ExK4PUc8SoOnsV"
+          "SUQ4daNFyoBg8ExK4PUc8SoOnsV",
+          "QTsDd220hoPt5ixqV4sczv8Cn0b"
         ],
         "parent_id": "ZxoYd7V7EosJU9xOgwDcMPWAn8m",
         "table_cell": {}
@@ -4060,7 +4085,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "✔︎",
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">✔︎</exclude>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4073,6 +4122,31 @@
           ],
           "style": {
             "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QTsDd220hoPt5ixqV4sczv8Cn0b",
+        "block_type": 2,
+        "parent_id": "XTkUdzDXJoIgnIxm13XcHlgonYd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
             "folded": false
           }
         }
@@ -4094,7 +4168,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "✔︎",
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">✔︎</exclude>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4128,7 +4226,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "✔︎",
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">✔︎</exclude>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5448,6 +5570,6 @@
         "parent_id": "D81Rd5CdKoTXXNxfLwHcfX3AnAc"
       }
     ],
-    "counts": 231
+    "counts": 232
   }
 }

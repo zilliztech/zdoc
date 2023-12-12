@@ -17,7 +17,7 @@ To restore a snapshot, click **...** in the **Actions** column and select **Rest
 
 Then you need to set certain attributes for the cluster to be restored from the snapshot.
 
-![restore_cluster](/img/restore_cluster.png)
+![restore_cluster](/byoc/restore_cluster.png)
 
 While setting these attributes, note that:
 
@@ -31,7 +31,7 @@ Once you click **Restore** in **Restore Database**, Zilliz Cloud will start crea
 
 After the status of the target cluster changes from **CREATING** to **RESTORING**, a record appears in the **Restore History** list of the source cluster.
 
-![restore_backups](/img/restore_backups.png)
+![restore_backups](/byoc/restore_backups.png)
 
 ## Related topics{#related-topics}
 

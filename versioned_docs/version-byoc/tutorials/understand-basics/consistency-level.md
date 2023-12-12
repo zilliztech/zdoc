@@ -21,7 +21,7 @@ The PACELC theorem postulates that a distributed database must make trade-offs b
 
     The strong level is the strictest level ensuring that users always read the most recent data version, and offers the highest accuracy but may lead to increased latency.
 
-    ![Dv6obAFzsorbZtxcTkgcGlnBnWg](/img/Dv6obAFzsorbZtxcTkgcGlnBnWg.png)
+    ![Dv6obAFzsorbZtxcTkgcGlnBnWg](/byoc/Dv6obAFzsorbZtxcTkgcGlnBnWg.png)
 
     This consistency level is best for functional testing and critical applications like online financial systems where data accuracy is paramount.
 
@@ -29,7 +29,7 @@ The PACELC theorem postulates that a distributed database must make trade-offs b
 
     The bounded staleness level, as its name suggests, permits temporary data inconsistency but typically achieves global consistency after a short period. It offers a balance between latency and accuracy.
 
-    ![Mrx3b9ZxWos0Dgx2nw0ctbzGnyd](/img/Mrx3b9ZxWos0Dgx2nw0ctbzGnyd.png)
+    ![Mrx3b9ZxWos0Dgx2nw0ctbzGnyd](/byoc/Mrx3b9ZxWos0Dgx2nw0ctbzGnyd.png)
 
     Bounded staleness is suitable for systems like video recommendation platforms, where occasional data inconsistencies don't drastically affect performance.
 
@@ -37,7 +37,7 @@ The PACELC theorem postulates that a distributed database must make trade-offs b
 
     The level of eventually indicates the most relaxed level, allowing data to converge to a consistent state over time without strict read-write order.
 
-    ![VlGcbuuLcogaBcxLj85cMmN4n9e](/img/VlGcbuuLcogaBcxLj85cMmN4n9e.png)
+    ![VlGcbuuLcogaBcxLj85cMmN4n9e](/byoc/VlGcbuuLcogaBcxLj85cMmN4n9e.png)
 
     It maximizes search performance by sacrificing immediate consistency and therefore is best suitable for the scenarios prioritizing speed over immediate data accuracy, such as displaying product reviews.
 

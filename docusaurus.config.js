@@ -59,13 +59,7 @@ const config = {
           // editUrl:
           //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
-        // blog: {
-        //   showReadingTime: true,
-        //   // Please change this to your repo.
-        //   // Remove this to remove the "edit this page" links.
-        //   editUrl:
-        //     'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        // },
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
@@ -98,13 +92,17 @@ const config = {
           outputDir: 'docs/tutorials',
           imageDir: 'static/img',
         }],
-        ['byoc', {
-          outputDir: 'docs/byoc',
+        ['paas', {
+          outputDir: 'versioned_docs/version-byoc/tutorials',
           imageDir: 'static/byoc',
         }]
       ]
     }],
     './plugins/apifox-docs',
+    [ 'docusaurus-lunr-search', {
+      languages: ['en', 'zh'],
+      highlightResult: true
+    }]
   ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -283,24 +281,25 @@ const config = {
     }),
   themes: [
     // ... Your other themes.
-    [
-      require.resolve('@easyops-cn/docusaurus-search-local'),
-      /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
-      ({
-        // ... Your options.
-        // `hashed` is recommended as long-term-cache of index file is possible.
-        hashed: true,
-        // For Docs using Chinese, The `language` is recommended to set to:
-        // ```
-        indexBlog: false,
-        language: ['en', 'zh'],
-        docsDir: ['docs', 'reference'],
-        docsRouteBasePath: ['/', '/docs/tutorials', '/reference/api'],
-        highlightSearchTermsOnTargetPage: true,
-        searchContextByPaths: ['/', '/docs/tutorials', '/reference/api'],
-        // ```
-      }),
-    ],
+    // [
+    //   require.resolve('@easyops-cn/docusaurus-search-local'),
+    //   /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
+    //   ({
+    //     // ... Your options.
+    //     // `hashed` is recommended as long-term-cache of index file is possible.
+    //     hashed: true,
+    //     // For Docs using Chinese, The `language` is recommended to set to:
+    //     // ```
+    //     indexBlog: false,
+    //     language: ['en', 'zh'],
+    //     docsDir: ['docs', 'reference'],
+    //     docsRouteBasePath: 'docs',
+    //     highlightSearchTermsOnTargetPage: true,
+    //     searchContextByPaths: ['/docs/tutorials', '/reference/api'],
+    //     docsPluginIdForPreferredVersion: 'reference',
+    //     // ```
+    //   }),
+    // ],
     'docusaurus-theme-frontmatter',
   ],
   scripts: [

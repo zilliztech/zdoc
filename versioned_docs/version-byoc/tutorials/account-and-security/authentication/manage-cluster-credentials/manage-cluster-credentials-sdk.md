@@ -746,5 +746,3 @@ The default user **db_admin **cannot be dropped.
 
 - [Set up Whitelist](./set-up-whitelist)
 
-- [Set up a Private Link](./setup-a-private-link)
-

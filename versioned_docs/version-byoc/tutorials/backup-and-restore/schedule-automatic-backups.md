@@ -23,7 +23,7 @@ To create a snapshot schedule, follow these steps:
 
 1. Set the **Frequency**, **Backup Retention Period**, and the time window for automatic backups.
 
-![create-snapshot-schedule](/img/create-snapshot-schedule.png)
+![create-snapshot-schedule](/byoc/create-snapshot-schedule.png)
 
 ## Adjust snapshot schedule settings{#adjust-snapshot-schedule-settings}
 

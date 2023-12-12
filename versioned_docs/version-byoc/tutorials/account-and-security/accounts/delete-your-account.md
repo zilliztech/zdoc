@@ -27,59 +27,11 @@ Once you have created an account on Zilliz Cloud, you can manage your account in
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Direct modification of the account's email address is not available. If you need to change your email, refer to our guide in [FAQs](./faq-account).
+Direct modification of the account's email address is not available.
 
 </Admonition>
 
-![modify_account_info](/img/modify_account_info.png)
-
-## Switch login method{#switch-login-method}
-
-Maintaining a consistent login method with your initial registration is required, but Zilliz Cloud offers flexibility if you need to switch your login method.
-
-### Switch from password login to third-party login{#switch-from-password-login-to-third-party-login}
-
-To switch from password to third-party (Google or GitHub) login, follow the same steps for [linking your Zilliz Cloud account to a third-party service](./register-with-zilliz-cloud#linking-to-google-account), ensuring that [MFA is disabled](./multi-factor-authentication#disable-mfa) beforehand.
-
-### Switch from third-party login to password login{#switch-from-third-party-login-to-password-login}
-
-To revert to using an email and password for login after linking your Zilliz Cloud account to a third-party account, simply [unlink your Zilliz Cloud account from the third-party service](./delete-your-account#unlink-from-third-party-authentication).
-
-### Switch between third-party logins{#switch-between-third-party-logins}
-
-If you have already linked your Zilliz Cloud account with a third-party account and wish to switch to another third-party login, you can follow the following instructions.
-
-1. [Unlink from the current third-party account](./delete-your-account#unlink-from-third-party-authentication).
-
-1. [Link your Zilliz Cloud account to the new desired third-party account](./register-with-zilliz-cloud).
-
-## Unlink from third-party authentication{#unlink-from-third-party-authentication}
-
-### Unlink from your Google account{#unlink-from-your-google-account}
-
-1. Go to your **Profile** and click **Account Settings**.
-
-1. Click **Unlink from Google**.
-
-1. Read the information in the dialog box and click **Confirm**.
-
-1. Set a new password via the link sent to your email.
-
-1. Your login method is now set to your work email and the new password.
-
-![unlink_from_google](/img/unlink_from_google.png)
-
-### Unlink from your GitHub account{#unlink-from-your-github-account}
-
-1. Go to your **Profile** and click **Account Settings**.
-
-1. Click **Unlink from GitHub**.
-
-1. Read the information in the dialog box and click **Confirm**.
-
-1. Set a new password via the link sent to your email.
-
-1. Your login method is now set to your work email and the new password.
+![modify_account_info](/byoc/modify_account_info.png)
 
 ## Delete your account{#delete-your-account}
 
@@ -111,13 +63,11 @@ Ensure you meet the following criteria before proceeding:
 
 1. You will receive an email notification when your account is successfully deleted.
 
-![delete-account-en](/img/delete-account-en.png)
+![delete-account-en](/byoc/delete-account-en.png)
 
 ## Related topics{#related-topics}
 
 - [Manage Organization Information](./manage-orgs-and-members)
-
-- [Delete Your Organization](./delete-your-org)
 
 - [View Activities](./view-activities) 
 

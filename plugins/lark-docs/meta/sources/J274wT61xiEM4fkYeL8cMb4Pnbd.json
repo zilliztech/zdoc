@@ -5,7 +5,7 @@
   "node_token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
   "node_type": "origin",
   "obj_create_time": "1689046022",
-  "obj_edit_time": "1701742716",
+  "obj_edit_time": "1701999519",
   "obj_token": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
   "obj_type": "docx",
   "origin_node_token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
@@ -560,7 +560,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# Install specific PyMilvus version for beta clusters\npython -m pip install pymilvus==2.3.1\n\n# Install specific PyMilvus version for common clusters\npython -m pip install pymilvus==2.2.17\n\n# Update PyMilvus to the newest version\npython -m pip install --upgrade pymilvus\n\n# Verify installation success\n",
+                "content": "# Install specific PyMilvus version for beta clusters\npython -m pip install pymilvus==2.3.4\n\n# Install specific PyMilvus version for common clusters\npython -m pip install pymilvus==2.2.17\n\n# Update PyMilvus to the newest version\npython -m pip install --upgrade pymilvus\n\n# Verify installation success\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -39,7 +39,7 @@ The password will not be displayed again, so it's crucial to note it down and se
 
 </Admonition>
 
-![add-cluster-user](/img/add-cluster-user.png)
+![add-cluster-user](/byoc/add-cluster-user.png)
 
 Having added a cluster user, you can now connect to the cluster using its username and password. See [Connect to Cluster](./connect-to-cluster) to explore further details.
 
@@ -47,7 +47,7 @@ Having added a cluster user, you can now connect to the cluster using its userna
 
 To edit the role of a cluster user, you must be an [Organization Owner](./a-panorama-view#organization-roles) or a [Project Owner](./a-panorama-view#project-roles).
 
-![edit-cluster-user-role](/img/edit-cluster-user-role.png)
+![edit-cluster-user-role](/byoc/edit-cluster-user-role.png)
 
 ## Reset the password of a cluster user{#reset-the-password-of-a-cluster-user}
 
@@ -59,7 +59,7 @@ The password will not be displayed again, so it's crucial to note it down and se
 
 </Admonition>
 
-![reset-cluster-user-password](/img/reset-cluster-user-password.png)
+![reset-cluster-user-password](/byoc/reset-cluster-user-password.png)
 
 ## Drop a cluster user{#drop-a-cluster-user}
 
@@ -71,7 +71,7 @@ The default user **db_admin **cannot be dropped.
 
 </Admonition>
 
-![drop-cluster-user](/img/drop-cluster-user.png)
+![drop-cluster-user](/byoc/drop-cluster-user.png)
 
 ## Related topics{#related-topics}
 
@@ -80,6 +80,4 @@ The default user **db_admin **cannot be dropped.
 - [Manage API Keys](./manage-api-keys) 
 
 - [Set up Whitelist](./set-up-whitelist)
-
-- [Set up a Private Link](./setup-a-private-link)
 

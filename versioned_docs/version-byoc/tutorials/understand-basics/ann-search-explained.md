@@ -33,7 +33,7 @@ Once the hierarchical proximity graph is created, the search goes as follows:
 
 1. Repeat the preceding steps until you find the nearest vector at the bottom layer.
 
-![hnsw-explained](/img/hnsw-explained.png)
+![hnsw-explained](/byoc/hnsw-explained.png)
 
 ## ANNOY: A tree-based indexing algorithm{#annoy-a-tree-based-indexing-algorithm}
 
@@ -43,7 +43,7 @@ A single tree may not suffice because some of the nearest neighbors may be outsi
 
 The following is the tree that records the hyperplane split process.
 
-![annoy_explained](/img/annoy_explained.png)
+![annoy_explained](/byoc/annoy_explained.png)
 
 Once the forest of binary trees is ready, the search goes as follows:
 
@@ -61,7 +61,7 @@ Once the forest of binary trees is ready, the search goes as follows:
 
 Locality-sensitive hashing (LSH) indexes a vector space by mapping data pieces of any length to fixed-length values as hashes using various hash functions, gathering these hashes into hash buckets, and tagging vectors that have been hashed to the same value at least once as candidate pairs.
 
-![locality_sensitive_hashing](/img/locality_sensitive_hashing.png)
+![locality_sensitive_hashing](/byoc/locality_sensitive_hashing.png)
 
 ## DiskANN: ANN search on disk based on Vamana graphs{#diskann-ann-search-on-disk-based-on-vamana-graphs}
 

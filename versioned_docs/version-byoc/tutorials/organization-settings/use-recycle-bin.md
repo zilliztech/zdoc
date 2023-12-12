@@ -13,10 +13,6 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of every cluster that has been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration.
 
-## Prerequisites{#prerequisites}
-
-To restore a cluster in the recycle bin, you need to [add a payment method](./payment-billing). 
-
 ## Restore a dropped cluster in the recycle bin{#restore-a-dropped-cluster-in-the-recycle-bin}
 
 1. Navigate to the organization the dropped cluster belongs to.
@@ -41,7 +37,7 @@ During restoration, the status of your cluster will change from **CREATING** to 
 
 </Admonition>
 
-![recycle_bin](/img/recycle_bin.png)
+![recycle_bin](/byoc/recycle_bin.png)
 
 ## Related topics{#related-topics}
 

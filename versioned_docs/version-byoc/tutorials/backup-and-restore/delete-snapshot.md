@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud automatically removes the snapshots when they reach the end of their retention period. You can manually delete any available snapshots before then.
 
-![delete_backups](/img/delete_backups.png)
+![delete_backups](/byoc/delete_backups.png)
 
 You will be prompted to verify your request to delete a snapshot before Zilliz Cloud actually performs the deletion.
 

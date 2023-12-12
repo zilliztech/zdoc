@@ -13,12 +13,6 @@ import Admonition from '@theme/Admonition';
 
 To optimize your Zilliz Cloud cluster’s performance through timely adjustments of query latency, it is advisable to activate the query latency resource monitor.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-This is a feature exclusively available to clusters in the Standard and Enterprise plans.
-
-</Admonition>
-
 ## Set alert condition{#set-alert-condition}
 
 To configure the alert conditions for query latency within a project, follow the steps below:
@@ -37,7 +31,7 @@ To configure the alert conditions for query latency within a project, follow the
 
 To activate the monitor, click the switch in the **Status** column. This action toggles the monitor’s state on or off. Verification of activation is confirmed when the switch’s indicator is positioned to the right, complemented by a change in background color to blue.
 
-![latency-monitor](/img/latency-monitor.png)
+![latency-monitor-byoc](/byoc/latency-monitor-byoc.png)
 
 ## Related topics{#related-topics}
 
@@ -48,8 +42,4 @@ To activate the monitor, click the switch in the **Status** column. This action 
 - [Load Capacity Resource Monitor](./load-capacity-resource-monitor) 
 
 - [View Cluster Metrics](./monitor-metrics)
-
-- [Credit Card Expiration Monitor](./credit-card-expiration-monitor) 
-
-- [Advance Pay Balance Monitor](./advance-pay-balance-monitor) 
 

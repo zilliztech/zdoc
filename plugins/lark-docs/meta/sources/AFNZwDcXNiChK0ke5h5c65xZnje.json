@@ -5,7 +5,7 @@
   "node_token": "AFNZwDcXNiChK0ke5h5c65xZnje",
   "node_type": "origin",
   "obj_create_time": "1700448717",
-  "obj_edit_time": "1701340671",
+  "obj_edit_time": "1702297649",
   "obj_token": "DLwfdFXX3oC5zvxMHeXcibKpnve",
   "obj_type": "docx",
   "origin_node_token": "AFNZwDcXNiChK0ke5h5c65xZnje",
@@ -640,7 +640,9 @@
         "block_type": 34,
         "children": [
           "WhT7dRL7OoTOr9xJEVYcxxCXnNh",
+          "PzHxdbMzjoqm5rxvilNcphCwnSe",
           "G2WAd0CesoU7TqxScL7ctWKpnKf",
+          "OhuKdfqpmoC1tgxp9rqcLaf5nOd",
           "JCVedSmMloglTHxyFJCcDCpLnQg"
         ],
         "parent_id": "DLwfdFXX3oC5zvxMHeXcibKpnve",
@@ -655,6 +657,55 @@
             {
               "text_run": {
                 "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PzHxdbMzjoqm5rxvilNcphCwnSe",
+        "block_type": 2,
+        "parent_id": "JGffdc35aoi3WaxHe8rc95YvnRd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -748,13 +799,110 @@
         "parent_id": "JGffdc35aoi3WaxHe8rc95YvnRd"
       },
       {
+        "block_id": "OhuKdfqpmoC1tgxp9rqcLaf5nOd",
+        "block_type": 2,
+        "parent_id": "JGffdc35aoi3WaxHe8rc95YvnRd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "JCVedSmMloglTHxyFJCcDCpLnQg",
         "block_type": 12,
         "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "If you encounter an error while using the built-in roles feature with a dedicated cluster, please ",
+                "content": "If you encounter an error while using the built-in roles feature with a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "dedicated ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "cluster, please ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -9511,6 +9659,6 @@
         "parent_id": "DLwfdFXX3oC5zvxMHeXcibKpnve"
       }
     ],
-    "counts": 446
+    "counts": 448
   }
 }
