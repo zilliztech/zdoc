@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 8
+sidebar_position: 28
 slug: /list-projects
 title: List Projects
 ---

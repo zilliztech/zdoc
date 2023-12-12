@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 6
+sidebar_position: 8
 slug: /suspend-cluster
 title: Suspend Cluster
 ---
@@ -104,5 +104,5 @@ The properties in the returned response are listed in the following table.
 | 80021 | Serverless cluster not support this operation. |
 | 90102 | The cluster does not exist in current region. |
 | 90103 | The clusterId parameter is empty in the request path. |
-| 90117 | "Invalid domain name used |
+| 90117 | Invalid domain name used |
 

@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 23
+sidebar_position: 26
 slug: /run-pipeline
 title: Run Pipeline
 ---

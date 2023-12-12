@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 11
+sidebar_position: 14
 slug: /insert
 title: Insert
 ---
@@ -147,10 +147,10 @@ The properties in the returned response are listed in the following table.
 | 80000 | Incorrect parameter: xxx |
 | 80001 | The token is illegal |
 | 80002 | The token is invalid |
-| 80020 | Invalid clusterId or you do not have permission to access that Cluster. |
+| 80020 | Cluster not exist or you don't have permission. |
 | 80022 | Dedicated cluster not support this operation. |
 | 90001 | The collection xxx does not exist. You can use ListCollections to view the list of existing collections. |
-| 90010 | "The type of field xxx does not match |
+| 90010 | The type of field xxx does not match |
 | 90011 | Invalid CollectionName. Reason: Name contains only alphanumeric letters and underscores |
 | 90102 | The cluster does not exist in current region. |
 | 90103 | The clusterId parameter is empty in the request path. |
@@ -159,10 +159,10 @@ The properties in the returned response are listed in the following table.
 | 90109 | The max insert batch rows should below 100. |
 | 90111 | The parameter value for 'level' should be between 1 and 3. |
 | 90115 | The number of columns inserted does not match the defined number of columns in the set. |
-| 90118 | "no data key field |
+| 90118 | no data key field |
 | 90119 | The value of the 'data' parameter should be in JSON format. |
 | 90120 | The value of the 'data' parameter is empty. |
 | 90121 | There is an empty object in the 'data' parameter. |
 | 90131 | No insert content provided. |
-| 90139 | "Type mismatch for field 'xxx'. expected type:xxx |
+| 90139 | Type mismatch for field 'xxx'. expected type:xxx |
 

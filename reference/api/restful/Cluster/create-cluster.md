@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 0
+sidebar_position: 2
 slug: /create-cluster
 title: Create Cluster
 ---
@@ -125,7 +125,7 @@ The properties in the returned response are listed in the following table.
 | ---- | ------------- |
 | 80005 | Invalid cuType. The parameter value should be one of ['Performance-optimized' |
 | 80006 | Invalid cuSize. The parameter value should be one of [1 |
-| 80009 | "Invalid clusterName |
+| 80009 | Invalid clusterName |
 | 80013 | Invalid plan. The parameter value should be one of ['Standard' |
 | 80014 | Invalid projectId. The projectId should like proj-xxxxxx |
 | 80020 | Cluster not exist or you don't have permission. |

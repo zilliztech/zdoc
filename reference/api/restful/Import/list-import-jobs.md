@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 17
+sidebar_position: 20
 slug: /list-import-jobs
 title: List Import Jobs
 ---
@@ -106,8 +106,8 @@ The properties in the returned response are listed in the following table.
 | 80000 | Incorrect parameter: xxx |
 | 80003 | The parameter value for 'pageSize' should be between 5 and 100. |
 | 80004 | The parameter 'currentPage' should have a value between 1 and the maximum value of Int. |
-| 80020 | Invalid clusterId or you do not have permission to access that Cluster. |
+| 80020 | Cluster not exist or you don't have permission. |
 | 90102 | The cluster does not exist in current region. |
 | 90104 | The clusterId parameter is empty in the request parameter. |
-| 90117 | "Invalid domain name used |
+| 90117 | Invalid domain name used |
 

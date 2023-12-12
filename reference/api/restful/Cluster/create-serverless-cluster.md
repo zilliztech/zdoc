@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 7
+sidebar_position: 27
 slug: /create-serverless-cluster
 title: Create Serverless Cluster
 ---

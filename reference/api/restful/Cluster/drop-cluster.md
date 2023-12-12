@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 3
+sidebar_position: 5
 slug: /drop-cluster
 title: Drop Cluster
 ---

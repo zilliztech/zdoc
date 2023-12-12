@@ -1,6 +1,6 @@
 ---
 displayed_sidebar: referenceSidebar
-sidebar_position: 15
+sidebar_position: 18
 slug: /import
 title: Import
 ---
@@ -116,9 +116,9 @@ The properties in the returned response are listed in the following table.
 | 47039 | The specified cluster do not support multiple imports at the same time. |
 | 47053 | Failed to checkFiles {xxx}. |
 | 47055 | The current cluster is currently importing data (xxx). To ensure more stable service of your Milvus cluster |
-| 80020 | Invalid clusterId or you do not have permission to access that Cluster. |
-| 80020 | Invalid clusterId or you do not have permission to access that Cluster. |
-| 80020 | Invalid clusterId or you do not have permission to access that Cluster. |
+| 80020 | Cluster not exist or you don't have permission. |
+| 80020 | Cluster not exist or you don't have permission. |
+| 80020 | Cluster not exist or you don't have permission. |
 | 83001 | Failed to getObjectMeta {xxx}. |
 | 83001 | Failed to getObjectMeta {xxx}. |
 | 83004 | Importing files across clouds is not currently supported |
@@ -128,7 +128,7 @@ The properties in the returned response are listed in the following table.
 | 90102 | The cluster does not exist in current region. |
 | 90103 | The clusterId parameter is empty in the request path. |
 | 90104 | The clusterId parameter is empty in the request parameter. |
-| 90117 | "Invalid domain name used |
+| 90117 | Invalid domain name used |
 | 90142 | No import content provided. |
 | 90145 | No ObjectUrl key field. |
 
