@@ -417,7 +417,7 @@ class larkDocWriter {
             }
         })
 
-        return markdown.replace(/\n{3,}/g, '\n\n')
+        return markdown.replace(/\n{3,}/g, '\n\n').replace(/^\|(\s*\|)*\s*\n/gm, '')
     }
 
     async __write_page({slug, beta, notebook, path, token, sidebar_position}) {

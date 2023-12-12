@@ -19,7 +19,6 @@ class larkUtils {
     post_process_file_paths() {
         const paths = fs.readdirSync(this.outputDir, {recursive: true})
         const folders = paths.filter(path => fs.statSync(`${this.outputDir}/${path}`).isDirectory())
-        console.log(folders)
 
         for (const folder of folders) {
             const files = fs.readdirSync(`${this.outputDir}/${folder}`)
