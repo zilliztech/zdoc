@@ -55,7 +55,7 @@ BUCKET_NAME = "YOUR_OBJECT_STORAGE_BUCKET_NAME"
 REMOTE_PATH = "DATA_FILES_PATH_IN_BLOCK_STORAGE"
 ```
 
-### Check prepare data{#check-prepare-data}
+### Check prepared data{#check-prepared-data}
 
 Once you have prepared your data using a LocalBulkWriter and upload the generated file to your object storage, or prepared your data using a RemoteBulkWriter and got the path to the remote folder. You are ready to import them to a Zilliz Cloud collection.
 

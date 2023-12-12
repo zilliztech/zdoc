@@ -5,7 +5,7 @@
   "node_token": "ZOikw2pIUiAZj9kuLYRcdhLnnoc",
   "node_type": "origin",
   "obj_create_time": "1694400410",
-  "obj_edit_time": "1701853357",
+  "obj_edit_time": "1702381960",
   "obj_token": "PSRUdR7rVo8acGxFNZ7c0Gu1nPg",
   "obj_type": "docx",
   "origin_node_token": "ZOikw2pIUiAZj9kuLYRcdhLnnoc",
@@ -650,7 +650,8 @@
           "I0mgdMo33oRqqHxIUnec7OYfnCg",
           "VXGLd6si9otr1Fxou6rcZEz3nJh",
           "WvvpdigDLoboQUxuDakctDH5nuf",
-          "RpjCdO2tqoiw8XxtUrkc33jHnOe"
+          "RpjCdO2tqoiw8XxtUrkc33jHnOe",
+          "ET93dC6LOojP25x7ZZbcvXhonuf"
         ],
         "parent_id": "PSRUdR7rVo8acGxFNZ7c0Gu1nPg"
       },
@@ -899,6 +900,175 @@
         "parent_id": "DM2ddLr1Vo96mdxi1z1cOs4BnVd"
       },
       {
+        "block_id": "ET93dC6LOojP25x7ZZbcvXhonuf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "All field names in Zilliz Cloud collections are case-sensitive. Therefore, keep the keys of each dictionary in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " file exactly the same as the collection field names. For example, if a field name is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as a dictionary key. Other forms, such as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ID",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "iD",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", will not work.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DM2ddLr1Vo96mdxi1z1cOs4BnVd"
+      },
+      {
         "block_id": "BkQadDjdCoQmi3x8lg5cOTjrn7c",
         "block_type": 12,
         "bullet": {
@@ -926,7 +1096,8 @@
           "IZ1sdWlMlo7WSHxvhSwc8tFsnJX",
           "FxFBduHMMoYsfHx6ezacl2scnlh",
           "I1Jcdq30boZPGtxBcoBc76KPnOf",
-          "RBmod4Vnfok312xKwx0cjoC7nwl"
+          "RBmod4Vnfok312xKwx0cjoC7nwl",
+          "J37idIyocoiqbqxStvjcXRUCnHh"
         ],
         "parent_id": "PSRUdR7rVo8acGxFNZ7c0Gu1nPg"
       },
@@ -1134,6 +1305,151 @@
             {
               "text_run": {
                 "content": " in the collection schema, consider preparing an optional NumPy file named $meta.npy to include values for fields not defined in the collection schema if needed. You can retrieve these fields as schema-defined ones during searches and queries.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "BkQadDjdCoQmi3x8lg5cOTjrn7c"
+      },
+      {
+        "block_id": "J37idIyocoiqbqxStvjcXRUCnHh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "All field names in Zilliz Cloud collections are case-sensitive. Therefore, name your NumPy files after the field names. For example, if a field name is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", name the corresponding NumPy file as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id.npy",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Other forms, such as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ID.npy",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Id.npy",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "iD.npy",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", will not work.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3250,6 +3566,6 @@
         }
       }
     ],
-    "counts": 66
+    "counts": 68
   }
 }

@@ -30,7 +30,6 @@ from pymilvus import MilvusClient
 CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" # Set your cluster endpoint
 TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
 COLLECTION_NAME="medium_articles_2020" # Set your collection name
-DATASET_PATH="../medium_articles_2020_dpr.json" # Set your dataset path
 
 # Initialize a MilvusClient instance
 # Replace uri and API key with your own
@@ -96,7 +95,6 @@ from pymilvus import connections, FieldSchema, CollectionSchema, DataType, Colle
 CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" # Set your cluster endpoint
 TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
 COLLECTION_NAME="medium_articles_2020" # Set your collection name
-DATASET_PATH="../medium_articles_2020_dpr.json" # Set your dataset path
 
 connections.connect(
   alias='default', 

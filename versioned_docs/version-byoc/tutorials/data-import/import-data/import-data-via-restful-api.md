@@ -43,6 +43,8 @@ When preparing data files, consider the following based on the file format:
 
     - If the `enable_dynamic_field` is set to `true` in the collection schema, any dictionary keys not defined in the schema will be stored as key-value pairs in the same magic field `$meta`. You can retrieve these fields as schema-defined ones during searches and queries.
 
+    - All field names in Zilliz Cloud collections are case-sensitive. Therefore, keep the keys of each dictionary in the JSON file exactly the same as the collection field names. For example, if a field name is `id`, use `id` as a dictionary key. Other forms, such as `Id`, `ID`, or `iD`, will not work.
+
 - **NumPy data**
 
     - Allows the upload of multiple files simultaneously or the organization of these files into a folder for batch uploading.
@@ -54,6 +56,8 @@ When preparing data files, consider the following based on the file format:
     - If `autoId` is set to `true` for the primary key, exclude the preparation of the NumPy file for the primary key.
 
     - If `enable_dynamic_field` is set to `true` in the collection schema, consider preparing an optional NumPy file named $meta.npy to include values for fields not defined in the collection schema if needed. You can retrieve these fields as schema-defined ones during searches and queries.
+
+    - All field names in Zilliz Cloud collections are case-sensitive. Therefore, name your NumPy files after the field names. For example, if a field name is `id`, name the corresponding NumPy file as `id.npy`. Other forms, such as `ID.npy`, `Id.npy`, or `iD.npy`, will not work.
 
 - **Folder organization**
 

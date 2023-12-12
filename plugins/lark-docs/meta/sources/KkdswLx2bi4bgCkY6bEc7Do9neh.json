@@ -5,7 +5,7 @@
   "node_token": "KkdswLx2bi4bgCkY6bEc7Do9neh",
   "node_type": "origin",
   "obj_create_time": "1694400387",
-  "obj_edit_time": "1701418655",
+  "obj_edit_time": "1702381927",
   "obj_token": "Np4Sdm31soFi7DxOtqncL4lhnHb",
   "obj_type": "docx",
   "origin_node_token": "KkdswLx2bi4bgCkY6bEc7Do9neh",
@@ -39,6 +39,7 @@
           "QCcadczwqoUNrTxqP3KcjR1Rnkd",
           "ULlddRMSOoDqN9xyXLscdHwtnLd",
           "GCctduDpXo8ir2x1Sqqc1tHCnme",
+          "Emr2dKKCKoYni5xtqxucvbgKnxf",
           "OAFudarnfokiXZxTNLbcRukhnIf",
           "DNYgdGWaWoQuXyxaBl5c7URknYb",
           "GejUdYUrPoqfguxQYokc9Izrnpe",
@@ -1162,6 +1163,175 @@
         "parent_id": "Np4Sdm31soFi7DxOtqncL4lhnHb"
       },
       {
+        "block_id": "Emr2dKKCKoYni5xtqxucvbgKnxf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "All field names in Zilliz Cloud collections are case-sensitive. Therefore, keep the keys of each dictionary in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " file exactly the same as the collection field names. For example, if a field name is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as a dictionary key. Other forms, such as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ID",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "iD",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", will not work.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Np4Sdm31soFi7DxOtqncL4lhnHb"
+      },
+      {
         "block_id": "OAFudarnfokiXZxTNLbcRukhnIf",
         "block_type": 2,
         "parent_id": "Np4Sdm31soFi7DxOtqncL4lhnHb",
@@ -1275,7 +1445,8 @@
           "N7mhdKFKYoIJpcxKGBvcpEoCnZc",
           "FmiNdKS50oZEUAxdvduc3md3nTc",
           "CtXudZh87onEdaxUvuQcJWVynNS",
-          "HvURd84Vioa9mfxrREbcXQf9n5d"
+          "HvURd84Vioa9mfxrREbcXQf9n5d",
+          "JhZud8sa0o5MPexIbE9cxpTPnDR"
         ],
         "parent_id": "Np4Sdm31soFi7DxOtqncL4lhnHb"
       },
@@ -1548,6 +1719,175 @@
         "parent_id": "V7esdY7uKoAH9zxUfSVcByLBnFc"
       },
       {
+        "block_id": "JhZud8sa0o5MPexIbE9cxpTPnDR",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "All field names in Zilliz Cloud collections are case-sensitive. Therefore, keep the keys of each dictionary in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " file exactly the same as the collection field names. For example, if a field name is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as a dictionary key. Other forms, such as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ID",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "iD",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", will not work.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "V7esdY7uKoAH9zxUfSVcByLBnFc"
+      },
+      {
         "block_id": "LvBRdx0XDoMRk4x39TScjmnDnSt",
         "block_type": 12,
         "bullet": {
@@ -1575,7 +1915,8 @@
           "L6qfdTctRogRcix94QicaoQBndd",
           "De3wdJg2BoZqaxxRx61chmgrnYc",
           "XXwwdecndo2vMoxR8y3cTxXjnjg",
-          "UTbZdJHY1oYzi0xwdOqcWD6anFe"
+          "UTbZdJHY1oYzi0xwdOqcWD6anFe",
+          "Q6MqdMNbqownY9x3msWcppARnoc"
         ],
         "parent_id": "Np4Sdm31soFi7DxOtqncL4lhnHb"
       },
@@ -2011,6 +2352,151 @@
         "comment_ids": [
           "7307234950233866241"
         ],
+        "parent_id": "LvBRdx0XDoMRk4x39TScjmnDnSt"
+      },
+      {
+        "block_id": "Q6MqdMNbqownY9x3msWcppARnoc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "All field names in Zilliz Cloud collections are case-sensitive. Therefore, name your NumPy files after the field names. For example, if a field name is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", name the corresponding NumPy file as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id.npy",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Other forms, such as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ID.npy",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Id.npy",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "iD.npy",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", will not work.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
         "parent_id": "LvBRdx0XDoMRk4x39TScjmnDnSt"
       },
       {
@@ -4166,6 +4652,6 @@
         "parent_id": "Np4Sdm31soFi7DxOtqncL4lhnHb"
       }
     ],
-    "counts": 83
+    "counts": 86
   }
 }
