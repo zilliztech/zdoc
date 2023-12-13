@@ -62,7 +62,9 @@ const OpenInButtonLink = ({
   icon,
   notebook,
 }) => {
-  const prefix = "https://colab.research.google.com/github/zilliztech/zdoc-demos/blob/master/python/";
+  const colab_prefix = "https://colab.research.google.com/github/zilliztech/zdoc-demos/blob/master/python/";
+  const github_prefix = "https://github.com/codespaces/new?template_repository=zilliztech/zdoc-demos";
+  const prefix = caption === 'colab' ? colab_prefix : github_prefix;
 
   if (notebook && notebook.indexOf(',') > -1) {
     notebook = notebook.includes(',') ? notebook.split(',') : notebook;
@@ -81,8 +83,11 @@ const OpenInButtonLink = ({
       </div>
     )
   } else {
-    return (
+    return ( notebook &&
       <Link to={prefix + notebook} style={{ color: "#000000"}}>
+        <OpenInButtonComponent caption={caption} icon={icon} />
+      </Link> || 
+      <Link to={prefix} style={{ color: "#000000"}}>
         <OpenInButtonComponent caption={caption} icon={icon} />
       </Link>
     )

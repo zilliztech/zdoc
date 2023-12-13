@@ -15,7 +15,7 @@ Activating your cloud in Zilliz Cloud is a straightforward process that enables 
 
 ## Step 1: Verify subscription and start activation{#step-1-verify-subscription-and-start-activation}
 
-Upon subscribing to a BYOC license of Zilliz Cloud, you will receive a welcome email with vital subscription details, including your license ID, core size, and validity period.
+Upon subscribing to a BYOC license of Zilliz Cloud, you will receive a welcome email with your subscription details, including your license ID, core size, and validity period.
 
 1. **Verify Subscription Details**: First, confirm the accuracy of the details in your welcome email. These details are essential for the activation process.
 
