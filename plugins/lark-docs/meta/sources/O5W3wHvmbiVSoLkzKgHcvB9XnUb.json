@@ -5,7 +5,7 @@
   "node_token": "O5W3wHvmbiVSoLkzKgHcvB9XnUb",
   "node_type": "origin",
   "obj_create_time": "1689059993",
-  "obj_edit_time": "1701358641",
+  "obj_edit_time": "1702627251",
   "obj_token": "PszZd5SlFobNf6xc9BscrWBynNe",
   "obj_type": "docx",
   "origin_node_token": "O5W3wHvmbiVSoLkzKgHcvB9XnUb",
@@ -4367,8 +4367,12 @@
         "block_type": 13,
         "children": [
           "HZOsdunFUoi1OFxE36zcWyrynhc",
-          "YoTRdOnddoBuxXxU7YpcPWoOnfg",
-          "Z3o0dWU70oJwZRxatyucmbz3nRb"
+          "KkeRdZaZHoifJLxVz9EccxUsnPg",
+          "EoRedCpyioRWFlx0D20cMALVn4F",
+          "Lie1dZKDSowBHLx5rOlcn16Qnkf",
+          "GjKad2a79oORGgxCUYqccqm7nld",
+          "HwGLdBZvDoX5lEx9Pp7cD3lEnVq",
+          "Lqh8d0IKiotrjGxM576cqH4enSf"
         ],
         "ordered": {
           "elements": [
@@ -4412,7 +4416,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Cloud ",
+                "content": "Go to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4424,11 +4428,14 @@
             },
             {
               "text_run": {
-                "content": "DNS",
+                "content": "Cloud DNS",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fconsole.cloud.google.com%2Fnet-services%2Fdns%2Fzones"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -4436,7 +4443,7 @@
             },
             {
               "text_run": {
-                "content": " is a web-based DNS service. Create a managed DNS zone so that you can add DNS records to it.",
+                "content": " in your GCP console and create a DNS zone.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4454,14 +4461,24 @@
         }
       },
       {
-        "block_id": "YoTRdOnddoBuxXxU7YpcPWoOnfg",
-        "block_type": 2,
-        "parent_id": "PizRdJkT0o3RFTxg9i8c0sIGnjb",
-        "text": {
+        "block_id": "KkeRdZaZHoifJLxVz9EccxUsnPg",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 637,
+          "token": "ExLabRpAhoMetUxZpEncWWGEniA",
+          "width": 1280
+        },
+        "parent_id": "PizRdJkT0o3RFTxg9i8c0sIGnjb"
+      },
+      {
+        "block_id": "EoRedCpyioRWFlx0D20cMALVn4F",
+        "block_type": 13,
+        "ordered": {
           "elements": [
             {
               "text_run": {
-                "content": "Run the following script in your GCP Cloushell to create a managed ",
+                "content": "Select ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4473,34 +4490,10 @@
             },
             {
               "text_run": {
-                "content": "DNS",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " zone. Note that you need to set ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "PROJECT_ID",
+                "content": "Private",
                 "text_element_style": {
                   "bold": true,
-                  "inline_code": true,
+                  "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -4509,7 +4502,7 @@
             },
             {
               "text_run": {
-                "content": " to your GCP project ID and ",
+                "content": " in ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4521,10 +4514,59 @@
             },
             {
               "text_run": {
-                "content": "PRIVATE_DNS_ZONE_NAME",
+                "content": "Zone type",
                 "text_element_style": {
                   "bold": true,
-                  "inline_code": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "PizRdJkT0o3RFTxg9i8c0sIGnjb"
+      },
+      {
+        "block_id": "Lie1dZKDSowBHLx5rOlcn16Qnkf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zone name",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -4547,7 +4589,145 @@
               "text_run": {
                 "content": "zilliz-privatelink-zone",
                 "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or other values that you see fit.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "PizRdJkT0o3RFTxg9i8c0sIGnjb"
+      },
+      {
+        "block_id": "GjKad2a79oORGgxCUYqccqm7nld",
+        "block_type": 13,
+        "children": [
+          "AnB3dCrCroBmhTxP17Scg6Ctnte"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "DNS",
+                "text_element_style": {
                   "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " name",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to the private link obtained in step 7.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "PizRdJkT0o3RFTxg9i8c0sIGnjb"
+      },
+      {
+        "block_id": "AnB3dCrCroBmhTxP17Scg6Ctnte",
+        "block_type": 2,
+        "parent_id": "GjKad2a79oORGgxCUYqccqm7nld",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A valid ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "DNS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " name is similar to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "in01-xxxxxxxxxxxxxxx.gcp-us-west1.vectordb.zillizcloud.com",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
@@ -4575,13 +4755,13 @@
         }
       },
       {
-        "block_id": "Z3o0dWU70oJwZRxatyucmbz3nRb",
-        "block_type": 14,
-        "code": {
+        "block_id": "HwGLdBZvDoX5lEx9Pp7cD3lEnVq",
+        "block_type": 13,
+        "ordered": {
           "elements": [
             {
               "text_run": {
-                "content": "PROJECT_ID={{project-id}};\nPRIVATE_DNS_ZONE_NAME=zilliz-privatelink-zone;\n\n",
+                "content": "Select the proper VPC network in ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4593,7 +4773,19 @@
             },
             {
               "text_run": {
-                "content": "gcloud dns --project=$PROJECT_ID managed-zones create $PRIVATE_DNS_ZONE_NAME --description=\"\" --dns-name=\"vectordb.zillizcloud.com.\" --visibility=\"private\" --networks=$VPC_NAME",
+                "content": "Networks",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4605,8 +4797,57 @@
             }
           ],
           "style": {
-            "language": 7,
-            "wrap": false
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "PizRdJkT0o3RFTxg9i8c0sIGnjb"
+      },
+      {
+        "block_id": "Lqh8d0IKiotrjGxM576cqH4enSf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CREATE",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
           }
         },
         "parent_id": "PizRdJkT0o3RFTxg9i8c0sIGnjb"
@@ -4615,15 +4856,16 @@
         "block_id": "AGvjdPuRgoF559xxGEuc0PjQncg",
         "block_type": 13,
         "children": [
+          "MJv0dzW4roLW8FxSHcGcwZOhnng",
+          "W75bdsZNMoXmeBxn5TqcqZZTnfe",
           "NiQYdRC3Go1wXaxG7PBcXntKnyb",
-          "S9Tsd3yHhoYISAxddHAcJC9jnFg",
-          "QYtEdLERVoIvu8xgZCicUyVnnqc"
+          "RFAxdboGYoFC5HxtxAycTLnWn1e"
         ],
         "ordered": {
           "elements": [
             {
               "text_run": {
-                "content": "Create a CNAME record in the hosted zone",
+                "content": "Create a record in the hosted zone",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4642,14 +4884,173 @@
         "parent_id": "PszZd5SlFobNf6xc9BscrWBynNe"
       },
       {
+        "block_id": "MJv0dzW4roLW8FxSHcGcwZOhnng",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the zone created above, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ADD STANDARD",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "RECORD SETS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "AGvjdPuRgoF559xxGEuc0PjQncg"
+      },
+      {
+        "block_id": "W75bdsZNMoXmeBxn5TqcqZZTnfe",
+        "block_type": 13,
+        "children": [
+          "YEd5dYZCXoNuCxxIC16cc6BznEe"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Create record set",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " page, create an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "A",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " record with the default settings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "AGvjdPuRgoF559xxGEuc0PjQncg"
+      },
+      {
+        "block_id": "YEd5dYZCXoNuCxxIC16cc6BznEe",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 557,
+          "token": "Jb3bbL4ZPozKTvxwZOEcFE4Bnkb",
+          "width": 1280
+        },
+        "parent_id": "W75bdsZNMoXmeBxn5TqcqZZTnfe"
+      },
+      {
         "block_id": "NiQYdRC3Go1wXaxG7PBcXntKnyb",
-        "block_type": 2,
-        "parent_id": "AGvjdPuRgoF559xxGEuc0PjQncg",
-        "text": {
+        "block_type": 13,
+        "ordered": {
           "elements": [
             {
               "text_run": {
-                "content": "A CNAME record is a type of ",
+                "content": "Click ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4661,7 +5062,19 @@
             },
             {
               "text_run": {
-                "content": "DNS",
+                "content": "SELECT IP ADDRESS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4673,7 +5086,19 @@
             },
             {
               "text_run": {
-                "content": " record that maps an alias name to a true or canonical domain name. Create a CNAME record to map the private link allocated by Zilliz Cloud to the DNS name of your VPC endpoint. Then you can use the private link to access your cluster privately.",
+                "content": "IPv4 Address",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and select the IP address of your endpoint.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4688,17 +5113,17 @@
             "align": 1,
             "folded": false
           }
-        }
+        },
+        "parent_id": "AGvjdPuRgoF559xxGEuc0PjQncg"
       },
       {
-        "block_id": "S9Tsd3yHhoYISAxddHAcJC9jnFg",
-        "block_type": 2,
-        "parent_id": "AGvjdPuRgoF559xxGEuc0PjQncg",
-        "text": {
+        "block_id": "RFAxdboGYoFC5HxtxAycTLnWn1e",
+        "block_type": 13,
+        "ordered": {
           "elements": [
             {
               "text_run": {
-                "content": "Run the following script in your Cloud Shell to create a CNAME record in the hosted ",
+                "content": "Click ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4710,79 +5135,7 @@
             },
             {
               "text_run": {
-                "content": "DNS",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " zone. Note that you need to set ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ENDPOINT_IP",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " to the IP address of the endpoint created in the previous step and ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "PRIVATE_LINK_DOMAIN_PREFIX",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " to the private link listed on the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "d",
+                "content": "CREATE",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -4794,7 +5147,7 @@
             },
             {
               "text_run": {
-                "content": "etails tab of your cluster.",
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4808,42 +5161,6 @@
           "style": {
             "align": 1,
             "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "QYtEdLERVoIvu8xgZCicUyVnnqc",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "PRIVATE_LINK_DOMAIN_SUFFIX=vectordb.zillizcloud.com;\n## such as in01-61e949d971f841b-privatelink.gcp-us-west1\nPRIVATE_LINK_DOMAIN_PREFIX={{privatelink-domain-prefix}};\n\n## get id from endpoint\nENDPOINT_IP={{endpoint-ip}};\n\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "gcloud dns --project=$PROJECT_ID record-sets create $PRIVATE_LINK_DOMAIN_PREFIX.$PRIVATE_LINK_DOMAIN_SUFFIX. --zone=\"$PRIVATE_DNS_ZONE_NAME\" --type=\"A\" --ttl=\"60\" --rrdatas=\"$ENDPOINT_IP\"",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 7,
-            "wrap": false
           }
         },
         "parent_id": "AGvjdPuRgoF559xxGEuc0PjQncg"
@@ -9000,6 +9317,6 @@
         "parent_id": "PszZd5SlFobNf6xc9BscrWBynNe"
       }
     ],
-    "counts": 208
+    "counts": 215
   }
 }

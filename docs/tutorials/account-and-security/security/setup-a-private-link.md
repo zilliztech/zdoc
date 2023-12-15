@@ -240,33 +240,33 @@ Setting up a private link is project-level. When you configure a private link fo
 
 1. Create a hosted zone using Cloud DNS
 
-    Cloud DNS is a web-based DNS service. Create a managed DNS zone so that you can add DNS records to it.
+    Go to [Cloud DNS](https://console.cloud.google.com/net-services/dns/zones) in your GCP console and create a DNS zone.
 
-    Run the following script in your GCP Cloushell to create a managed DNS zone. Note that you need to set `PROJECT_ID` to your GCP project ID and `PRIVATE_DNS_ZONE_NAME` to `zilliz-privatelink-zone`.
+    ![ExLabRpAhoMetUxZpEncWWGEniA](/img/ExLabRpAhoMetUxZpEncWWGEniA.png)
 
-    ```bash
-    PROJECT_ID={{project-id}};
-    PRIVATE_DNS_ZONE_NAME=zilliz-privatelink-zone;
-    
-    gcloud dns --project=$PROJECT_ID managed-zones create $PRIVATE_DNS_ZONE_NAME --description="" --dns-name="vectordb.zillizcloud.com." --visibility="private" --networks=$VPC_NAME
-    ```
+    1. Select **Private** in **Zone type**.
 
-1. Create a CNAME record in the hosted zone
+    1. Set **Zone name** to `zilliz-privatelink-zone` or other values that you see fit.
 
-    A CNAME record is a type of DNS record that maps an alias name to a true or canonical domain name. Create a CNAME record to map the private link allocated by Zilliz Cloud to the DNS name of your VPC endpoint. Then you can use the private link to access your cluster privately.
+    1. Set **DNS name** to the private link obtained in step 7.
 
-    Run the following script in your Cloud Shell to create a CNAME record in the hosted DNS zone. Note that you need to set `ENDPOINT_IP` to the IP address of the endpoint created in the previous step and `PRIVATE_LINK_DOMAIN_PREFIX` to the private link listed on the **d**etails tab of your cluster.
+        A valid DNS name is similar to `in01-xxxxxxxxxxxxxxx.gcp-us-west1.vectordb.zillizcloud.com`.
 
-    ```bash
-    PRIVATE_LINK_DOMAIN_SUFFIX=vectordb.zillizcloud.com;
-    ## such as in01-61e949d971f841b-privatelink.gcp-us-west1
-    PRIVATE_LINK_DOMAIN_PREFIX={{privatelink-domain-prefix}};
-    
-    ## get id from endpoint
-    ENDPOINT_IP={{endpoint-ip}};
-    
-    gcloud dns --project=$PROJECT_ID record-sets create $PRIVATE_LINK_DOMAIN_PREFIX.$PRIVATE_LINK_DOMAIN_SUFFIX. --zone="$PRIVATE_DNS_ZONE_NAME" --type="A" --ttl="60" --rrdatas="$ENDPOINT_IP"
-    ```
+    1. Select the proper VPC network in **Networks**.
+
+    1. Click **CREATE**.
+
+1. Create a record in the hosted zone
+
+    1. In the zone created above, click **ADD STANDARD** in the **RECORD SETS** tab.
+
+    1. On the **Create record set** page, create an **A** record with the default settings.
+
+        ![Jb3bbL4ZPozKTvxwZOEcFE4Bnkb](/img/Jb3bbL4ZPozKTvxwZOEcFE4Bnkb.png)
+
+    1. Click **SELECT IP ADDRESS** in **IPv4 Address**, and select the IP address of your endpoint.
+
+    1. Click **CREATE**.
 
 </TabItem>
 
