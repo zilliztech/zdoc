@@ -242,7 +242,7 @@ Setting up a private link is project-level. When you configure a private link fo
 
     Go to [Cloud DNS](https://console.cloud.google.com/net-services/dns/zones) in your GCP console and create a DNS zone.
 
-    ![ExLabRpAhoMetUxZpEncWWGEniA](/img/ExLabRpAhoMetUxZpEncWWGEniA.png)
+    ![KLfrbkXtDoXFccxRndlcMf1Fnob](/img/KLfrbkXtDoXFccxRndlcMf1Fnob.png)
 
     1. Select **Private** in **Zone type**.
 
@@ -262,9 +262,11 @@ Setting up a private link is project-level. When you configure a private link fo
 
     1. On the **Create record set** page, create an **A** record with the default settings.
 
-        ![Jb3bbL4ZPozKTvxwZOEcFE4Bnkb](/img/Jb3bbL4ZPozKTvxwZOEcFE4Bnkb.png)
+        ![OPjcbZ5zlo0VSTxatH9cEDEgnog](/img/OPjcbZ5zlo0VSTxatH9cEDEgnog.png)
 
     1. Click **SELECT IP ADDRESS** in **IPv4 Address**, and select the IP address of your endpoint.
+
+        ![SF2hbpUN2oS0VUx7yU5cZ8TXnhg](/img/SF2hbpUN2oS0VUx7yU5cZ8TXnhg.png)
 
     1. Click **CREATE**.
 
