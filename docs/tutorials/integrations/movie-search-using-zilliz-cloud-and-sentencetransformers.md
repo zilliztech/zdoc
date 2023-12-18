@@ -65,53 +65,53 @@ At this point, we are going to begin setting up Zilliz Cloud. The steps are as f
 
 1. Connect to the Zilliz Cloud cluster using the provided URI.
 
-```python
-from pymilvus import connections
-
-# Connect to Milvus Database
-connections.connect(
-    uri=URI, 
-    token=TOKEN
-)
-```
+    ```python
+    from pymilvus import connections
+    
+    # Connect to Milvus Database
+    connections.connect(
+        uri=URI, 
+        token=TOKEN
+    )
+    ```
 
 1. If the collection already exists, drop it.
 
-```python
-from pymilvus import utility
-
-# Remove any previous collections with the same name
-if utility.has_collection(COLLECTION_NAME):
-    utility.drop_collection(COLLECTION_NAME)
-```
+    ```python
+    from pymilvus import utility
+    
+    # Remove any previous collections with the same name
+    if utility.has_collection(COLLECTION_NAME):
+        utility.drop_collection(COLLECTION_NAME)
+    ```
 
 1. Create the collection that holds the id, title of the movie, and the embeddings of the plot text.
 
-```python
-from pymilvus import FieldSchema, CollectionSchema, DataType, Collection
-
-# Create collection which includes the id, title, and embedding.
-fields = [
-    FieldSchema(name='id', dtype=DataType.INT64, is_primary=True, auto_id=True),
-    FieldSchema(name='title', dtype=DataType.VARCHAR, max_length=200),  # VARCHARS need a maximum length, so for this example they are set to 200 characters
-    FieldSchema(name='embedding', dtype=DataType.FLOAT_VECTOR, dim=DIMENSION)
-]
-schema = CollectionSchema(fields=fields)
-collection = Collection(name=COLLECTION_NAME, schema=schema)
-```
+    ```python
+    from pymilvus import FieldSchema, CollectionSchema, DataType, Collection
+    
+    # Create collection which includes the id, title, and embedding.
+    fields = [
+        FieldSchema(name='id', dtype=DataType.INT64, is_primary=True, auto_id=True),
+        FieldSchema(name='title', dtype=DataType.VARCHAR, max_length=200),  # VARCHARS need a maximum length, so for this example they are set to 200 characters
+        FieldSchema(name='embedding', dtype=DataType.FLOAT_VECTOR, dim=DIMENSION)
+    ]
+    schema = CollectionSchema(fields=fields)
+    collection = Collection(name=COLLECTION_NAME, schema=schema)
+    ```
 
 1. Create an index on the newly created collection and load it into memory.
 
-```python
-# Create an IVF_FLAT index for collection.
-index_params = {
-    'index_type': 'AUTOINDEX',
-    'metric_type': 'L2',
-    'params': {}
-}
-collection.create_index(field_name="embedding", index_params=index_params)
-collection.load()
-```
+    ```python
+    # Create an IVF_FLAT index for collection.
+    index_params = {
+        'index_type': 'AUTOINDEX',
+        'metric_type': 'L2',
+        'params': {}
+    }
+    collection.create_index(field_name="embedding", index_params=index_params)
+    collection.load()
+    ```
 
 Once these steps are done the collection is ready to be inserted into and searched. Any data added will be indexed automatically and be available for search immediately. If the data is very fresh, the search might be slower as brute force searching will be used on data that is still in process of getting indexed.
 
@@ -210,19 +210,19 @@ for hits_i, hits in enumerate(res):
 The output should be similar to the following:
 
 ```python
-Title: A movie about cars
-Search Time: 0.04272913932800293
-Results:
-Red Line 7000 ---- 0.9104408621788025
-The Mysterious Mr. Valentine ---- 0.9127437472343445
-Tomboy ---- 0.9254708290100098
+# Title: A movie about cars
+# Search Time: 0.04272913932800293
+# Results:
+# Red Line 7000 ---- 0.9104408621788025
+# The Mysterious Mr. Valentine ---- 0.9127437472343445
+# Tomboy ---- 0.9254708290100098
 
-Title: A movie about monsters
-Search Time: 0.04272913932800293
-Results:
-Monster Hunt ---- 0.8105474710464478
-The Astro-Zombies ---- 0.8998500108718872
-Wild Country ---- 0.9238440990447998
+# Title: A movie about monsters
+# Search Time: 0.04272913932800293
+# Results:
+# Monster Hunt ---- 0.8105474710464478
+# The Astro-Zombies ---- 0.8998500108718872
+# Wild Country ---- 0.9238440990447998
 ```
 
 ## Related integrations{#related-integrations}

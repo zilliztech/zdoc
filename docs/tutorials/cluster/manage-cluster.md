@@ -91,11 +91,13 @@ Once you have created a dedicated cluster, you will see the following in the con
 
 - **Backups**
 
-    In the **Actions** drop-down button, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](./backup-and-restore).
+    In the **Actions** drop-down button, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup and Restore](./backup-and-restore).
 
 - **Data migrations**
 
-    In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrate Between Clusters](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster).
+    In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrations](./migrations).
+
+    
 
 ### Users and access control{#users-and-access-control}
 
@@ -113,9 +115,15 @@ Once you have created a dedicated cluster, you will see the following in the con
 
     </Admonition>
 
+- **Private Link**
+
+    In the **Connect** section on the **Cluster Details** tab, click **+ Add Private Link** to add a private link for your cluster, avoiding access from the Internet.
+
+    For details on how to configure private link, refer to [Set up a Private Link](./setup-a-private-link).
+
 - **Whitelist**
 
-    In the **Summary** section, click on the IP address in **Network Address** to add IP address segments to the whitelist. Once an IP address segment, other than a full-zero one (**0.0.0.0/0**), is added to the whitelist, Zilliz Cloud only permits access from IP addresses within the listed IP address segments.
+    In the **Summary** section on the Cluster Details tab, click on the IP address in **Network Address** to add IP address segments to the whitelist. Once an IP address segment, other than a full-zero one (**0.0.0.0/0**), is added to the whitelist, Zilliz Cloud only permits access from IP addresses within the listed IP address segments.
 
     By default, a full-zero IP address segment is added, indicating that your cluster can be accessed from anywhere.
 

@@ -35,7 +35,7 @@ Once you have created a cluster, you will see the following in the console.
 
 - **Backups**
 
-    In the **Actions** drop-down button, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](./backup-and-restore).
+    In the **Actions** drop-down button, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup and Restore](./backup-and-restore).
 
 - **Data migrations**
 
@@ -59,7 +59,7 @@ Once you have created a cluster, you will see the following in the console.
 
 - **Whitelist**
 
-    In the **Summary** section, click on the IP address in **Network Address** to add IP address segments to the whitelist. Once an IP address segment, other than a full-zero one (**0.0.0.0/0**), is added to the whitelist, Zilliz Cloud only permits access from IP addresses within the listed IP address segments.
+    In the **Summary** section on the Cluster Details tab, click on the IP address in **Network Address** to add IP address segments to the whitelist. Once an IP address segment, other than a full-zero one (**0.0.0.0/0**), is added to the whitelist, Zilliz Cloud only permits access from IP addresses within the listed IP address segments.
 
     By default, a full-zero IP address segment is added, indicating that your cluster can be accessed from anywhere.
 

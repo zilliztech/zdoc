@@ -46,10 +46,10 @@ The table below illustrates the load capacity for each CU type, taking into acco
 |  Vector Dimensions |  Performance-optimized (Max. Vectors per CU) |  Capacity-optimized (Max. Vectors per CU) |   |
 | ------------------ | -------------------------------------------- | ----------------------------------------- | ---------------------------------------------------------------------- |
 |  128               |  5 million                                   |  25 million                               |                             |
-|  256               |  2.96 million                                |  14.87 million                            |                          |
-|  512               |  1.63 million                                |  8.22 million                             |                           |
-|  768               |  1.2 million                                 |  5.6 million                              |                            |
-|  1024              |  0.86 million                                |  4.34 million                             |                           |
+|  256               |  3 million                                   |  15 million                               |                             |
+|  512               |  1.5 million                                 |  7.5 million                              |                            |
+|  768               |  1 million                                   |  5 million                                |                              |
+|  1024              |  0.75 million                                |  3.75 million                             |                           |
 
 <Admonition type="info" icon="📘" title="Notes">
 
