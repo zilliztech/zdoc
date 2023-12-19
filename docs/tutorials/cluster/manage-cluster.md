@@ -97,8 +97,6 @@ Once you have created a dedicated cluster, you will see the following in the con
 
     In the **Actions** drop-down button, you can create data migration tasks by selecting **Migrate** to migrate your data from Milvus. For details, refer to [Migrations](./migrations).
 
-    
-
 ### Users and access control{#users-and-access-control}
 
 - **Users**
@@ -155,14 +153,10 @@ Once you have created a dedicated cluster, you will see the following in the con
 
     Once the status changes to **SUSPENDED**, you will only be charged for storage. Wisely suspending some of your clusters can save you money.
 
-    
-
     |  **Cloud Provider** |  **Storage Pricing**   |
     | ------------------- | ---------------------- |
     |  AWS storage        |  $0.025 / GB per month |
     |  GCP storage        |  $0.020 / GB per month |
-
-    
 
     To resume a suspended cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. At this point, you will be charged fully based on your CU settings and service plan.
 
