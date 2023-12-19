@@ -432,6 +432,7 @@ class larkDocWriter {
         markdown = markdown.replace(/{versions.java.version}/g, this.sdks.java.version)
         markdown = markdown.replace(/{versions.node.version}/g, this.sdks.node.version)
         markdown = markdown.replace(/{versions.go.version}/g, this.sdks.go.version)
+        markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/<br>/g, '<br/>');
 
         let tabs = markdown.split('\n').filter(line => {
             return line.trim().startsWith("<Tab")
@@ -541,7 +542,7 @@ class larkDocWriter {
             }
         }
     
-        return markdown.join('\n\n').replace(/\n{3,}/g, '\n\n').replace(/<br>/g, '<br/>');
+        return markdown.join('\n\n').replace(/(\s*\n){3,}/g, '\n\n').replace(/<br>/g, '<br/>');
     }
 
     async __page(page) {

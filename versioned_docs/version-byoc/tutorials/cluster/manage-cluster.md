@@ -85,8 +85,6 @@ Once you have created a cluster, you will see the following in the console.
 
     Once the status changes to **SUSPENDED**, you will only be charged for storage. Wisely suspending some of your clusters can save you money.
 
-    
-
     To resume a suspended cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. At this point, you will be charged fully based on your CU settings and service plan.
 
     You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](https://docs.zilliz.com/reference/suspend-cluster) and [Resume Cluster](https://docs.zilliz.com/reference/resume-cluster).
