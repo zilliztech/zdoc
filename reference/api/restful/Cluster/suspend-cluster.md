@@ -20,7 +20,7 @@ Suspends a cluster. This operation will stop the cluster and your data will rema
 
 ```shell
 curl --request POST \ 
-    --url "https://controller.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/suspend" \
+    --url "https://controller.${cloud-region}.zillizcloud.com/v1/clusters/<Cluster-ID>/suspend" \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"

@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Conducts a similarity search on the vector field in a collection. 
 
-<RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/search" />
+<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/search" />
 
 ---
 
@@ -20,7 +20,7 @@ Conducts a similarity search on the vector field in a collection.
 
 ```shell
 curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/search" \
+    --url "${cluster-endpoint}/v1/vector/search" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
@@ -34,7 +34,7 @@ curl --request POST \
 
 ```shell
 curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/search" \
+    --url "${cluster-endpoint}/v1/vector/search" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \

@@ -20,7 +20,7 @@ Describes the details of a cluster.
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>" \
+    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/<Cluster-ID>" \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"

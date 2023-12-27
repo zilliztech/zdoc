@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Drops a collection. This operation erases your collection data. Exercise caution when performing this operation.
 
-<RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/collections/drop" />
+<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/collections/drop" />
 
 ---
 
@@ -20,7 +20,7 @@ Drop a collection named `medium_articles`.
 
 ```shell
 curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/collections/drop" \
+    --url "${cluster-endpoint}/v1/vector/collections/drop" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \

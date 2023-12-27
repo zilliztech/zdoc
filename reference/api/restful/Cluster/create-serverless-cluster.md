@@ -20,7 +20,7 @@ Creates a serverless cluster. Currently, serverless clusters can be created only
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/createServerless" \
+    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/createServerless" \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \

@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Inserts one or more entities into a collection.
 
-<RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/upsert" />
+<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/upsert" />
 
 ---
 
@@ -20,7 +20,7 @@ Inserts one or more entities into a collection.
 
 ```shell
 curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/upsert" \
+    --url "${cluster-endpoint}/v1/vector/upsert" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
@@ -38,7 +38,7 @@ curl --request POST \
 
 ```shell
 curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/upsert" \
+    --url "${cluster-endpoint}/v1/vector/upsert" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \

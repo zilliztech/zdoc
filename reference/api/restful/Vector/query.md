@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Conducts a query on scalar fields in a collection.
 
-<RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/query" />
+<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/query" />
 
 ---
 
@@ -20,7 +20,7 @@ Query entities that meet specific conditions. For details on how to build filter
 
 ```shell
 curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/query" \
+    --url "${cluster-endpoint}/v1/vector/query" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \

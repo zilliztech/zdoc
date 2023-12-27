@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Deletes one or more entities from a collection.
 
-<RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/delete" />
+<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/delete" />
 
 ---
 
@@ -20,7 +20,7 @@ Deletes one or more entities from a collection.
 
 ```shell
 curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+    --url "${cluster-endpoint}/v1/vector/delete" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
@@ -34,7 +34,7 @@ curl --request POST \
 
 ```shell
 curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+    --url "${cluster-endpoint}/v1/vector/delete" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
@@ -48,7 +48,7 @@ curl --request POST \
 
 ```shell
 curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+    --url "${cluster-endpoint}/v1/vector/delete" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
@@ -62,7 +62,7 @@ curl --request POST \
 
 ```shell
 curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+    --url "${cluster-endpoint}/v1/vector/delete" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \

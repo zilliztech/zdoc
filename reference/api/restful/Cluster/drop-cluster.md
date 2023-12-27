@@ -20,7 +20,7 @@ Drops a cluster. This operation moves your cluster to the recycle bin. All clust
 
 ```shell
 curl --request DELETE \
-    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/drop" \
+    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/<Cluster-ID>/drop" \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"

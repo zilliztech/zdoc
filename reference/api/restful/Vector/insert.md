@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Inserts one or more entities into a collection. You can add a maximum of 100 entities at a time. To insert large volumn of data, you are advised to use [the bulk-insert API](https://docs.zilliz.com/docs/data-import).
 
-<RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/insert" />
+<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/insert" />
 
 ---
 
@@ -20,7 +20,7 @@ Inserts one or more entities into a collection. You can add a maximum of 100 ent
 
 ```shell
 curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/insert" \
+    --url "${cluster-endpoint}/v1/vector/insert" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
@@ -38,7 +38,7 @@ curl --request POST \
 
 ```shell
 curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/insert" \
+    --url "${cluster-endpoint}/v1/vector/insert" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \

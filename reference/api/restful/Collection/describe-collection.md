@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Describes the details of a collection.
 
-<RestHeader method="get" endpoint="https://{cluster_endpoint}/v1/vector/collections/describe" />
+<RestHeader method="get" endpoint="https://{cluster-endpoint}/v1/vector/collections/describe" />
 
 ---
 
@@ -20,7 +20,7 @@ Describe the details of a collection named `medium_articles`.
 
 ```shell
 curl --request GET \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/collections/describe?collectionName=medium_articles" \
+    --url "${cluster-endpoint}/v1/vector/collections/describe?collectionName=medium_articles" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
