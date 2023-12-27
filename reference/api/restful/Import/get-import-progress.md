@@ -21,7 +21,7 @@ Retrieves the progress of a specified import task.
 ```shell
 curl --request GET \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOBID}&clusterId=${CLUSTERID}" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
 ```

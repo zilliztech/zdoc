@@ -21,7 +21,7 @@ Query entities that meet specific conditions. For details on how to build filter
 ```shell
 curl --request POST \
     --url "${cluster-endpoint}/v1/vector/query" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{

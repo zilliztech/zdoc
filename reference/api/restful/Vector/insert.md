@@ -21,7 +21,7 @@ Inserts one or more entities into a collection. You can add a maximum of 100 ent
 ```shell
 curl --request POST \
     --url "${cluster-endpoint}/v1/vector/insert" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{
@@ -39,7 +39,7 @@ curl --request POST \
 ```shell
 curl --request POST \
     --url "${cluster-endpoint}/v1/vector/insert" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{

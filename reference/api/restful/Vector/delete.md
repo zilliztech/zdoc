@@ -21,7 +21,7 @@ Deletes one or more entities from a collection.
 ```shell
 curl --request POST \
     --url "${cluster-endpoint}/v1/vector/delete" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{
@@ -35,7 +35,7 @@ curl --request POST \
 ```shell
 curl --request POST \
     --url "${cluster-endpoint}/v1/vector/delete" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{
@@ -49,7 +49,7 @@ curl --request POST \
 ```shell
 curl --request POST \
     --url "${cluster-endpoint}/v1/vector/delete" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{
@@ -63,7 +63,7 @@ curl --request POST \
 ```shell
 curl --request POST \
     --url "${cluster-endpoint}/v1/vector/delete" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{

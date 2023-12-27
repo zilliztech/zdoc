@@ -21,7 +21,7 @@ List all collections in a cluster.
 ```shell
 curl --request GET \
     --url "${cluster-endpoint}/v1/vector/collections" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```

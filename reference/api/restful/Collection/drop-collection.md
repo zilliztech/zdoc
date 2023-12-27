@@ -21,7 +21,7 @@ Drop a collection named `medium_articles`.
 ```shell
 curl --request POST \
     --url "${cluster-endpoint}/v1/vector/collections/drop" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{

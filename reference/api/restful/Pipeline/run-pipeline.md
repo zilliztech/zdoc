@@ -23,7 +23,7 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --header "Authorization: Bearer ${YOUR_TOKEN}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487/run" \
         -d '{
             "data": {
@@ -50,7 +50,7 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --header "Authorization: Bearer ${YOUR_TOKEN}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-26a18a66ffc8c0edfdb874/run" \
         -d '{
             "data": {
@@ -89,7 +89,7 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --header "Authorization: Bearer ${YOUR_TOKEN}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-7227d0729d73e63002ed46/run" \
         -d '{
             "data": {

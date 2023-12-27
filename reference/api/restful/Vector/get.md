@@ -21,7 +21,7 @@ Gets entities by the specified IDs. You can set an ID in string or integer or se
 ```shell
 curl --request POST \
     --url "${cluster-endpoint}/v1/vector/get" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{
@@ -36,7 +36,7 @@ curl --request POST \
 ```shell
 curl --request POST \
     --url "${cluster-endpoint}/v1/vector/get" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{
@@ -51,7 +51,7 @@ curl --request POST \
 ```shell
 curl --request POST \
     --url "${cluster-endpoint}/v1/vector/get" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{
@@ -66,7 +66,7 @@ curl --request POST \
 ```shell
 curl --request POST \
     --url "${cluster-endpoint}/v1/vector/get" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d "{

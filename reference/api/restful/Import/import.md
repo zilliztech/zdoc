@@ -21,7 +21,7 @@ Imports data from files stored in a specified object storage bucket. Note that t
 ```shell
 curl --request POST \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/vector/collections/import" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{

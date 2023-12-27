@@ -21,7 +21,7 @@ Conducts a similarity search on the vector field in a collection.
 ```shell
 curl --request POST \
     --url "${cluster-endpoint}/v1/vector/search" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{
@@ -35,7 +35,7 @@ curl --request POST \
 ```shell
 curl --request POST \
     --url "${cluster-endpoint}/v1/vector/search" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{

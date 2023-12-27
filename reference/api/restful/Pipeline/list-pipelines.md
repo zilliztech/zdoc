@@ -21,7 +21,7 @@ List all pipelines in detail.
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines"
 ```
 
