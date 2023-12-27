@@ -16,12 +16,16 @@ Suspend a specified cluster. This operation will only stop the cluster and your 
 ## Example
 
 
-Suspends a cluster. This operation will stop the cluster and your data will remain intact.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request POST \ 
     --url "https://controller.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/suspend" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```

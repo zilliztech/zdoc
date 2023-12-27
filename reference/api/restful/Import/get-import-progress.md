@@ -16,12 +16,16 @@ Retrieves the progress of a specified import task.
 ## Example
 
 
-Retrieves the progress of a specified import task.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOBID}&clusterId=${CLUSTERID}" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
 ```

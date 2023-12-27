@@ -16,12 +16,16 @@ Describe a cluster in detail.
 ## Example
 
 
-Describes the details of a cluster.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -32,14 +36,14 @@ Success response:
 {
     "code": 200,
     "data": {
-        "clusterId": "in03-45a099b7822fb6a",
+        "clusterId": "in03-***************",
         "clusterName": "Cluster-01",
         "description": "",
         "regionId": "gcp-us-west1",
         "clusterType": "",
         "cuSize": 0,
         "status": "RUNNING",
-        "connectAddress": "https://in03-45a099b7822fb6a.api.gcp-us-west1.cloud-uat3.zilliz.com",
+        "connectAddress": "https://in03-***************.api.gcp-us-west1.cloud-uat3.zilliz.com",
         "privateLinkAddress": "",
         "createTime": "2023-12-12T11:32:43Z",
         "storageSize": 0,

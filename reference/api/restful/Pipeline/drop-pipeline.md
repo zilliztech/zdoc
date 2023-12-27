@@ -16,13 +16,17 @@ Drop a specific pipeline
 ## Example
 
 
-Drop a pipeline that is no longer in need.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
-    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487"
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-**********************"
 ```
 
 Possible response
@@ -31,7 +35,7 @@ Possible response
 {
     "code": 200,
     "data": {
-        "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+        "pipelineId": "pipe-**********************",
         "name": "my_doc_ingestion_pipeline",
         "type": "INGESTION",
         "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",

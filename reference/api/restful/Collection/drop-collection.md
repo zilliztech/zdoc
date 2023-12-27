@@ -16,7 +16,15 @@ Drops a collection. This operation erases your collection data. Exercise caution
 ## Example
 
 
-Drop a collection named `medium_articles`.
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
+
 
 ```shell
 curl --request POST \

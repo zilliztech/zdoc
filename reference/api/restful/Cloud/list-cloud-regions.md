@@ -16,17 +16,21 @@ Lists all available cloud regions of a specific cloud provider.
 ## Example
 
 
-Lists all available cloud regions of a specific cloud provider.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/regions?cloudId=gcp" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
 
-You can obtain valid `cloudId` values by performing `ListClouds` operations.
+You can obtain valid `cloudId` values by performing [List Cloud Providers](./list-cloud-providers) operations.
 
 Success response:
 

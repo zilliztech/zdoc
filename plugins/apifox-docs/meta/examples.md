@@ -2,12 +2,16 @@
 
 ## List Cloud Providers
 
-Lists all cloud providers available on Zilliz Cloud.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clouds" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -32,17 +36,21 @@ Success response:
 
 ## List Cloud Regions
 
-Lists all available cloud regions of a specific cloud provider.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/regions?cloudId=gcp" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
 
-You can obtain valid `cloudId` values by performing `ListClouds` operations.
+You can obtain valid `cloudId` values by performing [List Cloud Providers](./list-cloud-providers) operations.
 
 Success response:
 
@@ -61,12 +69,16 @@ Success response:
 
 ## List Projects
 
-Lists all projects in a specified cloud region.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/projects" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -79,7 +91,7 @@ Success response:
     "data": [
        {
           "instanceCount": 1,
-          "projectId": "8342669010291064832",
+          "projectId": "proj-********************",
           "projectName": "test"
        }
     ]
@@ -88,17 +100,22 @@ Success response:
 
 ## Create Serverless Cluster
 
-Creates a serverless cluster. Currently, serverless clusters can be created only on Google Cloud Platform (GCP).
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+- This API requires the ID of a target project.
+
+:::
 
 ```shell
 curl --request POST \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/createServerless" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     --data-raw '{
     "clusterName": "cluster-starter",
-    "projectId": "8342669010291064832"
+    "projectId": "proj-*********************"
     }'
 ```
 
@@ -108,22 +125,42 @@ Success response:
 {
     "code": 200,
     "data": {
-       "clusterId": "in03-36cab39b5ef7894",
-       "username": "db_36cab39b5ef7894",
-       "password": "Lb9.&N,9]Gd4pkp*",
+       "clusterId": "in03-******************",
+       "username": "db_admin",
+       "password": "******************",
        "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
     }
 }
 ```
 
+:::info How can I obtain the project ID?
+
+1. Go to the Zilliz Cloud console, and choose **Clusters** from the left navigation pane.
+2. Copy the project ID from the address bar.
+
+**Example**
+
+Assume that the URL of the **Clusters** page is as follows:
+
+- `https://cloud.zilliz.com.cn/orgs/org-********************/projects/proj-*********************/clusters`
+
+    The project ID should be `proj-*********************`.
+
+:::
+
 ## Create Cluster
 
-Creates a dedicated cluster.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+- This API requires the ID of a target project.
+
+:::
 
 ```shell
 curl --request POST \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/create" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     --data-raw '{
@@ -131,7 +168,7 @@ curl --request POST \
     "clusterName": "cluster-02",
     "cuSize": 1,
     "cuType": "Performance-optimized",
-    "projectId": "8342669010291064832"
+    "projectId": "proj-*****************"
     }'
 ```
 
@@ -141,22 +178,41 @@ Success response:
 {
     "code": 200,
     "data": {
-       "clusterId": "in01-4d71039fd8754a4",
+       "clusterId": "in01-*****************",
        "username": "db_admin",
-       "password": "Wu5@|71UG)[5zB9n",
+       "password": "******************",
        "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
     }
 }
 ```
 
+:::info How can I obtain the project ID?
+
+1. Go to the Zilliz Cloud console, and choose **Clusters** from the left navigation pane.
+2. Copy the project ID from the address bar.
+
+**Example**
+
+Assume that the URL of the **Clusters** page is as follows:
+
+- `https://cloud.zilliz.com.cn/orgs/org-********************/projects/proj-*********************/clusters`
+
+    The project ID should be `proj-*********************`.
+
+:::
+
 ## Describe Cluster
 
-Describes the details of a cluster.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -167,14 +223,14 @@ Success response:
 {
     "code": 200,
     "data": {
-        "clusterId": "in03-45a099b7822fb6a",
+        "clusterId": "in03-***************",
         "clusterName": "Cluster-01",
         "description": "",
         "regionId": "gcp-us-west1",
         "clusterType": "",
         "cuSize": 0,
         "status": "RUNNING",
-        "connectAddress": "https://in03-45a099b7822fb6a.api.gcp-us-west1.cloud-uat3.zilliz.com",
+        "connectAddress": "https://in03-***************.api.gcp-us-west1.cloud-uat3.zilliz.com",
         "privateLinkAddress": "",
         "createTime": "2023-12-12T11:32:43Z",
         "storageSize": 0,
@@ -186,12 +242,16 @@ Success response:
 
 ## Modify Cluster
 
-Modifies the CU size of a cluster.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request POST \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/modify" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     --data-raw '{
@@ -205,7 +265,7 @@ Success response:
 {
     "code": 200,
     "data": {
-       "clusterId": "in01-2040352a6a0b1b7",
+       "clusterId": "in01-***************",
        "prompt": "Submission successful, Cluster is currently upgrading and will take several minutes, you can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK."
     }
 }
@@ -213,12 +273,16 @@ Success response:
 
 ## Suspend Cluster
 
-Suspends a cluster. This operation will stop the cluster and your data will remain intact.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request POST \ 
     --url "https://controller.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/suspend" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -237,12 +301,17 @@ Success response:
 
 ## Resume Cluster
 
-Resume a cluster that has been suspended.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+- Using this API requires you to add a valid payment method.
+
+:::
 
 ```shell
 curl --request POST \ 
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/resume" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -261,12 +330,16 @@ Success response:
 
 ## Drop Cluster
 
-Drops a cluster. This operation moves your cluster to the recycle bin. All clusters in the recycle bin are pending permanent deletion in 30 days.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request DELETE \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/drop" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -277,7 +350,7 @@ Success response:
 {
     "code": 200,
     "data": {
-       "clusterId": "in01-4d71039fd8754a4",
+       "clusterId": "in01-***************",
        "prompt": "The Cluster has been deleted. If you believe this was a mistake, you can restore the Cluster from the recycle bin within 30 days (this not include serverless)."
     }
 }
@@ -285,12 +358,16 @@ Success response:
 
 ## List Clusters
 
-Lists all clusters in a cloud region.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters?pageSize=&current=" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -311,7 +388,14 @@ Success response:
 
 ## Create Collection
 
-Create a collection named `medium_articles`.
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
 
 ```shell
 curl --request POST \
@@ -340,7 +424,15 @@ Success response:
 
 ## Drop Collection
 
-Drop a collection named `medium_articles`.
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
+
 
 ```shell
 curl --request POST \
@@ -364,7 +456,15 @@ Success response:
 
 ## Describe Collection
 
-Describe the details of a collection named `medium_articles`.
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
+
 
 ```shell
 curl --request GET \
@@ -407,7 +507,15 @@ Success response:
 
 ## List Collections
 
-List all collections in a cluster.
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
+
 
 ```shell
 curl --request GET \
@@ -432,6 +540,16 @@ Sample response:
 ```
 
 ## Insert
+
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
+
 
 - Insert an entity to a collection named `medium_articles`.
 
@@ -475,6 +593,16 @@ curl --request POST \
 
 ## Upsert
 
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
+
+
 - Upsert an entity to a collection named `medium_articles`.
 
 ```shell
@@ -517,6 +645,16 @@ curl --request POST \
 
 ## Search
 
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
+
+
 - Search entities based on a given vector. For details on how to build filters, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md#Boolean-Expression-Rules).
 
 ```shell
@@ -551,6 +689,16 @@ curl --request POST \
 
 ## Query
 
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
+
+
 Query entities that meet specific conditions. For details on how to build filters, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md#Boolean-Expression-Rules).
 
 ```shell
@@ -569,6 +717,16 @@ curl --request POST \
 ```
 
 ## Get
+
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
+
 
 - Get a specified entity whose ID is an integer.
 
@@ -632,6 +790,16 @@ curl --request POST \
 
 ## Delete
 
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
+
+
 - Delete a collection whose ID is an integer.
 
 ```shell
@@ -690,16 +858,20 @@ curl --request POST \
 
 ## Import
 
-Imports data from files stored in a specified object storage bucket. Note that the bucket should be in the same cloud as the target cluster of the import.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request POST \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/vector/collections/import" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{
-      "clusterId": "in03-181766e3f9556b7",
+      "clusterId": "in03-***************",
       "collectionName": "medium_articles",
       "objectUrl": "gs://publicdataset-zillizcloud-com/medium_articles_2020.json"
       "accessKey": "your-access-key"
@@ -709,38 +881,50 @@ curl --request POST \
 
 ## Get Import Progress
 
-Retrieves the progress of a specified import task.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOBID}&clusterId=${CLUSTERID}" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
 ```
 
 ## List Import Jobs
 
-List all import jobs specific to a cluster.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/vector/collections/import/list?clusterId=${CLUSTERID}" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
 ```
 
 ## Create Pipeline
 
-Create a pipeline that aims to transform your unstructured data into a searchable vector collection.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 - Create a data ingestion pipeline.
 
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_TOKEN}" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
         -d '{
             "name": "my_doc_ingestion_pipeline",
@@ -772,7 +956,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
     {
         "code": 200,
         "data": {
-        "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+        "pipelineId": "pipe-**********************",
         "name": "my_doc_ingestion_pipeline",
         "type": "INGESTION",
         "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
@@ -803,7 +987,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_TOKEN}" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
         -d '{
             "name": "my_text_search_pipeline",
@@ -827,7 +1011,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
     {
         "code": 200,
         "data": {
-            "pipelineId": "pipe-26a18a66ffc8c0edfdb874",
+            "pipelineId": "pipe-**********************",
             "name": "my_text_search_pipeline",
             "type": "SEARCH",
             "description": "A pipeline that receives text and search for semantically similar doc chunks",
@@ -850,7 +1034,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_TOKEN}" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
         -d '{
             "name": "my_doc_deletion_pipeline",
@@ -875,7 +1059,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
     {
         "code": 200,
         "data": {
-            "pipelineId": "pipe-7227d0729d73e63002ed46",
+            "pipelineId": "pipe-**********************",
             "name": "my_doc_deletion_pipeline",
             "type": "DELETION",
             "description": "A pipeline that deletes all info associated with a doc",
@@ -895,13 +1079,17 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
 
 ## Describe Pipeline
 
-View the details of a pipeline
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
-    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487"
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-**********************"
 ```
 
 Possible response
@@ -910,7 +1098,7 @@ Possible response
 {
     "code": 200,
     "data": {
-        "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+        "pipelineId": "pipe-**********************",
         "name": "my_doc_ingestion_pipeline",
         "type": "INGESTION",
         "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
@@ -939,13 +1127,17 @@ Possible response
 
 ## Drop Pipeline
 
-Drop a pipeline that is no longer in need.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
-    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487"
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-**********************"
 ```
 
 Possible response
@@ -954,7 +1146,7 @@ Possible response
 {
     "code": 200,
     "data": {
-        "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+        "pipelineId": "pipe-**********************",
         "name": "my_doc_ingestion_pipeline",
         "type": "INGESTION",
         "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
@@ -983,12 +1175,16 @@ Possible response
 
 ## List Pipelines
 
-List all pipelines in detail.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines"
 ```
 
@@ -999,7 +1195,7 @@ Possible response
   "code": 200,
   "data": [
     {
-     "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+     "pipelineId": "pipe-**********************",
      "name": "my_doc_ingestion_pipeline",
      "type": "INGESTION",
      "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
@@ -1023,7 +1219,7 @@ Possible response
      "newCollectionName": "my_new_collection"
     },
     {
-     "pipelineId": "pipe-26a18a66ffc8c0edfdb874",
+     "pipelineId": "pipe-**********************",
      "name": "my_text_search_pipeline",
      "type": "SEARCH",
      "description": "A pipeline that receives text and search for semantically similar doc chunks",
@@ -1039,7 +1235,7 @@ Possible response
      ]
     },
     {
-     "pipelineId": "pipe-7227d0729d73e63002ed46",
+     "pipelineId": "pipe-**********************",
      "name": "my_doc_deletion_pipeline",
      "type": "DELETION",
      "description": "A pipeline that deletes all info associated with a doc",
@@ -1060,14 +1256,18 @@ Possible response
 
 ## Run Pipeline
 
-Run pipelines for data ingestion, semantic similarity searches, and doc deletion.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 - Run a data ingestion pipeline
 
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_TOKEN}" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487/run" \
         -d '{
             "data": {
@@ -1094,7 +1294,7 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_TOKEN}" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-26a18a66ffc8c0edfdb874/run" \
         -d '{
             "data": {
@@ -1133,7 +1333,7 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_TOKEN}" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-7227d0729d73e63002ed46/run" \
         -d '{
             "data": {

@@ -16,12 +16,16 @@ Lists all projects in the specified cloud region.
 ## Example
 
 
-Lists all projects in a specified cloud region.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/projects" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -34,7 +38,7 @@ Success response:
     "data": [
        {
           "instanceCount": 1,
-          "projectId": "8342669010291064832",
+          "projectId": "proj-********************",
           "projectName": "test"
        }
     ]

@@ -16,6 +16,16 @@ Gets entities by the specified IDs. You can set an ID in string or integer or se
 ## Example
 
 
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
+
+
 - Get a specified entity whose ID is an integer.
 
 ```shell

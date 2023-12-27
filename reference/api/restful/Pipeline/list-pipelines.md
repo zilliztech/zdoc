@@ -16,12 +16,16 @@ List all pipelines in a project.
 ## Example
 
 
-List all pipelines in detail.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_TOKEN}" \
+    --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines"
 ```
 
@@ -32,7 +36,7 @@ Possible response
   "code": 200,
   "data": [
     {
-     "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+     "pipelineId": "pipe-**********************",
      "name": "my_doc_ingestion_pipeline",
      "type": "INGESTION",
      "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
@@ -56,7 +60,7 @@ Possible response
      "newCollectionName": "my_new_collection"
     },
     {
-     "pipelineId": "pipe-26a18a66ffc8c0edfdb874",
+     "pipelineId": "pipe-**********************",
      "name": "my_text_search_pipeline",
      "type": "SEARCH",
      "description": "A pipeline that receives text and search for semantically similar doc chunks",
@@ -72,7 +76,7 @@ Possible response
      ]
     },
     {
-     "pipelineId": "pipe-7227d0729d73e63002ed46",
+     "pipelineId": "pipe-**********************",
      "name": "my_doc_deletion_pipeline",
      "type": "DELETION",
      "description": "A pipeline that deletes all info associated with a doc",

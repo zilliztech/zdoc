@@ -16,6 +16,16 @@ Conducts a similarity search on the vector field in a collection.
 ## Example
 
 
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
+
+
 - Search entities based on a given vector. For details on how to build filters, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md#Boolean-Expression-Rules).
 
 ```shell

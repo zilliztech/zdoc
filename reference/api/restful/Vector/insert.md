@@ -16,6 +16,16 @@ Inserts one or more entities into a collection. You can add a maximum of 100 ent
 ## Example
 
 
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
+
+
 - Insert an entity to a collection named `medium_articles`.
 
 ```shell

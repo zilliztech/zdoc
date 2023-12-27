@@ -16,14 +16,18 @@ Create a pipeline.
 ## Example
 
 
-Create a pipeline that aims to transform your unstructured data into a searchable vector collection.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 - Create a data ingestion pipeline.
 
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_TOKEN}" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
         -d '{
             "name": "my_doc_ingestion_pipeline",
@@ -55,7 +59,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
     {
         "code": 200,
         "data": {
-        "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+        "pipelineId": "pipe-**********************",
         "name": "my_doc_ingestion_pipeline",
         "type": "INGESTION",
         "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
@@ -86,7 +90,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_TOKEN}" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
         -d '{
             "name": "my_text_search_pipeline",
@@ -110,7 +114,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
     {
         "code": 200,
         "data": {
-            "pipelineId": "pipe-26a18a66ffc8c0edfdb874",
+            "pipelineId": "pipe-**********************",
             "name": "my_text_search_pipeline",
             "type": "SEARCH",
             "description": "A pipeline that receives text and search for semantically similar doc chunks",
@@ -133,7 +137,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_TOKEN}" \
+        --header "Authorization: Bearer ${YOUR_API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
         -d '{
             "name": "my_doc_deletion_pipeline",
@@ -158,7 +162,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
     {
         "code": 200,
         "data": {
-            "pipelineId": "pipe-7227d0729d73e63002ed46",
+            "pipelineId": "pipe-**********************",
             "name": "my_doc_deletion_pipeline",
             "type": "DELETION",
             "description": "A pipeline that deletes all info associated with a doc",
