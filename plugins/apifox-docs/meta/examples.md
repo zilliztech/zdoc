@@ -276,8 +276,8 @@ Success response:
 :::
 
 ```shell
-curl --request POST \ 
-    --url "https://controller.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/suspend" \
+curl --request POST \
+    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/suspend" \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
@@ -305,7 +305,7 @@ Success response:
 :::
 
 ```shell
-curl --request POST \ 
+curl --request POST \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/resume" \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \

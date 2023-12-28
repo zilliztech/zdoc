@@ -24,7 +24,7 @@ Resume a suspended cluster.
 :::
 
 ```shell
-curl --request POST \ 
+curl --request POST \
     --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/resume" \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
