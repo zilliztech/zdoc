@@ -139,7 +139,8 @@ You can obtain the project ID in either of the following ways:
 
 - On the Zilliz Cloud console
 
-Assume that the URL of the **Clusters** page is as follows:
+    1. Click **Projects** in the top menu bar to open the **Projects** page.
+    2. Locate the target project and copy its ID in the **Project ID** column.
 
 - Use the [List Projects](./list-projects) API endpoint to list all projects.
 
@@ -189,7 +190,8 @@ You can obtain the project ID in either of the following ways:
 
 - On the Zilliz Cloud console
 
-Assume that the URL of the **Clusters** page is as follows:
+    1. Click **Projects** in the top menu bar to open the **Projects** page.
+    2. Locate the target project and copy its ID in the **Project ID** column.
 
 - Use the [List Projects](./list-projects) API endpoint to list all projects.
 
