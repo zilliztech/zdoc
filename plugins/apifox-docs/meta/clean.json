@@ -5691,13 +5691,16 @@
                                                                 "type": "object",
                                                                 "properties": {
                                                                     "instanceCount": {
-                                                                        "type": "integer"
+                                                                        "type": "integer",
+                                                                        "description": "Number of clusters in the current project."
                                                                     },
                                                                     "projectId": {
-                                                                        "type": "string"
+                                                                        "type": "string",
+                                                                        "description": "ID of the current project."
                                                                     },
                                                                     "projectName": {
-                                                                        "type": "string"
+                                                                        "type": "string",
+                                                                        "description": "Name of the current project."
                                                                     }
                                                                 },
                                                                 "required": [
@@ -5794,13 +5797,16 @@
                             "type": "object",
                             "properties": {
                                 "instanceCount": {
-                                    "type": "integer"
+                                    "type": "integer",
+                                    "description": "Number of clusters in the current project."
                                 },
                                 "projectId": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "ID of the current project."
                                 },
                                 "projectName": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Name of the current project."
                                 }
                             },
                             "required": [
