@@ -51,16 +51,14 @@ Success response:
 
 :::info How can I obtain the project ID?
 
-1. Go to the Zilliz Cloud console, and choose **Clusters** from the left navigation pane.
-2. Copy the project ID from the address bar.
+You can obtain the project ID in either of the following ways:
 
-**Example**
+- On the Zilliz Cloud console
 
-Assume that the URL of the **Clusters** page is as follows:
+    1. Click **Projects** in the top menu bar to open the **Projects** page.
+    2. Locate the target project and copy the its ID in the **Project ID** column.
 
-- `https://cloud.zilliz.com.cn/orgs/org-********************/projects/proj-*********************/clusters`
-
-    The project ID should be `proj-*********************`.
+- Use the [List Projects](./list-projects) API endpoint to list all projects.
 
 :::
 
