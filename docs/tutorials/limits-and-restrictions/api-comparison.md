@@ -30,6 +30,9 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 |                                   |  getBulkInsertState()          |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  listBulkInsertTasks()         |  ✔︎             |  ✔︎               |  ✔︎                              |
 |  Collection                       |  getCollectionStatistics()     |  ✘              |  ✔︎               |  ✔︎                              |
+|                                   |  createCollection              |  ✔︎             |  ✔︎               |  ✔︎                              |
+|                                   |  dropCollection                |  ✔︎             |  ✔︎               |  ✔︎                              |
+|                                   |  dropCollection                |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  getLoadingProgress()          |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  getPersistentSgementInfo()    |  ✘              |  ✘                |  ✘                               |
 |                                   |  getQuerySegmentInfo()         |  ✘              |  ✘                |  ✘                               |
@@ -79,9 +82,9 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 
 ## Related topics{#related-topics}
 
-- [Migrate from Milvus 1.x](./migrate-from-milvus) 
+- [Migrate from Milvus 1.x](./migrate-from-milvus)
 
-- [AUTOINDEX Explained](./autoindex-explained) 
+- [AUTOINDEX Explained](./autoindex-explained)
 
 - [Select the Right CU](./cu-types-explained) 
 
