@@ -31,7 +31,7 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 |                                   |  listBulkInsertTasks()         |  ✔︎             |  ✔︎               |  ✔︎                              |
 |  Collection                       |  getCollectionStatistics()     |  ✘              |  ✔︎               |  ✔︎                              |
 |                                   |  createCollection              |  ✔︎             |  ✔︎               |  ✔︎                              |
-|                                   |  dropCollection                |  ✔︎             |  ✔︎               |  ✔︎                              |
+|                                   |  describeCollection            |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  dropCollection                |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  getLoadingProgress()          |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  getPersistentSgementInfo()    |  ✘              |  ✘                |  ✘                               |

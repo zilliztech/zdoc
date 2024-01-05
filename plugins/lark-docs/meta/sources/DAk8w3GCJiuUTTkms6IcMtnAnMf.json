@@ -5,7 +5,7 @@
   "node_token": "DAk8w3GCJiuUTTkms6IcMtnAnMf",
   "node_type": "origin",
   "obj_create_time": "1689062862",
-  "obj_edit_time": "1704376918",
+  "obj_edit_time": "1704419697",
   "obj_token": "NBPSdPSgsohOoxx0qIjcIogmnsd",
   "obj_type": "docx",
   "origin_node_token": "DAk8w3GCJiuUTTkms6IcMtnAnMf",
@@ -4346,7 +4346,37 @@
           "elements": [
             {
               "text_run": {
-                "content": "dropCollection",
+                "content": "d",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7320243369077112835"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "escribe",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7320243369077112835"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Collection",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
