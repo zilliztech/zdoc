@@ -1,0 +1,4835 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1704534553",
+  "node_token": "Bw7dwervZiOLHBk6OuWc3RylnKc",
+  "node_type": "origin",
+  "obj_create_time": "1704534553",
+  "obj_edit_time": "1704700641",
+  "obj_token": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+  "obj_type": "docx",
+  "origin_node_token": "Bw7dwervZiOLHBk6OuWc3RylnKc",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "YVxQwnj23iS9sNkUTcmcPKzNnQh",
+  "space_id": "7167193056431783939",
+  "title": "Prerequisites",
+  "slug": "byoc-prerequisites",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "block_type": 1,
+        "children": [
+          "Tg1bdbFagoDkdEx69NacN98qnab",
+          "JzBAdbNrio7StqxydX9cporvnYf",
+          "E8qEd8uKBop5g2xG28scZs89nWc",
+          "H8bkdvULaoOwMbx13Nxcoe7vnPX",
+          "U6ApdPUt0oJZbWxAnX1cyhfRn7g",
+          "Qs7ddW0ZyojYU9xVw3hcOg9kn0e",
+          "Pb6GdFHwlox27nxiD8xcpivwn8e",
+          "CPgYd0Qb1oHpJFx7NNdc4nJ9nce",
+          "WmgVdGuYnoJZX1xLwrbcuF13nQq",
+          "Fp3bd58oQozgSNxGf6xcpk4knrf",
+          "DcHAdSuu1okkkxxURlQcmACKnxh",
+          "JC5idYWUVoq22vxL2c4cskl0nMh",
+          "DvFmda469oEGFUxASYtcA3RJnDd",
+          "YeetdWSbZo621DxvftccEjNMnDd",
+          "ThiudCnmfoZgNVxkvp2c8iI1n5g",
+          "GAKid6gStoBFuxx4XYqcWCyjnxc",
+          "AEk5dyUQRoO855xaiJTcb7z4nNd",
+          "OGmjdE9KdoEgw5xiCZuc0QG1nPg",
+          "SoiidVP1HogDadxaKBvc9P93nAf",
+          "H6FidCtmXoL4DKxS25HcYf9tnKb",
+          "GlUrd5bmho9GqpxY368c0dDKnbe",
+          "IZgbdvrsQovAScxamf9c85qqn2d",
+          "ImscdmsGsozJu3xsKCfcIZo3nKd",
+          "O79pdM3MZoGD1KxP2lrcuAKKnBF",
+          "YgjNd6dhLoOytPxIq0fc7mLznpg",
+          "AW34dtlotoHQb9xh9OccWwhOnlc",
+          "DKSZdbjRjowLUDxMHmLcVcEYnTb",
+          "ISaodEl3co2Zgqxurtwc7192nsb",
+          "DAuWd7rsvoTAZIxUr2qc646NnHf",
+          "EhyfdG8bxowVUYxhq2FcNbuOndf",
+          "QkgHdYr3IopJ1Lx4tQkcRAOOnyb",
+          "S63Gdkq40oMvszxoxUoc5meNn8d",
+          "PAB7drLYRoo7qmxmpJEcyBqpnRh"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Prerequisites",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "Tg1bdbFagoDkdEx69NacN98qnab",
+        "block_type": 2,
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This topic details the prerequisites required for activating the Zilliz Cloud Bring Your Own Cloud (BYOC) license. It's essential to ensure these initial steps are completed before proceeding to the detailed activation steps provided in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Activate Your License",
+                "token": "X08WweRsXiz0MPk4DIbcXYaInjc",
+                "url": "https://zilliverse.feishu.cn/wiki/X08WweRsXiz0MPk4DIbcXYaInjc"
+              }
+            },
+            {
+              "text_run": {
+                "content": ". The prerequisites outlined here are foundational for a successful and efficient activation process.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JzBAdbNrio7StqxydX9cporvnYf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Architecture",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "E8qEd8uKBop5g2xG28scZs89nWc",
+        "block_type": 2,
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following diagram shows the architecture for BYOC deployment. The control plane is hosted within Zilliz Cloud. After obtaining authorization from the customer, Zilliz Cloud establishes a secure connection via Private Link to access the customer's VPC. It then creates cloud resources and deploys the BYOC components under the user's cloud account.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "H8bkdvULaoOwMbx13Nxcoe7vnPX",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D27819-4405%26mode%3Ddesign%26t%3DyWaKMcWxZpp9ikbW-4"
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "U6ApdPUt0oJZbWxAnX1cyhfRn7g",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set up your environment",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "Qs7ddW0ZyojYU9xVw3hcOg9kn0e",
+        "block_type": 13,
+        "children": [
+          "KXTEdxh8modJKNxkcSScR2v4nNe",
+          "VqwtdoLNpoXdXyxkNDhcCQfVnPb",
+          "YYgPdcK4boPy69xyx5BcsjfBnTe"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Operating System Compatibility",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Ensure that your machine operates on one of the following systems:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "KXTEdxh8modJKNxkcSScR2v4nNe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Linux",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Qs7ddW0ZyojYU9xVw3hcOg9kn0e"
+      },
+      {
+        "block_id": "VqwtdoLNpoXdXyxkNDhcCQfVnPb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "macOS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Qs7ddW0ZyojYU9xVw3hcOg9kn0e"
+      },
+      {
+        "block_id": "YYgPdcK4boPy69xyx5BcsjfBnTe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Windows",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Qs7ddW0ZyojYU9xVw3hcOg9kn0e"
+      },
+      {
+        "block_id": "Pb6GdFHwlox27nxiD8xcpivwn8e",
+        "block_type": 13,
+        "children": [
+          "TQQrdTMiVoVWg0xiG3Kctk9wnff",
+          "B9npdlE55oa6L4x1HL1cRaQenwd",
+          "OpoYdWW42ocKXZxCVpgcD5Ppngb"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Terraform Installation",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Zilliz Cloud utilizes Terraform for managing the cloud infrastructure required for BYOC deployment. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "TQQrdTMiVoVWg0xiG3Kctk9wnff",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "macOS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "G9oidufdboR9GtxemFccJBUqnch"
+        ],
+        "parent_id": "Pb6GdFHwlox27nxiD8xcpivwn8e"
+      },
+      {
+        "block_id": "G9oidufdboR9GtxemFccJBUqnch",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "brew tap hashicorp/tap\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "brew install hashicorp/tap/terraform",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 60,
+            "wrap": false
+          }
+        },
+        "parent_id": "TQQrdTMiVoVWg0xiG3Kctk9wnff"
+      },
+      {
+        "block_id": "B9npdlE55oa6L4x1HL1cRaQenwd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Linux",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "G2BUdLjeGod7wux3vysc2mhtn4b"
+        ],
+        "parent_id": "Pb6GdFHwlox27nxiD8xcpivwn8e"
+      },
+      {
+        "block_id": "G2BUdLjeGod7wux3vysc2mhtn4b",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "brew tap hashicorp/tap\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "brew install hashicorp/tap/terraform",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 60,
+            "wrap": false
+          }
+        },
+        "parent_id": "B9npdlE55oa6L4x1HL1cRaQenwd"
+      },
+      {
+        "block_id": "OpoYdWW42ocKXZxCVpgcD5Ppngb",
+        "block_type": 2,
+        "parent_id": "Pb6GdFHwlox27nxiD8xcpivwn8e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you use Windows or Linux distributions, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Terraform official documentation",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdeveloper.hashicorp.com%2Fterraform%2Finstall%3Fproduct_intent%3Dterraform"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for installation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CPgYd0Qb1oHpJFx7NNdc4nJ9nce",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Prepare your accounts",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "WmgVdGuYnoJZX1xLwrbcuF13nQq",
+        "block_type": 2,
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Activation requires two accounts:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Fp3bd58oQozgSNxGf6xcpk4knrf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Account",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Your Zilliz Cloud BYOC deployment will be hosted within your AWS account. If you do not have an AWS account, create one following the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS Account Creation Guide",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.aws.amazon.com%2Forganizations%2Flatest%2Fuserguide%2Forgs_manage_accounts_create.html"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". The Zilliz Cloud BYOC solution currently supports the AWS ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "us-west-2",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " region. For other cloud providers or regions, contact ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "our sales team",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliz.com%2Fcontact-sales"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "DcHAdSuu1okkkxxURlQcmACKnxh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud Account",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Activation necessitates a Zilliz Cloud account. If you are not registered, sign up on the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud Account Registration Page",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.zilliz.com%2Fsignup"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "JC5idYWUVoq22vxL2c4cskl0nMh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create temporary security credentials",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "DvFmda469oEGFUxASYtcA3RJnDd",
+        "block_type": 2,
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To activate your BYOC license using Terraform scripts, you'll need to provide temporary security credentials. These include an access key and a secret key, for AWS cloud resources. It's advisable to create these credentials solely for the activation process and deactivate them afterward.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YeetdWSbZo621DxvftccEjNMnDd",
+        "block_type": 2,
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Here's how to create temporary security credentials:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ThiudCnmfoZgNVxkvp2c8iI1n5g",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Sign in to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IAM console",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fconsole.aws.amazon.com%2Fiam"
+                  },
+                  "strikethrough": false,
+                  "underline": true
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " using your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " account ID and password.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "GAKid6gStoBFuxx4XYqcWCyjnxc",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Go to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Access keys",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " section and click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Create access key",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "AEk5dyUQRoO855xaiJTcb7z4nNd",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Retrieve access keys",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " page, choose either ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Show",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to reveal the value of your user's secret access key, or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Download .",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "csv",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " file",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". This is your only opportunity to save your secret access key. After you've saved your secret access key in a secure location, choose ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Done",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "OGmjdE9KdoEgw5xiCZuc0QG1nPg",
+        "block_type": 2,
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For detailed instructions, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS official documentation",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.aws.amazon.com%2FIAM%2Flatest%2FUserGuide%2Fid_credentials_access-keys.html%23Using_CreateAccessKey"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SoiidVP1HogDadxaKBvc9P93nAf",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D27257-1137%26mode%3Ddesign%26t%3DEvPacd030iJgiFDd-4"
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "H6FidCtmXoL4DKxS25HcYf9tnKb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Understand required resources and permissions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "GlUrd5bmho9GqpxY368c0dDKnbe",
+        "block_type": 2,
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Deploying Zilliz Cloud BYOC requires specific cloud resources and permissions within your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " account.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IZgbdvrsQovAScxamf9c85qqn2d",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Resource quotas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "ImscdmsGsozJu3xsKCfcIZo3nKd",
+        "block_type": 2,
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Refer to the table below for the necessary cloud resources and services for Zilliz Cloud BYOC activation. If the cloud resources in your current account are insufficient, contact your cloud account administrator to increase quotas.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O79pdM3MZoGD1KxP2lrcuAKKnBF",
+        "block_type": 34,
+        "children": [
+          "Mj9bdRnqtoh50xxcAhAcxtHtnKg",
+          "R1LdddEsOoLsg8xsGUacSbi3nKe"
+        ],
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "quote_container": {}
+      },
+      {
+        "block_id": "Mj9bdRnqtoh50xxcAhAcxtHtnKg",
+        "block_type": 2,
+        "parent_id": "O79pdM3MZoGD1KxP2lrcuAKKnBF",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "R1LdddEsOoLsg8xsGUacSbi3nKe",
+        "block_type": 2,
+        "parent_id": "O79pdM3MZoGD1KxP2lrcuAKKnBF",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cloud administrators can monitor resource usage and quotas in the cloud quota dashboard. For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS service quotas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.aws.amazon.com%2Fgeneral%2Flatest%2Fgr%2Faws_service_limits.html"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "block_type": 31,
+        "children": [
+          "UXNLd5OYtoWs5Dxl8ehcdNMmnah",
+          "RehmdUEfPoJyzVxVj5LcywdbnMb",
+          "Ou4mdKwg7o0CsVxsWvGcHUOWnke",
+          "CUDNdsT2boxjhfxNzG2cD98qn1d",
+          "Y6wLdcxbLorRFGxUIQUcE0TQn7t",
+          "HiOwdpLsfoFWu5xTfzmcoilunHJ",
+          "DygudAI2eoJqSExwDUrcswZGnSh",
+          "TKldd9UTBomOPXxqfqec8qBWnBc",
+          "XaR6d0AlYoWUJfxgm2ecfPbxnNe",
+          "KF3cdP2ADo6xVWxbetCcb4tbnrf",
+          "TGMudowR8omXtYxwqCAcaR4On5s",
+          "NpazdeIYcojBA8xSMlxcEBLkn8g",
+          "XxzfdvVUsoX1DexquA4cSgnAn8c",
+          "BIYjdL3xzobBBlxvOUAcL8CjnDv",
+          "FeA0dD4Umo28gkxkC8LcQ2WdnPg",
+          "LndPdpaPYof35MxnloEcSM2Nnge",
+          "FfJ7dS5sGobyXIxPHCzcaYfYnEg",
+          "Q6Z7dRdG1oPlRVx1y25c54uJnXd",
+          "GnlCdhiXnodAaCx2qMzc2bRMnrf",
+          "EBrodbOYco0nzDx0NJzci0ptn1p",
+          "YxcOdh3kBobpNAx2d29cLtKYn1e",
+          "U1Msdxwy0ofvurxlk1DcWYXjndh",
+          "ZGVudVL73oYcq8xwUPSczfvPnhc",
+          "FVVXdAwuXoqt7WxhuKJcMZ04n5g",
+          "SRrpd8IVyoIVAKxR7ZTcJEcynQf",
+          "JeGEdKFzto9r9uxL5vbcHO0hnCe",
+          "NHmHdMizpoNuraxPWQqcL55CnTd"
+        ],
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "table": {
+          "cells": [
+            "UXNLd5OYtoWs5Dxl8ehcdNMmnah",
+            "RehmdUEfPoJyzVxVj5LcywdbnMb",
+            "Ou4mdKwg7o0CsVxsWvGcHUOWnke",
+            "CUDNdsT2boxjhfxNzG2cD98qn1d",
+            "Y6wLdcxbLorRFGxUIQUcE0TQn7t",
+            "HiOwdpLsfoFWu5xTfzmcoilunHJ",
+            "DygudAI2eoJqSExwDUrcswZGnSh",
+            "TKldd9UTBomOPXxqfqec8qBWnBc",
+            "XaR6d0AlYoWUJfxgm2ecfPbxnNe",
+            "KF3cdP2ADo6xVWxbetCcb4tbnrf",
+            "TGMudowR8omXtYxwqCAcaR4On5s",
+            "NpazdeIYcojBA8xSMlxcEBLkn8g",
+            "XxzfdvVUsoX1DexquA4cSgnAn8c",
+            "BIYjdL3xzobBBlxvOUAcL8CjnDv",
+            "FeA0dD4Umo28gkxkC8LcQ2WdnPg",
+            "LndPdpaPYof35MxnloEcSM2Nnge",
+            "FfJ7dS5sGobyXIxPHCzcaYfYnEg",
+            "Q6Z7dRdG1oPlRVx1y25c54uJnXd",
+            "GnlCdhiXnodAaCx2qMzc2bRMnrf",
+            "EBrodbOYco0nzDx0NJzci0ptn1p",
+            "YxcOdh3kBobpNAx2d29cLtKYn1e",
+            "U1Msdxwy0ofvurxlk1DcWYXjndh",
+            "ZGVudVL73oYcq8xwUPSczfvPnhc",
+            "FVVXdAwuXoqt7WxhuKJcMZ04n5g",
+            "SRrpd8IVyoIVAKxR7ZTcJEcynQf",
+            "JeGEdKFzto9r9uxL5vbcHO0hnCe",
+            "NHmHdMizpoNuraxPWQqcL55CnTd"
+          ],
+          "property": {
+            "column_size": 3,
+            "column_width": [
+              154,
+              113,
+              235
+            ],
+            "header_row": true,
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 9
+          }
+        }
+      },
+      {
+        "block_id": "UXNLd5OYtoWs5Dxl8ehcdNMmnah",
+        "block_type": 32,
+        "children": [
+          "PE4ddyEIcoltfCx5McpcM9NMnbc"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PE4ddyEIcoltfCx5McpcM9NMnbc",
+        "block_type": 2,
+        "parent_id": "UXNLd5OYtoWs5Dxl8ehcdNMmnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Resource Type",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RehmdUEfPoJyzVxVj5LcywdbnMb",
+        "block_type": 32,
+        "children": [
+          "Uiu5dbgoRojswGxvIDQcwZLhnNc",
+          "ZERgd7rTSocM4FxQOuNcQP7FnEM"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Uiu5dbgoRojswGxvIDQcwZLhnNc",
+        "block_type": 2,
+        "parent_id": "RehmdUEfPoJyzVxVj5LcywdbnMb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Instance",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZERgd7rTSocM4FxQOuNcQP7FnEM",
+        "block_type": 2,
+        "parent_id": "RehmdUEfPoJyzVxVj5LcywdbnMb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ou4mdKwg7o0CsVxsWvGcHUOWnke",
+        "block_type": 32,
+        "children": [
+          "CGvddRIQzoVl8RxJzXAccSdZnec",
+          "Cfeodn4idoYwuCxD7NhckTSXnYg"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CGvddRIQzoVl8RxJzXAccSdZnec",
+        "block_type": 2,
+        "comment_ids": [
+          "7320925063665139714"
+        ],
+        "parent_id": "Ou4mdKwg7o0CsVxsWvGcHUOWnke",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Min. ",
+                "text_element_style": {
+                  "background_color": 3,
+                  "bold": false,
+                  "comment_ids": [
+                    "7320925063665139714"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Config",
+                "text_element_style": {
+                  "background_color": 3,
+                  "bold": false,
+                  "comment_ids": [
+                    "7320925063665139714"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Cfeodn4idoYwuCxD7NhckTSXnYg",
+        "block_type": 2,
+        "parent_id": "Ou4mdKwg7o0CsVxsWvGcHUOWnke",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CUDNdsT2boxjhfxNzG2cD98qn1d",
+        "block_type": 32,
+        "children": [
+          "S2NhdXggFoHJQ1xrAO7csTlzndh",
+          "QNFRdm19tofNBjxJ5TqcKF79nBp"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "S2NhdXggFoHJQ1xrAO7csTlzndh",
+        "block_type": 2,
+        "parent_id": "CUDNdsT2boxjhfxNzG2cD98qn1d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Virtual Machine",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QNFRdm19tofNBjxJ5TqcKF79nBp",
+        "block_type": 2,
+        "parent_id": "CUDNdsT2boxjhfxNzG2cD98qn1d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Y6wLdcxbLorRFGxUIQUcE0TQn7t",
+        "block_type": 32,
+        "children": [
+          "AkM0dZmeMoOintxJYYQct6EsnCg",
+          "GSs6dqerFoq3N6xnMxFcBXLGnsc"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "AkM0dZmeMoOintxJYYQct6EsnCg",
+        "block_type": 2,
+        "parent_id": "Y6wLdcxbLorRFGxUIQUcE0TQn7t",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EC2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GSs6dqerFoq3N6xnMxFcBXLGnsc",
+        "block_type": 2,
+        "parent_id": "Y6wLdcxbLorRFGxUIQUcE0TQn7t",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HiOwdpLsfoFWu5xTfzmcoilunHJ",
+        "block_type": 32,
+        "children": [
+          "LrFNdxsoJoYcwVx7hcfcATKJndh",
+          "XThtdf4c7obmPax0lUac8eYyn2b",
+          "KNO3dzWXSoGWt4x7b5YcUI2Bnuh",
+          "VvyXdpdhEoJQkFxbaC1cLTdGncr",
+          "RzLMdfxIioumpsxjnAec6JIdnsg"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "LrFNdxsoJoYcwVx7hcfcATKJndh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "(m6i.xlarge) * 4",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HiOwdpLsfoFWu5xTfzmcoilunHJ"
+      },
+      {
+        "block_id": "XThtdf4c7obmPax0lUac8eYyn2b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "(m6i.2xlarge) * 4",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HiOwdpLsfoFWu5xTfzmcoilunHJ"
+      },
+      {
+        "block_id": "KNO3dzWXSoGWt4x7b5YcUI2Bnuh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "(m6i.8xlarge) * 1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HiOwdpLsfoFWu5xTfzmcoilunHJ"
+      },
+      {
+        "block_id": "VvyXdpdhEoJQkFxbaC1cLTdGncr",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "(m6id.8xlarge) * 1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HiOwdpLsfoFWu5xTfzmcoilunHJ"
+      },
+      {
+        "block_id": "RzLMdfxIioumpsxjnAec6JIdnsg",
+        "block_type": 2,
+        "parent_id": "HiOwdpLsfoFWu5xTfzmcoilunHJ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Total",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": 112 vCPUs, 448 GiB",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DygudAI2eoJqSExwDUrcswZGnSh",
+        "block_type": 32,
+        "children": [
+          "Hya9dEJS4orNKAxHEuEc6hmenXg"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Hya9dEJS4orNKAxHEuEc6hmenXg",
+        "block_type": 2,
+        "parent_id": "DygudAI2eoJqSExwDUrcswZGnSh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Object Storage",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TKldd9UTBomOPXxqfqec8qBWnBc",
+        "block_type": 32,
+        "children": [
+          "D5vjdDGL5oSFFCxCk5icpBvBn0b"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "D5vjdDGL5oSFFCxCk5icpBvBn0b",
+        "block_type": 2,
+        "parent_id": "TKldd9UTBomOPXxqfqec8qBWnBc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "S3",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XaR6d0AlYoWUJfxgm2ecfPbxnNe",
+        "block_type": 32,
+        "children": [
+          "SmhtddWHsoQwSixjbgbcGr62nlg"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SmhtddWHsoQwSixjbgbcGr62nlg",
+        "block_type": 2,
+        "parent_id": "XaR6d0AlYoWUJfxgm2ecfPbxnNe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2 buckets",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KF3cdP2ADo6xVWxbetCcb4tbnrf",
+        "block_type": 32,
+        "children": [
+          "YsdAdXBTloxpXbxl8b2csBU5n8g"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "YsdAdXBTloxpXbxl8b2csBU5n8g",
+        "block_type": 2,
+        "parent_id": "KF3cdP2ADo6xVWxbetCcb4tbnrf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Block Storage",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TGMudowR8omXtYxwqCAcaR4On5s",
+        "block_type": 32,
+        "children": [
+          "EHAvdpXnRoY4HgxMaMHcCAcRn5f"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "EHAvdpXnRoY4HgxMaMHcCAcRn5f",
+        "block_type": 2,
+        "parent_id": "TGMudowR8omXtYxwqCAcaR4On5s",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EBS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NpazdeIYcojBA8xSMlxcEBLkn8g",
+        "block_type": 32,
+        "children": [
+          "QM8QdoJYHoWxmUx2jN5cAiBAnqD"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QM8QdoJYHoWxmUx2jN5cAiBAnqD",
+        "block_type": 2,
+        "parent_id": "NpazdeIYcojBA8xSMlxcEBLkn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 TB +",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XxzfdvVUsoX1DexquA4cSgnAn8c",
+        "block_type": 32,
+        "children": [
+          "Jm54dWBhOow6crxQWQdcprtwnQD"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Jm54dWBhOow6crxQWQdcprtwnQD",
+        "block_type": 2,
+        "parent_id": "XxzfdvVUsoX1DexquA4cSgnAn8c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Public IP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BIYjdL3xzobBBlxvOUAcL8CjnDv",
+        "block_type": 32,
+        "children": [
+          "K2aKdAokXofD3Vx8g7ucvExbnac"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "K2aKdAokXofD3Vx8g7ucvExbnac",
+        "block_type": 2,
+        "parent_id": "BIYjdL3xzobBBlxvOUAcL8CjnDv",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EIP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FeA0dD4Umo28gkxkC8LcQ2WdnPg",
+        "block_type": 32,
+        "children": [
+          "XAOgdSIO6o5he4xKiE6capDVn3f"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "XAOgdSIO6o5he4xKiE6capDVn3f",
+        "block_type": 2,
+        "parent_id": "FeA0dD4Umo28gkxkC8LcQ2WdnPg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LndPdpaPYof35MxnloEcSM2Nnge",
+        "block_type": 32,
+        "children": [
+          "PM3hdy3zxoGIc2xvCT8ct7rinZg"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PM3hdy3zxoGIc2xvCT8ct7rinZg",
+        "block_type": 2,
+        "parent_id": "LndPdpaPYof35MxnloEcSM2Nnge",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Private Network",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FfJ7dS5sGobyXIxPHCzcaYfYnEg",
+        "block_type": 32,
+        "children": [
+          "Jz50d96psoaVdAxIjhicOAESnIe",
+          "Xhl3dz0HDoUvjCxhqV6cy7fun9g"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Jz50d96psoaVdAxIjhicOAESnIe",
+        "block_type": 2,
+        "parent_id": "FfJ7dS5sGobyXIxPHCzcaYfYnEg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "VPC",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Xhl3dz0HDoUvjCxhqV6cy7fun9g",
+        "block_type": 2,
+        "parent_id": "FfJ7dS5sGobyXIxPHCzcaYfYnEg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Q6Z7dRdG1oPlRVx1y25c54uJnXd",
+        "block_type": 32,
+        "children": [
+          "CJ35dTpryoHcxixeE53chbrangc"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CJ35dTpryoHcxixeE53chbrangc",
+        "block_type": 2,
+        "parent_id": "Q6Z7dRdG1oPlRVx1y25c54uJnXd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GnlCdhiXnodAaCx2qMzc2bRMnrf",
+        "block_type": 32,
+        "children": [
+          "VOevdL9p4o4VSdxVKoJchsqwnOe"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "VOevdL9p4o4VSdxVKoJchsqwnOe",
+        "block_type": 2,
+        "parent_id": "GnlCdhiXnodAaCx2qMzc2bRMnrf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Network Channel",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EBrodbOYco0nzDx0NJzci0ptn1p",
+        "block_type": 32,
+        "children": [
+          "A7NRd6umGoXoerxanp9clewon3b"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "A7NRd6umGoXoerxanp9clewon3b",
+        "block_type": 2,
+        "parent_id": "EBrodbOYco0nzDx0NJzci0ptn1p",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PrivateLink",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YxcOdh3kBobpNAx2d29cLtKYn1e",
+        "block_type": 32,
+        "children": [
+          "Tw7adOiiaofKtEx05Ltcw81Ynqg"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Tw7adOiiaofKtEx05Ltcw81Ynqg",
+        "block_type": 2,
+        "parent_id": "YxcOdh3kBobpNAx2d29cLtKYn1e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "U1Msdxwy0ofvurxlk1DcWYXjndh",
+        "block_type": 32,
+        "children": [
+          "Gybrd9b3KoPJZjx7RlfcumiAnvc"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Gybrd9b3KoPJZjx7RlfcumiAnvc",
+        "block_type": 2,
+        "parent_id": "U1Msdxwy0ofvurxlk1DcWYXjndh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "K8s Cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZGVudVL73oYcq8xwUPSczfvPnhc",
+        "block_type": 32,
+        "children": [
+          "HuiXdSAJDoHprdx8jZLcIhM2nqd"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "HuiXdSAJDoHprdx8jZLcIhM2nqd",
+        "block_type": 2,
+        "parent_id": "ZGVudVL73oYcq8xwUPSczfvPnhc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EKS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FVVXdAwuXoqt7WxhuKJcMZ04n5g",
+        "block_type": 32,
+        "children": [
+          "SUw9dB2wSoNVwDxzh3ZciSZQnMg"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SUw9dB2wSoNVwDxzh3ZciSZQnMg",
+        "block_type": 2,
+        "parent_id": "FVVXdAwuXoqt7WxhuKJcMZ04n5g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SRrpd8IVyoIVAKxR7ZTcJEcynQf",
+        "block_type": 32,
+        "children": [
+          "CHvkdHfErorm0LxGUj6c3XCtnKb"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CHvkdHfErorm0LxGUj6c3XCtnKb",
+        "block_type": 2,
+        "parent_id": "SRrpd8IVyoIVAKxR7ZTcJEcynQf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "DNS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JeGEdKFzto9r9uxL5vbcHO0hnCe",
+        "block_type": 32,
+        "children": [
+          "Qu6TdReksoyP8Ax9ljlcJFUOnob"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Qu6TdReksoyP8Ax9ljlcJFUOnob",
+        "block_type": 2,
+        "parent_id": "JeGEdKFzto9r9uxL5vbcHO0hnCe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "DNS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Zone",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NHmHdMizpoNuraxPWQqcL55CnTd",
+        "block_type": 32,
+        "children": [
+          "D1Npd6cmHoJAK2xXZIQcRGOVnc1"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "D1Npd6cmHoJAK2xXZIQcRGOVnc1",
+        "block_type": 2,
+        "parent_id": "NHmHdMizpoNuraxPWQqcL55CnTd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AW34dtlotoHQb9xh9OccWwhOnlc",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "IAM permissions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "DKSZdbjRjowLUDxMHmLcVcEYnTb",
+        "block_type": 2,
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Terraform scripts used in activating Zilliz Cloud BYOC require specific ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " policies and permissions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ISaodEl3co2Zgqxurtwc7192nsb",
+        "block_type": 2,
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The table below summarizes the policies and roles Terraform will create for BYOC license activation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DAuWd7rsvoTAZIxUr2qc646NnHf",
+        "block_type": 2,
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the table, the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Terraform Resource Identifier",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column lists the internal names used in Terraform scripts, while the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IAM Policy / Role",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column shows the actual names as they will appear in your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " account.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "block_type": 31,
+        "children": [
+          "LPYAdA8dfoG4eUxyQudcUuREnXg",
+          "Wunjdeb8Lo5sGQxFu4TcLP8onbf",
+          "RUEId43reoES7dxzeYycGYcDn9f",
+          "ZEjJd7g1hoHnqsx9KcJcGAECnDd",
+          "SXwZdEQv9oAMFixOHqgccp50nVd",
+          "EjAbdNlSAopwpqxLPjncNHQtnn8",
+          "MCzidJJd4oPlosxZT48cgHzUnqm",
+          "DvgndvKXGo6YHVx74K1ctFbTnIe",
+          "O5RRdxl5wotqE8xSPCjcRLz4n9d",
+          "LGoQdy2oUoIi1bxSbLqckSV1nlc",
+          "OSHAdq42LoWhXUxXcPZcBISynqd",
+          "VppedHLQxoTv0QxrS8fcOq6hnub",
+          "RlA7df9NHoNsBTxWOAOcth5AnPg",
+          "SODzd720joQq1lxQRqQcArXPnqh",
+          "BiKMdVR24oWxkZxvhhlc3WcqnIg",
+          "CReAdCKMgojZiExtUrQclJE4n3f",
+          "HxVYdJVRSosHw6x1OQ2cUoMPn0c",
+          "BLNhdrsRooZqr3xOuoCcVHoknde",
+          "YbFCdmxANouRGOxjAC2cxCcfnlh",
+          "UrlbdutCRo1iTExXlurcrNvKnDe",
+          "LrWPdZCPFoC8HCxOV79cDUg0nM1",
+          "EBmwdK0BtokoxcxLYqmco3CNnqe",
+          "A2BId0FUhoSK6exUbmjc7Pkfnaf",
+          "Mc1id2ulNozBtkxprDMcv0XBnsc",
+          "JMwSdHmvToAH4DxdOiNc8LFrn0d",
+          "GFgpd4ozvo36zExGsQuczOIZnCc",
+          "T2JzdbFXfopq96xFPOpcsSconie",
+          "G8L0dsNoQoZANPxy2i9cGAfnnHg",
+          "WBsWdNwrEoXctFxr5vxcntllnbd",
+          "Smlxdsr23oxV0xxuHjgcqTi9n5W",
+          "Ah27dtSCAoKGiXxVw8hcfkPMn9g",
+          "LL2fdn4t1olUfGxIdcycCSZknfb",
+          "Tf7sdQLAoo9eE1xihTWcaqMTnZQ",
+          "TfRTd1mqYoVnwQxUGWCcTHfbnod",
+          "SVgHdiHZBo1Y3PxrpCRcPqLvnvg",
+          "FLDSdoPmno9gL4x67nScbgtDnje"
+        ],
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "table": {
+          "cells": [
+            "LPYAdA8dfoG4eUxyQudcUuREnXg",
+            "Wunjdeb8Lo5sGQxFu4TcLP8onbf",
+            "RUEId43reoES7dxzeYycGYcDn9f",
+            "ZEjJd7g1hoHnqsx9KcJcGAECnDd",
+            "SXwZdEQv9oAMFixOHqgccp50nVd",
+            "EjAbdNlSAopwpqxLPjncNHQtnn8",
+            "MCzidJJd4oPlosxZT48cgHzUnqm",
+            "DvgndvKXGo6YHVx74K1ctFbTnIe",
+            "O5RRdxl5wotqE8xSPCjcRLz4n9d",
+            "LGoQdy2oUoIi1bxSbLqckSV1nlc",
+            "OSHAdq42LoWhXUxXcPZcBISynqd",
+            "VppedHLQxoTv0QxrS8fcOq6hnub",
+            "RlA7df9NHoNsBTxWOAOcth5AnPg",
+            "SODzd720joQq1lxQRqQcArXPnqh",
+            "BiKMdVR24oWxkZxvhhlc3WcqnIg",
+            "CReAdCKMgojZiExtUrQclJE4n3f",
+            "HxVYdJVRSosHw6x1OQ2cUoMPn0c",
+            "BLNhdrsRooZqr3xOuoCcVHoknde",
+            "YbFCdmxANouRGOxjAC2cxCcfnlh",
+            "UrlbdutCRo1iTExXlurcrNvKnDe",
+            "LrWPdZCPFoC8HCxOV79cDUg0nM1",
+            "EBmwdK0BtokoxcxLYqmco3CNnqe",
+            "A2BId0FUhoSK6exUbmjc7Pkfnaf",
+            "Mc1id2ulNozBtkxprDMcv0XBnsc",
+            "JMwSdHmvToAH4DxdOiNc8LFrn0d",
+            "GFgpd4ozvo36zExGsQuczOIZnCc",
+            "T2JzdbFXfopq96xFPOpcsSconie",
+            "G8L0dsNoQoZANPxy2i9cGAfnnHg",
+            "WBsWdNwrEoXctFxr5vxcntllnbd",
+            "Smlxdsr23oxV0xxuHjgcqTi9n5W",
+            "Ah27dtSCAoKGiXxVw8hcfkPMn9g",
+            "LL2fdn4t1olUfGxIdcycCSZknfb",
+            "Tf7sdQLAoo9eE1xihTWcaqMTnZQ",
+            "TfRTd1mqYoVnwQxUGWCcTHfbnod",
+            "SVgHdiHZBo1Y3PxrpCRcPqLvnvg",
+            "FLDSdoPmno9gL4x67nScbgtDnje"
+          ],
+          "property": {
+            "column_size": 3,
+            "column_width": [
+              210,
+              143,
+              288
+            ],
+            "header_row": true,
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 12
+          }
+        }
+      },
+      {
+        "block_id": "LPYAdA8dfoG4eUxyQudcUuREnXg",
+        "block_type": 32,
+        "children": [
+          "AUSUdYhBIoUhPyxY7XEcBrEZnTc"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "AUSUdYhBIoUhPyxY7XEcBrEZnTc",
+        "block_type": 2,
+        "parent_id": "LPYAdA8dfoG4eUxyQudcUuREnXg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Terraform Resource Identifier",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Wunjdeb8Lo5sGQxFu4TcLP8onbf",
+        "block_type": 32,
+        "children": [
+          "ByG3dPNH0o5TSLx0X8ycMERYnOg"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ByG3dPNH0o5TSLx0X8ycMERYnOg",
+        "block_type": 2,
+        "parent_id": "Wunjdeb8Lo5sGQxFu4TcLP8onbf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "IAM Policy / Role",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RUEId43reoES7dxzeYycGYcDn9f",
+        "block_type": 32,
+        "children": [
+          "IXHSd8veRo3oaXxYO4BcWcvtneb"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "IXHSd8veRo3oaXxYO4BcWcvtneb",
+        "block_type": 2,
+        "parent_id": "RUEId43reoES7dxzeYycGYcDn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZEjJd7g1hoHnqsx9KcJcGAECnDd",
+        "block_type": 32,
+        "children": [
+          "SY3dd1D4CoA40wxUn4fc49innhg"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SY3dd1D4CoA40wxUn4fc49innhg",
+        "block_type": 2,
+        "parent_id": "ZEjJd7g1hoHnqsx9KcJcGAECnDd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "aws_iam_policy.aws_lb_irsa_policy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SXwZdEQv9oAMFixOHqgccp50nVd",
+        "block_type": 32,
+        "children": [
+          "CqysdWPWwogD32xIVADcymADnIt"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CqysdWPWwogD32xIVADcymADnIt",
+        "block_type": 2,
+        "parent_id": "SXwZdEQv9oAMFixOHqgccp50nVd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz-aws-lb-irsa-policy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EjAbdNlSAopwpqxLPjncNHQtnn8",
+        "block_type": 32,
+        "children": [
+          "BmwaduuvYoJs9SxMGwkcI0nDnOh"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "BmwaduuvYoJs9SxMGwkcI0nDnOh",
+        "block_type": 2,
+        "parent_id": "EjAbdNlSAopwpqxLPjncNHQtnn8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manages various aspects of ELB, including creation, modification, and deletion of load balancers and target groups, as well as associated security and tagging permissions, with specific conditions applied to certain actions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MCzidJJd4oPlosxZT48cgHzUnqm",
+        "block_type": 32,
+        "children": [
+          "MmqvdlgXDoy9aKxH2zIcaCvYnIB"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "MmqvdlgXDoy9aKxH2zIcaCvYnIB",
+        "block_type": 2,
+        "parent_id": "MCzidJJd4oPlosxZT48cgHzUnqm",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "aws_iam_policy.bootstrap_policy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DvgndvKXGo6YHVx74K1ctFbTnIe",
+        "block_type": 32,
+        "children": [
+          "P4rLd2iB7oy3ioxP1zCcnburnUS"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "P4rLd2iB7oy3ioxP1zCcnburnUS",
+        "block_type": 2,
+        "parent_id": "DvgndvKXGo6YHVx74K1ctFbTnIe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz-bootstrap-policy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O5RRdxl5wotqE8xSPCjcRLz4n9d",
+        "block_type": 32,
+        "children": [
+          "MAW8duc3CohtFMxxKmOcQzbAnxf"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "MAW8duc3CohtFMxxKmOcQzbAnxf",
+        "block_type": 2,
+        "parent_id": "O5RRdxl5wotqE8xSPCjcRLz4n9d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Grants permissions for managing ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " resources including EKS, EC2, S3, and Route 53, with specific restrictions and conditions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LGoQdy2oUoIi1bxSbLqckSV1nlc",
+        "block_type": 32,
+        "children": [
+          "SiNOdRwNOowkA6xSlgkcccsonqg"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SiNOdRwNOowkA6xSlgkcccsonqg",
+        "block_type": 2,
+        "parent_id": "LGoQdy2oUoIi1bxSbLqckSV1nlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "aws_iam_policy.cluster_autoscaler_irsa_policy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OSHAdq42LoWhXUxXcPZcBISynqd",
+        "block_type": 32,
+        "children": [
+          "NLXQdzE2VoMkKKxRfsuc2kdFn2f"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NLXQdzE2VoMkKKxRfsuc2kdFn2f",
+        "block_type": 2,
+        "parent_id": "OSHAdq42LoWhXUxXcPZcBISynqd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz-ca-irsa-policy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VppedHLQxoTv0QxrS8fcOq6hnub",
+        "block_type": 32,
+        "children": [
+          "G4hNdpphgom6glx91JWc70E0ncc"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "G4hNdpphgom6glx91JWc70E0ncc",
+        "block_type": 2,
+        "parent_id": "VppedHLQxoTv0QxrS8fcOq6hnub",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Allows for managing auto-scaling and EC2 instance operations in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", specifically for scaling and termination actions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RlA7df9NHoNsBTxWOAOcth5AnPg",
+        "block_type": 32,
+        "children": [
+          "NSeDdjgsio11G8xYyxfclR5Dnph"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NSeDdjgsio11G8xYyxfclR5Dnph",
+        "block_type": 2,
+        "parent_id": "RlA7df9NHoNsBTxWOAOcth5AnPg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "aws_iam_policy.ebs_csi_irsa_policy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SODzd720joQq1lxQRqQcArXPnqh",
+        "block_type": 32,
+        "children": [
+          "TnJWddrbpouKfGxxrDoc1Ob8nYg"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "TnJWddrbpouKfGxxrDoc1Ob8nYg",
+        "block_type": 2,
+        "parent_id": "SODzd720joQq1lxQRqQcArXPnqh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz-ebs-csi-irsa-policy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BiKMdVR24oWxkZxvhhlc3WcqnIg",
+        "block_type": 32,
+        "children": [
+          "GMeqdrl7RoVOXrx4uEYcRyzRnrc"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "GMeqdrl7RoVOXrx4uEYcRyzRnrc",
+        "block_type": 2,
+        "parent_id": "BiKMdVR24oWxkZxvhhlc3WcqnIg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manages EC2 volumes and snapshots, including creation, attachment, detachment, and deletion, with specific conditions for tagging and cluster association.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CReAdCKMgojZiExtUrQclJE4n3f",
+        "block_type": 32,
+        "children": [
+          "FmaCd5nH3oFgZ2x1kl3czcm9nsf"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "FmaCd5nH3oFgZ2x1kl3czcm9nsf",
+        "block_type": 2,
+        "parent_id": "CReAdCKMgojZiExtUrQclJE4n3f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "aws_iam_policy.management_policy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HxVYdJVRSosHw6x1OQ2cUoMPn0c",
+        "block_type": 32,
+        "children": [
+          "JVxYdzOB6o2Qw0xOnNPcOtJZnGh"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "JVxYdzOB6o2Qw0xOnNPcOtJZnGh",
+        "block_type": 2,
+        "parent_id": "HxVYdJVRSosHw6x1OQ2cUoMPn0c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz-management-policy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BLNhdrsRooZqr3xOuoCcVHoknde",
+        "block_type": 32,
+        "children": [
+          "Pf8ldX7M3o9Haixst49cxLJ9nPd"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Pf8ldX7M3o9Haixst49cxLJ9nPd",
+        "block_type": 2,
+        "parent_id": "BLNhdrsRooZqr3xOuoCcVHoknde",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Allows for managing S3 buckets and objects, creating and tagging IAM policies, scaling EKS node groups, and handling various Elastic Load Balancing (ELB) resources, with restrictions based on specific resource tags and paths.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YbFCdmxANouRGOxjAC2cxCcfnlh",
+        "block_type": 32,
+        "children": [
+          "PDbhdMdSMokKbtxHSVRcw8ZFnB0"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PDbhdMdSMokKbtxHSVRcw8ZFnB0",
+        "block_type": 2,
+        "parent_id": "YbFCdmxANouRGOxjAC2cxCcfnlh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "aws_iam_policy.permission_boundary",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UrlbdutCRo1iTExXlurcrNvKnDe",
+        "block_type": 32,
+        "children": [
+          "ILuudgNAIoe84wxu19UchuMEnug"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ILuudgNAIoe84wxu19UchuMEnug",
+        "block_type": 2,
+        "parent_id": "UrlbdutCRo1iTExXlurcrNvKnDe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz-permission-boundary-policy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LrWPdZCPFoC8HCxOV79cDUg0nM1",
+        "block_type": 32,
+        "children": [
+          "Hlhjd7rUooN5vIxbpDFcAGa0nab"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Hlhjd7rUooN5vIxbpDFcAGa0nab",
+        "block_type": 2,
+        "parent_id": "LrWPdZCPFoC8HCxOV79cDUg0nM1",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Allows actions across various AWS services like ACM, AutoScaling, EC2, EKS, ELB, IAM, Logs, Route 53, S3, and SSM.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EBmwdK0BtokoxcxLYqmco3CNnqe",
+        "block_type": 32,
+        "children": [
+          "KKTxdgraboOjegxyZJucT4lgnJg"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "KKTxdgraboOjegxyZJucT4lgnJg",
+        "block_type": 2,
+        "parent_id": "EBmwdK0BtokoxcxLYqmco3CNnqe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "aws_iam_policy.zilliz_business_irsa_policy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A2BId0FUhoSK6exUbmjc7Pkfnaf",
+        "block_type": 32,
+        "children": [
+          "CFSwdIbCvoGQyCxy92BcGEaLnId"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CFSwdIbCvoGQyCxy92BcGEaLnId",
+        "block_type": 2,
+        "parent_id": "A2BId0FUhoSK6exUbmjc7Pkfnaf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz-business-irsa-policy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Mc1id2ulNozBtkxprDMcv0XBnsc",
+        "block_type": 32,
+        "children": [
+          "Sff1dcKpto4Jgsx322TcVh7nnAd"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Sff1dcKpto4Jgsx322TcVh7nnAd",
+        "block_type": 2,
+        "parent_id": "Mc1id2ulNozBtkxprDMcv0XBnsc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Allows specific S3 actions, such as reading, writing, listing, and deleting objects in buckets prefixed with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "zilliz-byoc",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", reflecting targeted S3 access for business-related operations.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JMwSdHmvToAH4DxdOiNc8LFrn0d",
+        "block_type": 32,
+        "children": [
+          "FFkWdvY4ZovFbzxHqP9crDOpnUd"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "FFkWdvY4ZovFbzxHqP9crDOpnUd",
+        "block_type": 2,
+        "parent_id": "JMwSdHmvToAH4DxdOiNc8LFrn0d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "aws_iam_role.bootstrap_role",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GFgpd4ozvo36zExGsQuczOIZnCc",
+        "block_type": 32,
+        "children": [
+          "KiuOdlIqAo9mFmxsSa2cimGrnkd"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "KiuOdlIqAo9mFmxsSa2cimGrnkd",
+        "block_type": 2,
+        "parent_id": "GFgpd4ozvo36zExGsQuczOIZnCc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz-bootstrap-role",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T2JzdbFXfopq96xFPOpcsSconie",
+        "block_type": 32,
+        "children": [
+          "LSzsdqE4Mo3W6TxdkH9crARYnDf"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "LSzsdqE4Mo3W6TxdkH9crARYnDf",
+        "block_type": 2,
+        "parent_id": "T2JzdbFXfopq96xFPOpcsSconie",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Secures role assumption with specific conditions, including external ID verification, primarily intended for controlled access within the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "zilliz-byoc",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " framework.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G8L0dsNoQoZANPxy2i9cGAfnnHg",
+        "block_type": 32,
+        "children": [
+          "OnpwdYgpIoaej5xSqlEcNeBpn5b"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OnpwdYgpIoaej5xSqlEcNeBpn5b",
+        "block_type": 2,
+        "parent_id": "G8L0dsNoQoZANPxy2i9cGAfnnHg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "aws_iam_role.management_role",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WBsWdNwrEoXctFxr5vxcntllnbd",
+        "block_type": 32,
+        "children": [
+          "LV7YdCk7cop6vSxuQupc9JlDnwk"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "LV7YdCk7cop6vSxuQupc9JlDnwk",
+        "block_type": 2,
+        "parent_id": "WBsWdNwrEoXctFxr5vxcntllnbd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz-management-role",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Smlxdsr23oxV0xxuHjgcqTi9n5W",
+        "block_type": 32,
+        "children": [
+          "X4esdB74GoNzMPxhHnGcPblHnuf"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "X4esdB74GoNzMPxhHnGcPblHnuf",
+        "block_type": 2,
+        "parent_id": "Smlxdsr23oxV0xxuHjgcqTi9n5W",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Secures role assumption, featuring conditions like external ID verification, and is specifically geared for management tasks within the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "zilliz-byoc",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " framework.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ah27dtSCAoKGiXxVw8hcfkPMn9g",
+        "block_type": 32,
+        "children": [
+          "IpLVdl28zoN9PwxMj4TcUdNWnXg",
+          "BRErde8Y6oJZZtxO3hscFVo3nEb"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "IpLVdl28zoN9PwxMj4TcUdNWnXg",
+        "block_type": 2,
+        "parent_id": "Ah27dtSCAoKGiXxVw8hcfkPMn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "aws_iam_role_policy_attachment.bootstrap_attachment",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BRErde8Y6oJZZtxO3hscFVo3nEb",
+        "block_type": 2,
+        "parent_id": "Ah27dtSCAoKGiXxVw8hcfkPMn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LL2fdn4t1olUfGxIdcycCSZknfb",
+        "block_type": 32,
+        "children": [
+          "RINkdn9vQorBmgxbK5gcy6Vunue"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "RINkdn9vQorBmgxbK5gcy6Vunue",
+        "block_type": 2,
+        "parent_id": "LL2fdn4t1olUfGxIdcycCSZknfb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz-bootstrap-role",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Tf7sdQLAoo9eE1xihTWcaqMTnZQ",
+        "block_type": 32,
+        "children": [
+          "YX1SdB1ALoR3jHxPVIVcxXn4n4b"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "YX1SdB1ALoR3jHxPVIVcxXn4n4b",
+        "block_type": 2,
+        "parent_id": "Tf7sdQLAoo9eE1xihTWcaqMTnZQ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Attaches a specific policy to the role ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "zilliz-bootstrap-role",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", enabling the assignment of predefined permissions to this role.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TfRTd1mqYoVnwQxUGWCcTHfbnod",
+        "block_type": 32,
+        "children": [
+          "Mx6Qd3103oXdFDxMySacjAcKn0g"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Mx6Qd3103oXdFDxMySacjAcKn0g",
+        "block_type": 2,
+        "parent_id": "TfRTd1mqYoVnwQxUGWCcTHfbnod",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "aws_iam_role_policy_attachment.management_attachment",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SVgHdiHZBo1Y3PxrpCRcPqLvnvg",
+        "block_type": 32,
+        "children": [
+          "TJUgdYtcXo7cYxxa4yMcfY9Xnuh"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "TJUgdYtcXo7cYxxa4yMcfY9Xnuh",
+        "block_type": 2,
+        "parent_id": "SVgHdiHZBo1Y3PxrpCRcPqLvnvg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz-management-role",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FLDSdoPmno9gL4x67nScbgtDnje",
+        "block_type": 32,
+        "children": [
+          "BwfedOkeaoDxhHx2822cKfT0nRh"
+        ],
+        "parent_id": "EhyfdG8bxowVUYxhq2FcNbuOndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "BwfedOkeaoDxhHx2822cKfT0nRh",
+        "block_type": 2,
+        "parent_id": "FLDSdoPmno9gL4x67nScbgtDnje",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Attaches a specific policy to the role ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "zilliz-management-role",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", facilitating the application of predefined permissions to this role.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QkgHdYr3IopJ1Lx4tQkcRAOOnyb",
+        "block_type": 2,
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For a comprehensive understanding of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " policies and permissions, visit ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Policies and Permissions in IAM",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.aws.amazon.com%2FIAM%2Flatest%2FUserGuide%2Faccess_policies.html"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "S63Gdkq40oMvszxoxUoc5meNn8d",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Next steps: Activating your BYOC license",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "PAB7drLYRoo7qmxmpJEcyBqpnRh",
+        "block_type": 2,
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once you have met all the prerequisites outlined above, you are ready to proceed with the steps detailed in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Activate Your License",
+                "token": "X08WweRsXiz0MPk4DIbcXYaInjc",
+                "url": "https://zilliverse.feishu.cn/wiki/X08WweRsXiz0MPk4DIbcXYaInjc"
+              }
+            },
+            {
+              "text_run": {
+                "content": " to begin your activation process. This will guide you through the specific actions required to activate and utilize your BYOC license on the Zilliz Cloud platform.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 180
+  }
+}

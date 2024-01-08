@@ -10,10 +10,14 @@ class larkUtils {
     }
 
     determine_file_path(token) {
-        const source = this.__fetch_doc_source('node_token', token)
-        this.__iterate_path(source.parent_node_token)
+        try {
+            const source = this.__fetch_doc_source('node_token', token)
+            this.__iterate_path(source.parent_node_token)
 
-        return this.file_path
+            return this.file_path
+        } catch (error) {
+            return ""
+        }
     }
 
     post_process_file_paths() {

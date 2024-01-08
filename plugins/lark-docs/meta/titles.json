@@ -161,5 +161,6 @@
     "Projects & Organizations": "projects-and-organizations",
     "Pipelines": "pipelines",
     "Create Pipelines": "create-pipelines",
-    "Import Data": "import-data"
+    "Import Data": "import-data",
+    "Start with BYOC": "start-with-byoc"
 }

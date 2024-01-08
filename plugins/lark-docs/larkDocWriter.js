@@ -424,15 +424,15 @@ class larkDocWriter {
         let front_matter = this.__front_matters(slug, beta, notebook, token, sidebar_position)
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.target)
-        if (!this.sdks) {
-            this.sdks = await this.__fetch_sdk_versions()
-        }
+        // if (!this.sdks) {
+        //     this.sdks = await this.__fetch_sdk_versions()
+        // }
 
-        markdown = markdown.replace(/{versions.python.version}/g, this.sdks.python.version)
-        markdown = markdown.replace(/{versions.java.version}/g, this.sdks.java.version)
-        markdown = markdown.replace(/{versions.node.version}/g, this.sdks.node.version)
-        markdown = markdown.replace(/{versions.go.version}/g, this.sdks.go.version)
-        markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/<br>/g, '<br/>');
+        // markdown = markdown.replace(/{versions.python.version}/g, this.sdks.python.version)
+        // markdown = markdown.replace(/{versions.java.version}/g, this.sdks.java.version)
+        // markdown = markdown.replace(/{versions.node.version}/g, this.sdks.node.version)
+        // markdown = markdown.replace(/{versions.go.version}/g, this.sdks.go.version)
+        // markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/<br>/g, '<br/>');
 
         let tabs = markdown.split('\n').filter(line => {
             return line.trim().startsWith("<Tab")

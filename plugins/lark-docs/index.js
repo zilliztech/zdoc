@@ -11,6 +11,7 @@ module.exports = function (context, options) {
             cli
                 .command('fetch-lark-docs')
                 .option('-doc, --docTitle <docTitle>', 'Title of a child Lark doc')
+                .option('-token, --docToken <docToken>', 'Token of a child Lark doc')
                 .option('-tar, --pubTarget <pubTarget>', 'Target of the doc')
                 .option('-faq, --faq', 'Generate FAQ pages')
                 .option('-skipS, --skipSourceDown', 'Skip fetching document sources')
@@ -36,6 +37,11 @@ module.exports = function (context, options) {
                             await writer.write_docs(outputDir, options.root)
 
                             utils.post_process_file_paths()
+                        }
+
+                        if (opts.docToken !== undefined) {
+                            const scraper = new docScraper(options.root, options.base)
+                            await scraper.fetch(recursive=false, page_token=opts.docToken)
                         }
     
                         if (opts.docTitle !== undefined) {
