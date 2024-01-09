@@ -19,27 +19,19 @@ Ensure you have an AWS account and Zilliz Cloud account, allocate necessary clou
 
 ## Procedure{#procedure}
 
-### Step 1: Obtain license for activation{#step-1-obtain-license-for-activation}
+### Step 1: Enter BYOC organization to obtain external ID{#step-1-enter-byoc-organization-to-obtain-external-id}
 
-After subscribing to a BYOC license, you will receive a welcome email containing your subscription details, including your license ID, core size, and validity period.
+Activating a BYOC license involves authorizing Zilliz Cloud to create necessary resources in your AWS account. This authorization requires an external ID for secure communication and [role assumption](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) between AWS and Zilliz Cloud. For more information about external IDs, refer to [AWS official documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html).
 
-1. **View License Details**: Verify the details in your welcome email.
-
-1. **Start Activation**:
-
-    1. Access the Zilliz Cloud console by clicking the **Activate Cloud Region** button in your welcome email.
-
-    1. A default organization, labeled **BYOC**, will be initialized in the console.
-
-    1. To activate your cloud region, ensure you are the [Organization Owner](./a-panorama-view#organization-roles) within this default organization.
+Obtain the external ID from the Zilliz Cloud console and keep it for [step 2](./activate-your-cloud#step-2-acquire-external-arns).
 
 ![activate-your-cloud-1](/byoc/activate-your-cloud-1.png)
 
 ### Step 2: Acquire external ARNs{#step-2-acquire-external-arns}
 
-[Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) are pivotal in linking your AWS resources to the Zilliz Cloud BYOC license. ARNs uniquely identify AWS resources, providing a reference that allows Zilliz Cloud to securely access and manage these resources during activation. This step is critical to ensure a seamless integration between your AWS environment and the Zilliz Cloud platform.
+[Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) play a crucial role in linking your AWS resources to the Zilliz Cloud BYOC license. They uniquely identify AWS resources and enable secure access and management by Zilliz Cloud during activation.
 
-To get your external ARNs:
+To acquire your external ARNs:
 
 1. Download and decompress the configuration package:
 
@@ -54,9 +46,7 @@ To get your external ARNs:
 
     - **aws_access_key** and **aws_secret_key**: The credentials required to run your project. Enter the access key and secret key you created in the [Prerequisites](./byoc-prerequisites#create-temporary-security-credentials) topic.
 
-    - **external_id**: The external ID linked to your BYOC organization in Zilliz Cloud. This external ID is key for secure communication and [role assumption](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) between AWS and Zilliz Cloud. For more information about external IDs, refer to [AWS official documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html). You can obtain the external ID in the Zilliz Cloud console.
-
-        ![activate-your-cloud-2](/byoc/activate-your-cloud-2.png)
+    - **external_id**: The external ID linked to your BYOC organization in Zilliz Cloud. This is the ID you obtained in [step 1](./activate-your-cloud#step-1-enter-byoc-organization-to-obtain-external-id).
 
 1. Initialize the Terraform configuration. This step prepares Terraform to manage AWS resources by downloading necessary tools to the `.terraform/` directory.
 
@@ -108,7 +98,9 @@ With your ARNs in hand, proceed to activate your cloud region in the Zilliz Clou
 
 Allow about 30 minutes for the activation process to complete. You can review the resources created under your AWS account. For a list of necessary resources, refer to [Understand required resources and permissions](./byoc-prerequisites#understand-required-resources-and-permissions).
 
-Once complete, your cloud region will become active, and you can start [deploying a Zilliz Cloud cluster](./undefined) on your infrastructure.
+Once complete, go to the **License** page to confirm that your license details are accurate. Then, proceed to [deploy a Zilliz Cloud cluster](./undefined) on your infrastructure.
+
+![confirm-activation](/byoc/confirm-activation.png)
 
 ## Related topics{#related-topics}
 

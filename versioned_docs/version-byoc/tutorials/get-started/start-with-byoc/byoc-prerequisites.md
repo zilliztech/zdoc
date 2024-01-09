@@ -15,9 +15,15 @@ This topic details the prerequisites required for activating the Zilliz Cloud Br
 
 ## Architecture{#architecture}
 
-The following diagram shows the architecture for BYOC deployment. The control plane is hosted within Zilliz Cloud. After obtaining authorization from the customer, Zilliz Cloud establishes a secure connection via Private Link to access the customer's VPC. It then creates cloud resources and deploys the BYOC components under the user's cloud account.
+The following diagram shows the architecture for BYOC deployment. The control plane is hosted within Zilliz Cloud. With necessary authorization, Zilliz Cloud establishes a secure connection via Private Link to access the customer's VPC. It then creates cloud resources and deploys the BYOC components under the customer's cloud account.
 
 ![byoc_architecture_global](/byoc/byoc_architecture_global.png)
+
+## Verify subscription via welcome email{#verify-subscription-via-welcome-email}
+
+Upon subscribing to a BYOC license, you will receive a welcome email with your subscription details, including your license ID, core size, and validity period. Verify these details for accuracy before proceeding.
+
+![welcome-email](/byoc/welcome-email.png)
 
 ## Set up your environment{#set-up-your-environment}
 
@@ -53,7 +59,7 @@ Activation requires two accounts:
 
 1. **AWS Account**: Your Zilliz Cloud BYOC deployment will be hosted within your AWS account. If you do not have an AWS account, create one following the [AWS Account Creation Guide](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html). The Zilliz Cloud BYOC solution currently supports the AWS **us-west-2** region. For other cloud providers or regions, contact [our sales team](https://zilliz.com/contact-sales).
 
-1. **Zilliz Cloud Account**: Activation necessitates a Zilliz Cloud account. If you are not registered, sign up on the [Zilliz Cloud Account Registration Page](https://cloud.zilliz.com/signup).
+1. **Zilliz Cloud Account**: Use the account you provided to Zilliz Cloud technical support during the contract signing process.
 
 ## Create temporary security credentials{#create-temporary-security-credentials}
 

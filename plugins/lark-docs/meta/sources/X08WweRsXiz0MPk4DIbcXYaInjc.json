@@ -5,7 +5,7 @@
   "node_token": "X08WweRsXiz0MPk4DIbcXYaInjc",
   "node_type": "origin",
   "obj_create_time": "1699850504",
-  "obj_edit_time": "1704700285",
+  "obj_edit_time": "1704795865",
   "obj_token": "Gf1XdIrKxoavIjxqtRHcvC8MnUg",
   "obj_type": "docx",
   "origin_node_token": "X08WweRsXiz0MPk4DIbcXYaInjc",
@@ -26,9 +26,8 @@
           "StC0dsRz7oRCksxlNQ8cm1XFnZc",
           "M8aQdsA7koch2SxuWfrcNULjnEf",
           "LzeKdeMPsoVOxexNWQLcJGHfnmd",
-          "JuyIdHfa5oMo3Zx9NXMcY0SSnjb",
-          "PSjxdjwhVoyuHJxIj3vclnyvn7g",
-          "Ij4md1valokixhxoKc2c8dH8nrh",
+          "TVfPdY7Eqoc5BMxTm1bcXyv7nfb",
+          "DXe0diw5uoUaiPxkUdccG2iwnDg",
           "SRbEdS7sZoF5S8xHSXdc5NZknEd",
           "EpdldemqZoLzcXxe3cQc5242nze",
           "MHlIdmTRjolEtbxE19kcNhIYnxc",
@@ -48,6 +47,7 @@
           "R25md75TloumgEx87i9c8aTPnXe",
           "NkGNdS1Keor6GOxEAA4cueEznTc",
           "EY9rdJZhaovKTPx0CaKc61PanEb",
+          "YYoBdFsRMovMEjxp16fcutdanZc",
           "AMNGdD50qoamEtxqUGAciBQLnre",
           "Vw7qdZpPvoZmzdx6ifTc8uUanPg",
           "RU43dgRSmocL5wxqgekcy6dFnJd",
@@ -245,7 +245,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Step 1: Obtain license for activation",
+                "content": "Step 1: Enter BYOC organization to obtain external ID",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -264,18 +264,14 @@
         "parent_id": "Gf1XdIrKxoavIjxqtRHcvC8MnUg"
       },
       {
-        "block_id": "JuyIdHfa5oMo3Zx9NXMcY0SSnjb",
+        "block_id": "TVfPdY7Eqoc5BMxTm1bcXyv7nfb",
         "block_type": 2,
-        "comment_ids": [
-          "7311882408446672899",
-          "7303723770328432644"
-        ],
         "parent_id": "Gf1XdIrKxoavIjxqtRHcvC8MnUg",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "After subscribing to a ",
+                "content": "Activating a BYOC license involves authorizing Zilliz Cloud to create necessary resources in your AWS account. This authorization requires an external ID for secure communication and ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -287,14 +283,14 @@
             },
             {
               "text_run": {
-                "content": "BYOC ",
+                "content": "role assumption",
                 "text_element_style": {
                   "bold": false,
-                  "comment_ids": [
-                    "7303723770328432644"
-                  ],
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.aws.amazon.com%2FSTS%2Flatest%2FAPIReference%2FAPI_AssumeRole.html"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -302,19 +298,7 @@
             },
             {
               "text_run": {
-                "content": "license, you will receive a welcome email containing",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " your ",
+                "content": " between AWS and Zilliz Cloud. For more information about external IDs, refer to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -326,11 +310,14 @@
             },
             {
               "text_run": {
-                "content": "subscription details, including your license ID, core size, and ",
+                "content": "AWS official documentation",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.aws.amazon.com%2FIAM%2Flatest%2FUserGuide%2Fid_roles_create_for-user_externalid.html"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -338,12 +325,9 @@
             },
             {
               "text_run": {
-                "content": "validity period.",
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
-                  "comment_ids": [
-                    "7311882408446672899"
-                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -359,92 +343,14 @@
         }
       },
       {
-        "block_id": "PSjxdjwhVoyuHJxIj3vclnyvn7g",
-        "block_type": 13,
-        "ordered": {
+        "block_id": "DXe0diw5uoUaiPxkUdccG2iwnDg",
+        "block_type": 2,
+        "parent_id": "Gf1XdIrKxoavIjxqtRHcvC8MnUg",
+        "text": {
           "elements": [
             {
               "text_run": {
-                "content": "View License Details",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": Verify the details in your welcome email.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "Gf1XdIrKxoavIjxqtRHcvC8MnUg"
-      },
-      {
-        "block_id": "Ij4md1valokixhxoKc2c8dH8nrh",
-        "block_type": 13,
-        "children": [
-          "XLJ7d666xoppL9xqKdzcrgkXnmd",
-          "IV8Jdmorao4XzrxuvpmczdOTnuc",
-          "MYPvdmw9eogmYJxAJ26coj0onHe"
-        ],
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Start Activation",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ":",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "Gf1XdIrKxoavIjxqtRHcvC8MnUg"
-      },
-      {
-        "block_id": "XLJ7d666xoppL9xqKdzcrgkXnmd",
-        "block_type": 13,
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Access the Zilliz Cloud console by clicking the ",
+                "content": "Obtain the external ID from the Zilliz Cloud console and keep it for ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -456,111 +362,13 @@
             },
             {
               "text_run": {
-                "content": "Activate Cloud Region",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " button in your welcome email.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "Ij4md1valokixhxoKc2c8dH8nrh"
-      },
-      {
-        "block_id": "IV8Jdmorao4XzrxuvpmczdOTnuc",
-        "block_type": 13,
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "A default organization, labeled ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "BYOC",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ", will be initialized in the console.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "Ij4md1valokixhxoKc2c8dH8nrh"
-      },
-      {
-        "block_id": "MYPvdmw9eogmYJxAJ26coj0onHe",
-        "block_type": 13,
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "To activate your cloud region, ensure you are the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Organization Owner",
+                "content": "step 2",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FX08WweRsXiz0MPk4DIbcXYaInjc%23EpdldemqZoLzcXxe3cQc5242nze"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -569,7 +377,7 @@
             },
             {
               "text_run": {
-                "content": " within this default organization.",
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -584,8 +392,7 @@
             "align": 1,
             "folded": false
           }
-        },
-        "parent_id": "Ij4md1valokixhxoKc2c8dH8nrh"
+        }
       },
       {
         "block_id": "SRbEdS7sZoF5S8xHSXdc5NZknEd",
@@ -646,7 +453,7 @@
             },
             {
               "text_run": {
-                "content": " are pivotal in linking your ",
+                "content": " play a crucial role in linking your ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -670,7 +477,7 @@
             },
             {
               "text_run": {
-                "content": " resources to the Zilliz Cloud BYOC license. ARNs uniquely identify AWS resources, providing a reference that allows Zilliz Cloud to securely access and manage these resources during activation. This step is critical to ensure a seamless integration between your AWS environment and the Zilliz Cloud platform.",
+                "content": " resources to the Zilliz Cloud BYOC license. They uniquely identify AWS resources and enable secure access and management by Zilliz Cloud during activation.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -695,7 +502,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "To get your external ARNs:",
+                "content": "To acquire your external ARNs:",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1071,7 +878,7 @@
             },
             {
               "text_run": {
-                "content": ": The external ID linked to your BYOC organization in Zilliz Cloud. This external ID is key for secure communication and ",
+                "content": ": The external ID linked to your BYOC organization in Zilliz Cloud. This is the ID you obtained in ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1083,13 +890,13 @@
             },
             {
               "text_run": {
-                "content": "role assumption",
+                "content": "step 1",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fdocs.aws.amazon.com%2FSTS%2Flatest%2FAPIReference%2FAPI_AssumeRole.html"
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FX08WweRsXiz0MPk4DIbcXYaInjc%23LzeKdeMPsoVOxexNWQLcJGHfnmd"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -1098,58 +905,7 @@
             },
             {
               "text_run": {
-                "content": " between ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "AWS",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " and Zilliz Cloud. For more information about external IDs, refer to ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "AWS official documentation",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fdocs.aws.amazon.com%2FIAM%2Flatest%2FUserGuide%2Fid_roles_create_for-user_externalid.html"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ". You can obtain the external ID in the Zilliz Cloud console.",
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1165,21 +921,7 @@
             "folded": false
           }
         },
-        "children": [
-          "Qp94dEut2oOzmLxzS57cXaP4n5f"
-        ],
         "parent_id": "VmECd1qgboJ0WNxzfe7cvj79ntf"
-      },
-      {
-        "block_id": "Qp94dEut2oOzmLxzS57cXaP4n5f",
-        "block_type": 26,
-        "iframe": {
-          "component": {
-            "iframe_type": 8,
-            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D20570-683%26mode%3Ddesign%26t%3DqILmsGJxkCfnqLgg-4"
-          }
-        },
-        "parent_id": "S40jdsGRIo4uBix6nsbclGnvn3f"
       },
       {
         "block_id": "PX5kdG69OoPV1Dx1yCqcVYYjnsd",
@@ -2002,7 +1744,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Once complete, your cloud region will become active, and you can start ",
+                "content": "Once complete, go to the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2014,7 +1756,31 @@
             },
             {
               "text_run": {
-                "content": "deploying a Zilliz Cloud cluster",
+                "content": "License",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " page to confirm that your license details are accurate. Then, proceed to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "deploy a Zilliz Cloud cluster",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2045,6 +1811,17 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "YYoBdFsRMovMEjxp16fcutdanZc",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D28471-1372%26mode%3Ddesign%26t%3DVn6TMuh3U757W5mN-4"
+          }
+        },
+        "parent_id": "Gf1XdIrKxoavIjxqtRHcvC8MnUg"
       },
       {
         "block_id": "AMNGdD50qoamEtxqUGAciBQLnre",
@@ -2184,6 +1961,6 @@
         "parent_id": "Gf1XdIrKxoavIjxqtRHcvC8MnUg"
       }
     ],
-    "counts": 47
+    "counts": 43
   }
 }

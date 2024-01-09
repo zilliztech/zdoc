@@ -5,7 +5,7 @@
   "node_token": "Bw7dwervZiOLHBk6OuWc3RylnKc",
   "node_type": "origin",
   "obj_create_time": "1704534553",
-  "obj_edit_time": "1704700641",
+  "obj_edit_time": "1704795616",
   "obj_token": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
   "obj_type": "docx",
   "origin_node_token": "Bw7dwervZiOLHBk6OuWc3RylnKc",
@@ -25,6 +25,9 @@
           "JzBAdbNrio7StqxydX9cporvnYf",
           "E8qEd8uKBop5g2xG28scZs89nWc",
           "H8bkdvULaoOwMbx13Nxcoe7vnPX",
+          "XRQGdh7s5oXTNqx8SjRcHLLJnnd",
+          "S1wEd4M6Aoaiu6xeaqpcQoVDnYd",
+          "BJDTdhyfvo05Q0xeUhlcPVWlnDe",
           "U6ApdPUt0oJZbWxAnX1cyhfRn7g",
           "Qs7ddW0ZyojYU9xVw3hcOg9kn0e",
           "Pb6GdFHwlox27nxiD8xcpivwn8e",
@@ -161,7 +164,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The following diagram shows the architecture for BYOC deployment. The control plane is hosted within Zilliz Cloud. After obtaining authorization from the customer, Zilliz Cloud establishes a secure connection via Private Link to access the customer's VPC. It then creates cloud resources and deploys the BYOC components under the user's cloud account.",
+                "content": "The following diagram shows the architecture for BYOC deployment. The control plane is hosted within Zilliz Cloud. With necessary authorization, Zilliz Cloud establishes a secure connection via Private Link to access the customer's VPC. It then creates cloud resources and deploys the BYOC components under the customer's cloud account.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -185,6 +188,67 @@
           "component": {
             "iframe_type": 8,
             "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D27819-4405%26mode%3Ddesign%26t%3DyWaKMcWxZpp9ikbW-4"
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "XRQGdh7s5oXTNqx8SjRcHLLJnnd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Verify subscription via welcome email",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
+      },
+      {
+        "block_id": "S1wEd4M6Aoaiu6xeaqpcQoVDnYd",
+        "block_type": 2,
+        "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Upon subscribing to a BYOC license, you will receive a welcome email with your subscription details, including your license ID, core size, and validity period. Verify these details for accuracy before proceeding.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BJDTdhyfvo05Q0xeUhlcPVWlnDe",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D28416-1339%26mode%3Ddesign%26t%3DVn6TMuh3U757W5mN-4"
           }
         },
         "parent_id": "ONfGdhNU6oGRLaxkLvjcenzUnbg"
@@ -751,34 +815,7 @@
             },
             {
               "text_run": {
-                "content": ": Activation necessitates a Zilliz Cloud account. If you are not registered, sign up on the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Zilliz Cloud Account Registration Page",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fcloud.zilliz.com%2Fsignup"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
+                "content": ": Use the account you provided to Zilliz Cloud technical support during the contract signing process.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4830,6 +4867,6 @@
         }
       }
     ],
-    "counts": 180
+    "counts": 183
   }
 }
