@@ -3,7 +3,7 @@ slug: /on-zilliz-cloud-console
 beta: FALSE
 notebook: FALSE
 token: JRdOwTnJUiCdCMkw3ZBcBO5Dnke
-sidebar_position: 8
+sidebar_position: undefined
 ---
 
 import Admonition from '@theme/Admonition';
@@ -17,27 +17,17 @@ The Zilliz Cloud console is an intuitive command center for you to manipulate al
 
 Once you have set up a cluster on Zilliz Cloud, this is the Zilliz Cloud console that always greets you upon your login.
 
-![console_overview](/byoc/console_overview.png)
+![byoc_console_overview](/byoc/byoc_console_overview.png)
 
 ## Cluster details{#cluster-details}
 
-### Serverless cluster details{#serverless-cluster-details}
-
-![serverless_cluster_details](/byoc/serverless_cluster_details.png)
-
-### Dedicated cluster details{#dedicated-cluster-details}
-
-![dedicated_cluster](/byoc/dedicated_cluster.png)
+![byoc_cluster](/byoc/byoc_cluster.png)
 
 ## API keys{#api-keys}
 
-![api-keys](/byoc/api-keys.png)
+![byoc-api-keys](/byoc/byoc-api-keys.png)
 
 ## Project IDs{#project-ids}
 
-![project_ids](/byoc/project_ids.png)
-
-## Pipeline IDs{#pipeline-ids}
-
-![pipeline_ids](/byoc/pipeline_ids.png)
+![byoc_project_ids](/byoc/byoc_project_ids.png)
 
