@@ -5,7 +5,7 @@
   "node_token": "MvgAwL4HIiuRRJkH0FwcJhxSnld",
   "node_type": "origin",
   "obj_create_time": "1697778473",
-  "obj_edit_time": "1702363169",
+  "obj_edit_time": "1704946258",
   "obj_token": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
   "obj_type": "docx",
   "origin_node_token": "MvgAwL4HIiuRRJkH0FwcJhxSnld",
@@ -13,7 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "VTZZwCkkCi7FwnklLDhcMJwvnQb",
   "space_id": "7167193056431783939",
-  "title": "Import Data via SDKs",
+  "title": "Import Data (SDK)",
   "slug": "import-data-via-sdks",
   "blocks": {
     "items": [
@@ -22,24 +22,22 @@
         "block_type": 1,
         "children": [
           "AoEldHhjiozYfjxb5C5co9lxn4c",
-          "F389d6EuboKJXQxOBTicEeiQntc",
-          "NNzSdt3juoHc6FxWl62c9FGCnNe",
-          "IKhxdwMKZohCG9xi64qcFbjmnVb",
-          "My7bdahw4oV4qQxPWK3c87drnRb",
-          "IWZVdUFKqo4F6GxDwATcmKGxnqc",
-          "NoGOd5M6NomUnYxZrVKc1QfFnZb",
-          "I1Vdd76tmoeYKIxr4Iqcw25Fnr7",
-          "H9ZKd7b49ou09MxkSyZcpbNdnOh",
-          "PPmvdhHR3o7afNx5FeOcUMqcn3e",
-          "C9VNdUjeRotOeFxkvy8c1slFnvg",
+          "UgQrdCi87o1bqjxiYemcGrrcn9f",
+          "MYPBdIuFIoIHeExLqI3cLkRMnHd",
+          "NBdHd9yzrobyUhxvpotcgBZqnQ1",
+          "MdgSdPUhiovmZLxxEsmcOEyGn6r",
           "G95zd8Xj2oXMgjxbNXUcXXrlnxO",
           "TctudsDYWocxAOxHJJPcB9EAnQg",
           "OFyBdvEB1oglaCxoufwcONFInOb",
           "EZ1TdJOiioYoKixcoS5cgpKWnkb",
           "UTh8d5bWLo25rgxdNhLcFYsJnFd",
           "J1Okd8ekxoIWKwxzm2IcdMXqnYe",
-          "L5X9d6z0QoLIcWx4NUgc1a6Qnsc",
+          "KfxedYnJloVpPvxORgocNny5n4g",
+          "N09ddyTXMouRfPxQB0QcTWJunih",
           "OS41dsmr8oE66LxqD8LcP9OKnad",
+          "ZtxldCkygolSuZxA9DtcUcGsnvc",
+          "EC2GdvWq9oDvhlxxsaKcTXFInhe",
+          "SW2SdrfjMoFicexAPt4coGrmnDb",
           "Bmh2dRsGhoryjixi8yTc8t0InUf",
           "JZKTd0UJZozHLSxLTuQcufFcnXf",
           "Op7fd9wIwo1bISxsPrScOX48n2e",
@@ -49,13 +47,38 @@
           "JGh1dVeKDoUyj2xFXxccCsVJnnf",
           "FUY6d9268oF69jxNAgZceJD1nvc",
           "PTCXdZrHootJBbxXjjtcYxginOc",
-          "DLd6dJU9koNCu3xVwpicjV1Snkh"
+          "DLd6dJU9koNCu3xVwpicjV1Snkh",
+          "SecBdEe2aozgesx2IWpc67pTnqf"
         ],
         "page": {
           "elements": [
             {
               "text_run": {
-                "content": "Import Data via SDKs",
+                "content": "Import Data (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -98,13 +121,65 @@
         }
       },
       {
-        "block_id": "F389d6EuboKJXQxOBTicEeiQntc",
+        "block_id": "UgQrdCi87o1bqjxiYemcGrrcn9f",
+        "block_type": 2,
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Alternatively, you can also refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "our fast-track end-to-end course",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FBjHZwBkk0iFScik49QMc1Wwjndb"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " which covers both data preparations and data import to Zilliz Cloud collections.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MYPBdIuFIoIHeExLqI3cLkRMnHd",
         "block_type": 4,
         "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "Before you start",
+                "content": "Install dependencies",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -123,14 +198,62 @@
         "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
       },
       {
-        "block_id": "NNzSdt3juoHc6FxWl62c9FGCnNe",
+        "block_id": "NBdHd9yzrobyUhxvpotcgBZqnQ1",
         "block_type": 2,
         "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Ensure that",
+                "content": "Run the following command in your terminal to install ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pymilvus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "minio",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or upgrade them to the latest version.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -148,278 +271,13 @@
         }
       },
       {
-        "block_id": "IKhxdwMKZohCG9xi64qcFbjmnVb",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "You have installed the dependencies, including PyMilvus and MinIO Python Client. For details, refer to ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Install SDKs",
-                "token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
-                "url": "https://zilliverse.feishu.cn/wiki/J274wT61xiEM4fkYeL8cMb4Pnbd"
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
-      },
-      {
-        "block_id": "My7bdahw4oV4qQxPWK3c87drnRb",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "You have prepared the example dataset. For details, refer to ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Prepare Data Import",
-                "token": "YNbGwiEjAinaQfkSdNlcTehwn8I",
-                "url": "https://zilliverse.feishu.cn/wiki/YNbGwiEjAinaQfkSdNlcTehwn8I"
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
-      },
-      {
-        "block_id": "IWZVdUFKqo4F6GxDwATcmKGxnqc",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "You have created an output folder for the storage of the BulkWriter output.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
-      },
-      {
-        "block_id": "NoGOd5M6NomUnYxZrVKc1QfFnZb",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Procedure",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
-      },
-      {
-        "block_id": "I1Vdd76tmoeYKIxr4Iqcw25Fnr7",
-        "block_type": 2,
-        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "In order to import your data into Zilliz Cloud, utilizing the bulk-writer ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " to transform your dataset into a suitable format is necessary. Once this step is complete, you can then easily bulk-import the converted dataset by making use of the bulk-import API.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "H9ZKd7b49ou09MxkSyZcpbNdnOh",
-        "block_type": 5,
-        "heading3": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Import dependencies",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
-      },
-      {
-        "block_id": "PPmvdhHR3o7afNx5FeOcUMqcn3e",
-        "block_type": 2,
-        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Before anything else, import the required dependencies.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "C9VNdUjeRotOeFxkvy8c1slFnvg",
+        "block_id": "MdgSdPUhiovmZLxxEsmcOEyGn6r",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "from urllib.parse import urlparse\nimport time, json\n\nfrom minio import Minio\n\nfrom pymilvus import (\n    connections,\n    FieldSchema, CollectionSchema, DataType,\n    Collection,\n    utility,\n    bulk_import,\n    get_import_progress,\n    list_import_jobs,\n)\n\n# Check the prepared data files you have\n\nACCESS_KEY = \"YOUR_OBJECT_STORAGE_ACCESS_KEY\"\nSECRET_KEY = \"YOUR_OBJECT_STORAGE_SECRET_KEY\"\nBUCKET_NAME = \"YOUR_OBJECT_STORAGE_BUCKET_NAME\"\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "REMOTE_PATH = \"DATA_FILES_PATH_IN_BLOCK_STORAGE\"",
+                "content": "python3 -m pip install --upgrade pymilvus minio",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -431,7 +289,7 @@
             }
           ],
           "style": {
-            "language": 49,
+            "language": 60,
             "wrap": false
           }
         },
@@ -439,8 +297,8 @@
       },
       {
         "block_id": "G95zd8Xj2oXMgjxbNXUcXXrlnxO",
-        "block_type": 5,
-        "heading3": {
+        "block_type": 4,
+        "heading2": {
           "elements": [
             {
               "text_run": {
@@ -494,7 +352,70 @@
           "elements": [
             {
               "text_run": {
-                "content": "Once you have prepared your data using a LocalBulkWriter and upload the generated file to your object storage, or prepared your data using a RemoteBulkWriter and got the path to the remote folder. You are ready to import them to a Zilliz Cloud collection.",
+                "content": "Once you have prepared your data ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "using ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the BulkWriter tool",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQyjpwAaKuihAeJkNBUJcdFesn9e"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and got the path to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "prepared files",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". You are ready to import them to a Zilliz Cloud collection.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -543,7 +464,379 @@
           "elements": [
             {
               "text_run": {
-                "content": "client = Minio(\n    endpoint=\"storage.googleapis.com\", # use 's3.amazonaws.com' for GCS\n    access_key=ACCESS_KEY,\n    secret_key=SECRET_KEY,\n    secure=True)\n\nobjects = client.list_objects(\n    bucket_name=BUCKET_NAME,\n    prefix=REMOTE_PATH,\n    recursive=True\n)\n\nprint([obj.object_name for obj in objects])\n\n# Output\n#\n# [\n#     \"DATA_FILES_PATH_IN_BLOCK_STORAGE/1/claps.npy\",\n#     \"DATA_FILES_PATH_IN_BLOCK_STORAGE/1/id.npy\",\n#     \"DATA_FILES_PATH_IN_BLOCK_STORAGE/1/link.npy\",\n#     \"DATA_FILES_PATH_IN_BLOCK_STORAGE/1/publication.npy\",\n#     \"DATA_FILES_PATH_IN_BLOCK_STORAGE/1/reading_time.npy\",\n#     \"DATA_FILES_PATH_IN_BLOCK_STORAGE/1/responses.npy\",\n#     \"DATA_FILES_PATH_IN_BLOCK_STORAGE/1/title.npy\",\n#     \"DATA_FILES_PATH_IN_BLOCK_STORAGE/1/vector.npy\"\n# ]\n",
+                "content": "from minio import Minio\n\nACCESS_KEY = \"YOUR_ACCESS_KEY\"\nSECRET_KEY = \"YOUR_SECRET_KEY\"\nBUCKET_NAME = \"YOUR_BUCKET_NAME\"\nREMOTE_PATH = \"YOUR_REMOTE_PATH\"\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client = Minio(\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    endpoint=\"storage.googleapis.com\", # use 's3.amazonaws.com' for ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS S3",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    access_key=ACCESS_KEY,\n    secret_key=SECRET_KEY,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    secure=True",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")\n\nobjects = client.list_objects(\n    bucket_name=BUCKET_NAME,\n    prefix=REMOTE_PATH,\n    recursive=True\n)\n\nprint([obj.object_name for obj in objects])\n\n# Output\n#\n# [\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#     \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "folder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/1/claps.npy\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#     \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "folder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/1/id.npy\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#     \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "folder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/1/link.npy\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#     \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "folder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/1/publication.npy\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#     \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "folder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/1/reading_time.npy\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#     \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "folder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/1/responses.npy\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#     \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "folder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/1/title.npy\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#     \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "folder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/1/vector.npy\"\n# ]\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -563,12 +856,12 @@
       },
       {
         "block_id": "UTh8d5bWLo25rgxdNhLcFYsJnFd",
-        "block_type": 5,
-        "heading3": {
+        "block_type": 4,
+        "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "Create collection and import data",
+                "content": "Create collection",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -612,14 +905,189 @@
         }
       },
       {
-        "block_id": "L5X9d6z0QoLIcWx4NUgc1a6Qnsc",
+        "block_id": "KfxedYnJloVpPvxORgocNny5n4g",
         "block_type": 2,
         "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Since Zilliz Cloud does not allow cross-cloud data transmission, you need to create your cluster on the same public cloud that houses your prepared dataset.",
+                "content": "For details on required information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "On Zilliz Cloud Console",
+                "token": "JRdOwTnJUiCdCMkw3ZBcBO5Dnke",
+                "url": "https://zilliverse.feishu.cn/wiki/JRdOwTnJUiCdCMkw3ZBcBO5Dnke"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "N09ddyTXMouRfPxQB0QcTWJunih",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "RlVrdeCtzo8qXWxmB1rc7PAbnMb",
+          "ZsgrdRXvSo65o7xP7E7c2A6Xnab"
+        ],
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "RlVrdeCtzo8qXWxmB1rc7PAbnMb",
+        "block_type": 2,
+        "parent_id": "N09ddyTXMouRfPxQB0QcTWJunih",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZsgrdRXvSo65o7xP7E7c2A6Xnab",
+        "block_type": 2,
+        "parent_id": "N09ddyTXMouRfPxQB0QcTWJunih",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud does not allow cross-cloud data transmission",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Y",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ou ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "must",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " create your cluster on the same public cloud that houses your prepared dataset.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -643,7 +1111,166 @@
           "elements": [
             {
               "text_run": {
-                "content": "# set up your collection\n\nCLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\"\nCLUSTER_TOKEN = \"YOUR_CLUSTER_TOKEN\"\nCOLLECTION_NAME = \"medium_articles\"\nAPI_KEY = \"YOUR_CLUSTER_TOKEN\"\nCLUSTER_ID = urlparse(CLUSTER_ENDPOINT).netloc.split(\".\")[0] if urlparse(CLUSTER_ENDPOINT).netloc.startswith(\"in\") else None\nCLOUD_REGION = [ x for x in urlparse(CLUSTER_ENDPOINT).netloc.split(\".\") if x.startswith(\"gcp\") or x.startswith(\"aws\") or x.startswith(\"ali\")][0] if urlparse(CLUSTER_ENDPOINT).netloc.startswith(\"in\") else None\n\nif CLOUD_REGION is None:\n    raise Exception(\"Invalid cluster endpoint\")\nelif CLOUD_REGION.startswith(\"gcp\"):\n    OBJECT_URL = f\"gs://{BUCKET_NAME}/{REMOTE_PATH}/\"\nelif CLOUD_REGION.startswith(\"aws\"):\n    OBJECT_URL = f\"s3://{BUCKET_NAME}/{REMOTE_PATH}/\"\nelif CLOUD_REGION.startswith(\"ali\"):\n    OBJECT_URL = f\"oss://{BUCKET_NAME}/{REMOTE_PATH}/\"\n\nfields = [\n    FieldSchema(name=\"id\", dtype=DataType.INT64, is_primary=True),\n    FieldSchema(name=\"title\", dtype=DataType.VARCHAR, max_length=512),\n    FieldSchema(name=\"vector\", dtype=DataType.FLOAT_VECTOR, dim=768),\n    FieldSchema(name=\"link\", dtype=DataType.VARCHAR, max_length=512),\n    FieldSchema(name=\"reading_time\", dtype=DataType.INT64),\n    FieldSchema(name=\"publication\", dtype=DataType.VARCHAR, max_length=512),\n    FieldSchema(name=\"claps\", dtype=DataType.INT64),\n    FieldSchema(name=\"responses\", dtype=DataType.INT64)\n]\n\nschema = CollectionSchema(fields)\n\nconnections.connect(\n    uri=CLUSTER_ENDPOINT,\n    token=CLUSTER_TOKEN,\n    secure=True\n)\n\ncollection = Collection(COLLECTION_NAME, schema)\n\ncollection.create_index(\n    field_name=\"vector\",\n    index_params={\n        \"index_type\": \"AUTOINDEX\",\n        \"metric_type\": \"L2\"\n    }\n)\n\ncollection.load()\n\n# bulk-import your data from the prepared data files\n\nres = bulk_import(\n    url=f\"controller.api.{CLOUD_REGION}.zillizcloud.com\",\n    api_key=API_KEY,\n    object_url=OBJECT_URL,\n    access_key=ACCESS_KEY,\n    secret_key=SECRET_KEY,\n    cluster_id=CLUSTER_ID,\n    collection_name=COLLECTION_NAME\n)\n\nprint(res.json())\n\n# Output\n#\n# {\n#     \"code\": 200,\n#     \"data\": {\n#         \"jobId\": \"9d0bc230-6b99-4739-a872-0b91cfe2515a\"\n#     }\n",
+                "content": "# set up your collection\nCLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\"\nCLUSTER_TOKEN = \"YOUR_CLUSTER_TOKEN\"\nCOLLECTION_NAME = \"medium_articles\"\nAPI_KEY = \"YOUR_CLUSTER_TOKEN\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CLUSTER_ID = ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"YOUR_CLUSTER_ID\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CLOUD_REGION = ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"YOUR_CLOUD_REGION\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\nif CLOUD_REGION is None:\n    raise Exception(\"Invalid cluster endpoint\")\nelif CLOUD_REGION.startswith(\"gcp\"):\n    OBJECT_URL = f\"gs://{BUCKET_NAME}/{REMOTE_PATH}/\"\nelif CLOUD_REGION.startswith(\"aws\"):\n    OBJECT_URL = f\"s3://{BUCKET_NAME}/{REMOTE_PATH}/\"\nelif CLOUD_REGION.startswith(\"ali\"):\n    OBJECT_URL = f\"oss://{BUCKET_NAME}/{REMOTE_PATH}/\"\n\nfields = [\n    FieldSchema(name=\"id\", dtype=DataType.INT64, is_primary=True),\n    FieldSchema(name=\"title\", dtype=DataType.VARCHAR, max_length=512),\n    FieldSchema(name=\"vector\", dtype=DataType.FLOAT_VECTOR, dim=768),\n    FieldSchema(name=\"link\", dtype=DataType.VARCHAR, max_length=512),\n    FieldSchema(name=\"reading_time\", dtype=DataType.INT64),\n    FieldSchema(name=\"publication\", dtype=DataType.VARCHAR, max_length=512),\n    FieldSchema(name=\"claps\", dtype=DataType.INT64),\n    FieldSchema(name=\"responses\", dtype=DataType.INT64)\n]\n\nschema = CollectionSchema(fields)\n\nconnections.connect(\n    uri=CLUSTER_ENDPOINT,\n    token=CLUSTER_TOKEN,\n    secure=True\n)\n\ncollection = Collection(COLLECTION_NAME, schema)\n\ncollection.create_index(\n    field_name=\"vector\",\n    index_params={\n        \"index_type\": \"AUTOINDEX\",\n        \"metric_type\": \"L2\"\n    }\n)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection.load()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "ZtxldCkygolSuZxA9DtcUcGsnvc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Import data",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "EC2GdvWq9oDvhlxxsaKcTXFInhe",
+        "block_type": 2,
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once your data and collection are ready, you can start the import process as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SW2SdrfjMoFicexAPt4coGrmnDb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Bulk-import your data from the prepared data files\n\nres = bulk_import(\n    url=f\"controller.api.{CLOUD_REGION}.zillizcloud.com\",\n    api_key=API_KEY,\n    object_url=OBJECT_URL,\n    access_key=ACCESS_KEY,\n    secret_key=SECRET_KEY,\n    cluster_id=CLUSTER_ID,\n    collection_name=COLLECTION_NAME\n)\n\nprint(res.json())\n\n# Output\n#\n# {\n#     \"code\": 200,\n#     \"data\": {\n#         \"jobId\": \"9d0bc230-6b99-4739-a872-0b91cfe2515a\"\n#     }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -680,7 +1307,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Check bulk import progress",
+                "content": "Check import progress",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -730,7 +1357,79 @@
           "elements": [
             {
               "text_run": {
-                "content": "job_id = res.json()['data']['jobId']\nres = get_import_progress(\n    url=f\"controller.api.{CLOUD_REGION}.zillizcloud.com\",\n    api_key=API_KEY,\n    job_id=job_id,\n    cluster_id=CLUSTER_ID\n)\n\n# check the bulk-import progress\n\nwhile res.json()[\"data\"][\"readyPercentage\"] < 1:\n    time.sleep(5)\n\n    res = get_import_progress(\n        url=f\"controller.api.{CLOUD_REGION}.zillizcloud.com\",\n        api_key=API_KEY,\n        job_id=job_id,\n        cluster_id=CLUSTER_ID\n    )\n\nprint(res.json())\n\n# Output\n#\n# {\n#     \"code\": 200,\n#     \"data\": {\n#         \"collectionName\": \"medium_articles\",\n#         \"fileName\": \"DATA_FILES_PATH_IN_BLOCK_STORAGE/1/\",\n#         \"fileSize\": 26571700,\n#         \"readyPercentage\": 1,\n#         \"completeTime\": \"2023-10-28T06:51:49Z\",\n#         \"errorMessage\": null,\n#         \"jobId\": \"9d0bc230-6b99-4739-a872-0b91cfe2515a\",\n#         \"details\": [\n#             {\n#                 \"fileName\": \"DATA_FILES_PATH_IN_BLOCK_STORAGE/1/\",\n#                 \"fileSize\": 26571700,\n#                 \"readyPercentage\": 1,\n#                 \"completeTime\": \"2023-10-28T06:51:49Z\",\n#                 \"errorMessage\": null\n#             }\n#         ]\n#     }\n",
+                "content": "job_id = res.json()['data']['jobId']\nres = get_import_progress(\n    url=f\"controller.api.{CLOUD_REGION}.zillizcloud.com\",\n    api_key=API_KEY,\n    job_id=job_id,\n    cluster_id=CLUSTER_ID\n)\n\n# check the bulk-import progress\n\nwhile res.json()[\"data\"][\"readyPercentage\"] < 1:\n    time.sleep(5)\n\n    res = get_import_progress(\n        url=f\"controller.api.{CLOUD_REGION}.zillizcloud.com\",\n        api_key=API_KEY,\n        job_id=job_id,\n        cluster_id=CLUSTER_ID\n    )\n\nprint(res.json())\n\n# Output\n#\n# {\n#     \"code\": 200,\n#     \"data\": {\n#         \"collectionName\": \"medium_articles\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#         \"fileName\": \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "folder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/1/\",\n#         \"fileSize\": 26571700,\n#         \"readyPercentage\": 1,\n#         \"completeTime\": \"2023-10-28T06:51:49Z\",\n#         \"errorMessage\": null,\n#         \"jobId\": \"9d0bc230-6b99-4739-a872-0b91cfe2515a\",\n#         \"details\": [\n#             {\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#                 \"fileName\": \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "folder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/1/\",\n#                 \"fileSize\": 26571700,\n#                 \"readyPercentage\": 1,\n#                 \"completeTime\": \"2023-10-28T06:51:49Z\",\n#                 \"errorMessage\": null\n#             }\n#         ]\n#     }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -767,7 +1466,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "List all bulk-import jobs",
+                "content": "List all import jobs",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -841,7 +1540,43 @@
           "elements": [
             {
               "text_run": {
-                "content": "# list bulk-import jobs\n\nres = list_import_jobs(\n    url=f\"controller.api.{CLOUD_REGION}.zillizcloud.com\",\n    api_key=API_KEY,\n    cluster_id=CLUSTER_ID,\n    page_size=10,\n    current_page=1,\n)\n\nprint(res.json())\n\n# Output\n#\n# {\n#     \"code\": 200,\n#     \"data\": {\n#         \"tasks\": [\n#             {\n#                 \"collectionName\": \"medium_articles\",\n#                 \"jobId\": \"9d0bc230-6b99-4739-a872-0b91cfe2515a\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#             {\n#                 \"collectionName\": \"medium_articles\",\n#                 \"jobId\": \"53632e6c-c078-4476-b840-10c4793d9c08\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#             {\n#                 \"collectionName\": \"medium_articles\",\n#                 \"jobId\": \"95e7d4c4-cf60-4ce1-ac49-145459ee0f99\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#             {\n#                 \"collectionName\": \"medium_articles\",\n#                 \"jobId\": \"ddca617e-8f2f-4612-9d6a-12b6edb69833\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#             {\n#                 \"collectionName\": \"medium_articles\",\n#                 \"jobId\": \"79fb0137-9e28-48e0-b7b1-e96706bb921f\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#             {\n#                 \"collectionName\": \"YOUR_COLLECTION_NAME\",\n#                 \"jobId\": \"dd391fed-822f-4e17-b5a7-8a43d49f1eb7\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#             {\n#                 \"collectionName\": \"YOUR_COLLECTION_NAME\",\n#                 \"jobId\": \"cf11ac48-2e1e-47d3-ab88-0e38736d9629\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#             {\n#                 \"collectionName\": \"YOUR_COLLECTION_NAME\",\n#                 \"jobId\": \"3fe83873-6154-4d99-aa40-4328bd724a65\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#             {\n#                 \"collectionName\": \"YOUR_COLLECTION_NAME\",\n#                 \"jobId\": \"9d6cd64d-cfe3-46fd-9864-b417226324e8\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#             {\n#                 \"collectionName\": \"YOUR_COLLECTION_NAME\",\n#                 \"jobId\": \"aa6c0712-83a1-4729-96a3-f87b0c8b4a00\",\n#                 \"state\": \"ImportCompleted\"\n#             }\n#         ],\n#         \"count\": 15,\n#         \"currentPage\": 1,\n#         \"pageSize\": 10\n#     }\n",
+                "content": "# list bulk-import jobs\n\nres = list_import_jobs(\n    url=f\"controller.api.{CLOUD_REGION}.zillizcloud.com\",\n    api_key=API_KEY,\n    cluster_id=CLUSTER_ID,\n    page_size=10,\n    current_page=1,\n)\n\nprint(res.json())\n\n# Output\n#\n# {\n#     \"code\": 200,\n#     \"data\": {\n#         \"tasks\": [\n#             {\n#                 \"collectionName\": \"medium_articles\",\n#                 \"jobId\": \"9d0bc230-6b99-4739-a872-0b91cfe2515a\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#             {\n#                 \"collectionName\": \"medium_articles\",\n#                 \"jobId\": \"53632e6c-c078-4476-b840-10c4793d9c08\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#         ],\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#         \"count\": ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",\n#         \"currentPage\": 1,\n#         \"pageSize\": 10\n#     }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -967,9 +1702,61 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Prepare Data Import",
-                "token": "YNbGwiEjAinaQfkSdNlcTehwn8I",
-                "url": "https://zilliverse.feishu.cn/wiki/YNbGwiEjAinaQfkSdNlcTehwn8I"
+                "title": "Prepare Source Data",
+                "token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
+                "url": "https://zilliverse.feishu.cn/wiki/AYoywCl7yiAcrHkSVogcfyPLn7m"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
+      },
+      {
+        "block_id": "SecBdEe2aozgesx2IWpc67pTnqf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Data Import from Zero to Hero",
+                "token": "BjHZwBkk0iFScik49QMc1Wwjndb",
+                "url": "https://zilliverse.feishu.cn/wiki/BjHZwBkk0iFScik49QMc1Wwjndb"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
               }
             }
           ],
@@ -981,6 +1768,6 @@
         "parent_id": "NEO7dfjWXoNUUPxukcpcSVuVn7e"
       }
     ],
-    "counts": 30
+    "counts": 31
   }
 }

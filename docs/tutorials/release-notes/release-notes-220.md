@@ -47,4 +47,4 @@ We've revolutionized the way you import data into Zilliz Cloud:
 
 - Import Task Monitoring: Oversee your data import tasks in real-time via the Zilliz Cloud Web Console, ensuring transparency and control over your data uploads.
 
-Check for the details at [Prepare Data Import](./use-bulkwriter-for-data-import).
+Check for the details at [Prepare Source Data](./prepare-source-data).

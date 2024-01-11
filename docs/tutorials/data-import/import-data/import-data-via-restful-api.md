@@ -7,112 +7,32 @@ sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
+# Import Data (RESTful API)
 
-# Import Data via RESTful API
-
-This tutorial guides you through the process of importing data into an existing collection by calling the RESTful API.
+This page introduces how to import the prepared data via the Zilliz Cloud RESTful API.
 
 ## Before you start{#before-you-start}
 
 Make sure the following conditions are met:
 
-- You have obtained an API key for your cluster. For details, see [Manage API Keys](./manage-api-keys).
+- You have obtained an API key for your cluster. For details, see [Manage API Keys](./manage-api-keys) and [On Zilliz Cloud Console](./on-zilliz-cloud-console).
 
-- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset).
+- You have prepared your data in either of the supported formats. 
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Create Collection](./create-collection).
+    For details on how to prepare your data, refer to [Prepare Source Data](./prepare-source-data). You can also refer to the end-to-end notebook [Data Import from Zero to Hero](./data-import-zero-to-hero) to get more.
 
-## Prepare data files{#prepare-data-files}
-
-Zilliz Cloud supports data import from local or remote files in JSON or NumPy formats. If your data is in a different format, convert it using the **BulkWriter** tool. For details, see [Prepare Data Import](./use-bulkwriter-for-data-import).
-
-The following figure demonstrates how to prepare your data in JSON or NumPy formats.
-
-![data_import-preparetion_en](/img/data_import-preparetion_en.png)
-
-When preparing data files, consider the following based on the file format:
-
-- **JSON data**
-
-    - Each import operation supports a single JSON file, preventing simultaneous uploads of multiple JSON files.
-
-    - The JSON file must include a top-level key named "rows." The value of this key should be an array of dictionaries, with each dictionary representing an entity to import. The keys within each dictionary should align with the schema of the target collection.
-
-    - When the `autoId` is set to `true` for the primary key, exclude the primary key from the dictionary. Zilliz Cloud will automatically generate the primary keys.
-
-    - If the `enable_dynamic_field` is set to `true` in the collection schema, any dictionary keys not defined in the schema will be stored as key-value pairs in the same magic field `$meta`. You can retrieve these fields as schema-defined ones during searches and queries.
-
-    - All field names in Zilliz Cloud collections are case-sensitive. Therefore, keep the keys of each dictionary in the JSON file exactly the same as the collection field names. For example, if a field name is `id`, use `id` as a dictionary key. Other forms, such as `Id`, `ID`, or `iD`, will not work.
-
-- **NumPy data**
-
-    - Allows the upload of multiple files simultaneously or the organization of these files into a folder for batch uploading.
-
-    - The folder structure can have up to one level of subfolders, with each subfolder not exceeding 10 GB and the parent folder's maximum size set at 100 GB.
-
-    - For NumPy files, each file signifies a column in the target collection during import, and its name should match a field name. Organize NumPy files representing all necessary collection fields in a folder before initiating the import.
-
-    - If `autoId` is set to `true` for the primary key, exclude the preparation of the NumPy file for the primary key.
-
-    - If `enable_dynamic_field` is set to `true` in the collection schema, consider preparing an optional NumPy file named $meta.npy to include values for fields not defined in the collection schema if needed. You can retrieve these fields as schema-defined ones during searches and queries.
-
-    - All field names in Zilliz Cloud collections are case-sensitive. Therefore, name your NumPy files after the field names. For example, if a field name is `id`, name the corresponding NumPy file as `id.npy`. Other forms, such as `ID.npy`, `Id.npy`, or `iD.npy`, will not work.
-
-- **Folder organization**
-
-    - The data folder permits a maximum of one level of subfolders. Ensure that the data folder contains only one file type.
-
-    - An error will occur during the data import when
-
-        - The specified folder contains both JSON and NumPy data or more than one level of subfolders, or
-
-        - The folder contains NumPy files along with unsupported data types.
-
-    - Examples of valid paths:
-
-        - `/dataset/data.json` or `/dataset/subfolder/data.json`
-
-            This applies to the specific JSON file in the dataset folder.
-
-        - `/dataset/*.npy` or `/dataset/subfolder/*.npy`
-
-            This applies to all NumPy files in the dataset folder.
-
-        - `/dataset/` or `/dataset/subfolder/`
-
-            This applies if it contains only a JSON file or all necessary NumPy files.
-
-To convert the example dataset into multiple NumPy files, use the following code. [This article](https://milvus.io/docs/bulk_insert.md#Create-NumPy-files) provides more detailed scripts to generate NumPy files for each valid data type Milvus supports.
-
-```python
-import json
-import numpy
-
-with open('path/to/medium_articles_2020_dpr.json') as f:
-    dataset = json.load(f)
-    keys = dataset['rows'][0].keys()
-
-    for key in keys:
-        numpy.save(f'{key}.npy', numpy.array([ x[key] for x in dataset['rows'] ]))
-
-    # For JSON fields, you should dump the field values before saving them
-    # numpy.save(f'json_field.npy', numpy.array([
-    #     json.dumps({"year": 2015, "price": 23.43}),
-    #     json.dumps({"year": 2018, "price": 15.05}),
-    #     json.dumps({"year": 2020, "price": 36.68}),
-    #     json.dumps({"year": 2019, "price": 20.14}),
-    #     json.dumps({"year": 2021, "price": 9.36}))
-    # ]))
-```
+- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Example Dataset](./example-dataset) and [Create Collection](./create-collection).
 
 ## Import data using the RESTful API{#import-data-using-the-restful-api}
 
-To import data, you must first upload them to an object storage bucket, such as AWS S3 or Google Cloud Storage (GCS). Once uploaded, obtain the file path and bucket credentials for Zilliz Cloud to pull data from your bucket. For supported object paths, see [Supported object paths](./import-data-via-restful-api#supported-object-paths).
+To import data from files using the RESTful API, you must first upload the files to an object storage bucket, such as AWS S3 or Google Cloud Storage (GCS). Once uploaded, obtain the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. For details on supported object paths, refer to [Import Data (RESTful API)](./import-data-via-restful-api#supported-object-paths).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-For successful data import, ensure that the object storage bucket you use is located in the same cloud as your cluster.
+For successful data import, you should upload your data to a bucket hosted on the same cloud as your cluster.
 
 </Admonition>
 
@@ -134,7 +54,9 @@ curl --request POST \\
      }'
 ```
 
-In the command above, replace `${CLOUD_REGION_ID}`, `${TOKEN}`, and `${CLUSTER_ID}` with your cloud region identifier, API key, and cluster ID, respectively. You can obtain `CLOUD_REGION_ID` and `CLUSTER_ID` from your cluster's public endpoint. For instance, in the public endpoint `https://in03-3bf3c31f4248e22.api.aws-us-east1.zillizcloud.com`, `CLOUD_REGION_ID` is `aws-us-east1` and `CLUSTER_ID` is `in03-3bf3c31f4248e22`. For more information, see [Manage Cluster](./manage-cluster).
+In the command above, replace `${CLOUD_REGION_ID}`, `${TOKEN}`, and `${CLUSTER_ID}` with your cloud region identifier, API key, and cluster ID, respectively. 
+
+You can obtain `CLOUD_REGION_ID` and `CLUSTER_ID` from your cluster's public endpoint. For instance, in the public endpoint `https://in03-3bf3c31f4248e22.api.aws-us-east1.zillizcloud.com`, `CLOUD_REGION_ID` is `aws-us-east1` and `CLUSTER_ID` is `in03-3bf3c31f4248e22`. To find your cluster endpoint on the Zilliz Cloud console, refer to [On Zilliz Cloud Console](./on-zilliz-cloud-console).
 
 Upon executing the request, you will receive a job ID. Use this job ID to monitor the import progress with the following command:
 
@@ -150,23 +72,88 @@ For details, see [Import](https://docs.zilliz.com/reference/import) and [Get Imp
 
 ### Supported object paths{#supported-object-paths}
 
-If you are importing data from AWS S3, you can use either S3 URI or object URL. The following are some examples:
+The following table lists applicable remote bucket URIs and some quick examples for you to build a valid import path.
 
-- s3://bucket-name/key-name (AWS S3 URI)
+<Tabs defaultValue="aws" values={[{"label":"AWS","value":"aws"},{"label":"GCP","value":"gcs"},{"label":"Azure","value":"azure"}]}>
 
-- https://bucket-name.s3.region-code.amazonaws.com/key-name (AWS Object URL, virtual-hosted–style)
+<TabItem value="aws">
 
-- https://s3.region-code.amazonaws.com/bucket-name/key-name (AWS Object URL, path-style)
+- **Object access URIs**
 
-For more details, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
+    |  **URI Style**                            |  **URI Format**                                                 |
+    | ----------------------------------------- | --------------------------------------------------------------- |
+    |  **AWS S3 URI**                           |  `s3://bucket-name/object-name`                                 |
+    |  **AWS Object URL, virtual-hosted–style** |  `https://bucket-name.s3.region-code.amazonaws.com/object-name` |
+    |  **AWS Object URL, path-style**           |  `https://s3.region-code.amazonaws.com/bucket-name/object-name` |
 
-If you are importing data from Google Cloud Storage (GSC), you can use either authenticated URL, public URL, or gsutil URI. The following are some examples:
+    For more details, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
 
-- https://storage.googleapis.com/YOUR_BUCKET_NAME/OBJECT_NAME (GSC public URL)
+- **Quick examples**
 
-- gs://YOUR_BUCKET_NAME/OBJECT_NAME (GSC gsutil URI)
+    |  **File Type** |  **Quick Examples**                                                                        |
+    | -------------- | ------------------------------------------------------------------------------------------ |
+    |  **JSON**      |  `s3://bucket-name/json-folder/`<br/> `s3://bucket-name/json-folder/data.json`          |
+    |  **NumPy**     |  `s3://bucket-name/numpy_folder/`<br/> `s3://bucket-name/folder/*.npy`                  |
+    |  **Parquet**   |  `s3://bucket-name/parquet-folder/`<br/> `s3://bucket-name/parquet-folder/data.parquet` |
 
-For more details, see [Share the object](https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object).
+- **Required permissions**
+
+    - `s3:GetObject`
+
+    - `s3:ListBucket`
+
+    - `s3:GetBucketLocation`
+
+</TabItem>
+
+<TabItem value="gcs">
+
+- **Object access URIs**
+
+    |  **URI Style**      |  **URI Format**                                           |
+    | ------------------- | --------------------------------------------------------- |
+    |  **GSC public URL** |  `https://storage.googleapis.com/bucket_name/object_name` |
+    |  **GSC gsutil URI** |  `gs://bucket_name/object_name`                           |
+
+    For more details, see [Share the object](https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object).
+
+- **Quick examples**
+
+    |  **File Type** |  **Quick Examples**                                                                        |
+    | -------------- | ------------------------------------------------------------------------------------------ |
+    |  **JSON**      |  `gs://bucket-name/json-folder/`<br/> `gs://bucket-name/json-folder/data.json`          |
+    |  **NumPy**     |  `gs://bucket-name/numpy-folder/`<br/> `gs://bucket-name/numpy-folder/*.npy`            |
+    |  **Parquet**   |  `gs://bucket-name/parquet-folder/`<br/> `gs://bucket-name/parquet-folder/data.parquet` |
+
+- **Required permissions**
+
+    - `storage.objects.get`
+
+    - `storage.objects.list`
+
+</TabItem>
+
+<TabItem value="azure">
+
+- **Object access URIs**
+
+    |  **URI Style**              |  **URI Format**                                           |
+    | --------------------------- | --------------------------------------------------------- |
+    |  **Azure storage blob URI** |  `https://storage.googleapis.com/bucket_name/object_name` |
+
+    For more details, see [Resource URI Syntax](https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata#resource-uri-syntax).
+
+- **Quick examples**
+
+    |  **File Type** |  **Quick Examples**                                                                                                                                              |
+    | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    |  **JSON**      |  `https://myaccount.blob.core.windows.net/bucket-name/json-folder/`<br/> `https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json`          |
+    |  **NumPy**     |  `https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/`<br/> `https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/*.npy`            |
+    |  **Parquet**   |  `https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/`<br/> `https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet` |
+
+</TabItem>
+
+</Tabs>
 
 ## Verify the result{#verify-the-result}
 
@@ -181,7 +168,7 @@ If the command output is similar as follows, the data is imported successfully:
 }
 ```
 
-You can also go to the Zilliz Cloud console to view the result and job details:
+You can also call RESTful APIs to [get the progress of the current import job](https://docs.zilliz.com/reference/get-import-progress) and [list all import jobs](https://docs.zilliz.com/reference/list-import-jobs) to get more. As an alternative, you can also go to the Zilliz Cloud console to view the result and job details:
 
 ![data_import_complete_restful](/img/data_import_complete_restful.png)
 
