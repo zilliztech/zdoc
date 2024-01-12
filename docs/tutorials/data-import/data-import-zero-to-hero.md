@@ -96,30 +96,32 @@ The parameters in the above code are described as follows:
 Once the schema is set, you can create the target collection as follows:
 
 ```python
-from pymilvus import MilvusClient
+from pymilvus import connections, Collection
 
-# 1. Set up a MilvusClient
-client = MilvusClient(
-    uri="Your-Cluster-Endpoint", # Point this to a cluster on the same cloud as your source data
-    token="Your-Token"
+# 1. Set up a connection
+connections.connect(
+        uri="Your-Cluster-Endpoint",
+        token="Your-Token"
 )
 
-# 2. Set index parameters
-index_params = client.prepare_index_params()
+# 2. Create collection
+collection = Collection(name="medium_aritlces", schema=schema)
 
-# Add an index on the vector field.
-index_params.add_index(
-    field_name="title-vector",
-    metric_type="COSINE",
-    index_type="AUTOINDEX"
+# 3. Set index parameters
+index_params = {
+    "index_type": "AUTOINDEX",
+    "metric_type": "COSINE",
+    "params": {}
+}
+
+# 4. Create index
+collection.create_index(
+        field_name="title_vector",
+        index_params=index_params,
 )
 
-# 3. Create a collection
-client.create_collection(
-    collection_name="medium_articles_2020",
-    schema=schema,
-    index_params=index_params
-)
+# 5. Load the collection
+collection.load()
 ```
 
 For details on collection settings, refer to Manage Collections (SDK).

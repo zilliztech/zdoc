@@ -3,7 +3,7 @@ slug: /on-zilliz-cloud-console
 beta: FALSE
 notebook: FALSE
 token: JRdOwTnJUiCdCMkw3ZBcBO5Dnke
-sidebar_position: undefined
+sidebar_position: 8
 ---
 
 import Admonition from '@theme/Admonition';
