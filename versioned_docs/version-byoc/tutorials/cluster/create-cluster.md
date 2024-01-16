@@ -40,8 +40,6 @@ Ensure:
     |  **CU Settings**             |  The compute resource to be allocated to this cluster.                                                                                                               |
     |  **Cloud Backup**            |  Whether to enable cloud backup for the data in this cluster.                                                                                                        |
 
-    
-
 1. Click **Create Cluster**. You'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
 
 ## Verification{#verification}
@@ -50,15 +48,15 @@ After you create the cluster, you can check its status on the cluster list page.
 
 ## Related topics{#related-topics}
 
-- [Connect to Cluster](./connect-to-cluster) 
+- [Connect to Cluster](./connect-to-cluster)
 
-- [Create Collection](./create-collection) 
+- [Create Collection](./create-collection)
 
-- [Insert Entities](./insert-entities) 
+- [Insert Entities](./insert-entities)
 
-- [Search and Query](./search-query-and-get) 
+- [Search and Query](./search-query-and-get)
 
-- [Drop Collection](./drop-collection) 
+- [Drop Collection](./drop-collection)
 
 - [Example Dataset](./example-dataset) 
 

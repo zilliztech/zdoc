@@ -170,11 +170,11 @@ curl --request GET \\
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection) 
+- [Create Collection](./create-collection)
 
-- [Insert Entities](./insert-entities) 
+- [Insert Entities](./insert-entities)
 
-- [Search and Query](./search-query-and-get) 
+- [Search and Query](./search-query-and-get)
 
 - [Drop Collection](./drop-collection) 
 

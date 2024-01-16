@@ -48,7 +48,7 @@ Ensure:
 
     ![create_cluster_02](/img/create_cluster_02.png)
 
-1. Process with **Next: Create Collection**. 
+1. Process with **Next: Create Collection**.
 
 1. In the **Create Collection for Your New Cluster** section, select **New Collection**.
 
@@ -56,12 +56,12 @@ Ensure:
 
     Specify the parameters for the new collection as below:
 
-    |  **Parameter**       |  **Description**                                                                                                                                                                                                                                                                                                                            |
-    | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    |  **Collection name** |  The name of the collection.                                                                                                                                                                                                                                                                                                                |
-    |  **Dimension**       |  The dimension of the vector data in the collection. The default value is 768.                                                                                                                                                                                                                                                              |
-    |  **Metric Type**     |  The metric type measures the similarity between vectors. Valid values:<br/> <br/>  - Euclidean: measures the distance between two vectors in a plane. The smaller the result, the more similar the two vectors.<br/> <br/>  - Inner product: multiplies two vectors. The more positive the result, the more similar the two vectors.<br/> <br/>  |
-    |  **Description**     |  The description of the collection. This parameter is optional.                                                                                                                                                                                                                                                                             |
+    |  **Parameter**       |  **Description**                                                                                                                                                                                                                                                                                                                      |
+    | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    |  **Collection name** |  The name of the collection.                                                                                                                                                                                                                                                                                                          |
+    |  **Dimension**       |  The dimension of the vector data in the collection. The default value is 768.                                                                                                                                                                                                                                                        |
+    |  **Metric Type**     |  The metric type measures the similarity between vectors. Valid values:<br/> - Euclidean: measures the distance between two vectors in a plane. The smaller the result, the more similar the two vectors.<br/> - Inner product: multiplies two vectors. The more positive the result, the more similar the two vectors.<br/> |
+    |  **Description**     |  The description of the collection. This parameter is optional.                                                                                                                                                                                                                                                                       |
 
 1. Click **Create Collection and Cluster**.  A dialog box will display the public endpoint and API key for the cluster. Record these details for future access.
 
@@ -84,8 +84,6 @@ Ensure:
     |  **CU Settings**             |  The compute resource to be allocated to this cluster.                                                                                                                                 |
     |  **Cloud Backup**            |  Whether to enable cloud backup for the data in this cluster.                                                                                                                          |
 
-    
-
     ![create-dedicated_cluster](/img/create-dedicated_cluster.png)
 
 1. Click **Create Cluster**. You'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
@@ -96,15 +94,15 @@ After you create the cluster, you can check its status on the cluster list page.
 
 ## Related topics{#related-topics}
 
-- [Connect to Cluster](./connect-to-cluster) 
+- [Connect to Cluster](./connect-to-cluster)
 
-- [Create Collection](./create-collection) 
+- [Create Collection](./create-collection)
 
-- [Insert Entities](./insert-entities) 
+- [Insert Entities](./insert-entities)
 
-- [Search and Query](./search-query-and-get) 
+- [Search and Query](./search-query-and-get)
 
-- [Drop Collection](./drop-collection) 
+- [Drop Collection](./drop-collection)
 
 - [Example Dataset](./example-dataset) 
 

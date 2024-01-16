@@ -49,6 +49,8 @@ module.exports = function (context, options) {
     
                         if (opts.docTitle !== undefined) {
                             const scraper = new docScraper(options.root, options.base)
+                            await scraper.fetch(recursive=false, page_token=token)
+
                             var source
     
                             var token = fs.readdirSync(options.docSourceDir).filter(file => {
@@ -63,8 +65,6 @@ module.exports = function (context, options) {
                                 console.log('Please provide a valid doc token or title')
                                 return
                             }
-    
-                            await scraper.fetch(recursive=false, page_token=token)
     
                             const writer = new docWriter(options.root, options.docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
                             const meta = await writer.__is_to_publish(opts.docTitle)
