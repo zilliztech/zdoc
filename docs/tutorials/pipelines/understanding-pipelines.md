@@ -19,7 +19,7 @@ Zilliz Cloud Pipelines is a robust solution for transforming unstructured data s
 
 In many modern services and applications, there is a need to search by semantics. From searching for a chunk of text that matches the meaning of a query, to finding images that look similar to each other. A typical retrieval system that finishes such task are built with data preparation and embedding, a process of representing text or images as numerical vectors in a multi-dimensional space. It requires deep know-how and engineering speciality to build such systems. Zilliz Cloud Pipelines empowers such use cases with a simple yet flexible interface.
 
-Currently, we offer Pipelines for semantic search in text documents, providing a critical building block of Retrieval Augmented Generation (RAG) applications. More Pipelines will be added in the future for more semantic search use cases, such as image search, video frame search and multi-modal search.
+Currently, we offer Pipelines for semantic search in text documents, providing a critical building block of [Retrieval Augmented Generation (RAG) applications](https://github.com/milvus-io/bootcamp/blob/master/bootcamp/RAG/zilliz_pipeline_rag.ipynb). More Pipelines will be added in the future for more semantic search use cases, such as image search, video frame search and multi-modal search.
 
 ## Ingestion pipelines{#ingestion-pipelines}
 

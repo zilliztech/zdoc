@@ -5,7 +5,7 @@
   "node_token": "RfYVwRuvkicVqBkDugacSQOinvc",
   "node_type": "origin",
   "obj_create_time": "1700040191",
-  "obj_edit_time": "1701670162",
+  "obj_edit_time": "1705387436",
   "obj_token": "NogBdCgUfoscyzxayiTcly7Unre",
   "obj_type": "docx",
   "origin_node_token": "RfYVwRuvkicVqBkDugacSQOinvc",
@@ -13,7 +13,7 @@
   "owner": "ou_fbc044d19930afd389d5c369466c38b1",
   "parent_node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
   "space_id": "7167193056431783939",
-  "title": "Create Pipelines on Web UI",
+  "title": "Create Pipelines (Console)",
   "slug": "create-piplines-gui",
   "blocks": {
     "items": [
@@ -57,14 +57,14 @@
           "OZZ8d75MRokfonxchQkcP9Q7nSf",
           "QvKCde297oHk9Bxrq5rcuDqtnMb",
           "BpMfdeyCCoC8srxHRVjccOLZnvf",
-          "LzsXdY83HomNANxbkErc0jiHnKd",
+          "QImydXsU4oKzAexQRzRce0VEnRS",
           "E4ITdPTjTo9I71xQQLhcPC6Wn4g"
         ],
         "page": {
           "elements": [
             {
               "text_run": {
-                "content": "Create Pipelines on Web ",
+                "content": "Create Pipelines ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -76,7 +76,7 @@
             },
             {
               "text_run": {
-                "content": "UI",
+                "content": "(Console)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1404,6 +1404,7 @@
           "E42gdXv7KozRx0xhsvEcZH4Pnxg",
           "VUFUdizr3o3stJxY1bLcx4Crn4f",
           "NddAdP1j2o46N3xxgyNcU1Q9nMe",
+          "SrkVdalDFoSCizxgjL1cZ94FnBd",
           "Rd4gdDrYXocQzJxd9PscJ9uRnjc"
         ],
         "comment_ids": [
@@ -1545,6 +1546,95 @@
           }
         },
         "parent_id": "GtsRdfeieoeSd0x5NNRc0Euzn87"
+      },
+      {
+        "block_id": "SrkVdalDFoSCizxgjL1cZ94FnBd",
+        "block_type": 13,
+        "children": [
+          "F5GCd1duvojfzjxGfU3cEm3vnOe",
+          "MXxedyM3So8qafxpvXCcO2rJn8g"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "By default, Zilliz Cloud segments the",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " header-separated",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " sections in Markdown or HTML documents or the documents of other supported types into chunks of 500 tokens. You can change the chunk size within the range from 20 to 500 to apply your own chunking strategy.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GtsRdfeieoeSd0x5NNRc0Euzn87"
+      },
+      {
+        "block_id": "F5GCd1duvojfzjxGfU3cEm3vnOe",
+        "block_type": 2,
+        "parent_id": "SrkVdalDFoSCizxgjL1cZ94FnBd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MXxedyM3So8qafxpvXCcO2rJn8g",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D31212-1142%26mode%3Ddesign%26t%3DNqYnS7qaFDRvwBKq-4"
+          }
+        },
+        "parent_id": "SrkVdalDFoSCizxgjL1cZ94FnBd"
       },
       {
         "block_id": "Rd4gdDrYXocQzJxd9PscJ9uRnjc",
@@ -4955,7 +5045,7 @@
             },
             {
               "text_run": {
-                "content": " on the left navigation. You will see all the available pipelines and their ",
+                "content": " on the left navigation. You will see all the available pipelines, their ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4979,7 +5069,7 @@
             },
             {
               "text_run": {
-                "content": ". ",
+                "content": ", and the token usage of each pipeline. ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5073,6 +5163,9 @@
       {
         "block_id": "ShkudVmkBoMmCsx8mp3ceT0anxd",
         "block_type": 26,
+        "comment_ids": [
+          "7317572105084239875"
+        ],
         "iframe": {
           "component": {
             "iframe_type": 8,
@@ -5328,12 +5421,12 @@
         "parent_id": "BpMfdeyCCoC8srxHRVjccOLZnvf"
       },
       {
-        "block_id": "LzsXdY83HomNANxbkErc0jiHnKd",
+        "block_id": "QImydXsU4oKzAexQRzRce0VEnRS",
         "block_type": 26,
         "iframe": {
           "component": {
             "iframe_type": 8,
-            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D21763-4239%26mode%3Ddesign%26t%3DpsyBh4YqzYeWmKgX-4"
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D26923-1138%26mode%3Ddesign%26t%3DUcjs4oYkYMEsBCr5-4"
           }
         },
         "parent_id": "NogBdCgUfoscyzxayiTcly7Unre"
@@ -5364,6 +5457,6 @@
         }
       }
     ],
-    "counts": 126
+    "counts": 129
   }
 }

@@ -9,9 +9,9 @@ sidebar_position: 1
 import Admonition from '@theme/Admonition';
 
 
-# Create Pipelines on Web UI
+# Create Pipelines (Console)
 
-The Zilliz Cloud web UI provides a simplified and intuitive way of creating Pipelines. 
+The Zilliz Cloud web UI provides a simplified and intuitive way of creating Pipelines.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -57,6 +57,10 @@ Currently, pipelines only work with collections in a [serverless cluster](./crea
         1. Enter function name.
 
         1. Choose document language. The language you choose will help decide the model used for generating vector embeddings.
+
+        1. By default, Zilliz Cloud segments the header-separated sections in Markdown or HTML documents or the documents of other supported types into chunks of 500 tokens. You can change the chunk size within the range from 20 to 500 to apply your own chunking strategy.
+
+            ![customize-chunk-size](/img/customize-chunk-size.png)
 
         1. Click **Add** to save your function.
 
@@ -119,7 +123,7 @@ Currently, pipelines only work with collections in a [serverless cluster](./crea
 
     1. Click **Add** to save your function.
 
-1. Click** Create Search Pipeline**. 
+1. Click** Create Search Pipeline**.
 
 ## Create a Deletion pipeline{#create-a-deletion-pipeline}
 
@@ -148,13 +152,13 @@ Currently, pipelines only work with collections in a [serverless cluster](./crea
 
     1. Click **Add** to save your function.
 
-1. Click** Create Deletion Pipeline**. 
+1. Click** Create Deletion Pipeline**.
 
 ## Manage your pipelines{#manage-your-pipelines}
 
 ### View your pipelines{#view-your-pipelines}
 
-Click **Pipelines** on the left navigation. You will see all the available pipelines and their detailed information. 
+Click **Pipelines** on the left navigation. You will see all the available pipelines, their detailed information, and the token usage of each pipeline. 
 
 ### Run a pipeline{#run-a-pipeline}
 
