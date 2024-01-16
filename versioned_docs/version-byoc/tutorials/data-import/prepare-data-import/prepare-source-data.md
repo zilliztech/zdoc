@@ -95,7 +95,7 @@ A valid set of NumPy files should be named after the fields in the schema of the
 |  **Item**                                  |  **Description**                                                                                                                                                                       |
 | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |  **Number of files per import**            |  The number of fields in the target collection of this import.<br/> If the target collection allows dynamic fields, consider adding an extra **$meta.npy** to store dynamic fields. |
-|  **Maximum file size per import**<br/>  |  - Total file size: 100 GB<br/> - Total file size in each first-level subfolder: 15 GB<br/> - Maximum number of first-level subfolders: 100<br/>                              |
+|  **Maximum file size per import**<br/>  |  - Total file size: 100 GB<br/> - Total file size in each first-level subfolder: 10 GB<br/> - Maximum number of first-level subfolders: 100<br/>                              |
 |  **Applicable data file locations**        |  Remote files only                                                                                                                                                                     |
 
 ![numpy_file_structure](/byoc/numpy_file_structure.png)

@@ -5,7 +5,7 @@
   "node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
   "node_type": "origin",
   "obj_create_time": "1704710624",
-  "obj_edit_time": "1704961710",
+  "obj_edit_time": "1705048409",
   "obj_token": "DK0cd2Ix8oQD0rxWUBYcW57snLd",
   "obj_type": "docx",
   "origin_node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
@@ -2859,11 +2859,12 @@
           "elements": [
             {
               "text_run": {
-                "content": "Total file size in each first-level subfolder: 15 GB",
+                "content": "Total file size in each first-level subfolder: 10 GB",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7322736582062620673"
+                    "7322736582062620673",
+                    "7323127063636672540"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -2879,6 +2880,7 @@
           }
         },
         "comment_ids": [
+          "7323127063636672540",
           "7322736582062620673"
         ],
         "parent_id": "PPzqdg6AHogG1wxzlmecoXLwn6b"

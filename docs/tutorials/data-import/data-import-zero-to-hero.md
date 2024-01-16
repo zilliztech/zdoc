@@ -11,7 +11,44 @@ import Admonition from '@theme/Admonition';
 
 # Data Import from Zero to Hero
 
-This is a fast-track course to help you quickly start importing data on Zilliz Cloud, from data preparation and collection setup to the actual data import process.
+This is a fast-track course to help you quickly start importing data on Zilliz Cloud, from data preparation and collection setup to the actual data import process. Throughout this tutorial, you will learn:
+
+- How to define a schema and set up a target collection
+
+- How to prepare source data using **BulkWriter** and write it to a remote storage bucket
+
+- How to import data by calling the `bulk_import` operation
+
+## Before you start{#before-you-start}
+
+To ensure a smooth experience, make sure you have completed the following setups:
+
+- **Set Up Your Zilliz Cloud Cluster**:
+
+    - If you have not already, [create a cluster](./undefined).
+
+    - Gather these details: **Cluster Endpoint**, **API Key**, **Cluster ID**, and **Cloud Region**. You can find these cluster values on the [Zilliz Cloud console](./on-zilliz-cloud-console).
+
+- **Configure Your Remote Storage Bucket**:
+
+    - Set up a remote bucket using AWS S3, Google GCS, or Azure Blob. Ensure the bucket is hosted on the same cloud as your Zilliz Cloud cluster.
+
+    - Note down the **Access Key**, **Secret Key**, and **Bucket Name**. These details are available in the console of the cloud provider where your bucket is hosted.
+
+To enhance the usage of the example code, we recommend you use variables to store the configuration details:
+
+```python
+# Configs for Zilliz Cloud cluster
+CLUSTER_ENDPOINT=""
+API_KEY=""
+CLUSTER_ID=""
+CLOUD_REGION=""
+
+# Configs for remote bucket
+ACCESS_KEY=""
+SECRET_KEY=""
+BUCKET_NAME=""
+```
 
 ## Install dependencies{#install-dependencies}
 
@@ -35,7 +72,7 @@ The output is similar to the following. If you prefer to download from the brows
 ```python
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
- 70 59.8M   70 42.0M    0     0   478k      0  0:02:08  0:01:30  0:00:38  544k
+ 70 59.8M   70 42.0M    0     0   478k      0  0:02:08  0:01:30  0:00:38  544
 ```
 
  The following table lists the data structure of the data and the values in the first row.
@@ -43,15 +80,15 @@ The output is similar to the following. If you prefer to download from the brows
 |  **Field Name** |  **Type**     |  **Attributes**  |  **Sample Value**                                  |
 | --------------- | ------------- | ---------------- | -------------------------------------------------- |
 |  id             |  INT64        |  N/A             |  0                                                 |
-|  title_vector   |  FLOAT_VECTOR |  Dimension: 768  |  The Reported Mortality Rate of Coronavirus Is ... |
-|  title          |  VARCHAR      |  Max length: 512 |  [0.041732933, 0.013779674, -0.027564144, -0.01... |
+|  title_vector   |  FLOAT_VECTOR |  Dimension: 768  |  [0.041732933, 0.013779674, -0.027564144, -0.01... |
+|  title          |  VARCHAR      |  Max length: 512 |  The Reported Mortality Rate of Coronavirus Is ... |
 |  link           |  VARCHAR      |  Max length: 512 |  https://medium.com/swlh/the-reported-mortality... |
 |  reading_time   |  INT64        |  N/A             |  13                                                |
 |  publication    |  VARCHAR      |  Max length: 512 |  The Startup                                       |
 |  claps          |  INT64        |  N/A             |  1100                                              |
 |  responses      |  INT64        |  N/A             |  18                                                |
 
-The example dataset comprises details of over 5,000 articles from medium.com.   Learn about this dataset from its [introduction page on Kaggle](https://www.kaggle.com/datasets/shiyu22chen/cleaned-medium-articles-dataset). 
+The example dataset comprises details of over 5,000 articles from medium.com. Learn about this dataset from its [introduction page on Kaggle](https://www.kaggle.com/datasets/shiyu22chen/cleaned-medium-articles-dataset). 
 
 ## Set up target collection{#set-up-target-collection}
 
@@ -96,32 +133,32 @@ The parameters in the above code are described as follows:
 Once the schema is set, you can create the target collection as follows:
 
 ```python
-from pymilvus import connections, Collection
+from pymilvus import MilvusClient
 
-# 1. Set up a connection
-connections.connect(
-        uri="Your-Cluster-Endpoint",
-        token="Your-Token"
+COLLECTION_NAME="medium_articles_2020"
+
+# 1. Set up a MilvusClient
+client = MilvusClient(
+    uri=CLUSTER_ENDPOINT, # Point this to a cluster on the same cloud as your source data
+    token=API_KEY
 )
 
-# 2. Create collection
-collection = Collection(name="medium_aritlces", schema=schema)
+# 2. Set index parameters
+index_params = client.prepare_index_params()
 
-# 3. Set index parameters
-index_params = {
-    "index_type": "AUTOINDEX",
-    "metric_type": "COSINE",
-    "params": {}
-}
-
-# 4. Create index
-collection.create_index(
-        field_name="title_vector",
-        index_params=index_params,
+# Add an index on the vector field.
+index_params.add_index(
+    field_name="title-vector",
+    metric_type="COSINE",
+    index_type="AUTOINDEX"
 )
 
-# 5. Load the collection
-collection.load()
+# 3. Create a collection
+client.create_collection(
+    collection_name=COLLECTION_NAME,
+    schema=schema,
+    index_params=index_params
+)
 ```
 
 For details on collection settings, refer to Manage Collections (SDK).
@@ -139,10 +176,10 @@ from pymilvus import RemoteBulkWriter, BulkFileType
 
 # Connections parameters to access the remote bucket
 conn = RemoteBulkWriter.ConnectParam(
-    endpoint="storage.googleapis.com", # s3.amazonaws.com for AWS S3
-    access_key="Your-Access-Key",
-    secret_key="Your-Secret-key",
-    bucket_name="Your-Bucket-Name", # Use a bucket hosted in the same cloud as the target cluster
+    endpoint="storage.googleapis.com", # Set to "s3.amazonaws.com" for AWS S3
+    access_key=ACCESS_KEY,
+    secret_key=SECRET_KEY,
+    bucket_name=BUCKET_NAME, # Use a bucket hosted in the same cloud as the target cluster
     secure=True
 )
 
@@ -194,7 +231,7 @@ You can append rows from the source dataset as follows:
 ```python
 import pandas as pd
 
-df = pd.read_csv("path/to/medium_articles_2020_dpr.csv")
+df = pd.read_csv("path/to/medium_articles_2020_dpr.csv") # Replace with actual file path to the dataset
 
 for i in range(len(df)):
     row = df.iloc[i].to_dict()
@@ -235,37 +272,6 @@ For details, refer to [Use BulkWriter](./use-bulkwriter#verify-the-result).
 
 Before this step, ensure that the source data and target collection are hosted by the same cloud provider.
 
-### Check prepared data{#check-prepared-data}
-
-In this course, we are using MinIO's Python Client to connect to our remote bucket. This client applies to AWS-S3-compatible object storage services, such as AWS S3, Google GCS, and Azure Blob Storage.
-
-```python
-from minio import Minio
-
-# Create a MinIO client
-client = Minio(
-    endpoint="storage.googleapis.com",
-    access_key="Your-Access-Key",
-    secret_key="Your-Secret-key",
-    secure=True)
-
-# Set up the object prefix for object filtering    
-prefix = str(writer.data_path)[1:]
-
-# List objects
-objects = client.list_objects(
-    bucket_name="Your-Bucket-Name",
-    prefix=prefix,
-    recursive=True
-)
-
-[obj.object_name for obj in objects]
-
-# [
-#     5868ba87-743e-4d9e-8fa6-e07b39229425/1.parquet
-# ]
-```
-
 ### Start importing{#start-importing}
 
 To import the prepared source data, you need to call the **bulk_import()** function as follows:
@@ -273,18 +279,18 @@ To import the prepared source data, you need to call the **bulk_import()** funct
 ```python
 from pymilvus import bulk_import
 
-object_url = f"gs://docs-demo/{str(writer.data_path)[1:]}/"
-
-cloud_region = "gcp-us-west1" # Change this to your cloud region.
+# Publicly accessible URL for an object in the remote bucket
+# Change `gs` to `s3` for AWS S3
+object_url = f"gs://{BUCKET_NAME}/{str(writer.data_path)[1:]}/"
 
 res = bulk_import(
-    url=f"controller.api.{cloud_region}.zillizcloud.com",
-    api_key="Zilliz-Cloud-API-Key",
-    object_url="Object-Url",
-    access_key="Your-Access-Key",
-    secret_key="Your-Secret-key",
-    cluster_id="Cluster-Id",
-    collection_name="Collection-Name",
+    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
+    api_key=API_KEY,
+    object_url=object_url,
+    access_key=ACCESS_KEY,
+    secret_key=SECRET_KEY,
+    cluster_id=CLUSTER_ID,
+    collection_name=COLLECTION_NAME,
 )
 
 print(res.json())
@@ -294,11 +300,9 @@ print(res.json())
 
 <Admonition type="info" icon="📘" title="Notes">
 
-- The **object_url** should be a valid URL to an object in the remote bucket. 
+The **object_url** should be a valid URL to an object in the remote bucket. 
 
-    If the data and target collection are hosted by Google Cloud, the object URL should be in the format `gs://remote-bucket/${writer.data_path}`.  For applicable URI to prefix the data path returned by the writer, please refer to [Prepare Source Data](./prepare-source-data).
-
-- To determine the values of parameters **url,**  **api_key**, **cluster_id**, and **collection_name**, refer to [On Zilliz Cloud Console](./on-zilliz-cloud-console).
+If the data and target collection are hosted by Google Cloud, the object URL should be in the format `gs://remote-bucket/${writer.data_path}`.  For applicable URI to prefix the data path returned by the writer, please refer to [Prepare Source Data](./prepare-source-data).
 
 </Admonition>
 
@@ -313,10 +317,10 @@ from pymilvus import get_import_progress
 job_id = res.json()['data']['jobId']
 
 res = get_import_progress(
-    url=f"controller.api.{cloud_region}.zillizcloud.com",
-    api_key="Your-Access-Key",
+    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
+    api_key=API_KEY,
     job_id=job_id,
-    cluster_id="Cluster-Id"
+    cluster_id=CLUSTER_ID
 )
 
 # check the bulk-import progress
@@ -324,13 +328,18 @@ while res.json()["data"]["readyPercentage"] < 1:
     time.sleep(5)
 
     res = get_import_progress(
-        url=f"controller.api.{cloud_region}.zillizcloud.com",
-        api_key="Your-Access-Key",
+        url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
+        api_key=API_KEY,
         job_id=job_id,
-        cluster_id="Cluster-Id"
+        cluster_id=CLUSTER_ID
     )
     
     print(res.json()["data"]["readyPercentage"])
+
+# 0.01   -- import progress 1%
+# 0.5    -- import progress 50%
+# 0.5
+# 1      -- finished
 ```
 
 You can list all bulk-import jobs as follows:
@@ -339,7 +348,7 @@ You can list all bulk-import jobs as follows:
 from pymilvus import list_import_jobs
 
 res = list_import_jobs(
-    url=f"controller.api.{cloud_region}.zillizcloud.com",
+    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
     api_key=API_KEY,
     cluster_id=CLUSTER_ID,
     page_size=10,
@@ -347,6 +356,22 @@ res = list_import_jobs(
 )
 
 print(res.json())
+
+# {
+#    "code":200,
+#    "data":{
+#       "tasks":[
+#          {
+#             "collectionName":"medium_aritlces",
+#             "jobId":"0f7fe853-d93e-4681-99f2-4719c63585cc",
+#             "state":"ImportCompleted"
+#          }
+#       ],
+#       "count":1,
+#       "currentPage":1,
+#       "pageSize":10
+#    }
+# }
 ```
 
 ## Recaps{#recaps}

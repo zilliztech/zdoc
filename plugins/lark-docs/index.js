@@ -12,6 +12,7 @@ module.exports = function (context, options) {
                 .command('fetch-lark-docs')
                 .option('-doc, --docTitle <docTitle>', 'Title of a child Lark doc')
                 .option('-token, --docToken <docToken>', 'Token of a child Lark doc')
+                .option('-src-only, --sourceOnly', 'Only fetch doc sources')
                 .option('-tar, --pubTarget <pubTarget>', 'Target of the doc')
                 .option('-faq, --faq', 'Generate FAQ pages')
                 .option('-skipS, --skipSourceDown', 'Skip fetching document sources')
@@ -21,12 +22,19 @@ module.exports = function (context, options) {
 
                     const options = context.siteConfig.plugins.filter(plugin => plugin[0].includes('lark-docs'))[0][1]
 
-                    if (options.root === undefined || options.base === undefined || opts.pubTarget === undefined) {
+                    if (opts.sourceOnly) {
+                        const scraper = new docScraper(options.root, options.base)
+                        await scraper.fetch(recursive=true)
+                    } else if (opts.docToken !== undefined) {
+                        const scraper = new docScraper(options.root, options.base)
+                        await scraper.fetch(recursive=false, page_token=opts.docToken)
+                    } else if (options.root === undefined || options.base === undefined || opts.pubTarget === undefined) {
                         console.log('Please provide a target')
                         return
                     } else {
                         const { outputDir, imageDir } = options.targets.filter(target => target[0] === opts.pubTarget)[0][1]
                         const utils = new Utils(options.root, options.docSourceDir, outputDir)
+
                         if (opts.docTitle === undefined && !opts.faq && opts.post) {
                             console.log('Fetching docs from Feishu...')
                             if (!opts.skipSourceDown) {
@@ -37,11 +45,6 @@ module.exports = function (context, options) {
                             await writer.write_docs(outputDir, options.root)
 
                             utils.post_process_file_paths()
-                        }
-
-                        if (opts.docToken !== undefined) {
-                            const scraper = new docScraper(options.root, options.base)
-                            await scraper.fetch(recursive=false, page_token=opts.docToken)
                         }
     
                         if (opts.docTitle !== undefined) {
@@ -90,6 +93,33 @@ module.exports = function (context, options) {
                                 }
     
                                 writer.write_doc(req)
+                            } else {
+                                titles = JSON.parse(fs.readFileSync('plugins/lark-docs/meta/titles.json', 'utf8'))
+                                if (titles[opts.docTitle]) {
+                                    const page_slug = titles[opts.docTitle]
+                                    const page_beta = false
+                                    const notebook = false
+                                    const sidebarPos = JSON.parse(fs.readFileSync(options.docSourceDir + '/' + source.parent_node_token + '.json', 'utf8')).children.map((child, index) => {
+                                        if (child.node_token === token) {
+                                            return index+1
+                                        }
+                                    }).filter(index => index !== undefined)[0]
+
+                                    const req = {
+                                        path: file_path.split('/').slice(0, -1).join('/') + '/' + page_slug,
+                                        page_title: opts.docTitle,
+                                        page_slug: page_slug,
+                                        page_beta: page_beta,
+                                        notebook: notebook,
+                                        page_token: token,
+                                        sidebar_position: sidebarPos,
+                                    }
+
+                                    writer.write_doc(req)  
+                                } else {
+                                    console.log('The doc is not ready to publish!')
+                                    return
+                                }
                             }
                         }
                                 
