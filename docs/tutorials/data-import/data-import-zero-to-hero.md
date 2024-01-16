@@ -3,13 +3,13 @@ slug: /data-import-zero-to-hero
 beta: FALSE
 notebook: 99_data_import_zero_to_hero.ipynb
 token: BjHZwBkk0iFScik49QMc1Wwjndb
-sidebar_position: 3
+sidebar_position: 1
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Data Import from Zero to Hero
+# User Guide: Data Import from Zero to Hero
 
 This is a fast-track course to help you quickly start importing data on Zilliz Cloud, from data preparation and collection setup to the actual data import process. Throughout this tutorial, you will learn:
 
@@ -17,7 +17,7 @@ This is a fast-track course to help you quickly start importing data on Zilliz C
 
 - How to prepare source data using **BulkWriter** and write it to a remote storage bucket
 
-- How to import data by calling the `bulk_import` operation
+- How to import data by calling bulk-import APIs
 
 ## Before you start{#before-you-start}
 
@@ -25,7 +25,7 @@ To ensure a smooth experience, make sure you have completed the following setups
 
 - **Set Up Your Zilliz Cloud Cluster**:
 
-    - If you have not already, [create a cluster](./undefined).
+    - If you have not already, [create a cluster](./create-cluster).
 
     - Gather these details: **Cluster Endpoint**, **API Key**, **Cluster ID**, and **Cloud Region**. You can find these cluster values on the [Zilliz Cloud console](./on-zilliz-cloud-console).
 
@@ -133,32 +133,27 @@ The parameters in the above code are described as follows:
 Once the schema is set, you can create the target collection as follows:
 
 ```python
-from pymilvus import MilvusClient
-
-COLLECTION_NAME="medium_articles_2020"
-
-# 1. Set up a MilvusClient
-client = MilvusClient(
-    uri=CLUSTER_ENDPOINT, # Point this to a cluster on the same cloud as your source data
-    token=API_KEY
+from pymilvus import connections, Collection
+# 1. Set up a connection
+connections.connect(
+        uri="Your-Cluster-Endpoint",
+        token="Your-Token"
 )
-
-# 2. Set index parameters
-index_params = client.prepare_index_params()
-
-# Add an index on the vector field.
-index_params.add_index(
-    field_name="title-vector",
-    metric_type="COSINE",
-    index_type="AUTOINDEX"
+# 2. Create collection
+collection = Collection(name="medium_aritlces", schema=schema)
+# 3. Set index parameters
+index_params = {
+    "index_type": "AUTOINDEX",
+    "metric_type": "COSINE",
+    "params": {}
+}
+# 4. Create index
+collection.create_index(
+        field_name="title_vector",
+        index_params=index_params,
 )
-
-# 3. Create a collection
-client.create_collection(
-    collection_name=COLLECTION_NAME,
-    schema=schema,
-    index_params=index_params
-)
+# 5. Load the collection
+collection.load()
 ```
 
 For details on collection settings, refer to Manage Collections (SDK).
@@ -276,6 +271,12 @@ Before this step, ensure that the source data and target collection are hosted b
 
 To import the prepared source data, you need to call the **bulk_import()** function as follows:
 
+<Admonition type="info" icon="📘" title="Notes">
+
+You should replace `url` in the `bulk_import()` with the one corresponding to the cloud region of the target collection.
+
+</Admonition>
+
 ```python
 from pymilvus import bulk_import
 
@@ -284,7 +285,8 @@ from pymilvus import bulk_import
 object_url = f"gs://{BUCKET_NAME}/{str(writer.data_path)[1:]}/"
 
 res = bulk_import(
-    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
+    #highlight-next
+    url="controller.api.aws-us-west-2.zillizcloud.com",
     api_key=API_KEY,
     object_url=object_url,
     access_key=ACCESS_KEY,
@@ -310,6 +312,12 @@ If the data and target collection are hosted by Google Cloud, the object URL sho
 
 The following code checks the bulk-import progress every 5 seconds and outputs the progress in percentage. 
 
+<Admonition type="info" icon="📘" title="Notes">
+
+You should replace `url` in the `get_import_progress()` with the one corresponding to the cloud region of the target collection.
+
+</Admonition>
+
 ```python
 import time
 from pymilvus import get_import_progress
@@ -317,7 +325,8 @@ from pymilvus import get_import_progress
 job_id = res.json()['data']['jobId']
 
 res = get_import_progress(
-    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
+    # highlight-next
+    url="controller.api.aws-us-west-2.zillizcloud.com",
     api_key=API_KEY,
     job_id=job_id,
     cluster_id=CLUSTER_ID
@@ -328,7 +337,8 @@ while res.json()["data"]["readyPercentage"] < 1:
     time.sleep(5)
 
     res = get_import_progress(
-        url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
+        # highlight-next
+        url="controller.api.aws-us-west-2.zillizcloud.com",
         api_key=API_KEY,
         job_id=job_id,
         cluster_id=CLUSTER_ID
@@ -348,7 +358,8 @@ You can list all bulk-import jobs as follows:
 from pymilvus import list_import_jobs
 
 res = list_import_jobs(
-    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
+    # highlight-next
+    url="controller.api.aws-us-west-2.zillizcloud.com",
     api_key=API_KEY,
     cluster_id=CLUSTER_ID,
     page_size=10,

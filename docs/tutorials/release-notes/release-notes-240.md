@@ -3,7 +3,7 @@ slug: /release-notes-240
 beta: FALSE
 notebook: FALSE
 token: A5lpwIZcZiTLqakdt6rcCmPcnEe
-sidebar_position: 0
+sidebar_position: 1
 ---
 
 import Admonition from '@theme/Admonition';
@@ -33,7 +33,7 @@ To learn more information, please refer to this [__documentation__](./understand
 
 ## RBAC and Credential Management in Your Clusters{#rbac-and-credential-management-in-your-clusters}
 
-In this release, we introduce enhanced functionality for managing RBAC (Role-Based Access Control) and credentials within each Cluster. This streamlined approach allows users to efficiently administer Cluster users. To access these features, navigate to the 'Clusters' section, select 'your_cluster', and then proceed to the 'Users' tab. This release includes three predefined roles for simplified user management: 'admin', 'read-write', and 'read-only', each tailored to suit different levels of access and control needs. For more comprehensive details and guidance on utilizing these new capabilities, see the [__documentation__](./create-built-in-roles).
+In this release, we introduce enhanced functionality for managing RBAC (Role-Based Access Control) and credentials within each Cluster. This streamlined approach allows users to efficiently administer Cluster users. To access these features, navigate to the 'Clusters' section, select 'your_cluster', and then proceed to the 'Users' tab. This release includes three predefined roles for simplified user management: 'admin', 'read-write', and 'read-only', each tailored to suit different levels of access and control needs. For more comprehensive details and guidance on utilizing these new capabilities, see the [__documentation__](./user-roles).
 
 ## New Cluster Manipulation API Endpoints{#new-cluster-manipulation-api-endpoints}
 

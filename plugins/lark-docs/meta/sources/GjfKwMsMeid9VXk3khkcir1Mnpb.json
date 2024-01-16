@@ -1,0 +1,441 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1703660747",
+  "node_token": "GjfKwMsMeid9VXk3khkcir1Mnpb",
+  "node_type": "origin",
+  "obj_create_time": "1703660747",
+  "obj_edit_time": "1705029548",
+  "obj_token": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb",
+  "obj_type": "docx",
+  "origin_node_token": "GjfKwMsMeid9VXk3khkcir1Mnpb",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
+  "space_id": "7167193056431783939",
+  "title": "View System Settings",
+  "slug": "view-system-settings",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb",
+        "block_type": 1,
+        "children": [
+          "EcRqdo5CDowiv9xhHesc82EJn7d",
+          "MMB5dt7XHoga1FxBIducWnibnfh",
+          "EorDdizA8ouUXbxCE8mccfpknxf",
+          "GHptdwkskojKydxpZEnc8Xl7nTb",
+          "LBf0d7S51oikTExNbUSc4d9Qnee",
+          "It0qdrmUVoYgimxjNkXc60E7nTf",
+          "W9TSdzrAloh6UPxCvqVc0CiynNe",
+          "Vr5TdXwNZoOpvixMzHHcJsxRnKd",
+          "BmM2dsAQFoU09kxcmCkc8n21nkg",
+          "JGRldcbNOo5QQWxf0WlcTLUGnZe",
+          "RGm0dKEDeogtNix6Xs5c9NoUnhc",
+          "YjyUdoWwbownzQxU9dRcR14XnZd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View System Settings",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "EcRqdo5CDowiv9xhHesc82EJn7d",
+        "block_type": 2,
+        "parent_id": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After joining an organization, you become an organization member and have permission to view system settings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MMB5dt7XHoga1FxBIducWnibnfh",
+        "block_type": 2,
+        "parent_id": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For additional details on organization settings, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Settings",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FW4sbwK3wnid47YkXD0jcDiXUndd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EorDdizA8ouUXbxCE8mccfpknxf",
+        "block_type": 2,
+        "parent_id": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GHptdwkskojKydxpZEnc8Xl7nTb",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D8858-42%26mode%3Ddesign%26t%3D8xduxwZUdx0LLqNp-4"
+          }
+        },
+        "parent_id": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb"
+      },
+      {
+        "block_id": "LBf0d7S51oikTExNbUSc4d9Qnee",
+        "block_type": 2,
+        "parent_id": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "It0qdrmUVoYgimxjNkXc60E7nTf",
+        "block_type": 2,
+        "parent_id": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "W9TSdzrAloh6UPxCvqVc0CiynNe",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D19195-683%26mode%3Ddesign%26t%3DAvPnKajLhhWNBBKE-4"
+          }
+        },
+        "parent_id": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb"
+      },
+      {
+        "block_id": "Vr5TdXwNZoOpvixMzHHcJsxRnKd",
+        "block_type": 2,
+        "parent_id": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BmM2dsAQFoU09kxcmCkc8n21nkg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb"
+      },
+      {
+        "block_id": "JGRldcbNOo5QQWxf0WlcTLUGnZe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "View Activities",
+                "token": "UfqGwAVleiNu7FkH28JcnlgOnpf",
+                "url": "https://zilliverse.feishu.cn/wiki/UfqGwAVleiNu7FkH28JcnlgOnpf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb"
+      },
+      {
+        "block_id": "RGm0dKEDeogtNix6Xs5c9NoUnhc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Timezone",
+                "token": "MLIRwRbrtiawJgkMEdOcPQnRnVf",
+                "url": "https://zilliverse.feishu.cn/wiki/MLIRwRbrtiawJgkMEdOcPQnRnVf"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb"
+      },
+      {
+        "block_id": "YjyUdoWwbownzQxU9dRcR14XnZd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Set up Maintenance Window",
+                "token": "FUtxwSaoSiDKFikcDw8cKngKn1f",
+                "url": "https://zilliverse.feishu.cn/wiki/FUtxwSaoSiDKFikcDw8cKngKn1f"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Gm1qdM2l5o1XyAx1xA8cDD7Xnwb"
+      }
+    ],
+    "counts": 13
+  }
+}

@@ -1,0 +1,1626 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1703644330",
+  "node_token": "DXbRwHM79iK5VDkV5E8cW6N7nxb",
+  "node_type": "origin",
+  "obj_create_time": "1703644330",
+  "obj_edit_time": "1705043956",
+  "obj_token": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+  "obj_type": "docx",
+  "origin_node_token": "DXbRwHM79iK5VDkV5E8cW6N7nxb",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "O3rEwwCCTiu0k1kAyygcKYwhnzg",
+  "space_id": "7167193056431783939",
+  "title": "Project Users",
+  "slug": "project-users",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "block_type": 1,
+        "children": [
+          "K1s6djHZOoxWq5xYC0pcA3Y7nMc",
+          "RsfzdgUcOoriMlxjt7lcLVdBnuf",
+          "Lxy9do3jroOcTcxJb9GcUACCnNf",
+          "JS7OdgW1yove3yxEybqc5hRBnIb",
+          "X0VldPr2goZbFQxJ7xtcbGfTnGh",
+          "HhXVdmvAKoLse4xlh1hcj3GCn8d",
+          "OlIad6nj8oFdcuxfNPmc5xjRnpb",
+          "MbOzdbaFLoJK2Sx8uT0clgEzn4e",
+          "AB34dTqk1ofU0sxZ44LcKYX4n8d",
+          "Xng4dMKEMoYmcGx1oKDcL3m1nbZ",
+          "YAgkdfQu0orJXxxcu2Yc4tNznTb",
+          "CM78d2jhyoQe7ix4hl7c5DJGnfh",
+          "FpHZdNzcRowPXgxLTHycwSJJntg",
+          "FWH9dkRMVoV0vzxBkHGcJdZSnsg",
+          "F4W9dw78Vobg80xRagecWsecnch",
+          "KTMud3KajoAg4kx7dWecs6Frnge",
+          "K4oadghZKoXR2UxGVIBc38Lpnxh",
+          "UxqednfXeoV0TCxhJdfc5YponNe",
+          "P1TJdyAk4o8sxfxi6iLce0rbnde",
+          "EjuedLJELon0eFxJMuRc9EjsnRe",
+          "S2ezdMAxioebZ9xV4hGc3h6lnec",
+          "DppTdRaUuodLdSxNi4Ec0wuJnlS",
+          "XtCQdqspcodWexxDZVmcG7MrnJb",
+          "WAjidzLPtoA79OxjXkwc32gznnd",
+          "FBWnd1lqwoi3r9xmS1qcRWLZnUh",
+          "OdEBdYU8oopfPexnueRcD5v5n1b",
+          "DBrIdbAYloiHgcx7SupcB4RInfC",
+          "QfWvdTL7toOx7Vxfz5PcvtZOnlh",
+          "GC2Od0bzNoZQOGxhh8wc6QBVnzY",
+          "KVzYdkLuUoCDOGxpqzocSEsznHd",
+          "J9PrdctVIow1GXxnbZhcjLOcn5b",
+          "Ih4ddE3Uvo95usx1cU8cPH0TnLf",
+          "F1egdMZ4foCGCNxdTkLc6PfEn5c",
+          "VCjRdJcUOomHYoxovK2c8Ld9nAd",
+          "SNmedvxESo8wGFxNmgAcyVvanNg",
+          "TPMQd5tFho1czUxo7qccxdcynkf",
+          "O76edT8f7o2hdtxftQWchsQ6nKf",
+          "NIoedMnCMoKk14xT4oSctlzbnUg",
+          "EBH0djGI5olgF0xL8xOc62Dzn5v",
+          "KIVZdpJZGosajIxZOGycsYmdnih",
+          "YbKTdFVyRoluQTxWCxmckzvKnSh",
+          "V65jd2KYjokRFFxkZLEcG9Uenbe",
+          "Xrz8dHUU2ocQ6AxzUQCcYfkVnSb",
+          "RpildUPgQoqu7exRtylcNGzanlf",
+          "H3EZdxQCioJQTbx1ka9cCM52n4b"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Project Users",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "K1s6djHZOoxWq5xYC0pcA3Y7nMc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Invite a user to join a project",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "RsfzdgUcOoriMlxjt7lcLVdBnuf",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To invite a user to join a project, you must be an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Project Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23DWfPdLrB6oQIfYxTcSqcOEIxnSd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Lxy9do3jroOcTcxJb9GcUACCnNf",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enter the email addresses of the users you wish to invite. They will receive an invitation via email, which must be accepted within 48 hours to join the project. You can ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "revoke or resend this invitation",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FMkXydAxvtoBH2IxYnx0cyamTn6b%23GeN0dNV8uooyFBxLQCbcZ6Jbnmc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " anytime before it's accepted.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JS7OdgW1yove3yxEybqc5hRBnIb",
+        "block_type": 34,
+        "children": [
+          "VIJ8dD1n9o5yazxvG9Acmqxonkd",
+          "WNWldPpIao8vjoxwD4Hcsulcnr6"
+        ],
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "quote_container": {}
+      },
+      {
+        "block_id": "VIJ8dD1n9o5yazxvG9Acmqxonkd",
+        "block_type": 2,
+        "parent_id": "JS7OdgW1yove3yxEybqc5hRBnIb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WNWldPpIao8vjoxwD4Hcsulcnr6",
+        "block_type": 2,
+        "parent_id": "JS7OdgW1yove3yxEybqc5hRBnIb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Each time you can invite one or more users with the same role to join the project.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X0VldPr2goZbFQxJ7xtcbGfTnGh",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HhXVdmvAKoLse4xlh1hcj3GCn8d",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5850-1662%26mode%3Ddesign%26t%3DoTsJVl8A8Hgyy6r7-4"
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "OlIad6nj8oFdcuxfNPmc5xjRnpb",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MbOzdbaFLoJK2Sx8uT0clgEzn4e",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AB34dTqk1ofU0sxZ44LcKYX4n8d",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D30533-1689%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "Xng4dMKEMoYmcGx1oKDcL3m1nbZ",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YAgkdfQu0orJXxxcu2Yc4tNznTb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Revoke or resend an invitation",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "CM78d2jhyoQe7ix4hl7c5DJGnfh",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When you invite an existing organization member to a project within the same organization, they automatically gain access to the project without receiving a separate invitation. However, if you invite someone to a project within an organization they are not already a part of, they will receive an invitation to join the organization, which also grants them access to the specified project.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FpHZdNzcRowPXgxLTHycwSJJntg",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To revoke or resend the invitation, you must be an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Project Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23DWfPdLrB6oQIfYxTcSqcOEIxnSd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FWH9dkRMVoV0vzxBkHGcJdZSnsg",
+        "block_type": 34,
+        "children": [
+          "VcqMdqxPsoN1IbxaECDcLESNnch",
+          "UkwLdN5XToyamtxyEGkch2cenAA"
+        ],
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "quote_container": {}
+      },
+      {
+        "block_id": "VcqMdqxPsoN1IbxaECDcLESNnch",
+        "block_type": 2,
+        "parent_id": "FWH9dkRMVoV0vzxBkHGcJdZSnsg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UkwLdN5XToyamtxyEGkch2cenAA",
+        "block_type": 2,
+        "parent_id": "FWH9dkRMVoV0vzxBkHGcJdZSnsg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can revoke or resend an invitation before the user accepts it.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F4W9dw78Vobg80xRagecWsecnch",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KTMud3KajoAg4kx7dWecs6Frnge",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D11678-495%26mode%3Ddesign%26t%3DoTsJVl8A8Hgyy6r7-4"
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "K4oadghZKoXR2UxGVIBc38Lpnxh",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UxqednfXeoV0TCxhJdfc5YponNe",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "P1TJdyAk4o8sxfxi6iLce0rbnde",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D30533-1715%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "EjuedLJELon0eFxJMuRc9EjsnRe",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "S2ezdMAxioebZ9xV4hGc3h6lnec",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Edit a collaborator's role or remove a collaborator",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "DppTdRaUuodLdSxNi4Ec0wuJnlS",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After a user accepts the invitation, the user becomes a project collaborator.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XtCQdqspcodWexxDZVmcG7MrnJb",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To edit a collaborator's role or remove a project collaborator, you must be an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Project Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23DWfPdLrB6oQIfYxTcSqcOEIxnSd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WAjidzLPtoA79OxjXkwc32gznnd",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FBWnd1lqwoi3r9xmS1qcRWLZnUh",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D11684-521%26mode%3Ddesign%26t%3DKx2iqTYgmTg3uGcz-4"
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "OdEBdYU8oopfPexnueRcD5v5n1b",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DBrIdbAYloiHgcx7SupcB4RInfC",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QfWvdTL7toOx7Vxfz5PcvtZOnlh",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D30533-1749%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "GC2Od0bzNoZQOGxhh8wc6QBVnzY",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KVzYdkLuUoCDOGxpqzocSEsznHd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Leave a project",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "J9PrdctVIow1GXxnbZhcjLOcn5b",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In addition to removing a collaborator from a project, you can also remove yourself by leaving it.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ih4ddE3Uvo95usx1cU8cPH0TnLf",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Note that if you are the only owner of a project, you cannot leave it as each project must have at least one project owner at all times.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F1egdMZ4foCGCNxdTkLc6PfEn5c",
+        "block_type": 34,
+        "children": [
+          "IyK4dFr0eoFdhTxXUhDcicDSnzc",
+          "LJZ7dSDqWoKUkhxklA0cfnZ0ntf"
+        ],
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "quote_container": {}
+      },
+      {
+        "block_id": "IyK4dFr0eoFdhTxXUhDcicDSnzc",
+        "block_type": 2,
+        "parent_id": "F1egdMZ4foCGCNxdTkLc6PfEn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "🚧 Warning",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LJZ7dSDqWoKUkhxklA0cfnZ0ntf",
+        "block_type": 2,
+        "parent_id": "F1egdMZ4foCGCNxdTkLc6PfEn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once you leave a project, your access to the project and associated resources will be revoked.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VCjRdJcUOomHYoxovK2c8Ld9nAd",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SNmedvxESo8wGFxNmgAcyVvanNg",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D11941-500%26mode%3Ddesign%26t%3DKx2iqTYgmTg3uGcz-4"
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "TPMQd5tFho1czUxo7qccxdcynkf",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O76edT8f7o2hdtxftQWchsQ6nKf",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NIoedMnCMoKk14xT4oSctlzbnUg",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D30588-1792%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "EBH0djGI5olgF0xL8xOc62Dzn5v",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KIVZdpJZGosajIxZOGycsYmdnih",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "YbKTdFVyRoluQTxWCxmckzvKnSh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Resource Hierarchy",
+                "token": "CA04wUpF0id2sckrZjqcAOZGnnz",
+                "url": "https://zilliverse.feishu.cn/wiki/CA04wUpF0id2sckrZjqcAOZGnnz"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "V65jd2KYjokRFFxkZLEcG9Uenbe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Organizations",
+                "token": "BX8nwr7eHiZY3CkHnuYcGCj1n4e",
+                "url": "https://zilliverse.feishu.cn/wiki/BX8nwr7eHiZY3CkHnuYcGCj1n4e"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "Xrz8dHUU2ocQ6AxzUQCcYfkVnSb",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RpildUPgQoqu7exRtylcNGzanlf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Delete Your Organization",
+                "token": "OCc5wCndbipOkzk8tkUc9IuJnle",
+                "url": "https://zilliverse.feishu.cn/wiki/OCc5wCndbipOkzk8tkUc9IuJnle"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc"
+      },
+      {
+        "block_id": "H3EZdxQCioJQTbx1ka9cCM52n4b",
+        "block_type": 2,
+        "parent_id": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 52
+  }
+}

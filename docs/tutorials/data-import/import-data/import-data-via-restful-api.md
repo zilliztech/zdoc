@@ -18,11 +18,11 @@ This page introduces how to import the prepared data via the Zilliz Cloud RESTfu
 
 Make sure the following conditions are met:
 
-- You have obtained an API key for your cluster. For details, see [Manage API Keys](./manage-api-keys) and [On Zilliz Cloud Console](./on-zilliz-cloud-console).
+- You have obtained an API key for your cluster. For details, see [Manage API Keys](./undefined) and [On Zilliz Cloud Console](./on-zilliz-cloud-console).
 
 - You have prepared your data in either of the supported formats. 
 
-    For details on how to prepare your data, refer to [Prepare Source Data](./prepare-source-data). You can also refer to the end-to-end notebook [Data Import from Zero to Hero](./data-import-zero-to-hero) to get more.
+    For details on how to prepare your data, refer to [Prepare Source Data](./prepare-source-data). You can also refer to the end-to-end notebook [Data Import from Zero to Hero](./undefined) to get more.
 
 - You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Example Dataset](./example-dataset) and [Create Collection](./create-collection).
 

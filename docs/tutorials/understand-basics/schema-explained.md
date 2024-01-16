@@ -156,9 +156,9 @@ For your reference, Zilliz Cloud supports the following field data types:
 
 ## What’s next{#whats-next}
 
-- [Create Collection](./create-collection) 
+- [Create Collection](./create-collection)
 
-- [Enable Dynamic Schema](./enable-dynamic-schema) 
+- [Enable Dynamic Schema](./enable-dynamic-schema)
 
 - [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 
 

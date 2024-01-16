@@ -1,0 +1,4711 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1704856645",
+  "node_token": "UPg7wiU71ioeELk8I8KcLDYqncb",
+  "node_type": "origin",
+  "obj_create_time": "1704856645",
+  "obj_edit_time": "1705056277",
+  "obj_token": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+  "obj_type": "docx",
+  "origin_node_token": "UPg7wiU71ioeELk8I8KcLDYqncb",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "Xma9w6Ne9ihcsZkFkSmcHidEnZg",
+  "space_id": "7167193056431783939",
+  "title": "Manage Organization Alerts",
+  "slug": "manage-organization-alerts",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "block_type": 1,
+        "children": [
+          "GRXTdRZ40oWfi5xK5HPc0hrJnLe",
+          "F7q2dSRvzo9kexx4Uoucd2Ign0d",
+          "NdrNdLo6jo8aASxTBOuc2j08nKd",
+          "JhRqdsTEdoigxjxh8hPcupNlnvg",
+          "Z7s3dZ1NXohRtqxYw2acZAhnnBp",
+          "VAfJdZp6yodoxRxvJnNcjYs4nvf",
+          "Ll4rdbVvcosRb5xrSSJctIJvnfc",
+          "CcB3dep4vo8KN6xJpN6cqiRGnKd",
+          "TT7Vdi32WohF1wxMS1ZcLsFtnad",
+          "UIpVdk44Gost7lxIebTc4uhEnab",
+          "VgirdzZpoofoZWx6c4FcMWvLnIb",
+          "RZLQdvB8Jo7MOCxAyRkcNBE2nHd",
+          "CpAXdx4iVoUDb0xdlZNcW9stndf",
+          "WiWXd3xPlorm8dxAXabcv04lnph",
+          "BR8AdM2zEo4R4cxKMKocPLO8nJh",
+          "BQdfdAk1RoFPD0x38u0csxiJn6c",
+          "R6fddKLMJoRXIfxKgCMcqAkRnih",
+          "MxLJdu6seobfeDxYzt9cBy15naf",
+          "BFFddGKTwoPUTqxhwRhcrvMFn2d",
+          "C0AQd8UJuoSHikxDcdIcchoxnCB",
+          "C3WJdIPkQofwloxKSNQcJgQonIl",
+          "SF8Zd8eyHoU2Hhxck0hcZeqqnPb",
+          "AdD5d07IEobgPIx3vJUcCWlmnOf",
+          "Ufa2d9KkvoGx4fxEMJHc7Mbqnbf",
+          "UCcHdU2u7oAPY8xEhpicvDIanAd",
+          "Lh8NdLAELoQLelxlGMEcfJamnHb",
+          "Ans1d563xoaWeqxXzooctvE6nkh",
+          "Z1Fudr6DaoefYgxydN1c997bnmc",
+          "XYRIdnUBnoGxvUxZztZchQw4nog",
+          "Uv4ydhDjLopCOLxrl4Wc5Yc5nse",
+          "KmZpd2jRjoBNrMx823fc1ydynvd",
+          "LKbQdkl6qoCbWoxTUhwc8Wminvc",
+          "I3WQdrGISoBB13x6o28cLzBmnwg",
+          "F2pqdAHetoOEJFxEcPmcz8eGnNc",
+          "WVjIdYWpfo3uMUxKQEpcXfTBnSg",
+          "RdYudsS6ro2pTCxULWwcZ1jPnAW",
+          "QH8edFgakoqmiCxiO9Nc5aQrnYM",
+          "UHTRd1OSlouo0jxSe5OcED9fnQf",
+          "QkB0d7aQ3oa6MfxaeBKc0XS6nbg",
+          "V6K5dQp3loTR2IxDXPfcc50snwh",
+          "OOu8dUaXqoFfS4xZyZbc1AeznlH",
+          "HhBndYWuBoQFHsxhEaVcT3Bmnt2",
+          "AVmCdfA7mowkamx3aZHcY8J2nLd",
+          "PAHMdFa02oKPk1x8Vm7cmD4bnyc",
+          "K7vLdjmwlobW4XxMGamcRBPxnjh",
+          "HoEWdR0udonkV6xVQ0ocvRjPnbd",
+          "KSbzd0O3MoQO7UxUOxTc6uiOnte",
+          "QO7OdRroqo55hbxlDeacyeEEn8e",
+          "T73WdAueXooXUix9HmKcY9aIn4e",
+          "RGX2db5ZUoRYfUxZuYdcieimnge",
+          "Xye6djLDboJtbIxwcWMcXWBbnmh",
+          "PrBFdnblSoIJggxo5j3cV8oRnRg",
+          "LUwnda1Hpog2NxxEJ8jckzZHnrf",
+          "CkNAd1F4go7xOfxubS8cm6hqn5e",
+          "IILzdfRDJoTcXYxemYScCi62nyd",
+          "Gv9ndjXWhoTuEoxL2uycRqR0n4d",
+          "G7MJdRG56oldnixFHv7cse5Dnvg",
+          "JDFNd0SThogAkRxYREDcGWm6nRh",
+          "IoVgdf53YojORdxVufBcEWasnWf",
+          "BU9GdSHAyolJjWxL5iycSgqdnLh",
+          "BPFEdMPTVol5DXxi5YPcPQ8unIh",
+          "BPINdOXX2onmnixlxlhcpzBQnUe",
+          "YYchd6t5loWctaxznGxc4QuhnGd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage Organization Alerts",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "GRXTdRZ40oWfi5xK5HPc0hrJnLe",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud offers two types of alerts for resource monitoring: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Alerts",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for <exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">billing-related</exclude><include target=\"paas\">license-related</include> matters and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Project Alerts",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for operational performance of clusters in specific projects. For a quick reference, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Metrics & Alerts Reference",
+                "token": "KnnBwce9JifxvXkd070cvgUPnag",
+                "url": "https://zilliverse.feishu.cn/wiki/KnnBwce9JifxvXkd070cvgUPnag"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F7q2dSRvzo9kexx4Uoucd2Ign0d",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This topic describes how to view and manage organization alerts.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NdrNdLo6jo8aASxTBOuc2j08nKd",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JhRqdsTEdoigxjxh8hPcupNlnvg",
+        "block_type": 34,
+        "children": [
+          "MFNXdErd2o5wi0xSqsYc3drEnRb",
+          "UPqmdW59Oovy7YxunZmcskdsnHd"
+        ],
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "quote_container": {}
+      },
+      {
+        "block_id": "MFNXdErd2o5wi0xSqsYc3drEnRb",
+        "block_type": 2,
+        "parent_id": "JhRqdsTEdoigxjxh8hPcupNlnvg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UPqmdW59Oovy7YxunZmcskdsnHd",
+        "block_type": 2,
+        "parent_id": "JhRqdsTEdoigxjxh8hPcupNlnvg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This feature is exclusively available to clusters in the Standard and Enterprise plans. For more information, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Select the Right Cluster Plan",
+                "token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
+                "url": "https://zilliverse.feishu.cn/wiki/Ghq9wEiOOivgeIkmj2HcHC9onXe"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Z7s3dZ1NXohRtqxYw2acZAhnnBp",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VAfJdZp6yodoxRxvJnNcjYs4nvf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "Ll4rdbVvcosRb5xrSSJctIJvnfc",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": " Below is a table outlining the default configuration for each organization alert.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CcB3dep4vo8KN6xJpN6cqiRGnKd",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When an alert in an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ON",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " status, the specified recipients will receive notifications once the conditions are met. You can ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "edit an alert",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FUPg7wiU71ioeELk8I8KcLDYqncb%23I3WQdrGISoBB13x6o28cLzBmnwg"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to change its status.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TT7Vdi32WohF1wxMS1ZcLsFtnad",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "block_type": 31,
+        "children": [
+          "BL4WdJbpnodi2cxzUeLcm7Vwnle",
+          "XYpmddn3qoLp44x4IPucuy4Anue",
+          "CVYYdbJ16oB8URxXF6ycKCGOnuh",
+          "CkD2d7e3hob0Jsxx54Acjg7AnJb",
+          "XbqvdnM8KoEuzBxX2kQc6BXZnff",
+          "RR5GdmlM3otw32xAf7Jc81iOnKd",
+          "I1NodV2BWo7BQMxcAyQcx4zcnIh",
+          "CYDrdMURjoHW5XxAadtcrOXqnTc",
+          "DctMdIwzIoXGSUxzKL3c2JLCnhb",
+          "OKuIdT2fho9CUqxdeIecHEGlnxd",
+          "KMKtdf8zWofnXJxqBTVc3RxRnrg",
+          "XBy5dJa0FowmjHxIvGecvKC6nBg",
+          "WZ8XdtTdyoMaV9xk7aYcIeY5n7c",
+          "YuBjdO1ZMoAUACx32owco2Jcngd",
+          "CfBKdsHxqoJFfYxYYc3cXa7TnJf",
+          "LI97d3SiBoTXASxHKdTc9rBanjx",
+          "Iqx0dXr4moOTNbxWK8fcciVznre",
+          "XqMTdlMcmoCMMExsiTKc6NlPnQd",
+          "HgPWd8bZyoWr03xJx5Dc6v7dn7s",
+          "QECOdaN1koT51LxtXYqcJbILn3T",
+          "FYsLdKVNeouPgMxzXN9cAIRSnHf",
+          "WeO8dbhB5oWW0Ex81Z2cHFFonRf",
+          "JvJPdAwmtouXKNxYBTHcwZe0nyb",
+          "Qli7dulodofWjax3qnUctVPRnqf",
+          "D2VEdJmPAoRSCQxprNScSZOzn9c"
+        ],
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "table": {
+          "cells": [
+            "BL4WdJbpnodi2cxzUeLcm7Vwnle",
+            "XYpmddn3qoLp44x4IPucuy4Anue",
+            "CVYYdbJ16oB8URxXF6ycKCGOnuh",
+            "CkD2d7e3hob0Jsxx54Acjg7AnJb",
+            "XbqvdnM8KoEuzBxX2kQc6BXZnff",
+            "RR5GdmlM3otw32xAf7Jc81iOnKd",
+            "I1NodV2BWo7BQMxcAyQcx4zcnIh",
+            "CYDrdMURjoHW5XxAadtcrOXqnTc",
+            "DctMdIwzIoXGSUxzKL3c2JLCnhb",
+            "OKuIdT2fho9CUqxdeIecHEGlnxd",
+            "KMKtdf8zWofnXJxqBTVc3RxRnrg",
+            "XBy5dJa0FowmjHxIvGecvKC6nBg",
+            "WZ8XdtTdyoMaV9xk7aYcIeY5n7c",
+            "YuBjdO1ZMoAUACx32owco2Jcngd",
+            "CfBKdsHxqoJFfYxYYc3cXa7TnJf",
+            "LI97d3SiBoTXASxHKdTc9rBanjx",
+            "Iqx0dXr4moOTNbxWK8fcciVznre",
+            "XqMTdlMcmoCMMExsiTKc6NlPnQd",
+            "HgPWd8bZyoWr03xJx5Dc6v7dn7s",
+            "QECOdaN1koT51LxtXYqcJbILn3T",
+            "FYsLdKVNeouPgMxzXN9cAIRSnHf",
+            "WeO8dbhB5oWW0Ex81Z2cHFFonRf",
+            "JvJPdAwmtouXKNxYBTHcwZe0nyb",
+            "Qli7dulodofWjax3qnUctVPRnqf",
+            "D2VEdJmPAoRSCQxprNScSZOzn9c"
+          ],
+          "property": {
+            "column_size": 5,
+            "column_width": [
+              172,
+              80,
+              150,
+              281,
+              100
+            ],
+            "header_row": true,
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 5
+          }
+        }
+      },
+      {
+        "block_id": "BL4WdJbpnodi2cxzUeLcm7Vwnle",
+        "block_type": 32,
+        "children": [
+          "IgzsdsGzboLc6LxF0SCcr162nvh"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "IgzsdsGzboLc6LxF0SCcr162nvh",
+        "block_type": 2,
+        "parent_id": "BL4WdJbpnodi2cxzUeLcm7Vwnle",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Alert Target",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XYpmddn3qoLp44x4IPucuy4Anue",
+        "block_type": 32,
+        "children": [
+          "PPjad0rKFor088xkNW7clNHCnUf"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PPjad0rKFor088xkNW7clNHCnUf",
+        "block_type": 2,
+        "parent_id": "XYpmddn3qoLp44x4IPucuy4Anue",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CVYYdbJ16oB8URxXF6ycKCGOnuh",
+        "block_type": 32,
+        "children": [
+          "OGJ4dUqKDofuVtxGgD7cHqLMnL8"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OGJ4dUqKDofuVtxGgD7cHqLMnL8",
+        "block_type": 2,
+        "parent_id": "CVYYdbJ16oB8URxXF6ycKCGOnuh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Severity Level",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CkD2d7e3hob0Jsxx54Acjg7AnJb",
+        "block_type": 32,
+        "children": [
+          "Aat0djiACoCRmMx3fnKcXAFXnnh"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Aat0djiACoCRmMx3fnKcXAFXnnh",
+        "block_type": 2,
+        "parent_id": "CkD2d7e3hob0Jsxx54Acjg7AnJb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Default Trigger Condition",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XbqvdnM8KoEuzBxX2kQc6BXZnff",
+        "block_type": 32,
+        "children": [
+          "K1pMdOzkBoVqtixe63Uc5EEknPe"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "K1pMdOzkBoVqtixe63Uc5EEknPe",
+        "block_type": 2,
+        "parent_id": "XbqvdnM8KoEuzBxX2kQc6BXZnff",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Default Status",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RR5GdmlM3otw32xAf7Jc81iOnKd",
+        "block_type": 32,
+        "children": [
+          "BZDWdxRbIoIF5qxgQk4cFJVqnXf",
+          "VkRJdqk7ao8S5zxEOhoc3oDNnud"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "BZDWdxRbIoIF5qxgQk4cFJVqnXf",
+        "block_type": 2,
+        "parent_id": "RR5GdmlM3otw32xAf7Jc81iOnKd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Credit Card Expiration",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VkRJdqk7ao8S5zxEOhoc3oDNnud",
+        "block_type": 2,
+        "parent_id": "RR5GdmlM3otw32xAf7Jc81iOnKd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "I1NodV2BWo7BQMxcAyQcx4zcnIh",
+        "block_type": 32,
+        "children": [
+          "ReSAdh3h8o6SuExqjJ9ck1xgnNk"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ReSAdh3h8o6SuExqjJ9ck1xgnNk",
+        "block_type": 2,
+        "parent_id": "I1NodV2BWo7BQMxcAyQcx4zcnIh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Day",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CYDrdMURjoHW5XxAadtcrOXqnTc",
+        "block_type": 32,
+        "children": [
+          "SZPTdVwuuoHhaKxrYFPcBFtan8e",
+          "Unfldzx90oHGoEx8pWpc1O80nQh"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SZPTdVwuuoHhaKxrYFPcBFtan8e",
+        "block_type": 2,
+        "parent_id": "CYDrdMURjoHW5XxAadtcrOXqnTc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " / ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CRITICAL",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Unfldzx90oHGoEx8pWpc1O80nQh",
+        "block_type": 2,
+        "parent_id": "CYDrdMURjoHW5XxAadtcrOXqnTc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DctMdIwzIoXGSUxzKL3c2JLCnhb",
+        "block_type": 32,
+        "children": [
+          "Caq1d2SUSolrpJxf1FrcQxRnndd",
+          "FSgtdvaxNopU5KxGpM9cFgxan5g"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Caq1d2SUSolrpJxf1FrcQxRnndd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Triggered within 30 days of card expiration.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DctMdIwzIoXGSUxzKL3c2JLCnhb"
+      },
+      {
+        "block_id": "FSgtdvaxNopU5KxGpM9cFgxan5g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CRITICAL",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Triggered within 7 days of card expiration.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DctMdIwzIoXGSUxzKL3c2JLCnhb"
+      },
+      {
+        "block_id": "OKuIdT2fho9CUqxdeIecHEGlnxd",
+        "block_type": 32,
+        "children": [
+          "LaKkdLLw5o4ZAOxzbvGcFrQ5n9b"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "LaKkdLLw5o4ZAOxzbvGcFrQ5n9b",
+        "block_type": 2,
+        "parent_id": "OKuIdT2fho9CUqxdeIecHEGlnxd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KMKtdf8zWofnXJxqBTVc3RxRnrg",
+        "block_type": 32,
+        "children": [
+          "BlOtdztlKoYE7Gx7Fu0cK8s6ndc"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "BlOtdztlKoYE7Gx7Fu0cK8s6ndc",
+        "block_type": 2,
+        "parent_id": "KMKtdf8zWofnXJxqBTVc3RxRnrg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Credits (Usage / Validity)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XBy5dJa0FowmjHxIvGecvKC6nBg",
+        "block_type": 32,
+        "children": [
+          "OPWcd7GXRoNSGSxJmztcjwl0nOf",
+          "IbwVdXBdAom80YxxlvEc3kqLnBh"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OPWcd7GXRoNSGSxJmztcjwl0nOf",
+        "block_type": 2,
+        "parent_id": "XBy5dJa0FowmjHxIvGecvKC6nBg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "% / Day",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IbwVdXBdAom80YxxlvEc3kqLnBh",
+        "block_type": 2,
+        "parent_id": "XBy5dJa0FowmjHxIvGecvKC6nBg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WZ8XdtTdyoMaV9xk7aYcIeY5n7c",
+        "block_type": 32,
+        "children": [
+          "Lt1Ud1VltommgNxWLBrcIufcnwb"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Lt1Ud1VltommgNxWLBrcIufcnwb",
+        "block_type": 2,
+        "parent_id": "WZ8XdtTdyoMaV9xk7aYcIeY5n7c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YuBjdO1ZMoAUACx32owco2Jcngd",
+        "block_type": 32,
+        "children": [
+          "AMEId546Modv8cxUsdncyylEnof"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "AMEId546Modv8cxUsdncyylEnof",
+        "block_type": 2,
+        "parent_id": "YuBjdO1ZMoAUACx32owco2Jcngd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Triggered when credit balance falls below $10 or validity period reaches 0 days.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CfBKdsHxqoJFfYxYYc3cXa7TnJf",
+        "block_type": 32,
+        "children": [
+          "YQr3dL7ULofekux88BscJGafnVd",
+          "OO9zdyvnEofMMcxOH05cf4GQn2e"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "YQr3dL7ULofekux88BscJGafnVd",
+        "block_type": 2,
+        "parent_id": "CfBKdsHxqoJFfYxYYc3cXa7TnJf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OO9zdyvnEofMMcxOH05cf4GQn2e",
+        "block_type": 2,
+        "parent_id": "CfBKdsHxqoJFfYxYYc3cXa7TnJf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LI97d3SiBoTXASxHKdTc9rBanjx",
+        "block_type": 32,
+        "children": [
+          "O8FrdVisfobd81xmYGkcBcionWc"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "O8FrdVisfobd81xmYGkcBcionWc",
+        "block_type": 2,
+        "parent_id": "LI97d3SiBoTXASxHKdTc9rBanjx",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Advance Pay Balance",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Iqx0dXr4moOTNbxWK8fcciVznre",
+        "block_type": 32,
+        "children": [
+          "IdQVdAvUtoV8MTxyqN7cBkpHnwc"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "IdQVdAvUtoV8MTxyqN7cBkpHnwc",
+        "block_type": 2,
+        "parent_id": "Iqx0dXr4moOTNbxWK8fcciVznre",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XqMTdlMcmoCMMExsiTKc6NlPnQd",
+        "block_type": 32,
+        "children": [
+          "GC8yd2a30oTcmAxuH2xcpZZen1b"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "GC8yd2a30oTcmAxuH2xcpZZen1b",
+        "block_type": 2,
+        "parent_id": "XqMTdlMcmoCMMExsiTKc6NlPnQd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CRITICAL",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HgPWd8bZyoWr03xJx5Dc6v7dn7s",
+        "block_type": 32,
+        "children": [
+          "ZUK5dPQI8owzJ1xlZVQcuc9pn9c"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ZUK5dPQI8owzJ1xlZVQcuc9pn9c",
+        "block_type": 2,
+        "parent_id": "HgPWd8bZyoWr03xJx5Dc6v7dn7s",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Triggered when the balance falls below $100.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QECOdaN1koT51LxtXYqcJbILn3T",
+        "block_type": 32,
+        "children": [
+          "E1U0dui6goYZJoxt2qhc3s8gn4g"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "E1U0dui6goYZJoxt2qhc3s8gn4g",
+        "block_type": 2,
+        "parent_id": "QECOdaN1koT51LxtXYqcJbILn3T",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FYsLdKVNeouPgMxzXN9cAIRSnHf",
+        "block_type": 32,
+        "children": [
+          "GbuhdnSEdopnpMxbLNecpIMHnrO"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "GbuhdnSEdopnpMxbLNecpIMHnrO",
+        "block_type": 2,
+        "parent_id": "FYsLdKVNeouPgMxzXN9cAIRSnHf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Usage Amount",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WeO8dbhB5oWW0Ex81Z2cHFFonRf",
+        "block_type": 32,
+        "children": [
+          "Fc7Vdb55oo6QmYxo86GcUxqPn9b"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Fc7Vdb55oo6QmYxo86GcUxqPn9b",
+        "block_type": 2,
+        "parent_id": "WeO8dbhB5oWW0Ex81Z2cHFFonRf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JvJPdAwmtouXKNxYBTHcwZe0nyb",
+        "block_type": 32,
+        "children": [
+          "DxFZdHIzAoIexAxsIRCcouoynBg"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "DxFZdHIzAoIexAxsIRCcouoynBg",
+        "block_type": 2,
+        "parent_id": "JvJPdAwmtouXKNxYBTHcwZe0nyb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Qli7dulodofWjax3qnUctVPRnqf",
+        "block_type": 32,
+        "children": [
+          "EcFjdIl9CoFcg6xworHc6bAun1Q"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "EcFjdIl9CoFcg6xworHc6bAun1Q",
+        "block_type": 2,
+        "parent_id": "Qli7dulodofWjax3qnUctVPRnqf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Triggered when the amount of usage exceeds $100.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D2VEdJmPAoRSCQxprNScSZOzn9c",
+        "block_type": 32,
+        "children": [
+          "MXlZdiKfFoY5nBxBodncUimjnYc"
+        ],
+        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "table_cell": {}
+      },
+      {
+        "block_id": "MXlZdiKfFoY5nBxBodncUimjnYc",
+        "block_type": 2,
+        "parent_id": "D2VEdJmPAoRSCQxprNScSZOzn9c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "OFF",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VgirdzZpoofoZWx6c4FcMWvLnIb",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RZLQdvB8Jo7MOCxAyRkcNBE2nHd",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "block_type": 31,
+        "children": [
+          "IZksdzFC5oP1zhxrnaBcxzyhnFg",
+          "SzctdBOhHo5CISxTGCccQNdtnqe",
+          "EJdUdI4bYo0Xp4xaYmccRAEnnob",
+          "WYCjd0ivZo3yJTx1y2Uc4qGdnOc",
+          "CuOCdkcvVoQiIFx5YzJcNKCTnAG",
+          "ErAJdib6LoX0KWxWLvcccwjmn6E",
+          "H4ood6TzvoMt8uxpq4ocYPqEnSc",
+          "Gjd5dcRkJopfp4xgjEwcU3EZnsf",
+          "TdM1dYk3Jogpcrx3JYfc8MpEnZd",
+          "Gg71dYSmHoa0fWx05Pacb6SRnUb",
+          "OEWpd0JgPoJnv4xtH4HcCJfQnXg",
+          "BHpUdVnJdot7FqxgoN2chgvPnTc",
+          "Kblvdbl0Yoo5IPxGoEFcMdURngd",
+          "XKtWdQjWeoRlz3xrhIEcEx94nad",
+          "GOibdXUVCoPGhTxKkkmc6TR1nNf"
+        ],
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "table": {
+          "cells": [
+            "IZksdzFC5oP1zhxrnaBcxzyhnFg",
+            "SzctdBOhHo5CISxTGCccQNdtnqe",
+            "EJdUdI4bYo0Xp4xaYmccRAEnnob",
+            "WYCjd0ivZo3yJTx1y2Uc4qGdnOc",
+            "CuOCdkcvVoQiIFx5YzJcNKCTnAG",
+            "ErAJdib6LoX0KWxWLvcccwjmn6E",
+            "H4ood6TzvoMt8uxpq4ocYPqEnSc",
+            "Gjd5dcRkJopfp4xgjEwcU3EZnsf",
+            "TdM1dYk3Jogpcrx3JYfc8MpEnZd",
+            "Gg71dYSmHoa0fWx05Pacb6SRnUb",
+            "OEWpd0JgPoJnv4xtH4HcCJfQnXg",
+            "BHpUdVnJdot7FqxgoN2chgvPnTc",
+            "Kblvdbl0Yoo5IPxGoEFcMdURngd",
+            "XKtWdQjWeoRlz3xrhIEcEx94nad",
+            "GOibdXUVCoPGhTxKkkmc6TR1nNf"
+          ],
+          "property": {
+            "column_size": 5,
+            "column_width": [
+              172,
+              80,
+              142,
+              293,
+              80
+            ],
+            "header_row": true,
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 3
+          }
+        }
+      },
+      {
+        "block_id": "IZksdzFC5oP1zhxrnaBcxzyhnFg",
+        "block_type": 32,
+        "children": [
+          "K3j2dNrzWouqpDxtpTLcAlBCnbl"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "K3j2dNrzWouqpDxtpTLcAlBCnbl",
+        "block_type": 2,
+        "parent_id": "IZksdzFC5oP1zhxrnaBcxzyhnFg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Alert Target",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SzctdBOhHo5CISxTGCccQNdtnqe",
+        "block_type": 32,
+        "children": [
+          "FXRrdmM3io524axv3J2czRV1nT1"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "FXRrdmM3io524axv3J2czRV1nT1",
+        "block_type": 2,
+        "parent_id": "SzctdBOhHo5CISxTGCccQNdtnqe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EJdUdI4bYo0Xp4xaYmccRAEnnob",
+        "block_type": 32,
+        "children": [
+          "USmXdbByGoWeTvxO6C6cikxvnge"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "USmXdbByGoWeTvxO6C6cikxvnge",
+        "block_type": 2,
+        "parent_id": "EJdUdI4bYo0Xp4xaYmccRAEnnob",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Severity Level",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WYCjd0ivZo3yJTx1y2Uc4qGdnOc",
+        "block_type": 32,
+        "children": [
+          "NGVkdZXjGo0WKpxfSFlcZ8OgnMb"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NGVkdZXjGo0WKpxfSFlcZ8OgnMb",
+        "block_type": 2,
+        "parent_id": "WYCjd0ivZo3yJTx1y2Uc4qGdnOc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Default Trigger Condition",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CuOCdkcvVoQiIFx5YzJcNKCTnAG",
+        "block_type": 32,
+        "children": [
+          "SCGxdR4ueomusoxgLmFc5UXdngg"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SCGxdR4ueomusoxgLmFc5UXdngg",
+        "block_type": 2,
+        "parent_id": "CuOCdkcvVoQiIFx5YzJcNKCTnAG",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Default Status",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ErAJdib6LoX0KWxWLvcccwjmn6E",
+        "block_type": 32,
+        "children": [
+          "Cm2YdEJRjo1ZL9x3suUcxvHSn6x",
+          "HsLOdNtyno27h6x7wb7c89HBnah"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Cm2YdEJRjo1ZL9x3suUcxvHSn6x",
+        "block_type": 2,
+        "parent_id": "ErAJdib6LoX0KWxWLvcccwjmn6E",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "License (Core Usage)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HsLOdNtyno27h6x7wb7c89HBnah",
+        "block_type": 2,
+        "parent_id": "ErAJdib6LoX0KWxWLvcccwjmn6E",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "H4ood6TzvoMt8uxpq4ocYPqEnSc",
+        "block_type": 32,
+        "children": [
+          "Ur1vdvcM3olKauxtp5AchlIKnKf"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Ur1vdvcM3olKauxtp5AchlIKnKf",
+        "block_type": 2,
+        "parent_id": "H4ood6TzvoMt8uxpq4ocYPqEnSc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "%",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Gjd5dcRkJopfp4xgjEwcU3EZnsf",
+        "block_type": 32,
+        "children": [
+          "BBCwdtNiMofsmxxovFoc1LFonXe"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "BBCwdtNiMofsmxxovFoc1LFonXe",
+        "block_type": 2,
+        "parent_id": "Gjd5dcRkJopfp4xgjEwcU3EZnsf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " / ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CRITICAL",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TdM1dYk3Jogpcrx3JYfc8MpEnZd",
+        "block_type": 32,
+        "children": [
+          "BydqdWEN5oMcKgxD9BScU29Onfc",
+          "WyCZdaBZ5orIlRxjt8HczDoWnlc"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "BydqdWEN5oMcKgxD9BScU29Onfc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Triggered when the count of used ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CPU",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " cores reaches or exceeds 70% of the total.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TdM1dYk3Jogpcrx3JYfc8MpEnZd"
+      },
+      {
+        "block_id": "WyCZdaBZ5orIlRxjt8HczDoWnlc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CRITICAL",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Triggered when the count of used ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CPU",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " cores reaches or exceeds 100% of the total.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TdM1dYk3Jogpcrx3JYfc8MpEnZd"
+      },
+      {
+        "block_id": "Gg71dYSmHoa0fWx05Pacb6SRnUb",
+        "block_type": 32,
+        "children": [
+          "J78bdpojLoeJxqx8Rlkc9wVzn1e",
+          "DLztdHVCgoDbsBxSkhncpgFTn1p"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "J78bdpojLoeJxqx8Rlkc9wVzn1e",
+        "block_type": 2,
+        "parent_id": "Gg71dYSmHoa0fWx05Pacb6SRnUb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DLztdHVCgoDbsBxSkhncpgFTn1p",
+        "block_type": 2,
+        "parent_id": "Gg71dYSmHoa0fWx05Pacb6SRnUb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OEWpd0JgPoJnv4xtH4HcCJfQnXg",
+        "block_type": 32,
+        "children": [
+          "O6UEd5LCBofa21xNSQLclF0on8g"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "O6UEd5LCBofa21xNSQLclF0on8g",
+        "block_type": 2,
+        "parent_id": "OEWpd0JgPoJnv4xtH4HcCJfQnXg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "License (Validity Period)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BHpUdVnJdot7FqxgoN2chgvPnTc",
+        "block_type": 32,
+        "children": [
+          "Yh9bdUoLdoOIOzxwcZecg9VPnJg"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Yh9bdUoLdoOIOzxwcZecg9VPnJg",
+        "block_type": 2,
+        "parent_id": "BHpUdVnJdot7FqxgoN2chgvPnTc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Day",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Kblvdbl0Yoo5IPxGoEFcMdURngd",
+        "block_type": 32,
+        "children": [
+          "RXlgd2atpodhP2xuTVScNWi1nme"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "RXlgd2atpodhP2xuTVScNWi1nme",
+        "block_type": 2,
+        "parent_id": "Kblvdbl0Yoo5IPxGoEFcMdURngd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " / ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CRITICAL",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XKtWdQjWeoRlz3xrhIEcEx94nad",
+        "block_type": 32,
+        "children": [
+          "QBFNdRgx0ofh7SxPXeqcfOxsnnc",
+          "VEFad4R8kolY4IxVCiLczxIcnSc"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QBFNdRgx0ofh7SxPXeqcfOxsnnc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Triggered when the license validity is 60 days or less.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XKtWdQjWeoRlz3xrhIEcEx94nad"
+      },
+      {
+        "block_id": "VEFad4R8kolY4IxVCiLczxIcnSc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CRITICAL",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Triggered when the license expires.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XKtWdQjWeoRlz3xrhIEcEx94nad"
+      },
+      {
+        "block_id": "GOibdXUVCoPGhTxKkkmc6TR1nNf",
+        "block_type": 32,
+        "children": [
+          "VHVkd94ihoeMqnxcZNjcPPUMnc5"
+        ],
+        "parent_id": "CpAXdx4iVoUDb0xdlZNcW9stndf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "VHVkd94ihoeMqnxcZNjcPPUMnc5",
+        "block_type": 2,
+        "parent_id": "GOibdXUVCoPGhTxKkkmc6TR1nNf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WiWXd3xPlorm8dxAXabcv04lnph",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BR8AdM2zEo4R4cxKMKocPLO8nJh",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Permissions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BQdfdAk1RoFPD0x38u0csxiJn6c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View and configuration",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Available to organization owners only.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "R6fddKLMJoRXIfxKgCMcqAkRnih",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Receiving notifications",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Available to any organization member if designated by the owner.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "MxLJdu6seobfeDxYzt9cBy15naf",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For a detailed explanation of user roles, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "User Roles",
+                "token": "AFNZwDcXNiChK0ke5h5c65xZnje",
+                "url": "https://zilliverse.feishu.cn/wiki/AFNZwDcXNiChK0ke5h5c65xZnje"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BFFddGKTwoPUTqxhwRhcrvMFn2d",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View organization alerts",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "C0AQd8UJuoSHikxDcdIcchoxnCB",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Navigate to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Alert",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " page to view various <exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">billing-related</exclude><include target=\"paas\">license-related</include> alerts.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C3WJdIPkQofwloxKSNQcJgQonIl",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Components of an alert",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SF8Zd8eyHoU2Hhxck0hcZeqqnPb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Alert Target",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Preconfigured by Zilliz Cloud with trigger conditions and severity.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "AdD5d07IEobgPIx3vJUcCWlmnOf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Severity Level",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Categorized as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CRITICAL",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "Ufa2d9KkvoGx4fxEMJHc7Mbqnbf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Condition",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Trigger conditions for the alert.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "UCcHdU2u7oAPY8xEhpicvDIanAd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Status",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Indicates if the alert is active (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ON",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") or not.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "Lh8NdLAELoQLelxlGMEcfJamnHb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Receiver",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Designated roles or email addresses for receiving notifications.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "Ans1d563xoaWeqxXzooctvE6nkh",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Z1Fudr6DaoefYgxydN1c997bnmc",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D10186-462%26mode%3Ddesign%26t%3DomIeeUNkPgalJmuW-4"
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "XYRIdnUBnoGxvUxZztZchQw4nog",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Uv4ydhDjLopCOLxrl4Wc5Yc5nse",
+        "block_type": 2,
+        "comment_ids": [
+          "7322305152630652931"
+        ],
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322305152630652931"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322305152630652931"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322305152630652931"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KmZpd2jRjoBNrMx823fc1ydynvd",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D30731-1829%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "LKbQdkl6qoCbWoxTUhwc8Wminvc",
+        "block_type": 2,
+        "comment_ids": [
+          "7322305152630652931"
+        ],
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322305152630652931"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "I3WQdrGISoBB13x6o28cLzBmnwg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Edit organization alerts",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "F2pqdAHetoOEJFxEcPmcz8eGnNc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Customizations",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Modify alert conditions, update notification recipients, and change the active status.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "WVjIdYWpfo3uMUxKQEpcXfTBnSg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Restrictions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Alert ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "target target",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322676892069330947"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and severity level are fixed and cannot be changed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7322676892069330947"
+        ],
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "RdYudsS6ro2pTCxULWwcZ1jPnAW",
+        "block_type": 34,
+        "children": [
+          "Wr2FdV0tkoHQdQxu2PBcm07wnKd",
+          "MhFHdK10sozu2bxrsuicVhCgnkf"
+        ],
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "quote_container": {}
+      },
+      {
+        "block_id": "Wr2FdV0tkoHQdQxu2PBcm07wnKd",
+        "block_type": 2,
+        "parent_id": "RdYudsS6ro2pTCxULWwcZ1jPnAW",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MhFHdK10sozu2bxrsuicVhCgnkf",
+        "block_type": 2,
+        "parent_id": "RdYudsS6ro2pTCxULWwcZ1jPnAW",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To quickly turn on or off an alert, you can select ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Turn On",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Turn Off",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Actions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QH8edFgakoqmiCxiO9Nc5aQrnYM",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UHTRd1OSlouo0jxSe5OcED9fnQf",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D6097-1685%26mode%3Ddesign%26t%3DomIeeUNkPgalJmuW-4"
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "QkB0d7aQ3oa6MfxaeBKc0XS6nbg",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "V6K5dQp3loTR2IxDXPfcc50snwh",
+        "block_type": 2,
+        "comment_ids": [
+          "7322305050800750596"
+        ],
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322305050800750596"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322305050800750596"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322305050800750596"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OOu8dUaXqoFfS4xZyZbc1AeznlH",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D30755-1840%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "HhBndYWuBoQFHsxhEaVcT3Bmnt2",
+        "block_type": 2,
+        "comment_ids": [
+          "7322305050800750596"
+        ],
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322305050800750596"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AVmCdfA7mowkamx3aZHcY8J2nLd",
+        "block_type": 4,
+        "comment_ids": [
+          "7322677428193640452"
+        ],
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Turn on or off an organization alert",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322677428193640452"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "PAHMdFa02oKPk1x8Vm7cmD4bnyc",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To quickly turn on or off an organization alert, select ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Turn On",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Turn Off",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Actions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " column. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "K7vLdjmwlobW4XxMGamcRBPxnjh",
+        "block_type": 34,
+        "children": [
+          "NV22dtmD1oRTJIxja0NcWrZ8nnh",
+          "AaUxdPjDuozZlMxEE9tcBT85nbd"
+        ],
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "quote_container": {}
+      },
+      {
+        "block_id": "NV22dtmD1oRTJIxja0NcWrZ8nnh",
+        "block_type": 2,
+        "parent_id": "K7vLdjmwlobW4XxMGamcRBPxnjh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AaUxdPjDuozZlMxEE9tcBT85nbd",
+        "block_type": 2,
+        "parent_id": "K7vLdjmwlobW4XxMGamcRBPxnjh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once an alert is turned off, you'll no longer receive alert notifications if alert conditions are met.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HoEWdR0udonkV6xVQ0ocvRjPnbd",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KSbzd0O3MoQO7UxUOxTc6uiOnte",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D29824-1137%26mode%3Ddesign%26t%3DfiFq1IiaD6q1UOrq-4"
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "QO7OdRroqo55hbxlDeacyeEEn8e",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T73WdAueXooXUix9HmKcY9aIn4e",
+        "block_type": 2,
+        "comment_ids": [
+          "7322724209968037892"
+        ],
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322724209968037892"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322724209968037892"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322724209968037892"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RGX2db5ZUoRYfUxZuYdcieimnge",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D30755-1873%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "Xye6djLDboJtbIxwcWMcXWBbnmh",
+        "block_type": 2,
+        "comment_ids": [
+          "7322724209968037892"
+        ],
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include>",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322724209968037892"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PrBFdnblSoIJggxo5j3cV8oRnRg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View alert history",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "LUwnda1Hpog2NxxEJ8jckzZHnrf",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View triggered alerts on the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Alert History",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab, with filters for alert target, severity level, and time range.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CkNAd1F4go7xOfxubS8cm6hqn5e",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IILzdfRDJoTcXYxemYScCi62nyd",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D28786-1137%26mode%3Ddesign%26t%3DomIeeUNkPgalJmuW-4"
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "Gv9ndjXWhoTuEoxL2uycRqR0n4d",
+        "block_type": 2,
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G7MJdRG56oldnixFHv7cse5Dnvg",
+        "block_type": 2,
+        "comment_ids": [
+          "7322728189963403267"
+        ],
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322728189963403267"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322728189963403267"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322728189963403267"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JDFNd0SThogAkRxYREDcGWm6nRh",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D30755-1910%26mode%3Ddesign%26t%3D77OSYLq5t7QXb57r-4"
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "IoVgdf53YojORdxVufBcEWasnWf",
+        "block_type": 2,
+        "comment_ids": [
+          "7322728189963403267"
+        ],
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322728189963403267"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BU9GdSHAyolJjWxL5iycSgqdnLh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "BPFEdMPTVol5DXxi5YPcPQ8unIh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "View Cluster Metric Charts",
+                "token": "DbPIw4jLOiEabCk5uptc6EZ1nbf",
+                "url": "https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "BPINdOXX2onmnixlxlhcpzBQnUe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Project Alerts",
+                "token": "NvDLw4kFji0xeWkc4Hpc9wUfnRh",
+                "url": "https://zilliverse.feishu.cn/wiki/NvDLw4kFji0xeWkc4Hpc9wUfnRh"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      },
+      {
+        "block_id": "YYchd6t5loWctaxznGxc4QuhnGd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Metrics & Alerts Reference",
+                "token": "KnnBwce9JifxvXkd070cvgUPnag",
+                "url": "https://zilliverse.feishu.cn/wiki/KnnBwce9JifxvXkd070cvgUPnag"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
+      }
+    ],
+    "counts": 159
+  }
+}

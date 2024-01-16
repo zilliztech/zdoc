@@ -5,7 +5,7 @@
   "node_token": "BRsZwqOUTiBbrPk9b5WcvFgTnze",
   "node_type": "origin",
   "obj_create_time": "1701914230",
-  "obj_edit_time": "1702288347",
+  "obj_edit_time": "1705371451",
   "obj_token": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
   "obj_type": "docx",
   "origin_node_token": "BRsZwqOUTiBbrPk9b5WcvFgTnze",
@@ -13,7 +13,8 @@
   "owner": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
   "space_id": "7167193056431783939",
-  "title": "Manage API Keys (Dev)",
+  "title": "API Keys",
+  "slug": "api-keys",
   "blocks": {
     "items": [
       {
@@ -25,8 +26,10 @@
           "NGBad4ItcozfcPx79brciNNLnBg",
           "HeZFdM3RnoiXKCxx5Enc96wEnbd",
           "Mpq8dg6bgodD1CxveL4c9Qjuneb",
+          "X8O6dToLjondFexddEYcL3LRnZg",
           "IzoLdLe8coQI8cx11i3cqH1yncb",
           "ZSUBd8rJLoy7FmxSYrzcaKuGnXb",
+          "JjGLdKgBBoAaJdxXpqHcE2yunCe",
           "UnRtd50TBoRxS5xZaxPccaKXnre",
           "SuMxdJlxPog8pHxFLLxcLZ3SnPc",
           "NYPLdXuYioxyE1xBWw4cy4Mynkb",
@@ -36,10 +39,11 @@
           "N1AQd9Q0soeultx29a5cWwYZnhe",
           "Rcydd5hZNoAGQ6xWQ4icZjPgnMf",
           "F1gZdLlyLoFB2bxf2pIc7HZ3n3d",
-          "KnTTdEwKyoNVfjxxQRuc2xuqnRd",
           "doxcndUC7t5vz2UYtrI3FFg8pTg",
-          "C0JDdCsVloxSOAx0a3Mc3cq5n3e",
-          "Cs9LdOsiAolOKLxPGJRcQYEmnQf",
+          "ACM4dt1E1oawRvxgtESc5OGHn8g",
+          "TQwWd7c92owa9Jxxw0ZcxR5Yn5d",
+          "PBtEdvMhgo67noxmVLpc658qnUb",
+          "TQzSdukJ5o7ssPx1tiAcVkbMnae",
           "R5bEdtXgwoBTEQx1v3WcB46jnbf",
           "doxcnmjTa4NSlV3huECPTueEile",
           "doxcnU77g8ejTsH3I1LlafEN77b",
@@ -49,26 +53,26 @@
           "WsSBd2f0aoJk1OxTM6gcXZMwnGg",
           "doxcnbWX9L7rf7X2YZzcE8IrC3B",
           "ZUV2dlk5Oo7252xKW9ycLqpYnRg",
-          "B69adAHkroEQFaxrkIOcfQrLnCg",
+          "A1SydZgUYo5DX6xnhS0cevURn5g",
           "WlzTd5kFJocO6oxsg8acTTVvnTh",
           "K7RpdwVWnoHPvqxzTVZcAZTun5e",
-          "RM9QdigfuomGKGxrOxFcCesFnHg",
+          "IrOnd0xZBo4EnJxqujNcN1o4nFb",
+          "HtCAdGKFNokQiJx7SV1cMJJanxc",
           "CyOddOWetoCtaMxMOVEcz1xXnIg",
           "X1HXdidWfoeWBtxzi3XcrvBmnad",
           "H2ErdJ44xoStc1xmjOGcCSI3nie",
           "SSrrd88c5ob8iexVLnHcYR6zngQ",
-          "CixodvinSoZpnixRfLHcvTLRnQd",
+          "UslUdheA4ovvbBxT3YLcqUKJnJe",
+          "ZbvgdQI5Yo9Ju6xSI0vcr3Brn4c",
           "doxcn8Cidmrz59X103M8wN0TErB",
           "doxcna5XDTNqSHFjiTbf9OUnMIf",
-          "doxcnHLE9XQcYDUMp8VhSh2798e",
+          "GlEndby0XoOkbfxdvJuclacMnTd",
           "doxcnVWo89OExjhSgSxGJdNXRph",
           "doxcnwoOnggm9gC0FbB2cQg5XHd",
-          "NpOzd9juQorBawx4oeUcWWW9nVb",
-          "WLTmd7D2qohCnrxNyDGconHtnWb",
-          "WueJdpFsgofGyPxcb8yc8iTTnmd",
           "doxcnuftXBorfPXwl5LVc6c2Zeg",
           "doxcneswXaBSejr64lvC3ydvILg",
           "doxcnsIG9Wt1p8hu0BB6Kuqsktg",
+          "V8jLdqSojogZqaxfwXqctAEYnUg",
           "doxcnXALR5HSUfGaE5CKvfsXbUG",
           "doxcn30WA9lSLm1JM8NRYeVgLRg",
           "doxcnHowdh3CQpmM8Qukfc2brlg",
@@ -76,18 +80,6 @@
         ],
         "page": {
           "elements": [
-            {
-              "text_run": {
-                "content": "Manage ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
             {
               "text_run": {
                 "content": "API",
@@ -102,31 +94,7 @@
             },
             {
               "text_run": {
-                "content": " Keys (",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Dev",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ")",
+                "content": " Keys",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -151,7 +119,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "On Zilliz Cloud, every organization comes with its own set of ",
+                "content": "On Zilliz Cloud, every organization comes with a set of ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -175,7 +143,31 @@
             },
             {
               "text_run": {
-                "content": " keys. These keys are essential authentication tokens required for initiating RESTful API or SDK calls. They play a crucial role in accessing specific projects and resources within your organization.",
+                "content": " keys. These keys are essential authentication tokens required for initiating RESTful API or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " calls. They play a crucial role in accessing specific projects and resources within the organization.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -199,7 +191,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "Understand the types of API keys",
+                "content": "Overview of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " keys",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -273,31 +289,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Personal ",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " keys",
+                "content": "Personal keys",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -334,31 +326,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Managed ",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " keys",
+                "content": "Customized keys",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -397,7 +365,7 @@
             },
             {
               "text_run": {
-                "content": " status can create and oversee this type of key. Managed keys are suitable for development purposes, offering stable, long-term API integration and automation capabilities.",
+                "content": " status can create and oversee this type of key. Customized keys are suitable for development purposes, offering stable, long-term API integration and automation capabilities.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -414,6 +382,102 @@
           }
         },
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g"
+      },
+      {
+        "block_id": "X8O6dToLjondFexddEYcL3LRnZg",
+        "block_type": 34,
+        "children": [
+          "QleCd3QsBoiVTaxMnAycpr27nmd",
+          "VXY2dhMJdoktx5xejCDcwwFpnXg"
+        ],
+        "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
+        "quote_container": {}
+      },
+      {
+        "block_id": "QleCd3QsBoiVTaxMnAycpr27nmd",
+        "block_type": 2,
+        "parent_id": "X8O6dToLjondFexddEYcL3LRnZg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VXY2dhMJdoktx5xejCDcwwFpnXg",
+        "block_type": 2,
+        "comment_ids": [
+          "7316365210606977027"
+        ],
+        "parent_id": "X8O6dToLjondFexddEYcL3LRnZg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In versions released prior to January 16, 2024, ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316365210606977027"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316365210606977027"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key types weren't categorized. If you upgrade your Zilliz Cloud service from a version released before this date, your API keys generated earlier will be designated as customized API keys. These keys will inherit the project-level permissions of the original API keys.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316365210606977027"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "IzoLdLe8coQI8cx11i3cqH1yncb",
@@ -523,7 +587,59 @@
             },
             {
               "text_run": {
-                "content": " calls. This system allows for fine-grained control over access to resources by assigning roles with specific permissions to users within your organization.",
+                "content": " calls. This system allows for fine-grained control over access to resources by assigning roles with specific permissions to users within the organization.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JjGLdKgBBoAaJdxXpqHcE2yunCe",
+        "block_type": 2,
+        "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For more information on access levels of each role, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Authorization",
+                "token": "HvXowwu7Xifm3nkEq3EcZBoUnob",
+                "url": "https://zilliverse.feishu.cn/wiki/HvXowwu7Xifm3nkEq3EcZBoUnob"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -543,6 +659,9 @@
       {
         "block_id": "UnRtd50TBoRxS5xZaxPccaKXnre",
         "block_type": 26,
+        "comment_ids": [
+          "7316365970178752516"
+        ],
         "iframe": {
           "component": {
             "iframe_type": 8,
@@ -558,7 +677,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "Permissions on API key management",
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key management",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -656,6 +787,10 @@
           "RBPLd46Uso2DmzxAbEFctcdlnwh",
           "COQrdTsE2oV7GjxgwUzcvCROnHg",
           "Kfl1dYhNxom9zzxhPfFcCousnbb",
+          "NjA8dWnUWo9SzjxMRvmchsVpnTf",
+          "NZI1d0d8loM4B0xPRiYcDHAjnfe",
+          "D0iBdiOTFoTvpDxtAs1cGFyenyc",
+          "NippdOU9roeIiJxjcWlcJGFnnwh",
           "UuaedrJTcoT0RMxtT9hcu4b7nhb",
           "E7Dfdq5JXoXPKRx96lWc1M1Lnxe",
           "USCmdVK2boS8d5xsn6gc1TxwnRb",
@@ -708,6 +843,10 @@
             "RBPLd46Uso2DmzxAbEFctcdlnwh",
             "COQrdTsE2oV7GjxgwUzcvCROnHg",
             "Kfl1dYhNxom9zzxhPfFcCousnbb",
+            "NjA8dWnUWo9SzjxMRvmchsVpnTf",
+            "NZI1d0d8loM4B0xPRiYcDHAjnfe",
+            "D0iBdiOTFoTvpDxtAs1cGFyenyc",
+            "NippdOU9roeIiJxjcWlcJGFnnwh",
             "UuaedrJTcoT0RMxtT9hcu4b7nhb",
             "E7Dfdq5JXoXPKRx96lWc1M1Lnxe",
             "USCmdVK2boS8d5xsn6gc1TxwnRb",
@@ -748,10 +887,10 @@
           "property": {
             "column_size": 4,
             "column_width": [
-              204,
+              254,
               163,
-              139,
-              152
+              174,
+              221
             ],
             "header_row": true,
             "merge_info": [
@@ -946,9 +1085,25 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 12
+            "row_size": 13
           }
         }
       },
@@ -1299,7 +1454,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "System generated",
+                "content": "Auto generated",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1333,7 +1488,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "System generated",
+                "content": "Auto generated",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1367,7 +1522,167 @@
           "elements": [
             {
               "text_run": {
-                "content": "System generated",
+                "content": "Auto generated",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NjA8dWnUWo9SzjxMRvmchsVpnTf",
+        "block_type": 32,
+        "children": [
+          "Rfl0d7dvOozWRgx56gpcACYZnTf"
+        ],
+        "parent_id": "RqJrduWnLo0JFsxrMfacoOignNe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Rfl0d7dvOozWRgx56gpcACYZnTf",
+        "block_type": 2,
+        "parent_id": "NjA8dWnUWo9SzjxMRvmchsVpnTf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Viewing the user's assigned ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NZI1d0d8loM4B0xPRiYcDHAjnfe",
+        "block_type": 32,
+        "children": [
+          "JDN2d1edRoJYQyxGoC0cn1thnlb"
+        ],
+        "parent_id": "RqJrduWnLo0JFsxrMfacoOignNe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "JDN2d1edRoJYQyxGoC0cn1thnlb",
+        "block_type": 2,
+        "parent_id": "NZI1d0d8loM4B0xPRiYcDHAjnfe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "✔️ ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D0iBdiOTFoTvpDxtAs1cGFyenyc",
+        "block_type": 32,
+        "children": [
+          "WOUsd6eiFoim1bxkXTVclS9FnJc"
+        ],
+        "parent_id": "RqJrduWnLo0JFsxrMfacoOignNe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "WOUsd6eiFoim1bxkXTVclS9FnJc",
+        "block_type": 2,
+        "parent_id": "D0iBdiOTFoTvpDxtAs1cGFyenyc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "✔️",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NippdOU9roeIiJxjcWlcJGFnnwh",
+        "block_type": 32,
+        "children": [
+          "FJRndlPVDoNZ2cxNwwycwPqVn2c"
+        ],
+        "parent_id": "RqJrduWnLo0JFsxrMfacoOignNe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "FJRndlPVDoNZ2cxNwwycwPqVn2c",
+        "block_type": 2,
+        "parent_id": "NippdOU9roeIiJxjcWlcJGFnnwh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "✔️",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1401,7 +1716,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "Viewing ",
+                "content": "Viewing member's ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key names ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1437,13 +1776,13 @@
         "block_id": "E7Dfdq5JXoXPKRx96lWc1M1Lnxe",
         "block_type": 32,
         "children": [
-          "OGKqdfbomocBTkxU1gocoYavnHh"
+          "CoKJdYXJroPRymxGRt8c8Mrpnve"
         ],
         "parent_id": "RqJrduWnLo0JFsxrMfacoOignNe",
         "table_cell": {}
       },
       {
-        "block_id": "OGKqdfbomocBTkxU1gocoYavnHh",
+        "block_id": "CoKJdYXJroPRymxGRt8c8Mrpnve",
         "block_type": 2,
         "parent_id": "E7Dfdq5JXoXPKRx96lWc1M1Lnxe",
         "text": {
@@ -1471,20 +1810,20 @@
         "block_id": "USCmdVK2boS8d5xsn6gc1TxwnRb",
         "block_type": 32,
         "children": [
-          "Liq4dQOEMoJsxQx6uKLcBWG9no1"
+          "SvC5dZiLqoK1cSxI4h7cEnvMnAe"
         ],
         "parent_id": "RqJrduWnLo0JFsxrMfacoOignNe",
         "table_cell": {}
       },
       {
-        "block_id": "Liq4dQOEMoJsxQx6uKLcBWG9no1",
+        "block_id": "SvC5dZiLqoK1cSxI4h7cEnvMnAe",
         "block_type": 2,
         "parent_id": "USCmdVK2boS8d5xsn6gc1TxwnRb",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "✔️",
+                "content": "✔️ ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1505,20 +1844,20 @@
         "block_id": "KrFxdIliboPMzxxzb9PcYfS9nId",
         "block_type": 32,
         "children": [
-          "NFSOdx2wioEL5qxlNRhcrBJlnwc"
+          "M539d1mKdo8WYjxLIR6cRoiJnnY"
         ],
         "parent_id": "RqJrduWnLo0JFsxrMfacoOignNe",
         "table_cell": {}
       },
       {
-        "block_id": "NFSOdx2wioEL5qxlNRhcrBJlnwc",
+        "block_id": "M539d1mKdo8WYjxLIR6cRoiJnnY",
         "block_type": 2,
         "parent_id": "KrFxdIliboPMzxxzb9PcYfS9nId",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "✔️",
+                "content": "✘",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1727,7 +2066,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Managed ",
+                "content": "Customized ",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -2293,7 +2632,37 @@
             },
             {
               "text_run": {
-                "content": "[5]",
+                "content": "[",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FNFwhdPnr9oEO3axVHOqcHq2xn3g%23KnTTdEwKyoNVfjxxQRuc2xuqnRd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "4",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FNFwhdPnr9oEO3axVHOqcHq2xn3g%23KnTTdEwKyoNVfjxxQRuc2xuqnRd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2872,7 +3241,7 @@
             },
             {
               "text_run": {
-                "content": "Organization owners",
+                "content": "Owner",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2887,7 +3256,7 @@
             },
             {
               "text_run": {
-                "content": " can view the list of all personal ",
+                "content": " users can view member's ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2911,7 +3280,7 @@
             },
             {
               "text_run": {
-                "content": " keys in the organization, but have no access to the API key values; ",
+                "content": " key names based on their permission scope. Organization owners can view all member's API key names organization-wide, while project owners can only view those within their permission range. ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2923,7 +3292,7 @@
             },
             {
               "text_run": {
-                "content": "project owners or members",
+                "content": "Project members",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2938,7 +3307,7 @@
             },
             {
               "text_run": {
-                "content": " can view their own personal key only.",
+                "content": " can only view their own personal key.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2988,7 +3357,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "[3] The permission that a project owner can grant to a managed ",
+                "content": "[3] The permission that a project owner can grant to a customized ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3032,14 +3401,20 @@
       {
         "block_id": "F1gZdLlyLoFB2bxf2pIc7HZ3n3d",
         "block_type": 2,
+        "comment_ids": [
+          "7316721373303275524"
+        ],
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "[4] Project owners can view shared ",
+                "content": "[4] Project owners can only view or manage customized ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3052,6 +3427,9 @@
                 "content": "API",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3061,34 +3439,12 @@
             },
             {
               "text_run": {
-                "content": " keys that fall within the range of their own permissions. However, if a shared API key grants access to resources beyond what the project owner is permitted to access, then the project owner will only be able to view those resources that are within their own permission range.",
+                "content": " keys within their permission scope. For example, if ",
                 "text_element_style": {
                   "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "KnTTdEwKyoNVfjxxQRuc2xuqnRd",
-        "block_type": 2,
-        "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "[5] The permission that a project owner can remove from a managed ",
-                "text_element_style": {
-                  "bold": false,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3098,9 +3454,12 @@
             },
             {
               "text_run": {
-                "content": "API",
+                "content": "User 1",
                 "text_element_style": {
-                  "bold": false,
+                  "bold": true,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3110,9 +3469,252 @@
             },
             {
               "text_run": {
-                "content": " key is subject to its own permission scope.",
+                "content": " owns ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Project A",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and a customized API key (",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Key 1",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") has access to ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Projects A",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "B",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "C",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "User 1",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " has no access to ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Key 1",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " since its access scope goes beyond ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "User 1",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'s permissions.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316721373303275524"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3130,6 +3732,9 @@
       {
         "block_id": "doxcndUC7t5vz2UYtrI3FFg8pTg",
         "block_type": 4,
+        "comment_ids": [
+          "7316366440351956996"
+        ],
         "heading2": {
           "elements": [
             {
@@ -3137,6 +3742,9 @@
                 "content": "Create an ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7316366440351956996"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3149,6 +3757,9 @@
                 "content": "API",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7316366440351956996"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3161,6 +3772,9 @@
                 "content": " key",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7316366440351956996"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3177,14 +3791,14 @@
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g"
       },
       {
-        "block_id": "C0JDdCsVloxSOAx0a3Mc3cq5n3e",
+        "block_id": "ACM4dt1E1oawRvxgtESc5OGHn8g",
         "block_type": 2,
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "In addition to the ",
+                "content": "Apart from personal keys that are automatically generated by Zilliz Cloud for each organization user, you can create customized keys. For long-term projects or application development, it's recommended to use a ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3196,13 +3810,13 @@
             },
             {
               "text_run": {
-                "content": "personal API key",
+                "content": "customized API key",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FNFwhdPnr9oEO3axVHOqcHq2xn3g%23HeZFdM3RnoiXKCxx5Enc96wEnbd"
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FNFwhdPnr9oEO3axVHOqcHq2xn3g%23Mpq8dg6bgodD1CxveL4c9Qjuneb"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -3211,7 +3825,32 @@
             },
             {
               "text_run": {
-                "content": " automatically generated by Zilliz Cloud for each organization user, each ",
+                "content": ", rather than a personal one. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TQwWd7c92owa9Jxxw0ZcxR5Yn5d",
+        "block_type": 2,
+        "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Each ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3265,7 +3904,7 @@
             },
             {
               "text_run": {
-                "content": " can create a ",
+                "content": " has the permission to create a customized",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3277,47 +3916,7 @@
             },
             {
               "text_run": {
-                "content": "shared API key",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FNFwhdPnr9oEO3axVHOqcHq2xn3g%23Mpq8dg6bgodD1CxveL4c9Qjuneb"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Cs9LdOsiAolOKLxPGJRcQYEmnQf",
-        "block_type": 2,
-        "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "A vital part of creating an ",
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3341,7 +3940,159 @@
             },
             {
               "text_run": {
-                "content": " key is defining its access scope. This means you'll decide which projects and clusters the API key can access. It's essential to tailor this access to the specific needs of your project or team.",
+                "content": " key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". An essential step of creating an API key is defining its access scope, where you'll decide which projects and clusters the API key can access.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PBtEdvMhgo67noxmVLpc658qnUb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "API Key Access",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Define the access scope for the current customized ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key by assigning the appropriate organization role, specifying the target project the key can access, and setting the key's role within that project. For more fine-grained access control, you can limit the clusters that the key can access by setting up a whitelist in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Restrict Access to Specific Clusters",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316374117711314947"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7316374117711314947"
+        ],
+        "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g"
+      },
+      {
+        "block_id": "TQzSdukJ5o7ssPx1tiAcVkbMnae",
+        "block_type": 2,
+        "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can add more projects in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API Key Access",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3401,7 +4152,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "For Project Owners creating a managed ",
+                "content": "For ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3413,11 +4164,14 @@
             },
             {
               "text_run": {
-                "content": "API",
+                "content": "Project Owners",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23DWfPdLrB6oQIfYxTcSqcOEIxnSd"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -3425,7 +4179,7 @@
             },
             {
               "text_run": {
-                "content": " key, remember that the permissions you can grant are limited to your own permission scope. This ensures that each API key’s capabilities align with the responsibilities and roles of its creator, maintaining a secure and controlled environment.",
+                "content": " creating a customized API key, the permissions you can grant are limited to your own permission scope. This ensures that each API key's capabilities align with the responsibilities and roles of its creator, maintaining a secure and controlled environment.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3461,7 +4215,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "With your project's ",
+                "content": "With a customized ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3485,7 +4239,7 @@
             },
             {
               "text_run": {
-                "content": " key in hand, you can now connect to any cluster within the project. See ",
+                "content": " key in hand, you can now establish connections to a cluster to which the API key has access. See ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3581,14 +4335,32 @@
       {
         "block_id": "ZQPad29TXoXVO1xGO8pcVQcQnLc",
         "block_type": 2,
+        "comment_ids": [
+          "7316375298382151683"
+        ],
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "To view ",
+                "content": "To view",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316375298382151683"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3601,6 +4373,9 @@
                 "content": "API",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7316375298382151683"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3610,7 +4385,22 @@
             },
             {
               "text_run": {
-                "content": " keys associated with an organization, you must hold the role of either an ",
+                "content": " keys created in an organization",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316375298382151683"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you must hold the role of either an ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3688,7 +4478,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Personal ",
+                "content": "Personal keys",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3700,31 +4490,7 @@
             },
             {
               "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " keys",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": As an ",
+                "content": ": ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3736,9 +4502,12 @@
             },
             {
               "text_run": {
-                "content": "Organization Owner",
+                "content": "Organization or Project Owners",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7316735967327207428"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "link": {
@@ -3751,9 +4520,57 @@
             },
             {
               "text_run": {
-                "content": ", you have the privilege to see the list of all personal API keys generated for users within your organization. However, you will not have access to the actual values of these personal API keys, ensuring user privacy and security.",
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7316735967327207428"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "have the privilege to see the names of member's ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316376047670542340"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316376047670542340"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " keys generated for users within the organization. However, they will not have access to the actual values of these personal API keys, ensuring user privacy and security.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316376047670542340"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3767,6 +4584,10 @@
             "folded": false
           }
         },
+        "comment_ids": [
+          "7316735967327207428",
+          "7316376047670542340"
+        ],
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g"
       },
       {
@@ -3776,7 +4597,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Managed ",
+                "content": "Customized keys",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3788,31 +4609,7 @@
             },
             {
               "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " keys",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": As an ",
+                "content": ": ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3824,7 +4621,7 @@
             },
             {
               "text_run": {
-                "content": "Organization Owner",
+                "content": "Organization Owners",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3839,7 +4636,31 @@
             },
             {
               "text_run": {
-                "content": ", you can view all managed API keys created within the organization. If you're a ",
+                "content": " can view all customized ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " keys created within the organization. If you are a ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3866,7 +4687,34 @@
             },
             {
               "text_run": {
-                "content": ", your viewing capacity is limited to those API keys whose permission scope falls within your own. This means you can only access the API keys that are relevant to your project and within your administrative reach.",
+                "content": ", you can view only the API keys with the access scopes falling within your own",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7316376846277410820"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " This means you can only access the API keys that are relevant to your project and within your administrative reach.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3882,6 +4730,9 @@
             "folded": false
           }
         },
+        "comment_ids": [
+          "7316376846277410820"
+        ],
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g"
       },
       {
@@ -3945,38 +4796,14 @@
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g"
       },
       {
-        "block_id": "B69adAHkroEQFaxrkIOcfQrLnCg",
+        "block_id": "A1SydZgUYo5DX6xnhS0cevURn5g",
         "block_type": 2,
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "To edit an ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " key in Zilliz Cloud, you must hold the role of either an ",
+                "content": "As an ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4030,7 +4857,31 @@
             },
             {
               "text_run": {
-                "content": ". Here’s what you can do:",
+                "content": ", you can edit an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key to rename it or modify its access permissions.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4054,7 +4905,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Change the key name",
+                "content": "Rename the customized key",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -4093,31 +4944,7 @@
             },
             {
               "text_run": {
-                "content": " have the privilege to rename ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " keys.",
+                "content": " have the privilege to rename a customized API key.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4142,7 +4969,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Modify permissions",
+                "content": "Modify access permissions",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -4278,16 +5105,25 @@
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g"
       },
       {
-        "block_id": "RM9QdigfuomGKGxrOxFcCesFnHg",
-        "block_type": 2,
+        "block_id": "IrOnd0xZBo4EnJxqujNcN1o4nFb",
+        "block_type": 34,
+        "children": [
+          "CDfPdumh2oQO4yxr2NycTw9HnAe",
+          "JYkKdvAinoOeZUxzlIxcQEmlnYD"
+        ],
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
+        "quote_container": {}
+      },
+      {
+        "block_id": "CDfPdumh2oQO4yxr2NycTw9HnAe",
+        "block_type": 2,
+        "parent_id": "IrOnd0xZBo4EnJxqujNcN1o4nFb",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "<screenshot>",
+                "content": "📘 Notes",
                 "text_element_style": {
-                  "background_color": 3,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -4302,6 +5138,42 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "JYkKdvAinoOeZUxzlIxcQEmlnYD",
+        "block_type": 2,
+        "parent_id": "IrOnd0xZBo4EnJxqujNcN1o4nFb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Only customized API keys can be edited.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HtCAdGKFNokQiJx7SV1cMJJanxc",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D24178-1203%26mode%3Ddesign%26t%3DuaWicbkqIcIRD1j7-4"
+          }
+        },
+        "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g"
       },
       {
         "block_id": "CyOddOWetoCtaMxMOVEcz1xXnIg",
@@ -4408,9 +5280,21 @@
           "elements": [
             {
               "text_run": {
-                "content": "Personal ",
+                "content": "Personal keys",
                 "text_element_style": {
                   "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Each organization user can reset their own personal ",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -4422,7 +5306,7 @@
               "text_run": {
                 "content": "API",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -4432,19 +5316,7 @@
             },
             {
               "text_run": {
-                "content": " keys",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": Individual users have the autonomy to reset their own personal API keys. This feature ensures that users can promptly respond to any security concerns or access issues by generating a new key, maintaining a secure and personalized access system.",
+                "content": " key only, regardless of their roles. This ensures that users can promptly respond to any security concerns or access issues by generating a new key, maintaining a secure and personalized access system.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4469,9 +5341,21 @@
           "elements": [
             {
               "text_run": {
-                "content": "Managed ",
+                "content": "Customized keys",
                 "text_element_style": {
                   "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Resetting customized ",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -4483,7 +5367,7 @@
               "text_run": {
                 "content": "API",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -4493,19 +5377,7 @@
             },
             {
               "text_run": {
-                "content": " keys",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": The ability to reset managed API keys is exclusively reserved for ",
+                "content": " keys is exclusively reserved for ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4532,7 +5404,34 @@
             },
             {
               "text_run": {
-                "content": ". This level of control is crucial in managing broader, organization-wide access and security. Organization Owners can reset these keys to address security issues or update access protocols, ensuring that the integrity of application-level access remains uncompromised.",
+                "content": ". This level of control is crucial in managing broader, organization-wide access and security. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owners",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " can reset these keys to address security issues or update access protocols, ensuring that the integrity of application-level access remains uncompromised.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4551,16 +5450,25 @@
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g"
       },
       {
-        "block_id": "CixodvinSoZpnixRfLHcvTLRnQd",
-        "block_type": 2,
+        "block_id": "UslUdheA4ovvbBxT3YLcqUKJnJe",
+        "block_type": 34,
+        "children": [
+          "E87VdHVICoWFnsxLi5KcU2ASnrg",
+          "DKd9dqwJ5ouSJvxmEAKcBUfnn8e"
+        ],
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
+        "quote_container": {}
+      },
+      {
+        "block_id": "E87VdHVICoWFnsxLi5KcU2ASnrg",
+        "block_type": 2,
+        "parent_id": "UslUdheA4ovvbBxT3YLcqUKJnJe",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "<screenshot>",
+                "content": "🚧 Warning",
                 "text_element_style": {
-                  "background_color": 3,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -4575,6 +5483,66 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "DKd9dqwJ5ouSJvxmEAKcBUfnn8e",
+        "block_type": 2,
+        "parent_id": "UslUdheA4ovvbBxT3YLcqUKJnJe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation will reset and invalidate the current ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " key. Any custom code using this key will stop functioning until you update the relevant code with the new key.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZbvgdQI5Yo9Ju6xSI0vcr3Brn4c",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D24206-1247%26mode%3Ddesign%26t%3DuaWicbkqIcIRD1j7-4"
+          }
+        },
+        "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g"
       },
       {
         "block_id": "doxcn8Cidmrz59X103M8wN0TErB",
@@ -4628,24 +5596,15 @@
       {
         "block_id": "doxcna5XDTNqSHFjiTbf9OUnMIf",
         "block_type": 2,
+        "comment_ids": [
+          "7316736577814953988"
+        ],
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "If ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "an ",
+                "content": "If an ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4669,7 +5628,7 @@
             },
             {
               "text_run": {
-                "content": " key is no longer needed",
+                "content": " key is no longer needed, you can ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4681,9 +5640,12 @@
             },
             {
               "text_run": {
-                "content": ", ",
+                "content": "delete it as an ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7316736577814953988"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -4693,11 +5655,17 @@
             },
             {
               "text_run": {
-                "content": "you can delete",
+                "content": "Organization Owner",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7316736577814953988"
+                  ],
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -4705,21 +5673,12 @@
             },
             {
               "text_run": {
-                "content": " ",
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "it.",
-                "text_element_style": {
-                  "bold": false,
+                  "comment_ids": [
+                    "7316736577814953988"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -4735,92 +5694,14 @@
         }
       },
       {
-        "block_id": "doxcnHLE9XQcYDUMp8VhSh2798e",
+        "block_id": "GlEndby0XoOkbfxdvJuclacMnTd",
         "block_type": 2,
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "To delete an ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " key, you must be an ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Organization Owner",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " or a ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Project Owner",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23DWfPdLrB6oQIfYxTcSqcOEIxnSd"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
+                "content": "Only customized API keys can be deleted. Personal keys can be reset by their own user, but cannot be deleted.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4921,1338 +5802,6 @@
         "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g"
       },
       {
-        "block_id": "NpOzd9juQorBawx4oeUcWWW9nVb",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Reference: ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " keys v.s. Cluster credentials",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g"
-      },
-      {
-        "block_id": "WLTmd7D2qohCnrxNyDGconHtnWb",
-        "block_type": 2,
-        "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The following table compares ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " keys and ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "cluster credentials",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FB10Owir21iSfZfkjsvgcnU6nnFc"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " consisting of username and password pairs, highlighting their scope, ease of use, creation, and management in accessing resources.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "block_type": 31,
-        "children": [
-          "Nx64dMKwuoNIooxCynFcDrANnEd",
-          "QZS7dzNwuoHaX5xSSj8cpOThnDc",
-          "Eo85da4OMovGH9xNNP2cVmnmn3f",
-          "VXUldHAWeoJlmNx8v0xcraBGn5g",
-          "PASMdf6UIoBgDtxcHZ2co1XWnSd",
-          "DRLad2eZeoQT2HxDILscY0pSnad",
-          "BVh1dRJueoPaXsxA8rgcZUGjnOc",
-          "UUMbdu63LotZc7xNuUUc20vZnxg",
-          "HMadd0RJAo3THGxisrmcV0WYnkd",
-          "Vty3dYjBUoIuKFxK6aNcsTr8nKh",
-          "WSXkdX4XIow1PPxLmRecDDkAnXq",
-          "LdUtdv9eVohD9RxPTPzcwVVVnRb",
-          "KygHdhT41oNx8bxupXtcMk9FnEv",
-          "DzSAdhDQko4GMWxzK1uccG2knwG",
-          "GFnidUwTIoszGlxq1CkcS3rTnTb",
-          "NXGzd3D2mofEu6x7fIZc9Q39nLd",
-          "MVzgdYsjzoYmQZxKvE1chLYYnbe",
-          "ClM6dr4thoY8owxMFaVcO57xnpc"
-        ],
-        "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
-        "table": {
-          "cells": [
-            "Nx64dMKwuoNIooxCynFcDrANnEd",
-            "QZS7dzNwuoHaX5xSSj8cpOThnDc",
-            "Eo85da4OMovGH9xNNP2cVmnmn3f",
-            "VXUldHAWeoJlmNx8v0xcraBGn5g",
-            "PASMdf6UIoBgDtxcHZ2co1XWnSd",
-            "DRLad2eZeoQT2HxDILscY0pSnad",
-            "BVh1dRJueoPaXsxA8rgcZUGjnOc",
-            "UUMbdu63LotZc7xNuUUc20vZnxg",
-            "HMadd0RJAo3THGxisrmcV0WYnkd",
-            "Vty3dYjBUoIuKFxK6aNcsTr8nKh",
-            "WSXkdX4XIow1PPxLmRecDDkAnXq",
-            "LdUtdv9eVohD9RxPTPzcwVVVnRb",
-            "KygHdhT41oNx8bxupXtcMk9FnEv",
-            "DzSAdhDQko4GMWxzK1uccG2knwG",
-            "GFnidUwTIoszGlxq1CkcS3rTnTb",
-            "NXGzd3D2mofEu6x7fIZc9Q39nLd",
-            "MVzgdYsjzoYmQZxKvE1chLYYnbe",
-            "ClM6dr4thoY8owxMFaVcO57xnpc"
-          ],
-          "property": {
-            "column_size": 3,
-            "column_width": [
-              176,
-              277,
-              321
-            ],
-            "header_row": true,
-            "merge_info": [
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              }
-            ],
-            "row_size": 6
-          }
-        }
-      },
-      {
-        "block_id": "Nx64dMKwuoNIooxCynFcDrANnEd",
-        "block_type": 32,
-        "children": [
-          "T7xsdKS08oQJIMx5NMBcVgvIn4b"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "T7xsdKS08oQJIMx5NMBcVgvIn4b",
-        "block_type": 2,
-        "parent_id": "Nx64dMKwuoNIooxCynFcDrANnEd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Feature",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "QZS7dzNwuoHaX5xSSj8cpOThnDc",
-        "block_type": 32,
-        "children": [
-          "KK6ndF5paooLaPx0ul9ctpj2njc"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "KK6ndF5paooLaPx0ul9ctpj2njc",
-        "block_type": 2,
-        "parent_id": "QZS7dzNwuoHaX5xSSj8cpOThnDc",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " Key",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Eo85da4OMovGH9xNNP2cVmnmn3f",
-        "block_type": 32,
-        "children": [
-          "HmEjdrMP5o03Pwx73tZcyq4wnAe"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "HmEjdrMP5o03Pwx73tZcyq4wnAe",
-        "block_type": 2,
-        "parent_id": "Eo85da4OMovGH9xNNP2cVmnmn3f",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Cluster Credential",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "VXUldHAWeoJlmNx8v0xcraBGn5g",
-        "block_type": 32,
-        "children": [
-          "HgV9dKRsZoJqnrx3tWWcPwkEnhf"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "HgV9dKRsZoJqnrx3tWWcPwkEnhf",
-        "block_type": 2,
-        "parent_id": "VXUldHAWeoJlmNx8v0xcraBGn5g",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Usage Scope",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "PASMdf6UIoBgDtxcHZ2co1XWnSd",
-        "block_type": 32,
-        "children": [
-          "KHrbddbieo5qENxHanEcPkfknmb",
-          "V26RdUAf7oZMvUxhuHocTw2Snlb"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "KHrbddbieo5qENxHanEcPkfknmb",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Organization-level resources;",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "PASMdf6UIoBgDtxcHZ2co1XWnSd"
-      },
-      {
-        "block_id": "V26RdUAf7oZMvUxhuHocTw2Snlb",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Manage projects and associated resources in an organization.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "PASMdf6UIoBgDtxcHZ2co1XWnSd"
-      },
-      {
-        "block_id": "DRLad2eZeoQT2HxDILscY0pSnad",
-        "block_type": 32,
-        "children": [
-          "QKRwd6SeroeZIhxeejCcvWAunuM",
-          "Qn5WduE1doEfrkxpu0NcxAQRnVd"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "QKRwd6SeroeZIhxeejCcvWAunuM",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Cluster-level resources; ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "DRLad2eZeoQT2HxDILscY0pSnad"
-      },
-      {
-        "block_id": "Qn5WduE1doEfrkxpu0NcxAQRnVd",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Manage collections and associated resources in a cluster.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "DRLad2eZeoQT2HxDILscY0pSnad"
-      },
-      {
-        "block_id": "BVh1dRJueoPaXsxA8rgcZUGjnOc",
-        "block_type": 32,
-        "children": [
-          "PoB4ddbBSoMBsaxkwo9c7hMLntN"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "PoB4ddbBSoMBsaxkwo9c7hMLntN",
-        "block_type": 2,
-        "parent_id": "BVh1dRJueoPaXsxA8rgcZUGjnOc",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Authentication",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "UUMbdu63LotZc7xNuUUc20vZnxg",
-        "block_type": 32,
-        "children": [
-          "ReODdzm2doyliUxnnPncRYVynxc"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "ReODdzm2doyliUxnnPncRYVynxc",
-        "block_type": 2,
-        "parent_id": "UUMbdu63LotZc7xNuUUc20vZnxg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Authenticate RESTful ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " or ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "SDK",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " calls.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "HMadd0RJAo3THGxisrmcV0WYnkd",
-        "block_type": 32,
-        "children": [
-          "Z1ULdYCR5o0aoyxZk5Sc4SY1nKf"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "Z1ULdYCR5o0aoyxZk5Sc4SY1nKf",
-        "block_type": 2,
-        "parent_id": "HMadd0RJAo3THGxisrmcV0WYnkd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Authenticate RESTful ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " or ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "SDK",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " calls.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Vty3dYjBUoIuKFxK6aNcsTr8nKh",
-        "block_type": 32,
-        "children": [
-          "FpbjdR7NoopaC0xmW5hcwKIrnuf"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "FpbjdR7NoopaC0xmW5hcwKIrnuf",
-        "block_type": 2,
-        "parent_id": "Vty3dYjBUoIuKFxK6aNcsTr8nKh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Ease of Use",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "WSXkdX4XIow1PPxLmRecDDkAnXq",
-        "block_type": 32,
-        "children": [
-          "CjvHdhVDSoZPksxFgJ5c6Mosnyg",
-          "ZVBwdrjngoSiNXxYgOmcSQNSnwg"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "CjvHdhVDSoZPksxFgJ5c6Mosnyg",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "User-friendly with a lower learning curve;",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "WSXkdX4XIow1PPxLmRecDDkAnXq"
-      },
-      {
-        "block_id": "ZVBwdrjngoSiNXxYgOmcSQNSnwg",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "No need to manage SDK versions.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "WSXkdX4XIow1PPxLmRecDDkAnXq"
-      },
-      {
-        "block_id": "LdUtdv9eVohD9RxPTPzcwVVVnRb",
-        "block_type": 32,
-        "children": [
-          "Ex6hd6HoloLJVSxGTn3c1svgnSP",
-          "QHxQdSUfXoX2fpxsM8Ac3Grwnp7"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "Ex6hd6HoloLJVSxGTn3c1svgnSP",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Suited for advanced features, role-based access control (",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "RBAC",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ") for cluster users;",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "LdUtdv9eVohD9RxPTPzcwVVVnRb"
-      },
-      {
-        "block_id": "QHxQdSUfXoX2fpxsM8Ac3Grwnp7",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Require managing SDK versions.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "LdUtdv9eVohD9RxPTPzcwVVVnRb"
-      },
-      {
-        "block_id": "KygHdhT41oNx8bxupXtcMk9FnEv",
-        "block_type": 32,
-        "children": [
-          "WgpJdezDTonNohxnwiScsr2Xnmd"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "WgpJdezDTonNohxnwiScsr2Xnmd",
-        "block_type": 2,
-        "parent_id": "KygHdhT41oNx8bxupXtcMk9FnEv",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Creation",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "DzSAdhDQko4GMWxzK1uccG2knwG",
-        "block_type": 32,
-        "children": [
-          "QzLMdqPsQomslrxgi37cVkHonXd",
-          "FO5KdzTCNoPpyJx9Z9Uctv3Znxf"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "QzLMdqPsQomslrxgi37cVkHonXd",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Personal key",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ":",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Auto-generated for each organization user",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "DzSAdhDQko4GMWxzK1uccG2knwG"
-      },
-      {
-        "block_id": "FO5KdzTCNoPpyJx9Z9Uctv3Znxf",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Managed key",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": Create ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " keys on the organization page.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "DzSAdhDQko4GMWxzK1uccG2knwG"
-      },
-      {
-        "block_id": "GFnidUwTIoszGlxq1CkcS3rTnTb",
-        "block_type": 32,
-        "children": [
-          "Op5bd7Q1zoefp8xwhrHcVv7LnTc"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "Op5bd7Q1zoefp8xwhrHcVv7LnTc",
-        "block_type": 2,
-        "parent_id": "GFnidUwTIoszGlxq1CkcS3rTnTb",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Add cluster users on the cluster management page.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "NXGzd3D2mofEu6x7fIZc9Q39nLd",
-        "block_type": 32,
-        "children": [
-          "MY4SdZEuconAYVxjhnfc8HU5nMJ"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "MY4SdZEuconAYVxjhnfc8HU5nMJ",
-        "block_type": 2,
-        "parent_id": "NXGzd3D2mofEu6x7fIZc9Q39nLd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Management of Collections/Resources",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "MVzgdYsjzoYmQZxKvE1chLYYnbe",
-        "block_type": 32,
-        "children": [
-          "IYmWdODCQoR6orxkcPYczqxSnlf",
-          "MxhCdTc6cogvQixyOHDchRtcnNe",
-          "F7Z8dYwAmoeAA8xINmJcwMgInqb",
-          "R7MLdOwPRoofUdxnOJAcCfwynmc"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "IYmWdODCQoR6orxkcPYczqxSnlf",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "List projects;",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "MVzgdYsjzoYmQZxKvE1chLYYnbe"
-      },
-      {
-        "block_id": "MxhCdTc6cogvQixyOHDchRtcnNe",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Manage clusters;",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "MVzgdYsjzoYmQZxKvE1chLYYnbe"
-      },
-      {
-        "block_id": "F7Z8dYwAmoeAA8xINmJcwMgInqb",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Create, drop collections;",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "MVzgdYsjzoYmQZxKvE1chLYYnbe"
-      },
-      {
-        "block_id": "R7MLdOwPRoofUdxnOJAcCfwynmc",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Manage indexes.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "MVzgdYsjzoYmQZxKvE1chLYYnbe"
-      },
-      {
-        "block_id": "ClM6dr4thoY8owxMFaVcO57xnpc",
-        "block_type": 32,
-        "children": [
-          "PC6VdaNBcozsDvxKiHAc5XjUnvh",
-          "FQi9dRaqhoy1tAxqG1Sc1w7dn2b",
-          "LlwZd6K4lo1bQKxNR5xcCsrGnie"
-        ],
-        "parent_id": "WueJdpFsgofGyPxcb8yc8iTTnmd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "PC6VdaNBcozsDvxKiHAc5XjUnvh",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Create, drop collections; ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "ClM6dr4thoY8owxMFaVcO57xnpc"
-      },
-      {
-        "block_id": "FQi9dRaqhoy1tAxqG1Sc1w7dn2b",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Manage indexes;",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "ClM6dr4thoY8owxMFaVcO57xnpc"
-      },
-      {
-        "block_id": "LlwZd6K4lo1bQKxNR5xcCsrGnie",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Access advanced collection features.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "ClM6dr4thoY8owxMFaVcO57xnpc"
-      },
-      {
         "block_id": "doxcnuftXBorfPXwl5LVc6c2Zeg",
         "block_type": 4,
         "heading2": {
@@ -6324,20 +5873,33 @@
                 "token": "Ha8jwqxnniC8mDkXM4RcN4SFnKf",
                 "url": "https://zilliverse.feishu.cn/wiki/Ha8jwqxnniC8mDkXM4RcN4SFnKf"
               }
-            },
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NFwhdPnr9oEO3axVHOqcHq2xn3g"
+      },
+      {
+        "block_id": "V8jLdqSojogZqaxfwXqctAEYnUg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
             {
-              "text_run": {
-                "content": " ",
+              "mention_doc": {
+                "obj_type": 16,
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FManage-Cluster-Credentials-562e60b054a64026b6f3e45ff6fe4338%3Fpvs%3D21"
-                  },
                   "strikethrough": false,
                   "underline": false
-                }
+                },
+                "title": "Manage Cluster Credentials via SDKs",
+                "token": "ZAp4w4SWaiJal2kaMhjcItyvnJh",
+                "url": "https://zilliverse.feishu.cn/wiki/ZAp4w4SWaiJal2kaMhjcItyvnJh"
               }
             }
           ],
@@ -6494,6 +6056,6 @@
         }
       }
     ],
-    "counts": 200
+    "counts": 171
   }
 }

@@ -5,7 +5,7 @@
   "node_token": "Ha8jwqxnniC8mDkXM4RcN4SFnKf",
   "node_type": "origin",
   "obj_create_time": "1689059918",
-  "obj_edit_time": "1701227332",
+  "obj_edit_time": "1705386423",
   "obj_token": "RmO3dMMHEoUAuRxCSXgcxhaXnug",
   "obj_type": "docx",
   "origin_node_token": "Ha8jwqxnniC8mDkXM4RcN4SFnKf",
@@ -13,8 +13,8 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "B10Owir21iSfZfkjsvgcnU6nnFc",
   "space_id": "7167193056431783939",
-  "title": "Manage Cluster Credentials on Web UI",
-  "slug": "manage-cluster-credentials-gui",
+  "title": "Manage Cluster Credentials (Console)",
+  "slug": "cluster-credentials-console",
   "blocks": {
     "items": [
       {
@@ -49,8 +49,8 @@
           "IOaAdZGiroJfJPxwaJ9cxmy0nue",
           "PdqZdBJjYoWr7zxlopicTsQinUE",
           "VDdGdbUrcoZxDwxTUpUcWunJnKh",
-          "AzA9dPhLCoMhCqxI2VKcO84bnMb",
           "MHSgdEqgxo81nNx9v1hcdEJAnUe",
+          "AzA9dPhLCoMhCqxI2VKcO84bnMb",
           "KuLadiqShoLgvrxghSAcIRZRn1g",
           "Z7FFdSKhioCtcpxZu1ucbzvcnlg"
         ],
@@ -70,19 +70,7 @@
             },
             {
               "text_run": {
-                "content": " on Web ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "UI",
+                "content": " (Console)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -480,7 +468,7 @@
             },
             {
               "text_run": {
-                "content": " for further details.",
+                "content": " for details.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1289,52 +1277,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Manage API Keys",
-                "token": "IFtRwms2yiPZx9kfiBacuaw6nJc",
-                "url": "https://zilliverse.feishu.cn/wiki/IFtRwms2yiPZx9kfiBacuaw6nJc"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FManage-API-Keys-9e136327da194cfc9f3b1840554298f1%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "RmO3dMMHEoUAuRxCSXgcxhaXnug"
-      },
-      {
-        "block_id": "AzA9dPhLCoMhCqxI2VKcO84bnMb",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Set up Whitelist",
-                "token": "FnS1wY0iuia4qgkMycVclZyHnOf",
-                "url": "https://zilliverse.feishu.cn/wiki/FnS1wY0iuia4qgkMycVclZyHnOf"
+                "title": "API Keys",
+                "token": "BRsZwqOUTiBbrPk9b5WcvFgTnze",
+                "url": "https://zilliverse.feishu.cn/wiki/BRsZwqOUTiBbrPk9b5WcvFgTnze"
               }
             }
           ],
@@ -1393,6 +1338,34 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "AzA9dPhLCoMhCqxI2VKcO84bnMb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Set up Whitelist",
+                "token": "FnS1wY0iuia4qgkMycVclZyHnOf",
+                "url": "https://zilliverse.feishu.cn/wiki/FnS1wY0iuia4qgkMycVclZyHnOf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "RmO3dMMHEoUAuRxCSXgcxhaXnug"
       },
       {
         "block_id": "KuLadiqShoLgvrxghSAcIRZRn1g",

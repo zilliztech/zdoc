@@ -5,7 +5,7 @@
   "node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
   "node_type": "origin",
   "obj_create_time": "1698026498",
-  "obj_edit_time": "1698026527",
+  "obj_edit_time": "1702371238",
   "obj_token": "SADnd8whjoZS1vxDHg9cGm7XnKf",
   "obj_type": "docx",
   "origin_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
@@ -20,6 +20,9 @@
       {
         "block_id": "SADnd8whjoZS1vxDHg9cGm7XnKf",
         "block_type": 1,
+        "children": [
+          "IhUMdMZ8goJiTixP5GsctV9Jnig"
+        ],
         "page": {
           "elements": [
             {
@@ -40,9 +43,34 @@
           }
         },
         "parent_id": ""
+      },
+      {
+        "block_id": "IhUMdMZ8goJiTixP5GsctV9Jnig",
+        "block_type": 2,
+        "parent_id": "SADnd8whjoZS1vxDHg9cGm7XnKf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can find the history of Zilliz Cloud releases in these docs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       }
     ],
-    "counts": 1
+    "counts": 2
   },
   "children": [
     {

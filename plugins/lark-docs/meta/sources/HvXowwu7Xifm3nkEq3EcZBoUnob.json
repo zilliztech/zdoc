@@ -5,7 +5,7 @@
   "node_token": "HvXowwu7Xifm3nkEq3EcZBoUnob",
   "node_type": "origin",
   "obj_create_time": "1689059615",
-  "obj_edit_time": "1701844862",
+  "obj_edit_time": "1703644164",
   "obj_token": "XaBKdeXszoIbEaxYtkncRxo3ndh",
   "obj_type": "docx",
   "origin_node_token": "HvXowwu7Xifm3nkEq3EcZBoUnob",
@@ -13,8 +13,8 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "OUWXw5c4gia34ZkQUcEcMFbWn6s",
   "space_id": "7167193056431783939",
-  "title": "Users & Roles",
-  "slug": "users-roles",
+  "title": "Authorization",
+  "slug": "authorization",
   "blocks": {
     "items": [
       {
@@ -27,31 +27,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Users",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " &",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " Roles",
+                "content": "Authorization",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -124,29 +100,11 @@
     {
       "creator": "ou_e55a208a81fc721928685fc3df9cb678",
       "has_child": false,
-      "node_create_time": "1698024383",
-      "node_token": "CA04wUpF0id2sckrZjqcAOZGnnz",
-      "node_type": "origin",
-      "obj_create_time": "1698024383",
-      "obj_edit_time": "1702024348",
-      "obj_token": "D81Rd5CdKoTXXNxfLwHcfX3AnAc",
-      "obj_type": "docx",
-      "origin_node_token": "CA04wUpF0id2sckrZjqcAOZGnnz",
-      "origin_space_id": "7167193056431783939",
-      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
-      "parent_node_token": "HvXowwu7Xifm3nkEq3EcZBoUnob",
-      "space_id": "7167193056431783939",
-      "title": "A Panorama View",
-      "slug": "a-panorama-view"
-    },
-    {
-      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
-      "has_child": false,
       "node_create_time": "1700448717",
       "node_token": "AFNZwDcXNiChK0ke5h5c65xZnje",
       "node_type": "origin",
       "obj_create_time": "1700448717",
-      "obj_edit_time": "1701340671",
+      "obj_edit_time": "1705394889",
       "obj_token": "DLwfdFXX3oC5zvxMHeXcibKpnve",
       "obj_type": "docx",
       "origin_node_token": "AFNZwDcXNiChK0ke5h5c65xZnje",
@@ -154,35 +112,53 @@
       "owner": "ou_e55a208a81fc721928685fc3df9cb678",
       "parent_node_token": "HvXowwu7Xifm3nkEq3EcZBoUnob",
       "space_id": "7167193056431783939",
-      "title": "Cluster Built-in Roles",
-      "slug": "create-built-in-roles"
+      "title": "User Roles",
+      "slug": "user-roles"
     },
     {
-      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
       "has_child": false,
-      "node_create_time": "1693365819",
-      "node_token": "BX8nwr7eHiZY3CkHnuYcGCj1n4e",
+      "node_create_time": "1698024383",
+      "node_token": "CA04wUpF0id2sckrZjqcAOZGnnz",
       "node_type": "origin",
-      "obj_create_time": "1693365819",
-      "obj_edit_time": "1700320885",
-      "obj_token": "NXxedDTtqoKHA8xRummcZpARnwf",
+      "obj_create_time": "1698024383",
+      "obj_edit_time": "1705371817",
+      "obj_token": "D81Rd5CdKoTXXNxfLwHcfX3AnAc",
       "obj_type": "docx",
-      "origin_node_token": "BX8nwr7eHiZY3CkHnuYcGCj1n4e",
+      "origin_node_token": "CA04wUpF0id2sckrZjqcAOZGnnz",
       "origin_space_id": "7167193056431783939",
-      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
       "parent_node_token": "HvXowwu7Xifm3nkEq3EcZBoUnob",
       "space_id": "7167193056431783939",
-      "title": "Manage Organizations and Members",
-      "slug": "manage-orgs-and-members"
+      "title": "Resource Hierarchy",
+      "slug": "resource-hierarchy"
+    },
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": true,
+      "node_create_time": "1703644256",
+      "node_token": "SkFxwYKdfirHv3k0g6zcXLPtnWD",
+      "node_type": "origin",
+      "obj_create_time": "1703644256",
+      "obj_edit_time": "1705371920",
+      "obj_token": "LyIydI0AKoaE9Ux15Ubc7ySrnng",
+      "obj_type": "docx",
+      "origin_node_token": "SkFxwYKdfirHv3k0g6zcXLPtnWD",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_node_token": "HvXowwu7Xifm3nkEq3EcZBoUnob",
+      "space_id": "7167193056431783939",
+      "title": "Organization Access",
+      "slug": "organization-access"
     },
     {
       "creator": "ou_8554528ee6e965bad56710acde1c7847",
-      "has_child": false,
+      "has_child": true,
       "node_create_time": "1689062456",
       "node_token": "O3rEwwCCTiu0k1kAyygcKYwhnzg",
       "node_type": "origin",
       "obj_create_time": "1689062456",
-      "obj_edit_time": "1700472379",
+      "obj_edit_time": "1705372112",
       "obj_token": "MkXydAxvtoBH2IxYnx0cyamTn6b",
       "obj_type": "docx",
       "origin_node_token": "O3rEwwCCTiu0k1kAyygcKYwhnzg",
@@ -190,8 +166,26 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "HvXowwu7Xifm3nkEq3EcZBoUnob",
       "space_id": "7167193056431783939",
-      "title": "Manage Projects and Collaborators",
-      "slug": "manage-projects-and-collaborator"
+      "title": "Project Access",
+      "slug": "project-access"
+    },
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": false,
+      "node_create_time": "1703644368",
+      "node_token": "Yvt7w2TN9i1T7BktQJAcK2h5n9g",
+      "node_type": "origin",
+      "obj_create_time": "1703644368",
+      "obj_edit_time": "1703644379",
+      "obj_token": "RRXzd8LvSo5SzIxjKiPco47knae",
+      "obj_type": "docx",
+      "origin_node_token": "Yvt7w2TN9i1T7BktQJAcK2h5n9g",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_node_token": "HvXowwu7Xifm3nkEq3EcZBoUnob",
+      "space_id": "7167193056431783939",
+      "title": "RBAC Best Practice",
+      "slug": "rbac-best-practice"
     }
   ]
 }

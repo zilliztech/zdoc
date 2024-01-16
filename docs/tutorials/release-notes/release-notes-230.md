@@ -3,7 +3,7 @@ slug: /release-notes-230
 beta: FALSE
 notebook: FALSE
 token: MocQwCCItiHYEbkkJtOcROPTnod
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
@@ -35,7 +35,7 @@ Explore the future with our latest beta features, available for dedicated cluste
 
 - *Access Control*
 
-    Securely access dedicated clusters and serverless instances with [API Key](./manage-api-keys) or [username password authentication](./manage-cluster-credentials-gui).
+    Securely access dedicated clusters and serverless instances with [API Key](./undefined) or [username password authentication](./cluster-credentials-console).
 
 - *Return Raw Vectors*
 
@@ -55,7 +55,7 @@ We've also implemented several enhancements to improve your overall experience:
 
 - *New Role for RBAC*
 
-    Grant [Project Member Role](./a-panorama-view) to project collaborators for more streamlined collaboration.
+    Grant [Project Member Role](./resource-hierarchy) to project collaborators for more streamlined collaboration.
 
 - *Billing Optimizations*
 
@@ -67,7 +67,7 @@ We've also implemented several enhancements to improve your overall experience:
 
 - *Self-Service Account Deletion*
 
-    Easily [delete your own accounts](./delete-your-account#delete-your-account) or [organizations](./delete-your-org) for greater control over your profile.
+    Easily [delete your own accounts](./email-accounts#delete-your-account) or [organizations](./undefined) for greater control over your profile.
 
 - *Stability Enhancements*
 

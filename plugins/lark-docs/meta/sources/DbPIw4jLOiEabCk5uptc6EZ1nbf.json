@@ -1,0 +1,2232 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1702438447",
+  "node_token": "DbPIw4jLOiEabCk5uptc6EZ1nbf",
+  "node_type": "origin",
+  "obj_create_time": "1702438447",
+  "obj_edit_time": "1704956160",
+  "obj_token": "O4OwdGeQbol46kxxjCEchNljnxh",
+  "obj_type": "docx",
+  "origin_node_token": "DbPIw4jLOiEabCk5uptc6EZ1nbf",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "Xma9w6Ne9ihcsZkFkSmcHidEnZg",
+  "space_id": "7167193056431783939",
+  "title": "View Cluster Metric Charts",
+  "slug": "view-cluster-metric-charts",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "block_type": 1,
+        "children": [
+          "doxcnnUTSBmDl1o6JGG883OLnCf",
+          "TP9VdlGHOogXhfxJS3sc6a34nRf",
+          "GC90dddy6o8oIRxpCLxcExibn0b",
+          "VPN9dds2yo92xsx2zcscm4LBnMh",
+          "EVLldufVgozUZPxvIG5c0sKRnFf",
+          "Gn5YdOsRcoB6MAxIaPacRoLTnrg",
+          "NK8hdPgt2oCSYFx18mlcGY7dnUP",
+          "FbEJd6x5moRX3yxrAMPcc1Fsnkb",
+          "QaKpd0ngSoixNyxFaRgc4zC8nwf",
+          "GSRTdrnFWoI3BIxKepdc3fcZn6c",
+          "KWnwdBE88oAFimx8YYRcVOf2nNc",
+          "ODO7d5PgnoangIxwU3Fc4hDin23",
+          "V9Bld2AyyokhVKxYDFrcZY3SnOb",
+          "ZxfAd0INRomgDexfnhVcTpMSngc",
+          "T2zWdu1fXoqJv7xtPWGcIHMQnkd",
+          "Ry0zd5f3YowjwkxbR2Zch67tnsh",
+          "JeQFdLGzXo7C3txT6ozckfovn1g",
+          "PorodO1DrocLG9xwWPFcYVd1nLh",
+          "L7QKddFX4o9QBvxYMySc8AiPngg",
+          "G8FGdtLbDo8ST5xELECcXpUPnCf",
+          "GnPPd6bDWoa6xlxQxakcjArMnzc",
+          "IwPkdUXeKopvkTxuYCjc17Kbn0B",
+          "T2BYdg2XeoKUj2x9rUxcj6ffn2b",
+          "BSyBdRbjBoU29lx1Deacls5Pn9g",
+          "JeLHdbfjno7ZN1xSfkbcEIBqnTg",
+          "EWdadyMjAo3pNHx22XZc9o5NnWb",
+          "Q8gKd4YXEoVhtNxvO4wcunqDn8b",
+          "G1eTdTaiJouzYZx48C3cARhfnBg",
+          "QSHkdcWfsobGqIxLFnAc0dTNnDe",
+          "NqmLd4dgDo6gzJxUMj6c1dsrnne",
+          "CIL6dfXteoZnXnxxmLZcknJbnyg",
+          "LuqgdNVNyol1IJxHz33cHs6jnjv",
+          "PW8ddYQXCoAxkvxjvJHc236snsd",
+          "GzORdsnltoo1yMxWqoxcK4xwnUd",
+          "OZ02dfZTWo3SPwxM8KncCDxXn8g",
+          "PAOhdKCg4oX9wdxSIo2c4vYsnUb",
+          "PmUpdV73Ro7DLWxFy46cHYAEnQd",
+          "B7WNd7wkFoHp52xFpxxcqkrHn8c",
+          "doxcn3qbr7qa56tOc82XeoRFndf",
+          "JI7OdrzmIoxfujx4ajfcuxgWnFc",
+          "DaUjd7iGsoMakAxLJmHcligAnB9",
+          "doxcnGzZkoDhN0UQNskSAOV1LQt"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View Cluster Metric Charts",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnnUTSBmDl1o6JGG883OLnCf",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To access this feature, navigate to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Metrics",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab within one of your clusters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TP9VdlGHOogXhfxJS3sc6a34nRf",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GC90dddy6o8oIRxpCLxcExibn0b",
+        "block_type": 34,
+        "children": [
+          "EMs7dp4BNogKQQxMYpAcgVmhnbd",
+          "B3K4dgeVJo3cNdx3VJHcsoeNnPc"
+        ],
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "quote_container": {}
+      },
+      {
+        "block_id": "EMs7dp4BNogKQQxMYpAcgVmhnbd",
+        "block_type": 2,
+        "parent_id": "GC90dddy6o8oIRxpCLxcExibn0b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "B3K4dgeVJo3cNdx3VJHcsoeNnPc",
+        "block_type": 2,
+        "parent_id": "GC90dddy6o8oIRxpCLxcExibn0b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This feature is exclusively available to clusters in the Standard and Enterprise plans. For more information, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Select the Right Cluster Plan",
+                "token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
+                "url": "https://zilliverse.feishu.cn/wiki/Ghq9wEiOOivgeIkmj2HcHC9onXe"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VPN9dds2yo92xsx2zcscm4LBnMh",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EVLldufVgozUZPxvIG5c0sKRnFf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Access cluster metric charts",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "Gn5YdOsRcoB6MAxIaPacRoLTnrg",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud console",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.zilliz.com%2Flogin"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", locate the target cluster and select the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Metrics",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NK8hdPgt2oCSYFx18mlcGY7dnUP",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D28272-1137%26mode%3Ddesign%26t%3DNfgsCH1TmWr8BJZb-4"
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "FbEJd6x5moRX3yxrAMPcc1Fsnkb",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud's metric charts provide performance data on resource usage, queries per second (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "QPS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "), request results, and data operations, offering granular analysis within a specific time range.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QaKpd0ngSoixNyxFaRgc4zC8nwf",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For details on each metric chart, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "View metric charts",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FDbPIw4jLOiEabCk5uptc6EZ1nbf%23T2zWdu1fXoqJv7xtPWGcIHMQnkd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GSRTdrnFWoI3BIxKepdc3fcZn6c",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Modify curve window size",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "KWnwdBE88oAFimx8YYRcVOf2nNc",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Metrics",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab allows for two types of window sizes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ODO7d5PgnoangIxwU3Fc4hDin23",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Relative Range",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Choose from a set of pre-defined time periods relative to your current time. Using relative time ranges allows you to check metrics in a periodical and convenient way, without needing to enter the specific start and end time. Your choices include:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "QHEmdpQJBoEPD0xG6NMcG6usnHc",
+          "ZddtdWAk6omZ6bxoBY8cQpA0nOh",
+          "Gkhudmy0voz0wkxlZjUci0H2nGg",
+          "RiACdrG2xoh39KxIuXmcP2Vuny7",
+          "AIDCdQrLAoGDyZxQlp9cpabmnXd"
+        ],
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "QHEmdpQJBoEPD0xG6NMcG6usnHc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Last 10 minutes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ODO7d5PgnoangIxwU3Fc4hDin23"
+      },
+      {
+        "block_id": "ZddtdWAk6omZ6bxoBY8cQpA0nOh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Last hour",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ODO7d5PgnoangIxwU3Fc4hDin23"
+      },
+      {
+        "block_id": "Gkhudmy0voz0wkxlZjUci0H2nGg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Last day",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ODO7d5PgnoangIxwU3Fc4hDin23"
+      },
+      {
+        "block_id": "RiACdrG2xoh39KxIuXmcP2Vuny7",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Last week",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ODO7d5PgnoangIxwU3Fc4hDin23"
+      },
+      {
+        "block_id": "AIDCdQrLAoGDyZxQlp9cpabmnXd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Last month",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ODO7d5PgnoangIxwU3Fc4hDin23"
+      },
+      {
+        "block_id": "V9Bld2AyyokhVKxYDFrcZY3SnOb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Absolute Range",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Enter the exact start time and end time. Using absolute range allows you to control the metrics you see in a more fine-tuned way.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Qa70dfi6WoiM61xzS4TcFIx3nbd"
+        ],
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "Qa70dfi6WoiM61xzS4TcFIx3nbd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The time difference between the start and the end time should be greater than 10 minutes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "V9Bld2AyyokhVKxYDFrcZY3SnOb"
+      },
+      {
+        "block_id": "ZxfAd0INRomgDexfnhVcTpMSngc",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D26166-1139%26mode%3Ddesign%26t%3DIMXd3TufcH66oIlX-4"
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "T2zWdu1fXoqJv7xtPWGcIHMQnkd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View metric charts",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "Ry0zd5f3YowjwkxbR2Zch67tnsh",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud offers metric charts for monitoring cluster performance from various aspects. For a quick overview of available metrics, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Metrics & Alerts Reference",
+                "token": "KnnBwce9JifxvXkd070cvgUPnag",
+                "url": "https://zilliverse.feishu.cn/wiki/KnnBwce9JifxvXkd070cvgUPnag"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JeQFdLGzXo7C3txT6ozckfovn1g",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Resources",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "PorodO1DrocLG9xwWPFcYVd1nLh",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To view metric charts for resource usage, locate the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Resources",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " section on the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Metrics",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab. These charts provide a snapshot of the cluster's resource usage, including computation, capacity, and storage.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "L7QKddFX4o9QBvxYMySc8AiPngg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CU Computation",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Measures computational power usage relative to the total.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "ZPRuddqgMoFHoKxhY3tcE3Ptn9f",
+          "MbGld1ydRogCjrxAvrWcwdadnRc"
+        ],
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "ZPRuddqgMoFHoKxhY3tcE3Ptn9f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "70%-80%: Prepare for ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "scaling out",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FPharwAysCiBzvgkuqqecmNzunQf%23doxcn3Tmq2rqcBLBDAOqYMlWOWh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "L7QKddFX4o9QBvxYMySc8AiPngg"
+      },
+      {
+        "block_id": "MbGld1ydRogCjrxAvrWcwdadnRc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "90% or more: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Scale out",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FPharwAysCiBzvgkuqqecmNzunQf%23doxcn3Tmq2rqcBLBDAOqYMlWOWh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " immediately to avoid service disruptions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "L7QKddFX4o9QBvxYMySc8AiPngg"
+      },
+      {
+        "block_id": "G8FGdtLbDo8ST5xELECcXpUPnCf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CU Capacity",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Indicates used capacity as a percentage of total, measured per second over time.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "AOj7dqkn7om3XKxeB2wcN7oqnkd",
+          "I1shdEefEofToJxWQeyc5zyTnvr",
+          "O6j9dbNhjo09d3xRu1yc4813nEg"
+        ],
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "AOj7dqkn7om3XKxeB2wcN7oqnkd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "70%-80%: Prepare for ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "scaling out",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FPharwAysCiBzvgkuqqecmNzunQf%23doxcn3Tmq2rqcBLBDAOqYMlWOWh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G8FGdtLbDo8ST5xELECcXpUPnCf"
+      },
+      {
+        "block_id": "I1shdEefEofToJxWQeyc5zyTnvr",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "90%-99%: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Scale out",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FPharwAysCiBzvgkuqqecmNzunQf%23doxcn3Tmq2rqcBLBDAOqYMlWOWh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " immediately to avoid service disruptions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G8FGdtLbDo8ST5xELECcXpUPnCf"
+      },
+      {
+        "block_id": "O6j9dbNhjo09d3xRu1yc4813nEg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "100%: When the used CU capacity hits 100%, Zilliz Cloud disables data writing and triggers SDK errors. To restore normal functionality, ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322673243553562627"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "scale out",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322673243553562627"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FPharwAysCiBzvgkuqqecmNzunQf%23doxcn3Tmq2rqcBLBDAOqYMlWOWh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " your cluster immediately.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322673243553562627"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7322673243553562627"
+        ],
+        "parent_id": "G8FGdtLbDo8ST5xELECcXpUPnCf"
+      },
+      {
+        "block_id": "GnPPd6bDWoa6xlxQxakcjArMnzc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Storage Use",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Shows total persistent storage consumed, calculated in GB/s over a selected period.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "IwPkdUXeKopvkTxuYCjc17Kbn0B",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D28272-1137%26mode%3Ddesign%26t%3DNfgsCH1TmWr8BJZb-4"
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "T2BYdg2XeoKUj2x9rUxcj6ffn2b",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Performance",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "BSyBdRbjBoU29lx1Deacls5Pn9g",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To view metric charts for performance, locate the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Performance",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " section on the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Metrics",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab. These charts provide a snapshot of cluster performance, including ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "QPS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", VPS, and latency.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JeLHdbfjno7ZN1xSfkbcEIBqnTg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "QPS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The count of search, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", bulk insert, and upsert requests per second.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "EWdadyMjAo3pNHx22XZc9o5NnWb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "VPS",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7322674804673576963"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The count of vector search operations per second (VPS) in multi-vector operations. Calculation formula: VPS = ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "QPS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " * ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "N",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (where ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "N",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " indicates the number of vectors involved in multi-vector operations).",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7322674804673576963"
+        ],
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "Q8gKd4YXEoVhtNxvO4wcunqDn8b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Latency",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The time elapsed between a client sending a request to a server and the client receiving a response. It includes an average latency and a P99 latency.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "G1eTdTaiJouzYZx48C3cARhfnBg",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D28273-1164%26mode%3Ddesign%26t%3DNfgsCH1TmWr8BJZb-4"
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "QSHkdcWfsobGqIxLFnAc0dTNnDe",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Rate",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "NqmLd4dgDo6gzJxUMj6c1dsrnne",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To view metric charts for requests, locate the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Request Rate",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " section on the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Metrics",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab. These charts provide a snapshot of the cluster's request performance by showing the proportion of successful and failed requests.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CIL6dfXteoZnXnxxmLZcknJbnyg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Success",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The percentage of successful requests in all requests per second.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "LuqgdNVNyol1IJxHz33cHs6jnjv",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Fail",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The percentage of timeout requests in all requests per second.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "PW8ddYQXCoAxkvxjvJHc236snsd",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D28273-1173%26mode%3Ddesign%26t%3DNfgsCH1TmWr8BJZb-4"
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "GzORdsnltoo1yMxWqoxcK4xwnUd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Entity",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "OZ02dfZTWo3SPwxM8KncCDxXn8g",
+        "block_type": 2,
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To view metric charts for entities, locate the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Entity",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " section on the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Metrics",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab. These charts provide a snapshot of the cluster's entity data by indicating the current entity count and the rate at which new entity data is being inserted.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PAOhdKCg4oX9wdxSIo2c4vYsnUb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Loaded Entities",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The count of entities loaded in the cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "PmUpdV73Ro7DLWxFy46cHYAEnQd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Entity Insert Rate",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The count of entities inserted per second.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "B7WNd7wkFoHp52xFpxxcqkrHn8c",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D28297-1184%26mode%3Ddesign%26t%3DNfgsCH1TmWr8BJZb-4"
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "doxcn3qbr7qa56tOc82XeoRFndf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "JI7OdrzmIoxfujx4ajfcuxgWnFc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Organization Alerts",
+                "token": "UPg7wiU71ioeELk8I8KcLDYqncb",
+                "url": "https://zilliverse.feishu.cn/wiki/UPg7wiU71ioeELk8I8KcLDYqncb"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "DaUjd7iGsoMakAxLJmHcligAnB9",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Project Alerts",
+                "token": "NvDLw4kFji0xeWkc4Hpc9wUfnRh",
+                "url": "https://zilliverse.feishu.cn/wiki/NvDLw4kFji0xeWkc4Hpc9wUfnRh"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "doxcnGzZkoDhN0UQNskSAOV1LQt",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Metrics & Alerts Reference",
+                "token": "KnnBwce9JifxvXkd070cvgUPnag",
+                "url": "https://zilliverse.feishu.cn/wiki/KnnBwce9JifxvXkd070cvgUPnag"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      }
+    ],
+    "counts": 56
+  }
+}

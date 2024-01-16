@@ -5,7 +5,7 @@
   "node_token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
   "node_type": "origin",
   "obj_create_time": "1689062622",
-  "obj_edit_time": "1699622191",
+  "obj_edit_time": "1704964085",
   "obj_token": "G0qudBnqjoxXb6xywOjcLtBhnTb",
   "obj_type": "docx",
   "origin_node_token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
@@ -57,6 +57,7 @@
           "OZzzdGM6OoBAd1xvj7EcdpDwnXf",
           "Tw2jdVx8poieIgx8t9XcHTdQnmQ",
           "Qefhdjsrso3trIx6m6pcAYZKnBc",
+          "MO8Od3zPeofZxQxSWDEcdruonbb",
           "R4L0dls5cooWK8xOXc5cFnGNnyh"
         ],
         "page": {
@@ -264,7 +265,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fchat.openai.com%2Fc%2F0b1274aa-d87a-4104-9a5f-b0daeb3fee59%23"
+                    "url": "https%3A%2F%2Fdocs.aws.amazon.com%2Fawsaccountbilling%2Flatest%2Faboutv2%2Fmanage-payment-method.html"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -4236,7 +4237,31 @@
             },
             {
               "text_run": {
-                "content": " on Zilliz Cloud with one performance-optimized CU, you will be charged 159 units per hour, that is $0.159/hour.",
+                "content": " on Zilliz Cloud with one performance-optimized CU",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " on AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you will be charged 159 units per hour, that is $0.159/hour.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4374,6 +4399,46 @@
         "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
       },
       {
+        "block_id": "MO8Od3zPeofZxQxSWDEcdruonbb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Subscribe on GCP Marketplace",
+                "token": "MIqTw7iJ4iQAtVkYKiEc98a7nsh",
+                "url": "https://zilliverse.feishu.cn/wiki/MIqTw7iJ4iQAtVkYKiEc98a7nsh"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
+      },
+      {
         "block_id": "R4L0dls5cooWK8xOXc5cFnGNnyh",
         "block_type": 12,
         "bullet": {
@@ -4417,6 +4482,6 @@
         "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
       }
     ],
-    "counts": 143
+    "counts": 144
   }
 }

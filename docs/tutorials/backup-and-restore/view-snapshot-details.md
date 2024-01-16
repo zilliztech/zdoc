@@ -33,11 +33,11 @@ If the status of your snapshot is neither of the two, errors may occur. Please t
 
 ## Related topics{#related-topics}
 
-- [Create Snapshot](./create-snapshot) 
+- [Create Snapshot](./create-snapshot)
 
-- [Schedule Automatic Backups](./schedule-automatic-backups) 
+- [Schedule Automatic Backups](./schedule-automatic-backups)
 
-- [Restore from Snapshot](./restore-from-snapshot) 
+- [Restore from Snapshot](./restore-from-snapshot)
 
 - [Delete Snapshot](./delete-snapshot) 
 

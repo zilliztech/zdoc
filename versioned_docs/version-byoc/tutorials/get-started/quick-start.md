@@ -3,7 +3,7 @@ slug: /quick-start
 beta: FALSE
 notebook: 00_quick_start.ipynb
 token: IoFmw0VkNiJ7jBksjYKcR191nxd
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
@@ -18,7 +18,7 @@ This tutorial guides you through CRUD tasks in a cluster. You are expecting to l
 
 Throughout this guide, we will use Zilliz Cloud's SDKs and RESTful API. Before you begin, ensure that:
 
-- You have activated your cloud and created a cluster in a project. For details, see [Activate Your Cloud](./activate-your-cloud) and [Create Cluster](./create-cluster).
+- You have activated your cloud and created a cluster in a project. For details, see [Activate Your Cloud](./activate-your-cloud) and [Create Cluster](./undefined).
 
 - You have installed the preferred SDKs. Currently, there are four SDKs available, and they are [Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), and [Node.js](./install-sdks#install-nodejs-sdk). For details, see [Install SDKs](./install-sdks).
 
@@ -117,7 +117,6 @@ public class QuickStartDemo
         String token = "YOUR_CLUSTER_TOKEN";
         String collectionName = "medium_articles";
         String data_file = System.getProperty("user.dir") + "/medium_articles_2020_dpr.json";
-        
 
         // 1. Connect to Zilliz Cloud
 
@@ -472,9 +471,7 @@ Here are some examples of inserting one or multiple entities from the dataset in
     
             // Output:
             // Successfully read file
-    
-    
-    
+
             // Load dataset
             JSONObject dataset = JSON.parseObject(content);
     
@@ -663,9 +660,8 @@ Here are some examples of inserting one or multiple entities from the dataset in
         //     ]
         //   }
         // ]
-        // 
-    
-        
+        //
+
         res = await client.insert({
             collection_name: collectionName,
             data: client_data
@@ -728,9 +724,7 @@ Here are some examples of inserting one or multiple entities from the dataset in
     
             // Output:
             // Successfully read file
-    
-    
-    
+
             // Load dataset
             JSONObject dataset = JSON.parseObject(content);
     

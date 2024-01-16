@@ -98,13 +98,13 @@ With your ARNs in hand, proceed to activate your cloud region in the Zilliz Clou
 
 Allow about 30 minutes for the activation process to complete. You can review the resources created under your AWS account. For a list of necessary resources, refer to [Understand required resources and permissions](./byoc-prerequisites#understand-required-resources-and-permissions).
 
-Once complete, go to the **License** page to confirm that your license details are accurate. Then, proceed to [deploy a Zilliz Cloud cluster](./undefined) on your infrastructure.
+Once complete, go to the **License** page to confirm that your license details are accurate. Then, proceed to [deploy a Zilliz Cloud cluster](./create-cluster) on your infrastructure.
 
-![confirm-activation](/byoc/confirm-activation.png)
+![view-license-info](/byoc/view-license-info.png)
 
 ## Related topics{#related-topics}
 
-- [Create Cluster (Dev)](./undefined)
+- [Create Cluster (Dev)](./create-cluster)
 
 - [Quick Start](./quick-start)
 

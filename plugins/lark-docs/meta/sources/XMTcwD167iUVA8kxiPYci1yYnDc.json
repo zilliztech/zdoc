@@ -1,0 +1,2214 @@
+{
+  "creator": "ou_ee865f3d6d0036a3aa548eec6b75ce74",
+  "has_child": false,
+  "node_create_time": "1704332769",
+  "node_token": "XMTcwD167iUVA8kxiPYci1yYnDc",
+  "node_type": "origin",
+  "obj_create_time": "1704332769",
+  "obj_edit_time": "1704799821",
+  "obj_token": "JhGndPHiqoZ21axaUD0cLKucn9f",
+  "obj_type": "docx",
+  "origin_node_token": "XMTcwD167iUVA8kxiPYci1yYnDc",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_ee865f3d6d0036a3aa548eec6b75ce74",
+  "parent_node_token": "YNbGwiEjAinaQfkSdNlcTehwn8I",
+  "space_id": "7167193056431783939",
+  "title": "(Deprecated) Map Source Data to Collection",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "block_type": 1,
+        "children": [
+          "Gv45dcjD7oWQSYxxDTPcL0gTnoG",
+          "P6nQdadbUoMqjdxsjGpcPVg0nCb",
+          "AyoednOdroa0oBxNCzFcmZgsnvJ",
+          "WKm0dZfAbopZ5Oxl2x9c1rPLn5b",
+          "DiNGdKckeoy7TAxEpTpc6Huenbc",
+          "DLB8dHJsioGAf8xwHhpc2Zmxn3b",
+          "U6TVdWJApoiGMUxbgMCc2ac3nxh",
+          "CLkpdC2XBo65LLxa9f4cc11Inne",
+          "GxC7dvU2ToDyzlxVkuycV6VPnBg",
+          "JP2GdHhR1oemCOxO01Zc9cUyn8e",
+          "RsnQdf0bPoSZwexNbMDcgxZxnlf",
+          "K9hGdVB2OoHuT5xqhlIcpwpMnAh",
+          "Vwokd8zXNorm7JxkWjVccQbenFg",
+          "XI5LdTmcooQeTBxBmA3cA865nde",
+          "Uoujd3V2Lo0qylxh5IFc1DCtnqh",
+          "SkGCdOwJUoCm6DxyhsEcrYcxneb",
+          "KMlFdXm5UoeCryxJ3WQcOvdOnPb",
+          "UkX1dcjRkogwihxcuJgc9CP6nbd",
+          "TRcOdftCgom0JUx4vXZc137Gncb",
+          "UTqYdubN1oEpwUxdP2Xc6gnQnmB",
+          "V1Cwd9rHqokEjzxViAccpRBRneR",
+          "HhlSdq5sSozoixxDcy5c9gwXn0d",
+          "MghWdHWXiohMOCxuwHJcHoTinRe",
+          "Qcr8ddegKoKgLWxHAzjcBVZHnie",
+          "By6rd3Q9HoslYGxsrLCcUdSHnxB",
+          "Wp2YdIDD3oS3RpxmBrZcQyewnLf",
+          "HlXTdmqBToWJZcxE84nciNRWnPb",
+          "Zt6mdQS5hoU0mexae2iczz2hnOd",
+          "O0vSd6oDUoqSuYxd8uVcZYHhnoh",
+          "UBB0d8QOqo7mJGxtMy2cgRBknWc",
+          "PkTbdXHCZoTDVaxlRTccZmfVnkg",
+          "AwyAdSLIzoCpDkxwQqEcoBfJnog",
+          "BEdJdjPoYoOikPxL1i9ck9HNnvb",
+          "FW6Xdzxivoh9AOxSDq3cld8Rnhc",
+          "PatLdZogXoLqfwx6aTHcZ7jenl3",
+          "Wd83d9GTWoyGLVx493nco5WCnKc",
+          "KgCDdbP6wonCuJxgoDNcCd1VnYn",
+          "GBcEdVjdOorTlgxXVT6cn3Nbnxe",
+          "EOczdqqOxoQvdFx5OZYc75nwnNd",
+          "B90ddrsC3or4vLxQr6icELbenad",
+          "NsZnd2qLcodbVQxPhRmcWAudnmb",
+          "LsiAdquBqoywgixAREUcAhr3nmg",
+          "G1uFdnrGloKWzxxGo9Scix54n0c",
+          "SmgHdgcFfo1llPx22WNcBnUdnzg",
+          "Qwjld7NY0ohkpGxrpBccOi57nTR",
+          "CuzJd8pH4ojkGHxdXVLctACxnWb",
+          "UyHkddXWqofr5IxapRocBlLwnOh"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "(Deprecated) Map Source Data to Collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "Gv45dcjD7oWQSYxxDTPcL0gTnoG",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The target collection requires mapping the source data to its schema. This page helps to create a data-import plan to determine the mapping relationship.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "P6nQdadbUoMqjdxsjGpcPVg0nCb",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The diagram below shows how acceptable source data is mapped to the schema of a target collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AyoednOdroa0oBxNCzFcmZgsnvJ",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D22239-1157%26mode%3Ddesign%26t%3DZjQJb3hqEXB8TWMb-4"
+          }
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "WKm0dZfAbopZ5Oxl2x9c1rPLn5b",
+        "block_type": 4,
+        "comment_ids": [
+          "7321620525913882627"
+        ],
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set up a data-import plan",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7321620525913882627"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "DiNGdKckeoy7TAxEpTpc6Huenbc",
+        "block_type": 2,
+        "comment_ids": [
+          "7321620525913882627"
+        ],
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When preparing the source data, you should determine the answers to the following questions:",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7321620525913882627"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DLB8dHJsioGAf8xwHhpc2Zmxn3b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Which fields in the source data should be included?",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7321620525913882627"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7321620525913882627"
+        ],
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "U6TVdWJApoiGMUxbgMCc2ac3nxh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Should the target collection's primary field automatically increments?",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7321620525913882627"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7321620525913882627"
+        ],
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "CLkpdC2XBo65LLxa9f4cc11Inne",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Should dynamic fields be allowed? ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7321620525913882627"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7321620525913882627"
+        ],
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "GxC7dvU2ToDyzlxVkuycV6VPnBg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Which fields in the source data should be included as dynamic fields?",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7321620525913882627"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7321620525913882627"
+        ],
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "JP2GdHhR1oemCOxO01Zc9cUyn8e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What type of files should the source data be prepared into?",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7321620525913882627"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7321620525913882627"
+        ],
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "RsnQdf0bPoSZwexNbMDcgxZxnlf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Where should the prepared data be persisted?",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7321620525913882627"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7321620525913882627"
+        ],
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "K9hGdVB2OoHuT5xqhlIcpwpMnAh",
+        "block_type": 2,
+        "comment_ids": [
+          "7321620525913882627"
+        ],
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "As you find answers to these questions, you simply set up a plan for your data import. The following aims to provide you with a roadmap for you to find answers to these questions.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7321620525913882627"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Vwokd8zXNorm7JxkWjVccQbenFg",
+        "block_type": 4,
+        "comment_ids": [
+          "7321624782511341572"
+        ],
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Define a collection",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7321624782511341572"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "XI5LdTmcooQeTBxBmA3cA865nde",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "With the data-import plan in hand, you can design a collection that fits your source data. When creating a collection on Zilliz Cloud, you need to set up its schema. As shown in the screenshot below, there is a collection defined as follows: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Uoujd3V2Lo0qylxh5IFc1DCtnqh",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 960,
+          "token": "HfjQbClltoA8ZaxcjXXck3B6nDd",
+          "width": 1236
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "SkGCdOwJUoCm6DxyhsEcrYcxneb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Four fields are added to the collection schema, and they are",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "NxWndabT4o8Oovx68qFcEUyxnzG",
+          "XRU0dpllvouwaCx43VycgYOznbe",
+          "Rrfhdgw2Lo20wPxVpq0chD3lnFb"
+        ],
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "NxWndabT4o8Oovx68qFcEUyxnzG",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7321624498363908099"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7321624498363908099"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field which serves as the primary field, and",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7321624498363908099"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7321624498363908099"
+        ],
+        "parent_id": "SkGCdOwJUoCm6DxyhsEcrYcxneb"
+      },
+      {
+        "block_id": "XRU0dpllvouwaCx43VycgYOznbe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field which holds 768-dimensional vector embeddings, with similarities being measured using ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "L2",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SkGCdOwJUoCm6DxyhsEcrYcxneb"
+      },
+      {
+        "block_id": "Rrfhdgw2Lo20wPxVpq0chD3lnFb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "scalar_1",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "scalar_2",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " fields are added scalar fields.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "SkGCdOwJUoCm6DxyhsEcrYcxneb"
+      },
+      {
+        "block_id": "KMlFdXm5UoeCryxJ3WQcOvdOnPb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AutoID",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " option",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "is on, and",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "UkX1dcjRkogwihxcuJgc9CP6nbd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Dynamic Field",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " option is on.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "TRcOdftCgom0JUx4vXZc137Gncb",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once you click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Create Collection",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you can view its schema in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Schema",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab of the collection's page on the Zilliz Cloud console as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UTqYdubN1oEpwUxdP2Xc6gnQnmB",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 481,
+          "token": "ZtWJb0x4Yo8ojJxz5qacqtW8ncr",
+          "width": 874
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "V1Cwd9rHqokEjzxViAccpRBRneR",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Alternatively, you can list information about the collection in detail using our SDKs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HhlSdq5sSozoixxDcy5c9gwXn0d",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " AutoID",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "MghWdHWXiohMOCxuwHJcHoTinRe",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AutoID",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " option is disabled by default. To make the primary field of a collection automatically increment, you can switch on this option. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Qcr8ddegKoKgLWxHAzjcBVZHnie",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once this option is on, an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AutoID",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " label appears beside the name of the primary field. In this case, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "entities in the data to insert SHOULD NOT include the primary field and its values",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and including the primary field in the data results in errors.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "By6rd3Q9HoslYGxsrLCcUdSHnxB",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Dynamic Field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "Wp2YdIDD3oS3RpxmBrZcQyewnLf",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Dynamic Field",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " option is enabled by default. Enabling this option allows the collection to accept fields that are not predefined in the collection schema. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HlXTdmqBToWJZcxE84nciNRWnPb",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this case, any undefined fields and their corresponding values are saved in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "$meta",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field as key-value pairs during data insertion.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Zt6mdQS5hoU0mexae2iczz2hnOd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Prepare source data files",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "O0vSd6oDUoqSuYxd8uVcZYHhnoh",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "As illustrated in the above diagram, Zilliz Cloud supports importing data from ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", Parquet, and NumPy files and provides ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a BulkWriter tool",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQyjpwAaKuihAeJkNBUJcdFesn9e"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for you to prepare your source data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UBB0d8QOqo7mJGxtMy2cgRBknWc",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Prepare ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " file",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "PkTbdXHCZoTDVaxlRTccZmfVnkg",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A valid ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " file has a root key named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "rows",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", the corresponding value of which is a list of dictionaries with each representing an entity that matches the schema of the target collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AwyAdSLIzoCpDkxwQqEcoBfJnog",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{\n .   \"rows\": [\n          {\n              \"id\": 0,\n              \"vector\": [0.1493345, -0.4567898, ..., 0.7863548],\n              \"scalar_1\": \"a string\",\n              \"scalar_2\": 1234,\n              \"dynamic_field_1\": true,\n              \"dynamic_field_2\": 3456\n          },\n          {\n              \"id\": 1,\n              \"vector\": [0.3267899, 0.8907667, ..., -0.4456790],\n              \"scalar_1\": \"another string\",\n              \"scalar_2\": 7889,\n              \"dynamic_field_1\": false,\n              \"dynamic_field_2\": 4567\n          }                \n .   ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "BEdJdjPoYoOikPxL1i9ck9HNnvb",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If the structure of your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " data is not similar to the above or your data is not in a supported format, consider using ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the BulkWriter tool",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQyjpwAaKuihAeJkNBUJcdFesn9e"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to rewrite your data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FW6Xdzxivoh9AOxSDq3cld8Rnhc",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For details on specific requirements on the prepared ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " file, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Source Data Requirements",
+                "token": "GpJDwsFj1iLxZwkYn55cHqjJnRc",
+                "url": "https://zilliverse.feishu.cn/wiki/GpJDwsFj1iLxZwkYn55cHqjJnRc#F5Ukd2oM7oE9gPxUbeIcxoCZn9f"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PatLdZogXoLqfwx6aTHcZ7jenl3",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Prepare NumPy files",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "Wd83d9GTWoyGLVx493nco5WCnKc",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A valid set of NumPy files should be named after the fields in the schema of the target collection, and the data in them should match the corresponding field definitions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KgCDdbP6wonCuJxgoDNcCd1VnYn",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If your data is not in the supported format, consider using ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the BulkWriter tool",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQyjpwAaKuihAeJkNBUJcdFesn9e"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to rewrite your data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GBcEdVjdOorTlgxXVT6cn3Nbnxe",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For details on specific requirements on the prepared set of NumPy files, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Source Data Requirements",
+                "token": "GpJDwsFj1iLxZwkYn55cHqjJnRc",
+                "url": "https://zilliverse.feishu.cn/wiki/GpJDwsFj1iLxZwkYn55cHqjJnRc#ICQ7dold7oOUSGxO0IWcSa1cnEc"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EOczdqqOxoQvdFx5OZYc75nwnNd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Prepare Parquet files",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "B90ddrsC3or4vLxQr6icELbenad",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You are advised to use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "the BulkWriter tool",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FQyjpwAaKuihAeJkNBUJcdFesn9e"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to rewrite your data into Parquet files.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NsZnd2qLcodbVQxPhRmcWAudnmb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Persist prepared data",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "LsiAdquBqoywgixAREUcAhr3nmg",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can store the prepared data files locally or upload them to a compatible object storage bucket.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G1uFdnrGloKWzxxGo9Scix54n0c",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For details on how to organize the prepared files locally and in a remote object storage bucket, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Source Data Requirements",
+                "token": "GpJDwsFj1iLxZwkYn55cHqjJnRc",
+                "url": "https://zilliverse.feishu.cn/wiki/GpJDwsFj1iLxZwkYn55cHqjJnRc#NFqGdYl0ZoHuIHxT9j3cGiEgnvb"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SmgHdgcFfo1llPx22WNcBnUdnzg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Start importing data",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f"
+      },
+      {
+        "block_id": "Qwjld7NY0ohkpGxrpBccOi57nTR",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can import a prepared local ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "JSON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " file to your collection by uploading it through the Zilliz Cloud console. For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Import Data on Web UI",
+                "token": "KkdswLx2bi4bgCkY6bEc7Do9neh",
+                "url": "https://zilliverse.feishu.cn/wiki/KkdswLx2bi4bgCkY6bEc7Do9neh"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CuzJd8pH4ojkGHxdXVLctACxnWb",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Alternatively, you can import the prepared data via ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "RESTful API",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FZOikw2pIUiAZj9kuLYRcdhLnnoc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDKs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FMvgAwL4HIiuRRJkH0FwcJhxSnld"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", which requires you to upload the prepared data files to a compatible object storage bucket in advance.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UyHkddXWqofr5IxapRocBlLwnOh",
+        "block_type": 2,
+        "parent_id": "JhGndPHiqoZ21axaUD0cLKucn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 51
+  }
+}

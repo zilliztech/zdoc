@@ -148,7 +148,7 @@ class larkDocWriter {
         if (file.length > 0) {
             return JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file[0]}`, {encoding: 'utf-8', flag: 'r'}))
         } else {
-            throw new Error(`Cannot find ${title} in ${this.docSourceDir}`)
+            throw new Error(`Cannot find ${value} in ${this.docSourceDir}`)
         }
     }
 

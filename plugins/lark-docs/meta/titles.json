@@ -162,5 +162,11 @@
     "Pipelines": "pipelines",
     "Create Pipelines": "create-pipelines",
     "Import Data": "import-data",
-    "Start with BYOC": "start-with-byoc"
+    "Start with BYOC": "start-with-byoc",
+    "Authorization": "authorization",
+    "Cluster Credentials": "cluster-credentials",
+    "Organization Access": "organization-access",
+    "Project Access": "project-access",
+    "Metrics & Alerts": "metrics-and-alerts",
+    "Network & Security": "network-and-security"
 }

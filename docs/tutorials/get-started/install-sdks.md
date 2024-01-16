@@ -3,7 +3,7 @@ slug: /install-sdks
 beta: FALSE
 notebook: FALSE
 token: J274wT61xiEM4fkYeL8cMb4Pnbd
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 import Admonition from '@theme/Admonition';
@@ -19,7 +19,7 @@ Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK opti
 
 <Admonition type="info" icon="📘" title="Notes">
 
-- Zilliz Cloud consistently upgrades clusters to ensure version compatibility. For details, visit the [Set up Maintenance Window](./set-up-maintenance-window) page. If connection issues arise due to SDK version discrepancies, heed the provided prompts to revert to a compatible SDK version. We'll notify you post-maintenance, post which you can upgrade your SDK without concerns.
+- Zilliz Cloud consistently upgrades clusters to ensure version compatibility. For details, visit the [Set up Maintenance Window](./setup-maintenance-window) page. If connection issues arise due to SDK version discrepancies, heed the provided prompts to revert to a compatible SDK version. We'll notify you post-maintenance, post which you can upgrade your SDK without concerns.
 
 - All SDKs below offer both a stable version and a beta version. The stable version is intended for common clusters, while the beta version corresponds to beta clusters. If you have upgraded your clusters to the beta version, ensure that you also upgraded your SDKs to the beta version.
 
@@ -137,11 +137,11 @@ go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.2.8
 
 ## Related topics{#related-topics}
 
-- [Create Cluster](./create-cluster) 
+- [Create Cluster](./undefined)
 
-- [Create Collection](./create-collection) 
+- [Create Collection](./create-collection)
 
-- [Insert Entities](./insert-entities) 
+- [Insert Entities](./insert-entities)
 
-- [Search and Query](./search-query-and-get) 
+- [Search and Query](./search-query-and-get)
 

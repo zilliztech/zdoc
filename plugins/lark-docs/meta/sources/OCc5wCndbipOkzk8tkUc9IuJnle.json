@@ -14,7 +14,7 @@
   "parent_node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
   "space_id": "7167193056431783939",
   "title": "Delete Your Organization",
-  "slug": "delete-your-org",
+  "slug": "delete-your-organization",
   "blocks": {
     "items": [
       {
@@ -43,6 +43,9 @@
           "VbUwd7s47o0Op1xhnYdckCtcnGg",
           "NqbQduxYWof1iPx1yu5cxIrinQc"
         ],
+        "comment_ids": [
+          "7321672204134236164"
+        ],
         "page": {
           "elements": [
             {
@@ -50,6 +53,9 @@
                 "content": "Delete Your Organization",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7321672204134236164"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,

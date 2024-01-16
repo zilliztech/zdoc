@@ -35,11 +35,11 @@ After the status of the target cluster changes from **CREATING** to **RESTORING*
 
 ## Related topics{#related-topics}
 
-- [Create Snapshot](./create-snapshot) 
+- [Create Snapshot](./create-snapshot)
 
-- [Schedule Automatic Backups](./schedule-automatic-backups) 
+- [Schedule Automatic Backups](./schedule-automatic-backups)
 
-- [View Snapshot Details](./view-snapshot-details) 
+- [View Snapshot Details](./view-snapshot-details)
 
 - [Delete Snapshot](./delete-snapshot) 
 

@@ -3,7 +3,7 @@ slug: /resource-manager
 beta: FALSE
 notebook: FALSE
 token: HLkQwRiK2i6dFukrOB2cRdFTnR7
-sidebar_position: undefined
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
@@ -47,5 +47,5 @@ For in-depth information on each component, refer to [BYOC Components (Dev)](./b
 
 - [BYOC Components (Dev)](./byoc-components)
 
-- [Create Cluster (Dev)](./undefined)
+- [Create Cluster (Dev)](./create-cluster)
 

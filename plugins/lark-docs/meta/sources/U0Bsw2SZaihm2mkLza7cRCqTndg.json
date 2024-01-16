@@ -5,7 +5,7 @@
   "node_token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
   "node_type": "origin",
   "obj_create_time": "1689046255",
-  "obj_edit_time": "1701225494",
+  "obj_edit_time": "1705027181",
   "obj_token": "CDOJd3wbeoPsxyxfguxcfe89n5g",
   "obj_type": "docx",
   "origin_node_token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
@@ -13,8 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "BIy4we6qXiq8NpkHfXgcxuONngb",
   "space_id": "7167193056431783939",
-  "title": "Create Cluster",
-  "slug": "create-cluster",
+  "title": " Create Cluster",
   "blocks": {
     "items": [
       {
@@ -65,7 +64,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Create Cluster",
+                "content": " Create Cluster",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

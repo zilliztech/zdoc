@@ -5,7 +5,7 @@
   "node_token": "RfYVwRuvkicVqBkDugacSQOinvc",
   "node_type": "origin",
   "obj_create_time": "1700040191",
-  "obj_edit_time": "1705387436",
+  "obj_edit_time": "1705394385",
   "obj_token": "NogBdCgUfoscyzxayiTcly7Unre",
   "obj_type": "docx",
   "origin_node_token": "RfYVwRuvkicVqBkDugacSQOinvc",
@@ -218,6 +218,7 @@
         "block_id": "FbLGdU9XnoJjkzxYJ1LcMUYOnzc",
         "block_type": 2,
         "comment_ids": [
+          "7324613264389439492",
           "7306514165282144259"
         ],
         "parent_id": "OQ1vdim8qoivC2xxBfbcIecbnMc",
@@ -258,6 +259,33 @@
                 "content": ".",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "In one project, you can only create up to 5 pipelines of the same type.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7324613264389439492"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -499,14 +527,32 @@
       {
         "block_id": "ATkldoqwroPUEvx8FcjcxuMinsc",
         "block_type": 2,
+        "comment_ids": [
+          "7324612704232194052"
+        ],
         "parent_id": "WfdgdUGceox0mwxoDwQc4HYcnff",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "📘 Notes",
+                "content": "📘 ",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7324612704232194052"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1554,37 +1600,19 @@
           "F5GCd1duvojfzjxGfU3cEm3vnOe",
           "MXxedyM3So8qafxpvXCcO2rJn8g"
         ],
+        "comment_ids": [
+          "7324608918326788100"
+        ],
         "ordered": {
           "elements": [
             {
               "text_run": {
-                "content": "By default, Zilliz Cloud segments the",
+                "content": "The function segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size (20-500 tokens) for custom chunking strategies. Moreover, for markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size.",
                 "text_element_style": {
                   "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " header-separated",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " sections in Markdown or HTML documents or the documents of other supported types into chunks of 500 tokens. You can change the chunk size within the range from 20 to 500 to apply your own chunking strategy.",
-                "text_element_style": {
-                  "bold": false,
+                  "comment_ids": [
+                    "7324608918326788100"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,

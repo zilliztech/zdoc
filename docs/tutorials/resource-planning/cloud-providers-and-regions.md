@@ -3,7 +3,7 @@ slug: /cloud-providers-and-regions
 beta: FALSE
 notebook: FALSE
 token: CPLrwghdWiSvGBkdeEecGjgLnSb
-sidebar_position: 6
+sidebar_position: 7
 ---
 
 import Admonition from '@theme/Admonition';
@@ -13,9 +13,11 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud is a cloud-based service that offers vector database clusters on public clouds. With our service, you can easily create and manage your own vector database clusters on the public cloud platform of your choice.
 
-## Amazon Web Services (AWS){#amazon-web-services-aws}
+Zilliz Cloud provides clusters across various regions on Amazon Web Services (AWS), Google Cloud Platform (GCP), and Microsoft Azure. To request a new region, feel free to [contact us](https://zilliz.com/cloud-region-request?).
 
-Zilliz Cloud supports deploying dedicated clusters on Amazon Web Services (AWS).
+## AWS{#aws}
+
+Zilliz Cloud supports deploying dedicated clusters on AWS.
 
 |  **AWS Region** |  **Location**     |  **Serverless Cluster** |  **Dedicated Cluster (Standard)** |  **Dedicated Cluster (Enterprise)** |
 | --------------- | ----------------- | ----------------------- | --------------------------------- | ----------------------------------- |
@@ -27,9 +29,9 @@ Zilliz Cloud supports deploying dedicated clusters on Amazon Web Services (AWS).
 
 For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
-## Google Cloud Platform (GCP){#google-cloud-platform-gcp}
+## GCP{#gcp}
 
-Both serverless and dedicated clusters can be deployed on Google Cloud Platform (GCP).
+Both serverless and dedicated clusters can be deployed on GCP.
 
 |  **GCP Region**   |  **Location** |  **Serverless Cluster** |  **Dedicated Cluster (Standard)** |  **Dedicated Cluster (Enterprise)** |
 | ----------------- | ------------- | ----------------------- | --------------------------------- | ----------------------------------- |

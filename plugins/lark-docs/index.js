@@ -35,7 +35,7 @@ module.exports = function (context, options) {
                         const { outputDir, imageDir } = options.targets.filter(target => target[0] === opts.pubTarget)[0][1]
                         const utils = new Utils(options.root, options.docSourceDir, outputDir)
 
-                        if (opts.docTitle === undefined && !opts.faq && opts.post) {
+                        if (opts.docTitle === undefined && !opts.faq && !opts.post) {
                             console.log('Fetching docs from Feishu...')
                             if (!opts.skipSourceDown) {
                                 const scraper = new docScraper(options.root, options.base)
@@ -43,8 +43,6 @@ module.exports = function (context, options) {
                             }
                             const writer = new docWriter(options.root, options.docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
                             await writer.write_docs(outputDir, options.root)
-
-                            utils.post_process_file_paths()
                         }
     
                         if (opts.docTitle !== undefined) {

@@ -5,7 +5,7 @@
   "node_token": "VuYzwTq49iSiUikhIoDcsY8xnMd",
   "node_type": "origin",
   "obj_create_time": "1693552027",
-  "obj_edit_time": "1702890565",
+  "obj_edit_time": "1705027195",
   "obj_token": "PA3gdTb8do5mXzxbrTzctkGIn9b",
   "obj_type": "docx",
   "origin_node_token": "VuYzwTq49iSiUikhIoDcsY8xnMd",
@@ -13,8 +13,7 @@
   "owner": "ou_fbc044d19930afd389d5c369466c38b1",
   "parent_node_token": "BIy4we6qXiq8NpkHfXgcxuONngb",
   "space_id": "7167193056431783939",
-  "title": "Manage Cluster",
-  "slug": "manage-cluster",
+  "title": " Manage Cluster",
   "blocks": {
     "items": [
       {
@@ -87,6 +86,21 @@
         ],
         "page": {
           "elements": [
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7293867685895634948"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "Manage Cluster",

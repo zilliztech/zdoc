@@ -1,0 +1,1420 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1703644318",
+  "node_token": "YxhewvSpMiYEBRkKfivc1x6inhg",
+  "node_type": "origin",
+  "obj_create_time": "1703644318",
+  "obj_edit_time": "1704711058",
+  "obj_token": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+  "obj_type": "docx",
+  "origin_node_token": "YxhewvSpMiYEBRkKfivc1x6inhg",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "O3rEwwCCTiu0k1kAyygcKYwhnzg",
+  "space_id": "7167193056431783939",
+  "title": "Projects",
+  "slug": "projects",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "block_type": 1,
+        "children": [
+          "T5SjdctFYoYmrtxhDPpcqO8bnVe",
+          "R5IbdrA8UoSZX7xJ4LUcT7Ggn1f",
+          "PijDdQVzFowIeOxWDlRcrznPnjh",
+          "GrP1dsiLDo32yExX8FAcppmmnGd",
+          "PkHfdUmVfo08ANxfefMc2POAnoh",
+          "OlLTdA47KoK1EExgx6RcK7c4nCd",
+          "EsdIdczuqoYo0VxTfV6c5vcFnPe",
+          "B9HYdcI1yovR6ix32BJcTLxHnBc",
+          "ZzTRdZyiboS0GBxPlXucQgUindT",
+          "TyATdHlmQoljh3x6nEmcLbSFn8c",
+          "LlTtd8a2voEJIVx8GlvczkpCnIh",
+          "RNi2dxOKUofeKBxs3VEctjq6nuh",
+          "IhlEdTkVBoIWiNx61mUcibeWnAb",
+          "X3tPdUAE3oJM0Qxl9J4cFhyhnce",
+          "Yw0rdMfSSooHe1xLjMLccCWSnFd",
+          "EI2RdtuTDol3ltxZRwcciJxznJh",
+          "Je9odFS66ohXKoxiruNcvYNgn0g",
+          "Z02jd66mWo3HBNxctLEc7HGZnrf",
+          "Ml3ddYOXso7qJBxTTHYcR7C5nPh",
+          "X87qdU9JaoT1EExyrOMcyRtnn3b",
+          "VteIdTsRqoR0Ggx1Adxc8nF5nbd",
+          "Zd6vdv3rdobAsVxBKGFcjqNInJb",
+          "AFOgdWObQowCc8x72nlcJw4Jnsc",
+          "Jq0PdVpkOotQrJxfONYcStX9n9f",
+          "OCbCdgr3roaZX7x6nNfcDQrnnuf",
+          "Epp4dmfEDoqQ5BxmsexcTJDPndd",
+          "OzfudwTtVoHXuyxsR2wcuNRjnsh",
+          "QfxedJwHeozUO9xNlR1coedfnpe",
+          "LSpgdLFMho1MT8xmExrcdkLCnac",
+          "L6rhdblsoohzrjx5qr9czrPEngf",
+          "YSmBd19CeoMwuwxYXpFcGW5tnVh",
+          "AMM4dhK17oFyOLxuePscnheznyh",
+          "Y5B5d2g3loDWJcxHoxfcUu4jnJg",
+          "RCXeddKsPosbXExUbNZcMUqKnue",
+          "T5hAdrtYwohYeJx1xebcRSBgnNc",
+          "UHPEdnjhWo9ensxEVSEcIm84ntb",
+          "FbSxd5AxUod8yKxDtjYcotwanlg",
+          "QWMldmbh8oBhATxuiYEcNKovnWg",
+          "YEuNdaeCko8PDcxAkuMcwpCUn4f",
+          "ThwHdvY6co5peOxv5facweNunSc",
+          "VjusdWTEkoXNpBxyFyccae15nrc"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Projects",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "T5SjdctFYoYmrtxhDPpcqO8bnVe",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This guide will walk you through the steps of managing projects.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "R5IbdrA8UoSZX7xJ4LUcT7Ggn1f",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View projects",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "PijDdQVzFowIeOxWDlRcrznPnjh",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once you join an organization, you can view the list of all projects in the organization.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GrP1dsiLDo32yExX8FAcppmmnGd",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PkHfdUmVfo08ANxfefMc2POAnoh",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D25911-1165%26mode%3Ddesign%26t%3D5LGsFv8TRk7KKG6r-4"
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "OlLTdA47KoK1EExgx6RcK7c4nCd",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EsdIdczuqoYo0VxTfV6c5vcFnPe",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "B9HYdcI1yovR6ix32BJcTLxHnBc",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D27930-4550%26mode%3Ddesign%26t%3DyWaKMcWxZpp9ikbW-4"
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "ZzTRdZyiboS0GBxPlXucQgUindT",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TyATdHlmQoljh3x6nEmcLbSFn8c",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a project",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "LlTtd8a2voEJIVx8GlvczkpCnIh",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To create a project, you must be an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RNi2dxOKUofeKBxs3VEctjq6nuh",
+        "block_type": 34,
+        "children": [
+          "P9jPdkGpgoTJPAxMzyJchBITnOh",
+          "WlVvdx693oS60vxaulQca0X7nDb"
+        ],
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "quote_container": {}
+      },
+      {
+        "block_id": "P9jPdkGpgoTJPAxMzyJchBITnOh",
+        "block_type": 2,
+        "parent_id": "RNi2dxOKUofeKBxs3VEctjq6nuh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WlVvdx693oS60vxaulQca0X7nDb",
+        "block_type": 2,
+        "parent_id": "RNi2dxOKUofeKBxs3VEctjq6nuh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When you create a project, you are also a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Project Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23DWfPdLrB6oQIfYxTcSqcOEIxnSd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for the project.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IhlEdTkVBoIWiNx61mUcibeWnAb",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X3tPdUAE3oJM0Qxl9J4cFhyhnce",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5817-1664%26mode%3Ddesign%26t%3Ds1kI41AtQAMMX1Zu-4"
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "Yw0rdMfSSooHe1xLjMLccCWSnFd",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EI2RdtuTDol3ltxZRwcciJxznJh",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Je9odFS66ohXKoxiruNcvYNgn0g",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D19236-683%26mode%3Ddesign%26t%3D3Lp0tZ2PWPEWtVgl-4"
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "Z02jd66mWo3HBNxctLEc7HGZnrf",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ml3ddYOXso7qJBxTTHYcR7C5nPh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Rename a project",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "X87qdU9JaoT1EExyrOMcyRtnn3b",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To rename a project, you must be an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VteIdTsRqoR0Ggx1Adxc8nF5nbd",
+        "block_type": 34,
+        "children": [
+          "Nb6Ddf7NOoy28nxmdAtcJvbknBe",
+          "FLpldnkHooAWRbxc187cJ3jjnch"
+        ],
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "quote_container": {}
+      },
+      {
+        "block_id": "Nb6Ddf7NOoy28nxmdAtcJvbknBe",
+        "block_type": 2,
+        "parent_id": "VteIdTsRqoR0Ggx1Adxc8nF5nbd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FLpldnkHooAWRbxc187cJ3jjnch",
+        "block_type": 2,
+        "parent_id": "VteIdTsRqoR0Ggx1Adxc8nF5nbd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Each organization contains a default project. The name of the default project cannot be modified.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Zd6vdv3rdobAsVxBKGFcjqNInJb",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AFOgdWObQowCc8x72nlcJw4Jnsc",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D11649-498%26mode%3Ddesign%26t%3Ds1kI41AtQAMMX1Zu-4"
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "Jq0PdVpkOotQrJxfONYcStX9n9f",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OCbCdgr3roaZX7x6nNfcDQrnnuf",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Epp4dmfEDoqQ5BxmsexcTJDPndd",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D19241-683%26mode%3Ddesign%26t%3DbJrKfmZj2QfJi6Ex-4"
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "OzfudwTtVoHXuyxsR2wcuNRjnsh",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QfxedJwHeozUO9xNlR1coedfnpe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Delete a project",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "LSpgdLFMho1MT8xmExrcdkLCnac",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To delete a project, you must be an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owner",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FD81Rd5CdKoTXXNxfLwHcfX3AnAc%23NqoedKIA0oLQVgxmFENcp51Fnjc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "L6rhdblsoohzrjx5qr9czrPEngf",
+        "block_type": 34,
+        "children": [
+          "RMEDdXOckoqSq6xDxYzcHFowncg",
+          "CDK5d4flbosGn4xNET8czgYTn2c"
+        ],
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "quote_container": {}
+      },
+      {
+        "block_id": "RMEDdXOckoqSq6xDxYzcHFowncg",
+        "block_type": 2,
+        "parent_id": "L6rhdblsoohzrjx5qr9czrPEngf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CDK5d4flbosGn4xNET8czgYTn2c",
+        "block_type": 2,
+        "parent_id": "L6rhdblsoohzrjx5qr9czrPEngf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Each organization contains a default project. The default project cannot be deleted.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YSmBd19CeoMwuwxYXpFcGW5tnVh",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AMM4dhK17oFyOLxuePscnheznyh",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D11649-535%26mode%3Ddesign%26t%3Ds1kI41AtQAMMX1Zu-4"
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "Y5B5d2g3loDWJcxHoxfcUu4jnJg",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RCXeddKsPosbXExUbNZcMUqKnue",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T5hAdrtYwohYeJx1xebcRSBgnNc",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D19249-683%26mode%3Ddesign%26t%3DBIwG7lNLP2jg8qKw-4"
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "UHPEdnjhWo9ensxEVSEcIm84ntb",
+        "block_type": 2,
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FbSxd5AxUod8yKxDtjYcotwanlg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "QWMldmbh8oBhATxuiYEcNKovnWg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "User Roles",
+                "token": "AFNZwDcXNiChK0ke5h5c65xZnje",
+                "url": "https://zilliverse.feishu.cn/wiki/AFNZwDcXNiChK0ke5h5c65xZnje"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "YEuNdaeCko8PDcxAkuMcwpCUn4f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Resource Hierarchy",
+                "token": "CA04wUpF0id2sckrZjqcAOZGnnz",
+                "url": "https://zilliverse.feishu.cn/wiki/CA04wUpF0id2sckrZjqcAOZGnnz"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "ThwHdvY6co5peOxv5facweNunSc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Organization Access",
+                "token": "SkFxwYKdfirHv3k0g6zcXLPtnWD",
+                "url": "https://zilliverse.feishu.cn/wiki/SkFxwYKdfirHv3k0g6zcXLPtnWD"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      },
+      {
+        "block_id": "VjusdWTEkoXNpBxyFyccae15nrc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Project Users",
+                "token": "DXbRwHM79iK5VDkV5E8cW6N7nxb",
+                "url": "https://zilliverse.feishu.cn/wiki/DXbRwHM79iK5VDkV5E8cW6N7nxb"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OH2fd3o0QozuPAxmNlLcTfEln2e"
+      }
+    ],
+    "counts": 48
+  }
+}

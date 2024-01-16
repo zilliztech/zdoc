@@ -1,0 +1,69 @@
+---
+slug: /project-users
+beta: FALSE
+notebook: FALSE
+token: DXbRwHM79iK5VDkV5E8cW6N7nxb
+sidebar_position: 2
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# Project Users
+
+## Invite a user to join a project{#invite-a-user-to-join-a-project}
+
+To invite a user to join a project, you must be an [Organization Owner](./resource-hierarchy) or a [Project Owner](./resource-hierarchy).
+
+Enter the email addresses of the users you wish to invite. They will receive an invitation via email, which must be accepted within 48 hours to join the project. You can [revoke or resend this invitation](./undefined) anytime before it's accepted.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+Each time you can invite one or more users with the same role to join the project.
+
+</Admonition>
+
+![byoc-invite-user-to-project](/byoc/byoc-invite-user-to-project.png)
+
+## Revoke or resend an invitation{#revoke-or-resend-an-invitation}
+
+When you invite an existing organization member to a project within the same organization, they automatically gain access to the project without receiving a separate invitation. However, if you invite someone to a project within an organization they are not already a part of, they will receive an invitation to join the organization, which also grants them access to the specified project.
+
+To revoke or resend the invitation, you must be an [Organization Owner](./resource-hierarchy) or a [Project Owner](./resource-hierarchy).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+You can revoke or resend an invitation before the user accepts it.
+
+</Admonition>
+
+![byoc-revoke-or-cancel-invitation-to-project](/byoc/byoc-revoke-or-cancel-invitation-to-project.png)
+
+## Edit a collaborator's role or remove a collaborator{#edit-a-collaborators-role-or-remove-a-collaborator}
+
+After a user accepts the invitation, the user becomes a project collaborator.
+
+To edit a collaborator's role or remove a project collaborator, you must be an [Organization Owner](./resource-hierarchy) or a [Project Owner](./resource-hierarchy).
+
+![byoc-edit-user-role-or-remove-project-user](/byoc/byoc-edit-user-role-or-remove-project-user.png)
+
+## Leave a project{#leave-a-project}
+
+In addition to removing a collaborator from a project, you can also remove yourself by leaving it.
+
+Note that if you are the only owner of a project, you cannot leave it as each project must have at least one project owner at all times.
+
+<Admonition type="caution" icon="🚧" title="Warning">
+
+Once you leave a project, your access to the project and associated resources will be revoked.
+
+</Admonition>
+
+![byoc-leave-project](/byoc/byoc-leave-project.png)
+
+## Related topics{#related-topics}
+
+- [Resource Hierarchy](./resource-hierarchy)
+
+- [Organizations](./organizations)
+

@@ -3,14 +3,14 @@ slug: /upsert-entities
 beta: TRUE
 notebook: 08_upsert_entities.ipynb
 token: FosYwomcEims6PkFvwgcwZbcn1e
-sidebar_position: 4
+sidebar_position: 9
 ---
 
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Upsert Entities
+#  Upsert Entities
 
 This topic describes how to upsert data into a collection in Zilliz Cloud.
 
@@ -227,8 +227,7 @@ data="$(cat path/to/medium_articles_2020_dpr.json \
         | jq '.[1:100]' \
         | jq -r '.[] | . + {"vector": .title_vector} | del(.title_vector) | del(.id)' \
         | jq -s -c '.')"
-        
- 
+
 ```
 
 </TabItem>
@@ -392,7 +391,7 @@ But remember, for most users and most scenarios, there's no rush to call `flush(
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection) 
+- [Create Collection](./create-collection)
 
 - [Enable Dynamic Schema](./enable-dynamic-schema)
 

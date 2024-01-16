@@ -27,11 +27,11 @@ You can determine how long Zilliz Cloud keeps your snapshot by setting **Retenti
 
 ## Related topics{#related-topics}
 
-- [Schedule Automatic Backups](./schedule-automatic-backups) 
+- [Schedule Automatic Backups](./schedule-automatic-backups)
 
-- [View Snapshot Details](./view-snapshot-details) 
+- [View Snapshot Details](./view-snapshot-details)
 
-- [Restore from Snapshot](./restore-from-snapshot) 
+- [Restore from Snapshot](./restore-from-snapshot)
 
 - [Delete Snapshot](./delete-snapshot) 
 

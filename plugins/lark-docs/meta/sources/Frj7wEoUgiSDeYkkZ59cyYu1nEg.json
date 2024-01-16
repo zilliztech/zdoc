@@ -5,7 +5,7 @@
   "node_token": "Frj7wEoUgiSDeYkkZ59cyYu1nEg",
   "node_type": "origin",
   "obj_create_time": "1700040247",
-  "obj_edit_time": "1705387446",
+  "obj_edit_time": "1705394471",
   "obj_token": "IdIkdrMSPod67Gxq4dVcPqd4n2b",
   "obj_type": "docx",
   "origin_node_token": "Frj7wEoUgiSDeYkkZ59cyYu1nEg",
@@ -23,12 +23,10 @@
         "children": [
           "LWDUdREAVocKr8xRc0wcbhyanSf",
           "VPZod8vh4oMVptxItoscU0wbnk9",
-          "OVPkdAx7xoZeklx8miYcJPw7nBb",
+          "LovidEloUoD6OLxlKT3cV9V4nfb",
           "SZZrdTtzboc4YMxlHNmcxCIangd",
           "LHrXd9HCwoH5cnxLJoJc9HD9nDg",
           "EanOdc5Mzo71FMx9v2mcjS8Tnkb",
-          "OdlAdTSh1otg2hxq0QZcHdTcnPc",
-          "LcPTdjNbToq38axoObGcm8Vsnse",
           "FyurdIKO0o1JHKxfY2NcfpQCnGh",
           "AkgodX9wkoU4xfxrlrEcunfUngc",
           "CKAzdiOpAoxebrxUhOHclPZpn0b",
@@ -216,14 +214,88 @@
         }
       },
       {
-        "block_id": "OVPkdAx7xoZeklx8miYcJPw7nBb",
-        "block_type": 2,
+        "block_id": "LovidEloUoD6OLxlKT3cV9V4nfb",
+        "block_type": 34,
+        "children": [
+          "Humld1TkaoWXAvxjFJnckOwWnfb",
+          "AAAUdGKKwoADnRxkiblcFZ4Knfe"
+        ],
         "parent_id": "IdIkdrMSPod67Gxq4dVcPqd4n2b",
+        "quote_container": {}
+      },
+      {
+        "block_id": "Humld1TkaoWXAvxjFJnckOwWnfb",
+        "block_type": 2,
+        "parent_id": "LovidEloUoD6OLxlKT3cV9V4nfb",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "",
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AAAUdGKKwoADnRxkiblcFZ4Knfe",
+        "block_type": 2,
+        "parent_id": "LovidEloUoD6OLxlKT3cV9V4nfb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently pipelines only work with collections in a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "serverless cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FCDOJd3wbeoPsxyxfguxcfe89n5g%3Fchunked%3Dfalse%23X6z6dlvhkoBxj6xvn48cGzefnHf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " In one project, you can only create up to 5 pipelines of the same type.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -455,118 +527,6 @@
             {
               "text_run": {
                 "content": ". ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "OdlAdTSh1otg2hxq0QZcHdTcnPc",
-        "block_type": 2,
-        "parent_id": "IdIkdrMSPod67Gxq4dVcPqd4n2b",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "LcPTdjNbToq38axoObGcm8Vsnse",
-        "block_type": 34,
-        "children": [
-          "WJb2dRfp2ocpDnx6w4pciMMQn9e",
-          "HlcfdPHdZogGuDxmgu6cHFJ2nfX"
-        ],
-        "parent_id": "IdIkdrMSPod67Gxq4dVcPqd4n2b",
-        "quote_container": {}
-      },
-      {
-        "block_id": "WJb2dRfp2ocpDnx6w4pciMMQn9e",
-        "block_type": 2,
-        "parent_id": "LcPTdjNbToq38axoObGcm8Vsnse",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "📘 Notes",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "HlcfdPHdZogGuDxmgu6cHFJ2nfX",
-        "block_type": 2,
-        "parent_id": "LcPTdjNbToq38axoObGcm8Vsnse",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Currently pipelines only work with collections in a ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "serverless cluster",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FCDOJd3wbeoPsxyxfguxcfe89n5g%3Fchunked%3Dfalse%23X6z6dlvhkoBxj6xvn48cGzefnHf"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1246,7 +1206,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "For the INDEX_DOC function, b",
+                "content": "The INDEX_DOC function ",
                 "text_element_style": {
                   "background_color": 1,
                   "bold": false,
@@ -1262,31 +1222,7 @@
             },
             {
               "text_run": {
-                "content": "y default, Zilliz Cloud segments the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "header-separated ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "sections in Markdown or HTML documents or the documents of other supported types into chunks of 500 tokens. You can change the chunk size within the range from 20 to 500 to apply your own chunking strategy.",
+                "content": "segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size (20-500 tokens) for custom chunking strategies. Moreover, for markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -7582,6 +7518,6 @@
         "parent_id": "IdIkdrMSPod67Gxq4dVcPqd4n2b"
       }
     ],
-    "counts": 80
+    "counts": 78
   }
 }

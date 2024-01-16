@@ -15,7 +15,7 @@ The Zilliz Cloud web UI provides a simplified and intuitive way of creating Pipe
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Currently, pipelines only work with collections in a [serverless cluster](./create-cluster#set-up-a-serverless-cluster).
+Currently, pipelines only work with collections in a [serverless cluster](./undefined#set-up-a-serverless-cluster). In one project, you can only create up to 5 pipelines of the same type.
 
 </Admonition>
 
@@ -58,7 +58,7 @@ Currently, pipelines only work with collections in a [serverless cluster](./crea
 
         1. Choose document language. The language you choose will help decide the model used for generating vector embeddings.
 
-        1. By default, Zilliz Cloud segments the header-separated sections in Markdown or HTML documents or the documents of other supported types into chunks of 500 tokens. You can change the chunk size within the range from 20 to 500 to apply your own chunking strategy.
+        1. The function segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size (20-500 tokens) for custom chunking strategies. Moreover, for markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size.
 
             ![customize-chunk-size](/img/customize-chunk-size.png)
 

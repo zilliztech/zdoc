@@ -5,7 +5,7 @@
   "node_token": "PVo3wlyoriD6BkkpGpmcD7ULnXd",
   "node_type": "origin",
   "obj_create_time": "1697536250",
-  "obj_edit_time": "1700112714",
+  "obj_edit_time": "1705028229",
   "obj_token": "U2R9ddkUUo1LLhxsgPmcAb16n1c",
   "obj_type": "docx",
   "origin_node_token": "PVo3wlyoriD6BkkpGpmcD7ULnXd",
@@ -13,7 +13,7 @@
   "owner": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
   "space_id": "7167193056431783939",
-  "title": "Search and Query with Advanced Expressions",
+  "title": " Search and Query with Advanced Expressions",
   "slug": "search-and-query-advanced-expressions",
   "blocks": {
     "items": [
@@ -86,6 +86,18 @@
         ],
         "page": {
           "elements": [
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "Search and ",

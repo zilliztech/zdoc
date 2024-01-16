@@ -43,7 +43,7 @@ On the **Billing Overview** page, you can view your current payment method, chec
 
 ## Related topics{#related-topics}
 
-- [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace) 
+- [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace)
 
 - [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card) 
 

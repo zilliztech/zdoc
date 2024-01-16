@@ -5,7 +5,7 @@
   "node_token": "PXk1wQm7GiMgqDkUWJAcdgpGny0",
   "node_type": "origin",
   "obj_create_time": "1697536213",
-  "obj_edit_time": "1700113046",
+  "obj_edit_time": "1705028215",
   "obj_token": "MPkhdA5qjoUJr9xh3IKc8Rhinuw",
   "obj_type": "docx",
   "origin_node_token": "PXk1wQm7GiMgqDkUWJAcdgpGny0",
@@ -13,7 +13,7 @@
   "owner": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
   "space_id": "7167193056431783939",
-  "title": "Conduct a Range Search",
+  "title": " Conduct a Range Search",
   "slug": "conduct-a-range-search",
   "blocks": {
     "items": [
@@ -64,6 +64,18 @@
         ],
         "page": {
           "elements": [
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "Conduct a ",

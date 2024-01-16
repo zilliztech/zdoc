@@ -5,13 +5,13 @@
   "node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
   "node_type": "origin",
   "obj_create_time": "1698026200",
-  "obj_edit_time": "1701854351",
+  "obj_edit_time": "1703667415",
   "obj_token": "EZOzdUvQGo0yaKxkTFbcY0Vpnre",
   "obj_type": "docx",
   "origin_node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
   "origin_space_id": "7167193056431783939",
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
-  "parent_node_token": "F1elwUTaIi7SPlkxUyAczgMunzd",
+  "parent_node_token": "OUWXw5c4gia34ZkQUcEcMFbWn6s",
   "space_id": "7167193056431783939",
   "title": "Authentication",
   "slug": "authentication",
@@ -52,7 +52,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "Learn more about the management of ",
+                "content": "Learn more about the management of",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " email accounts,",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -98,22 +122,22 @@
   },
   "children": [
     {
-      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
       "has_child": false,
-      "node_create_time": "1689059888",
-      "node_token": "IFtRwms2yiPZx9kfiBacuaw6nJc",
+      "node_create_time": "1693553299",
+      "node_token": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
       "node_type": "origin",
-      "obj_create_time": "1689059888",
-      "obj_edit_time": "1700446127",
-      "obj_token": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+      "obj_create_time": "1693553299",
+      "obj_edit_time": "1703664953",
+      "obj_token": "FNlcdU22Loec6BxE8uEcjFK9npd",
       "obj_type": "docx",
-      "origin_node_token": "IFtRwms2yiPZx9kfiBacuaw6nJc",
+      "origin_node_token": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
       "origin_space_id": "7167193056431783939",
-      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
       "parent_node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
       "space_id": "7167193056431783939",
-      "title": "Manage API Keys",
-      "slug": "manage-api-keys"
+      "title": "Email Accounts",
+      "slug": "email-accounts"
     },
     {
       "creator": "ou_e55a208a81fc721928685fc3df9cb678",
@@ -122,7 +146,7 @@
       "node_token": "BRsZwqOUTiBbrPk9b5WcvFgTnze",
       "node_type": "origin",
       "obj_create_time": "1701914230",
-      "obj_edit_time": "1702288347",
+      "obj_edit_time": "1705371451",
       "obj_token": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
       "obj_type": "docx",
       "origin_node_token": "BRsZwqOUTiBbrPk9b5WcvFgTnze",
@@ -130,7 +154,8 @@
       "owner": "ou_e55a208a81fc721928685fc3df9cb678",
       "parent_node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
       "space_id": "7167193056431783939",
-      "title": "Manage API Keys (Dev)"
+      "title": "API Keys",
+      "slug": "api-keys"
     },
     {
       "creator": "ou_e55a208a81fc721928685fc3df9cb678",
@@ -139,7 +164,7 @@
       "node_token": "B10Owir21iSfZfkjsvgcnU6nnFc",
       "node_type": "origin",
       "obj_create_time": "1701225831",
-      "obj_edit_time": "1701225841",
+      "obj_edit_time": "1703644472",
       "obj_token": "MsL9dVpxyowWNyxu9JdcFy9XnIg",
       "obj_type": "docx",
       "origin_node_token": "B10Owir21iSfZfkjsvgcnU6nnFc",
@@ -147,8 +172,8 @@
       "owner": "ou_e55a208a81fc721928685fc3df9cb678",
       "parent_node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
       "space_id": "7167193056431783939",
-      "title": "Manage Cluster Credentials",
-      "slug": "manage-cluster-credentials"
+      "title": "Cluster Credentials",
+      "slug": "cluster-credentials"
     },
     {
       "creator": "ou_8554528ee6e965bad56710acde1c7847",
@@ -157,7 +182,7 @@
       "node_token": "KHAMwm0HUiU6qdkH2LOcu0FFnug",
       "node_type": "origin",
       "obj_create_time": "1698146477",
-      "obj_edit_time": "1699242596",
+      "obj_edit_time": "1703644483",
       "obj_token": "HE1DdqSMWoslMCx5jiLc9mqTn0g",
       "obj_type": "docx",
       "origin_node_token": "KHAMwm0HUiU6qdkH2LOcu0FFnug",
@@ -165,8 +190,25 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
       "space_id": "7167193056431783939",
-      "title": "Manage MFA",
-      "slug": "multi-factor-authentication"
+      "title": "MFA",
+      "slug": "multi-factor-auth"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1689059888",
+      "node_token": "IFtRwms2yiPZx9kfiBacuaw6nJc",
+      "node_type": "origin",
+      "obj_create_time": "1689059888",
+      "obj_edit_time": "1705371536",
+      "obj_token": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
+      "obj_type": "docx",
+      "origin_node_token": "IFtRwms2yiPZx9kfiBacuaw6nJc",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
+      "space_id": "7167193056431783939",
+      "title": " Manage API Keys"
     }
   ]
 }

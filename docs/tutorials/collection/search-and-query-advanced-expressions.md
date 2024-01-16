@@ -3,14 +3,14 @@ slug: /search-and-query-advanced-expressions
 beta: TRUE
 notebook: 10_search_query_advanced_ops.ipynb
 token: PVo3wlyoriD6BkkpGpmcD7ULnXd
-sidebar_position: 10
+sidebar_position: 19
 ---
 
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Search and Query with Advanced Expressions
+#  Search and Query with Advanced Expressions
 
 This guide will walk you through the necessary steps and provide examples to help you use advanced expressions `count()` and `json_contains()` within Zilliz Cloud for search or query operations.
 
@@ -1377,11 +1377,11 @@ System.out.println(queryResults);
 
 The following table describes the supported boolean expressions that you can use in `expr` when searching or querying with `json_contains()`.
 
-|  Expression                                |  Examples                                                                                                                           |  Remarks                                                                                                                                                                                    |
-| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  `json_contains` (`JSON_CONTAINS`)         |  `expr_1 = 'JSON_CONTAINS(article_meta["tags_1"], 16)'`<br/> <br/>  `expr_2 = 'JSON_CONTAINS(article_meta["tags_2"], [5, 3, 39, 8])'` |  `expr_1` evaluates to true if `article_meta["tags_1"]` contains element `16`.<br/> <br/>  `expr_2`evaluates to true if `article_meta["tags_2"]` contains element `[5, 3, 39, 8]`.<br/> <br/>   |
-|  `json_contains_any` (`JSON_CONTAINS_ANY`) |  `expr_3 = 'JSON_CONTAINS_ANY(article_meta["tags_1"], [5, 3, 39, 8])'`                                                              |  `expr_3` evaluates to true if `article_meta["tags_1"]` contains any element in `[5, 3, 39, 8]`.                                                                                            |
-|  `json_contains_all` (`JSON_CONTAINS_ALL`) |  `expr_4 = 'JSON_CONTAINS_ALL(article_meta["tags_1"], [2, 4, 6])'`<br/> <br/>                                                         |  `expr_4` evaluates to true if `article_meta["tags_1"]` contains all elements in `[2, 4, 6]`.<br/> <br/>                                                                                      |
+|  Expression                                |  Examples                                                                                                                         |  Remarks                                                                                                                                                                                |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  `json_contains` (`JSON_CONTAINS`)         |  `expr_1 = 'JSON_CONTAINS(article_meta["tags_1"], 16)'`<br/> `expr_2 = 'JSON_CONTAINS(article_meta["tags_2"], [5, 3, 39, 8])'` |  `expr_1` evaluates to true if `article_meta["tags_1"]` contains element `16`.<br/> `expr_2`evaluates to true if `article_meta["tags_2"]` contains element `[5, 3, 39, 8]`.<br/>  |
+|  `json_contains_any` (`JSON_CONTAINS_ANY`) |  `expr_3 = 'JSON_CONTAINS_ANY(article_meta["tags_1"], [5, 3, 39, 8])'`                                                            |  `expr_3` evaluates to true if `article_meta["tags_1"]` contains any element in `[5, 3, 39, 8]`.                                                                                        |
+|  `json_contains_all` (`JSON_CONTAINS_ALL`) |  `expr_4 = 'JSON_CONTAINS_ALL(article_meta["tags_1"], [2, 4, 6])'`<br/>                                                        |  `expr_4` evaluates to true if `article_meta["tags_1"]` contains all elements in `[2, 4, 6]`.<br/>                                                                                   |
 
 ## Related topics{#related-topics}
 

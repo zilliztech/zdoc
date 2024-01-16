@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 This guide helps you learn how to use our SDKs to import data into a collection with the bulk-writer and bulk-insert APIs.
 
-Alternatively, you can also refer to [our fast-track end-to-end course](./data-import-zero-to-hero) which covers both data preparations and data import to Zilliz Cloud collections.
+Alternatively, you can also refer to [our fast-track end-to-end course](./undefined) which covers both data preparations and data import to Zilliz Cloud collections.
 
 ## Install dependencies{#install-dependencies}
 
@@ -259,5 +259,5 @@ print(res.json())
 
 - [Prepare Source Data](./prepare-source-data)
 
-- [Data Import from Zero to Hero](./data-import-zero-to-hero) 
+- [Data Import from Zero to Hero](./undefined) 
 

@@ -3,7 +3,7 @@ slug: /example-dataset
 beta: FALSE
 notebook: FALSE
 token: FCgWwFVtQiUy9GkDlQNcA0xZnPa
-sidebar_position: 6
+sidebar_position: 7
 ---
 
 import Admonition from '@theme/Admonition';
@@ -18,6 +18,11 @@ In this user guide series, we'll explore an example dataset comprising details o
 The dataset resides in a publicly accessible S3 storage bucket. To fetch it, execute the following command:
 
 ```bash
+# Get a CSV version of the dataset
+curl https://assets.zilliz.com/medium_articles_2020_dpr_a13e0377ae.csv \
+        --output medium_articles_2020_dpr.csv
+
+# Get a JSON version of the dataset
 curl https://assets.zilliz.com/medium_articles_2020_dpr_a13e0377ae.json \
         --output medium_articles_2020_dpr.json
 ```
@@ -71,13 +76,13 @@ Each record in the dataset possesses eight attributes. Familiarize yourself with
 
 ## Related topics{#related-topics}
 
-- [Connect to Cluster](./connect-to-cluster) 
+- [Connect to Cluster](./connect-to-cluster)
 
-- [Create Collection](./create-collection) 
+- [Create Collection](./create-collection)
 
-- [Insert Entities](./insert-entities) 
+- [Insert Entities](./insert-entities)
 
-- [Search and Query](./search-query-and-get) 
+- [Search and Query](./search-query-and-get)
 
 - [Drop Collection](./drop-collection) 
 

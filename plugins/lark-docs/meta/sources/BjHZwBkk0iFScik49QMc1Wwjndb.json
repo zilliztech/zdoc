@@ -5,7 +5,7 @@
   "node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
   "node_type": "origin",
   "obj_create_time": "1704332777",
-  "obj_edit_time": "1705321764",
+  "obj_edit_time": "1705399765",
   "obj_token": "TXlrdXzlPokEQ5xnA30c93SLnMc",
   "obj_type": "docx",
   "origin_node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
@@ -13,7 +13,7 @@
   "owner": "ou_ee865f3d6d0036a3aa548eec6b75ce74",
   "parent_node_token": "T5BnwoXuFiwXyekEJ1ZcfaJGnqd",
   "space_id": "7167193056431783939",
-  "title": "Data Import from Zero to Hero",
+  "title": "User Guide: Data Import from Zero to Hero",
   "slug": "data-import-zero-to-hero",
   "blocks": {
     "items": [
@@ -80,10 +80,12 @@
           "FzF8dPZd7o98ihxNwYOcsZaOnUg",
           "NQFVdFRr3otsSHx3lvocWBgUnUe",
           "R7HBd52nWoCMhlxus9scMfPjn6e",
+          "E04gdbDc3o0vtgxyv3bcw8PXnGd",
           "AQMtdvEzIo3mM9xce2ockZWQn2b",
           "Cpwbdt3MTocrcXxPZtJcHhiQnOf",
           "KuVtdfejPoAokHxnCvCcmTDNnld",
           "Vgx7dwVyFo7XrCxXnGhcbwdXnah",
+          "MX4qdUqW8oCZurxHOtecgTYinHg",
           "SxeWdc5q2oTPI0xHmqkcZTIYn8W",
           "HvpldUzt9oLMF5xob3Tcnk4SnHe",
           "Cxdbdb4DboCSofxFbPqcqU3pnxE",
@@ -96,6 +98,18 @@
         ],
         "page": {
           "elements": [
+            {
+              "text_run": {
+                "content": "User Guide: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "Data Import from Zero to Hero",
@@ -233,7 +247,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "How to import data by calling the ",
+                "content": "How to import data by calling ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -245,19 +259,7 @@
             },
             {
               "text_run": {
-                "content": "bulk_import",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " operation",
+                "content": "bulk-import APIs",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3565,11 +3567,11 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient",
+                "content": "from pymilvus import connections, Collection",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7322279557413781507"
+                    "7324634830938144772"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -3580,7 +3582,7 @@
             },
             {
               "text_run": {
-                "content": "\n\n",
+                "content": "\n# 1. Set up a connection\nconnections.connect(\n        uri=\"Your-Cluster-Endpoint\",\n        token=\"Your-Token\"\n)\n# 2. Create collection\ncollection = Collection(name=\"medium_aritlces\", schema=schema)\n# 3. Set index parameters\nindex_params = {\n    \"index_type\": \"AUTOINDEX\",\n    \"metric_type\": \"COSINE\",\n    \"params\": {}\n}\n# 4. Create index\ncollection.create_index(\n        field_name=\"title_vector\",\n        index_params=index_params,\n)\n# 5. Load the collection\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3592,177 +3594,9 @@
             },
             {
               "text_run": {
-                "content": "COLLECTION_NAME=\"medium_articles_2020\"",
+                "content": "collection.load()",
                 "text_element_style": {
                   "bold": false,
-                  "comment_ids": [
-                    "7322279557413781507"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n\n# 1. Set up a MilvusClient\nclient = MilvusClient(\n",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7322279557413781507"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "    uri=",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7322279557413781507"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "CLUSTER_ENDPOINT",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7322279557413781507"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ", # Point this to a cluster on the same cloud as your source data\n",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7322279557413781507"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "    token=",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7322279557413781507"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "API_KEY",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7322279557413781507"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n)\n\n# 2. Set index parameters\nindex_params = client.prepare_index_params()\n\n# Add an index on the vector field.\nindex_params.add_index(\n    field_name=\"title-vector\",\n    metric_type=\"COSINE\",\n    index_type=\"AUTOINDEX\"\n)\n\n# 3. Create a collection\nclient.create_collection(\n",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7322279557413781507"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "    collection_name=",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7322279557413781507"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "COLLECTION_NAME",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7322279557413781507"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ",\n    schema=schema,\n    index_params=index_params\n",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7322279557413781507"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ")",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7322279557413781507"
-                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3777,7 +3611,7 @@
           }
         },
         "comment_ids": [
-          "7322279557413781507"
+          "7324634830938144772"
         ],
         "parent_id": "TXlrdXzlPokEQ5xnA30c93SLnMc"
       },
@@ -5740,6 +5574,118 @@
         }
       },
       {
+        "block_id": "E04gdbDc3o0vtgxyv3bcw8PXnGd",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "OmHfdXpZaoaPDXxge0rczIzVn6d",
+          "HwHVd38LIomcCkxOOkBc72xbnjd"
+        ],
+        "parent_id": "TXlrdXzlPokEQ5xnA30c93SLnMc"
+      },
+      {
+        "block_id": "OmHfdXpZaoaPDXxge0rczIzVn6d",
+        "block_type": 2,
+        "parent_id": "E04gdbDc3o0vtgxyv3bcw8PXnGd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HwHVd38LIomcCkxOOkBc72xbnjd",
+        "block_type": 2,
+        "parent_id": "E04gdbDc3o0vtgxyv3bcw8PXnGd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You should replace ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "url",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "bulk_import()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " with the one corresponding to the cloud region of the target collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "AQMtdvEzIo3mM9xce2ockZWQn2b",
         "block_type": 14,
         "code": {
@@ -5845,7 +5791,7 @@
             },
             {
               "text_run": {
-                "content": "/{str(writer.data_path)[1:]}/\"\n\nres = bulk_import(\n",
+                "content": "/{str(writer.data_path)[1:]}/\"\n\nres = bulk_import(\n    #highlight-next\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5896,7 +5842,7 @@
             },
             {
               "text_run": {
-                "content": "f\"controller.api.{",
+                "content": "\"",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -5911,7 +5857,7 @@
             },
             {
               "text_run": {
-                "content": "CLOUD_REGION",
+                "content": "controller.api.aws-us-west-2.zillizcloud.com",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -5926,7 +5872,7 @@
             },
             {
               "text_run": {
-                "content": "}.zillizcloud.com\",",
+                "content": "\",",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -6432,13 +6378,125 @@
         }
       },
       {
+        "block_id": "MX4qdUqW8oCZurxHOtecgTYinHg",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "FTNgdTl6NoQpwhx9JB2cCH5Unbh",
+          "M2sXdlXBfoVd0Bxd3q9c4vEUnxB"
+        ],
+        "parent_id": "TXlrdXzlPokEQ5xnA30c93SLnMc"
+      },
+      {
+        "block_id": "FTNgdTl6NoQpwhx9JB2cCH5Unbh",
+        "block_type": 2,
+        "parent_id": "MX4qdUqW8oCZurxHOtecgTYinHg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "M2sXdlXBfoVd0Bxd3q9c4vEUnxB",
+        "block_type": 2,
+        "parent_id": "MX4qdUqW8oCZurxHOtecgTYinHg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You should replace ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "url",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "get_import_progress()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " with the one corresponding to the cloud region of the target collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "SxeWdc5q2oTPI0xHmqkcZTIYn8W",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "import time\nfrom pymilvus import get_import_progress\n\njob_id = res.json()['data']['jobId']\n\nres = get_import_progress(\n",
+                "content": "import time\nfrom pymilvus import get_import_progress\n\njob_id = res.json()['data']['jobId']\n\nres = get_import_progress(\n    # highlight-next\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6450,7 +6508,7 @@
             },
             {
               "text_run": {
-                "content": "    url=f\"controller.api.{",
+                "content": "    url=\"",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6462,7 +6520,7 @@
             },
             {
               "text_run": {
-                "content": "CLOUD_REGION",
+                "content": "controller.api.aws-us-west-2.zillizcloud.com",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6474,7 +6532,7 @@
             },
             {
               "text_run": {
-                "content": "}.zillizcloud.com\",\n",
+                "content": "\",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6546,7 +6604,7 @@
             },
             {
               "text_run": {
-                "content": "\n)\n\n# check the bulk-import progress\nwhile res.json()[\"data\"][\"readyPercentage\"] < 1:\n    time.sleep(5)\n\n    res = get_import_progress(\n",
+                "content": "\n)\n\n# check the bulk-import progress\nwhile res.json()[\"data\"][\"readyPercentage\"] < 1:\n    time.sleep(5)\n\n    res = get_import_progress(\n        # highlight-next\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6558,7 +6616,7 @@
             },
             {
               "text_run": {
-                "content": "        url=f\"controller.api.{",
+                "content": "        url=\"",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6570,7 +6628,7 @@
             },
             {
               "text_run": {
-                "content": "CLOUD_REGION",
+                "content": "controller.api.aws-us-west-2.zillizcloud.com",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6582,7 +6640,7 @@
             },
             {
               "text_run": {
-                "content": "}.zillizcloud.com\",\n",
+                "content": "\",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6848,7 +6906,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import list_import_jobs\n\nres = list_import_jobs(\n",
+                "content": "from pymilvus import list_import_jobs\n\nres = list_import_jobs(\n    # highlight-next\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6860,7 +6918,7 @@
             },
             {
               "text_run": {
-                "content": "    url=f\"controller.api.{",
+                "content": "    url=\"",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6872,7 +6930,7 @@
             },
             {
               "text_run": {
-                "content": "CLOUD_REGION",
+                "content": "controller.api.aws-us-west-2.zillizcloud.com",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6884,7 +6942,7 @@
             },
             {
               "text_run": {
-                "content": "}.zillizcloud.com\",\n",
+                "content": "\",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -7323,6 +7381,6 @@
         "parent_id": "TXlrdXzlPokEQ5xnA30c93SLnMc"
       }
     ],
-    "counts": 171
+    "counts": 177
   }
 }

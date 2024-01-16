@@ -3,7 +3,7 @@ slug: /release-notes-210
 beta: FALSE
 notebook: FALSE
 token: Ti5uwysf0iZhuyk4xvjcFmsSnhG
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';
@@ -33,7 +33,7 @@ For all supported public cloud regions, refer to [Cloud Providers & Regions](./c
 
     To provide greater flexibility in scaling and operations, we now offer support for seamlessly migrating collections from serverless instances to dedicated clusters.
 
-For details, refer to [Manage Cluster](./manage-cluster).
+For details, refer to [Manage Cluster](./undefined).
 
 ## RESTful API Enhancements{#restful-api-enhancements}
 

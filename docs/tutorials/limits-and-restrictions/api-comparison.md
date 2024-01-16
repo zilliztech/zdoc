@@ -33,6 +33,7 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 |                                   |  createCollection()            |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  describeCollection()          |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  dropCollection()              |  ✔︎             |  ✔︎               |  ✔︎                              |
+|                                   |  alterCollection()             |  ✘              |  ✔︎               |  ✔︎                              |
 |                                   |  getLoadingProgress()          |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  getPersistentSgementInfo()    |  ✘              |  ✘                |  ✘                               |
 |                                   |  getQuerySegmentInfo()         |  ✘              |  ✘                |  ✘                               |
@@ -67,7 +68,7 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 |                                   |  showPartitions()              |  ✘              |  ✔︎               |  ✔︎                              |
 |  Search & Query                   |  search()                      |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  query()                       |  ✘              |  ✔︎               |  ✔︎                              |
-|  Role-based access control (RBAC) |  addUserToRole()               |  ✔︎             |  ✘<br/> <br/>       |  ✔︎<br/> <br/>                     |
+|  Role-based access control (RBAC) |  addUserToRole()               |  ✔︎             |  ✘<br/>        |  ✔︎<br/>                      |
 |                                   |  createRole()                  |  ✘              |  ✘                |  ✘                               |
 |                                   |  dropRole()                    |  ✘              |  ✘                |  ✘                               |
 |                                   |  grantRolePrivilege()          |  ✘              |  ✘                |  ✘                               |

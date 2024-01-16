@@ -3,7 +3,7 @@ slug: /connect-to-cluster
 beta: FALSE
 notebook: FALSE
 token: IVFfws0lJi8gIVkRvrvc9aXvnNe
-sidebar_position: 3
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,7 +20,7 @@ Ensure the following prerequisites are met before proceeding:
 
 - You have registered an account with Zilliz Cloud. For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
 
-- You have created a cluster. For details, see [Create Cluster](./create-cluster).
+- You have created a cluster. For details, see [Create Cluster](./undefined).
 
 - You have installed a Milvus SDK applicable to your use case. For details, see [Install SDKs](./install-sdks).
 
@@ -32,7 +32,7 @@ For those leaning towards the utilization of RESTful APIs over SDKs, it's import
 
 ## Connect to a cluster{#connect-to-a-cluster}
 
-Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. This token can either be an [API key](./manage-cluster-credentials-gui) or a [cluster credential](./manage-cluster-credentials-gui) comprised of a username-password duo.
+Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. This token can be  an [API key](./api-keys) or a [cluster credential](./undefined) that consists of a username and password pair.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
@@ -47,10 +47,10 @@ CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" # Set your cluster endpoint
 TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
 
 # Initialize a MilvusClient instance
-# Replace uri and API key with your own
+# Replace uri and token with your own
 client = MilvusClient(
     uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
-    token=TOKEN # API key or a colon-separated cluster username and password
+    token=TOKEN
 )
 
 ```

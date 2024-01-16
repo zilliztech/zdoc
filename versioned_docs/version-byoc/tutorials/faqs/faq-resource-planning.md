@@ -51,7 +51,7 @@ The "Capacity-optimized Compute Unit" suits data volumes that are five times lar
 
 The "Cost-optimized Compute Unit" provides the same large capacity as the "Capacity-optimized" option, but at a lower cost with reduced search performance. This option is ideal for budget-conscious projects that need ample storage without high-performance demands.
 
-For more details, see [Select the Right CU](./cu-types-explained). 
+For more details, see [Select the Right CU](./cu-types-explained).
 
 ### How can I save costs on using Zilliz Cloud if I have a limited budget?{#how-can-i-save-costs-on-using-zilliz-cloud-if-i-have-a-limited-budget}
 

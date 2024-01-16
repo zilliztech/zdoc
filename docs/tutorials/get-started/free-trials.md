@@ -3,7 +3,7 @@ slug: /free-trials
 beta: FALSE
 notebook: FALSE
 token: LMfdwRwKIiJtywkwbHVcGnOFnRf
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';
@@ -84,11 +84,11 @@ This plan is crafted for large-scale organizations demanding dedicated clusters 
 |  Max. collections |  2           |  Self-provisioned            |
 |  CUs              |  Shared      |  4 CUs for self-provisioning |
 
-For detailed guidelines on cluster creation, refer to our [Create Cluster](./create-cluster) section.
+For detailed guidelines on cluster creation, refer to our [Create Cluster](./undefined) section.
 
 ## Related topics{#related-topics}
 
 - [Register with Zilliz Cloud](./register-with-zilliz-cloud)
 
-- [Create Cluster](./create-cluster)
+- [Create Cluster](./undefined)
 

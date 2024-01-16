@@ -3,13 +3,13 @@ slug: /search-and-query-iterators
 beta: TRUE
 notebook: 09_search_query_iterators.ipynb
 token: SSKfwgLfKiX6XpkYYDycL0rln92
-sidebar_position: 9
+sidebar_position: 18
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Search and Query with Iterators
+#  Search and Query with Iterators
 
 This guide is designed to help you search and query large datasets using the power of iterators. Below, you'll find step-by-step instructions on how to effectively use iterators for better performance and simplicity in your data operations.
 
@@ -354,7 +354,7 @@ print(results[:3])
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection) 
+- [Create Collection](./create-collection)
 
 - [Use Partition Key](./use-partition-key)
 

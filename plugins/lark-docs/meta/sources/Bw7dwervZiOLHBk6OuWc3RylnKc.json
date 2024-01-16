@@ -5,7 +5,7 @@
   "node_token": "Bw7dwervZiOLHBk6OuWc3RylnKc",
   "node_type": "origin",
   "obj_create_time": "1704534553",
-  "obj_edit_time": "1704795616",
+  "obj_edit_time": "1704937808",
   "obj_token": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
   "obj_type": "docx",
   "origin_node_token": "Bw7dwervZiOLHBk6OuWc3RylnKc",
@@ -1501,6 +1501,9 @@
           "GnlCdhiXnodAaCx2qMzc2bRMnrf",
           "EBrodbOYco0nzDx0NJzci0ptn1p",
           "YxcOdh3kBobpNAx2d29cLtKYn1e",
+          "DShWdjt8EoqbuaxW3E5cyhsan0f",
+          "VmtQdUtPNoTKWpxDup8cuaJbnle",
+          "PYakdme3soLcHcxhkFbc8E8nnKe",
           "U1Msdxwy0ofvurxlk1DcWYXjndh",
           "ZGVudVL73oYcq8xwUPSczfvPnhc",
           "FVVXdAwuXoqt7WxhuKJcMZ04n5g",
@@ -1532,6 +1535,9 @@
             "GnlCdhiXnodAaCx2qMzc2bRMnrf",
             "EBrodbOYco0nzDx0NJzci0ptn1p",
             "YxcOdh3kBobpNAx2d29cLtKYn1e",
+            "DShWdjt8EoqbuaxW3E5cyhsan0f",
+            "VmtQdUtPNoTKWpxDup8cuaJbnle",
+            "PYakdme3soLcHcxhkFbc8E8nnKe",
             "U1Msdxwy0ofvurxlk1DcWYXjndh",
             "ZGVudVL73oYcq8xwUPSczfvPnhc",
             "FVVXdAwuXoqt7WxhuKJcMZ04n5g",
@@ -1655,9 +1661,21 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 9
+            "row_size": 10
           }
         }
       },
@@ -2193,7 +2211,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "2 buckets",
+                "content": "1.3 TB",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2295,7 +2313,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "1 TB +",
+                "content": "550 GB",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2397,7 +2415,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "1",
+                "content": "3",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2525,7 +2543,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "1",
+                "content": "2",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2627,7 +2645,133 @@
           "elements": [
             {
               "text_run": {
-                "content": "2",
+                "content": "1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DShWdjt8EoqbuaxW3E5cyhsan0f",
+        "block_type": 32,
+        "children": [
+          "O27FdNJDMo1GcMxq6vVcorcCnxb"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "O27FdNJDMo1GcMxq6vVcorcCnxb",
+        "block_type": 2,
+        "parent_id": "DShWdjt8EoqbuaxW3E5cyhsan0f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Load Balance",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VmtQdUtPNoTKWpxDup8cuaJbnle",
+        "block_type": 32,
+        "children": [
+          "APbQddlFjog6j6xSmeYcB8Oan0f"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "APbQddlFjog6j6xSmeYcB8Oan0f",
+        "block_type": 2,
+        "parent_id": "VmtQdUtPNoTKWpxDup8cuaJbnle",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "LB",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PYakdme3soLcHcxhkFbc8E8nnKe",
+        "block_type": 32,
+        "children": [
+          "OJphdWCYgoM0iMxIklncSo2HnPg"
+        ],
+        "parent_id": "YgjNd6dhLoOytPxIq0fc7mLznpg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OJphdWCYgoM0iMxIklncSo2HnPg",
+        "block_type": 2,
+        "parent_id": "PYakdme3soLcHcxhkFbc8E8nnKe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2843,7 +2987,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "1",
+                "content": "2",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4867,6 +5011,6 @@
         }
       }
     ],
-    "counts": 183
+    "counts": 189
   }
 }

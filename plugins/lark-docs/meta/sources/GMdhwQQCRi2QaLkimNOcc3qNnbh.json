@@ -5,16 +5,16 @@
   "node_token": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
   "node_type": "origin",
   "obj_create_time": "1693553299",
-  "obj_edit_time": "1702297927",
+  "obj_edit_time": "1703664953",
   "obj_token": "FNlcdU22Loec6BxE8uEcjFK9npd",
   "obj_type": "docx",
   "origin_node_token": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
   "origin_space_id": "7167193056431783939",
   "owner": "ou_fbc044d19930afd389d5c369466c38b1",
-  "parent_node_token": "MM5uwyzR9iA537koIodceiFUnLg",
+  "parent_node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
   "space_id": "7167193056431783939",
-  "title": "Manage Your Account",
-  "slug": "delete-your-account",
+  "title": "Email Accounts",
+  "slug": "email-accounts",
   "blocks": {
     "items": [
       {
@@ -78,7 +78,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "Manage Your Account",
+                "content": "Email",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Account",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "s",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -103,7 +127,58 @@
           "elements": [
             {
               "text_run": {
-                "content": "Once you have created an account on Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account.",
+                "content": "Once you have ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "registered an account",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FHriHwEU3qiQrgskz3a0cdkcpnyf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "with",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

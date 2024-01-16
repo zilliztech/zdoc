@@ -35,7 +35,7 @@ As a supplement, Zilliz Cloud supports security settings, such as access control
 
 Zilliz Cloud implements authentication using the OAuth2 protocol, which requires users to prove their identity by providing a cluster credential (a token), before they can access or execute on any cluster resources. Cluster credentials usually consist of username and password pairs or API keys.
 
-For details, see [Manage Cluster Credentials](./manage-cluster-credentials-gui) and [Manage API Keys](./manage-api-keys).
+For details, see [Manage Cluster Credentials](./cluster-credentials-console) and [Manage API Keys](./undefined).
 
 ### Access control{#access-control}
 
@@ -51,7 +51,7 @@ For Internet connections, Zilliz Cloud uses the HTTPS protocol and provides a wh
 
 Once you add specific CIDR blocks to the whitelist of a cluster, only IP addresses in the specified range can access the cluster. To completely prevent Internet access, you can add **127.0.0.1/32** to the cluster whitelist.
 
-For details, see [Set up Whitelist](./set-up-whitelist).
+For details, see [Set up Whitelist](./setup-whitelist).
 
 ### Private links{#private-links}
 

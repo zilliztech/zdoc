@@ -15,6 +15,8 @@ Zilliz Cloud supports migrating data between Zilliz Cloud clusters. You can seam
 
 ## From serverless to dedicated cluster{#from-serverless-to-dedicated-cluster}
 
+To gain enhanced control over resources and performance beyond what a serverless cluster offers, consider transitioning your business from a serverless cluster to a dedicated cluster.
+
 <Admonition type="info" icon="📘" title="Notes">
 
 - Ensure your payment method is set up to access this feature.
@@ -42,6 +44,8 @@ After filling out the details, click **Migrate Cluster**. Zilliz Cloud will then
 The dedicated cluster status will switch from **CREATING** to **RESTORING**, and finally to **RUNNING**. Upon completion, you can connect to the dedicated cluster and access the migrated data. See [Connect to Cluster](./connect-to-cluster) for further details.
 
 ## From dedicated to another dedicated cluster{#from-dedicated-to-another-dedicated-cluster}
+
+By migrating between dedicated clusters, you can modify your cluster type, region, or size your cluster configuration at ease, without interrupting your business on the original cluster.
 
 <Admonition type="info" icon="📘" title="Notes">
 
