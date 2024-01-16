@@ -92,7 +92,7 @@ module.exports = function (context, options) {
                                     sidebar_position: sidebarPos,
                                 }
     
-                                writer.write_doc(req)
+                                await writer.write_doc(req)
                             } else {
                                 titles = JSON.parse(fs.readFileSync('plugins/lark-docs/meta/titles.json', 'utf8'))
                                 if (titles[opts.docTitle]) {
@@ -105,8 +105,11 @@ module.exports = function (context, options) {
                                         }
                                     }).filter(index => index !== undefined)[0]
 
+                                    const path = file_path.split('/').slice(0, -1).join('/') + '/' + page_slug
+                                    const file = path + '/' + page_slug + '.md'
+
                                     const req = {
-                                        path: file_path.split('/').slice(0, -1).join('/') + '/' + page_slug,
+                                        path: path,
                                         page_title: opts.docTitle,
                                         page_slug: page_slug,
                                         page_beta: page_beta,
@@ -115,7 +118,9 @@ module.exports = function (context, options) {
                                         sidebar_position: sidebarPos,
                                     }
 
-                                    writer.write_doc(req)  
+                                    await writer.write_doc(req)  
+
+                                    fs.writeFileSync(file, fs.readFileSync(file, 'utf8') + '\n\n' + "import DocCardList from '@theme/DocCardList';\n\n<DocCardList />")
                                 } else {
                                     console.log('The doc is not ready to publish!')
                                     return

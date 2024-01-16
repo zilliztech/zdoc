@@ -13,3 +13,8 @@ import Admonition from '@theme/Admonition';
 
 A comprehensive guide on how to import data to Zilliz Cloud, taking you from zero to hero.
 
+
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

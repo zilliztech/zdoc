@@ -77,3 +77,8 @@ Zilliz Cloud offers flexibility in switching between different payment methods:
 
 - Resubscribe using the new [AWS](./subscribe-on-aws-marketplace) or [GCP](./subscribe-on-gcp-marketplace) Marketplace account.
 
+
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />
