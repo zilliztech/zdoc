@@ -5,7 +5,7 @@
   "node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
   "node_type": "origin",
   "obj_create_time": "1704710624",
-  "obj_edit_time": "1705048409",
+  "obj_edit_time": "1705386090",
   "obj_token": "DK0cd2Ix8oQD0rxWUBYcW57snLd",
   "obj_type": "docx",
   "origin_node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
@@ -103,14 +103,20 @@
       {
         "block_id": "PGi8dEcTJobn2lxxcMDccE7Pnvd",
         "block_type": 2,
+        "comment_ids": [
+          "7324576676628267012"
+        ],
         "parent_id": "DK0cd2Ix8oQD0rxWUBYcW57snLd",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "This page helps prepare your source data to make sure it can be successfully imported to Zilliz Cloud collections.",
+                "content": "This page shows you the basic requirements for the source data you need to observe when performing an import on Zilliz Cloud. ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7324576676628267012"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1148,8 +1154,8 @@
         "children": [
           "RRlsd8MkiodIW9xJYT6c56sCnXd",
           "WxK4d35r0orZM7xPCBJcxyxMnPt",
-          "MDdudpHDooKzxOxjQiIcrn6cnPf",
-          "FHH7daLtuowRZhxEIXfc7lrvnBd",
+          "Dz4fdxtVjofounxU3K3cN5Lpnrh",
+          "WxNbdJowiousfaxBr3GcouTanWf",
           "XF31d1mGKoLAwhxPnnBchXahnQI",
           "JhRUd6TY5ofNQgxlPJBcyKRpnKg",
           "Sd6Adilz5oDC6vxm9z9ch0nPnXe",
@@ -1160,8 +1166,8 @@
           "cells": [
             "RRlsd8MkiodIW9xJYT6c56sCnXd",
             "WxK4d35r0orZM7xPCBJcxyxMnPt",
-            "MDdudpHDooKzxOxjQiIcrn6cnPf",
-            "FHH7daLtuowRZhxEIXfc7lrvnBd",
+            "Dz4fdxtVjofounxU3K3cN5Lpnrh",
+            "WxNbdJowiousfaxBr3GcouTanWf",
             "XF31d1mGKoLAwhxPnnBchXahnQI",
             "JhRUd6TY5ofNQgxlPJBcyKRpnKg",
             "Sd6Adilz5oDC6vxm9z9ch0nPnXe",
@@ -1280,25 +1286,31 @@
         }
       },
       {
-        "block_id": "MDdudpHDooKzxOxjQiIcrn6cnPf",
+        "block_id": "Dz4fdxtVjofounxU3K3cN5Lpnrh",
         "block_type": 32,
         "children": [
-          "XuhKdsfT7orN5dxHflacaEGIn4q"
+          "G08ndvrxvoEJA6xssOJcdf0InRf"
         ],
         "parent_id": "HFQydo8U3oqxDkxIAcWcXkRon9c",
         "table_cell": {}
       },
       {
-        "block_id": "XuhKdsfT7orN5dxHflacaEGIn4q",
+        "block_id": "G08ndvrxvoEJA6xssOJcdf0InRf",
         "block_type": 2,
-        "parent_id": "MDdudpHDooKzxOxjQiIcrn6cnPf",
+        "comment_ids": [
+          "7324538828633800707"
+        ],
+        "parent_id": "Dz4fdxtVjofounxU3K3cN5Lpnrh",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Number of files per import",
+                "content": "Multiple files per import",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7324538828633800707"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1314,25 +1326,31 @@
         }
       },
       {
-        "block_id": "FHH7daLtuowRZhxEIXfc7lrvnBd",
+        "block_id": "WxNbdJowiousfaxBr3GcouTanWf",
         "block_type": 32,
         "children": [
-          "JOlrdYCm3omnYbx2SP8ckR61n0w"
+          "C6f2dmsmVoETlwxEQeRcJ2Wwnzb"
         ],
         "parent_id": "HFQydo8U3oqxDkxIAcWcXkRon9c",
         "table_cell": {}
       },
       {
-        "block_id": "JOlrdYCm3omnYbx2SP8ckR61n0w",
+        "block_id": "C6f2dmsmVoETlwxEQeRcJ2Wwnzb",
         "block_type": 2,
-        "parent_id": "FHH7daLtuowRZhxEIXfc7lrvnBd",
+        "comment_ids": [
+          "7324538828633800707"
+        ],
+        "parent_id": "WxNbdJowiousfaxBr3GcouTanWf",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "1",
+                "content": "Yes",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7324538828633800707"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1978,8 +1996,8 @@
         "children": [
           "UnJndSpQsojJAUxyn0kc8AKynug",
           "RidCdsqIpoeLMmxB1tjcKPcAnkb",
-          "WU2UdlF0SopTgLx4MYpc6ZsCnue",
-          "IOBrdBEIkovYGPxkSiYcCdrGnYc",
+          "LUbfdjJV3ocUtwxPry1cVhR5nW0",
+          "S6Omdof1uotMTwxHKkvceMItn5c",
           "ShAsdYJOGoo0rAxes73c7iN1nAg",
           "Au2MdteZ1och4LxniLFcsMB9nde",
           "WgXSdywNWoIGr6xv9GPcXuyznmd",
@@ -1990,8 +2008,8 @@
           "cells": [
             "UnJndSpQsojJAUxyn0kc8AKynug",
             "RidCdsqIpoeLMmxB1tjcKPcAnkb",
-            "WU2UdlF0SopTgLx4MYpc6ZsCnue",
-            "IOBrdBEIkovYGPxkSiYcCdrGnYc",
+            "LUbfdjJV3ocUtwxPry1cVhR5nW0",
+            "S6Omdof1uotMTwxHKkvceMItn5c",
             "ShAsdYJOGoo0rAxes73c7iN1nAg",
             "Au2MdteZ1och4LxniLFcsMB9nde",
             "WgXSdywNWoIGr6xv9GPcXuyznmd",
@@ -2116,23 +2134,23 @@
         }
       },
       {
-        "block_id": "WU2UdlF0SopTgLx4MYpc6ZsCnue",
+        "block_id": "LUbfdjJV3ocUtwxPry1cVhR5nW0",
         "block_type": 32,
         "children": [
-          "GkkNdAfmjo5aFjxYQthcuomQnjd"
+          "Y98QdFMRuo6z1lxwadicAEHWnch"
         ],
         "parent_id": "Z9isdGmIMoXVzOxAkflcFnIVnzh",
         "table_cell": {}
       },
       {
-        "block_id": "GkkNdAfmjo5aFjxYQthcuomQnjd",
+        "block_id": "Y98QdFMRuo6z1lxwadicAEHWnch",
         "block_type": 2,
-        "parent_id": "WU2UdlF0SopTgLx4MYpc6ZsCnue",
+        "parent_id": "LUbfdjJV3ocUtwxPry1cVhR5nW0",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Number of files per import",
+                "content": "Multiple files per import",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -2150,23 +2168,23 @@
         }
       },
       {
-        "block_id": "IOBrdBEIkovYGPxkSiYcCdrGnYc",
+        "block_id": "S6Omdof1uotMTwxHKkvceMItn5c",
         "block_type": 32,
         "children": [
-          "Qfhmd1PWjoZsp2xBHx3cDRcgnbc"
+          "QUjndDjm9oIMkqxMHfOcankAn6d"
         ],
         "parent_id": "Z9isdGmIMoXVzOxAkflcFnIVnzh",
         "table_cell": {}
       },
       {
-        "block_id": "Qfhmd1PWjoZsp2xBHx3cDRcgnbc",
+        "block_id": "QUjndDjm9oIMkqxMHfOcankAn6d",
         "block_type": 2,
-        "parent_id": "IOBrdBEIkovYGPxkSiYcCdrGnYc",
+        "parent_id": "S6Omdof1uotMTwxHKkvceMItn5c",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "All files in the specified folder if the total file size does not exceed the upper limit. Otherwise, an error occurs.",
+                "content": "Yes",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2507,8 +2525,12 @@
         "children": [
           "SRaVdOYQPo1xHBxum2OcASRcnMh",
           "SsdxdhU1ooA4r7x0kjHc5gf3n8d",
-          "G8vtdhCwNoDK3KxhKQ8c3q0Pnzg",
-          "KWtsdaLZvoFnzRxVkx1cyMscnhe",
+          "UKOCdIfQ4otA6ex0Z1rctMqdnfX",
+          "NHrHd3c2ToYJXDx80ohcWKRtn9b",
+          "WWaIdpXk7oTJjkxP4jFcF5cNnRd",
+          "OfX5dDVZjoQaKpxRJvXcBoCwnHg",
+          "Qu8RdJ0BGoJ5O2xZ01qcRgcznSc",
+          "NwIXd6ZMZoK3rYxRoKIcYFUinh1",
           "Idu2dBVy2oQHbmxqC30cDUuvnPo",
           "PPzqdg6AHogG1wxzlmecoXLwn6b",
           "QPeUdAMSuoDpjdxLpQIcshJNnpU",
@@ -2519,8 +2541,12 @@
           "cells": [
             "SRaVdOYQPo1xHBxum2OcASRcnMh",
             "SsdxdhU1ooA4r7x0kjHc5gf3n8d",
-            "G8vtdhCwNoDK3KxhKQ8c3q0Pnzg",
-            "KWtsdaLZvoFnzRxVkx1cyMscnhe",
+            "UKOCdIfQ4otA6ex0Z1rctMqdnfX",
+            "NHrHd3c2ToYJXDx80ohcWKRtn9b",
+            "WWaIdpXk7oTJjkxP4jFcF5cNnRd",
+            "OfX5dDVZjoQaKpxRJvXcBoCwnHg",
+            "Qu8RdJ0BGoJ5O2xZ01qcRgcznSc",
+            "NwIXd6ZMZoK3rYxRoKIcYFUinh1",
             "Idu2dBVy2oQHbmxqC30cDUuvnPo",
             "PPzqdg6AHogG1wxzlmecoXLwn6b",
             "QPeUdAMSuoDpjdxLpQIcshJNnpU",
@@ -2529,7 +2555,7 @@
           "property": {
             "column_size": 2,
             "column_width": [
-              255,
+              332,
               540
             ],
             "merge_info": [
@@ -2564,9 +2590,25 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 4
+            "row_size": 6
           }
         }
       },
@@ -2639,25 +2681,31 @@
         }
       },
       {
-        "block_id": "G8vtdhCwNoDK3KxhKQ8c3q0Pnzg",
+        "block_id": "UKOCdIfQ4otA6ex0Z1rctMqdnfX",
         "block_type": 32,
         "children": [
-          "GWlGd95EHoHZMQxYWpGcIQyince"
+          "PtL4dGZBkoFy9NxQztTcBgpmnWe"
         ],
         "parent_id": "Gs43dST3So9DbSxV1yQczi5nnDd",
         "table_cell": {}
       },
       {
-        "block_id": "GWlGd95EHoHZMQxYWpGcIQyince",
+        "block_id": "PtL4dGZBkoFy9NxQztTcBgpmnWe",
         "block_type": 2,
-        "parent_id": "G8vtdhCwNoDK3KxhKQ8c3q0Pnzg",
+        "comment_ids": [
+          "7324539518240456707"
+        ],
+        "parent_id": "UKOCdIfQ4otA6ex0Z1rctMqdnfX",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Number of files per import",
+                "content": "Multiple files per import",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7324539518240456707"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2673,26 +2721,31 @@
         }
       },
       {
-        "block_id": "KWtsdaLZvoFnzRxVkx1cyMscnhe",
+        "block_id": "NHrHd3c2ToYJXDx80ohcWKRtn9b",
         "block_type": 32,
         "children": [
-          "Y4uQdk1BOof5bbxRNOBcS243nfc",
-          "JhJOdstEqoew3bxynQ2c2r2HnCM"
+          "ML8jdLQBRo10Wcx2pTQcw4mtnwh"
         ],
         "parent_id": "Gs43dST3So9DbSxV1yQczi5nnDd",
         "table_cell": {}
       },
       {
-        "block_id": "Y4uQdk1BOof5bbxRNOBcS243nfc",
+        "block_id": "ML8jdLQBRo10Wcx2pTQcw4mtnwh",
         "block_type": 2,
-        "parent_id": "KWtsdaLZvoFnzRxVkx1cyMscnhe",
+        "comment_ids": [
+          "7324539518240456707"
+        ],
+        "parent_id": "NHrHd3c2ToYJXDx80ohcWKRtn9b",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "The number of fields in the target collection of this import.",
+                "content": "Yes",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7324539518240456707"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2708,40 +2761,151 @@
         }
       },
       {
-        "block_id": "JhJOdstEqoew3bxynQ2c2r2HnCM",
+        "block_id": "WWaIdpXk7oTJjkxP4jFcF5cNnRd",
+        "block_type": 32,
+        "children": [
+          "Qj8jdENIXoaUhOx5zzzck5OlnGd"
+        ],
+        "parent_id": "Gs43dST3So9DbSxV1yQczi5nnDd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Qj8jdENIXoaUhOx5zzzck5OlnGd",
         "block_type": 2,
-        "parent_id": "KWtsdaLZvoFnzRxVkx1cyMscnhe",
+        "comment_ids": [
+          "7324539518240456707"
+        ],
+        "parent_id": "WWaIdpXk7oTJjkxP4jFcF5cNnRd",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "If the target collection allows dynamic fields, consider adding an extra ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "$meta.npy",
+                "content": "Data import from first-level subfolders",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7324539518240456707"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
                 }
               }
-            },
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OfX5dDVZjoQaKpxRJvXcBoCwnHg",
+        "block_type": 32,
+        "children": [
+          "VsbqdiMwWoGylxxNnOqcYqDXnlc"
+        ],
+        "parent_id": "Gs43dST3So9DbSxV1yQczi5nnDd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "VsbqdiMwWoGylxxNnOqcYqDXnlc",
+        "block_type": 2,
+        "comment_ids": [
+          "7324539518240456707"
+        ],
+        "parent_id": "OfX5dDVZjoQaKpxRJvXcBoCwnHg",
+        "text": {
+          "elements": [
             {
               "text_run": {
-                "content": " to store dynamic fields.",
+                "content": "Yes",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7324539518240456707"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Qu8RdJ0BGoJ5O2xZ01qcRgcznSc",
+        "block_type": 32,
+        "children": [
+          "Ea7Bd1zFuo8FKyxpWbPc0CCQnHf"
+        ],
+        "parent_id": "Gs43dST3So9DbSxV1yQczi5nnDd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Ea7Bd1zFuo8FKyxpWbPc0CCQnHf",
+        "block_type": 2,
+        "comment_ids": [
+          "7324539518240456707"
+        ],
+        "parent_id": "Qu8RdJ0BGoJ5O2xZ01qcRgcznSc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Maximum number of first-level subfolders",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7324539518240456707"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NwIXd6ZMZoK3rYxRoKIcYFUinh1",
+        "block_type": 32,
+        "children": [
+          "G73NdjwzhodQBDx8HoncWznsnAf"
+        ],
+        "parent_id": "Gs43dST3So9DbSxV1yQczi5nnDd",
+        "table_cell": {}
+      },
+      {
+        "block_id": "G73NdjwzhodQBDx8HoncWznsnAf",
+        "block_type": 2,
+        "comment_ids": [
+          "7324539518240456707"
+        ],
+        "parent_id": "NwIXd6ZMZoK3rYxRoKIcYFUinh1",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "100",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7324539518240456707"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2821,8 +2985,7 @@
         "block_type": 32,
         "children": [
           "UbPQd4IcEo1IhHx08KvcMnCWnTf",
-          "EAkidbzqxo3R0RxxSd6ciFfmnBb",
-          "HO6pd91Pko4DmrxVPQtcX8nRnXc"
+          "EAkidbzqxo3R0RxxSd6ciFfmnBb"
         ],
         "parent_id": "Gs43dST3So9DbSxV1yQczi5nnDd",
         "table_cell": {}
@@ -2883,31 +3046,6 @@
           "7323127063636672540",
           "7322736582062620673"
         ],
-        "parent_id": "PPzqdg6AHogG1wxzlmecoXLwn6b"
-      },
-      {
-        "block_id": "HO6pd91Pko4DmrxVPQtcX8nRnXc",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Maximum number of first-level subfolders: 100",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
         "parent_id": "PPzqdg6AHogG1wxzlmecoXLwn6b"
       },
       {
@@ -7201,6 +7339,6 @@
         }
       }
     ],
-    "counts": 233
+    "counts": 239
   }
 }

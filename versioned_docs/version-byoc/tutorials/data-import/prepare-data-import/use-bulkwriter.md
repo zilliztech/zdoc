@@ -11,7 +11,7 @@ import Admonition from '@theme/Admonition';
 
 # Use BulkWriter
 
-This guide walks you through the process of preparing your data for import into Zilliz Cloud using the **BulkWriter** tool in PyMilvus.
+If your data format does not meet the requirements on [Prepare Source Data](./prepare-source-data), you can use **BulkWriter**, a data processing tool in pymilvus, to prepare your data.
 
 ## Overview{#overview}
 

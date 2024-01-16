@@ -12,7 +12,7 @@ import TabItem from '@theme/TabItem';
 
 # Prepare Source Data
 
-This page helps prepare your source data to make sure it can be successfully imported to Zilliz Cloud collections.
+This page shows you the basic requirements for the source data you need to observe when performing an import on Zilliz Cloud. 
 
 ## Map source data to collection{#map-source-data-to-collection}
 
@@ -61,7 +61,7 @@ A valid JSON file has a root key named **rows**, the corresponding value of whic
 
 |  **Item**                           |  **Description**                                                                                                                       |
 | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-|  **Number of files per import**     |  1                                                                                                                                     |
+|  **Multiple files per import**      |  Yes                                                                                                                                   |
 |  **Maximum file size per import**   |  Serverless cluster: 512 MB<br/> Dedicated cluster:<br/> - Total file size: 100 GB<br/> - Individual file size: 10 GB<br/> |
 |  **Applicable data file locations** |  Local and remote files                                                                                                                |
 
@@ -81,11 +81,11 @@ You can either rebuild your data on your own by referring to [Prepare the data f
 
 ### Parquet file{#parquet-file}
 
-|  **Item**                           |  **Description**                                                                                                       |
-| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-|  **Number of files per import**     |  All files in the specified folder if the total file size does not exceed the upper limit. Otherwise, an error occurs. |
-|  **Maximum file size per import**   |  - Total file size: 100 GB<br/> - Individual file size: 10 GB<br/>                                               |
-|  **Applicable data file locations** |  Remote files only                                                                                                     |
+|  **Item**                           |  **Description**                                                         |
+| ----------------------------------- | ------------------------------------------------------------------------ |
+|  **Multiple files per import**      |  Yes                                                                     |
+|  **Maximum file size per import**   |  - Total file size: 100 GB<br/> - Individual file size: 10 GB<br/> |
+|  **Applicable data file locations** |  Remote files only                                                       |
 
 You are advised to use [the ](./use-bulkwriter)[**BulkWriter**](./use-bulkwriter)[ tool](./use-bulkwriter) to prepare your raw data into parquet files.
 
@@ -93,11 +93,13 @@ You are advised to use [the ](./use-bulkwriter)[**BulkWriter**](./use-bulkwriter
 
 A valid set of NumPy files should be named after the fields in the schema of the target collection, and the data in them should match the corresponding field definitions.
 
-|  **Item**                                  |  **Description**                                                                                                                                                                       |
-| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  **Number of files per import**            |  The number of fields in the target collection of this import.<br/> If the target collection allows dynamic fields, consider adding an extra **$meta.npy** to store dynamic fields. |
-|  **Maximum file size per import**<br/>  |  - Total file size: 100 GB<br/> - Total file size in each first-level subfolder: 10 GB<br/> - Maximum number of first-level subfolders: 100<br/>                              |
-|  **Applicable data file locations**        |  Remote files only                                                                                                                                                                     |
+|  **Item**                                     |  **Description**                                                                                  |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+|  **Multiple files per import**                |  Yes                                                                                              |
+|  **Data import from first-level subfolders**  |  Yes                                                                                              |
+|  **Maximum number of first-level subfolders** |  100                                                                                              |
+|  **Maximum file size per import**<br/>     |  - Total file size: 100 GB<br/> - Total file size in each first-level subfolder: 10 GB<br/> |
+|  **Applicable data file locations**           |  Remote files only                                                                                |
 
 ![numpy_file_structure](/img/numpy_file_structure.png)
 
