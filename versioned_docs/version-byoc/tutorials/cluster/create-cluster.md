@@ -38,6 +38,8 @@ Ensure:
 
 1. On the **Create New Cluster** page, fill out the relevant parameters.
 
+    ![cluster-cluster-byoc](/byoc/cluster-cluster-byoc.png)
+
     - **Cluster Name**: Assign a unique identifier for your cluster.
 
     - **Cloud Provider Settings**: Choose the cloud service provider and the specific region where your cluster will be deployed. With the BYOC license, only the AWS **us-west-2** region is currently supported. To request more cloud regions, [contact us](https://zilliz.com/cloud-region-request?firstname=Li&lastname=Yun&company=zilliz&name=zilliz&email=leryn.li@zilliz.com&fullname=Li%20Yun&phone=--&country=China&requested_csp_provider=AWS).
@@ -48,11 +50,23 @@ Ensure:
 
         - **CU Size**: Select the total size of the cluster in terms of CUs.
 
+        - **Topology**: A graphical representation showing the structure of your cluster. This includes the designation of roles and compute resources for various nodes:
+
+            - **Proxy**: Stateless nodes that manage user connections and streamline service addresses with load balancers.
+
+            - **Query Node**: Responsible for hybrid vector and scalar searches and incremental data updates.
+
+            - **Coordinator**: The orchestration center, distributing tasks across worker nodes.
+
+            - **Data Node**: Handles data mutations and log-to-snapshot conversions for persistence.
+
+            <Admonition type="info" icon="📘" title="Notes">
+
+            Clusters with **1-8 CUs** typically use a single-node setup suitable for smaller datasets. Clusters with more than **8 CUs** adopt a distributed multi-server node architecture to improve performance and scalability.
+
+            </Admonition>
+
     - **Cloud Backup**: Decide whether to enable automatic cloud backup for safeguarding the data stored within your cluster, ensuring data persistence and recovery capabilities in case of failures.
-
-<exclude target="paas">
-
-</exclude>
 
 1. Click **Create Cluster**. You'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
 
@@ -117,6 +131,10 @@ After you create the cluster, you can check its status on the cluster list page.
 ## Related topics{#related-topics}
 
 - [Connect to Cluster](./connect-to-cluster)
+
+- [[DEV] Manage Collections](./undefined)
+
+- [[DEV] Insert, Upsert & Delete](./undefined)
 
 - [Example Dataset](./example-dataset) 
 
