@@ -28,7 +28,7 @@ Make sure the following conditions are met:
 
 - You have signed up for Zilliz Cloud.
 
-- A cluster has been created. For information on how to create a cluster, see [Create Cluster](./undefined).
+- A cluster has been created. For information on how to create a cluster, see [Create Cluster](./create-cluster).
 
 ## Add a private link{#add-a-private-link}
 
@@ -430,7 +430,7 @@ Check your DNS settings by referring to [Set up firewall rules and a DNS record]
 
 ## Related topics{#related-topics}
 
-- [Manage API Keys](./undefined)
+- [Manage API Keys](./manage-api-keys)
 
 - [Manage Cluster Credentials](./cluster-credentials-console)
 

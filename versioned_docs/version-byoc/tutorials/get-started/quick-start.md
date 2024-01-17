@@ -18,7 +18,7 @@ This tutorial guides you through CRUD tasks in a cluster. You are expecting to l
 
 Throughout this guide, we will use Zilliz Cloud's SDKs and RESTful API. Before you begin, ensure that:
 
-- You have activated your cloud and created a cluster in a project. For details, see [Activate Your Cloud](./activate-your-cloud) and [Create Cluster](./undefined).
+- You have activated your cloud and created a cluster in a project. For details, see [Activate Your License](./activate-your-cloud) and [Create Cluster](./create-cluster).
 
 - You have installed the preferred SDKs. Currently, there are four SDKs available, and they are [Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), and [Node.js](./install-sdks#install-nodejs-sdk). For details, see [Install SDKs](./install-sdks).
 
@@ -36,10 +36,10 @@ If you want to create a new collection, follow these steps:
 ```python
 from pymilvus import MilvusClient
 
-# Replace uri and API key with your own
+# Replace uri and token with your own
 client = MilvusClient(
     uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
-    token=TOKEN # API key or a colon-separated cluster username and password
+    token=TOKEN # a colon-separated cluster username and password
 )
 
 # Create a collection

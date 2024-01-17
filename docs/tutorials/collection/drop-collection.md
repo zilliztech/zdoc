@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-#  Drop Collection
+# Drop Collection
 
 This guide walks you through dropping a collection from a cluster.
 

@@ -173,7 +173,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
       "space_id": "7167193056431783939",
-      "title": " Create Collection",
+      "title": "[DEPRECATE] Create Collection",
       "slug": "create-collection"
     },
     {
@@ -191,7 +191,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
       "space_id": "7167193056431783939",
-      "title": " Manage Index",
+      "title": "[DEPRECATE] Manage Index",
       "slug": "manage-index"
     },
     {
@@ -209,7 +209,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
       "space_id": "7167193056431783939",
-      "title": " Insert Entities",
+      "title": "[DEPRECATE] Insert Entities",
       "slug": "insert-entities"
     },
     {
@@ -227,7 +227,7 @@
       "owner": "ou_e55a208a81fc721928685fc3df9cb678",
       "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
       "space_id": "7167193056431783939",
-      "title": " Upsert Entities",
+      "title": "[DEPRECATE] Upsert Entities",
       "slug": "upsert-entities"
     },
     {
@@ -245,7 +245,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
       "space_id": "7167193056431783939",
-      "title": " Delete Entities",
+      "title": "[DEPRECATE] Delete Entities",
       "slug": "delete-entities"
     },
     {
@@ -255,7 +255,7 @@
       "node_token": "RnqlwR30LiIrOwk4GWYcT7xvnLb",
       "node_type": "origin",
       "obj_create_time": "1701153359",
-      "obj_edit_time": "1705028193",
+      "obj_edit_time": "1705454139",
       "obj_token": "Mnl6d70hboQKjMx9m2WclFfonUg",
       "obj_type": "docx",
       "origin_node_token": "RnqlwR30LiIrOwk4GWYcT7xvnLb",
@@ -263,7 +263,7 @@
       "owner": "ou_e55a208a81fc721928685fc3df9cb678",
       "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
       "space_id": "7167193056431783939",
-      "title": " Use Partitions",
+      "title": "[DEPRECATE] Use Partitions",
       "slug": "use-partitions"
     },
     {
@@ -291,7 +291,7 @@
       "node_token": "UzY9wHHcIiDJAUkkFSzcBUk9n4o",
       "node_type": "origin",
       "obj_create_time": "1689909680",
-      "obj_edit_time": "1700476494",
+      "obj_edit_time": "1705454116",
       "obj_token": "PYghduf1UoVe3exbK9JcR0KpnlZ",
       "obj_type": "docx",
       "origin_node_token": "UzY9wHHcIiDJAUkkFSzcBUk9n4o",
@@ -353,7 +353,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
       "space_id": "7167193056431783939",
-      "title": " Search, Query, and Get",
+      "title": "[DEPRECATE] Search, Query, and Get",
       "slug": "search-query-and-get"
     },
     {
@@ -371,7 +371,7 @@
       "owner": "ou_e55a208a81fc721928685fc3df9cb678",
       "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
       "space_id": "7167193056431783939",
-      "title": " Conduct a Range Search",
+      "title": "[DEPRECATE] Conduct a Range Search",
       "slug": "conduct-a-range-search"
     },
     {
@@ -389,7 +389,7 @@
       "owner": "ou_e55a208a81fc721928685fc3df9cb678",
       "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
       "space_id": "7167193056431783939",
-      "title": " Search and Query with Iterators",
+      "title": "[DEPRECATE] Search and Query with Iterators",
       "slug": "search-and-query-iterators"
     },
     {
@@ -407,7 +407,7 @@
       "owner": "ou_e55a208a81fc721928685fc3df9cb678",
       "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
       "space_id": "7167193056431783939",
-      "title": " Search and Query with Advanced Expressions",
+      "title": "[DEPRECATE] Search and Query with Advanced Expressions",
       "slug": "search-and-query-advanced-expressions"
     },
     {
@@ -425,7 +425,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
       "space_id": "7167193056431783939",
-      "title": " Drop Collection",
+      "title": "[DEPRECATE] Drop Collection",
       "slug": "drop-collection"
     },
     {
@@ -443,7 +443,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
       "space_id": "7167193056431783939",
-      "title": " Search, Query & Get"
+      "title": "[DEPRECATE] Search, Query & Get"
     }
   ]
 }

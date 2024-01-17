@@ -55,7 +55,7 @@ To enhance your control and ease in navigating through the organization activiti
 
 - [Manage Organization Information](./organizations)
 
-- [Delete Your Organization](./undefined)
+- [Delete Your Organization](./delete-your-organization)
 
 - [Delete Your Account](./email-accounts)
 

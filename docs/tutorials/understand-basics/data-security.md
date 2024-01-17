@@ -35,7 +35,7 @@ As a supplement, Zilliz Cloud supports security settings, such as access control
 
 Zilliz Cloud implements authentication using the OAuth2 protocol, which requires users to prove their identity by providing a cluster credential (a token), before they can access or execute on any cluster resources. Cluster credentials usually consist of username and password pairs or API keys.
 
-For details, see [Manage Cluster Credentials](./cluster-credentials-console) and [Manage API Keys](./undefined).
+For details, see [Manage Cluster Credentials (Console)](./cluster-credentials-console) and [API Keys](./manage-api-keys).
 
 ### Access control{#access-control}
 
@@ -43,7 +43,7 @@ In many cases, authenticating users is far from enough. You also need a way to c
 
 To meet these needs, Zilliz Cloud enables access control, which allows you to restrict user permissions and authorize them to access only specific resources. With this mechanism, users can be granted one or more roles that determine the scope of their permissions on cluster resources and operations. This helps prevent unauthorized access beyond the defined permission scope.
 
-For details, see [Users & Roles](./users-roles).
+For details, see [User Roles](./user-roles).
 
 ### Whitelists{#whitelists}
 

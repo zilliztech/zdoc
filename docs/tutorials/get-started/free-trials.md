@@ -84,11 +84,11 @@ This plan is crafted for large-scale organizations demanding dedicated clusters 
 |  Max. collections |  2           |  Self-provisioned            |
 |  CUs              |  Shared      |  4 CUs for self-provisioning |
 
-For detailed guidelines on cluster creation, refer to our [Create Cluster](./undefined) section.
+For detailed guidelines on cluster creation, refer to our [Create Cluster](./create-cluster) section.
 
 ## Related topics{#related-topics}
 
 - [Register with Zilliz Cloud](./register-with-zilliz-cloud)
 
-- [Create Cluster](./undefined)
+- [Create Cluster](./create-cluster) 
 

@@ -19,7 +19,7 @@ Make sure the following steps are performed:
 
 - You have activated your cloud. For details, see [Activate Your Cloud](./activate-your-cloud).
 
-- You have created a cluster. For details, see [Create Cluster](./undefined).
+- You have created a cluster. For details, see [Create Cluster](./create-cluster).
 
 - You have created an Elasticsearch cluster running on version 7.x or later. For details, see [Installing Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html).
 

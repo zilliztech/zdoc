@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-#  Conduct a Range Search
+# [DEPRECATE] Conduct a Range Search
 
 Understanding how to filter your search results by the proximity of entities is crucial in vector operations. A range search serves this exact purpose by narrowing down results according to the distance between a query vector and vectors. This guide will walk you through the process of conducting a range search in Zilliz Cloud, which consists of a vector similarity search followed by distance-based filtering.
 

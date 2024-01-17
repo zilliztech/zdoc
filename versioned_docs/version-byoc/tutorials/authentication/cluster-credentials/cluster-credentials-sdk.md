@@ -26,7 +26,7 @@ Explore [Cluster Built-in Roles](./user-roles) for details.
 
 ## Before you start{#before-you-start}
 
-- You have created a cluster. For details, see [Create Cluster](./undefined).
+- You have created a cluster. For details, see [Create Cluster](./create-cluster).
 
 - You have installed a Milvus SDK applicable to your use case. For details, see [Install SDKs](./install-sdks).
 
@@ -50,7 +50,7 @@ connections.connect(
     alias='default', 
     #  Public endpoint obtained from Zilliz Cloud
     uri=CLUSTER_ENDPOINT,
-    # API key or a colon-separated cluster username and password
+    # a colon-separated cluster username and password
     token=TOKEN, 
 )
 
@@ -742,5 +742,5 @@ The default user **db_admin **cannot be dropped.
 
 - [Connect to Cluster](./connect-to-cluster)
 
-- [API Keys](./api-keys)
+- [API Keys](./manage-api-keys)
 

@@ -77,5 +77,5 @@ The default user **db_admin **cannot be dropped.
 
 - [Connect to Cluster](./connect-to-cluster)
 
-- [API Keys](./api-keys)
+- [API Keys](./manage-api-keys)
 

@@ -35,7 +35,7 @@ Explore the future with our latest beta features, available for dedicated cluste
 
 - *Access Control*
 
-    Securely access dedicated clusters and serverless instances with [API Key](./undefined) or [username password authentication](./cluster-credentials-console).
+    Securely access dedicated clusters and serverless instances with [API Key](./manage-api-keys) or [username password authentication](./cluster-credentials-console).
 
 - *Return Raw Vectors*
 
@@ -67,7 +67,7 @@ We've also implemented several enhancements to improve your overall experience:
 
 - *Self-Service Account Deletion*
 
-    Easily [delete your own accounts](./email-accounts#delete-your-account) or [organizations](./undefined) for greater control over your profile.
+    Easily [delete your own accounts](./email-accounts#delete-your-account) or [organizations](./delete-your-organization) for greater control over your profile.
 
 - *Stability Enhancements*
 

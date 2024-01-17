@@ -59,7 +59,8 @@
       "owner": "ou_fbc044d19930afd389d5c369466c38b1",
       "parent_node_token": "HWzCwbjfci51HHk4BvTcfbiHn1d",
       "space_id": "7167193056431783939",
-      "title": "Performance Benchmarking with VectorDBBench"
+      "title": "Performance Benchmarking with VectorDBBench",
+      "slug": "perf-benchmark-vectordb"
     }
   ]
 }

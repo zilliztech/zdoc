@@ -13,7 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
   "space_id": "7167193056431783939",
-  "title": " Search, Query, and Get",
+  "title": "[DEPRECATE] Search, Query, and Get",
   "slug": "search-query-and-get",
   "blocks": {
     "items": [
@@ -83,7 +83,7 @@
           "elements": [
             {
               "text_run": {
-                "content": " Search, Query, and Get",
+                "content": "[DEPRECATE] Search, Query, and Get",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

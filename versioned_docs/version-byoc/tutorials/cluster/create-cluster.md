@@ -20,7 +20,7 @@ Ensure:
 
 - Cloud activation. Refer to [Activate Your Cloud](./activate-your-cloud) for instructions.
 
-- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [Users & Roles](./resource-hierarchy).
+- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [User Roles](./user-roles).
 
 ## Create a cluster{#create-a-cluster}
 
@@ -117,10 +117,6 @@ After you create the cluster, you can check its status on the cluster list page.
 ## Related topics{#related-topics}
 
 - [Connect to Cluster](./connect-to-cluster)
-
-- [[DEV] Manage Collections](./undefined)
-
-- [[DEV] Insert, Upsert & Delete](./undefined)
 
 - [Example Dataset](./example-dataset) 
 

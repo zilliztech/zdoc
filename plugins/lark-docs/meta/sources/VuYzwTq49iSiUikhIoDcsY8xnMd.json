@@ -13,7 +13,7 @@
   "owner": "ou_fbc044d19930afd389d5c369466c38b1",
   "parent_node_token": "BIy4we6qXiq8NpkHfXgcxuONngb",
   "space_id": "7167193056431783939",
-  "title": " Manage Cluster",
+  "title": "[Deprecate] Manage Cluster",
   "blocks": {
     "items": [
       {
@@ -88,7 +88,7 @@
           "elements": [
             {
               "text_run": {
-                "content": " ",
+                "content": "[Deprecate] ",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [

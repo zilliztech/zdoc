@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-#  Delete Entities
+# [DEPRECATE] Delete Entities
 
 Entities on Zilliz Cloud refer to data objects stored in a cluster, containing data for processing, search, and queries. If an entity is no longer needed, you can perform operations to delete it.
 

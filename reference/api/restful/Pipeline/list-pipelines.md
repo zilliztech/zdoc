@@ -100,7 +100,11 @@ Possible response
 
 ### Parameters
 
-- No query parameters required
+- Query parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | `projectId`  | **integer**(required)<br/>ID of the project in which this operation is performed.|
 
 - No path parameters required
 

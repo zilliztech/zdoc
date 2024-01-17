@@ -15,7 +15,7 @@ import Admonition from '@theme/Admonition';
 
 To invite a user to join a project, you must be an [Organization Owner](./resource-hierarchy) or a [Project Owner](./resource-hierarchy).
 
-Enter the email addresses of the users you wish to invite. They will receive an invitation via email, which must be accepted within 48 hours to join the project. You can [revoke or resend this invitation](./undefined) anytime before it's accepted.
+Enter the email addresses of the users you wish to invite. They will receive an invitation via email, which must be accepted within 48 hours to join the project. You can [revoke or resend this invitation](./project-access) anytime before it's accepted.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -67,5 +67,5 @@ Once you leave a project, your access to the project and associated resources wi
 
 - [Organizations](./organizations)
 
-- [Delete Your Organization](./undefined)
+- [Delete Your Organization](./delete-your-organization)
 

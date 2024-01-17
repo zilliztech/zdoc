@@ -390,11 +390,20 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "projectId",
+                        "in": "query",
+                        "description": "ID of the project in which the clusters are to be listed.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Returns a list of your clusters.",
+                        "description": "Returns a list of your clusters. The results vary with the access permissions of the API key in use.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -425,6 +434,10 @@
                                                             "items": {
                                                                 "type": "object",
                                                                 "properties": {
+                                                                    "projectId": {
+                                                                        "type": "string",
+                                                                        "description": "The ID of the project to which the current cluster belongs."
+                                                                    },
                                                                     "clusterId": {
                                                                         "type": "string",
                                                                         "description": "The ID of the cluster."
@@ -467,6 +480,7 @@
                                                                     }
                                                                 },
                                                                 "x-apifox-orders": [
+                                                                    "projectId",
                                                                     "clusterId",
                                                                     "clusterName",
                                                                     "description",
@@ -479,7 +493,8 @@
                                                                     "createTime"
                                                                 ],
                                                                 "required": [
-                                                                    "regionId"
+                                                                    "regionId",
+                                                                    "projectId"
                                                                 ],
                                                                 "x-apifox-ignore-properties": []
                                                             },
@@ -635,6 +650,10 @@
                                                 }
                                             },
                                             "properties": {
+                                                "projectId": {
+                                                    "type": "string",
+                                                    "description": "The ID of the project to which the current cluster belongs."
+                                                },
                                                 "clusterId": {
                                                     "type": "string",
                                                     "description": "The ID of the cluster."
@@ -693,10 +712,12 @@
                                                 "storageSize",
                                                 "snapshotNumber",
                                                 "createProgress",
+                                                "projectId",
                                                 "regionId",
                                                 "cuSize"
                                             ],
                                             "x-apifox-orders": [
+                                                "projectId",
                                                 "01H1RF3YYDEJQV8V95B61TT8V7",
                                                 "storageSize",
                                                 "snapshotNumber",
@@ -3447,19 +3468,25 @@
                                                                         "langauge": {
                                                                             "type": "string",
                                                                             "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
+                                                                        },
+                                                                        "chunkSize": {
+                                                                            "type": "integer",
+                                                                            "description": "Size per chunk. This field is omitted if it is left unspecified in the corresponding request."
                                                                         }
                                                                     },
                                                                     "x-apifox-orders": [
                                                                         "name",
                                                                         "action",
                                                                         "inputField",
-                                                                        "langauge"
+                                                                        "langauge",
+                                                                        "chunkSize"
                                                                     ],
                                                                     "required": [
                                                                         "name",
                                                                         "action",
                                                                         "inputField",
-                                                                        "langauge"
+                                                                        "langauge",
+                                                                        "chunkSize"
                                                                     ],
                                                                     "x-apifox-ignore-properties": [],
                                                                     "x-apifox-folder": "Schemas"
@@ -3791,6 +3818,10 @@
                                                             "type": "string",
                                                             "description": "Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working."
                                                         },
+                                                        "totalTokenUsage": {
+                                                            "type": "integer",
+                                                            "description": "Number of consumed tokens in this operation."
+                                                        },
                                                         "functions": {
                                                             "anyOf": [
                                                                 {
@@ -3811,19 +3842,25 @@
                                                                         "langauge": {
                                                                             "type": "string",
                                                                             "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
+                                                                        },
+                                                                        "chunkSize": {
+                                                                            "type": "integer",
+                                                                            "description": "Size per chunk. This field is omitted if it is left unspecified in the corresponding request."
                                                                         }
                                                                     },
                                                                     "x-apifox-orders": [
                                                                         "name",
                                                                         "action",
                                                                         "inputField",
-                                                                        "langauge"
+                                                                        "langauge",
+                                                                        "chunkSize"
                                                                     ],
                                                                     "required": [
                                                                         "name",
                                                                         "action",
                                                                         "inputField",
-                                                                        "langauge"
+                                                                        "langauge",
+                                                                        "chunkSize"
                                                                     ],
                                                                     "x-apifox-ignore-properties": [],
                                                                     "x-apifox-folder": "Schemas"
@@ -3887,6 +3924,7 @@
                                                         "type",
                                                         "description",
                                                         "status",
+                                                        "totalTokenUsage",
                                                         "functions",
                                                         "clusterID",
                                                         "collectionName"
@@ -3899,7 +3937,8 @@
                                                         "status",
                                                         "functions",
                                                         "clusterID",
-                                                        "collectionName"
+                                                        "collectionName",
+                                                        "totalTokenUsage"
                                                     ],
                                                     "x-apifox-ignore-properties": []
                                                 }
@@ -4156,6 +4195,10 @@
                                     {
                                         "type": "object",
                                         "properties": {
+                                            "projectId": {
+                                                "type": "string",
+                                                "description": "ID of the target project of this operation."
+                                            },
                                             "name": {
                                                 "type": "string",
                                                 "description": "Name of the pipeline to create."
@@ -4190,19 +4233,25 @@
                                                                 "language": {
                                                                     "type": "string",
                                                                     "description": "Language of your documents. Possible values are `ENGLISH` and `CHINESE`."
+                                                                },
+                                                                "chunkSize": {
+                                                                    "type": "integer",
+                                                                    "description": "Maximum size per chunk. The value defaults to 500 and ranges from 20 to 500."
                                                                 }
                                                             },
                                                             "x-apifox-orders": [
                                                                 "name",
                                                                 "action",
                                                                 "inputField",
-                                                                "language"
+                                                                "language",
+                                                                "chunkSize"
                                                             ],
                                                             "required": [
                                                                 "name",
                                                                 "action",
                                                                 "inputField",
-                                                                "language"
+                                                                "language",
+                                                                "chunkSize"
                                                             ],
                                                             "x-apifox-ignore-properties": [],
                                                             "x-apifox-folder": "Schemas"
@@ -4262,6 +4311,7 @@
                                             }
                                         },
                                         "x-apifox-orders": [
+                                            "projectId",
                                             "name",
                                             "type",
                                             "description",
@@ -4275,7 +4325,8 @@
                                             "type",
                                             "functions",
                                             "clusterId",
-                                            "newCollectionName"
+                                            "newCollectionName",
+                                            "projectId"
                                         ],
                                         "x-apifox-ignore-properties": [],
                                         "x-apifox-folder": "Schemas"
@@ -4283,6 +4334,10 @@
                                     {
                                         "type": "object",
                                         "properties": {
+                                            "projectId": {
+                                                "type": "string",
+                                                "description": "ID of the target project of this operation."
+                                            },
                                             "name": {
                                                 "type": "string",
                                                 "description": "Name of the pipeline to create."
@@ -4335,6 +4390,7 @@
                                             }
                                         },
                                         "x-apifox-orders": [
+                                            "projectId",
                                             "name",
                                             "description",
                                             "type",
@@ -4344,7 +4400,8 @@
                                             "name",
                                             "description",
                                             "type",
-                                            "functions"
+                                            "functions",
+                                            "projectId"
                                         ],
                                         "x-apifox-ignore-properties": [],
                                         "x-apifox-folder": "Schemas"
@@ -4352,6 +4409,10 @@
                                     {
                                         "type": "object",
                                         "properties": {
+                                            "projectId": {
+                                                "type": "string",
+                                                "description": "ID of the target project of this operation."
+                                            },
                                             "name": {
                                                 "type": "string",
                                                 "description": "Name of the pipeline to create."
@@ -4406,6 +4467,7 @@
                                             }
                                         },
                                         "x-apifox-orders": [
+                                            "projectId",
                                             "name",
                                             "description",
                                             "type",
@@ -4419,7 +4481,8 @@
                                             "type",
                                             "functions",
                                             "clusterId",
-                                            "collectionName"
+                                            "collectionName",
+                                            "projectId"
                                         ],
                                         "x-apifox-ignore-properties": [],
                                         "x-apifox-folder": "Schemas"
@@ -4465,6 +4528,10 @@
                                                             "type": "string",
                                                             "description": "Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working."
                                                         },
+                                                        "totalTokenUsage": {
+                                                            "type": "integer",
+                                                            "description": "Number of consumed tokens in this operation."
+                                                        },
                                                         "functions": {
                                                             "anyOf": [
                                                                 {
@@ -4485,19 +4552,25 @@
                                                                         "langauge": {
                                                                             "type": "string",
                                                                             "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
+                                                                        },
+                                                                        "chunkSize": {
+                                                                            "type": "integer",
+                                                                            "description": "Size per chunk. This field is omitted if it is left unspecified in the corresponding request."
                                                                         }
                                                                     },
                                                                     "x-apifox-orders": [
                                                                         "name",
                                                                         "action",
                                                                         "inputField",
-                                                                        "langauge"
+                                                                        "langauge",
+                                                                        "chunkSize"
                                                                     ],
                                                                     "required": [
                                                                         "name",
                                                                         "action",
                                                                         "inputField",
-                                                                        "langauge"
+                                                                        "langauge",
+                                                                        "chunkSize"
                                                                     ],
                                                                     "x-apifox-ignore-properties": [],
                                                                     "x-apifox-folder": "Schemas"
@@ -4561,6 +4634,7 @@
                                                         "type",
                                                         "description",
                                                         "status",
+                                                        "totalTokenUsage",
                                                         "functions",
                                                         "clusterID",
                                                         "collectionName"
@@ -4573,7 +4647,8 @@
                                                         "status",
                                                         "functions",
                                                         "clusterID",
-                                                        "collectionName"
+                                                        "collectionName",
+                                                        "totalTokenUsage"
                                                     ],
                                                     "x-apifox-ignore-properties": []
                                                 }
@@ -4819,7 +4894,17 @@
                 "tags": [
                     "Pipeline Operations"
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "query",
+                        "description": "ID of the project in which this operation is performed.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Returns a list of pipelines in detail.",
@@ -4858,6 +4943,10 @@
                                                                 "type": "string",
                                                                 "description": "Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working."
                                                             },
+                                                            "totalTokenUsage": {
+                                                                "type": "string",
+                                                                "description": "Number of consumed tokens in this operation."
+                                                            },
                                                             "functions": {
                                                                 "anyOf": [
                                                                     {
@@ -4878,19 +4967,25 @@
                                                                             "langauge": {
                                                                                 "type": "string",
                                                                                 "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
+                                                                            },
+                                                                            "chunkSize": {
+                                                                                "type": "integer",
+                                                                                "description": "Size per chunk. This field is omitted if it is left unspecified in the corresponding request."
                                                                             }
                                                                         },
                                                                         "x-apifox-orders": [
                                                                             "name",
                                                                             "action",
                                                                             "inputField",
-                                                                            "langauge"
+                                                                            "langauge",
+                                                                            "chunkSize"
                                                                         ],
                                                                         "required": [
                                                                             "name",
                                                                             "action",
                                                                             "inputField",
-                                                                            "langauge"
+                                                                            "langauge",
+                                                                            "chunkSize"
                                                                         ],
                                                                         "x-apifox-ignore-properties": [],
                                                                         "x-apifox-folder": "Schemas"
@@ -5024,6 +5119,7 @@
                                                             "type",
                                                             "description",
                                                             "status",
+                                                            "totalTokenUsage",
                                                             "functions",
                                                             "clusterID",
                                                             "collectionName"
@@ -5036,7 +5132,8 @@
                                                             "status",
                                                             "functions",
                                                             "clusterID",
-                                                            "collectionName"
+                                                            "collectionName",
+                                                            "totalTokenUsage"
                                                         ],
                                                         "x-apifox-ignore-properties": []
                                                     }
@@ -5273,15 +5370,21 @@
                                                         "doc_name": {
                                                             "type": "string",
                                                             "description": "Name of the chunked document with the file extension."
+                                                        },
+                                                        "token_usage": {
+                                                            "type": "integer",
+                                                            "description": "Number of consumed tokens in this operation."
                                                         }
                                                     },
                                                     "x-apifox-orders": [
                                                         "num_chunks",
-                                                        "doc_name"
+                                                        "doc_name",
+                                                        "token_usage"
                                                     ],
                                                     "required": [
                                                         "num_chunks",
-                                                        "doc_name"
+                                                        "doc_name",
+                                                        "token_usage"
                                                     ],
                                                     "description": "Payload of the response.",
                                                     "x-apifox-ignore-properties": []
@@ -5312,6 +5415,10 @@
                                                 "data": {
                                                     "type": "object",
                                                     "properties": {
+                                                        "token_usage": {
+                                                            "type": "integer",
+                                                            "description": "Number of consumed tokens in this operation."
+                                                        },
                                                         "result": {
                                                             "type": "array",
                                                             "items": {
@@ -5345,10 +5452,12 @@
                                                         }
                                                     },
                                                     "x-apifox-orders": [
+                                                        "token_usage",
                                                         "result"
                                                     ],
                                                     "required": [
-                                                        "result"
+                                                        "result",
+                                                        "token_usage"
                                                     ],
                                                     "description": "Payload of the response",
                                                     "x-apifox-ignore-properties": []
@@ -5975,6 +6084,10 @@
                     "data": {
                         "type": "object",
                         "properties": {
+                            "token_usage": {
+                                "type": "integer",
+                                "description": "Number of consumed tokens in this operation."
+                            },
                             "result": {
                                 "type": "array",
                                 "items": {
@@ -6008,10 +6121,12 @@
                             }
                         },
                         "x-apifox-orders": [
+                            "token_usage",
                             "result"
                         ],
                         "required": [
-                            "result"
+                            "result",
+                            "token_usage"
                         ],
                         "description": "Payload of the response",
                         "x-apifox-ignore-properties": []
@@ -6040,15 +6155,21 @@
                             "doc_name": {
                                 "type": "string",
                                 "description": "Name of the chunked document with the file extension."
+                            },
+                            "token_usage": {
+                                "type": "integer",
+                                "description": "Number of consumed tokens in this operation."
                             }
                         },
                         "x-apifox-orders": [
                             "num_chunks",
-                            "doc_name"
+                            "doc_name",
+                            "token_usage"
                         ],
                         "required": [
                             "num_chunks",
-                            "doc_name"
+                            "doc_name",
+                            "token_usage"
                         ],
                         "description": "Payload of the response.",
                         "x-apifox-ignore-properties": []
@@ -6437,6 +6558,10 @@
                                 "type": "string",
                                 "description": "Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working."
                             },
+                            "totalTokenUsage": {
+                                "type": "integer",
+                                "description": "Number of consumed tokens in this operation."
+                            },
                             "functions": {
                                 "anyOf": [
                                     {
@@ -6457,19 +6582,25 @@
                                             "langauge": {
                                                 "type": "string",
                                                 "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
+                                            },
+                                            "chunkSize": {
+                                                "type": "integer",
+                                                "description": "Size per chunk. This field is omitted if it is left unspecified in the corresponding request."
                                             }
                                         },
                                         "x-apifox-orders": [
                                             "name",
                                             "action",
                                             "inputField",
-                                            "langauge"
+                                            "langauge",
+                                            "chunkSize"
                                         ],
                                         "required": [
                                             "name",
                                             "action",
                                             "inputField",
-                                            "langauge"
+                                            "langauge",
+                                            "chunkSize"
                                         ],
                                         "x-apifox-ignore-properties": [],
                                         "x-apifox-folder": "Schemas"
@@ -6533,6 +6664,7 @@
                             "type",
                             "description",
                             "status",
+                            "totalTokenUsage",
                             "functions",
                             "clusterID",
                             "collectionName"
@@ -6545,7 +6677,8 @@
                             "status",
                             "functions",
                             "clusterID",
-                            "collectionName"
+                            "collectionName",
+                            "totalTokenUsage"
                         ],
                         "x-apifox-ignore-properties": []
                     }
@@ -6620,19 +6753,25 @@
                     "langauge": {
                         "type": "string",
                         "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
+                    },
+                    "chunkSize": {
+                        "type": "integer",
+                        "description": "Size per chunk. This field is omitted if it is left unspecified in the corresponding request."
                     }
                 },
                 "x-apifox-orders": [
                     "name",
                     "action",
                     "inputField",
-                    "langauge"
+                    "langauge",
+                    "chunkSize"
                 ],
                 "required": [
                     "name",
                     "action",
                     "inputField",
-                    "langauge"
+                    "langauge",
+                    "chunkSize"
                 ],
                 "x-apifox-ignore-properties": [],
                 "x-apifox-folder": "Schemas"
@@ -6640,6 +6779,10 @@
             "pipeline.createDeleteReq": {
                 "type": "object",
                 "properties": {
+                    "projectId": {
+                        "type": "string",
+                        "description": "ID of the target project of this operation."
+                    },
                     "name": {
                         "type": "string",
                         "description": "Name of the pipeline to create."
@@ -6694,6 +6837,7 @@
                     }
                 },
                 "x-apifox-orders": [
+                    "projectId",
                     "name",
                     "description",
                     "type",
@@ -6707,7 +6851,8 @@
                     "type",
                     "functions",
                     "clusterId",
-                    "collectionName"
+                    "collectionName",
+                    "projectId"
                 ],
                 "x-apifox-ignore-properties": [],
                 "x-apifox-folder": "Schemas"
@@ -6715,6 +6860,10 @@
             "pipeline.createSearchReq": {
                 "type": "object",
                 "properties": {
+                    "projectId": {
+                        "type": "string",
+                        "description": "ID of the target project of this operation."
+                    },
                     "name": {
                         "type": "string",
                         "description": "Name of the pipeline to create."
@@ -6767,6 +6916,7 @@
                     }
                 },
                 "x-apifox-orders": [
+                    "projectId",
                     "name",
                     "description",
                     "type",
@@ -6776,7 +6926,8 @@
                     "name",
                     "description",
                     "type",
-                    "functions"
+                    "functions",
+                    "projectId"
                 ],
                 "x-apifox-ignore-properties": [],
                 "x-apifox-folder": "Schemas"
@@ -6784,6 +6935,10 @@
             "pipeline.createIngestionReq": {
                 "type": "object",
                 "properties": {
+                    "projectId": {
+                        "type": "string",
+                        "description": "ID of the target project of this operation."
+                    },
                     "name": {
                         "type": "string",
                         "description": "Name of the pipeline to create."
@@ -6818,19 +6973,25 @@
                                         "language": {
                                             "type": "string",
                                             "description": "Language of your documents. Possible values are `ENGLISH` and `CHINESE`."
+                                        },
+                                        "chunkSize": {
+                                            "type": "integer",
+                                            "description": "Maximum size per chunk. The value defaults to 500 and ranges from 20 to 500."
                                         }
                                     },
                                     "x-apifox-orders": [
                                         "name",
                                         "action",
                                         "inputField",
-                                        "language"
+                                        "language",
+                                        "chunkSize"
                                     ],
                                     "required": [
                                         "name",
                                         "action",
                                         "inputField",
-                                        "language"
+                                        "language",
+                                        "chunkSize"
                                     ],
                                     "x-apifox-ignore-properties": [],
                                     "x-apifox-folder": "Schemas"
@@ -6890,6 +7051,7 @@
                     }
                 },
                 "x-apifox-orders": [
+                    "projectId",
                     "name",
                     "type",
                     "description",
@@ -6903,7 +7065,8 @@
                     "type",
                     "functions",
                     "clusterId",
-                    "newCollectionName"
+                    "newCollectionName",
+                    "projectId"
                 ],
                 "x-apifox-ignore-properties": [],
                 "x-apifox-folder": "Schemas"
@@ -6967,19 +7130,25 @@
                     "language": {
                         "type": "string",
                         "description": "Language of your documents. Possible values are `ENGLISH` and `CHINESE`."
+                    },
+                    "chunkSize": {
+                        "type": "integer",
+                        "description": "Maximum size per chunk. The value defaults to 500 and ranges from 20 to 500."
                     }
                 },
                 "x-apifox-orders": [
                     "name",
                     "action",
                     "inputField",
-                    "language"
+                    "language",
+                    "chunkSize"
                 ],
                 "required": [
                     "name",
                     "action",
                     "inputField",
-                    "language"
+                    "language",
+                    "chunkSize"
                 ],
                 "x-apifox-ignore-properties": [],
                 "x-apifox-folder": "Schemas"
@@ -8386,6 +8555,10 @@
                             }
                         },
                         "properties": {
+                            "projectId": {
+                                "type": "string",
+                                "description": "The ID of the project to which the current cluster belongs."
+                            },
                             "clusterId": {
                                 "type": "string",
                                 "description": "The ID of the cluster."
@@ -8444,10 +8617,12 @@
                             "storageSize",
                             "snapshotNumber",
                             "createProgress",
+                            "projectId",
                             "regionId",
                             "cuSize"
                         ],
                         "x-apifox-orders": [
+                            "projectId",
                             "01H1RF3YYDEJQV8V95B61TT8V7",
                             "storageSize",
                             "snapshotNumber",
@@ -8563,6 +8738,10 @@
                                 "items": {
                                     "type": "object",
                                     "properties": {
+                                        "projectId": {
+                                            "type": "string",
+                                            "description": "The ID of the project to which the current cluster belongs."
+                                        },
                                         "clusterId": {
                                             "type": "string",
                                             "description": "The ID of the cluster."
@@ -8605,6 +8784,7 @@
                                         }
                                     },
                                     "x-apifox-orders": [
+                                        "projectId",
                                         "clusterId",
                                         "clusterName",
                                         "description",
@@ -8617,7 +8797,8 @@
                                         "createTime"
                                     ],
                                     "required": [
-                                        "regionId"
+                                        "regionId",
+                                        "projectId"
                                     ],
                                     "x-apifox-ignore-properties": []
                                 },

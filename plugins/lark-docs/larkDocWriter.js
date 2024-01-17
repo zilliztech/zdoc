@@ -944,8 +944,8 @@ class larkDocWriter {
 
             if (page) {
                 const title = page['title'];
-                const meta = await this.__is_to_publish(title);
-                const slug = meta['slug'];
+                // const meta = await this.__is_to_publish(title);
+                const slug = page['slug'];
 
                 // let newUrl = this.target === 'saas' ? `./${slug}` : `./byoc/${slug}`;
                 let newUrl = `./${slug}`;

@@ -61,7 +61,7 @@ Each organization contains a default project. The default project cannot be dele
 
 - [Resource Hierarchy](./resource-hierarchy)
 
-- [Organization Access](./undefined)
+- [Organization Access](./organization-access)
 
 - [Project Users](./project-users)
 

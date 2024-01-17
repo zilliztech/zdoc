@@ -54,7 +54,7 @@ Ensure the following prerequisites are met before proceeding:
 
 ## Related topics{#related-topics}
 
-- [Manage API Keys](./undefined)
+- [API Keys](./manage-api-keys)
 
 - [Manage Cluster Credentials](./cluster-credentials-console)
 

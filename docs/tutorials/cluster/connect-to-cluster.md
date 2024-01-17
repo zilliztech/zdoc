@@ -20,7 +20,7 @@ Ensure the following prerequisites are met before proceeding:
 
 - You have registered an account with Zilliz Cloud. For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
 
-- You have created a cluster. For details, see [Create Cluster](./undefined).
+- You have created a cluster. For details, see [Create Cluster](./create-cluster).
 
 - You have installed a Milvus SDK applicable to your use case. For details, see [Install SDKs](./install-sdks).
 
@@ -32,7 +32,7 @@ For those leaning towards the utilization of RESTful APIs over SDKs, it's import
 
 ## Connect to a cluster{#connect-to-a-cluster}
 
-Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. This token can be  an [API key](./api-keys) or a [cluster credential](./undefined) that consists of a username and password pair.
+Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. This token can be  an [API key](./manage-api-keys) or a [cluster credential](./cluster-credentials) that consists of a username and password pair.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
@@ -50,7 +50,7 @@ TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
 # Replace uri and token with your own
 client = MilvusClient(
     uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
-    token=TOKEN
+    token=TOKEN # API key or a colon-separated cluster username and password
 )
 
 ```

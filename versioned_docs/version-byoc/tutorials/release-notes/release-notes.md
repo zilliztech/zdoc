@@ -3,7 +3,7 @@ slug: /release-notes
 beta: false
 notebook: false
 token: NOYvw884PigqIhk1gwLcw1OYnfe
-sidebar_position: 20
+sidebar_position: 19
 ---
 
 import Admonition from '@theme/Admonition';

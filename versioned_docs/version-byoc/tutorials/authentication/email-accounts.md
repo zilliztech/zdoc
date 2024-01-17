@@ -11,7 +11,7 @@ import Admonition from '@theme/Admonition';
 
 # Email Accounts
 
-Once you have [registered an account](./undefined) with Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account.
+Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account.
 
 ## Modify your account information{#modify-your-account-information}
 
@@ -45,7 +45,7 @@ Deleting your account is irreversible. Exercise caution and ensure all necessary
 
 Ensure you meet the following criteria before proceeding:
 
-- If you are the only project owner in a project with clusters, [delete the project clusters](./undefined).
+- If you are the only project owner in a project with clusters, [delete the project clusters](./manage-cluster).
 
 - If you are the only organization owner, delete the organization.
 

@@ -20,7 +20,7 @@ Throughout this guide, we will use Zilliz Cloud's SDKs and RESTful API. Before y
 
 - You have registered an account with Zilliz Cloud at [https://cloud.zilliz.com/signup](https://cloud.zilliz.com/signup). For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
 
-- You have subscribed to the **Starter** plan and created a serverless cluster in a project. For details, see [Free Trials](./free-trials) and [Create Cluster](./undefined).
+- You have subscribed to the **Starter** plan and created a serverless cluster in a project. For details, see [Free Trials](./free-trials) and [Create Cluster](./create-cluster).
 
 - You have installed the preferred SDKs. Currently, there are four SDKs available, and they are [Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), and [Node.js](./install-sdks#install-nodejs-sdk). For details, see [Install SDKs](./install-sdks).
 
@@ -38,7 +38,7 @@ If you want to create a new collection, follow these steps:
 ```python
 from pymilvus import MilvusClient
 
-# Replace uri and API key with your own
+# Replace uri and token with your own
 client = MilvusClient(
     uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
     token=TOKEN # API key or a colon-separated cluster username and password

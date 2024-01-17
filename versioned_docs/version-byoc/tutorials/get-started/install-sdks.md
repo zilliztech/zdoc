@@ -137,7 +137,7 @@ go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.2.8
 
 ## Related topics{#related-topics}
 
-- [Create Cluster](./undefined)
+- [Create Cluster](./create-cluster)
 
 - [Create Collection](./create-collection)
 

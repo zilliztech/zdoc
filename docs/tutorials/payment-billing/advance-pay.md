@@ -33,7 +33,7 @@ To view your bank transfer history, click Billing on the top navigation bar or o
 
 ## Set monitor for Advance Pay balance{#set-monitor-for-advance-pay-balance}
 
-By default, monitoring for advance pay balance is disabled. However, you can enable it to receive notifications when the Advance Pay balance is less than the amount you specified in the monitoring conditions. For more information, refer to [Advance Pay Balance Monitor](./undefined) 
+By default, monitoring for advance pay balance is disabled. However, you can enable it to receive notifications when the Advance Pay balance is less than the amount you specified in the monitoring conditions. For more information, refer to [Manage Organization Alerts](./manage-organization-alerts). 
 
 ## Refund Advance Pay funds{#refund-advance-pay-funds}
 

@@ -3,7 +3,7 @@ slug: /payment-billing
 beta: false
 notebook: false
 token: FmkCwm1QHitB7uk9U9ncLnHrnse
-sidebar_position: 15
+sidebar_position: 14
 ---
 
 import Admonition from '@theme/Admonition';

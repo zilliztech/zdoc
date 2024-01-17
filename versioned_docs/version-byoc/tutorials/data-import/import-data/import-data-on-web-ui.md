@@ -17,11 +17,11 @@ This page introduces how to import the prepared data on the Zilliz Cloud console
 
 Make sure the following conditions are met:
 
-- You have created a cluster. For details, see [Create Cluster](./undefined).
+- You have created a cluster. For details, see [Create Cluster](./create-cluster).
 
 - You have prepared your data in either of the supported formats. 
 
-    For details on how to prepare your data, refer to [Prepare Source Data](./prepare-source-data). You can also refer to the end-to-end notebook [Data Import from Zero to Hero](./undefined) to get more.
+    For details on how to prepare your data, refer to [Prepare Source Data](./prepare-source-data). You can also refer to the end-to-end notebook [Data Import from Zero to Hero](./data-import-zero-to-hero) to get more.
 
 - You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Example Dataset](./example-dataset) and [Create Collection](./create-collection).
 
@@ -87,5 +87,5 @@ After the import is complete, you will receive the following information. At thi
 
 - [Import Data via SDKs](./import-data-via-sdks)
 
-- [Data Import from Zero to Hero](./undefined) 
+- [Data Import from Zero to Hero](./data-import-zero-to-hero) 
 

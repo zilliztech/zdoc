@@ -93,7 +93,7 @@ Deleting your account is irreversible. Exercise caution and ensure all necessary
 
 Ensure you meet the following criteria before proceeding:
 
-- If you are the only project owner in a project with clusters, [delete the project clusters](./undefined).
+- If you are the only project owner in a project with clusters, [delete the project clusters](./manage-cluster).
 
 - If you are the only organization owner, delete the organization.
 
@@ -117,7 +117,7 @@ Ensure you meet the following criteria before proceeding:
 
 - [Manage Organization Information](./organizations)
 
-- [Delete Your Organization](./undefined)
+- [Delete Your Organization](./delete-your-organization)
 
 - [View Activities](./view-activities) 
 

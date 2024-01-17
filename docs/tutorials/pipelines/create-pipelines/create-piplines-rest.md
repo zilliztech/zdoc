@@ -17,7 +17,7 @@ In Zilliz Cloud, you must create an Ingestion pipeline first. Upon successful cr
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Currently pipelines only work with collections in a [serverless cluster](./undefined#set-up-a-serverless-cluster). In one project, you can only create up to 5 pipelines of the same type.
+Currently pipelines only work with collections in a [serverless cluster](./create-cluster#set-up-a-serverless-cluster). In one project, you can only create up to 5 pipelines of the same type.
 
 </Admonition>
 

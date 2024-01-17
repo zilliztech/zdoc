@@ -3,7 +3,7 @@ slug: /integrations
 beta: false
 notebook: false
 token: M1PDwYLKsi4TQRka9xUcDhMjnzc
-sidebar_position: 16
+sidebar_position: 15
 ---
 
 import Admonition from '@theme/Admonition';

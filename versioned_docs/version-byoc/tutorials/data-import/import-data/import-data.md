@@ -11,4 +11,4 @@ import Admonition from '@theme/Admonition';
 
 # Import Data
 
-Once you have prepared your data by following the procedures in [Prepare Data Import](./undefined), you can start the data import on the Zilliz Cloud console, via RESTful API, or via SDKs.
+Once you have prepared your data by following the procedures in [Prepare Data Import](./prepare-data-import), you can start the data import on the Zilliz Cloud console, via RESTful API, or via SDKs.

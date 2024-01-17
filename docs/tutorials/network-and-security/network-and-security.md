@@ -3,7 +3,7 @@ slug: /network-and-security
 beta: false
 notebook: false
 token: WVcuwmMQ8iKlrKk7Kwacu9w1nCZ
-sidebar_position: 14
+sidebar_position: 13
 ---
 
 import Admonition from '@theme/Admonition';

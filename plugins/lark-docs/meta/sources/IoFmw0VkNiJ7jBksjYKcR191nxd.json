@@ -5,7 +5,7 @@
   "node_token": "IoFmw0VkNiJ7jBksjYKcR191nxd",
   "node_type": "origin",
   "obj_create_time": "1689044516",
-  "obj_edit_time": "1702891008",
+  "obj_edit_time": "1705454452",
   "obj_token": "W33idSXytoVYC5xQrDdcAjt7npe",
   "obj_type": "docx",
   "origin_node_token": "IoFmw0VkNiJ7jBksjYKcR191nxd",
@@ -641,7 +641,7 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Activate Your Cloud",
+                "title": "Activate Your License",
                 "token": "X08WweRsXiz0MPk4DIbcXYaInjc",
                 "url": "https://zilliverse.feishu.cn/wiki/X08WweRsXiz0MPk4DIbcXYaInjc"
               }
@@ -708,8 +708,8 @@
                   "underline": false
                 },
                 "title": "Create Cluster",
-                "token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
-                "url": "https://zilliverse.feishu.cn/wiki/U0Bsw2SZaihm2mkLza7cRCqTndg"
+                "token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
+                "url": "https://zilliverse.feishu.cn/wiki/KrbjwFhy3iojF3k97XmcvvXMnW7"
               }
             },
             {
@@ -1194,7 +1194,103 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# Replace uri and API key with your own\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console\n    token=TOKEN # API key or a colon-separated cluster username and password\n)\n\n# Create a collection\nclient.create_collection(\n    collection_name=COLLECTION_NAME,\n    dimension=768\n",
+                "content": "from pymilvus import MilvusClient\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Replace uri and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "token",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " with your own\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    token=TOKEN # ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<exclude target=\"paas\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API key or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a colon-separated cluster username and password\n)\n\n# Create a collection\nclient.create_collection(\n    collection_name=COLLECTION_NAME,\n    dimension=768\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

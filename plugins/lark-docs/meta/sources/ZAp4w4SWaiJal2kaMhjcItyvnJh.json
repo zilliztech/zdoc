@@ -5,7 +5,7 @@
   "node_token": "ZAp4w4SWaiJal2kaMhjcItyvnJh",
   "node_type": "origin",
   "obj_create_time": "1701225793",
-  "obj_edit_time": "1705386440",
+  "obj_edit_time": "1705404045",
   "obj_token": "OVP9dgfMFovPCaxN18WcX9G5nue",
   "obj_type": "docx",
   "origin_node_token": "ZAp4w4SWaiJal2kaMhjcItyvnJh",
@@ -392,8 +392,8 @@
                   "underline": false
                 },
                 "title": "Create Cluster",
-                "token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
-                "url": "https://zilliverse.feishu.cn/wiki/U0Bsw2SZaihm2mkLza7cRCqTndg"
+                "token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
+                "url": "https://zilliverse.feishu.cn/wiki/KrbjwFhy3iojF3k97XmcvvXMnW7"
               }
             },
             {
@@ -549,7 +549,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "import json, os, time\nfrom pymilvus import connections, Role, utility\n\n# 0. Connect to cluster\n\nCLUSTER_ENDPOINT=\"YOUR_CLUSTER_ENDPOINT\" # Set your cluster endpoint\nTOKEN=\"YOUR_CLUSTER_TOKEN\" # Set your token\n\nconnections.connect(\n    alias='default', \n    #  Public endpoint obtained from Zilliz Cloud\n    uri=CLUSTER_ENDPOINT,\n    # API key or a colon-separated cluster username and password\n    token=TOKEN, \n)\n\n# 1. Create user\n\nif not 'user1' in utility.list_usernames():\n",
+                "content": "import json, os, time\nfrom pymilvus import connections, Role, utility\n\n# 0. Connect to cluster\n\nCLUSTER_ENDPOINT=\"YOUR_CLUSTER_ENDPOINT\" # Set your cluster endpoint\nTOKEN=\"YOUR_CLUSTER_TOKEN\" # Set your token\n\nconnections.connect(\n    alias='default', \n    #  Public endpoint obtained from Zilliz Cloud\n    uri=CLUSTER_ENDPOINT,\n    # <exclude target=\"paas\">API key or </exclude>a colon-separated cluster username and password\n    token=TOKEN, \n)\n\n# 1. Create user\n\nif not 'user1' in utility.list_usernames():\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

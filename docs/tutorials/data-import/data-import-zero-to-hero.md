@@ -136,8 +136,8 @@ Once the schema is set, you can create the target collection as follows:
 from pymilvus import connections, Collection
 # 1. Set up a connection
 connections.connect(
-        uri="Your-Cluster-Endpoint",
-        token="Your-Token"
+        uri=CLUSTER_ENDPOINT,
+        token=API_KEY
 )
 # 2. Create collection
 collection = Collection(name="medium_aritlces", schema=schema)

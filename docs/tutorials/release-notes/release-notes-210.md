@@ -33,7 +33,7 @@ For all supported public cloud regions, refer to [Cloud Providers & Regions](./c
 
     To provide greater flexibility in scaling and operations, we now offer support for seamlessly migrating collections from serverless instances to dedicated clusters.
 
-For details, refer to [Manage Cluster](./undefined).
+For details, refer to [Manage Cluster](./manage-cluster).
 
 ## RESTful API Enhancements{#restful-api-enhancements}
 

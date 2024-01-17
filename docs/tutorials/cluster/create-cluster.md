@@ -22,7 +22,7 @@ Ensure:
 
 - Registration with Zilliz Cloud. Refer to [Register with Zilliz Cloud](./register-with-zilliz-cloud) for instructions.
 
-- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [Users & Roles](./resource-hierarchy).
+- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [User Roles](./user-roles).
 
 ## Set up a serverless cluster{#set-up-a-serverless-cluster}
 
@@ -204,10 +204,6 @@ After you create the cluster, you can check its status on the cluster list page.
 ## Related topics{#related-topics}
 
 - [Connect to Cluster](./connect-to-cluster)
-
-- [[DEV] Manage Collections](./undefined)
-
-- [[DEV] Insert, Upsert & Delete](./undefined)
 
 - [Example Dataset](./example-dataset) 
 

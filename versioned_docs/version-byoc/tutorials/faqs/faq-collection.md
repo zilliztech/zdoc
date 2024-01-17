@@ -33,7 +33,7 @@ The number of collections allowed in a  cluster varies with the cluster CU size.
 
 If you have reached the maximum number of collections allowed in a cluster, you can:
 
-1. Scale your cluster to larger CU sizes. See [Manage Cluster](./undefined#manage-and-configure-clusters).
+1. Scale your cluster to larger CU sizes. See [Manage Cluster](./manage-cluster#manage-and-configure-clusters).
 
 1. [Drop](./drop-collection) unused collections.
 

@@ -26,7 +26,7 @@ Explore [Cluster Built-in Roles](./user-roles) for details.
 
 ## Before you start{#before-you-start}
 
-- You have created a cluster. For details, see [Create Cluster](./undefined).
+- You have created a cluster. For details, see [Create Cluster](./create-cluster).
 
 - You have installed a Milvus SDK applicable to your use case. For details, see [Install SDKs](./install-sdks).
 
@@ -742,7 +742,7 @@ The default user **db_admin **cannot be dropped.
 
 - [Connect to Cluster](./connect-to-cluster)
 
-- [API Keys](./api-keys)
+- [API Keys](./manage-api-keys)
 
 - [Set up Whitelist](./setup-whitelist)
 

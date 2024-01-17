@@ -13,7 +13,7 @@
   "owner": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
   "space_id": "7167193056431783939",
-  "title": " Search and Query with Iterators",
+  "title": "[DEPRECATE] Search and Query with Iterators",
   "slug": "search-and-query-iterators",
   "blocks": {
     "items": [
@@ -63,7 +63,7 @@
           "elements": [
             {
               "text_run": {
-                "content": " ",
+                "content": "[DEPRECATE] ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

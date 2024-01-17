@@ -194,7 +194,8 @@ Returns the result of running a specific pipeline.
     "code": "integer",
     "data": {
         "num_chunks": "integer",
-        "doc_name": "string"
+        "doc_name": "string",
+        "token_usage": "integer"
     }
 }
 ```
@@ -218,6 +219,7 @@ The properties in the returned response are listed in the following table.
 | `data`    | **object**<br/>A data object. |
 | `data.num_chunks`   | **integer**<br/>Number of chunks generated. |
 | `data.doc_name`   | **string**<br/>Name of the chunked document with the file extension. |
+| `data.token_usage`   | **integer**<br/>Number of consumed tokens in this operation. |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors

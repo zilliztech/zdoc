@@ -5,7 +5,7 @@
   "node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
   "node_type": "origin",
   "obj_create_time": "1704332777",
-  "obj_edit_time": "1705399765",
+  "obj_edit_time": "1705403597",
   "obj_token": "TXlrdXzlPokEQ5xnA30c93SLnMc",
   "obj_type": "docx",
   "origin_node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
@@ -3582,7 +3582,79 @@
             },
             {
               "text_run": {
-                "content": "\n# 1. Set up a connection\nconnections.connect(\n        uri=\"Your-Cluster-Endpoint\",\n        token=\"Your-Token\"\n)\n# 2. Create collection\ncollection = Collection(name=\"medium_aritlces\", schema=schema)\n# 3. Set index parameters\nindex_params = {\n    \"index_type\": \"AUTOINDEX\",\n    \"metric_type\": \"COSINE\",\n    \"params\": {}\n}\n# 4. Create index\ncollection.create_index(\n        field_name=\"title_vector\",\n        index_params=index_params,\n)\n# 5. Load the collection\n",
+                "content": "\n# 1. Set up a connection\nconnections.connect(\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        uri=",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CLUSTER_ENDPOINT",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        token=",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API_KEY",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n)\n# 2. Create collection\ncollection = Collection(name=\"medium_aritlces\", schema=schema)\n# 3. Set index parameters\nindex_params = {\n    \"index_type\": \"AUTOINDEX\",\n    \"metric_type\": \"COSINE\",\n    \"params\": {}\n}\n# 4. Create index\ncollection.create_index(\n        field_name=\"title_vector\",\n        index_params=index_params,\n)\n# 5. Load the collection\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

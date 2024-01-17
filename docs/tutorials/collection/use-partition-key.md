@@ -22,7 +22,7 @@ Before creating a collection, ensure that
 
 - You have a blueprint of your data model (i.e. schema). For details, see [Schema Explained](./schema-explained).
 
-- You have created a dedicated cluster. For details, see [Create Cluster](./undefined).
+- You have created a dedicated cluster. For details, see [Create Cluster](./create-cluster).
 
 - You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset).
 

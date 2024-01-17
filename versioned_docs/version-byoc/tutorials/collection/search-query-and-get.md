@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-#  Search, Query, and Get
+# [DEPRECATE] Search, Query, and Get
 
 This guide walks you through performing nearest-neighbor searches and queries. A search involves looking for the closest vector to a given vector in a collection, while a query filters out entities that match a certain condition.
 

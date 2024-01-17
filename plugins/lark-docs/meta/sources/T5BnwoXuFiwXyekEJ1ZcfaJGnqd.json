@@ -106,7 +106,7 @@
       "node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
       "node_type": "origin",
       "obj_create_time": "1704332777",
-      "obj_edit_time": "1705385546",
+      "obj_edit_time": "1705403597",
       "obj_token": "TXlrdXzlPokEQ5xnA30c93SLnMc",
       "obj_type": "docx",
       "origin_node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
@@ -114,7 +114,8 @@
       "owner": "ou_ee865f3d6d0036a3aa548eec6b75ce74",
       "parent_node_token": "T5BnwoXuFiwXyekEJ1ZcfaJGnqd",
       "space_id": "7167193056431783939",
-      "title": "User Guide: Data Import from Zero to Hero"
+      "title": "User Guide: Data Import from Zero to Hero",
+      "slug": "data-import-zero-to-hero"
     },
     {
       "creator": "ou_e55a208a81fc721928685fc3df9cb678",

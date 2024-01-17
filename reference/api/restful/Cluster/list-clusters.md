@@ -55,6 +55,7 @@ Success response:
     |------------------|-------------------------------------------------------------------------------------------|
     | `pageSize`  | **integer**<br/>The number of records to return on each page.|
     | `current`  | **integer**<br/>The current page number.|
+    | `projectId`  | **string**<br/>ID of the project in which the clusters are to be listed.|
 
 - No path parameters required
 
@@ -64,7 +65,7 @@ No request body required
 
 ## Response
 
-Returns a list of your clusters.
+Returns a list of your clusters. The results vary with the access permissions of the API key in use.
 
 ### Response Bodies
 
@@ -79,6 +80,7 @@ Returns a list of your clusters.
         "pageSize": "integer",
         "clusters": [
             {
+                "projectId": "string",
                 "clusterId": "string",
                 "clusterName": "string",
                 "description": "string",
@@ -116,6 +118,7 @@ The properties in the returned response are listed in the following table.
 | `data.currentPage`   | **integer**<br/>The current page in the results. |
 | `data.pageSize`   | **integer**<br/>The number of clusters per page in the results. |
 | `data.clusters`   | **array**<br/>An array of clusters in detail. |
+| `data.clusters[].projectId`   | **string**<br/>The ID of the project to which the current cluster belongs. |
 | `data.clusters[].clusterId`   | **string**<br/>The ID of the cluster. |
 | `data.clusters[].clusterName`   | **string**<br/>The name of the cluster. |
 | `data.clusters[].description`   | **string**<br/>An optional description about the cluster. |

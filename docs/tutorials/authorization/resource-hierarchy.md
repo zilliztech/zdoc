@@ -25,7 +25,7 @@ Zilliz Cloud facilitates access control across three distinct scopes:
 
 Organizations serve as a means to group projects that share common objectives, such as encompassing all projects under a particular business unit.
 
-In an organization, you can create several projects and manage organization-level resources, including [billing](./payment-billing), [API keys](./api-keys), [organization members](./organizations), [activities](./view-activities), [organization settings](./organization-settings), and [recycle bin](./use-recycle-bin).
+In an organization, you can create several projects and manage organization-level resources, including [billing](./payment-billing), [API keys](./manage-api-keys), [organization members](./organizations), [activities](./view-activities), [organization settings](./organization-settings), and [recycle bin](./use-recycle-bin).
 
 ![a-panorama-view-2](/img/a-panorama-view-2.png)
 
@@ -33,7 +33,7 @@ In an organization, you can create several projects and manage organization-leve
 
 Projects are logical containers within an organization that group clusters and other associated resources.
 
-In a project, you can create several clusters and manage cluster-level resources, including [clusters](./manage-cluster), [project collaborators](./undefined), [pipelines](./undefined), [security](./security), and [project alerts](./manage-project-alerts).
+In a project, you can create several clusters and manage cluster-level resources, including [clusters](./manage-cluster), [project collaborators](./project-access), [pipelines](./pipelines), [security](./network-and-security), and [project alerts](./manage-project-alerts).
 
 ![a-panorama-view-3](/img/a-panorama-view-3.png)
 
@@ -41,7 +41,7 @@ In a project, you can create several clusters and manage cluster-level resources
 
 - [User Roles](./user-roles)
 
-- [Organization Access](./undefined)
+- [Organization Access](./organization-access)
 
-- [Manage Projects and Collaborators](./undefined)
+- [Manage Projects and Collaborators](./project-access)
 

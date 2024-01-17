@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 You can set up a maintenance window to allow Zilliz Cloud to schedule maintenance for your hosted cluster. This makes impactful maintenance events more predictable and less disruptive for your workload.
 
-![maintenance-window](/byoc/maintenance-window.png)
+![byoc-maintenance-window](/byoc/byoc-maintenance-window.png)
 
 ## Overview{#overview}
 

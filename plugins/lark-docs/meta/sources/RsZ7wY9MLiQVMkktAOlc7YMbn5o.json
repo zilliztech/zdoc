@@ -13,7 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "OUWXw5c4gia34ZkQUcEcMFbWn6s",
   "space_id": "7167193056431783939",
-  "title": " Monitors & Metrics",
+  "title": "[Deprecate] Monitors & Metrics",
   "blocks": {
     "items": [
       {
@@ -26,7 +26,7 @@
           "elements": [
             {
               "text_run": {
-                "content": " ",
+                "content": "[Deprecate] ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

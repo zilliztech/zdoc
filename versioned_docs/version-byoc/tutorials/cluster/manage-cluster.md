@@ -17,6 +17,8 @@ This guide describes the lifecycle of a cluster so that you can make full use of
 
 After setting up your Zilliz Cloud cluster, here’s what you’ll find in each section for cluster details:
 
+![byoc-cluster-lifecycle](/byoc/byoc-cluster-lifecycle.png)
+
 - **Connect**: This section provides the necessary details to begin interacting with your cluster, including the public endpoint for connections, and a token for secure access.
 
 - **Summary**: This offers a snapshot of your cluster's essentials. You can find the cluster's ID, hosting region, type, and size. Details on the creator, as well as the creation date and time, are also presented.
@@ -37,13 +39,11 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
 
     </Admonition>
 
-![byoc-cluster-lifecycle](/byoc/byoc-cluster-lifecycle.png)
-
 ### Establish connection{#establish-connection}
 
 - **Connect to cluster**
 
-    In the **Connect** section, you can find the **Public Endpoint** and **Token** that are used to connect to the cluster. The token can bea [cluster credential](./undefined) that consists of a username and password pair.
+    In the **Connect** section, you can find the **Public Endpoint** and **Token** that are used to connect to the cluster. The token can bea [cluster credential](./cluster-credentials) that consists of a username and password pair.
 
     For more information, refer to [Connect to Cluster](./connect-to-cluster).
 
@@ -80,14 +80,6 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
     You cannot drop <b>db_admin</b>. Zilliz Cloud grants access permissions to all collections in the cluster to any added users.
 
     </Admonition>
-
-- **Whitelist**
-
-    In the **Summary** section, click on the IP address in **Network Address** to add IP address segments to the whitelist. Once an IP address segment, other than a full-zero one (**0.0.0.0/0**), is added to the whitelist, Zilliz Cloud only permits access from IP addresses within the listed IP address segments.
-
-    By default, a full-zero IP address segment is added, indicating that your cluster can be accessed from anywhere.
-
-    For details on how to set up the whitelist, refer to [Set up Whitelist](./setup-whitelist).
 
 ### Manage and configure clusters{#manage-and-configure-clusters}
 
@@ -128,6 +120,4 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
 - [Backup & Restore](./backup-and-restore)
 
 - [Select the Right CU](./cu-types-explained)
-
-- [Set up Whitelist](./setup-whitelist)
 

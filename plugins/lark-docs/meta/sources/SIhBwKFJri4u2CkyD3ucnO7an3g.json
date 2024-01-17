@@ -5,7 +5,7 @@
   "node_token": "SIhBwKFJri4u2CkyD3ucnO7an3g",
   "node_type": "origin",
   "obj_create_time": "1693477481",
-  "obj_edit_time": "1700472337",
+  "obj_edit_time": "1705455141",
   "obj_token": "HAEQdkX3No0cm0xg8VocaRmOnsh",
   "obj_type": "docx",
   "origin_node_token": "SIhBwKFJri4u2CkyD3ucnO7an3g",
@@ -490,7 +490,7 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Manage Cluster Credentials",
+                "title": "Manage Cluster Credentials (Console)",
                 "token": "Ha8jwqxnniC8mDkXM4RcN4SFnKf",
                 "url": "https://zilliverse.feishu.cn/wiki/Ha8jwqxnniC8mDkXM4RcN4SFnKf"
               }
@@ -517,9 +517,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Manage API Keys",
-                "token": "IFtRwms2yiPZx9kfiBacuaw6nJc",
-                "url": "https://zilliverse.feishu.cn/wiki/IFtRwms2yiPZx9kfiBacuaw6nJc"
+                "title": "API Keys",
+                "token": "BRsZwqOUTiBbrPk9b5WcvFgTnze",
+                "url": "https://zilliverse.feishu.cn/wiki/BRsZwqOUTiBbrPk9b5WcvFgTnze"
               }
             },
             {
@@ -635,18 +635,18 @@
               }
             },
             {
-              "text_run": {
-                "content": "Users & Roles",
+              "mention_doc": {
+                "obj_type": 16,
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fusers-roles"
-                  },
                   "strikethrough": false,
                   "underline": false
-                }
+                },
+                "title": "User Roles",
+                "token": "AFNZwDcXNiChK0ke5h5c65xZnje",
+                "url": "https://zilliverse.feishu.cn/wiki/AFNZwDcXNiChK0ke5h5c65xZnje"
               }
             },
             {

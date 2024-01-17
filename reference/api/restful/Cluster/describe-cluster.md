@@ -82,6 +82,7 @@ Returns an array of clusters in detail.
 {
     "code": "integer",
     "data": {
+        "projectId": "string",
         "clusterId": "string",
         "clusterName": "string",
         "description": "string",
@@ -116,6 +117,7 @@ The properties in the returned response are listed in the following table.
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | `data`    | **object**<br/>A data object. |
+| `data.projectId`   | **string**<br/>The ID of the project to which the current cluster belongs. |
 | `data.clusterId`   | **string**<br/>The ID of the cluster. |
 | `data.clusterName`   | **string**<br/>The Name of the cluster. |
 | `data.description`   | **string**<br/>An optional description of the cluster. |
