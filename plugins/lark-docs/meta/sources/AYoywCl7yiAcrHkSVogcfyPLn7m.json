@@ -5,7 +5,7 @@
   "node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
   "node_type": "origin",
   "obj_create_time": "1704710624",
-  "obj_edit_time": "1705386090",
+  "obj_edit_time": "1705459564",
   "obj_token": "DK0cd2Ix8oQD0rxWUBYcW57snLd",
   "obj_type": "docx",
   "origin_node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
@@ -829,7 +829,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import CollectionSchema, FieldSchema, DataType\n\nschema = CollectionSchema(\n    fields=[\n        FieldSchema(name=\"id\", dtype=DataType.INT64, is_priamry=True),\n        FieldSchema(name=\"vector\", dtype=DataType.FLOAT_VECTOR, dim=768),\n        FieldSchema(name=\"scalar_1\", dtype=DataType.VARCHAR, max_length=512),\n        FieldSchema(name=\"scalar_2\", dtype=DataType.INT64)\n    ],\n    auto_id=False,\n    enable_dynamic_field=True,\n",
+                "content": "from pymilvus import CollectionSchema, FieldSchema, DataType\n\nschema = CollectionSchema(\n    fields=[\n        FieldSchema(name=\"id\", dtype=DataType.INT64, is_primary=True),\n        FieldSchema(name=\"vector\", dtype=DataType.FLOAT_VECTOR, dim=768),\n        FieldSchema(name=\"scalar_1\", dtype=DataType.VARCHAR, max_length=512),\n        FieldSchema(name=\"scalar_2\", dtype=DataType.INT64)\n    ],\n    auto_id=False,\n    enable_dynamic_field=True,\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

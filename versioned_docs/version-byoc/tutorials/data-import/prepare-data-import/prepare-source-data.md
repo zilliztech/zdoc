@@ -40,7 +40,7 @@ from pymilvus import CollectionSchema, FieldSchema, DataType
 
 schema = CollectionSchema(
     fields=[
-        FieldSchema(name="id", dtype=DataType.INT64, is_priamry=True),
+        FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
         FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=768),
         FieldSchema(name="scalar_1", dtype=DataType.VARCHAR, max_length=512),
         FieldSchema(name="scalar_2", dtype=DataType.INT64)
