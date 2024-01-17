@@ -76,7 +76,7 @@ A valid JSON file has a root key named **rows**, the corresponding value of whic
 
 </Admonition>
 
-You can either rebuild your data on your own by referring to [Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) or use [the ](./use-bulkwriter)[**BulkWriter**](./use-bulkwriter)[ tool](./use-bulkwriter) to generate the source data file.
+You can either rebuild your data on your own by referring to [Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) or use [the ](./use-bulkwriter)[**BulkWriter**](./use-bulkwriter)[ tool](./use-bulkwriter) to generate the source data file. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_json_data.json).
 
 ### Parquet file{#parquet-file}
 
@@ -86,7 +86,7 @@ You can either rebuild your data on your own by referring to [Prepare the data f
 |  **Maximum file size per import**   |  - Total file size: 100 GB<br/> - Individual file size: 10 GB<br/> |
 |  **Applicable data file locations** |  Remote files only                                                       |
 
-You are advised to use [the ](./use-bulkwriter)[**BulkWriter**](./use-bulkwriter)[ tool](./use-bulkwriter) to prepare your raw data into parquet files.
+You are advised to use [the ](./use-bulkwriter)[**BulkWriter**](./use-bulkwriter)[ tool](./use-bulkwriter) to prepare your raw data into parquet files. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_parquet_data.parquet).
 
 ### NumPy files{#numpy-files}
 
@@ -112,7 +112,7 @@ A valid set of NumPy files should be named after the fields in the schema of the
 
 </Admonition>
 
-You can either rebuild your data on your own by referring to [Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) or use [the ](./use-bulkwriter)[**BulkWriter**](./use-bulkwriter)[ tool](./use-bulkwriter) to generate the source data file.
+You can either rebuild your data on your own by referring to [Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) or use [the ](./use-bulkwriter)[**BulkWriter**](./use-bulkwriter)[ tool](./use-bulkwriter) to generate the source data file. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_numpy_data.zip).
 
 ## Tips on import paths{#tips-on-import-paths}
 

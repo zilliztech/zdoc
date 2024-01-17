@@ -5,7 +5,7 @@
   "node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
   "node_type": "origin",
   "obj_create_time": "1704332777",
-  "obj_edit_time": "1705403597",
+  "obj_edit_time": "1705461963",
   "obj_token": "TXlrdXzlPokEQ5xnA30c93SLnMc",
   "obj_type": "docx",
   "origin_node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
@@ -679,7 +679,7 @@
             },
             {
               "text_run": {
-                "content": " S3, Google GCS, or ",
+                "content": " S3<exclude target=\"paas\">, Google GCS, or ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -703,7 +703,7 @@
             },
             {
               "text_run": {
-                "content": " Blob. Ensure the bucket is hosted on the same cloud as your Zilliz Cloud cluster.",
+                "content": " Blob</exclude>. Ensure the bucket is hosted on the same cloud as your Zilliz Cloud cluster.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1121,7 +1121,7 @@
             },
             {
               "text_run": {
-                "content": "https://assets.zilliz.com/medium_articles_2020_dpr_a13e0377ae.c",
+                "content": "https://assets.zilliz.com/medium_articles_partial.c",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -1151,7 +1151,7 @@
             },
             {
               "text_run": {
-                "content": "        --output medium_articles_2020_dpr.csv",
+                "content": "        --output medium_articles_partial.csv",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -1201,7 +1201,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fassets.zilliz.com%2Fmedium_articles_2020_dpr_a13e0377ae.csv"
+                    "url": "https%3A%2F%2Fassets.zilliz.com%2Fmedium_articles_partial.csv"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -1246,7 +1246,7 @@
             },
             {
               "text_run": {
-                "content": " 70 59.8M   70 42.0M    0     0   478k      0  0:02:08  0:01:30  0:00:38  544",
+                "content": " 70 2.1M    70 1.4M     0     0   478k      0  0:00:08  0:00:02  0:00:06  544",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

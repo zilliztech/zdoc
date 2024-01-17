@@ -63,16 +63,16 @@ python3 -m pip install --upgrade pymilvus minio
 Run the following command in your terminal to download the example CSV file.
 
 ```shell
-curl https://assets.zilliz.com/medium_articles_2020_dpr_a13e0377ae.csv \
-        --output medium_articles_2020_dpr.csv
+curl https://assets.zilliz.com/medium_articles_partial.csv \
+        --output medium_articles_partial.csv
 ```
 
-The output is similar to the following. If you prefer to download from the browser, [click here](https://assets.zilliz.com/medium_articles_2020_dpr_a13e0377ae.csv).
+The output is similar to the following. If you prefer to download from the browser, [click here](https://assets.zilliz.com/medium_articles_partial.csv).
 
 ```python
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
- 70 59.8M   70 42.0M    0     0   478k      0  0:02:08  0:01:30  0:00:38  544
+ 70 2.1M    70 1.4M     0     0   478k      0  0:00:08  0:00:02  0:00:06  544
 ```
 
  The following table lists the data structure of the data and the values in the first row.

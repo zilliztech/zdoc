@@ -5,7 +5,7 @@
   "node_token": "QyjpwAaKuihAeJkNBUJcdFesn9e",
   "node_type": "origin",
   "obj_create_time": "1704332748",
-  "obj_edit_time": "1705386836",
+  "obj_edit_time": "1705462530",
   "obj_token": "HRtvddLG2oWHM7x9FzUcQVkcnye",
   "obj_type": "docx",
   "origin_node_token": "QyjpwAaKuihAeJkNBUJcdFesn9e",
@@ -2745,6 +2745,9 @@
       {
         "block_id": "K1VtdRv4wo6TNGxoBrWcoXlDn5g",
         "block_type": 2,
+        "comment_ids": [
+          "7324905909082275844"
+        ],
         "parent_id": "HRtvddLG2oWHM7x9FzUcQVkcnye",
         "text": {
           "elements": [
@@ -2753,6 +2756,54 @@
                 "content": "BulkWriter generates a UUID, creates a sub-folder using the UUID in the provided output directory, and places all generated files in the sub-folder.",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7324905909082275844"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Click here to download the prepared sample data",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7324905909082275844"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fassets.zilliz.com%2Fbulk_writer.zip"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7324905909082275844"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3397,7 +3448,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# The following assumes that two segments are generated.\n\n# JSON\n├── folder\n│   └── 45ae1139-1d87-4aff-85f5-0039111f9e6b\n│       ├── 1.json\n│       └── 2.json \n\n# Parquet\n├── folder\n│   └── 45ae1139-1d87-4aff-85f5-0039111f9e6b\n│       ├── 1.parquet\n│       └── 2.parquet \n\n# Numpy\n├── folder\n│   └── 45ae1139-1d87-4aff-85f5-0039111f9e6b\n│       ├── 1\n│           ├── id.npy\n│           ├── vector.npy\n│           ├── scalar_1.npy\n│           ├── scalar_2.npy\n│           └── $meta.npy \n│       ├── 2\n│           ├── id.npy\n│           ├── vector.npy\n│           ├── scalar_1.npy\n│           ├── scalar_2.npy\n",
+                "content": "# The following assumes that two segments are generated.\n\n# JSON\n├── folder\n│   └── 45ae1139-1d87-4aff-85f5-0039111f9e6b\n│       ├── 1.json\n│       └── 2.json \n\n# Parquet\n├── folder\n│   └── 45ae1139-1d87-4aff-85f5-0039111f9e6b\n│       ├── 1.parquet\n│       └── 2.parquet \n\n# Numpy\n├── folder\n│   └── 45ae1139-1d87-4aff-85f5-0039111f9e6b\n│       ├── 1\n│       │   ├── id.npy\n│       │   ├── vector.npy\n│       │   ├── scalar_1.npy\n│       │   ├── scalar_2.npy\n│       │   └── $meta.npy \n│       └── 2\n│           ├── id.npy\n│           ├── vector.npy\n│           ├── scalar_1.npy\n│           ├── scalar_2.npy\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -5,7 +5,7 @@
   "node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
   "node_type": "origin",
   "obj_create_time": "1704710624",
-  "obj_edit_time": "1705459564",
+  "obj_edit_time": "1705463027",
   "obj_token": "DK0cd2Ix8oQD0rxWUBYcW57snLd",
   "obj_type": "docx",
   "origin_node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
@@ -1942,7 +1942,34 @@
             },
             {
               "text_run": {
-                "content": " to generate the source data file.",
+                "content": " to generate the source data file. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Click here to download the prepared sample data based on the schema in the above diagram",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fassets.zilliz.com%2Fprepared_json_data.json"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2452,7 +2479,34 @@
             },
             {
               "text_run": {
-                "content": " to prepare your raw data into parquet files.",
+                "content": " to prepare your raw data into parquet files. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Click here to download the prepared sample data based on the schema in the above diagram",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fassets.zilliz.com%2Fprepared_parquet_data.parquet"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3455,7 +3509,34 @@
             },
             {
               "text_run": {
-                "content": " to generate the source data file.",
+                "content": " to generate the source data file. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Click here to download the prepared sample data based on the schema in the above diagram",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fassets.zilliz.com%2Fprepared_numpy_data.zip"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

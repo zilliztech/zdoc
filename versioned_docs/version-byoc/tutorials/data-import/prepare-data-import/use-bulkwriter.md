@@ -200,7 +200,7 @@ print(writer.data_path)
 # PosixPath('/folder/5868ba87-743e-4d9e-8fa6-e07b39229425')
 ```
 
-BulkWriter generates a UUID, creates a sub-folder using the UUID in the provided output directory, and places all generated files in the sub-folder.
+BulkWriter generates a UUID, creates a sub-folder using the UUID in the provided output directory, and places all generated files in the sub-folder. [Click here to download the prepared sample data](https://assets.zilliz.com/bulk_writer.zip).
 
 Possible folder structures are as follows:
 
@@ -254,12 +254,12 @@ Possible folder structures are as follows:
     ├── folder
     │   └── 45ae1139-1d87-4aff-85f5-0039111f9e6b
     │       ├── 1
-    │           ├── id.npy
-    │           ├── vector.npy
-    │           ├── scalar_1.npy
-    │           ├── scalar_2.npy
-    │           └── $meta.npy 
-    │       ├── 2
+    │       │   ├── id.npy
+    │       │   ├── vector.npy
+    │       │   ├── scalar_1.npy
+    │       │   ├── scalar_2.npy
+    │       │   └── $meta.npy 
+    │       └── 2
     │           ├── id.npy
     │           ├── vector.npy
     │           ├── scalar_1.npy

@@ -82,12 +82,6 @@ Once an alert is turned off, you'll no longer receive alert notifications if ale
 
 View triggered alerts on the **Alert History** tab, with filters for alert target, severity level, and time range.
 
-<exclude target="paas">
-
-![view_alert_history](/byoc/view_alert_history.png)
-
-</exclude>
-
 ![byoc_view_alert_history](/byoc/byoc_view_alert_history.png)
 
 ## Related topics{#related-topics}
