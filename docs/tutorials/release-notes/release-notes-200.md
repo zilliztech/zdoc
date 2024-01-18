@@ -9,9 +9,13 @@ sidebar_position: 6
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes v2.0.0
+# Release Notes (2023/07/11)
 
-The release of Zilliz Cloud 2.0.0 sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, cost-optimized CU, organization and collaboration support, RBAC support, partition key, dynamic schema, and JSON type support. Try out this game-changing update today!
+The release of Zilliz Cloud sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, cost-optimized CU, organization and collaboration support, RBAC support, partition key, dynamic schema, and JSON type support. Try out this game-changing update today!
+
+## Milvus Compatibility{#milvus-compatibility}
+
+This release is compatible with **Milvus 2.1.x**.
 
 ## Zilliz Cloud Serverless Vector Database Service Launch{#zilliz-cloud-serverless-vector-database-service-launch}
 

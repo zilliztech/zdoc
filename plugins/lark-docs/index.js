@@ -21,21 +21,29 @@ module.exports = function (context, options) {
                 .action(async (opts) => {
 
                     const options = context.siteConfig.plugins.filter(plugin => plugin[0].includes('lark-docs'))[0][1]
-
-                    if (opts.sourceOnly) {
-                        const scraper = new docScraper(options.root, options.base)
-                        await scraper.fetch(recursive=true)
-                    } else if (opts.docToken !== undefined) {
-                        const scraper = new docScraper(options.root, options.base)
-                        await scraper.fetch(recursive=false, page_token=opts.docToken)
-                    } else if (options.root === undefined || options.base === undefined || opts.pubTarget === undefined) {
-                        console.log('Please provide a target')
-                        return
+                    
+                    if (opts.pubTarget === undefined) {
+                        if (opts.sourceOnly) {
+                            const scraper = new docScraper(options.root, options.base)
+                            await scraper.fetch(recursive=true)
+                        } else {
+                            throw new Error('Please provide a target')
+                        }
                     } else {
                         const { outputDir, imageDir } = options.targets.filter(target => target[0] === opts.pubTarget)[0][1]
                         const utils = new Utils(options.root, options.docSourceDir, outputDir)
 
-                        if (opts.docTitle === undefined && !opts.faq && !opts.post) {
+                        if (opts.postProcess) {
+                            console.log('Post processing file paths')
+                            utils.post_process_file_paths()
+                        }
+
+                        if (opts.docToken !== undefined) {
+                            const scraper = new docScraper(options.root, options.base)
+                            await scraper.fetch(recursive=false, page_token=opts.docToken)
+                        }
+
+                        if (opts.docTitle === undefined && !opts.faq && !opts.postProcess) {
                             console.log('Fetching docs from Feishu...')
                             if (!opts.skipSourceDown) {
                                 const scraper = new docScraper(options.root, options.base)
@@ -43,8 +51,10 @@ module.exports = function (context, options) {
                             }
                             const writer = new docWriter(options.root, options.docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
                             await writer.write_docs(outputDir, options.root)
+
+                            utils.post_process_file_paths()
                         }
-    
+        
                         if (opts.docTitle !== undefined) {
                             const scraper = new docScraper(options.root, options.base)
                             await scraper.fetch(recursive=false, page_token=token)
@@ -125,7 +135,7 @@ module.exports = function (context, options) {
                                 }
                             }
                         }
-                                
+                                    
                         if (opts.faq) {
                             const scraper = new docScraper(options.root, options.base)
     
@@ -150,12 +160,8 @@ module.exports = function (context, options) {
     
                             await writer.write_faqs(path)
                         }
-
-                        if (opts.postProcess) {
-                            console.log('Post processing file paths')
-                            utils.post_process_file_paths()
-                        }
-                    }
+    
+                    }                    
                 })
         }
     }

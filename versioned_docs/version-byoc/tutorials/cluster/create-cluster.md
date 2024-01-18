@@ -132,9 +132,5 @@ After you create the cluster, you can check its status on the cluster list page.
 
 - [Connect to Cluster](./connect-to-cluster)
 
-- [[DEV] Manage Collections](./undefined)
-
-- [[DEV] Insert, Upsert & Delete](./undefined)
-
 - [Example Dataset](./example-dataset) 
 

@@ -12,3 +12,7 @@ import Admonition from '@theme/Admonition';
 # Organization Access
 
 Learn about how to manage organizations, organization users, and organization settings.
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

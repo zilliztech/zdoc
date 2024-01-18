@@ -86,6 +86,12 @@ Once an alert is turned off, you'll no longer receive alert notifications if ale
 
 ![turn-on-or-off-organization-alert](/img/turn-on-or-off-organization-alert.png)
 
+## View alert history{#view-alert-history}
+
+View triggered alerts on the **Alert History** tab, with filters for alert target, severity level, and time range.
+
+![view_alert_history](/img/view_alert_history.png)
+
 ## Related topics{#related-topics}
 
 - [View Cluster Metric Charts](./view-cluster-metric-charts)

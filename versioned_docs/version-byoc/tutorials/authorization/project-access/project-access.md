@@ -16,3 +16,7 @@ Learn about how to manage projects and project users.
 ## {#}
 
 ## {#}
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

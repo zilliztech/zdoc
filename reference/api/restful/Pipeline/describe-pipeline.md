@@ -40,12 +40,14 @@ Possible response
         "type": "INGESTION",
         "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
         "status": "SERVING",
+        "totalTokenUsage": 0,
         "functions": [
             {
                 "action": "INDEX_DOC",
                 "name": "index_my_doc",
                 "inputField": "doc_url",
-                "language": "ENGLISH"
+                "language": "ENGLISH",
+                "chunkSize": 500
             },
             {
                 "action": "PRESERVE",

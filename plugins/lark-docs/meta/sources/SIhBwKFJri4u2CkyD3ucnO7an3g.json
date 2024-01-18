@@ -5,7 +5,7 @@
   "node_token": "SIhBwKFJri4u2CkyD3ucnO7an3g",
   "node_type": "origin",
   "obj_create_time": "1693477481",
-  "obj_edit_time": "1705455141",
+  "obj_edit_time": "1705458485",
   "obj_token": "HAEQdkX3No0cm0xg8VocaRmOnsh",
   "obj_type": "docx",
   "origin_node_token": "SIhBwKFJri4u2CkyD3ucnO7an3g",
@@ -38,11 +38,11 @@
           "VcPPd2i3poC2YFxV7Fucosw4nLc",
           "Wn2EduwqbockcgxOl7Lcv4nYnQb",
           "Isa1dqbVhogG9FxRONrczqY6n2d",
+          "Ru6Vd2Esjo80kHxidPdcICAtn7f",
           "VsD1dOKIuo6aZbxJejgcuQhDnBh",
           "LUCgdaENHoIjYsxbqZ1cJrT0nCf",
           "Y8r4dUVDyoRFMdxXa4rc9SdOn9b",
           "WVGgdZp8QonL6axCGs1cXeDdnJe",
-          "Ru6Vd2Esjo80kHxidPdcICAtn7f",
           "AotBdYFgDo4DTZx0uZ5coD1gnKc",
           "A8qkduvMMon3t6xpGJrcjAEanJb",
           "CXuxdELybo75GGxax4wcbqFln9c",
@@ -371,7 +371,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "As a supplement, Zilliz Cloud supports security settings, such as access control, whitelists, and private links, securing internal and external communication with your cluster.",
+                "content": "As a supplement, Zilliz Cloud supports security settings, such as <exclude target=\"paas\">whitelists, and private links, </exclude>access control, securing internal and external communication with your cluster.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -669,6 +669,55 @@
         }
       },
       {
+        "block_id": "Ru6Vd2Esjo80kHxidPdcICAtn7f",
+        "block_type": 2,
+        "parent_id": "HAEQdkX3No0cm0xg8VocaRmOnsh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "VsD1dOKIuo6aZbxJejgcuQhDnBh",
         "block_type": 5,
         "heading3": {
@@ -803,55 +852,6 @@
             {
               "text_run": {
                 "content": ".",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Ru6Vd2Esjo80kHxidPdcICAtn7f",
-        "block_type": 2,
-        "parent_id": "HAEQdkX3No0cm0xg8VocaRmOnsh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "<exclude target=\"",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "paas",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\">",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1305,7 +1305,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "In summary, Zilliz Cloud prioritizes data security at every stage, employing encryption techniques, authentication protocols, access control, whitelists, private links, server-side encryption, audit logs, and backup and restoration mechanisms to ensure the confidentiality, integrity, and availability of your data.",
+                "content": "In summary, Zilliz Cloud prioritizes data security at every stage, employing encryption techniques, authentication protocols, access control, <exclude target=\"paas\">whitelists, private links, </exclude>server-side encryption, audit logs, and backup and restoration mechanisms to ensure the confidentiality, integrity, and availability of your data.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

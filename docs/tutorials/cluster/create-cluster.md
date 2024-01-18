@@ -131,6 +131,8 @@ In the command above,
 
 1. On the **Create New Cluster** page, opt for the **Standard** or **Enterprise** plan and fill out the relevant parameters.
 
+    ![create-dedicated_cluster](/img/create-dedicated_cluster.png)
+
     - **Cluster Name**: Assign a unique identifier for your cluster.
 
     - **Cloud Provider Settings**: Choose the cloud service provider and the specific region where your cluster will be deployed. For more information, see [Cloud Providers & Regions](./cloud-providers-and-regions).
@@ -140,6 +142,8 @@ In the command above,
         - **CU Type**: Select a CU Type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right CU](./cu-types-explained).
 
         - **CU Size**: Select the total size of the cluster in terms of CUs.
+
+    - **Cloud Backup**: Decide whether to enable automatic cloud backup for safeguarding the data stored within your cluster, ensuring data persistence and recovery capabilities in case of failures.
 
 1. Click **Create Cluster**. You'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
 

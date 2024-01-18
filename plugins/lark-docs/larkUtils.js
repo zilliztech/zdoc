@@ -28,7 +28,7 @@ class larkUtils {
             const files = fs.readdirSync(`${this.outputDir}/${folder}`)
 
             if (files.length === 1 && files[0] === folder.split('/').slice(-1)[0] + '.md') {
-                fs.rmdirSync(`${this.outputDir}/${folder}`)
+                fs.rmSync(`${this.outputDir}/${folder}`, {recursive: true, force: true})
             }   
 
             if (files.length > 1) {

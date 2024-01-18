@@ -32,10 +32,10 @@ TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
 COLLECTION_NAME="medium_articles_2020" # Set your collection name
 
 # Initialize a MilvusClient instance
-# Replace uri and API key with your own
+# Replace uri and token with your own
 client = MilvusClient(
     uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
-    token=TOKEN # API key or a colon-separated cluster username and password
+    token=TOKEN # a colon-separated cluster username and password
 )
 
 # Create a collection

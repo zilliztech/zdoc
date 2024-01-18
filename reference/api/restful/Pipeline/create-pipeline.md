@@ -30,6 +30,7 @@ Create a pipeline.
         --header "Authorization: Bearer ${YOUR_API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
         -d '{
+            "projectId": "proj-**********************",
             "name": "my_doc_ingestion_pipeline",
             "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
             "type": "INGESTION",  
@@ -38,7 +39,8 @@ Create a pipeline.
                     "name": "index_my_doc",
                     "action": "INDEX_DOC", 
                     "inputField": "doc_url", 
-                    "language": "ENGLISH"
+                    "language": "ENGLISH",
+                    "chunkSize": 500
                 },
                 {
                     "name": "keep_doc_info",
@@ -59,28 +61,30 @@ Create a pipeline.
     {
         "code": 200,
         "data": {
-        "pipelineId": "pipe-**********************",
-        "name": "my_doc_ingestion_pipeline",
-        "type": "INGESTION",
-        "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
-        "status": "SERVING",
-        "functions": [
-            {
-                "action": "INDEX_DOC",
-                "name": "index_my_doc",
-                "inputField": "doc_url",
-                "language": "ENGLISH"
-            },
-            {
-                "action": "PRESERVE",
-                "name": "keep_doc_info",
-                "inputField": "publish_year",
-                "outputField": "publish_year",
-                "fieldType": "Int16"
-            }
-        ],
-        "clusterId": "in03-***************",
-        "newCollectionName": "my_new_collection"
+            "pipelineId": "pipe-**********************",
+            "name": "my_doc_ingestion_pipeline",
+            "type": "INGESTION",
+            "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+            "status": "SERVING",
+            "totalTokenUsage": 0,
+            "functions": [
+                {
+                    "action": "INDEX_DOC",
+                    "name": "index_my_doc",
+                    "inputField": "doc_url",
+                    "language": "ENGLISH",
+                    "chunkSize": 500
+                },
+                {
+                    "action": "PRESERVE",
+                    "name": "keep_doc_info",
+                    "inputField": "publish_year",
+                    "outputField": "publish_year",
+                    "fieldType": "Int16"
+                }
+            ],
+            "clusterId": "in03-***************",
+            "newCollectionName": "my_new_collection"
         }
     }   
     ```  

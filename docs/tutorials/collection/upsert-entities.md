@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Upsert Entities
+#  Upsert Entities
 
 This topic describes how to upsert data into a collection in Zilliz Cloud.
 

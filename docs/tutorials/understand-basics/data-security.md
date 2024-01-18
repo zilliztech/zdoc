@@ -29,7 +29,7 @@ Once an account is ready, you can log into the Zilliz Cloud console to create an
 
 By design, the Zilliz Cloud platform comprises two planes: the control plane and the kernel plane. These planes reside in separate security groups with isolated networks. Such a design reinforces data security.
 
-As a supplement, Zilliz Cloud supports security settings, such as access control, whitelists, and private links, securing internal and external communication with your cluster.
+As a supplement, Zilliz Cloud supports security settings, such as whitelists, and private links, access control, securing internal and external communication with your cluster.
 
 ### Authentication{#authentication}
 

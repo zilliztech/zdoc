@@ -9,11 +9,13 @@ sidebar_position: 4
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes v2.2.0
+# Release Notes (2023/09/13)
 
-We are pleased to announce the release of Zilliz Cloud 2.2.0, which boasts a suite of new features designed to enhance your user experience.
+We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience.
 
-(Release date: Sept. 13th, 2023)
+## Milvus Compatibility{#milvus-compatibility}
+
+This release is compatible with **Milvus 2.2.x**.
 
 ## Overview{#overview}
 

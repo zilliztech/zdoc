@@ -168,5 +168,6 @@
     "Organization Access": "organization-access",
     "Project Access": "project-access",
     "Metrics & Alerts": "metrics-and-alerts",
-    "Network & Security": "network-and-security"
+    "Network & Security": "network-and-security",
+    "Best Practices": "best-practices"
 }

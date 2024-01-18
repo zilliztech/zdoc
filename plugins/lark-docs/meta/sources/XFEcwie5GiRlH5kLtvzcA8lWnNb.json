@@ -5,7 +5,7 @@
   "node_token": "XFEcwie5GiRlH5kLtvzcA8lWnNb",
   "node_type": "origin",
   "obj_create_time": "1699859825",
-  "obj_edit_time": "1703830228",
+  "obj_edit_time": "1705458140",
   "obj_token": "XKz7dnRAyooJEHxjvaAciETmnfd",
   "obj_type": "docx",
   "origin_node_token": "XFEcwie5GiRlH5kLtvzcA8lWnNb",
@@ -2202,33 +2202,8 @@
             },
             {
               "text_run": {
-                "content": ",\n",
+                "content": ",",
                 "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "       ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " \"token_usage\": 200",
-                "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2308,6 +2283,46 @@
             },
             {
               "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"token_usage\": 200",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "comment_ids": [
+                    "7324884558062436356"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
                 "content": "\n  }\n",
                 "text_element_style": {
                   "bold": false,
@@ -2343,6 +2358,7 @@
           }
         },
         "comment_ids": [
+          "7324884558062436356",
           "7306834053624709124",
           "7303420694522855427"
         ],

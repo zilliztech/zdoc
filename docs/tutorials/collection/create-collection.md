@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create Collection
+#  Create Collection
 
 This tutorial will guide you through the steps to set up a collection for your cluster. You can find[ the detailed explanations about collections, schema, and index here](./cluster-collection-and-entities).
 
@@ -32,7 +32,7 @@ TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
 COLLECTION_NAME="medium_articles_2020" # Set your collection name
 
 # Initialize a MilvusClient instance
-# Replace uri and API key with your own
+# Replace uri and token with your own
 client = MilvusClient(
     uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
     token=TOKEN # API key or a colon-separated cluster username and password
