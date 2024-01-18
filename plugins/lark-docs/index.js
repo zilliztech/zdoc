@@ -26,6 +26,9 @@ module.exports = function (context, options) {
                         if (opts.sourceOnly) {
                             const scraper = new docScraper(options.root, options.base)
                             await scraper.fetch(recursive=true)
+                        } else if (opts.docToken !== undefined) {
+                            const scraper = new docScraper(options.root, options.base)
+                            await scraper.fetch(recursive=false, page_token=opts.docToken)
                         } else {
                             throw new Error('Please provide a target')
                         }
@@ -36,11 +39,6 @@ module.exports = function (context, options) {
                         if (opts.postProcess) {
                             console.log('Post processing file paths')
                             utils.post_process_file_paths()
-                        }
-
-                        if (opts.docToken !== undefined) {
-                            const scraper = new docScraper(options.root, options.base)
-                            await scraper.fetch(recursive=false, page_token=opts.docToken)
                         }
 
                         if (opts.docTitle === undefined && !opts.faq && !opts.postProcess) {
