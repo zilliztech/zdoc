@@ -5,7 +5,7 @@
   "node_token": "BcXMwUYQ3iD7mEkWKFhcU5PUnB5",
   "node_type": "origin",
   "obj_create_time": "1689062936",
-  "obj_edit_time": "1705459187",
+  "obj_edit_time": "1705554422",
   "obj_token": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
   "obj_type": "docx",
   "origin_node_token": "BcXMwUYQ3iD7mEkWKFhcU5PUnB5",
@@ -13,8 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
   "space_id": "7167193056431783939",
-  "title": "Release Notes v2.0.0",
-  "slug": "release-notes-200",
+  "title": "Release Notes (2023/07/11)",
   "blocks": {
     "items": [
       {
@@ -22,6 +21,8 @@
         "block_type": 1,
         "children": [
           "VNdjdog35o7nP5xj8ttcvb18n0f",
+          "YqLhdLMoDoG0PgxZVDucFRsnnGT",
+          "PVvYdCu8OozcbUxwqBzc9qp2n4g",
           "XDZgdpEcyoq4gGxRGTccoJklndb",
           "Yt60dySnsonPzWxUcc2cGXhbnxn",
           "GbvKd4X43o4CU6xcZn6cPHgHn8d",
@@ -56,7 +57,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Release Notes v2.0.0",
+                "content": "Release Notes (2023/07/11)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -81,7 +82,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The release of Zilliz Cloud 2.0.0 sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, cost-optimized CU, organization and collaboration support, ",
+                "content": "The release of Zilliz Cloud sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, cost-optimized CU, organization and collaboration support, ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -130,6 +131,80 @@
             {
               "text_run": {
                 "content": " type support. Try out this game-changing update today!",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YqLhdLMoDoG0PgxZVDucFRsnnGT",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Milvus Compatibility",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8"
+      },
+      {
+        "block_id": "PVvYdCu8OozcbUxwqBzc9qp2n4g",
+        "block_type": 2,
+        "parent_id": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This release is compatible with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus 2.1.x",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1211,6 +1286,6 @@
         }
       }
     ],
-    "counts": 31
+    "counts": 33
   }
 }

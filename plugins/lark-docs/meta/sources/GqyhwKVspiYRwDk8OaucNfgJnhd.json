@@ -5,7 +5,7 @@
   "node_token": "GqyhwKVspiYRwDk8OaucNfgJnhd",
   "node_type": "origin",
   "obj_create_time": "1698051774",
-  "obj_edit_time": "1698052011",
+  "obj_edit_time": "1705554404",
   "obj_token": "CnzddJbT2ogdLSx90bxc9fImnPf",
   "obj_type": "docx",
   "origin_node_token": "GqyhwKVspiYRwDk8OaucNfgJnhd",
@@ -13,8 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
   "space_id": "7167193056431783939",
-  "title": "Release Notes v2.2.0",
-  "slug": "release-notes-220",
+  "title": "Release Notes (2023/09/13)",
   "blocks": {
     "items": [
       {
@@ -22,7 +21,8 @@
         "block_type": 1,
         "children": [
           "UlFtdYYZqo9cUaxiE0ncpL2jn8e",
-          "AhYPdMPGCoBZVCxWXhIcZ4Zvnmb",
+          "XJcodOinAoBaJCxa9zgcPGVYnKh",
+          "EzjjdL9jXoqW18xBG6kcHizPn6e",
           "IvoMdQn5ioFYkZxeEGlcXhy8nEd",
           "Ssd7d1aiPonMtox8oTzct4jHnj8",
           "IWzqdal6Yo8D2PxXWg5cni8Vn9o",
@@ -45,7 +45,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Release Notes v2.2.0",
+                "content": "Release Notes (2023/09/13)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -70,7 +70,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "We are pleased to announce the release of Zilliz Cloud 2.2.0, which boasts a suite of new features designed to enhance your user experience.",
+                "content": "We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -88,14 +88,63 @@
         }
       },
       {
-        "block_id": "AhYPdMPGCoBZVCxWXhIcZ4Zvnmb",
+        "block_id": "XJcodOinAoBaJCxa9zgcPGVYnKh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Milvus Compatibility",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf"
+      },
+      {
+        "block_id": "EzjjdL9jXoqW18xBG6kcHizPn6e",
         "block_type": 2,
         "parent_id": "CnzddJbT2ogdLSx90bxc9fImnPf",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "(Release date: Sept. 13th, 2023)",
+                "content": "This release is compatible with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus 2.2.x",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -634,6 +683,6 @@
         }
       }
     ],
-    "counts": 20
+    "counts": 21
   }
 }

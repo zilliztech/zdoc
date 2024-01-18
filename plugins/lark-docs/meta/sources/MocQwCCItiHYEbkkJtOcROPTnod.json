@@ -5,7 +5,7 @@
   "node_token": "MocQwCCItiHYEbkkJtOcROPTnod",
   "node_type": "origin",
   "obj_create_time": "1698371466",
-  "obj_edit_time": "1705455119",
+  "obj_edit_time": "1705554375",
   "obj_token": "XS98dONZuouB5OxzM4YcvCbEnxh",
   "obj_type": "docx",
   "origin_node_token": "MocQwCCItiHYEbkkJtOcROPTnod",
@@ -13,8 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
   "space_id": "7167193056431783939",
-  "title": "Release Notes v2.3.0",
-  "slug": "release-notes-230",
+  "title": "Release Notes (2023/10/27)",
   "blocks": {
     "items": [
       {
@@ -22,6 +21,8 @@
         "block_type": 1,
         "children": [
           "JkaZdzGCsosuv8xCJZdczygKnjh",
+          "UuqFdOBeiorc1uxsQ8ocK4ihnIb",
+          "WeOHddpPkoQYInxv9TrcetjGnJg",
           "UPUSdUaG0orx1OxU2tMcay0Vnvg",
           "QBYid4DcdoQ9jSxenIUc8H9dn3g",
           "HmTedOn6zoKwroxRtEBcLa2WnZf",
@@ -47,7 +48,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Release Notes v2.3.0",
+                "content": "Release Notes (2023/10/27)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -144,7 +145,81 @@
             },
             {
               "text_run": {
-                "content": ", billing, pricing calculation, account management, and service stability have also been implemented for an enhanced user experience. Thank you for choosing our services.",
+                "content": ", billing, pricing calculation, account management, and service stability have also been implemented for an enhanced user experience. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UuqFdOBeiorc1uxsQ8ocK4ihnIb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Milvus Compatibility",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XS98dONZuouB5OxzM4YcvCbEnxh"
+      },
+      {
+        "block_id": "WeOHddpPkoQYInxv9TrcetjGnJg",
+        "block_type": 2,
+        "parent_id": "XS98dONZuouB5OxzM4YcvCbEnxh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This release is compatible with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus 2.2.x",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1475,6 +1550,6 @@
         }
       }
     ],
-    "counts": 34
+    "counts": 36
   }
 }

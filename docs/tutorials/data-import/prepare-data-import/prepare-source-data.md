@@ -89,6 +89,12 @@ You can either rebuild your data on your own by referring to [Prepare the data f
 
 You are advised to use [the ](./use-bulkwriter)[**BulkWriter**](./use-bulkwriter)[ tool](./use-bulkwriter) to prepare your raw data into parquet files. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_parquet_data.parquet).
 
+<Admonition type="info" icon="📘" title="Notes">
+
+This file type is available for cluster compatible with Milvus 2.3.x.
+
+</Admonition>
+
 ### NumPy files{#numpy-files}
 
 A valid set of NumPy files should be named after the fields in the schema of the target collection, and the data in them should match the corresponding field definitions.

@@ -5,7 +5,7 @@
   "node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
   "node_type": "origin",
   "obj_create_time": "1704710624",
-  "obj_edit_time": "1705463027",
+  "obj_edit_time": "1705554873",
   "obj_token": "DK0cd2Ix8oQD0rxWUBYcW57snLd",
   "obj_type": "docx",
   "origin_node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
@@ -43,6 +43,7 @@
           "D20IdY0WCoCrAdxqEJOcUDVMn3c",
           "Z9isdGmIMoXVzOxAkflcFnIVnzh",
           "VD7tdCuEpoFBTpxoFcvcxX0mnnZ",
+          "Ptn9dGFbmolal7xDueAc3fzdnJf",
           "P5z4drbgGowgJIxeHnbcBVn0njd",
           "LdMidzUJ5oPlg6xk3KOciDHqnPh",
           "Gs43dST3So9DbSxV1yQczi5nnDd",
@@ -2507,6 +2508,70 @@
             {
               "text_run": {
                 "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ptn9dGFbmolal7xDueAc3fzdnJf",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "Yhx0dRbaxoGwqJxXHE2c4Nbon9g",
+          "RI9cdbb0KoAuEJxAaAfcU7bBnbU"
+        ],
+        "parent_id": "DK0cd2Ix8oQD0rxWUBYcW57snLd"
+      },
+      {
+        "block_id": "Yhx0dRbaxoGwqJxXHE2c4Nbon9g",
+        "block_type": 2,
+        "parent_id": "Ptn9dGFbmolal7xDueAc3fzdnJf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RI9cdbb0KoAuEJxAaAfcU7bBnbU",
+        "block_type": 2,
+        "parent_id": "Ptn9dGFbmolal7xDueAc3fzdnJf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This file type is available for cluster compatible with Milvus 2.3.x.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -7420,6 +7485,6 @@
         }
       }
     ],
-    "counts": 239
+    "counts": 242
   }
 }
