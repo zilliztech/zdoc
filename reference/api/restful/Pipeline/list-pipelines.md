@@ -20,6 +20,7 @@ List all pipelines in a project.
 
 - This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
 
+Currently, data of the JSON and Array types are not supported in RESTful API requests..
 :::
 
 ```shell

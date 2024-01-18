@@ -20,6 +20,7 @@ Retrieves the progress of a specified import task.
 
 - This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
 
+Currently, data of the JSON and Array types are not supported in RESTful API requests..
 :::
 
 ```shell
