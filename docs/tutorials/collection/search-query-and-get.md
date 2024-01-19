@@ -3,14 +3,14 @@ slug: /search-query-and-get
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 token: YfMEwLHzeisARCk4VZ3cVhJmnjd
-sidebar_position: 7
+sidebar_position: 16
 ---
 
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Search, Query, and Get
+#  Search, Query, and Get
 
 This guide walks you through performing nearest-neighbor searches and queries. A search involves looking for the closest vector to a given vector in a collection, while a query filters out entities that match a certain condition.
 
@@ -1094,19 +1094,19 @@ The number of hits objects in a bulk search result equals the number of query ve
 
 A filter is a boolean expression used to specify the conditions for an ANN search. You can use arithmetic, logical, and comparison operators to construct filters.
 
-|  **Operator** |  **Description**                                                                                                                              |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-|  add (&&)     |  True if both operands are true                                                                                                               |
-|  or (\|\|)    |  True if either operand is true                                                                                                               |
-|  +, -, *, /   |  Addition, subtraction, multiplication, and division                                                                                          |
-|  **           |  Exponent                                                                                                                                     |
-|  %            |  Modulus                                                                                                                                      |
-|  <, >         |  Less than, greater than                                                                                                                      |
-|  ==, !=       |  Equal to, not equal to                                                                                                                       |
-|  <=, >=       |  Less than or equal to, greater than or equal to                                                                                              |
-|  not          |  Reverses the result of a given condition.                                                                                                    |
-|  like         |  Compares a value to similar values using wildcard operators.<br/> <br/>  For example, like "prefix%" matches strings that begin with "prefix". |
-|  in           |  Tests if an expression matches any value in a list of values.                                                                                |
+|  **Operator** |  **Description**                                                                                                                            |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+|  add (&&)     |  True if both operands are true                                                                                                             |
+|  or (\|\|)    |  True if either operand is true                                                                                                             |
+|  +, -, *, /   |  Addition, subtraction, multiplication, and division                                                                                        |
+|  **           |  Exponent                                                                                                                                   |
+|  %            |  Modulus                                                                                                                                    |
+|  <, >         |  Less than, greater than                                                                                                                    |
+|  ==, !=       |  Equal to, not equal to                                                                                                                     |
+|  <=, >=       |  Less than or equal to, greater than or equal to                                                                                            |
+|  not          |  Reverses the result of a given condition.                                                                                                  |
+|  like         |  Compares a value to similar values using wildcard operators.<br/> For example, like "prefix%" matches strings that begin with "prefix". |
+|  in           |  Tests if an expression matches any value in a list of values.                                                                              |
 
 The following are some example ANN searches with filters:
 
@@ -3450,8 +3450,7 @@ The following are some example ANN searches with filters:
             outputFields.add("claps");
             outputFields.add("responses");
             outputFields.add("reading_time");
-    
-    
+
             SearchParam searchParam8 = SearchParam.newBuilder()
                 .withCollectionName(collectionName)
                 .withVectorFieldName("title_vector")
@@ -4435,11 +4434,11 @@ func main() {
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection) 
+- [Create Collection](./create-collection)
 
-- [Drop Collection](./drop-collection) 
+- [Drop Collection](./drop-collection)
 
-- [Enable Dynamic Schema](./enable-dynamic-schema) 
+- [Enable Dynamic Schema](./enable-dynamic-schema)
 
 - [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 
 

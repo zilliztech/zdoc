@@ -100,13 +100,31 @@
   },
   "children": [
     {
-      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "creator": "ou_ee865f3d6d0036a3aa548eec6b75ce74",
       "has_child": false,
+      "node_create_time": "1704332777",
+      "node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
+      "node_type": "origin",
+      "obj_create_time": "1704332777",
+      "obj_edit_time": "1705553437",
+      "obj_token": "TXlrdXzlPokEQ5xnA30c93SLnMc",
+      "obj_type": "docx",
+      "origin_node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_ee865f3d6d0036a3aa548eec6b75ce74",
+      "parent_node_token": "T5BnwoXuFiwXyekEJ1ZcfaJGnqd",
+      "space_id": "7167193056431783939",
+      "title": "User Guide: Data Import from Zero to Hero",
+      "slug": "data-import-zero-to-hero"
+    },
+    {
+      "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+      "has_child": true,
       "node_create_time": "1694400461",
       "node_token": "YNbGwiEjAinaQfkSdNlcTehwn8I",
       "node_type": "origin",
       "obj_create_time": "1694400461",
-      "obj_edit_time": "1699522112",
+      "obj_edit_time": "1704946692",
       "obj_token": "S7WEdHeJ1oaQ4mxhVOjcpIEtn9b",
       "obj_type": "docx",
       "origin_node_token": "YNbGwiEjAinaQfkSdNlcTehwn8I",
@@ -115,7 +133,7 @@
       "parent_node_token": "T5BnwoXuFiwXyekEJ1ZcfaJGnqd",
       "space_id": "7167193056431783939",
       "title": "Prepare Data Import",
-      "slug": "use-bulkwriter-for-data-import"
+      "slug": "prepare-data-import"
     },
     {
       "creator": "ou_8554528ee6e965bad56710acde1c7847",

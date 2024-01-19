@@ -35,28 +35,6 @@ Once the hierarchical proximity graph is created, the search goes as follows:
 
 ![hnsw-explained](/byoc/hnsw-explained.png)
 
-## ANNOY: A tree-based indexing algorithm{#annoy-a-tree-based-indexing-algorithm}
-
-Approximate Nearest Neighbor Oh Yeah (ANNOY) indexes a vector space by building a forest of binary trees. For each tree, ANNOY uses the hyperplane equidistant from two random vectors in the vector space to split the space into two subspaces. This process is repeated for each subspace until there are at most K items in each subspace.
-
-A single tree may not suffice because some of the nearest neighbors may be outside of the found leaf polygon. ANNOY suggests building a forest of binary trees and choosing the K nearest neighbors from the union of the found leaf polygons.
-
-The following is the tree that records the hyperplane split process.
-
-![annoy_explained](/byoc/annoy_explained.png)
-
-Once the forest of binary trees is ready, the search goes as follows:
-
-1. Start a priority queue and insert the root of each tree in the queue.
-
-1. Use the priority queue to search in these trees until K candidates are found.
-
-1. Remove any duplicate candidates.
-
-1. Compute the distances to the candidates.
-
-1. Sort the candidates by distance and list the top K results.
-
 ## LSH: A hash-based ANN indexing algorithm{#lsh-a-hash-based-ann-indexing-algorithm}
 
 Locality-sensitive hashing (LSH) indexes a vector space by mapping data pieces of any length to fixed-length values as hashes using various hash functions, gathering these hashes into hash buckets, and tagging vectors that have been hashed to the same value at least once as candidate pairs.

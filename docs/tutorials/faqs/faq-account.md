@@ -66,7 +66,7 @@ To unlink your Zilliz Cloud account from Google, please
 
 ### How to delete my account?{#how-to-delete-my-account}
 
-Zilliz Cloud supports deleting account on the web console. For more information, see [Manage Your Account](./delete-your-account#delete-your-account).
+Zilliz Cloud supports deleting account on the web console. For more information, see [Manage Your Account](./email-accounts#delete-your-account).
 
 ### Why is my organization frozen?{#why-is-my-organization-frozen}
 

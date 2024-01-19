@@ -5,7 +5,7 @@
   "node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
   "node_type": "origin",
   "obj_create_time": "1689059629",
-  "obj_edit_time": "1701844967",
+  "obj_edit_time": "1705310782",
   "obj_token": "KKEOdP5XkofOkoxgjErcl8l6ndf",
   "obj_type": "docx",
   "origin_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
@@ -13,8 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "OUWXw5c4gia34ZkQUcEcMFbWn6s",
   "space_id": "7167193056431783939",
-  "title": "Monitors & Metrics",
-  "slug": "monitors-metrics",
+  "title": "[Deprecate] Monitors & Metrics",
   "blocks": {
     "items": [
       {
@@ -25,6 +24,18 @@
         ],
         "page": {
           "elements": [
+            {
+              "text_run": {
+                "content": "[Deprecate] ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "Monitors & Metrics",
@@ -88,8 +99,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
       "space_id": "7167193056431783939",
-      "title": "Monitor CU Resources",
-      "slug": "cu-resource-monitor"
+      "title": "Monitor CU Resources"
     },
     {
       "creator": "ou_8554528ee6e965bad56710acde1c7847",
@@ -107,7 +117,7 @@
       "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
       "space_id": "7167193056431783939",
       "title": "Monitor QPS",
-      "slug": "qps-resource-monitor"
+      "slug": "monitor-qps"
     },
     {
       "creator": "ou_8554528ee6e965bad56710acde1c7847",
@@ -125,7 +135,7 @@
       "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
       "space_id": "7167193056431783939",
       "title": "Monitor Query Latency",
-      "slug": "query-latency-monitor"
+      "slug": "monitor-query-latency"
     },
     {
       "creator": "ou_8554528ee6e965bad56710acde1c7847",
@@ -143,7 +153,7 @@
       "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
       "space_id": "7167193056431783939",
       "title": "Monitor Load Capacity",
-      "slug": "load-capacity-resource-monitor"
+      "slug": "monitor-load-capacity"
     },
     {
       "creator": "ou_8554528ee6e965bad56710acde1c7847",
@@ -160,8 +170,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
       "space_id": "7167193056431783939",
-      "title": "Monitor Credit Card Expiration",
-      "slug": "credit-card-expiration-monitor"
+      "title": "Monitor Credit Card Expiration"
     },
     {
       "creator": "ou_fbc044d19930afd389d5c369466c38b1",
@@ -179,7 +188,7 @@
       "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
       "space_id": "7167193056431783939",
       "title": "Check Advance Pay Balance",
-      "slug": "advance-pay-balance-monitor"
+      "slug": "check-advance-pay-balance"
     },
     {
       "creator": "ou_8554528ee6e965bad56710acde1c7847",
@@ -197,7 +206,7 @@
       "parent_node_token": "RsZ7wY9MLiQVMkktAOlc7YMbn5o",
       "space_id": "7167193056431783939",
       "title": "View Cluster Metrics",
-      "slug": "monitor-metrics"
+      "slug": "view-cluster-metrics"
     },
     {
       "creator": "ou_fbc044d19930afd389d5c369466c38b1",

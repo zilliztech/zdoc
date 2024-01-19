@@ -3,17 +3,19 @@ slug: /release-notes-220
 beta: FALSE
 notebook: FALSE
 token: GqyhwKVspiYRwDk8OaucNfgJnhd
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes v2.2.0
+# Release Notes (2023/09/13)
 
-We are pleased to announce the release of Zilliz Cloud 2.2.0, which boasts a suite of new features designed to enhance your user experience.
+We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience.
 
-(Release date: Sept. 13th, 2023)
+## Milvus Compatibility{#milvus-compatibility}
+
+This release is compatible with **Milvus 2.2.x**.
 
 ## Overview{#overview}
 
@@ -47,4 +49,4 @@ We've revolutionized the way you import data into Zilliz Cloud:
 
 - Import Task Monitoring: Oversee your data import tasks in real-time via the Zilliz Cloud Web Console, ensuring transparency and control over your data uploads.
 
-Check for the details at [Prepare Data Import](./use-bulkwriter-for-data-import).
+Check for the details at [Prepare Data Import](./prepare-data-import).

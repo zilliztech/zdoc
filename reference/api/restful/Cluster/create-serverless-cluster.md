@@ -16,17 +16,22 @@ Creates a serverless cluster.
 ## Example
 
 
-Creates a serverless cluster. Currently, serverless clusters can be created only on Google Cloud Platform (GCP).
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+- This API requires the ID of a target project.
+
+:::
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/createServerless" \
+    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/createServerless" \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     --data-raw '{
     "clusterName": "cluster-starter",
-    "projectId": "8342669010291064832"
+    "projectId": "proj-*********************"
     }'
 ```
 
@@ -36,13 +41,26 @@ Success response:
 {
     "code": 200,
     "data": {
-       "clusterId": "in03-36cab39b5ef7894",
-       "username": "db_36cab39b5ef7894",
-       "password": "Lb9.&N,9]Gd4pkp*",
+       "clusterId": "in03-******************",
+       "username": "db_admin",
+       "password": "******************",
        "prompt": "Submission successful, Cluster is being created, You can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK with the admin account and the initialization password you provided."
     }
 }
 ```
+
+:::info How can I obtain the project ID?
+
+You can obtain the project ID in either of the following ways:
+
+- On the Zilliz Cloud console
+
+    1. Click **Projects** in the top menu bar to open the **Projects** page.
+    2. Locate the target project and copy its ID in the **Project ID** column.
+
+- Use the [List Projects](./list-projects) API endpoint to list all projects.
+
+:::
 
 
 ## Request

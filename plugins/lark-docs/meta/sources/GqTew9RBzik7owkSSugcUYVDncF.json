@@ -1,0 +1,151 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": true,
+  "node_create_time": "1702533013",
+  "node_token": "GqTew9RBzik7owkSSugcUYVDncF",
+  "node_type": "origin",
+  "obj_create_time": "1702533013",
+  "obj_edit_time": "1705028017",
+  "obj_token": "ZRscdRFhSonxfFxCmJ0cSGhxnwe",
+  "obj_type": "docx",
+  "origin_node_token": "GqTew9RBzik7owkSSugcUYVDncF",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
+  "space_id": "7167193056431783939",
+  "title": "[DEV] Search, Query & Get",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "ZRscdRFhSonxfFxCmJ0cSGhxnwe",
+        "block_type": 1,
+        "children": [
+          "UUJrdou1oouXBsxh8g9cjmdench"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[DEV] Search, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " & Get",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "UUJrdou1oouXBsxh8g9cjmdench",
+        "block_type": 2,
+        "parent_id": "ZRscdRFhSonxfFxCmJ0cSGhxnwe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This series of guides demonstrate similarity searches and scalar queries in a Zilliz Cloud collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 2
+  },
+  "children": [
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1702533195",
+      "node_token": "TJh9wNO7VignLfkpSHKcAUJnnD3",
+      "node_type": "origin",
+      "obj_create_time": "1702533195",
+      "obj_edit_time": "1705028026",
+      "obj_token": "X6uMdHicBoBLd3xrLTZcRMiZnea",
+      "obj_type": "docx",
+      "origin_node_token": "TJh9wNO7VignLfkpSHKcAUJnnD3",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "GqTew9RBzik7owkSSugcUYVDncF",
+      "space_id": "7167193056431783939",
+      "title": "[DEV] Vector Search"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1702533217",
+      "node_token": "OOLOwy4QXislmhkikgZcn95ZnMb",
+      "node_type": "origin",
+      "obj_create_time": "1702533217",
+      "obj_edit_time": "1705028038",
+      "obj_token": "AQQpdWy3NoTnqKxrp1ucnx4on3e",
+      "obj_type": "docx",
+      "origin_node_token": "OOLOwy4QXislmhkikgZcn95ZnMb",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "GqTew9RBzik7owkSSugcUYVDncF",
+      "space_id": "7167193056431783939",
+      "title": "[DEV] Get & Scalar Query"
+    },
+    {
+      "creator": "ou_8554528ee6e965bad56710acde1c7847",
+      "has_child": false,
+      "node_create_time": "1702533272",
+      "node_token": "PqlLwFexgi9CE2k8OrucaNySnJd",
+      "node_type": "origin",
+      "obj_create_time": "1702533272",
+      "obj_edit_time": "1705028052",
+      "obj_token": "ERCddpOkrom49PxL0v0cR0VNnWf",
+      "obj_type": "docx",
+      "origin_node_token": "PqlLwFexgi9CE2k8OrucaNySnJd",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_node_token": "GqTew9RBzik7owkSSugcUYVDncF",
+      "space_id": "7167193056431783939",
+      "title": "[DEV] With Iterators"
+    }
+  ]
+}

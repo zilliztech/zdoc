@@ -80,7 +80,7 @@
       "node_token": "RfYVwRuvkicVqBkDugacSQOinvc",
       "node_type": "origin",
       "obj_create_time": "1700040191",
-      "obj_edit_time": "1701670162",
+      "obj_edit_time": "1705401955",
       "obj_token": "NogBdCgUfoscyzxayiTcly7Unre",
       "obj_type": "docx",
       "origin_node_token": "RfYVwRuvkicVqBkDugacSQOinvc",
@@ -88,7 +88,7 @@
       "owner": "ou_fbc044d19930afd389d5c369466c38b1",
       "parent_node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
       "space_id": "7167193056431783939",
-      "title": "Create Pipelines on Web UI",
+      "title": "Create Pipelines (Console)",
       "slug": "create-piplines-gui"
     },
     {
@@ -98,7 +98,7 @@
       "node_token": "Frj7wEoUgiSDeYkkZ59cyYu1nEg",
       "node_type": "origin",
       "obj_create_time": "1700040247",
-      "obj_edit_time": "1701767755",
+      "obj_edit_time": "1705455034",
       "obj_token": "IdIkdrMSPod67Gxq4dVcPqd4n2b",
       "obj_type": "docx",
       "origin_node_token": "Frj7wEoUgiSDeYkkZ59cyYu1nEg",
@@ -106,7 +106,7 @@
       "owner": "ou_fbc044d19930afd389d5c369466c38b1",
       "parent_node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
       "space_id": "7167193056431783939",
-      "title": "Create Pipelines via RESTful API",
+      "title": "Create Pipelines (RESTful API)",
       "slug": "create-piplines-rest"
     }
   ]

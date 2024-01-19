@@ -20,22 +20,22 @@ MilvusClient(
 - Create a Milvus client for a cluster using an API key:
 
     ```python
-    from pymilvs import MilvusClient
+    from pymilvus import MilvusClient
 
     client = MilvusClient(
-    uri='https://<CLUSTER-ID>.<CLOUD-REGION>.vectordb.zillizcloud.com',
-    token='<API-KEY>',
+        uri='https://<CLUSTER-ID>.<CLOUD-REGION>.vectordb.zillizcloud.com',
+        token='<API-KEY>',
     )
     ```
 
 - Create a Milvus client for a cluster using `user` and `password`:
 
     ```python
-    from pymilvs import MilvusClient
+    from pymilvus import MilvusClient
 
     client = MilvusClient(
-    uri='https://<CLUSTER-ID>.<CLOUD-REGION>.vectordb.zillizcloud.com:<ACCESS-PORT>',
-    token='<USER:PASSWORD>',
+        uri='https://<CLUSTER-ID>.<CLOUD-REGION>.vectordb.zillizcloud.com:<ACCESS-PORT>',
+        token='<USER:PASSWORD>',
     )
     ```
 

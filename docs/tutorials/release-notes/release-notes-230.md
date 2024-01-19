@@ -3,15 +3,19 @@ slug: /release-notes-230
 beta: FALSE
 notebook: FALSE
 token: MocQwCCItiHYEbkkJtOcROPTnod
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes v2.3.0
+# Release Notes (2023/10/27)
 
-We're pleased to announce the launch of our AWS Frankfurt region in the EU. Accompanying this expansion, we introduce beta features: Range Search, Upsert, and Cosine Metric Type, enhancing search capabilities and data management efficiency. Additional functionalities include API Key Access, Retrieve Raw Vectors, JSON_CONTAINS Filter, and Entity Count. Noteworthy improvements in RBAC, billing, pricing calculation, account management, and service stability have also been implemented for an enhanced user experience. Thank you for choosing our services.
+We're pleased to announce the launch of our AWS Frankfurt region in the EU. Accompanying this expansion, we introduce beta features: Range Search, Upsert, and Cosine Metric Type, enhancing search capabilities and data management efficiency. Additional functionalities include API Key Access, Retrieve Raw Vectors, JSON_CONTAINS Filter, and Entity Count. Noteworthy improvements in RBAC, billing, pricing calculation, account management, and service stability have also been implemented for an enhanced user experience. 
+
+## Milvus Compatibility{#milvus-compatibility}
+
+This release is compatible with **Milvus 2.2.x**.
 
 ## New AWS Region: Frankfurt (aws-eu-central-1) - Now Live{#new-aws-region-frankfurt-aws-eu-central-1-now-live}
 
@@ -35,7 +39,7 @@ Explore the future with our latest beta features, available for dedicated cluste
 
 - *Access Control*
 
-    Securely access dedicated clusters and serverless instances with [API Key](./manage-api-keys) or [username password authentication](./manage-cluster-credentials-gui).
+    Securely access dedicated clusters and serverless instances with [API Key](./manage-api-keys) or [username password authentication](./cluster-credentials-console).
 
 - *Return Raw Vectors*
 
@@ -55,7 +59,7 @@ We've also implemented several enhancements to improve your overall experience:
 
 - *New Role for RBAC*
 
-    Grant [Project Member Role](./a-panorama-view) to project collaborators for more streamlined collaboration.
+    Grant [Project Member Role](./resource-hierarchy) to project collaborators for more streamlined collaboration.
 
 - *Billing Optimizations*
 
@@ -67,7 +71,7 @@ We've also implemented several enhancements to improve your overall experience:
 
 - *Self-Service Account Deletion*
 
-    Easily [delete your own accounts](./delete-your-account#delete-your-account) or [organizations](./delete-your-org) for greater control over your profile.
+    Easily [delete your own accounts](./email-accounts#delete-your-account) or [organizations](./delete-your-organization) for greater control over your profile.
 
 - *Stability Enhancements*
 

@@ -33,11 +33,11 @@ The default setting configures that Zilliz Cloud automatically creates a snapsho
 
 ## Related topics{#related-topics}
 
-- [Create Snapshot](./create-snapshot) 
+- [Create Snapshot](./create-snapshot)
 
-- [View Snapshot Details](./view-snapshot-details) 
+- [View Snapshot Details](./view-snapshot-details)
 
-- [Restore from Snapshot](./restore-from-snapshot) 
+- [Restore from Snapshot](./restore-from-snapshot)
 
 - [Delete Snapshot](./delete-snapshot) 
 

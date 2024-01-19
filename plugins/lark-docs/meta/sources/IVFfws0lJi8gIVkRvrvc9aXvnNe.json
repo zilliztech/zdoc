@@ -5,7 +5,7 @@
   "node_token": "IVFfws0lJi8gIVkRvrvc9aXvnNe",
   "node_type": "origin",
   "obj_create_time": "1689055049",
-  "obj_edit_time": "1700315179",
+  "obj_edit_time": "1705402588",
   "obj_token": "NA7ydNrsQo0XdhxdzRRctPBSn1d",
   "obj_type": "docx",
   "origin_node_token": "IVFfws0lJi8gIVkRvrvc9aXvnNe",
@@ -422,8 +422,8 @@
                   "underline": false
                 },
                 "title": "Create Cluster",
-                "token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
-                "url": "https://zilliverse.feishu.cn/wiki/U0Bsw2SZaihm2mkLza7cRCqTndg"
+                "token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
+                "url": "https://zilliverse.feishu.cn/wiki/KrbjwFhy3iojF3k97XmcvvXMnW7"
               }
             },
             {
@@ -615,7 +615,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. This token can either be an ",
+                "content": "Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "This token can be <exclude target=\"paas\"> an ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -633,7 +645,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FHa8jwqxnniC8mDkXM4RcN4SFnKf"
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FBRsZwqOUTiBbrPk9b5WcvFgTnze"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -642,7 +654,7 @@
             },
             {
               "text_run": {
-                "content": " or a ",
+                "content": " or </exclude>a ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -660,7 +672,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FHa8jwqxnniC8mDkXM4RcN4SFnKf"
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FB10Owir21iSfZfkjsvgcnU6nnFc"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -669,7 +681,7 @@
             },
             {
               "text_run": {
-                "content": " comprised of a username-password duo.",
+                "content": " that consists of a username and password pair.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -741,7 +753,79 @@
             },
             {
               "text_run": {
-                "content": "\n\n# Initialize a MilvusClient instance\n# Replace uri and API key with your own\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console\n    token=TOKEN # API key or a colon-separated cluster username and password\n",
+                "content": "\n\n# Initialize a MilvusClient instance\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Replace uri and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "token",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " with your own\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    token=TOKEN",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " # <exclude target=\"paas\">API key or </exclude>a colon-separated cluster username and password",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -765,7 +849,7 @@
             },
             {
               "text_run": {
-                "content": "\n\n# =============\n# Advanced API\n\n# Connect with a connections object\nfrom pymilvus import connections\n\nconnections.connect(\n  alias='default', \n  #  Public endpoint obtained from Zilliz Cloud\n  uri=CLUSTER_ENDPOINT,\n  # API key or a colon-separated cluster username and password\n  token=TOKEN, \n",
+                "content": "\n\n# =============\n# Advanced API\n\n# Connect with a connections object\nfrom pymilvus import connections\n\nconnections.connect(\n  alias='default', \n  #  Public endpoint obtained from Zilliz Cloud\n  uri=CLUSTER_ENDPOINT,\n  # <exclude target=\"paas\">API key or </exclude>a colon-separated cluster username and password\n  token=TOKEN, \n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

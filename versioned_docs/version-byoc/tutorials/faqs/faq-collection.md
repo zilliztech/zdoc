@@ -57,7 +57,7 @@ Zilliz Cloud supports 3 types of metrics.
 
 1. **Inner Product (IP)** multiplies two vectors. The more positive the result, the more similar the two vectors are.
 
-1. *[Beta]* **Cosine** measures the cosine value of the angle between two vectors. 
+1. *[Beta]* **Cosine** measures the cosine value of the angle between two vectors.
 
 Note that the cosine metric type is still in Beta version. If you need to choose this metric type, you need to upgrade your cluster to Beta version first.
 
@@ -89,4 +89,4 @@ Partitions are used to organize data based on certain criteria.
 
 The partition key groups entities by the same key and speed up query performance.
 
-The difference is that data are physically isolated in partitions while partition keys group data logically. 
+The difference is that data are physically isolated in partitions while partition keys group data logically.

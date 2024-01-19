@@ -1,0 +1,3260 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1702454026",
+  "node_token": "ZIMbwUUFiin9mikacAhcJ9XFnXe",
+  "node_type": "origin",
+  "obj_create_time": "1702454026",
+  "obj_edit_time": "1705029616",
+  "obj_token": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+  "obj_type": "docx",
+  "origin_node_token": "ZIMbwUUFiin9mikacAhcJ9XFnXe",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "RwL3wOzONihxtJkVIcncIlu1nWe",
+  "space_id": "7167193056431783939",
+  "title": "[DEV] Manage Collections (SDKs)",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "block_type": 1,
+        "children": [
+          "HNfadIyj2oyL7SxSCGicZn7VnWg",
+          "LTjydlJVwovsQix7l28ccHk2n5f",
+          "UlewdcdoXo6lG2xRlDAcTDPIn7x",
+          "ELLidN0OhotSBaxPt3xcbBTFnve",
+          "DlRndKwpbowfgMxRIwCcMDWinrf",
+          "W5Mjd9lBqoLdJ1xzZnjcFngonEf",
+          "ApeIdSNiLoLNr7xLkXgc2vhCnOe",
+          "OnLLdepUSoL0cUx6DndcBHtznXc",
+          "RbLHdB588oCyZYxLH6IcAphRnnc",
+          "Cy8fd1OpLoPQEMxMnDScnTmQnTh",
+          "H0oddxPAhoWlTexpByZcMoEonge",
+          "IlTMd63BzoVhUvxs1iEcvgwqneG",
+          "DCOhd08nco7z7ixvJJ1c887lnAf",
+          "WQmBduv0UoaoHCxrsdHcQ3yKnnf",
+          "LvJ4dnOP5o6paixIzbLcRz3Zn4g",
+          "CYeAdjxzAo3QGnxzA0Jc94hznZg",
+          "MQhVdgZ1io2W7Zxk84lcyISbneg",
+          "T9QCdxmwwo1Uylxa2VRcfVADnqe",
+          "Houud12YOo9ANaxpRKJcKGxbnle",
+          "IB0pdYpcko8QVNxqY3XcbffJnUb",
+          "O5q5dNle8oD8lsx3ILjcWaLzny8",
+          "OEBMdylKEorlvbxcZfecWMXVnKh",
+          "M911dUREGo0WUTxlMl9cP6Ayndf",
+          "VMBqd5P0LoQUBSxe5VZcpqVinuf",
+          "Jg6udmcwqoLHhjxcSCDcN997nOh",
+          "A4I9dmIIDofBVqxtNIwc2D6QnFY",
+          "XYrDdH9CtoU9tNxiL3RcflY5nVb",
+          "EeYodjzGgonqBBxy4rqczAQTnyg",
+          "E5i4dZiRzoXm7mx2nQKcLEBqnCe",
+          "WmHKdSOsEoAaJcxmg4BcU9H8nUb",
+          "N6RGd8ztooYjXSxZ3TAc2ILEnZe",
+          "W8VtdtKgdoyYYHxTvlxcOrmunRb",
+          "SPr9dKtjgoGqy6xvkQRca7zWnob",
+          "WLMwdTqS6ousmxxyhS6cip7hnVu",
+          "PPYmd2j8Bo0e0Ex4Tl6cCnNYnub",
+          "QiZMdTVbso5x05xd2Cjc8rAMnYe",
+          "VHVJdncdDoO9q0xgy1ocpYE8nSb",
+          "VloOdLjhioYrCjxoolnck1Btn5c",
+          "FUyJdrRPwoI3GLxC0eJcivq2n1f",
+          "NZapdwfUro9ud9x0eaNc8wCJnEf",
+          "LvcLdEUALoafFvxbG9ZczlPFnzh",
+          "UgFrdHhYeoMAJaxnY3Rcli1pnvf",
+          "RUludlamzobKtDxBLrYcDB2nnud",
+          "OZtQdrzKLodnJzxvm8ScLfe8nXe",
+          "TwCKdwK6boRjHgxpbXLc9FMTnBO",
+          "RKesdF1l0odaHXxUTsvcxyQfn0f",
+          "Wl8mda3bjoL4UfxdYzhcKjKfnte",
+          "TN6ddh9UtoZCiqxHG4ZcRNpcnzf",
+          "K79NdLDsKoDDoBxcRVlc4K7snX9",
+          "VFBddz7N5osy47x3Id7cwcm2nFf",
+          "F8YDdht0noaDFzxn9qwc45GZnhH",
+          "HlEcdMV07orRvDxdc85cRj8GnFd",
+          "H5DCdlPFaoLav6xZVw7crs2GnEf",
+          "E1WDdR5oeooxsUxauMocpidYn59",
+          "SO6adCj3boujUexVtGUchLi4neg",
+          "YEtodMJ1ko4wRXxpnZFchKuqnFe",
+          "GzNRdx8U7oJSB9xSly4cspONntf"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "DEV",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "] Manage Collections",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(SDKs)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "HNfadIyj2oyL7SxSCGicZn7VnWg",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This guide walks you through creating and managing collections using the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " of your choice, which is more flexible and customizable when compared with the operations on the intuitive Web ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "UI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " of the Zilliz Cloud console.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LTjydlJVwovsQix7l28ccHk2n5f",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "UlewdcdoXo6lG2xRlDAcTDPIn7x",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have created a cluster. To create a cluster, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Cluster (Dev)",
+                "token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
+                "url": "https://zilliverse.feishu.cn/wiki/KrbjwFhy3iojF3k97XmcvvXMnW7"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "ELLidN0OhotSBaxPt3xcbBTFnve",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have installed the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " of your choice. To install an SDK, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Install SDKs",
+                "token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
+                "url": "https://zilliverse.feishu.cn/wiki/J274wT61xiEM4fkYeL8cMb4Pnbd"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "DlRndKwpbowfgMxRIwCcMDWinrf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "W5Mjd9lBqoLdJ1xzZnjcFngonEf",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On Zilliz Cloud, you store your vector embeddings in collections. All vector embeddings within a collection share the same dimensionality and distance metric for measuring similarity. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ApeIdSNiLoLNr7xLkXgc2vhCnOe",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud collections support dynamic fields (i.e., fields not pre-defined in the schema) and automatic incrementation of primary keys.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OnLLdepUSoL0cUx6DndcBHtznXc",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To accommodate different preferences, Zilliz Cloud offers two methods for creating a collection. One provides a quick setup, while the other allows for detailed customization of the collection schema and index parameters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RbLHdB588oCyZYxLH6IcAphRnnc",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Additionally, you can view, load, release, and drop a collection when necessary.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Cy8fd1OpLoPQEMxMnDScnTmQnTh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Quick setup",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "H0oddxPAhoWlTexpByZcMoEonge",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Against the backdrop of the great leap in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " industry, most developers just need a simple yet dynamic collection to start with. Zilliz Cloud allows a quick setup of such a collection with just three arguments: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IlTMd63BzoVhUvxs1iEcvgwqneG",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Name of the collection to create, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "DCOhd08nco7z7ixvJJ1c887lnAf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Dimension of the vector embeddings to insert, and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "WQmBduv0UoaoHCxrsdHcQ3yKnnf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Metric type used to measure similarities between vector embeddings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "LvJ4dnOP5o6paixIzbLcRz3Zn4g",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient\n\n# Replace CLUSTER_ENDPOINT and TOKEN with your own\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console\n    token=TOKEN # An API key or a colon-separated cluster username and password\n)\n\nclient.create_collection(\n    collection_name=\"medium_articles_2020\",\n    dimension=768,\n    metric_type=\"COSINE\"\n)\n\nclient.get_load_status(\n    collection_name=\"medium_articles_2020\"\n)\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Loaded",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "CYeAdjxzAo3QGnxzA0Jc94hznZg",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The collection generated in the above code contains only two fields: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (as the primary key) and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (as the vector field), with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "auto_id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "enable_dynamic_field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " settings enabled by default.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MQhVdgZ1io2W7Zxk84lcyISbneg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "auto_id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "KVHKdzjWVojon2xri9HcF35gnAe"
+        ],
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "KVHKdzjWVojon2xri9HcF35gnAe",
+        "block_type": 2,
+        "parent_id": "MQhVdgZ1io2W7Zxk84lcyISbneg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enabling this setting ensures that the primary key increments automatically. There's no need for manual provision of primary keys during data insertion.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T9QCdxmwwo1Uylxa2VRcfVADnqe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "enable_dynamic_field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "NeIodOXI8o0uwQxQ1MTcrs38nhb"
+        ],
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "NeIodOXI8o0uwQxQ1MTcrs38nhb",
+        "block_type": 2,
+        "parent_id": "T9QCdxmwwo1Uylxa2VRcfVADnqe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When enabled, all fields, excluding ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the data to be inserted, are treated as dynamic fields. These additional fields are saved as key-value pairs within a special field named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "$meta",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". This feature allows the inclusion of extra fields during data insertion.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Houud12YOo9ANaxpRKJcKGxbnle",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The automatically indexed and loaded collection from the provided code is ready for immediate data insertions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IB0pdYpcko8QVNxqY3XcbffJnUb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Detailed setup",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "O5q5dNle8oD8lsx3ILjcWaLzny8",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Instead of letting Zilliz Cloud decide almost everything for your collection, you can determine the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "index parameters",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " of the collection on your own.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OEBMdylKEorlvbxcZfecWMXVnKh",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set up schema",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "M911dUREGo0WUTxlMl9cP6Ayndf",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A schema defines the structure of a collection. Within the schema, you have the option to enable or disable ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "enable_dynamic_field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", add pre-defined fields, and set attributes for each field. For a detailed explanation of the concept and available data types, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Schema Explained",
+                "token": "TqMFwNyDbiY9qekBfPNcbpuvnib",
+                "url": "https://zilliverse.feishu.cn/wiki/TqMFwNyDbiY9qekBfPNcbpuvnib"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VMBqd5P0LoQUBSxe5VZcpqVinuf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import DataType\n\n# 1. Create the schema\nschema = client.create_schema(\n    enable_dynamic_field=True\n)\n\n# add the primary key\nschema.add_field(\"id\", DataType.INT64, is_primary=True, auto_id=True)\n\n# add the vector field\nschema.add_field(\"vector\", DataType.FLOAT_VECTOR, dimension=768)\n\n# add other scalar fields\nschema.add_field(\"title\", DataType.VARCHAR, max_length=512)\nschema.add_field(\"link\", DataType.VARCHAR, max_length=512)\nschema.add_field(\"reading_time\", DataType.INT64)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema.add_field(\"publication\", DataType.VARCHAR, max_length=512)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "Jg6udmcwqoLHhjxcSCDcN997nOh",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the provided code snippet, the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "enable_dynamic_field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is set to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "True",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "auto_id",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is enabled for the primary key. Additionally, a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field is introduced, configured with a dimensionality of 768, along with the inclusion of four scalar fields, each with its respective attributes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A4I9dmIIDofBVqxtNIwc2D6QnFY",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Set up index parameters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "XYrDdH9CtoU9tNxiL3RcflY5nVb",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Index parameters dictate how Zilliz Cloud organizes your data within a collection. You can tailor the indexing process for specific fields by adjusting their ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "metric_type",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "index_type",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". On Zilliz Cloud, the recommended index type is always ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AUTOINDEX",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". For the vector field, you have the flexibility to select ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "COSINE",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "L2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "metric_type",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". For additional insights into index types, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "AUTOINDEX Explained",
+                "token": "EA2twSf5oiERMDkriKScU9GInc4",
+                "url": "https://zilliverse.feishu.cn/wiki/EA2twSf5oiERMDkriKScU9GInc4"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EeYodjzGgonqBBxy4rqczAQTnyg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 2. Set index parameters\nindex_params = client.prepare_index_params()\n\n# Add an index on the vector field.\nindex_params.add_index(\n    field_name=\"vector\",\n    metric_type=\"COSINE\",\n    index_type=\"AUTOINDEX\"\n)\n\n# You can add indices on scalar fields too.\nindex_params.add_index(\n    field_name=\"title\",\n    index_type=\"AUTOINDEX\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "E5i4dZiRzoXm7mx2nQKcLEBqnCe",
+        "block_type": 2,
+        "comment_ids": [
+          "7311998277757812739"
+        ],
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The code snippet above demonstrates how to set up index parameters for the vector field and a scalar field, respectively. For the vector field, set both the metric type and the index type. For a scalar field, set only the index type. ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7311998277757812739"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "It is recommended to create an index for the vector field and any scalar fields that are frequently used for filtering.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WmHKdSOsEoAaJcxmg4BcU9H8nUb",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create the collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "N6RGd8ztooYjXSxZ3TAc2ILEnZe",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have the option to create a collection and an index file separately or to create a collection with the index loaded simultaneously upon creation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "W8VtdtKgdoyYYHxTvlxcOrmunRb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a collection and an index file separately.",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "QopFdhhb7oHLf9xzRQXc2fn7nJe",
+          "PAq6dGZ00o1AOyxjnXhcxB9wnDd"
+        ],
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "QopFdhhb7oHLf9xzRQXc2fn7nJe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "client.create_collection(\n    collection_name=\"medium_articles_2020\"\n    schema=schema\n)\n\nclient.create_index(\n    collection_name=\"medium_articles_2020\",\n    index_params=index_params\n)\n\nres = client.get_load_status(\n    collection_name=\"medium_articles_2020\"\n)\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Not Loaded",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "W8VtdtKgdoyYYHxTvlxcOrmunRb"
+      },
+      {
+        "block_id": "PAq6dGZ00o1AOyxjnXhcxB9wnDd",
+        "block_type": 2,
+        "parent_id": "W8VtdtKgdoyYYHxTvlxcOrmunRb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The collection created above is not loaded automatically. For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Load & Release Collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FZIMbwUUFiin9mikacAhcJ9XFnXe%23FUyJdrRPwoI3GLxC0eJcivq2n1f"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SPr9dKtjgoGqy6xvkQRca7zWnob",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a collection with the index loaded simultaneously upon creation.",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "GllMd9Yl8oozfUxPhudcub5inJg",
+          "B4sXdhN2uoUTxKxYxOLcsWxrnZe"
+        ],
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "GllMd9Yl8oozfUxPhudcub5inJg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "client.create_collection(\n    collection_name=\"medium_articles_2020\",\n    schema=schema,\n    index_params=index_params\n)\n\nres = client.get_load_status(\n    collection_name=\"medium_articles_2020\"\n)\n\n# Ouptut\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Loaded",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "SPr9dKtjgoGqy6xvkQRca7zWnob"
+      },
+      {
+        "block_id": "B4sXdhN2uoUTxKxYxOLcsWxrnZe",
+        "block_type": 2,
+        "parent_id": "SPr9dKtjgoGqy6xvkQRca7zWnob",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The collection created above is loaded automatically. To learn more about loading and releasing a collection, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Load & Release Collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FZIMbwUUFiin9mikacAhcJ9XFnXe%23FUyJdrRPwoI3GLxC0eJcivq2n1f"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WLMwdTqS6ousmxxyhS6cip7hnVu",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View Collections",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "PPYmd2j8Bo0e0Ex4Tl6cCnNYnub",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can check the details of an existing collection as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QiZMdTVbso5x05xd2Cjc8rAMnYe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "res = client.describe_collection(\n    collection_name=\"medium_articles_2020\"\n)\n\n# Ouptut\n#\n# {\n#     'collection_name': 'medium_articles_2020',\n#     'auto_id': True,\n#     'num_shards': 1,\n#     'description': '',\n#     'fields': [\n#         {\n#             'field_id': 100,\n#             'name': 'id',\n#             'description': '',\n#             'type': 5,\n#             'params': {},\n#             'element_type': 0,\n#             'is_primary': True\n#         },  \n#         {\n#             'field_id': 101,\n#             'name': 'vector',\n#             'description': '',\n#             'type': 101,\n#             'params': {'dim': 768},\n#             'element_type': 0,\n#         },  \n#     ],\n#     'aliases': [],\n#     'collection_id': 445951244005797220,\n#     'consistency_level': 2,\n#     'properties': {},\n#     'num_properties': 1,\n#     'enable_dynamic_field': True\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "VHVJdncdDoO9q0xgy1ocpYE8nSb",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To list all existing collections, you can do as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VloOdLjhioYrCjxoolnck1Btn5c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "res = client.list_collections()\n\n# Ouptut\n#\n# [\n#     {\n#         'collection_name': 'medium_articles_2020',\n#         'auto_id': True,\n#         'num_shards': 1,\n#         'description': '',\n#         'fields': [\n#             {\n#                 'field_id': 100,\n#                 'name': 'id',\n#                 'description': '',\n#                 'type': 5,\n#                 'params': {},\n#                 'element_type': 0,\n#                 'is_primary': True\n#             },  \n#             {\n#                 'field_id': 101,\n#                 'name': 'vector',\n#                 'description': '',\n#                 'type': 101,\n#                 'params': {'dim': 768},\n#                 'element_type': 0,\n#             },  \n#         ],\n#         'aliases': [],\n#         'collection_id': 445951244005797220,\n#         'consistency_level': 2,\n#         'properties': {},\n#         'num_properties': 1,\n#         'enable_dynamic_field': True\n#     }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "FUyJdrRPwoI3GLxC0eJcivq2n1f",
+        "block_type": 4,
+        "comment_ids": [
+          "7312402877522395140"
+        ],
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Load & Release Collection",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7312402877522395140"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "NZapdwfUro9ud9x0eaNc8wCJnEf",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "During the loading process of a collection, Zilliz Cloud loads the collection's index file into memory. Conversely, when releasing a collection, Zilliz Cloud unloads the index file from memory.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LvcLdEUALoafFvxbG9ZczlPFnzh",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Load a collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "UgFrdHhYeoMAJaxnY3Rcli1pnvf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "client.load_collection(\n    collection_name=\"medium_articles_2020\"\n)\n\nres = client.get_load_status(\n    collection_name=\"medium_articles_2020\"\n)\n\n# Ouptut\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Loaded",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "RUludlamzobKtDxBLrYcDB2nnud",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Release a collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "OZtQdrzKLodnJzxvm8ScLfe8nXe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "client.release_collection(\n    collection_name=\"medium_articles_2020\"\n)\n\nres = client.get_load_status(\n    collection_name=\"medium_articles_2020\"\n)\n\n# Ouptut\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Not Loaded",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "TwCKdwK6boRjHgxpbXLc9FMTnBO",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Drop a Collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "RKesdF1l0odaHXxUTsvcxyQfn0f",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If a collection is no longer needed, you can drop the collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Wl8mda3bjoL4UfxdYzhcKjKfnte",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "res = client.drop_collection(\n    collection_name='medium_articles_2020'\n)\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# None",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "TN6ddh9UtoZCiqxHG4ZcRNpcnzf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Collection Limits",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X"
+      },
+      {
+        "block_id": "K79NdLDsKoDDoBxcRVlc4K7snX9",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VFBddz7N5osy47x3Id7cwcm2nFf",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For a serverless cluster, you can create up to two collections. For a dedicated cluster, the number of collections you can create varies with the CU that your cluster uses.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F8YDdht0noaDFzxn9qwc45GZnhH",
+        "block_type": 31,
+        "children": [
+          "QVFddidkHohqTqxfxzkce8lInNe",
+          "YkRKdkRNkoIMCIxxCVHcxq13nac",
+          "ODGiduKsyokaj8xnFUUcySgmnQc",
+          "RvXOdPp54o1d1RxVu88c0Cxzncf",
+          "TM3EdAGtJoepc9xpKPYc5A8CnAc",
+          "Smp6dTshQoPuEnxRBhncPXLDnWd",
+          "KkAwdKKq2oVobRxsPlacInbQnlM",
+          "QZzGdjlpQorgv7xn7cQcTtJ5n11"
+        ],
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "table": {
+          "cells": [
+            "QVFddidkHohqTqxfxzkce8lInNe",
+            "YkRKdkRNkoIMCIxxCVHcxq13nac",
+            "ODGiduKsyokaj8xnFUUcySgmnQc",
+            "RvXOdPp54o1d1RxVu88c0Cxzncf",
+            "TM3EdAGtJoepc9xpKPYc5A8CnAc",
+            "Smp6dTshQoPuEnxRBhncPXLDnWd",
+            "KkAwdKKq2oVobRxsPlacInbQnlM",
+            "QZzGdjlpQorgv7xn7cQcTtJ5n11"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              273,
+              437
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 4
+          }
+        }
+      },
+      {
+        "block_id": "QVFddidkHohqTqxfxzkce8lInNe",
+        "block_type": 32,
+        "children": [
+          "I2LNdgw8LoGQ28xzxlmcs7Mjndd"
+        ],
+        "parent_id": "F8YDdht0noaDFzxn9qwc45GZnhH",
+        "table_cell": {}
+      },
+      {
+        "block_id": "I2LNdgw8LoGQ28xzxlmcs7Mjndd",
+        "block_type": 2,
+        "parent_id": "QVFddidkHohqTqxfxzkce8lInNe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YkRKdkRNkoIMCIxxCVHcxq13nac",
+        "block_type": 32,
+        "children": [
+          "NtZidc52Poqd85xwddCc7Nv3nxh"
+        ],
+        "parent_id": "F8YDdht0noaDFzxn9qwc45GZnhH",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NtZidc52Poqd85xwddCc7Nv3nxh",
+        "block_type": 2,
+        "parent_id": "YkRKdkRNkoIMCIxxCVHcxq13nac",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Maximum number of collections",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ODGiduKsyokaj8xnFUUcySgmnQc",
+        "block_type": 32,
+        "children": [
+          "FmHWdDGe8oNylZx8jEIc9Kq4nkh"
+        ],
+        "parent_id": "F8YDdht0noaDFzxn9qwc45GZnhH",
+        "table_cell": {}
+      },
+      {
+        "block_id": "FmHWdDGe8oNylZx8jEIc9Kq4nkh",
+        "block_type": 2,
+        "parent_id": "ODGiduKsyokaj8xnFUUcySgmnQc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Serverless cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RvXOdPp54o1d1RxVu88c0Cxzncf",
+        "block_type": 32,
+        "children": [
+          "Kc8ldnskzoasKsxoZsGc0FldnSg"
+        ],
+        "parent_id": "F8YDdht0noaDFzxn9qwc45GZnhH",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Kc8ldnskzoasKsxoZsGc0FldnSg",
+        "block_type": 2,
+        "parent_id": "RvXOdPp54o1d1RxVu88c0Cxzncf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TM3EdAGtJoepc9xpKPYc5A8CnAc",
+        "block_type": 32,
+        "children": [
+          "S6etdX2IboBZlKxbVwTc95Handc"
+        ],
+        "parent_id": "F8YDdht0noaDFzxn9qwc45GZnhH",
+        "table_cell": {}
+      },
+      {
+        "block_id": "S6etdX2IboBZlKxbVwTc95Handc",
+        "block_type": 2,
+        "parent_id": "TM3EdAGtJoepc9xpKPYc5A8CnAc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Dedicated cluster (8 CUs and less)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Smp6dTshQoPuEnxRBhncPXLDnWd",
+        "block_type": 32,
+        "children": [
+          "IX8Zd37FEoZuSnxOWKLc5pDhnHg"
+        ],
+        "parent_id": "F8YDdht0noaDFzxn9qwc45GZnhH",
+        "table_cell": {}
+      },
+      {
+        "block_id": "IX8Zd37FEoZuSnxOWKLc5pDhnHg",
+        "block_type": 2,
+        "parent_id": "Smp6dTshQoPuEnxRBhncPXLDnWd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "32",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KkAwdKKq2oVobRxsPlacInbQnlM",
+        "block_type": 32,
+        "children": [
+          "WuRadq4txoq0UrxljPCc10gWn7N"
+        ],
+        "parent_id": "F8YDdht0noaDFzxn9qwc45GZnhH",
+        "table_cell": {}
+      },
+      {
+        "block_id": "WuRadq4txoq0UrxljPCc10gWn7N",
+        "block_type": 2,
+        "parent_id": "KkAwdKKq2oVobRxsPlacInbQnlM",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Dedicated cluster (More than 8 CUs)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QZzGdjlpQorgv7xn7cQcTtJ5n11",
+        "block_type": 32,
+        "children": [
+          "DinpdDLo8ooSGOx0XHTc9GOUnF7"
+        ],
+        "parent_id": "F8YDdht0noaDFzxn9qwc45GZnhH",
+        "table_cell": {}
+      },
+      {
+        "block_id": "DinpdDLo8ooSGOx0XHTc9GOUnF7",
+        "block_type": 2,
+        "parent_id": "QZzGdjlpQorgv7xn7cQcTtJ5n11",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "256",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HlEcdMV07orRvDxdc85cRj8GnFd",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "H5DCdlPFaoLav6xZVw7crs2GnEf",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "E1WDdR5oeooxsUxauMocpidYn59",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The number of collections you can create varies with the CU that your cluster uses.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SO6adCj3boujUexVtGUchLi4neg",
+        "block_type": 31,
+        "children": [
+          "Ngc8drHS7ojxwTxfzIWc1xdrnTe",
+          "EKBRdGArmosH1pxAMw5cw3R0nWg",
+          "PwPIdNlFcoB726xsAMqcJCMgnpf",
+          "O1Hvd3Gmzor0jExSKlNcEp2LnNh",
+          "AjL7dt3vnoavVDxV1pxcxYKrnie",
+          "RjjudvJRiobsIKxHggXcxqsengf"
+        ],
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "table": {
+          "cells": [
+            "Ngc8drHS7ojxwTxfzIWc1xdrnTe",
+            "EKBRdGArmosH1pxAMw5cw3R0nWg",
+            "PwPIdNlFcoB726xsAMqcJCMgnpf",
+            "O1Hvd3Gmzor0jExSKlNcEp2LnNh",
+            "AjL7dt3vnoavVDxV1pxcxYKrnie",
+            "RjjudvJRiobsIKxHggXcxqsengf"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              273,
+              437
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 3
+          }
+        }
+      },
+      {
+        "block_id": "Ngc8drHS7ojxwTxfzIWc1xdrnTe",
+        "block_type": 32,
+        "children": [
+          "NAendb1cFo7UKJxuPOgckCLLnDg"
+        ],
+        "parent_id": "SO6adCj3boujUexVtGUchLi4neg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NAendb1cFo7UKJxuPOgckCLLnDg",
+        "block_type": 2,
+        "parent_id": "Ngc8drHS7ojxwTxfzIWc1xdrnTe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EKBRdGArmosH1pxAMw5cw3R0nWg",
+        "block_type": 32,
+        "children": [
+          "MOsSdu4HGoFbkAxx8pxcYMoJnCg"
+        ],
+        "parent_id": "SO6adCj3boujUexVtGUchLi4neg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "MOsSdu4HGoFbkAxx8pxcYMoJnCg",
+        "block_type": 2,
+        "parent_id": "EKBRdGArmosH1pxAMw5cw3R0nWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Maximum number of collections",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PwPIdNlFcoB726xsAMqcJCMgnpf",
+        "block_type": 32,
+        "children": [
+          "QSKsdd7hvouN3ixG1itc3TuunMh"
+        ],
+        "parent_id": "SO6adCj3boujUexVtGUchLi4neg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QSKsdd7hvouN3ixG1itc3TuunMh",
+        "block_type": 2,
+        "parent_id": "PwPIdNlFcoB726xsAMqcJCMgnpf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "8 CUs and less",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O1Hvd3Gmzor0jExSKlNcEp2LnNh",
+        "block_type": 32,
+        "children": [
+          "CgmLdJNqwob5GMx4gPycKtRRn4F"
+        ],
+        "parent_id": "SO6adCj3boujUexVtGUchLi4neg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CgmLdJNqwob5GMx4gPycKtRRn4F",
+        "block_type": 2,
+        "parent_id": "O1Hvd3Gmzor0jExSKlNcEp2LnNh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "32",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AjL7dt3vnoavVDxV1pxcxYKrnie",
+        "block_type": 32,
+        "children": [
+          "PqEJdwnINoIlevxmn1WcV2d9nQf"
+        ],
+        "parent_id": "SO6adCj3boujUexVtGUchLi4neg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PqEJdwnINoIlevxmn1WcV2d9nQf",
+        "block_type": 2,
+        "parent_id": "AjL7dt3vnoavVDxV1pxcxYKrnie",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "More than 8 CUs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RjjudvJRiobsIKxHggXcxqsengf",
+        "block_type": 32,
+        "children": [
+          "EmagdakK5oU0GRx7aA4ccJYanpM"
+        ],
+        "parent_id": "SO6adCj3boujUexVtGUchLi4neg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "EmagdakK5oU0GRx7aA4ccJYanpM",
+        "block_type": 2,
+        "parent_id": "RjjudvJRiobsIKxHggXcxqsengf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "256",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YEtodMJ1ko4wRXxpnZFchKuqnFe",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GzNRdx8U7oJSB9xSly4cspONntf",
+        "block_type": 2,
+        "parent_id": "E7ZBdpObFowJ2wxJjcXcZpEEn7X",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To implement multi-tenancy, you are advised to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 92
+  }
+}

@@ -5,7 +5,7 @@
   "node_token": "KxK7wHZrciDa0skHrW1c6nkWn5f",
   "node_type": "origin",
   "obj_create_time": "1689055252",
-  "obj_edit_time": "1699622488",
+  "obj_edit_time": "1705028130",
   "obj_token": "LGp1dDrGhonPuoxakhAcltVNnWh",
   "obj_type": "docx",
   "origin_node_token": "KxK7wHZrciDa0skHrW1c6nkWn5f",
@@ -13,7 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
   "space_id": "7167193056431783939",
-  "title": "Drop Collection",
+  "title": "[DEPRECATE] Drop Collection",
   "slug": "drop-collection",
   "blocks": {
     "items": [
@@ -39,7 +39,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Drop Collection",
+                "content": "[DEPRECATE] Drop Collection",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

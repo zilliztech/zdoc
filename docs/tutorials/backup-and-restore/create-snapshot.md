@@ -39,11 +39,11 @@ Data transfer used to create the snapshots is separately charged at the rate of 
 
 ## Related topics{#related-topics}
 
-- [Schedule Automatic Backups](./schedule-automatic-backups) 
+- [Schedule Automatic Backups](./schedule-automatic-backups)
 
-- [View Snapshot Details](./view-snapshot-details) 
+- [View Snapshot Details](./view-snapshot-details)
 
-- [Restore from Snapshot](./restore-from-snapshot) 
+- [Restore from Snapshot](./restore-from-snapshot)
 
 - [Delete Snapshot](./delete-snapshot) 
 

@@ -3,7 +3,7 @@ slug: /pricing-calculator
 beta: FALSE
 notebook: FALSE
 token: N985w1llIi7z1SkhTH5cAoKcnKb
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';

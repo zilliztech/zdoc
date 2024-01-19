@@ -16,13 +16,18 @@ Drop a specific pipeline
 ## Example
 
 
-Drop a pipeline that is no longer in need.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+Currently, data of the JSON and Array types are not supported in RESTful API requests..
+:::
 
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
-    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487"
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-**********************"
 ```
 
 Possible response
@@ -31,7 +36,7 @@ Possible response
 {
     "code": 200,
     "data": {
-        "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+        "pipelineId": "pipe-**********************",
         "name": "my_doc_ingestion_pipeline",
         "type": "INGESTION",
         "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
@@ -92,6 +97,7 @@ Returns information of a specific pipeline just dropped.
         "type": "string",
         "description": "string",
         "status": "string",
+        "totalTokenUsage": "integer",
         "clusterID": "string",
         "collectionName": "string"
     }
@@ -120,6 +126,7 @@ The properties in the returned response are listed in the following table.
 | `data.type`   | **string**<br/>Type of the pipeline. For an ingestion pipeline, the value should be `INGESTION`. |
 | `data.description`   | **string**<br/>Description of the pipeline. |
 | `data.status`   | **string**<br/>Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working. |
+| `data.totalTokenUsage`   | **integer**<br/>Number of consumed tokens in this operation. |
 | `data.functions`   | ****<br/>Functions in the pipeline. For an ingestion pipeline, there should be only one `INDEX_DOC` function. |
 | `data.clusterID`   | **string**<br/>The target cluster to which the pipeline applies. |
 | `data.collectionName`   | **string**<br/>The target collection to which the pipeline applies. |

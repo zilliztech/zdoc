@@ -17,7 +17,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 - Ensure you have an AWS Marketplace account.
 
-- Set your AWS Buyer ID's default payment method to the Invoicing Plan. [Learn how to change your default payment method](https://chat.openai.com/c/0b1274aa-d87a-4104-9a5f-b0daeb3fee59#).
+- Set your AWS Buyer ID's default payment method to the Invoicing Plan. [Learn how to change your default payment method](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-payment-method.html).
 
 - If you’re an existing Zilliz Cloud user, use a different email to subscribe on AWS Marketplace.
 
@@ -83,8 +83,6 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
 1. Cancel your Zilliz Cloud subscription. Refer to [Cancel your product subscription](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription) for more details.
 
-    
-
     <Admonition type="info" icon="📘" title="Notes">
 
     It takes a few minutes for AWS Marketplace to complete the cancellation process.
@@ -131,13 +129,15 @@ To cancel your AWS Marketplace subscription, you need to open the AWS Marketplac
     |  1 GB for storage on GCP per month as one unit       |  $0.02 / unit  |
     |  1 GB for backup service on GCP as one unit          |  $0.02 / unit  |
 
-Using the above table, if you have deployed a vector database in the **Standard Plan** on Zilliz Cloud with one performance-optimized CU, you will be charged 159 units per hour, that is $0.159/hour.
+Using the above table, if you have deployed a vector database in the **Standard Plan** on Zilliz Cloud with one performance-optimized CU on AWS, you will be charged 159 units per hour, that is $0.159/hour.
 
 To subscribe to Zilliz Cloud, please visit us on [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?sr=0-1&ref_=beagle&applicationId=AWSMPContessa).
 
 ## Related topics{#related-topics}
 
-- [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card) 
+- [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card)
+
+- [Subscribe on GCP Marketplace](./subscribe-on-gcp-marketplace)
 
 - [View Invoice](./view-invoice) 
 

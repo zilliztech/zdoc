@@ -16,7 +16,12 @@ Create a pipeline.
 ## Example
 
 
-Create a pipeline that aims to transform your unstructured data into a searchable vector collection.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+Currently, data of the JSON and Array types are not supported in RESTful API requests..
+:::
 
 - Create a data ingestion pipeline.
 
@@ -26,6 +31,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
         --header "Authorization: Bearer ${YOUR_API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
         -d '{
+            "projectId": "proj-**********************",
             "name": "my_doc_ingestion_pipeline",
             "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
             "type": "INGESTION",  
@@ -34,7 +40,8 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
                     "name": "index_my_doc",
                     "action": "INDEX_DOC", 
                     "inputField": "doc_url", 
-                    "language": "ENGLISH"
+                    "language": "ENGLISH",
+                    "chunkSize": 500
                 },
                 {
                     "name": "keep_doc_info",
@@ -55,28 +62,30 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
     {
         "code": 200,
         "data": {
-        "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
-        "name": "my_doc_ingestion_pipeline",
-        "type": "INGESTION",
-        "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
-        "status": "SERVING",
-        "functions": [
-            {
-                "action": "INDEX_DOC",
-                "name": "index_my_doc",
-                "inputField": "doc_url",
-                "language": "ENGLISH"
-            },
-            {
-                "action": "PRESERVE",
-                "name": "keep_doc_info",
-                "inputField": "publish_year",
-                "outputField": "publish_year",
-                "fieldType": "Int16"
-            }
-        ],
-        "clusterId": "in03-***************",
-        "newCollectionName": "my_new_collection"
+            "pipelineId": "pipe-**********************",
+            "name": "my_doc_ingestion_pipeline",
+            "type": "INGESTION",
+            "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
+            "status": "SERVING",
+            "totalTokenUsage": 0,
+            "functions": [
+                {
+                    "action": "INDEX_DOC",
+                    "name": "index_my_doc",
+                    "inputField": "doc_url",
+                    "language": "ENGLISH",
+                    "chunkSize": 500
+                },
+                {
+                    "action": "PRESERVE",
+                    "name": "keep_doc_info",
+                    "inputField": "publish_year",
+                    "outputField": "publish_year",
+                    "fieldType": "Int16"
+                }
+            ],
+            "clusterId": "in03-***************",
+            "newCollectionName": "my_new_collection"
         }
     }   
     ```  
@@ -110,7 +119,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
     {
         "code": 200,
         "data": {
-            "pipelineId": "pipe-26a18a66ffc8c0edfdb874",
+            "pipelineId": "pipe-**********************",
             "name": "my_text_search_pipeline",
             "type": "SEARCH",
             "description": "A pipeline that receives text and search for semantically similar doc chunks",
@@ -158,7 +167,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
     {
         "code": 200,
         "data": {
-            "pipelineId": "pipe-7227d0729d73e63002ed46",
+            "pipelineId": "pipe-**********************",
             "name": "my_doc_deletion_pipeline",
             "type": "DELETION",
             "description": "A pipeline that deletes all info associated with a doc",
@@ -189,6 +198,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
 
 ```json
 {
+    "projectId": "string",
     "name": "string",
     "type": "string",
     "description": "string",
@@ -208,6 +218,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
+| `projectId`  | **string**(required)<br/>ID of the target project of this operation.|
 | `name`  | **string**(required)<br/>Name of the pipeline to create.|
 | `type`  | **string**(required)<br/>Type of the pipeline to create. For an ingestion pipeline, the value should be `INGESTION`.|
 | `description`  | **string**(required)<br/>Description of the pipeline to create.|
@@ -217,6 +228,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
 
 ```json
 {
+    "projectId": "string",
     "name": "string",
     "description": "string",
     "type": "string",
@@ -233,6 +245,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
+| `projectId`  | **string**(required)<br/>ID of the target project of this operation.|
 | `name`  | **string**(required)<br/>Name of the pipeline to create.|
 | `description`  | **string**(required)<br/>Description of the pipeline to create.|
 | `type`  | **string**(required)<br/>Type of the pipeline to create. For a search pipeline, the value should be `SEARCH`.|
@@ -240,6 +253,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
 
 ```json
 {
+    "projectId": "string",
     "name": "string",
     "description": "string",
     "type": "string",
@@ -257,6 +271,7 @@ Create a pipeline that aims to transform your unstructured data into a searchabl
 
 | Parameter        | Description                                                                               |
 |------------------|-------------------------------------------------------------------------------------------|
+| `projectId`  | **string**(required)<br/>ID of the target project of this operation.|
 | `name`  | **string**(required)<br/>Name of the pipeline to create.|
 | `description`  | **string**(required)<br/>Description of the pipeline to create.|
 | `type`  | **string**(required)<br/>Type of the pipeline to create. For a deletion pipeline, the value should be `DELETION`|
@@ -281,6 +296,7 @@ Returns information about the pipeline just created.
         "type": "string",
         "description": "string",
         "status": "string",
+        "totalTokenUsage": "integer",
         "clusterID": "string",
         "collectionName": "string"
     }
@@ -309,6 +325,7 @@ The properties in the returned response are listed in the following table.
 | `data.type`   | **string**<br/>Type of the pipeline. For an ingestion pipeline, the value should be `INGESTION`. |
 | `data.description`   | **string**<br/>Description of the pipeline. |
 | `data.status`   | **string**<br/>Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working. |
+| `data.totalTokenUsage`   | **integer**<br/>Number of consumed tokens in this operation. |
 | `data.functions`   | ****<br/>Functions in the pipeline. For an ingestion pipeline, there should be only one `INDEX_DOC` function. |
 | `data.clusterID`   | **string**<br/>The target cluster to which the pipeline applies. |
 | `data.collectionName`   | **string**<br/>The target collection to which the pipeline applies. |

@@ -5,7 +5,7 @@
   "node_token": "PharwAysCiBzvgkuqqecmNzunQf",
   "node_type": "origin",
   "obj_create_time": "1701225562",
-  "obj_edit_time": "1701225562",
+  "obj_edit_time": "1705403144",
   "obj_token": "B1mRdvhLaouOfaxFQq7cEUmMncg",
   "obj_type": "docx",
   "origin_node_token": "PharwAysCiBzvgkuqqecmNzunQf",
@@ -13,7 +13,8 @@
   "owner": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_node_token": "BIy4we6qXiq8NpkHfXgcxuONngb",
   "space_id": "7167193056431783939",
-  "title": "Manage Cluster (Dev)",
+  "title": "Manage Cluster",
+  "slug": "manage-cluster",
   "blocks": {
     "items": [
       {
@@ -33,6 +34,7 @@
           "doxcnLhWi5gnY7dVy774Qz9Jevf",
           "doxcnfjUxP8jEJz97532a8QuKnd",
           "doxcnyTlKuwBT0ClL9CBIpTtMmc",
+          "PnbkdNmD9ofB8kxZ7sUc6BCXnyb",
           "doxcno7su50E9urgCh0ROwcjRig",
           "doxcneNnx2chFmlcgL5iKXp4Iwh",
           "doxcnVshENAUUvQ5bEF72qf3Zzg",
@@ -45,10 +47,20 @@
           "doxcnm3s0Mv4EnFr1USjoVF6hMf",
           "doxcnxkphKPQdIBA6c53eks0u9c",
           "doxcnp9NaxKxeVnIOqnqZINuYUh",
+          "Ebqqd9GvAoEM4fxbALHcd8K3nRf",
           "doxcn78Yb1AY5jC9bty0vYPJBcc",
+          "E2EjdsOqjo7a8Nx8qJOcLPn8n6J",
+          "GZbidiYRFoyrqRxwLuvchQCAnAA",
+          "Mhg3d102NoxbiYxpj9dcfdrtnDf",
+          "CersdGngfoJ6GLxbJ9KckYkynmd",
+          "SbLbdOw1xofSLuxNNBgcbfaKnLh",
+          "CXZdd1NMDoPlvMxeioxc9BHxnMh",
+          "B0HEdlWpLoftBrxKiH9csSL8nKe",
+          "MwJBdutJzoncnKx220LcN743nTh",
+          "Gie3d47RioNuNdxHYNUcvsginQV",
+          "C0oTdoAdrod2GnxWfDwcxSaYnDe",
+          "YCD0dbNnxoqKWExdaCocJGMwnle",
           "doxcnuJJ1DbllAWF3ui2Qp5V24e",
-          "doxcnrMY3rrdsXgF3YYNM9xvPkN",
-          "doxcnlrzNFp2QfPZKqRft5fRlYb",
           "doxcnzpBxW5Qm82zGIzS2GuPVcc",
           "doxcncxPGYXVbPyH0zQNMWaQgmg",
           "doxcni2J5k2Fgob1FYww6bcSTqb",
@@ -60,7 +72,9 @@
           "doxcniuOPSogQBCmiDbKv6tA6vc",
           "doxcnhnoVXqocfGz5l7jk2mWmJb",
           "doxcnfutLIBnFrmBVsNEaXDFZBb",
+          "AUVRd5LtQoKbIMxoYxOcq1mEnPg",
           "doxcnbV2X72oApOhqJH8ODZiMeb",
+          "GLKMdEQBtoLQPqxTNC6cSaNnnab",
           "doxcnxTxiGThSTNfYx7Rg9DH1qc",
           "doxcn3Tmq2rqcBLBDAOqYMlWOWh",
           "doxcn26qCIfzWjN75neu0ptDrYb",
@@ -74,16 +88,16 @@
           "doxcnzkkF5wEkktLr45ihxDTHGh",
           "doxcnDfpuyhhdzZzpBfof9tIcnd",
           "doxcnrNrHIUONX8jqAMskQBg9Pf",
+          "doxcnjsUS83hlQDugTIJi8nVbLf",
           "doxcnC4YsctCa87ccg2gDyQLkAg",
           "doxcn9hiHwBabC5G980eoAAowXZ",
-          "doxcnz4V1EOaS023WQvBaisjIfg",
-          "doxcnjsUS83hlQDugTIJi8nVbLf"
+          "doxcnz4V1EOaS023WQvBaisjIfg"
         ],
         "page": {
           "elements": [
             {
               "text_run": {
-                "content": "Manage Cluster (Dev)",
+                "content": "Manage Cluster",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -697,10 +711,12 @@
               "text_run": {
                 "content": "Drop Cluster",
                 "text_element_style": {
-                  "background_color": 3,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fdrop-cluster"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -749,6 +765,67 @@
           }
         },
         "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
+      },
+      {
+        "block_id": "PnbkdNmD9ofB8kxZ7sUc6BCXnyb",
+        "block_type": 2,
+        "comment_ids": [
+          "7322731932344877059"
+        ],
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When the used CU capacity of your serverless cluster hits 100%, Zilliz Cloud disables data writing and triggers ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322731932344877059"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322731932344877059"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " errors. To restore normal functionality, you can migrate your serverless cluster to a dedicated cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7322731932344877059"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "doxcno7su50E9urgCh0ROwcjRig",
@@ -1276,6 +1353,9 @@
       {
         "block_id": "doxcnxkphKPQdIBA6c53eks0u9c",
         "block_type": 4,
+        "comment_ids": [
+          "7322723750620282883"
+        ],
         "heading2": {
           "elements": [
             {
@@ -1283,6 +1363,9 @@
                 "content": "Dedicated cluster",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7322723750620282883"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1324,6 +1407,31 @@
         }
       },
       {
+        "block_id": "Ebqqd9GvAoEM4fxbALHcd8K3nRf",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View cluster details",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
+      },
+      {
         "block_id": "doxcn78Yb1AY5jC9bty0vYPJBcc",
         "block_type": 2,
         "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
@@ -1331,7 +1439,129 @@
           "elements": [
             {
               "text_run": {
-                "content": "Once you have created a",
+                "content": "After setting up your Zilliz Cloud cluster, here’s what you’ll find in each section for cluster details:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "E2EjdsOqjo7a8Nx8qJOcLPn8n6J",
+        "block_type": 2,
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"paas\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GZbidiYRFoyrqRxwLuvchQCAnAA",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D7155-171%26mode%3Ddesign%26t%3DuZ56ptY5cmJ3Z8p3-4"
+          }
+        },
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
+      },
+      {
+        "block_id": "Mhg3d102NoxbiYxpj9dcfdrtnDf",
+        "block_type": 2,
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CersdGngfoJ6GLxbJ9KckYkynmd",
+        "block_type": 2,
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"paas\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SbLbdOw1xofSLuxNNBgcbfaKnLh",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D26522-1261%26mode%3Ddesign%26t%3DfOdsa5MF9gy5KZSz-4"
+          }
+        },
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
+      },
+      {
+        "block_id": "CXZdd1NMDoPlvMxeioxc9BHxnMh",
+        "block_type": 2,
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1343,7 +1573,142 @@
             },
             {
               "text_run": {
-                "content": "<exclude target=\"",
+                "content": "/",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "B0HEdlWpLoftBrxKiH9csSL8nKe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Connect",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": This section provides the necessary details to begin interacting with your cluster, including the public endpoint for connections,<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"> a private link,</exclude> and a token for secure access.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
+      },
+      {
+        "block_id": "MwJBdutJzoncnKx220LcN743nTh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Summary",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": This offers a snapshot of your cluster's essentials. You can find the cluster's ID, hosting region, type, and size. Details on the creator, as well as the creation date and time, are also presented.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
+      },
+      {
+        "block_id": "Gie3d47RioNuNdxHYNUcvsginQV",
+        "block_type": 2,
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1376,10 +1741,262 @@
                   "underline": false
                 }
               }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C0oTdoAdrod2GnxWfDwcxSaYnDe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Topology",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
             },
             {
               "text_run": {
-                "content": " dedicated",
+                "content": ": A graphical representation showing the structure of your cluster. This includes the designation of roles and compute resources for various nodes:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Z5tJdHrDqofoeOxSo4hcC3xxnKe",
+          "Ts0Pdqa8UoyDaixFx1YcLZJunEd",
+          "DF9CdZIG4oOIntxE2FAcQ1eHngg",
+          "ZGdXdvdPHoI9rYxxvTDcimFMnkc",
+          "HZEXd4L6yoXi3dxPsNScO0S3nye"
+        ],
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
+      },
+      {
+        "block_id": "Z5tJdHrDqofoeOxSo4hcC3xxnKe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Proxy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Stateless nodes that manage user connections and streamline service addresses with load balancers.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "C0oTdoAdrod2GnxWfDwcxSaYnDe"
+      },
+      {
+        "block_id": "Ts0Pdqa8UoyDaixFx1YcLZJunEd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Query",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Node",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Responsible for hybrid vector and scalar searches and incremental data updates.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "C0oTdoAdrod2GnxWfDwcxSaYnDe"
+      },
+      {
+        "block_id": "DF9CdZIG4oOIntxE2FAcQ1eHngg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Coordinator",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The orchestration center, distributing tasks across worker nodes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "C0oTdoAdrod2GnxWfDwcxSaYnDe"
+      },
+      {
+        "block_id": "ZGdXdvdPHoI9rYxxvTDcimFMnkc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Data Node",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Handles data mutations and log-to-snapshot conversions for persistence.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "C0oTdoAdrod2GnxWfDwcxSaYnDe"
+      },
+      {
+        "block_id": "HZEXd4L6yoXi3dxPsNScO0S3nye",
+        "block_type": 34,
+        "children": [
+          "BBM4dTMRuorYkTx4vaCcJx0BnCe",
+          "FNHYdmuffocOgXxBvP4cQYQinOh"
+        ],
+        "parent_id": "C0oTdoAdrod2GnxWfDwcxSaYnDe",
+        "quote_container": {}
+      },
+      {
+        "block_id": "BBM4dTMRuorYkTx4vaCcJx0BnCe",
+        "block_type": 2,
+        "parent_id": "HZEXd4L6yoXi3dxPsNScO0S3nye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FNHYdmuffocOgXxBvP4cQYQinOh",
+        "block_type": 2,
+        "parent_id": "HZEXd4L6yoXi3dxPsNScO0S3nye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Clusters with ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1391,7 +2008,19 @@
             },
             {
               "text_run": {
-                "content": "</exclude>",
+                "content": "1-8 CUs",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " typically use a single-node setup suitable for smaller datasets. Clusters with more than ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1403,9 +2032,9 @@
             },
             {
               "text_run": {
-                "content": " cluster, you will see the following ",
+                "content": "8 CUs",
                 "text_element_style": {
-                  "bold": false,
+                  "bold": true,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1415,7 +2044,7 @@
             },
             {
               "text_run": {
-                "content": "in the ",
+                "content": " adopt a distributed multi-server node architecture to improve performance and scalability.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1424,10 +2053,23 @@
                   "underline": false
                 }
               }
-            },
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YCD0dbNnxoqKWExdaCocJGMwnle",
+        "block_type": 2,
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
+        "text": {
+          "elements": [
             {
               "text_run": {
-                "content": "console.",
+                "content": "</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1452,67 +2094,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "<exclude target=\"",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "paas",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\">",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnrMY3rrdsXgF3YYNM9xvPkN",
-        "block_type": 26,
-        "iframe": {
-          "component": {
-            "iframe_type": 8,
-            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D7155-171%26mode%3Ddesign%26t%3DuZ56ptY5cmJ3Z8p3-4"
-          }
-        },
-        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
-      },
-      {
-        "block_id": "doxcnlrzNFp2QfPZKqRft5fRlYb",
-        "block_type": 2,
-        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "</exclude>",
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1536,7 +2118,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Establish Connection",
+                "content": "Establish connection",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1663,7 +2245,7 @@
             },
             {
               "text_run": {
-                "content": " that are used to connect to the cluster.",
+                "content": " that are used to connect to the cluster. The token can be<exclude target=\"",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1675,7 +2257,19 @@
             },
             {
               "text_run": {
-                "content": " The token can either be an ",
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"> an ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1693,7 +2287,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FIFtRwms2yiPZx9kfiBacuaw6nJc%3Ffrom%3Dfrom_copylink"
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FBRsZwqOUTiBbrPk9b5WcvFgTnze"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -1702,7 +2296,7 @@
             },
             {
               "text_run": {
-                "content": " or a ",
+                "content": " or </exclude>a ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1720,7 +2314,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FHa8jwqxnniC8mDkXM4RcN4SFnKf%3Ffrom%3Dfrom_copylink"
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FB10Owir21iSfZfkjsvgcnU6nnFc"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -2844,6 +3438,31 @@
         }
       },
       {
+        "block_id": "AUVRd5LtQoKbIMxoYxOcq1mEnPg",
+        "block_type": 2,
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"paas\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "doxcnbV2X72oApOhqJH8ODZiMeb",
         "block_type": 12,
         "bullet": {
@@ -3055,6 +3674,31 @@
             {
               "text_run": {
                 "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GLKMdEQBtoLQPqxTNC6cSaNnnab",
+        "block_type": 2,
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3382,10 +4026,12 @@
               "text_run": {
                 "content": "Modify Cluster",
                 "text_element_style": {
-                  "background_color": 3,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fmodify-cluster"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -4813,10 +5459,12 @@
               "text_run": {
                 "content": "Drop Cluster",
                 "text_element_style": {
-                  "background_color": 3,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Fdrop-cluster"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -5028,6 +5676,34 @@
         "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
       },
       {
+        "block_id": "doxcnjsUS83hlQDugTIJi8nVbLf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Set up Whitelist",
+                "token": "FnS1wY0iuia4qgkMycVclZyHnOf",
+                "url": "https://zilliverse.feishu.cn/wiki/FnS1wY0iuia4qgkMycVclZyHnOf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
+      },
+      {
         "block_id": "doxcnC4YsctCa87ccg2gDyQLkAg",
         "block_type": 2,
         "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
@@ -5058,18 +5734,18 @@
         "bullet": {
           "elements": [
             {
-              "text_run": {
-                "content": "Backup & Restore",
+              "mention_doc": {
+                "obj_type": 16,
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fbackup-and-restore"
-                  },
                   "strikethrough": false,
                   "underline": false
-                }
+                },
+                "title": "Backup & Restore",
+                "token": "VvikwOKc9iZ5vBkgMnycrXKmnId",
+                "url": "https://zilliverse.feishu.cn/wiki/VvikwOKc9iZ5vBkgMnycrXKmnId"
               }
             }
           ],
@@ -5107,36 +5783,8 @@
           }
         },
         "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
-      },
-      {
-        "block_id": "doxcnjsUS83hlQDugTIJi8nVbLf",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Set up Whitelist",
-                "token": "FnS1wY0iuia4qgkMycVclZyHnOf",
-                "url": "https://zilliverse.feishu.cn/wiki/FnS1wY0iuia4qgkMycVclZyHnOf"
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
       }
     ],
-    "counts": 109
+    "counts": 129
   }
 }

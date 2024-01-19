@@ -16,11 +16,15 @@ Modify the configuration of a specified cluster. Currently, you can use this API
 ## Example
 
 
-Modifies the CU size of a cluster.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+:::
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/modify" \
+    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/modify" \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
@@ -35,7 +39,7 @@ Success response:
 {
     "code": 200,
     "data": {
-       "clusterId": "in01-2040352a6a0b1b7",
+       "clusterId": "in01-***************",
        "prompt": "Submission successful, Cluster is currently upgrading and will take several minutes, you can use the DescribeCluster interface to obtain the creation progress and the status of the Cluster. When the Cluster status is RUNNING, you can access your vector database using the SDK."
     }
 }

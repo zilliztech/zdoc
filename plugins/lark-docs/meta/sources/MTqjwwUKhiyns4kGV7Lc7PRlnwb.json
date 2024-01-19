@@ -5,7 +5,7 @@
   "node_token": "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
   "node_type": "origin",
   "obj_create_time": "1693562324",
-  "obj_edit_time": "1702026315",
+  "obj_edit_time": "1703063327",
   "obj_token": "QadbdhBPJoEfkrxzUi4cHeOjnKf",
   "obj_type": "docx",
   "origin_node_token": "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
@@ -22,6 +22,7 @@
         "block_type": 1,
         "children": [
           "Ojk9dTi6QoXMlxxRkyNcTwLbnue",
+          "Md5EdiTrwo9bMrxAG10cAoUpnTb",
           "G1CcdftPPot8sfxI97icWUSInOg",
           "FPt9dgRFlo2wqPxZquMciyApnCv",
           "Fp3Gd6icbo6sTIxW2ZzcWRBMnKg",
@@ -90,7 +91,7 @@
             },
             {
               "text_run": {
-                "content": "You can seamlessly transfer data from a serverless cluster to a dedicated cluster or between",
+                "content": "You can seamlessly transfer data",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -102,12 +103,91 @@
             },
             {
               "text_run": {
-                "content": " two dedicated clusters.",
+                "content": " f",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "rom a serverless cluster to a dedicated cluster or between",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " two dedicated",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
                     "7310141832854388740"
                   ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7310141832854388740"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "clusters.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7310141832854388740"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Md5EdiTrwo9bMrxAG10cAoUpnTb",
+        "block_type": 2,
+        "parent_id": "QadbdhBPJoEfkrxzUi4cHeOjnKf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1830,6 +1910,6 @@
         "parent_id": "QadbdhBPJoEfkrxzUi4cHeOjnKf"
       }
     ],
-    "counts": 35
+    "counts": 36
   }
 }

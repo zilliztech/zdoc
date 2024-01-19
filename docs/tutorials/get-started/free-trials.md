@@ -3,7 +3,7 @@ slug: /free-trials
 beta: FALSE
 notebook: FALSE
 token: LMfdwRwKIiJtywkwbHVcGnOFnRf
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';
@@ -90,5 +90,5 @@ For detailed guidelines on cluster creation, refer to our [Create Cluster](./cre
 
 - [Register with Zilliz Cloud](./register-with-zilliz-cloud)
 
-- [Create Cluster](./create-cluster)
+- [Create Cluster](./create-cluster) 
 

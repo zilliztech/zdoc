@@ -5,7 +5,7 @@
   "node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
   "node_type": "origin",
   "obj_create_time": "1699859454",
-  "obj_edit_time": "1701670063",
+  "obj_edit_time": "1703831655",
   "obj_token": "WVx8dp8wGoBBKexHzdicvLnynYc",
   "obj_type": "docx",
   "origin_node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
@@ -439,6 +439,7 @@
         "block_id": "QqjiduOoforXWzxnsbbcp4Omn7d",
         "block_type": 2,
         "comment_ids": [
+          "7317900889837961220",
           "7306046308955521028"
         ],
         "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc",
@@ -494,7 +495,37 @@
             },
             {
               "text_run": {
-                "content": " Retrieval Augmented Generation (RAG) applications.",
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Retrieval Augmented Generation (RAG) applications",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7317900889837961220"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fmilvus-io%2Fbootcamp%2Fblob%2Fmaster%2Fbootcamp%2FRAG%2Fzilliz_pipeline_rag.ipynb"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -5,7 +5,7 @@
   "node_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
   "node_type": "origin",
   "obj_create_time": "1701223750",
-  "obj_edit_time": "1701223750",
+  "obj_edit_time": "1705460647",
   "obj_token": "GQVdd3C8ho6IDexgNBMcTdf1nGc",
   "obj_type": "docx",
   "origin_node_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
@@ -13,7 +13,8 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "BIy4we6qXiq8NpkHfXgcxuONngb",
   "space_id": "7167193056431783939",
-  "title": "Create Cluster (Dev)",
+  "title": "Create Cluster",
+  "slug": "create-cluster",
   "blocks": {
     "items": [
       {
@@ -62,9 +63,6 @@
           "doxcnFVZcArHthU2MoulY6GliWb",
           "doxcn05ddcMkTc9zPmvJTNlAGvc",
           "doxcna9QlNXGq8S8xjaRrDetfQf",
-          "doxcnIPRoNKTgLTf1hfZ8Xu0iVd",
-          "doxcnCaoXxT5xikwOpfr3s7yyhf",
-          "doxcnxPcTtasF3u4XttjdQIHbth",
           "doxcnWCrGQVR8JjiU7IWJTWWyVc",
           "doxcngc0raXhRbGvhhy5PZvl3ce",
           "doxcnDb31hs5WG8FNMsEVMRz8cf",
@@ -87,15 +85,13 @@
           "doxcnbuYaJNN9FTlE0tHnOSpAYY",
           "doxcnVBRXU5ErcUEe4zEaAzu1Kh",
           "doxcnPpUGFttvMLeMSHyTti7VBg",
-          "doxcnl2I9GdOq3J3Eh9U8FbBONg",
-          "doxcnJmfsOZ1wfsvcdDVh8wUPZc",
           "doxcnCDxeE0PIwpZooJi1txDVI8"
         ],
         "page": {
           "elements": [
             {
               "text_run": {
-                "content": "Create Cluster (Dev)",
+                "content": "Create Cluster",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -573,7 +569,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see ",
+                "content": "Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -585,17 +581,29 @@
             },
             {
               "text_run": {
-                "content": "Users & Roles",
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FCA04wUpF0id2sckrZjqcAOZGnnz"
-                  },
                   "strikethrough": false,
                   "underline": false
                 }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "User Roles",
+                "token": "AFNZwDcXNiChK0ke5h5c65xZnje",
+                "url": "https://zilliverse.feishu.cn/wiki/AFNZwDcXNiChK0ke5h5c65xZnje"
               }
             },
             {
@@ -2096,31 +2104,7 @@
             },
             {
               "text_run": {
-                "content": ".  A dialog box will display the public endpoint and ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " key for the cluster. Record these details for future access.",
+                "content": ". A dialog box will display the public endpoint and API key for the cluster. Record these details for future access.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2487,21 +2471,8 @@
             },
             {
               "text_run": {
-                "content": ": The ID of the cloud region where you want to create a cluster. Currently, serverless clusters can be created only on GCP. To obtain available cloud region IDs, ",
+                "content": ": The ID of the cloud region where you want to create a cluster. Currently, serverless clusters can be created only on GCP. To obtain available cloud region IDs, call the ",
                 "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "call the ",
-                "text_element_style": {
-                  "background_color": 3,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2514,7 +2485,6 @@
               "text_run": {
                 "content": "List Cloud Regions",
                 "text_element_style": {
-                  "background_color": 3,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -2528,20 +2498,7 @@
             },
             {
               "text_run": {
-                "content": " operation",
-                "text_element_style": {
-                  "background_color": 3,
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
+                "content": " operation.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2652,21 +2609,8 @@
             },
             {
               "text_run": {
-                "content": ": The ID of the project in which you want to create a cluster. To list project IDs, ",
+                "content": ": The ID of the project in which you want to create a cluster. To list project IDs, call the ",
                 "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "call the ",
-                "text_element_style": {
-                  "background_color": 3,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -2679,10 +2623,12 @@
               "text_run": {
                 "content": "List Projects",
                 "text_element_style": {
-                  "background_color": 3,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Flist-projects"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -2690,20 +2636,7 @@
             },
             {
               "text_run": {
-                "content": " operation",
-                "text_element_style": {
-                  "background_color": 3,
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
+                "content": " operation.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3050,7 +2983,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "Select the desired organization and project.",
+                "content": "Enter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " the desired organization and project.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3135,9 +3080,16 @@
         "block_id": "doxcna9QlNXGq8S8xjaRrDetfQf",
         "block_type": 13,
         "children": [
-          "doxcnxnHwXa8rLTKwVL0zQVQfne",
-          "doxcnCtg8kRcAgAnJozChL9dfQc",
-          "doxcnfqlO8uCHDqWlOxEYDHOQmf"
+          "NewfdPWA2oO0UcxaJogcLufGngf",
+          "U5CoddN24oTBsqxBWDHc6ylHn3b",
+          "YkIidIjFtoOmyDx8UUhcKrDFnye",
+          "Ah8zdlnggotfCvxINY4czLqhnJd",
+          "NunJdOiMdod309xel8icnnkdnmc",
+          "KfredgYRqoNWq7x4X7YcFQeonbh",
+          "JiDSdM61xo1Ez9x5AsXc0RYCnwh",
+          "OM1Id3brLo5Y53xU25NcyjfVnbe",
+          "Gt9LdFRWCojQmBxb3TrcSwlhn1c",
+          "YmxXd0J4Qo2ojexzkYbc14qfnbh"
         ],
         "ordered": {
           "elements": [
@@ -3306,107 +3258,16 @@
         "parent_id": "GQVdd3C8ho6IDexgNBMcTdf1nGc"
       },
       {
-        "block_id": "doxcnxnHwXa8rLTKwVL0zQVQfne",
-        "block_type": 31,
-        "children": [
-          "doxcn7WUBocQd7Bbhm8reSuCcVw",
-          "doxcnolNG8kMOn0liH8qoYRBOmf",
-          "doxcngG8f95pKmTmhm4Y4JvuKZd",
-          "doxcn2WYkUhktsSj4wsRpasS6Dh",
-          "doxcneUaT6tQDRJ8tMuj1kygYDb",
-          "doxcn9rTlqq5KCroE3H2E0dSNrd",
-          "doxcnJLzPXYzA7CeMPisAxf1pYY",
-          "doxcnMFVk0eLta4T9SJMhrRDgi3",
-          "doxcnwqIgm1KyQb7Gi5MEIFO1jf",
-          "doxcne2blkFgbtsBMAT0UgV0DWg"
-        ],
+        "block_id": "NewfdPWA2oO0UcxaJogcLufGngf",
+        "block_type": 2,
         "parent_id": "doxcna9QlNXGq8S8xjaRrDetfQf",
-        "table": {
-          "cells": [
-            "doxcn7WUBocQd7Bbhm8reSuCcVw",
-            "doxcnolNG8kMOn0liH8qoYRBOmf",
-            "doxcngG8f95pKmTmhm4Y4JvuKZd",
-            "doxcn2WYkUhktsSj4wsRpasS6Dh",
-            "doxcneUaT6tQDRJ8tMuj1kygYDb",
-            "doxcn9rTlqq5KCroE3H2E0dSNrd",
-            "doxcnJLzPXYzA7CeMPisAxf1pYY",
-            "doxcnMFVk0eLta4T9SJMhrRDgi3",
-            "doxcnwqIgm1KyQb7Gi5MEIFO1jf",
-            "doxcne2blkFgbtsBMAT0UgV0DWg"
-          ],
-          "property": {
-            "column_size": 2,
-            "column_width": [
-              247,
-              452
-            ],
-            "header_row": true,
-            "merge_info": [
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              }
-            ],
-            "row_size": 5
-          }
-        }
-      },
-      {
-        "block_id": "doxcn7WUBocQd7Bbhm8reSuCcVw",
-        "block_type": 32,
-        "children": [
-          "doxcns9uXRbx9KkL1pEclKqcXAg"
-        ],
-        "parent_id": "doxcnxnHwXa8rLTKwVL0zQVQfne",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcns9uXRbx9KkL1pEclKqcXAg",
-        "block_type": 2,
-        "parent_id": "doxcn7WUBocQd7Bbhm8reSuCcVw",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Parameter",
+                "content": "<exclude target=\"paas\">",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3422,25 +3283,27 @@
         }
       },
       {
-        "block_id": "doxcnolNG8kMOn0liH8qoYRBOmf",
-        "block_type": 32,
-        "children": [
-          "doxcn3gf8agZhJqbfk8UkTxAn1c"
-        ],
-        "parent_id": "doxcnxnHwXa8rLTKwVL0zQVQfne",
-        "table_cell": {}
+        "block_id": "U5CoddN24oTBsqxBWDHc6ylHn3b",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5844-1662%26mode%3Ddesign%26t%3DFdTpl30LXYfc1XHs-4"
+          }
+        },
+        "parent_id": "doxcna9QlNXGq8S8xjaRrDetfQf"
       },
       {
-        "block_id": "doxcn3gf8agZhJqbfk8UkTxAn1c",
+        "block_id": "YkIidIjFtoOmyDx8UUhcKrDFnye",
         "block_type": 2,
-        "parent_id": "doxcnolNG8kMOn0liH8qoYRBOmf",
+        "parent_id": "doxcna9QlNXGq8S8xjaRrDetfQf",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Description",
+                "content": "</exclude>",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3456,19 +3319,70 @@
         }
       },
       {
-        "block_id": "doxcngG8f95pKmTmhm4Y4JvuKZd",
-        "block_type": 32,
-        "children": [
-          "doxcn1AVtsZOLuOSkyWY9WDK3mb"
-        ],
-        "parent_id": "doxcnxnHwXa8rLTKwVL0zQVQfne",
-        "table_cell": {}
+        "block_id": "Ah8zdlnggotfCvxINY4czLqhnJd",
+        "block_type": 2,
+        "parent_id": "doxcna9QlNXGq8S8xjaRrDetfQf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"paas\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
-        "block_id": "doxcn1AVtsZOLuOSkyWY9WDK3mb",
+        "block_id": "NunJdOiMdod309xel8icnnkdnmc",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D19087-683%26mode%3Ddesign%26t%3DZKdSnIGKvBCI9Fht-4"
+          }
+        },
+        "parent_id": "doxcna9QlNXGq8S8xjaRrDetfQf"
+      },
+      {
+        "block_id": "KfredgYRqoNWq7x4X7YcFQeonbh",
         "block_type": 2,
-        "parent_id": "doxcngG8f95pKmTmhm4Y4JvuKZd",
+        "parent_id": "doxcna9QlNXGq8S8xjaRrDetfQf",
         "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JiDSdM61xo1Ez9x5AsXc0RYCnwh",
+        "block_type": 12,
+        "bullet": {
           "elements": [
             {
               "text_run": {
@@ -3481,32 +3395,10 @@
                   "underline": false
                 }
               }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcn2WYkUhktsSj4wsRpasS6Dh",
-        "block_type": 32,
-        "children": [
-          "doxcnmg3PoeItICpeUWCvOprCaf"
-        ],
-        "parent_id": "doxcnxnHwXa8rLTKwVL0zQVQfne",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcnmg3PoeItICpeUWCvOprCaf",
-        "block_type": 2,
-        "parent_id": "doxcn2WYkUhktsSj4wsRpasS6Dh",
-        "text": {
-          "elements": [
+            },
             {
               "text_run": {
-                "content": "The name of the cluster.",
+                "content": ": Assign a unique identifier for your cluster.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3521,26 +3413,17 @@
             "align": 1,
             "folded": false
           }
-        }
+        },
+        "parent_id": "doxcna9QlNXGq8S8xjaRrDetfQf"
       },
       {
-        "block_id": "doxcneUaT6tQDRJ8tMuj1kygYDb",
-        "block_type": 32,
-        "children": [
-          "doxcn9UWO0lzFTg94YZiyLMv1Wf"
-        ],
-        "parent_id": "doxcnxnHwXa8rLTKwVL0zQVQfne",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcn9UWO0lzFTg94YZiyLMv1Wf",
-        "block_type": 2,
-        "parent_id": "doxcneUaT6tQDRJ8tMuj1kygYDb",
-        "text": {
+        "block_id": "OM1Id3brLo5Y53xU25NcyjfVnbe",
+        "block_type": 12,
+        "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "Cloud Provider ",
+                "content": "Cloud Provider Settings",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3552,53 +3435,7 @@
             },
             {
               "text_run": {
-                "content": "Settings",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcn9rTlqq5KCroE3H2E0dSNrd",
-        "block_type": 32,
-        "children": [
-          "doxcnQRr2cbiaxau63rGhIXXRIf"
-        ],
-        "parent_id": "doxcnxnHwXa8rLTKwVL0zQVQfne",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcnQRr2cbiaxau63rGhIXXRIf",
-        "block_type": 2,
-        "parent_id": "doxcn9rTlqq5KCroE3H2E0dSNrd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The cluster's location and the cloud provider it is hosted on.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "<exclude target=\"",
+                "content": ": Choose the cloud service provider and the specific region where your cluster will be deployed.<exclude target=\"",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3622,19 +3459,7 @@
             },
             {
               "text_run": {
-                "content": "\"> For more information, s",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ee ",
+                "content": "\"> For more information, see ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3661,180 +3486,7 @@
             },
             {
               "text_run": {
-                "content": ".</exclude>",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnJLzPXYzA7CeMPisAxf1pYY",
-        "block_type": 32,
-        "children": [
-          "doxcnIzEbmLFVdeiYMZ34HMe6hh"
-        ],
-        "parent_id": "doxcnxnHwXa8rLTKwVL0zQVQfne",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcnIzEbmLFVdeiYMZ34HMe6hh",
-        "block_type": 2,
-        "parent_id": "doxcnJLzPXYzA7CeMPisAxf1pYY",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "CU ",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Settings",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnMFVk0eLta4T9SJMhrRDgi3",
-        "block_type": 32,
-        "children": [
-          "doxcntuT3R47PjjgYJ3RbEN5Vae"
-        ],
-        "parent_id": "doxcnxnHwXa8rLTKwVL0zQVQfne",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcntuT3R47PjjgYJ3RbEN5Vae",
-        "block_type": 2,
-        "parent_id": "doxcnMFVk0eLta4T9SJMhrRDgi3",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The compute resource to be allocated to this cluster.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnwqIgm1KyQb7Gi5MEIFO1jf",
-        "block_type": 32,
-        "children": [
-          "doxcnqBhsPy1Y8YqErRaHtzNDwb"
-        ],
-        "parent_id": "doxcnxnHwXa8rLTKwVL0zQVQfne",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcnqBhsPy1Y8YqErRaHtzNDwb",
-        "block_type": 2,
-        "parent_id": "doxcnwqIgm1KyQb7Gi5MEIFO1jf",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Cloud Backup",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcne2blkFgbtsBMAT0UgV0DWg",
-        "block_type": 32,
-        "children": [
-          "doxcnlAHgi9DshRGT2ZXXeuzUpb"
-        ],
-        "parent_id": "doxcnxnHwXa8rLTKwVL0zQVQfne",
-        "table_cell": {}
-      },
-      {
-        "block_id": "doxcnlAHgi9DshRGT2ZXXeuzUpb",
-        "block_type": 2,
-        "parent_id": "doxcne2blkFgbtsBMAT0UgV0DWg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Whether to enable cloud backup for the data in this cluster.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnCtg8kRcAgAnJozChL9dfQc",
-        "block_type": 2,
-        "parent_id": "doxcna9QlNXGq8S8xjaRrDetfQf",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "<exclude target=\"",
+                "content": ".</exclude><include target=\"paas\"> With the BYOC license, only the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3846,7 +3498,7 @@
             },
             {
               "text_run": {
-                "content": "paas",
+                "content": "AWS",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3858,7 +3510,82 @@
             },
             {
               "text_run": {
-                "content": "\">",
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "us-west-2",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " region is currently supported. To request more cloud regions, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "contact us",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliz.com%2Fcloud-region-request%3Ffirstname%3DLi%26lastname%3DYun%26company%3Dzilliz%26name%3Dzilliz%26email%3Dleryn.li%40zilliz.com%26fullname%3DLi%2520Yun%26phone%3D--%26country%3DChina%26requested_csp_provider%3DAWS"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3872,29 +3599,30 @@
           "style": {
             "align": 1,
             "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "doxcnfqlO8uCHDqWlOxEYDHOQmf",
-        "block_type": 26,
-        "iframe": {
-          "component": {
-            "iframe_type": 8,
-            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5844-1662%26mode%3Ddesign%26t%3DFdTpl30LXYfc1XHs-4"
           }
         },
         "parent_id": "doxcna9QlNXGq8S8xjaRrDetfQf"
       },
       {
-        "block_id": "doxcnIPRoNKTgLTf1hfZ8Xu0iVd",
-        "block_type": 2,
-        "parent_id": "GQVdd3C8ho6IDexgNBMcTdf1nGc",
-        "text": {
+        "block_id": "Gt9LdFRWCojQmBxb3TrcSwlhn1c",
+        "block_type": 12,
+        "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "</exclude>",
+                "content": "CU Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3909,15 +3637,121 @@
             "align": 1,
             "folded": false
           }
-        }
+        },
+        "children": [
+          "RDQXdzojmoYrvlxtqP1cczfEnSd",
+          "Ip8ndKdS2oNS4hxiPpMc9WuBnTb",
+          "TuAld1K6Vow1a3x6INEcaeGKnLc",
+          "D7cIdy9Quoavdjx8jjZcFLMbnUg",
+          "Nb4Md4QQeoFlOsxbqCQc5KMwnBd"
+        ],
+        "parent_id": "doxcna9QlNXGq8S8xjaRrDetfQf"
       },
       {
-        "block_id": "doxcnCaoXxT5xikwOpfr3s7yyhf",
+        "block_id": "RDQXdzojmoYrvlxtqP1cczfEnSd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CU Type",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Select a CU Type that aligns with your cluster's performance requirements. For more information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Select the Right CU",
+                "token": "UgqvwKh2QiKE1kkYNLJcaHt0nkg",
+                "url": "https://zilliverse.feishu.cn/wiki/UgqvwKh2QiKE1kkYNLJcaHt0nkg"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Gt9LdFRWCojQmBxb3TrcSwlhn1c"
+      },
+      {
+        "block_id": "Ip8ndKdS2oNS4hxiPpMc9WuBnTb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CU Size",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Select the total size of the cluster in terms of CUs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Gt9LdFRWCojQmBxb3TrcSwlhn1c"
+      },
+      {
+        "block_id": "TuAld1K6Vow1a3x6INEcaeGKnLc",
         "block_type": 2,
-        "children": [
-          "doxcnNof5TQItC5Ep9MILznkGyf"
-        ],
-        "parent_id": "GQVdd3C8ho6IDexgNBMcTdf1nGc",
+        "parent_id": "Gt9LdFRWCojQmBxb3TrcSwlhn1c",
         "text": {
           "elements": [
             {
@@ -3964,20 +3798,321 @@
         }
       },
       {
-        "block_id": "doxcnNof5TQItC5Ep9MILznkGyf",
-        "block_type": 26,
-        "iframe": {
-          "component": {
-            "iframe_type": 8,
-            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D19087-683%26mode%3Ddesign%26t%3Dxzugee20z3pLxc10-4"
+        "block_id": "D7cIdy9Quoavdjx8jjZcFLMbnUg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Topology",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": A graphical representation showing the structure of your cluster. This includes the designation of roles and compute resources for various nodes:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": true
           }
         },
-        "parent_id": "doxcnCaoXxT5xikwOpfr3s7yyhf"
+        "children": [
+          "DRjwdXy9IoxyWlxjlGGcUiVSnQ7",
+          "TSeJdrjSFopZcnxtBkGcABq9nXf",
+          "M5r7dBlmuo729kx2G2GcnMvfnce",
+          "BFPVdjKoOoLps4xfHqxcrjXkn1b",
+          "W1dCdudGZoMH7bxvt0gcYFMQnoi"
+        ],
+        "parent_id": "Gt9LdFRWCojQmBxb3TrcSwlhn1c"
       },
       {
-        "block_id": "doxcnxPcTtasF3u4XttjdQIHbth",
+        "block_id": "DRjwdXy9IoxyWlxjlGGcUiVSnQ7",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Proxy",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Stateless nodes that manage user connections and streamline service addresses with load balancers.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "D7cIdy9Quoavdjx8jjZcFLMbnUg"
+      },
+      {
+        "block_id": "TSeJdrjSFopZcnxtBkGcABq9nXf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Query",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Node",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Responsible for hybrid vector and scalar searches and incremental data updates.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "D7cIdy9Quoavdjx8jjZcFLMbnUg"
+      },
+      {
+        "block_id": "M5r7dBlmuo729kx2G2GcnMvfnce",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Coordinator",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The orchestration center, distributing tasks across worker nodes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "D7cIdy9Quoavdjx8jjZcFLMbnUg"
+      },
+      {
+        "block_id": "BFPVdjKoOoLps4xfHqxcrjXkn1b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Data Node",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Handles data mutations and log-to-snapshot conversions for persistence.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "D7cIdy9Quoavdjx8jjZcFLMbnUg"
+      },
+      {
+        "block_id": "W1dCdudGZoMH7bxvt0gcYFMQnoi",
+        "block_type": 34,
+        "children": [
+          "DY6PdL4UaoQ65Qx24jZcYnfRn7g",
+          "P6sbdQl5ioOCaSxjsMpcFIOOn4n"
+        ],
+        "parent_id": "D7cIdy9Quoavdjx8jjZcFLMbnUg",
+        "quote_container": {}
+      },
+      {
+        "block_id": "DY6PdL4UaoQ65Qx24jZcYnfRn7g",
         "block_type": 2,
-        "parent_id": "GQVdd3C8ho6IDexgNBMcTdf1nGc",
+        "parent_id": "W1dCdudGZoMH7bxvt0gcYFMQnoi",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "P6sbdQl5ioOCaSxjsMpcFIOOn4n",
+        "block_type": 2,
+        "parent_id": "W1dCdudGZoMH7bxvt0gcYFMQnoi",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Clusters with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "1-8 CUs",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " typically use a single-node setup suitable for smaller datasets. Clusters with more than ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "8 CUs",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " adopt a distributed multi-server node architecture to improve performance and scalability.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Nb4Md4QQeoFlOsxbqCQc5KMwnBd",
+        "block_type": 2,
+        "parent_id": "Gt9LdFRWCojQmBxb3TrcSwlhn1c",
         "text": {
           "elements": [
             {
@@ -3998,6 +4133,43 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "YmxXd0J4Qo2ojexzkYbc14qfnbh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cloud Backup",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Decide whether to enable automatic cloud backup for safeguarding the data stored within your cluster, ensuring data persistence and recovery capabilities in case of failures.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "doxcna9QlNXGq8S8xjaRrDetfQf"
       },
       {
         "block_id": "doxcnWCrGQVR8JjiU7IWJTWWyVc",
@@ -4424,21 +4596,8 @@
             },
             {
               "text_run": {
-                "content": ": The ID of the cloud region where you want to create a cluster. To obtain available cloud region IDs, ",
+                "content": ": The ID of the cloud region where you want to create a cluster. To obtain available cloud region IDs, call the ",
                 "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "call the ",
-                "text_element_style": {
-                  "background_color": 3,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -4451,7 +4610,6 @@
               "text_run": {
                 "content": "List Cloud Regions",
                 "text_element_style": {
-                  "background_color": 3,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -4465,20 +4623,7 @@
             },
             {
               "text_run": {
-                "content": " operation",
-                "text_element_style": {
-                  "background_color": 3,
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
+                "content": " operation.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4895,21 +5040,8 @@
             },
             {
               "text_run": {
-                "content": ": The ID of the project in which you want to create a cluster. To list project IDs, ",
+                "content": ": The ID of the project in which you want to create a cluster. To list project IDs, call the ",
                 "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "call the ",
-                "text_element_style": {
-                  "background_color": 3,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -4922,10 +5054,12 @@
               "text_run": {
                 "content": "List Projects",
                 "text_element_style": {
-                  "background_color": 3,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Flist-projects"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -4933,20 +5067,7 @@
             },
             {
               "text_run": {
-                "content": " operation",
-                "text_element_style": {
-                  "background_color": 3,
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
+                "content": " operation.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5171,24 +5292,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Create Collection",
-                "token": "QnKCw0v4TiFkITkneCmcy0mZnre",
-                "url": "https://zilliverse.feishu.cn/wiki/QnKCw0v4TiFkITkneCmcy0mZnre"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FCreate-Collection-e3b47847e3cd463ba141fba47e7c2603%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
+                "title": "[DEV] Manage Collections",
+                "token": "RwL3wOzONihxtJkVIcncIlu1nWe",
+                "url": "https://zilliverse.feishu.cn/wiki/RwL3wOzONihxtJkVIcncIlu1nWe"
               }
             }
           ],
@@ -5214,110 +5320,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Insert Entities",
-                "token": "HBZTwCHa6iTDE0kqNqZc5OJ8nqg",
-                "url": "https://zilliverse.feishu.cn/wiki/HBZTwCHa6iTDE0kqNqZc5OJ8nqg"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FInsert-Entities-375dd098632d4a5297617a51c69c7967%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "GQVdd3C8ho6IDexgNBMcTdf1nGc"
-      },
-      {
-        "block_id": "doxcnl2I9GdOq3J3Eh9U8FbBONg",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Search and Query",
-                "token": "YfMEwLHzeisARCk4VZ3cVhJmnjd",
-                "url": "https://zilliverse.feishu.cn/wiki/YfMEwLHzeisARCk4VZ3cVhJmnjd"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FSearch-and-Query-40930370867642c6b8b65249cfb58c5b%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "GQVdd3C8ho6IDexgNBMcTdf1nGc"
-      },
-      {
-        "block_id": "doxcnJmfsOZ1wfsvcdDVh8wUPZc",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Drop Collection",
-                "token": "KxK7wHZrciDa0skHrW1c6nkWn5f",
-                "url": "https://zilliverse.feishu.cn/wiki/KxK7wHZrciDa0skHrW1c6nkWn5f"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FDrop-Collection-523172cacd21488c9910e759287f5604%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
+                "title": "[DEV] Insert, Upsert & Delete",
+                "token": "QnFiwPp0yigjYjk8OoAcIk7lnmg",
+                "url": "https://zilliverse.feishu.cn/wiki/QnFiwPp0yigjYjk8OoAcIk7lnmg"
               }
             }
           ],
@@ -5372,6 +5377,6 @@
         "parent_id": "GQVdd3C8ho6IDexgNBMcTdf1nGc"
       }
     ],
-    "counts": 139
+    "counts": 132
   }
 }

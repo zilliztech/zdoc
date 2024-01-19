@@ -3,7 +3,7 @@ slug: /use-partition-key
 beta: FALSE
 notebook: 03_use_partition_key.ipynb
 token: UzY9wHHcIiDJAUkkFSzcBUk9n4o
-sidebar_position: 12
+sidebar_position: 13
 ---
 
 import Admonition from '@theme/Admonition';
@@ -927,9 +927,9 @@ To do this, you can assign a tenant-specific value as the partition key field fo
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection) 
+- [Create Collection](./create-collection)
 
-- [Enable Dynamic Schema](./enable-dynamic-schema) 
+- [Enable Dynamic Schema](./enable-dynamic-schema)
 
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 
+- [JavaScript Object Notation (JSON)](./javascript-object-notation-json)
 

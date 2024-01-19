@@ -16,7 +16,12 @@ Trigger a specific pipeline.
 ## Example
 
 
-Run pipelines for data ingestion, semantic similarity searches, and doc deletion.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+Currently, data of the JSON and Array types are not supported in RESTful API requests..
+:::
 
 - Run a data ingestion pipeline
 
@@ -40,7 +45,8 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
         "code": 200,
         "data": {
             "doc_name": "zilliz_concept_doc.md",
-            "num_chunks": 123
+            "num_chunks": 123,
+            "token_usage": 200
         }
     }
     ```
@@ -54,7 +60,7 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-26a18a66ffc8c0edfdb874/run" \
         -d '{
             "data": {
-            "query_text": "How many collections can a cluster with more than 8 CUs hold?"
+                "query_text": "How many collections can a cluster with more than 8 CUs hold?"
             },
             "params":{
                 "limit": 1,
@@ -71,15 +77,16 @@ Run pipelines for data ingestion, semantic similarity searches, and doc deletion
     {
         "code": 200,
         "data": {
-        "result": [
-            {
-                "id": "445951244000281783",
-                "distance": 0.7270776033401489,
-                "chunk_text": "After determining the CU type, you must also specify its size. Note that the\nnumber of collections a cluster can hold varies based on its CU size. A\ncluster with less than 8 CUs can hold no more than 32 collections, while a\ncluster with more than 8 CUs can hold as many as 256 collections.\n\nAll collections in a cluster share the CUs associated with the cluster. To\nsave CUs, you can unload some collections. When a collection is unloaded, its\ndata is moved to disk storage and its CUs are freed up for use by other\ncollections. You can load the collection back into memory when you need to\nquery it. Keep in mind that loading a collection requires some time, so you\nshould only do so when necessary.\n\n## Collection\n\nA collection collects data in a two-dimensional table with a fixed number of\ncolumns and a variable number of rows. In the table, each column corresponds\nto a field, and each row represents an entity.\n\nThe following figure shows a sample collection that comprises six entities and\neight fields.\n\n### Fields\n\nIn most cases, people describe an object in terms of its attributes, including\nsize, weight, position, etc. These attributes of the object are similar to the\nfields in a collection.\n\nAmong all the fields in a collection, the primary key is one of the most\nspecial, because the values stored in this field are unique throughout the\nentire collection. Each primary key maps to a different record in the\ncollection.",
-                "chunk_id": 123,
-                "doc_name": "zilliz_concept_doc.md"
-            }
-        ],
+            "token_usage": 200,
+            "result": [
+                {
+                    "id": "445951244000281783",
+                    "distance": 0.7270776033401489,
+                    "chunk_text": "After determining the CU type, you must also specify its size. Note that the\nnumber of collections a cluster can hold varies based on its CU size. A\ncluster with less than 8 CUs can hold no more than 32 collections, while a\ncluster with more than 8 CUs can hold as many as 256 collections.\n\nAll collections in a cluster share the CUs associated with the cluster. To\nsave CUs, you can unload some collections. When a collection is unloaded, its\ndata is moved to disk storage and its CUs are freed up for use by other\ncollections. You can load the collection back into memory when you need to\nquery it. Keep in mind that loading a collection requires some time, so you\nshould only do so when necessary.\n\n## Collection\n\nA collection collects data in a two-dimensional table with a fixed number of\ncolumns and a variable number of rows. In the table, each column corresponds\nto a field, and each row represents an entity.\n\nThe following figure shows a sample collection that comprises six entities and\neight fields.\n\n### Fields\n\nIn most cases, people describe an object in terms of its attributes, including\nsize, weight, position, etc. These attributes of the object are similar to the\nfields in a collection.\n\nAmong all the fields in a collection, the primary key is one of the most\nspecial, because the values stored in this field are unique throughout the\nentire collection. Each primary key maps to a different record in the\ncollection.",
+                    "chunk_id": 123,
+                    "doc_name": "zilliz_concept_doc.md"
+                }
+            ],
         }
     }
     ```
@@ -190,7 +197,8 @@ Returns the result of running a specific pipeline.
     "code": "integer",
     "data": {
         "num_chunks": "integer",
-        "doc_name": "string"
+        "doc_name": "string",
+        "token_usage": "integer"
     }
 }
 ```
@@ -214,6 +222,7 @@ The properties in the returned response are listed in the following table.
 | `data`    | **object**<br/>A data object. |
 | `data.num_chunks`   | **integer**<br/>Number of chunks generated. |
 | `data.doc_name`   | **string**<br/>Name of the chunked document with the file extension. |
+| `data.token_usage`   | **integer**<br/>Number of consumed tokens in this operation. |
 | `message`  | **string**<br/>Indicates the possible reason for the reported error. |
 
 ## Possible Errors

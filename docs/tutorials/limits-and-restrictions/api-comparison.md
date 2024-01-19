@@ -30,6 +30,10 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 |                                   |  getBulkInsertState()          |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  listBulkInsertTasks()         |  ✔︎             |  ✔︎               |  ✔︎                              |
 |  Collection                       |  getCollectionStatistics()     |  ✘              |  ✔︎               |  ✔︎                              |
+|                                   |  createCollection()            |  ✔︎             |  ✔︎               |  ✔︎                              |
+|                                   |  describeCollection()          |  ✔︎             |  ✔︎               |  ✔︎                              |
+|                                   |  dropCollection()              |  ✔︎             |  ✔︎               |  ✔︎                              |
+|                                   |  alterCollection()             |  ✘              |  ✔︎               |  ✔︎                              |
 |                                   |  getLoadingProgress()          |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  getPersistentSgementInfo()    |  ✘              |  ✘                |  ✘                               |
 |                                   |  getQuerySegmentInfo()         |  ✘              |  ✘                |  ✘                               |
@@ -64,7 +68,7 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 |                                   |  showPartitions()              |  ✘              |  ✔︎               |  ✔︎                              |
 |  Search & Query                   |  search()                      |  ✔︎             |  ✔︎               |  ✔︎                              |
 |                                   |  query()                       |  ✘              |  ✔︎               |  ✔︎                              |
-|  Role-based access control (RBAC) |  addUserToRole()               |  ✔︎             |  ✘<br/> <br/>       |  ✔︎<br/> <br/>                     |
+|  Role-based access control (RBAC) |  addUserToRole()               |  ✔︎             |  ✘<br/>        |  ✔︎<br/>                      |
 |                                   |  createRole()                  |  ✘              |  ✘                |  ✘                               |
 |                                   |  dropRole()                    |  ✘              |  ✘                |  ✘                               |
 |                                   |  grantRolePrivilege()          |  ✘              |  ✘                |  ✘                               |
@@ -79,9 +83,9 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 
 ## Related topics{#related-topics}
 
-- [Migrate from Milvus 1.x](./migrate-from-milvus) 
+- [Migrate from Milvus 1.x](./migrate-from-milvus)
 
-- [AUTOINDEX Explained](./autoindex-explained) 
+- [AUTOINDEX Explained](./autoindex-explained)
 
 - [Select the Right CU](./cu-types-explained) 
 

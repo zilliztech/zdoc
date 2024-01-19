@@ -71,7 +71,7 @@ Your payment method can be viewed and edited at any time from the **Billing** **
 
 ![payment-overivew](/img/payment-overivew.png)
 
-Should your credit card approach its expiration date, you will be notified by our [credit card expiration monitor](./credit-card-expiration-monitor). You may choose to update your payment information or switch to an [AWS Marketplace subscription](./subscribe-on-aws-marketplace) at your convenience.
+Should your credit card approach its expiration date, you will be notified by our [credit card expiration monitor](./manage-organization-alerts). You may choose to update your payment information or switch to an [AWS Marketplace subscription](./subscribe-on-aws-marketplace) at your convenience.
 
 ### **Edit credit card**{#edit-credit-card}
 
@@ -137,7 +137,9 @@ Currently, Zilliz Cloud does not support removing payment credit card on the web
 
 ## Related topics{#related-topics}
 
-- [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace) 
+- [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace)
+
+- [Subscribe on GCP Marketplace](./subscribe-on-gcp-marketplace)
 
 - [View Invoice](./view-invoice) 
 

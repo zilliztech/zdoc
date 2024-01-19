@@ -1,0 +1,1365 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1702438447",
+  "node_token": "UfqGwAVleiNu7FkH28JcnlgOnpf",
+  "node_type": "origin",
+  "obj_create_time": "1702438447",
+  "obj_edit_time": "1705404303",
+  "obj_token": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh",
+  "obj_type": "docx",
+  "origin_node_token": "UfqGwAVleiNu7FkH28JcnlgOnpf",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "W4sbwK3wnid47YkXD0jcDiXUndd",
+  "space_id": "7167193056431783939",
+  "title": "View Activities",
+  "slug": "view-activities",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh",
+        "block_type": 1,
+        "children": [
+          "doxcnPJPNQgGJbdOB6eJCj6KUgE",
+          "doxcnrmmgeexqz5f14G5IE8wGHf",
+          "D16Bd6s6GoTJ4OxxiLKcgg5ynQb",
+          "Jjumd8pCboUw2wxuOSYcQNNRnug",
+          "doxcnptjFXs9jQFkLFSJRaNkG5d",
+          "UHWudXvWpolB73xhf77c6QhcnTc",
+          "CIeVd7Mqeof9nFxGubzcXtRrnBe",
+          "QF3bdwh68oU1pSxn7BScfNXjnUf",
+          "W16Ud6hpUoqMV2xO1T5cseTDnff",
+          "doxcnAPchiTFiobsqaUn147tWxg",
+          "doxcnRmlxXjmpWCg0iyrT51MUvg",
+          "doxcnxwk2WxnewOdt14Ym7gonBh",
+          "doxcn5XLy0x4BbgJBoopKkkyiUd",
+          "doxcnMYHCJIPRqr4x1x5ndDdagh",
+          "doxcncRHpkFhvHjhRSwvwKk4Xqh",
+          "doxcnxPA5CoTqtDOhusIlBdI0zd",
+          "doxcnra4LE5dHSeUnYveJubOKqB",
+          "doxcn8N7FW85QZzUxXEyhyvwMMc",
+          "doxcnV2qOab26aAWBvE9DwSDI0l",
+          "doxcnMSi4VRVXZ3R8S3oyczx2rd",
+          "doxcnghPgZdQdCHCx9z2wPTsEdg"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View Activities",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnPJPNQgGJbdOB6eJCj6KUgE",
+        "block_type": 2,
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The Zilliz Cloud ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Activities",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " feature provides a comprehensive view of events associated with a specific Zilliz Cloud organization, encompassing <include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "saas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">billing and </include> access events.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnrmmgeexqz5f14G5IE8wGHf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View activities",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh"
+      },
+      {
+        "block_id": "D16Bd6s6GoTJ4OxxiLKcgg5ynQb",
+        "block_type": 2,
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On the organization page, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Activities",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the left navigation pane. Here, you can view a summary of activities, the time when each activity took place, and the identity of the operator involved in a specific activity.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Jjumd8pCboUw2wxuOSYcQNNRnug",
+        "block_type": 2,
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"paas\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnptjFXs9jQFkLFSJRaNkG5d",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D10406-1332%26mode%3Ddesign%26t%3D91eFN6nqoOLVqE8m-4"
+          }
+        },
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh"
+      },
+      {
+        "block_id": "UHWudXvWpolB73xhf77c6QhcnTc",
+        "block_type": 2,
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CIeVd7Mqeof9nFxGubzcXtRrnBe",
+        "block_type": 2,
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QF3bdwh68oU1pSxn7BScfNXjnUf",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D27930-4537%26mode%3Ddesign%26t%3DyWaKMcWxZpp9ikbW-4"
+          }
+        },
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh"
+      },
+      {
+        "block_id": "W16Ud6hpUoqMV2xO1T5cseTDnff",
+        "block_type": 2,
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnAPchiTFiobsqaUn147tWxg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filter activities",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh"
+      },
+      {
+        "block_id": "doxcnRmlxXjmpWCg0iyrT51MUvg",
+        "block_type": 2,
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To enhance your control and ease in navigating through the organization activities, you can apply filters by type and time range. Utilizing a combination of these filtering conditions provides a more tailored view of the activity list.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnxwk2WxnewOdt14Ym7gonBh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filter by time range",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcnxPY0rUvpWDgS8bJx7cwDYf",
+          "doxcnW05h66bbiKhyTRtBuQufYe",
+          "doxcn4qgwziz9yt2ZGJ0NawaPWc"
+        ],
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh"
+      },
+      {
+        "block_id": "doxcnxPY0rUvpWDgS8bJx7cwDYf",
+        "block_type": 2,
+        "parent_id": "doxcnxwk2WxnewOdt14Ym7gonBh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Choose a start and end date to display activities occurring within a specific time frame. After setting your desired time range, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Apply",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to view all activities within this period.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnW05h66bbiKhyTRtBuQufYe",
+        "block_type": 34,
+        "children": [
+          "doxcnAlEVRo6jadIVXAtWZvpQKb",
+          "doxcn05rfS4dD2igxmno917iBag"
+        ],
+        "parent_id": "doxcnxwk2WxnewOdt14Ym7gonBh",
+        "quote_container": {}
+      },
+      {
+        "block_id": "doxcnAlEVRo6jadIVXAtWZvpQKb",
+        "block_type": 2,
+        "parent_id": "doxcnW05h66bbiKhyTRtBuQufYe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn05rfS4dD2igxmno917iBag",
+        "block_type": 2,
+        "parent_id": "doxcnW05h66bbiKhyTRtBuQufYe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ensure that the time span between your chosen start date and end date does not exceed 30 days.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn4qgwziz9yt2ZGJ0NawaPWc",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D10406-2665%26mode%3Ddesign%26t%3D91eFN6nqoOLVqE8m-4"
+          }
+        },
+        "parent_id": "doxcnxwk2WxnewOdt14Ym7gonBh"
+      },
+      {
+        "block_id": "doxcn5XLy0x4BbgJBoopKkkyiUd",
+        "block_type": 2,
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnMYHCJIPRqr4x1x5ndDdagh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filter by activity type",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcnnwT0H0Jn5Vdr1Y6kiY854b",
+          "doxcnkNDahe0OYN594nkXGgonNh",
+          "doxcnaYkoTbQ2ZeHmg2vweevGFb"
+        ],
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh"
+      },
+      {
+        "block_id": "doxcnnwT0H0Jn5Vdr1Y6kiY854b",
+        "block_type": 2,
+        "parent_id": "doxcnMYHCJIPRqr4x1x5ndDdagh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Select your preferred activity type from the activity list. Zilliz Cloud categorizes activities into three types: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Info",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Warning",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Error",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnkNDahe0OYN594nkXGgonNh",
+        "block_type": 31,
+        "children": [
+          "doxcnwId4ZOffCsElVjH1cyVHwe",
+          "doxcn4KTdKsfDnjKLg7MH44MnAf",
+          "doxcnITeAcfDhFAfFYuiUDerBqg",
+          "doxcnJFXuERi99Wxf8RIMBFnTJd",
+          "doxcnGmwHrivH2JMc2CqeNDQ4wf",
+          "doxcnZv3DYODuE6lMxswYv1Asbf",
+          "doxcndY8dimQVr7tYJE3T4ZSOBe",
+          "doxcnusaglsJZqTXFFXBDKy29Fb"
+        ],
+        "parent_id": "doxcnMYHCJIPRqr4x1x5ndDdagh",
+        "table": {
+          "cells": [
+            "doxcnwId4ZOffCsElVjH1cyVHwe",
+            "doxcn4KTdKsfDnjKLg7MH44MnAf",
+            "doxcnITeAcfDhFAfFYuiUDerBqg",
+            "doxcnJFXuERi99Wxf8RIMBFnTJd",
+            "doxcnGmwHrivH2JMc2CqeNDQ4wf",
+            "doxcnZv3DYODuE6lMxswYv1Asbf",
+            "doxcndY8dimQVr7tYJE3T4ZSOBe",
+            "doxcnusaglsJZqTXFFXBDKy29Fb"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              157,
+              421
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 4
+          }
+        }
+      },
+      {
+        "block_id": "doxcnwId4ZOffCsElVjH1cyVHwe",
+        "block_type": 32,
+        "children": [
+          "doxcnC0BTIlNRT6asQvMkES7Njs"
+        ],
+        "parent_id": "doxcnkNDahe0OYN594nkXGgonNh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnC0BTIlNRT6asQvMkES7Njs",
+        "block_type": 2,
+        "parent_id": "doxcnwId4ZOffCsElVjH1cyVHwe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Activity Type",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn4KTdKsfDnjKLg7MH44MnAf",
+        "block_type": 32,
+        "children": [
+          "doxcnpOvGKPZ5xVQozjSvpDADsd"
+        ],
+        "parent_id": "doxcnkNDahe0OYN594nkXGgonNh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnpOvGKPZ5xVQozjSvpDADsd",
+        "block_type": 2,
+        "parent_id": "doxcn4KTdKsfDnjKLg7MH44MnAf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnITeAcfDhFAfFYuiUDerBqg",
+        "block_type": 32,
+        "children": [
+          "doxcntm4rX2uQp8avY90QPdRbsb"
+        ],
+        "parent_id": "doxcnkNDahe0OYN594nkXGgonNh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcntm4rX2uQp8avY90QPdRbsb",
+        "block_type": 2,
+        "parent_id": "doxcnITeAcfDhFAfFYuiUDerBqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Info",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnJFXuERi99Wxf8RIMBFnTJd",
+        "block_type": 32,
+        "children": [
+          "doxcnzZScd6NM6HFLOpUFBwAYLg",
+          "doxcnXH6PKcPLU0D9nU23NUMSIf"
+        ],
+        "parent_id": "doxcnkNDahe0OYN594nkXGgonNh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnzZScd6NM6HFLOpUFBwAYLg",
+        "block_type": 2,
+        "parent_id": "doxcnJFXuERi99Wxf8RIMBFnTJd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "General information related to clusters, access, or billing. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnXH6PKcPLU0D9nU23NUMSIf",
+        "block_type": 2,
+        "parent_id": "doxcnJFXuERi99Wxf8RIMBFnTJd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Eg. Cluster in01-xxxxxxxxxxxxxxx was created.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnGmwHrivH2JMc2CqeNDQ4wf",
+        "block_type": 32,
+        "children": [
+          "doxcnOskS4LUGRRaP143jtP6QZd"
+        ],
+        "parent_id": "doxcnkNDahe0OYN594nkXGgonNh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnOskS4LUGRRaP143jtP6QZd",
+        "block_type": 2,
+        "parent_id": "doxcnGmwHrivH2JMc2CqeNDQ4wf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Warning",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnZv3DYODuE6lMxswYv1Asbf",
+        "block_type": 32,
+        "children": [
+          "doxcnLDfCxvrxkFdBHxl1gcf0Za",
+          "doxcnp1aEfPt7niSXE9fglxA4gc"
+        ],
+        "parent_id": "doxcnkNDahe0OYN594nkXGgonNh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnLDfCxvrxkFdBHxl1gcf0Za",
+        "block_type": 2,
+        "parent_id": "doxcnZv3DYODuE6lMxswYv1Asbf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Updates regarding resource states that necessitate your attention.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnp1aEfPt7niSXE9fglxA4gc",
+        "block_type": 2,
+        "parent_id": "doxcnZv3DYODuE6lMxswYv1Asbf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": " E.g., \"Cluster in01-xxxxxxxxxxxxxxx was deleted.\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcndY8dimQVr7tYJE3T4ZSOBe",
+        "block_type": 32,
+        "children": [
+          "doxcnme3Ecs1MNj9adVj5fKWwxi"
+        ],
+        "parent_id": "doxcnkNDahe0OYN594nkXGgonNh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnme3Ecs1MNj9adVj5fKWwxi",
+        "block_type": 2,
+        "parent_id": "doxcndY8dimQVr7tYJE3T4ZSOBe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Error",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnusaglsJZqTXFFXBDKy29Fb",
+        "block_type": 32,
+        "children": [
+          "doxcnTyaPUgamjFtKzqV54Dl5pf",
+          "doxcndoeg2yJemLipumozFKKJwg"
+        ],
+        "parent_id": "doxcnkNDahe0OYN594nkXGgonNh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnTyaPUgamjFtKzqV54Dl5pf",
+        "block_type": 2,
+        "parent_id": "doxcnusaglsJZqTXFFXBDKy29Fb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notifications of payment failures or other system malfunctions requiring immediate attention or action. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcndoeg2yJemLipumozFKKJwg",
+        "block_type": 2,
+        "parent_id": "doxcnusaglsJZqTXFFXBDKy29Fb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "E.g., \"The payment for the invoice invo-xxxxxxxxxxxxxxxxxxxxxxxx has failed.\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnaYkoTbQ2ZeHmg2vweevGFb",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D10422-2683%26mode%3Ddesign%26t%3D91eFN6nqoOLVqE8m-4"
+          }
+        },
+        "parent_id": "doxcnMYHCJIPRqr4x1x5ndDdagh"
+      },
+      {
+        "block_id": "doxcncRHpkFhvHjhRSwvwKk4Xqh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh"
+      },
+      {
+        "block_id": "doxcnxPA5CoTqtDOhusIlBdI0zd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Organization Information",
+                "token": "BX8nwr7eHiZY3CkHnuYcGCj1n4e",
+                "url": "https://zilliverse.feishu.cn/wiki/BX8nwr7eHiZY3CkHnuYcGCj1n4e"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh"
+      },
+      {
+        "block_id": "doxcnra4LE5dHSeUnYveJubOKqB",
+        "block_type": 2,
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn8N7FW85QZzUxXEyhyvwMMc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Delete Your Organization",
+                "token": "OCc5wCndbipOkzk8tkUc9IuJnle",
+                "url": "https://zilliverse.feishu.cn/wiki/OCc5wCndbipOkzk8tkUc9IuJnle"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh"
+      },
+      {
+        "block_id": "doxcnV2qOab26aAWBvE9DwSDI0l",
+        "block_type": 2,
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnMSi4VRVXZ3R8S3oyczx2rd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Delete Your Account",
+                "token": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
+                "url": "https://zilliverse.feishu.cn/wiki/GMdhwQQCRi2QaLkimNOcc3qNnbh"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh"
+      },
+      {
+        "block_id": "doxcnghPgZdQdCHCx9z2wPTsEdg",
+        "block_type": 2,
+        "parent_id": "Bq2ndQo3KoJw8lxJ5vrcKyQbnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 49
+  }
+}

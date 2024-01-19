@@ -5,7 +5,7 @@
   "node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
   "node_type": "origin",
   "obj_create_time": "1698026498",
-  "obj_edit_time": "1698026527",
+  "obj_edit_time": "1702371238",
   "obj_token": "SADnd8whjoZS1vxDHg9cGm7XnKf",
   "obj_type": "docx",
   "origin_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
@@ -20,6 +20,9 @@
       {
         "block_id": "SADnd8whjoZS1vxDHg9cGm7XnKf",
         "block_type": 1,
+        "children": [
+          "IhUMdMZ8goJiTixP5GsctV9Jnig"
+        ],
         "page": {
           "elements": [
             {
@@ -40,9 +43,34 @@
           }
         },
         "parent_id": ""
+      },
+      {
+        "block_id": "IhUMdMZ8goJiTixP5GsctV9Jnig",
+        "block_type": 2,
+        "parent_id": "SADnd8whjoZS1vxDHg9cGm7XnKf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can find the history of Zilliz Cloud releases in these docs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       }
     ],
-    "counts": 1
+    "counts": 2
   },
   "children": [
     {
@@ -52,7 +80,7 @@
       "node_token": "A5lpwIZcZiTLqakdt6rcCmPcnEe",
       "node_type": "origin",
       "obj_create_time": "1702263637",
-      "obj_edit_time": "1702284809",
+      "obj_edit_time": "1705554762",
       "obj_token": "AQXPdm3KWoACwPxjgxuc3sypnve",
       "obj_type": "docx",
       "origin_node_token": "A5lpwIZcZiTLqakdt6rcCmPcnEe",
@@ -60,7 +88,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
       "space_id": "7167193056431783939",
-      "title": "Release Notes v2.4.0",
+      "title": "Release Notes (2023/12/11)",
       "slug": "release-notes-240"
     },
     {
@@ -70,7 +98,7 @@
       "node_token": "MocQwCCItiHYEbkkJtOcROPTnod",
       "node_type": "origin",
       "obj_create_time": "1698371466",
-      "obj_edit_time": "1701419400",
+      "obj_edit_time": "1705554375",
       "obj_token": "XS98dONZuouB5OxzM4YcvCbEnxh",
       "obj_type": "docx",
       "origin_node_token": "MocQwCCItiHYEbkkJtOcROPTnod",
@@ -78,7 +106,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
       "space_id": "7167193056431783939",
-      "title": "Release Notes v2.3.0",
+      "title": "Release Notes (2023/10/27)",
       "slug": "release-notes-230"
     },
     {
@@ -88,7 +116,7 @@
       "node_token": "YtxBwrPfBiuFDdk10GVcYY1DnGg",
       "node_type": "origin",
       "obj_create_time": "1698052024",
-      "obj_edit_time": "1698052064",
+      "obj_edit_time": "1705554392",
       "obj_token": "GJdCdQYjKodPgPxzs4lck9jQnoh",
       "obj_type": "docx",
       "origin_node_token": "YtxBwrPfBiuFDdk10GVcYY1DnGg",
@@ -96,7 +124,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
       "space_id": "7167193056431783939",
-      "title": "Release Notes v2.2.1",
+      "title": "Release Notes (2023/09/27)",
       "slug": "release-notes-221"
     },
     {
@@ -106,7 +134,7 @@
       "node_token": "GqyhwKVspiYRwDk8OaucNfgJnhd",
       "node_type": "origin",
       "obj_create_time": "1698051774",
-      "obj_edit_time": "1698052011",
+      "obj_edit_time": "1705554404",
       "obj_token": "CnzddJbT2ogdLSx90bxc9fImnPf",
       "obj_type": "docx",
       "origin_node_token": "GqyhwKVspiYRwDk8OaucNfgJnhd",
@@ -114,7 +142,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
       "space_id": "7167193056431783939",
-      "title": "Release Notes v2.2.0",
+      "title": "Release Notes (2023/09/13)",
       "slug": "release-notes-220"
     },
     {
@@ -124,7 +152,7 @@
       "node_token": "Ti5uwysf0iZhuyk4xvjcFmsSnhG",
       "node_type": "origin",
       "obj_create_time": "1698051497",
-      "obj_edit_time": "1701336351",
+      "obj_edit_time": "1705554413",
       "obj_token": "DqmydKtaeoONxPxdiJtcG072nVu",
       "obj_type": "docx",
       "origin_node_token": "Ti5uwysf0iZhuyk4xvjcFmsSnhG",
@@ -132,7 +160,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
       "space_id": "7167193056431783939",
-      "title": "Release Notes v2.1.0",
+      "title": "Release Notes (2023/08/16)",
       "slug": "release-notes-210"
     },
     {
@@ -142,7 +170,7 @@
       "node_token": "BcXMwUYQ3iD7mEkWKFhcU5PUnB5",
       "node_type": "origin",
       "obj_create_time": "1689062936",
-      "obj_edit_time": "1699600794",
+      "obj_edit_time": "1705554422",
       "obj_token": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
       "obj_type": "docx",
       "origin_node_token": "BcXMwUYQ3iD7mEkWKFhcU5PUnB5",
@@ -150,7 +178,7 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
       "space_id": "7167193056431783939",
-      "title": "Release Notes v2.0.0",
+      "title": "Release Notes (2023/07/11)",
       "slug": "release-notes-200"
     }
   ]

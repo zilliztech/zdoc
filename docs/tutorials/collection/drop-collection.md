@@ -3,14 +3,14 @@ slug: /drop-collection
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 token: KxK7wHZrciDa0skHrW1c6nkWn5f
-sidebar_position: 15
+sidebar_position: 20
 ---
 
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Drop Collection
+#  Drop Collection
 
 This guide walks you through dropping a collection from a cluster.
 
@@ -140,9 +140,9 @@ On the Zilliz Cloud cluster, each collection can accommodate only one vector fie
 
 ## Related topics{#related-topics}
 
-- [Insert Entities](./insert-entities) 
+- [Insert Entities](./insert-entities)
 
-- [Search, Query, and Get](./search-query-and-get) 
+- [Search, Query, and Get](./search-query-and-get)
 
 - [Delete Entities](./delete-entities) 
 

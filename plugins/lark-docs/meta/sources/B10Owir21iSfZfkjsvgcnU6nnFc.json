@@ -5,7 +5,7 @@
   "node_token": "B10Owir21iSfZfkjsvgcnU6nnFc",
   "node_type": "origin",
   "obj_create_time": "1701225831",
-  "obj_edit_time": "1701225841",
+  "obj_edit_time": "1703644472",
   "obj_token": "MsL9dVpxyowWNyxu9JdcFy9XnIg",
   "obj_type": "docx",
   "origin_node_token": "B10Owir21iSfZfkjsvgcnU6nnFc",
@@ -13,18 +13,21 @@
   "owner": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
   "space_id": "7167193056431783939",
-  "title": "Manage Cluster Credentials",
-  "slug": "manage-cluster-credentials",
+  "title": "Cluster Credentials",
+  "slug": "cluster-credentials",
   "blocks": {
     "items": [
       {
         "block_id": "MsL9dVpxyowWNyxu9JdcFy9XnIg",
         "block_type": 1,
+        "children": [
+          "MGv6dMeago5aItxiUPwcik2inog"
+        ],
         "page": {
           "elements": [
             {
               "text_run": {
-                "content": "Manage Cluster Credentials",
+                "content": "Cluster Credentials",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -40,9 +43,34 @@
           }
         },
         "parent_id": ""
+      },
+      {
+        "block_id": "MGv6dMeago5aItxiUPwcik2inog",
+        "block_type": 2,
+        "parent_id": "MsL9dVpxyowWNyxu9JdcFy9XnIg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "There are two possible ways for you to manage your cluster credentials, namely on the Zilliz Cloud console or via SDKs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       }
     ],
-    "counts": 1
+    "counts": 2
   },
   "children": [
     {
@@ -52,7 +80,7 @@
       "node_token": "Ha8jwqxnniC8mDkXM4RcN4SFnKf",
       "node_type": "origin",
       "obj_create_time": "1689059918",
-      "obj_edit_time": "1701227332",
+      "obj_edit_time": "1705386423",
       "obj_token": "RmO3dMMHEoUAuRxCSXgcxhaXnug",
       "obj_type": "docx",
       "origin_node_token": "Ha8jwqxnniC8mDkXM4RcN4SFnKf",
@@ -60,8 +88,8 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "B10Owir21iSfZfkjsvgcnU6nnFc",
       "space_id": "7167193056431783939",
-      "title": "Manage Cluster Credentials on Web UI",
-      "slug": "manage-cluster-credentials-gui"
+      "title": "Manage Cluster Credentials (Console)",
+      "slug": "cluster-credentials-console"
     },
     {
       "creator": "ou_e55a208a81fc721928685fc3df9cb678",
@@ -70,7 +98,7 @@
       "node_token": "ZAp4w4SWaiJal2kaMhjcItyvnJh",
       "node_type": "origin",
       "obj_create_time": "1701225793",
-      "obj_edit_time": "1701323681",
+      "obj_edit_time": "1705404045",
       "obj_token": "OVP9dgfMFovPCaxN18WcX9G5nue",
       "obj_type": "docx",
       "origin_node_token": "ZAp4w4SWaiJal2kaMhjcItyvnJh",
@@ -78,8 +106,8 @@
       "owner": "ou_e55a208a81fc721928685fc3df9cb678",
       "parent_node_token": "B10Owir21iSfZfkjsvgcnU6nnFc",
       "space_id": "7167193056431783939",
-      "title": "Manage Cluster Credentials via SDKs",
-      "slug": "manage-cluster-credentials-sdk"
+      "title": "Manage Cluster Credentials (SDK)",
+      "slug": "cluster-credentials-sdk"
     }
   ]
 }

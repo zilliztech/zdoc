@@ -16,13 +16,18 @@ List all pipelines in a project.
 ## Example
 
 
-List all pipelines in detail.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+
+Currently, data of the JSON and Array types are not supported in RESTful API requests..
+:::
 
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
-    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines"
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines?projectId=proj-**********************"
 ```
 
 Possible response
@@ -32,60 +37,62 @@ Possible response
   "code": 200,
   "data": [
     {
-     "pipelineId": "pipe-6ca5dd1b4672659d3c3487",
+     "pipelineId": "pipe-**********************",
      "name": "my_doc_ingestion_pipeline",
      "type": "INGESTION",
      "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
      "status": "SERVING",
+     "totalTokenUsage": 0,
      "functions": [
-       {
+        {
             "action": "INDEX_DOC",
             "name": "index_my_doc",
             "inputField": "doc_url",
-            "language": "ENGLISH"
-       },
-       {
+            "language": "ENGLISH",
+            "chunkSize": 500
+        },
+        {
             "action": "PRESERVE",
             "name": "keep_doc_info",
             "inputField": "publish_year",
             "outputField": "publish_year",
             "fieldType": "Int16"
-       }
+        }
      ],
      "clusterId": "in03-***************",
      "newCollectionName": "my_new_collection"
     },
     {
-     "pipelineId": "pipe-26a18a66ffc8c0edfdb874",
-     "name": "my_text_search_pipeline",
-     "type": "SEARCH",
-     "description": "A pipeline that receives text and search for semantically similar doc chunks",
-     "status": "SERVING",
-     "functions": [
-       {
-            "action": "SEARCH_DOC_CHUNK",
-            "name": "search_chunk_text_and_title",
-            "inputField": null,
-            "clusterId": "in03-***************",
-            "collectionName": "my_new_collection"
-       }
-     ]
+        "pipelineId": "pipe-**********************",
+        "name": "my_text_search_pipeline",
+        "type": "SEARCH",
+        "description": "A pipeline that receives text and search for semantically similar doc chunks",
+        "status": "SERVING",
+        "functions": [
+            {
+                "action": "SEARCH_DOC_CHUNK",
+                "name": "search_chunk_text_and_title",
+                "inputField": null,
+                "clusterId": "in03-***************",
+                "collectionName": "my_new_collection"
+            }
+        ]
     },
     {
-     "pipelineId": "pipe-7227d0729d73e63002ed46",
-     "name": "my_doc_deletion_pipeline",
-     "type": "DELETION",
-     "description": "A pipeline that deletes all info associated with a doc",
-     "status": "SERVING",
-     "functions": [
-       {
+        "pipelineId": "pipe-**********************",
+        "name": "my_doc_deletion_pipeline",
+        "type": "DELETION",
+        "description": "A pipeline that deletes all info associated with a doc",
+        "status": "SERVING",
+        "functions": [
+            {
             "action": "PURGE_DOC_INDEX",
             "name": "purge_chunks_by_doc_name",
             "inputField": "doc_name"
-       }
-     ],
-     "clusterId": "in03-***************",
-     "collectionName": "my_new_collection"
+            }
+        ],
+        "clusterId": "in03-***************",
+        "collectionName": "my_new_collection"
     }
   ]
 }
@@ -96,7 +103,11 @@ Possible response
 
 ### Parameters
 
-- No query parameters required
+- Query parameters
+
+    | Parameter        | Description                                                                               |
+    |------------------|-------------------------------------------------------------------------------------------|
+    | `projectId`  | **integer**(required)<br/>ID of the project in which this operation is performed.|
 
 - No path parameters required
 

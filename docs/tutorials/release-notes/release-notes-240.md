@@ -9,9 +9,13 @@ sidebar_position: 1
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes v2.4.0
+# Release Notes (2023/12/11)
 
-We are excited to announce the release of Zilliz Cloud 2.4.0. Now Zilliz Cloud services are available on Azure, starting with the East US region. Additionally, we introduce Zilliz Cloud Pipelines (Beta) which transforms unstructured data into vector embeddings for ingestion and retrieval. The release also brings improved RBAC and credential management within Clusters, with three predefined roles (admin, read-write, read-only) for user administration. Other updates include enhanced error message content and stability improvements for more reliable service.
+Now Zilliz Cloud services are available on Azure, starting with the East US region. Additionally, we introduce Zilliz Cloud Pipelines (Beta) which transforms unstructured data into vector embeddings for ingestion and retrieval. The release also brings improved RBAC and credential management within Clusters, with three predefined roles (admin, read-write, read-only) for user administration. Other updates include enhanced error message content and stability improvements for more reliable service.
+
+## Milvus Compatibility{#milvus-compatibility}
+
+This release is compatible with **Milvus 2.2.x** and **Milvus 2.3.x (Beta)**.
 
 ## Zilliz Cloud on Azure{#zilliz-cloud-on-azure}
 
@@ -33,7 +37,7 @@ To learn more information, please refer to this [__documentation__](./understand
 
 ## RBAC and Credential Management in Your Clusters{#rbac-and-credential-management-in-your-clusters}
 
-In this release, we introduce enhanced functionality for managing RBAC (Role-Based Access Control) and credentials within each Cluster. This streamlined approach allows users to efficiently administer Cluster users. To access these features, navigate to the 'Clusters' section, select 'your_cluster', and then proceed to the 'Users' tab. This release includes three predefined roles for simplified user management: 'admin', 'read-write', and 'read-only', each tailored to suit different levels of access and control needs. For more comprehensive details and guidance on utilizing these new capabilities, see the [__documentation__](./create-built-in-roles).
+In this release, we introduce enhanced functionality for managing RBAC (Role-Based Access Control) and credentials within each Cluster. This streamlined approach allows users to efficiently administer Cluster users. To access these features, navigate to the 'Clusters' section, select 'your_cluster', and then proceed to the 'Users' tab. This release includes three predefined roles for simplified user management: 'admin', 'read-write', and 'read-only', each tailored to suit different levels of access and control needs. For more comprehensive details and guidance on utilizing these new capabilities, see the [__documentation__](./user-roles).
 
 ## New Cluster Manipulation API Endpoints{#new-cluster-manipulation-api-endpoints}
 

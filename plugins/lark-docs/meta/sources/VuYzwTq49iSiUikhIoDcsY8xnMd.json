@@ -5,7 +5,7 @@
   "node_token": "VuYzwTq49iSiUikhIoDcsY8xnMd",
   "node_type": "origin",
   "obj_create_time": "1693552027",
-  "obj_edit_time": "1701225703",
+  "obj_edit_time": "1705027195",
   "obj_token": "PA3gdTb8do5mXzxbrTzctkGIn9b",
   "obj_type": "docx",
   "origin_node_token": "VuYzwTq49iSiUikhIoDcsY8xnMd",
@@ -13,8 +13,7 @@
   "owner": "ou_fbc044d19930afd389d5c369466c38b1",
   "parent_node_token": "BIy4we6qXiq8NpkHfXgcxuONngb",
   "space_id": "7167193056431783939",
-  "title": "Manage Cluster",
-  "slug": "manage-cluster",
+  "title": "[Deprecate] Manage Cluster",
   "blocks": {
     "items": [
       {
@@ -60,6 +59,9 @@
           "MYQqd1b89oupJyxbAVIcKH9MnCg",
           "HrMTdliJUoXwCYxyedpc9vQ8nGh",
           "JPiIdb49uoxcp3xbyqMcjgNInfP",
+          "QCY6dvM4SoDvlcx57Rmcf1UunHu",
+          "MupadAeFpoEskIxOgowczUH3nKi",
+          "E0EKdcKbOoCbGjxrRt0cqrESn0d",
           "PAOedZhmAoTZbSxBxducR2GUnRb",
           "KVjEdOWQRoVHgexxBG9c5Maynxb",
           "W6MWdNTEooo4pLxV0YSce7TpnIf",
@@ -84,6 +86,21 @@
         ],
         "page": {
           "elements": [
+            {
+              "text_run": {
+                "content": "[Deprecate] ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7293867685895634948"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "Manage Cluster",
@@ -2231,7 +2248,7 @@
             },
             {
               "text_run": {
-                "content": "Backup & Restore",
+                "content": "Backup and Restore",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2299,7 +2316,8 @@
           }
         },
         "children": [
-          "Nhkvd5Uk6oblhDxxSlVcBG2znjc"
+          "Nhkvd5Uk6oblhDxxSlVcBG2znjc",
+          "OD9fdcNbMoJUB2xXEuZcpSLonPd"
         ],
         "parent_id": "PA3gdTb8do5mXzxbrTzctkGIn9b"
       },
@@ -2431,13 +2449,13 @@
             },
             {
               "text_run": {
-                "content": "Migrate Between Clusters",
+                "content": "Migrations",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FQadbdhBPJoEfkrxzUi4cHeOjnKf%23QveqduPOwoLiD7xPG4RcviCwnOh"
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fmigrations"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -2455,7 +2473,20 @@
                   "underline": false
                 }
               }
-            },
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OD9fdcNbMoJUB2xXEuZcpSLonPd",
+        "block_type": 2,
+        "parent_id": "MYQqd1b89oupJyxbAVIcKH9MnCg",
+        "text": {
+          "elements": [
             {
               "text_run": {
                 "content": "</exclude>",
@@ -2764,6 +2795,258 @@
         }
       },
       {
+        "block_id": "QCY6dvM4SoDvlcx57Rmcf1UunHu",
+        "block_type": 2,
+        "parent_id": "PA3gdTb8do5mXzxbrTzctkGIn9b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MupadAeFpoEskIxOgowczUH3nKi",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Private Link",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "NffWd5zH0owVShx4RzzcLnosn6g",
+          "BYAhdpKIqo5xzsxvtkxclOxbnKe"
+        ],
+        "parent_id": "PA3gdTb8do5mXzxbrTzctkGIn9b"
+      },
+      {
+        "block_id": "NffWd5zH0owVShx4RzzcLnosn6g",
+        "block_type": 2,
+        "parent_id": "MupadAeFpoEskIxOgowczUH3nKi",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Connect",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " section on the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Cluster Details",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tab, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Add Private Link",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to add a private link for your cluster, avoiding access from the Internet.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BYAhdpKIqo5xzsxvtkxclOxbnKe",
+        "block_type": 2,
+        "parent_id": "MupadAeFpoEskIxOgowczUH3nKi",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For details on how to configure private link, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Set up a Private Link",
+                "token": "O5W3wHvmbiVSoLkzKgHcvB9XnUb",
+                "url": "https://zilliverse.feishu.cn/wiki/O5W3wHvmbiVSoLkzKgHcvB9XnUb"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "E0EKdcKbOoCbGjxrRt0cqrESn0d",
+        "block_type": 2,
+        "parent_id": "PA3gdTb8do5mXzxbrTzctkGIn9b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "PAOedZhmAoTZbSxBxducR2GUnRb",
         "block_type": 12,
         "bullet": {
@@ -2837,7 +3120,31 @@
             },
             {
               "text_run": {
-                "content": " section, click on the IP address in ",
+                "content": " section",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " on the Cluster Details tab",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", click on the IP address in ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4865,6 +5172,6 @@
         "parent_id": "PA3gdTb8do5mXzxbrTzctkGIn9b"
       }
     ],
-    "counts": 106
+    "counts": 112
   }
 }

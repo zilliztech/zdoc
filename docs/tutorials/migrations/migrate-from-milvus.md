@@ -164,7 +164,7 @@ Once the collections are loaded, you are free to interact with them using your p
 
 ## Related topics{#related-topics}
 
-- [AUTOINDEX Explained](./autoindex-explained) 
+- [AUTOINDEX Explained](./autoindex-explained)
 
 - [Select the Right CU](./cu-types-explained)
 

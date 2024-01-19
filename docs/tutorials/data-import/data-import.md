@@ -15,12 +15,6 @@ A comprehensive guide on how to import data to Zilliz Cloud, taking you from zer
 
 
 
-
-
-
-
-
-
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

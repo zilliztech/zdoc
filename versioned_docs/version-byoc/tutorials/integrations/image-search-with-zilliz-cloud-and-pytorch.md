@@ -71,63 +71,63 @@ At this point, we are going to begin setting up Zilliz Cloud. The steps are as f
 
 1. Connect to the Zilliz Cloud cluster using the provided URI.
 
-```python
-from pymilvus import connections
-
-# Connect to Zilliz Cloud and create a collection
-connections.connect(
-    alias='default',
-    # Public endpoint obtained from Zilliz Cloud
-    uri=URI,
-    token=TOKEN
-)
-```
+    ```python
+    from pymilvus import connections
+    
+    # Connect to Zilliz Cloud and create a collection
+    connections.connect(
+        alias='default',
+        # Public endpoint obtained from Zilliz Cloud
+        uri=URI,
+        token=TOKEN
+    )
+    ```
 
 1. If the collection already exists, drop it.
 
-```python
-from pymilvus import utility
-
-# Remove any previous collections with the same name
-if COLLECTION_NAME in utility.list_collections():
-    utility.drop_collection(COLLECTION_NAME)
-```
+    ```python
+    from pymilvus import utility
+    
+    # Remove any previous collections with the same name
+    if COLLECTION_NAME in utility.list_collections():
+        utility.drop_collection(COLLECTION_NAME)
+    ```
 
 1. Create the collection that holds the ID, the file path of the image, and its embedding.
 
-```python
-from pymilvus import FieldSchema, CollectionSchema, DataType, Collection
-
-fields = [
-    FieldSchema(name='id', dtype=DataType.INT64, is_primary=True, auto_id=True),
-    FieldSchema(name='filepath', dtype=DataType.VARCHAR, max_length=200),  # VARCHARS need a maximum length, so for this example they are set to 200 characters
-    FieldSchema(name='image_embedding', dtype=DataType.FLOAT_VECTOR, dim=DIMENSION)
-]
-
-schema = CollectionSchema(fields=fields)
-
-collection = Collection(
-    name=COLLECTION_NAME,
-    schema=schema,
-)
-```
+    ```python
+    from pymilvus import FieldSchema, CollectionSchema, DataType, Collection
+    
+    fields = [
+        FieldSchema(name='id', dtype=DataType.INT64, is_primary=True, auto_id=True),
+        FieldSchema(name='filepath', dtype=DataType.VARCHAR, max_length=200),  # VARCHARS need a maximum length, so for this example they are set to 200 characters
+        FieldSchema(name='image_embedding', dtype=DataType.FLOAT_VECTOR, dim=DIMENSION)
+    ]
+    
+    schema = CollectionSchema(fields=fields)
+    
+    collection = Collection(
+        name=COLLECTION_NAME,
+        schema=schema,
+    )
+    ```
 
 1. Create an index on the newly created collection and load it into memory.
 
-```python
-index_params = {
-    'index_type': 'AUTOINDEX',
-    'metric_type': 'L2',
-    'params': {}
-}
-
-collection.create_index(
-    field_name='image_embedding', 
-    index_params=index_params
-)
-
-collection.load()
-```
+    ```python
+    index_params = {
+        'index_type': 'AUTOINDEX',
+        'metric_type': 'L2',
+        'params': {}
+    }
+    
+    collection.create_index(
+        field_name='image_embedding', 
+        index_params=index_params
+    )
+    
+    collection.load()
+    ```
 
 Once these steps are done the collection is ready to be inserted into and searched. Any data added will be indexed automatically and be available to search immediately. If the data is very fresh, the search might be slower as brute force searching will be used on data that is still in process of getting indexed.
 
@@ -139,81 +139,81 @@ In the following steps, we will:
 
 1. Load the data.
 
-```python
-import glob
-
-# Get the filepaths of the images
-paths = glob.glob('./paintings/paintings/**/*.jpg', recursive=True)
-len(paths)
-
-# Output
-#
-# 4978
-```
+    ```python
+    import glob
+    
+    # Get the filepaths of the images
+    paths = glob.glob('./paintings/paintings/**/*.jpg', recursive=True)
+    len(paths)
+    
+    # Output
+    #
+    # 4978
+    ```
 
 1. Preprocess the data into batches.
 
-```python
-import torch
-
-# Load the embedding model with the last layer removed
-model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet50', weights=ResNet50_Weights.DEFAULT)
-model = torch.nn.Sequential(*(list(model.children())[:-1]))
-model.eval()
-```
+    ```python
+    import torch
+    
+    # Load the embedding model with the last layer removed
+    model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet50', weights=ResNet50_Weights.DEFAULT)
+    model = torch.nn.Sequential(*(list(model.children())[:-1]))
+    model.eval()
+    ```
 
 1. Embed the data.
 
-```python
-from torchvision import transforms
-
-# Preprocessing for images
-preprocess = transforms.Compose([
-    transforms.Resize(256),
-    transforms.CenterCrop(224),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-])
-```
+    ```python
+    from torchvision import transforms
+    
+    # Preprocessing for images
+    preprocess = transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ])
+    ```
 
 1. Insert the data.
 
-```python
-from PIL import Image
-from tqdm import tqdm
-
-# Embed function that embeds the batch and inserts it
-def embed(data):
-    with torch.no_grad():
-        output = model(torch.stack(data[0])).squeeze()
-        collection.insert([data[1], output.tolist()])
-
-data_batch = [[],[]]
-
-# Read the images into batches for embedding and insertion
-for path in tqdm(paths):
-    im = Image.open(path).convert('RGB')
-    data_batch[0].append(preprocess(im))
-    data_batch[1].append(path)
-    if len(data_batch[0]) % BATCH_SIZE == 0:
+    ```python
+    from PIL import Image
+    from tqdm import tqdm
+    
+    # Embed function that embeds the batch and inserts it
+    def embed(data):
+        with torch.no_grad():
+            output = model(torch.stack(data[0])).squeeze()
+            collection.insert([data[1], output.tolist()])
+    
+    data_batch = [[],[]]
+    
+    # Read the images into batches for embedding and insertion
+    for path in tqdm(paths):
+        im = Image.open(path).convert('RGB')
+        data_batch[0].append(preprocess(im))
+        data_batch[1].append(path)
+        if len(data_batch[0]) % BATCH_SIZE == 0:
+            embed(data_batch)
+            data_batch = [[],[]]
+    
+    # Embed and insert the remainder
+    if len(data_batch[0]) != 0:
         embed(data_batch)
-        data_batch = [[],[]]
+    
+    # Call a flush to index any unsealed segments.
+    time.sleep(5)
+    ```
 
-# Embed and insert the remainder
-if len(data_batch[0]) != 0:
-    embed(data_batch)
+    <Admonition type="info" icon="📘" title="Notes">
 
-# Call a flush to index any unsealed segments.
-time.sleep(5)
-```
+    This step is relatively time-consuming because embedding takes time. Take a sip of coffee and relax.    
+    
+    PyTorch may not work well with Python 3.9 and earlier versions. Considering using Python 3.10 and later versions instead.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-This step is relatively time-consuming because embedding takes time. Take a sip of coffee and relax.
-
-PyTorch may not work well with Python 3.9 and earlier versions. Considering using Python 3.10 and later versions instead.
-
-</Admonition>
+    </Admonition>
 
 ## Perform search{#perform-search}
 
@@ -278,15 +278,15 @@ The search result image should be similar to the following:
 
 ## Related integrations{#related-integrations}
 
-- [Similarity Search with Zilliz Cloud and OpenAI](./similarity-search-with-zilliz-cloud-and-openai) 
+- [Similarity Search with Zilliz Cloud and OpenAI](./similarity-search-with-zilliz-cloud-and-openai)
 
-- [Question Answering Using Zilliz Cloud and HuggingFace](./question-answering-using-zilliz-cloud-and-hugging-face) 
+- [Question Answering Using Zilliz Cloud and HuggingFace](./question-answering-using-zilliz-cloud-and-hugging-face)
 
-- [Question Answering Using Zilliz Cloud and Cohere](./question-answering-using-zilliz-cloud-and-cohere) 
+- [Question Answering Using Zilliz Cloud and Cohere](./question-answering-using-zilliz-cloud-and-cohere)
 
-- [Question Answering over Documents with Zilliz Cloud and LangChain](./question-answering-over-documents-with-zilliz-cloud-and-langchain) 
+- [Question Answering over Documents with Zilliz Cloud and LangChain](./question-answering-over-documents-with-zilliz-cloud-and-langchain)
 
-- [Documentation QA using Zilliz Cloud and LlamaIndex](./documentation-qa-using-zilliz-cloud-and-llamaindex) 
+- [Documentation QA using Zilliz Cloud and LlamaIndex](./documentation-qa-using-zilliz-cloud-and-llamaindex)
 
 - [Movie Search Using Zilliz Cloud and SentenceTransformers](./movie-search-using-zilliz-cloud-and-sentencetransformers) 
 

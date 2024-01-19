@@ -5,7 +5,7 @@
   "node_token": "IFtRwms2yiPZx9kfiBacuaw6nJc",
   "node_type": "origin",
   "obj_create_time": "1689059888",
-  "obj_edit_time": "1700446127",
+  "obj_edit_time": "1705371536",
   "obj_token": "O1YYdtYTso1Bu2xEeoYcsaSnnvb",
   "obj_type": "docx",
   "origin_node_token": "IFtRwms2yiPZx9kfiBacuaw6nJc",
@@ -13,8 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
   "space_id": "7167193056431783939",
-  "title": "Manage API Keys",
-  "slug": "manage-api-keys",
+  "title": "[Deprecate] Manage API Keys",
   "blocks": {
     "items": [
       {
@@ -50,6 +49,18 @@
         ],
         "page": {
           "elements": [
+            {
+              "text_run": {
+                "content": "[Deprecate] ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "Manage ",

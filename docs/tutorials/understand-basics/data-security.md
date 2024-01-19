@@ -29,13 +29,13 @@ Once an account is ready, you can log into the Zilliz Cloud console to create an
 
 By design, the Zilliz Cloud platform comprises two planes: the control plane and the kernel plane. These planes reside in separate security groups with isolated networks. Such a design reinforces data security.
 
-As a supplement, Zilliz Cloud supports security settings, such as access control, whitelists, and private links, securing internal and external communication with your cluster.
+As a supplement, Zilliz Cloud supports security settings, such as whitelists, and private links, access control, securing internal and external communication with your cluster.
 
 ### Authentication{#authentication}
 
 Zilliz Cloud implements authentication using the OAuth2 protocol, which requires users to prove their identity by providing a cluster credential (a token), before they can access or execute on any cluster resources. Cluster credentials usually consist of username and password pairs or API keys.
 
-For details, see [Manage Cluster Credentials](./manage-cluster-credentials-gui) and [Manage API Keys](./manage-api-keys).
+For details, see [Manage Cluster Credentials (Console)](./cluster-credentials-console) and [API Keys](./manage-api-keys).
 
 ### Access control{#access-control}
 
@@ -43,7 +43,7 @@ In many cases, authenticating users is far from enough. You also need a way to c
 
 To meet these needs, Zilliz Cloud enables access control, which allows you to restrict user permissions and authorize them to access only specific resources. With this mechanism, users can be granted one or more roles that determine the scope of their permissions on cluster resources and operations. This helps prevent unauthorized access beyond the defined permission scope.
 
-For details, see [Users & Roles](./users-roles).
+For details, see [User Roles](./user-roles).
 
 ### Whitelists{#whitelists}
 
@@ -51,7 +51,7 @@ For Internet connections, Zilliz Cloud uses the HTTPS protocol and provides a wh
 
 Once you add specific CIDR blocks to the whitelist of a cluster, only IP addresses in the specified range can access the cluster. To completely prevent Internet access, you can add **127.0.0.1/32** to the cluster whitelist.
 
-For details, see [Set up Whitelist](./set-up-whitelist).
+For details, see [Set up Whitelist](./setup-whitelist).
 
 ### Private links{#private-links}
 

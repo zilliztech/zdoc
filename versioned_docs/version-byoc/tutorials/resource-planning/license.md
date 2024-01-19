@@ -11,27 +11,59 @@ import Admonition from '@theme/Admonition';
 
 # License
 
-The Zilliz Cloud Bring Your Own Cloud (BYOC) license offers a subscription model enabling you to utilize Zilliz Cloud services on your cloud infrastructure. This topic explores the BYOC license, emphasizing its usage, monitoring, and implications for users.
+The Zilliz Cloud Bring Your Own Cloud (BYOC) solution offers a subscription model enabling you to deploy Zilliz Cloud services on your cloud infrastructure for enhanced security. This topic explores the BYOC license, emphasizing its usage, monitoring, and implications for users.
 
-## License overview{#license-overview}
+## Calculation of CPU cores{#calculation-of-cpu-cores}
 
-The BYOC license operates on a core-based subscription model, linking your subscription to the number of CPU cores dedicated to your cluster services. Key features include:
+The calculation method for the Zilliz Cloud BYOC solution involves distinguishing between the control plane and the data plane.
 
-- **Validity Period**: Each license has a specific start and end date, defining the period during which Zilliz Cloud services can be used.
+- **Control Plane**:
 
-- **Core Allocation**: Under a BYOC license, a specific number of CPU cores are allocated for running Zilliz Cloud clusters. This core allocation directly influences the cluster's performance and scalability. 
+    - Hosted on Zilliz Cloud
+
+    - Provides API functionality, Zilliz Cloud platform operations, data backup, migration, and alerts
+
+    - CPU cores consumed at the control plane are not deducted from the cores subscribed in the BYOC license
+
+- **Data Plane**:
+
+    - Deployed in your own VPC
+
+    - Fully controlled for security
+
+    - Includes Zilliz Cloud services
+
+    - CPU cores consumed at the data plane are deducted from the cores subscribed in your license
+
+The following table summarizes the calculation of CPU cores for a BYOC license.
+
+|  Deployment   |  Plane         |  Component                                                     |  Billable? |
+| ------------- | -------------- | -------------------------------------------------------------- | ---------- |
+|  Zilliz Cloud |  Control Plane |  API functionality, cloud ops, backup, migration, alerts, etc. |  No        |
+|  User's VPC   |  Data Plane    |  Index services                                                |  Yes       |
+|               |                |  Zilliz Cloud cluster services                                 |  Yes       |
 
 ## View license information{#view-license-information}
 
-You can manage and view your BYOC license details in the Zilliz Cloud console.
+As the [Organization Owner](./resource-hierarchy), you can access and review detailed license information:
 
-To view license information, you must be the [Organization Owner](./a-panorama-view#organization-roles).
+- **License ID**: A distinct code that identifies your organization's license.
+
+- **Cloud Provider**: Your cloud service provider powering Zilliz Cloud BYOC services.
+
+- **License Term**: Start and end dates indicating the active period of your license.
+
+- **Usage**: Current CPU core usage as a percentage of the total cores included in your license.
+
+For more details on resource consumption:
+
+Click **View Details** to see CPU core usage by each service and cluster, along with the cloud region where they are deployed.
 
 ![view-license-info](/byoc/view-license-info.png)
 
 ## Monitor license usage{#monitor-license-usage}
 
-Check out the **Usage** progress bar on the **License Information** page, which offers an easy-to-understand visual guide showing how you're using your license. Please take the appropriate action based on the color indicators:
+Check out the **Usage** progress bar on the **License Information** page, which offers a visual guide showing how you're using your license. Please take the appropriate action based on the color indicators:
 
 - **Green**: Your license usage is comfortably within limits, with core usage below 70% and over 60 days of validity remaining. Keep monitoring to ensure it stays in this range.
 
@@ -73,9 +105,9 @@ Failing to renew or upgrade within the __one-month__ grace period results in you
 
 ## Related topics{#related-topics}
 
-- [Activate Your Cloud](./activate-your-cloud) 
+- [Activate Your Cloud](./activate-your-cloud)
 
 - [Select the Right CU](./cu-types-explained)
 
-- [Create Cluster](./create-cluster) 
+- [Create Cluster](./create-cluster)
 

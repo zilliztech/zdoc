@@ -3,17 +3,19 @@ slug: /release-notes-210
 beta: FALSE
 notebook: FALSE
 token: Ti5uwysf0iZhuyk4xvjcFmsSnhG
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes v2.1.0
+# Release Notes (2023/08/16)
 
-We are excited to announce the launch of Zilliz Cloud 2.1.0. This release includes a variety of enhancements and features. [__Learn more__](./release-notes-210).
+We are excited to announce the launch of Zilliz Cloud. This release includes a variety of enhancements and features. [__Learn more__](./release-notes-210).
 
-(Release date: Aug 16th, 2023)
+## Milvus Compatibility{#milvus-compatibility}
+
+This release is compatible with **Milvus 2.1.x**.
 
 ## Expanded Regional Support{#expanded-regional-support}
 

@@ -5,7 +5,7 @@
   "node_token": "YfMEwLHzeisARCk4VZ3cVhJmnjd",
   "node_type": "origin",
   "obj_create_time": "1689055181",
-  "obj_edit_time": "1700112773",
+  "obj_edit_time": "1705028207",
   "obj_token": "XuBFdtVs5ovTndxAt3YcQKuende",
   "obj_type": "docx",
   "origin_node_token": "YfMEwLHzeisARCk4VZ3cVhJmnjd",
@@ -13,7 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
   "space_id": "7167193056431783939",
-  "title": "Search, Query, and Get",
+  "title": "[DEPRECATE] Search, Query, and Get",
   "slug": "search-query-and-get",
   "blocks": {
     "items": [
@@ -83,31 +83,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Search, ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Query",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ", and Get",
+                "content": "[DEPRECATE] Search, Query, and Get",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

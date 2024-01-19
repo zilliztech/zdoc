@@ -5,7 +5,7 @@
   "node_token": "RnqlwR30LiIrOwk4GWYcT7xvnLb",
   "node_type": "origin",
   "obj_create_time": "1701153359",
-  "obj_edit_time": "1701674717",
+  "obj_edit_time": "1705454139",
   "obj_token": "Mnl6d70hboQKjMx9m2WclFfonUg",
   "obj_type": "docx",
   "origin_node_token": "RnqlwR30LiIrOwk4GWYcT7xvnLb",
@@ -13,7 +13,7 @@
   "owner": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
   "space_id": "7167193056431783939",
-  "title": "Use Partitions",
+  "title": "[DEPRECATE] Use Partitions",
   "slug": "use-partitions",
   "blocks": {
     "items": [
@@ -93,6 +93,18 @@
         ],
         "page": {
           "elements": [
+            {
+              "text_run": {
+                "content": "[DEPRECATE] ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "Use Partitions",
@@ -300,8 +312,8 @@
                   "underline": false
                 },
                 "title": "Create Cluster",
-                "token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
-                "url": "https://zilliverse.feishu.cn/wiki/U0Bsw2SZaihm2mkLza7cRCqTndg"
+                "token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
+                "url": "https://zilliverse.feishu.cn/wiki/KrbjwFhy3iojF3k97XmcvvXMnW7"
               }
             },
             {

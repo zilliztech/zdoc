@@ -9,19 +9,30 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Inserts one or more entities into a collection.
 
-<RestHeader method="post" endpoint="https://{cluster_endpoint}/v1/vector/upsert" />
+<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/upsert" />
 
 ---
 
 ## Example
 
 
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+Currently, data of the JSON and Array types are not supported in RESTful API requests..
+:::
+
+
 - Upsert an entity to a collection named `medium_articles`.
 
 ```shell
 curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/upsert" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --url "${cluster-endpoint}/v1/vector/upsert" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{
@@ -38,8 +49,8 @@ curl --request POST \
 
 ```shell
 curl --request POST \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/upsert" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --url "${cluster-endpoint}/v1/vector/upsert" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{

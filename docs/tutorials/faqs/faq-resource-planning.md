@@ -69,7 +69,7 @@ The "Capacity-optimized Compute Unit" suits data volumes that are five times lar
 
 The "Cost-optimized Compute Unit" provides the same large capacity as the "Capacity-optimized" option, but at a lower cost with reduced search performance. This option is ideal for budget-conscious projects that need ample storage without high-performance demands.
 
-For more details, see [Select the Right CU](./cu-types-explained). 
+For more details, see [Select the Right CU](./cu-types-explained).
 
 ### How can I downgrade from Enterprise plan to Standard plan?{#how-can-i-downgrade-from-enterprise-plan-to-standard-plan}
 

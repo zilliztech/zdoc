@@ -16,11 +16,16 @@ Resume a suspended cluster.
 ## Example
 
 
-Resume a cluster that has been suspended.
+:::info Notes
+
+- This API requires an [API Key](/docs/manage-api-keys) as the authentication token.
+- Using this API requires you to add a valid payment method.
+
+:::
 
 ```shell
-curl --request POST \ 
-    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/<Cluster-ID>/resume" \
+curl --request POST \
+    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/resume" \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"

@@ -1,0 +1,70 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1702533272",
+  "node_token": "PqlLwFexgi9CE2k8OrucaNySnJd",
+  "node_type": "origin",
+  "obj_create_time": "1702533272",
+  "obj_edit_time": "1705028052",
+  "obj_token": "ERCddpOkrom49PxL0v0cR0VNnWf",
+  "obj_type": "docx",
+  "origin_node_token": "PqlLwFexgi9CE2k8OrucaNySnJd",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "GqTew9RBzik7owkSSugcUYVDncF",
+  "space_id": "7167193056431783939",
+  "title": "[DEV] With Iterators",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "ERCddpOkrom49PxL0v0cR0VNnWf",
+        "block_type": 1,
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "DEV",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "] With Iterators",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      }
+    ],
+    "counts": 1
+  }
+}

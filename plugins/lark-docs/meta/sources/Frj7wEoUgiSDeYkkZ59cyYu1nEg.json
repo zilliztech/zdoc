@@ -5,7 +5,7 @@
   "node_token": "Frj7wEoUgiSDeYkkZ59cyYu1nEg",
   "node_type": "origin",
   "obj_create_time": "1700040247",
-  "obj_edit_time": "1701767755",
+  "obj_edit_time": "1705455034",
   "obj_token": "IdIkdrMSPod67Gxq4dVcPqd4n2b",
   "obj_type": "docx",
   "origin_node_token": "Frj7wEoUgiSDeYkkZ59cyYu1nEg",
@@ -13,7 +13,7 @@
   "owner": "ou_fbc044d19930afd389d5c369466c38b1",
   "parent_node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
   "space_id": "7167193056431783939",
-  "title": "Create Pipelines via RESTful API",
+  "title": "Create Pipelines (RESTful API)",
   "slug": "create-piplines-rest",
   "blocks": {
     "items": [
@@ -23,14 +23,13 @@
         "children": [
           "LWDUdREAVocKr8xRc0wcbhyanSf",
           "VPZod8vh4oMVptxItoscU0wbnk9",
-          "OVPkdAx7xoZeklx8miYcJPw7nBb",
+          "LovidEloUoD6OLxlKT3cV9V4nfb",
           "SZZrdTtzboc4YMxlHNmcxCIangd",
           "LHrXd9HCwoH5cnxLJoJc9HD9nDg",
           "EanOdc5Mzo71FMx9v2mcjS8Tnkb",
-          "OdlAdTSh1otg2hxq0QZcHdTcnPc",
-          "LcPTdjNbToq38axoObGcm8Vsnse",
           "FyurdIKO0o1JHKxfY2NcfpQCnGh",
           "AkgodX9wkoU4xfxrlrEcunfUngc",
+          "CKAzdiOpAoxebrxUhOHclPZpn0b",
           "JYHvdTIK1orliZxgWNdcCVMmnhe",
           "MhZgdPCeHoNVtexJ14Ccr405nEb",
           "GLfqd7tgooboDYxCp7UcGrOonhh",
@@ -54,6 +53,7 @@
           "EhSXd1EqzoeA3nxoZjCcDKtNn9g",
           "IOrWdqgN9oWiAcxMTJYcw096nah",
           "GBp1dsy6No2isMxyJ61cxj2un9f",
+          "Eb0Ddzt1LoYdUkxNwRgcjM6jn4c",
           "Ty5Jd30PhoTs1pxrXifcwEfMnbh",
           "JNqzdJ21woxKEixnEFKcI7a2nUg",
           "SAXHdFGcJouXOzxDFJscREOJnHR",
@@ -74,7 +74,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Create Pipelines via RESTful ",
+                "content": "Create Pipelines ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -86,7 +86,7 @@
             },
             {
               "text_run": {
-                "content": "API",
+                "content": "(RESTful API)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -214,14 +214,88 @@
         }
       },
       {
-        "block_id": "OVPkdAx7xoZeklx8miYcJPw7nBb",
-        "block_type": 2,
+        "block_id": "LovidEloUoD6OLxlKT3cV9V4nfb",
+        "block_type": 34,
+        "children": [
+          "Humld1TkaoWXAvxjFJnckOwWnfb",
+          "AAAUdGKKwoADnRxkiblcFZ4Knfe"
+        ],
         "parent_id": "IdIkdrMSPod67Gxq4dVcPqd4n2b",
+        "quote_container": {}
+      },
+      {
+        "block_id": "Humld1TkaoWXAvxjFJnckOwWnfb",
+        "block_type": 2,
+        "parent_id": "LovidEloUoD6OLxlKT3cV9V4nfb",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "",
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AAAUdGKKwoADnRxkiblcFZ4Knfe",
+        "block_type": 2,
+        "parent_id": "LovidEloUoD6OLxlKT3cV9V4nfb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently pipelines only work with collections in a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "serverless cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FKrbjwFhy3iojF3k97XmcvvXMnW7%3Fchunked%3Dfalse%23doxcnFZEzaQyrV1mnoVWFQYLPwd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " In one project, you can only create up to 5 pipelines of the same type.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -470,118 +544,6 @@
         }
       },
       {
-        "block_id": "OdlAdTSh1otg2hxq0QZcHdTcnPc",
-        "block_type": 2,
-        "parent_id": "IdIkdrMSPod67Gxq4dVcPqd4n2b",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "LcPTdjNbToq38axoObGcm8Vsnse",
-        "block_type": 34,
-        "children": [
-          "WJb2dRfp2ocpDnx6w4pciMMQn9e",
-          "HlcfdPHdZogGuDxmgu6cHFJ2nfX"
-        ],
-        "parent_id": "IdIkdrMSPod67Gxq4dVcPqd4n2b",
-        "quote_container": {}
-      },
-      {
-        "block_id": "WJb2dRfp2ocpDnx6w4pciMMQn9e",
-        "block_type": 2,
-        "parent_id": "LcPTdjNbToq38axoObGcm8Vsnse",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "📘 Notes",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "HlcfdPHdZogGuDxmgu6cHFJ2nfX",
-        "block_type": 2,
-        "parent_id": "LcPTdjNbToq38axoObGcm8Vsnse",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Currently pipelines only work with collections in a ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "serverless cluster",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FCDOJd3wbeoPsxyxfguxcfe89n5g%3Fchunked%3Dfalse%23X6z6dlvhkoBxj6xvn48cGzefnHf"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
         "block_id": "FyurdIKO0o1JHKxfY2NcfpQCnGh",
         "block_type": 2,
         "parent_id": "IdIkdrMSPod67Gxq4dVcPqd4n2b",
@@ -704,14 +666,41 @@
         }
       },
       {
+        "block_id": "CKAzdiOpAoxebrxUhOHclPZpn0b",
+        "block_type": 2,
+        "parent_id": "IdIkdrMSPod67Gxq4dVcPqd4n2b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "JYHvdTIK1orliZxgWNdcCVMmnhe",
         "block_type": 34,
         "children": [
           "BZvxdtrjCoDHOmxLyJvcfxcsnSd",
+          "Le3CdoAM5ocoaFxY0pKcUUJlnte",
           "ZOKhd3zQ4oIcMBx8GdTcQPVznuk",
           "OQqVdpGhZoHF9gx6dRycp6LRn2f",
           "KZJ1dw6inobN9LxqZVMc7J8snxf",
-          "MKZPd8CMAo3ewsxOO46cUdv0nKd"
+          "MKZPd8CMAo3ewsxOO46cUdv0nKd",
+          "YLi9dbvGVoT99yxQznEcy1Itnnc"
         ],
         "parent_id": "IdIkdrMSPod67Gxq4dVcPqd4n2b",
         "quote_container": {}
@@ -740,6 +729,87 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "Le3CdoAM5ocoaFxY0pKcUUJlnte",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "By specifying the ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "projectId",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you indicate in which project to create the pipeline. Learn more about ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "how to obtain the project ID",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fsupport.zilliz.com%2Fhc%2Fen-us%2Farticles%2F22048954409755-How-Can-I-Obtain-the-Project-ID-"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "JYHvdTIK1orliZxgWNdcCVMmnhe"
       },
       {
         "block_id": "ZOKhd3zQ4oIcMBx8GdTcQPVznuk",
@@ -1130,6 +1200,50 @@
         "parent_id": "JYHvdTIK1orliZxgWNdcCVMmnhe"
       },
       {
+        "block_id": "YLi9dbvGVoT99yxQznEcy1Itnnc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The INDEX_DOC function ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "comment_ids": [
+                    "7324536202806345732"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size (20-500 tokens) for custom chunking strategies. Moreover, for markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7324536202806345732"
+        ],
+        "parent_id": "JYHvdTIK1orliZxgWNdcCVMmnhe"
+      },
+      {
         "block_id": "MhZgdPCeHoNVtexJ14Ccr405nEb",
         "block_type": 14,
         "code": {
@@ -1174,6 +1288,43 @@
                     "7306795839682068483",
                     "7306796455867023364"
                   ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "       ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " \"projectId\": \"proj-xxxx\"，",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1650,12 +1801,47 @@
             },
             {
               "text_run": {
-                "content": "            \"language\": \"ENGLISH\"",
+                "content": "            \"language\": \"ENGLISH\",\n",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
                     "7305964733525065731",
                     "7306795839682068483"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "                ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7305964733525065731",
+                    "7306795839682068483",
+                    "7317897054636785667"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"chunkSize\": 500,",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "comment_ids": [
+                    "7305964733525065731",
+                    "7306795839682068483",
+                    "7317897054636785667"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -2350,6 +2536,7 @@
           }
         },
         "comment_ids": [
+          "7317897054636785667",
           "7306799243934154755",
           "7306799027103055875",
           "7306796455867023364",
@@ -2546,7 +2733,110 @@
             },
             {
               "text_run": {
-                "content": "\",\n    \"status\": \"SERVING\",\n    \"functions\": [\n      {\n        \"action\": \"INDEX_DOC\",\n        \"name\": \"index_my_doc\",\n        \"inputField\": \"doc_url\",\n        \"language\": \"ENGLISH\"\n      },\n      {\n        \"action\": \"PRESERVE\",\n        \"name\": \"keep_doc_info\",\n",
+                "content": "\",\n    \"status\": \"SERVING\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "   ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " \"",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "totalTokenUsage",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "comment_ids": [
+                    "7317897517470318594"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\": 0,",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    \"functions\": [\n      {\n        \"action\": \"INDEX_DOC\",\n        \"name\": \"index_my_doc\",\n        \"inputField\": \"doc_url\",\n        \"language\": \"ENGLISH\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"chunkSize\": 500",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n      },\n      {\n        \"action\": \"PRESERVE\",\n        \"name\": \"keep_doc_info\",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2711,6 +3001,7 @@
           }
         },
         "comment_ids": [
+          "7317897517470318594",
           "7306799818364452868",
           "7306089621321056259"
         ],
@@ -3765,7 +4056,7 @@
             },
             {
               "text_run": {
-                "content": "    ",
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3777,7 +4068,47 @@
             },
             {
               "text_run": {
-                "content": "    \"name\": \"my_text_search_pipeline\",\n",
+                "content": "      ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " \"projectId\": \"proj-xxxx\",",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "comment_ids": [
+                    "7324278913813839875"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "   ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \n        \"name\": \"my_text_search_pipeline\",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4157,6 +4488,7 @@
           }
         },
         "comment_ids": [
+          "7324278913813839875",
           "7306817926525730819"
         ],
         "parent_id": "IdIkdrMSPod67Gxq4dVcPqd4n2b"
@@ -4510,6 +4842,43 @@
             {
               "text_run": {
                 "content": "{\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "       ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " \"projectId\": \"proj-xxxx\",",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5169,6 +5538,87 @@
         "parent_id": "IdIkdrMSPod67Gxq4dVcPqd4n2b"
       },
       {
+        "block_id": "Eb0Ddzt1LoYdUkxNwRgcjM6jn4c",
+        "block_type": 2,
+        "parent_id": "IdIkdrMSPod67Gxq4dVcPqd4n2b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To list all pipelines in a project, you need to specify the ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "projectId",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".  Learn more about ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "how to obtain the project ID",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fsupport.zilliz.com%2Fhc%2Fen-us%2Farticles%2F22048954409755-How-Can-I-Obtain-the-Project-ID-"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "Ty5Jd30PhoTs1pxrXifcwEfMnbh",
         "block_type": 14,
         "code": {
@@ -5187,7 +5637,32 @@
             },
             {
               "text_run": {
-                "content": "    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines\"",
+                "content": "    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "?projectId=proj-xxxx",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5381,7 +5856,57 @@
             },
             {
               "text_run": {
-                "content": ",\n      \"status\": \"SERVING\",\n      \"functions\": [\n        {\n          \"action\": \"INDEX_DOC\",\n          \"name\": \"index_my_doc\",\n          \"inputField\": \"doc_url\",\n          \"language\": \"ENGLISH\"\n        },\n        {\n          \"action\": \"PRESERVE\",\n          \"name\": \"keep_doc_info\",\n",
+                "content": ",\n      \"status\": \"SERVING\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "      \"totalTokenUsage\": 0,",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n      \"functions\": [\n        {\n          \"action\": \"INDEX_DOC\",\n          \"name\": \"index_my_doc\",\n          \"inputField\": \"doc_url\",\n          \"language\": \"ENGLISH\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "          \"chunkSize\": 500",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n        },\n        {\n          \"action\": \"PRESERVE\",\n          \"name\": \"keep_doc_info\",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5561,7 +6086,7 @@
             },
             {
               "text_run": {
-                "content": "\n      \"name\": \"my_text_search_pipeline\",\n      \"type\": \"SEARCH\",\n      \"description\": \"A pipeline that receives text and search for semantically similar doc chunks\",\n      \"status\": \"SERVING\",\n      \"functions\": [\n        {\n          \"action\": \"SEARCH_DOC_CHUNK\",\n          \"name\": \"search_chunk_text_and_title\",\n          \"inputField\": null,\n",
+                "content": "\n      \"name\": \"my_text_search_pipeline\",\n      \"type\": \"SEARCH\",\n      \"description\": \"A pipeline that receives text and search for semantically similar doc chunks\",\n      \"status\": \"SERVING\",\n      \"functions\": [\n        {\n          \"action\": \"SEARCH_DOC_CHUNK\",\n          \"name\": \"search_chunk_text_and_title\",\n          \"inputField\": \"query_text\",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6070,7 +6595,81 @@
             },
             {
               "text_run": {
-                "content": ",\n    \"status\": \"SERVING\",\n    \"functions\": [\n      {\n        \"action\": \"INDEX_DOC\",\n        \"name\": \"index_my_doc\",\n        \"inputField\": \"doc_url\",\n        \"language\": \"ENGLISH\"\n      },\n      {\n        \"action\": \"PRESERVE\",\n        \"name\": \"keep_doc_info\",\n",
+                "content": ",\n    \"status\": \"SERVING\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"totalTokenUsage\": 0,",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    \"functions\": [\n      {\n        \"action\": \"INDEX_DOC\",\n        \"name\": \"index_my_doc\",\n        \"inputField\": \"doc_url\",\n        \"language\": \"ENGLISH\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"chunkSize\": 500",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n      },\n      {\n        \"action\": \"PRESERVE\",\n        \"name\": \"keep_doc_info\",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6682,7 +7281,81 @@
             },
             {
               "text_run": {
-                "content": ",\n    \"status\": \"SERVING\",\n    \"functions\": [\n      {\n        \"action\": \"INDEX_DOC\",\n        \"name\": \"index_my_doc\",\n        \"inputField\": \"doc_url\",\n        \"language\": \"ENGLISH\"\n      },\n      {\n        \"action\": \"PRESERVE\",\n        \"name\": \"keep_doc_info\",\n",
+                "content": ",\n    \"status\": \"SERVING\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"totalTokenUsage\": 0,",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    \"functions\": [\n      {\n        \"action\": \"INDEX_DOC\",\n        \"name\": \"index_my_doc\",\n        \"inputField\": \"doc_url\",\n        \"language\": \"ENGLISH\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"chunkSize\": 500",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n      },\n      {\n        \"action\": \"PRESERVE\",\n        \"name\": \"keep_doc_info\",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6845,6 +7518,6 @@
         "parent_id": "IdIkdrMSPod67Gxq4dVcPqd4n2b"
       }
     ],
-    "counts": 76
+    "counts": 78
   }
 }

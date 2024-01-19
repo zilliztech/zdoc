@@ -15,10 +15,6 @@ Explanations about the common terms we use when discussing how to use Zilliz Clo
 
 
 
-
-
-
-
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

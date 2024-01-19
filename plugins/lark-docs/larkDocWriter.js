@@ -148,7 +148,7 @@ class larkDocWriter {
         if (file.length > 0) {
             return JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file[0]}`, {encoding: 'utf-8', flag: 'r'}))
         } else {
-            throw new Error(`Cannot find ${title} in ${this.docSourceDir}`)
+            throw new Error(`Cannot find ${value} in ${this.docSourceDir}`)
         }
     }
 
@@ -417,21 +417,22 @@ class larkDocWriter {
             }
         })
 
-        return markdown.replace(/\n{3,}/g, '\n\n')
+        return markdown.replace(/\n{3,}/g, '\n\n').replace(/^\|(\s*\|)*\s*\n/gm, '')
     }
 
     async __write_page({slug, beta, notebook, path, token, sidebar_position}) {
         let front_matter = this.__front_matters(slug, beta, notebook, token, sidebar_position)
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.target)
-        if (!this.sdks) {
-            this.sdks = await this.__fetch_sdk_versions()
-        }
+        // if (!this.sdks) {
+        //     this.sdks = await this.__fetch_sdk_versions()
+        // }
 
-        markdown = markdown.replace(/{versions.python.version}/g, this.sdks.python.version)
-        markdown = markdown.replace(/{versions.java.version}/g, this.sdks.java.version)
-        markdown = markdown.replace(/{versions.node.version}/g, this.sdks.node.version)
-        markdown = markdown.replace(/{versions.go.version}/g, this.sdks.go.version)
+        // markdown = markdown.replace(/{versions.python.version}/g, this.sdks.python.version)
+        // markdown = markdown.replace(/{versions.java.version}/g, this.sdks.java.version)
+        // markdown = markdown.replace(/{versions.node.version}/g, this.sdks.node.version)
+        // markdown = markdown.replace(/{versions.go.version}/g, this.sdks.go.version)
+        markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
 
         let tabs = markdown.split('\n').filter(line => {
             return line.trim().startsWith("<Tab")
@@ -541,7 +542,7 @@ class larkDocWriter {
             }
         }
     
-        return markdown.join('\n\n').replace(/\n{3,}/g, '\n\n').replace(/<br>/g, '<br/>');
+        return markdown.join('\n\n').replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br>){2,}/g, '<br>').replace(/<br>/g, '<br/>');
     }
 
     async __page(page) {
@@ -809,7 +810,7 @@ class larkDocWriter {
         });
         const cell_texts = await Promise.all(cell_blocks.map(async (cell) => {
             let blocks = cell.map(block => this.__retrieve_block_by_id(block));
-            return (await this.__markdown(blocks, 1)).replace(/\n/g, '<br> ');
+            return (await this.__markdown(blocks, 1)).replace(/\n/g, '<br>');
         }));
         const cell_lengths = cell_texts.map(cell => cell.length);
         const cell_length_matrix = chunkArray(cell_lengths, properties['column_size']);
@@ -943,8 +944,8 @@ class larkDocWriter {
 
             if (page) {
                 const title = page['title'];
-                const meta = await this.__is_to_publish(title);
-                const slug = meta['slug'];
+                // const meta = await this.__is_to_publish(title);
+                const slug = page['slug'];
 
                 // let newUrl = this.target === 'saas' ? `./${slug}` : `./byoc/${slug}`;
                 let newUrl = `./${slug}`;

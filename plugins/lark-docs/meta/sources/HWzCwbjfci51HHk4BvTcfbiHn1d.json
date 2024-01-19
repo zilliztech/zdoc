@@ -1,0 +1,67 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": true,
+  "node_create_time": "1704882420",
+  "node_token": "HWzCwbjfci51HHk4BvTcfbiHn1d",
+  "node_type": "origin",
+  "obj_create_time": "1704882420",
+  "obj_edit_time": "1704882470",
+  "obj_token": "VjTwdb6jzoeP40xeC03cTXtOnzI",
+  "obj_type": "docx",
+  "origin_node_token": "HWzCwbjfci51HHk4BvTcfbiHn1d",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "OUWXw5c4gia34ZkQUcEcMFbWn6s",
+  "space_id": "7167193056431783939",
+  "title": "Best Practices",
+  "slug": "best-practices",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "VjTwdb6jzoeP40xeC03cTXtOnzI",
+        "block_type": 1,
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Best Practices",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      }
+    ],
+    "counts": 1
+  },
+  "children": [
+    {
+      "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+      "has_child": false,
+      "node_create_time": "1704882474",
+      "node_token": "Za3QwAcfjiSSvxk8UzUcTPmfnmb",
+      "node_type": "origin",
+      "obj_create_time": "1704882474",
+      "obj_edit_time": "1704959146",
+      "obj_token": "DWF6dab5jo7xX5x8WYWcxNGRnSg",
+      "obj_type": "docx",
+      "origin_node_token": "Za3QwAcfjiSSvxk8UzUcTPmfnmb",
+      "origin_space_id": "7167193056431783939",
+      "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+      "parent_node_token": "HWzCwbjfci51HHk4BvTcfbiHn1d",
+      "space_id": "7167193056431783939",
+      "title": "Performance Benchmarking with VectorDBBench",
+      "slug": "perf-benchmark-vectordb"
+    }
+  ]
+}

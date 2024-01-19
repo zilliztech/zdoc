@@ -5,7 +5,7 @@
   "node_token": "KHAMwm0HUiU6qdkH2LOcu0FFnug",
   "node_type": "origin",
   "obj_create_time": "1698146477",
-  "obj_edit_time": "1699242596",
+  "obj_edit_time": "1703644483",
   "obj_token": "HE1DdqSMWoslMCx5jiLc9mqTn0g",
   "obj_type": "docx",
   "origin_node_token": "KHAMwm0HUiU6qdkH2LOcu0FFnug",
@@ -13,8 +13,8 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "XiOsw8A3eibZInk1aJNceBqznLb",
   "space_id": "7167193056431783939",
-  "title": "Manage MFA",
-  "slug": "multi-factor-authentication",
+  "title": "MFA",
+  "slug": "multi-factor-auth",
   "blocks": {
     "items": [
       {
@@ -43,7 +43,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Manage MFA",
+                "content": "MFA",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

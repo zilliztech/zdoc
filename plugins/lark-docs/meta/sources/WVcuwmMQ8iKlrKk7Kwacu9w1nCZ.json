@@ -5,26 +5,39 @@
   "node_token": "WVcuwmMQ8iKlrKk7Kwacu9w1nCZ",
   "node_type": "origin",
   "obj_create_time": "1698026184",
-  "obj_edit_time": "1701854377",
+  "obj_edit_time": "1703643863",
   "obj_token": "CeMJdQgA8ofE1UxPh7HcYQw6nce",
   "obj_type": "docx",
   "origin_node_token": "WVcuwmMQ8iKlrKk7Kwacu9w1nCZ",
   "origin_space_id": "7167193056431783939",
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
-  "parent_node_token": "F1elwUTaIi7SPlkxUyAczgMunzd",
+  "parent_node_token": "OUWXw5c4gia34ZkQUcEcMFbWn6s",
   "space_id": "7167193056431783939",
-  "title": "Security",
-  "slug": "security",
+  "title": "Network & Security",
+  "slug": "network-and-security",
   "blocks": {
     "items": [
       {
         "block_id": "CeMJdQgA8ofE1UxPh7HcYQw6nce",
         "block_type": 1,
         "children": [
-          "OuUjdsOZio2A2xx76X4cAjzenKf"
+          "OuUjdsOZio2A2xx76X4cAjzenKf",
+          "DCBodw0Hiov7FXxEUxVc2wwjnyg"
         ],
         "page": {
           "elements": [
+            {
+              "text_run": {
+                "content": "Network & ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "Security",
@@ -68,9 +81,34 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "DCBodw0Hiov7FXxEUxVc2wwjnyg",
+        "block_type": 2,
+        "parent_id": "CeMJdQgA8ofE1UxPh7HcYQw6nce",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       }
     ],
-    "counts": 2
+    "counts": 3
   },
   "children": [
     {
@@ -80,7 +118,7 @@
       "node_token": "FnS1wY0iuia4qgkMycVclZyHnOf",
       "node_type": "origin",
       "obj_create_time": "1689059964",
-      "obj_edit_time": "1700470285",
+      "obj_edit_time": "1705454676",
       "obj_token": "Om9Hda8pToMoTKxIsctcll0wnoe",
       "obj_type": "docx",
       "origin_node_token": "FnS1wY0iuia4qgkMycVclZyHnOf",
@@ -89,7 +127,7 @@
       "parent_node_token": "WVcuwmMQ8iKlrKk7Kwacu9w1nCZ",
       "space_id": "7167193056431783939",
       "title": "Set up Whitelist",
-      "slug": "set-up-whitelist"
+      "slug": "setup-whitelist"
     },
     {
       "creator": "ou_8554528ee6e965bad56710acde1c7847",
@@ -98,7 +136,7 @@
       "node_token": "O5W3wHvmbiVSoLkzKgHcvB9XnUb",
       "node_type": "origin",
       "obj_create_time": "1689059993",
-      "obj_edit_time": "1701358641",
+      "obj_edit_time": "1705454651",
       "obj_token": "PszZd5SlFobNf6xc9BscrWBynNe",
       "obj_type": "docx",
       "origin_node_token": "O5W3wHvmbiVSoLkzKgHcvB9XnUb",

@@ -9,19 +9,27 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Lists collections in a cluster.
 
-<RestHeader method="get" endpoint="https://{cluster_endpoint}/v1/vector/collections" />
+<RestHeader method="get" endpoint="https://{cluster-endpoint}/v1/vector/collections" />
 
 ---
 
 ## Example
 
 
-List all collections in a cluster.
+:::info Notes
+
+You can use either of the following ways to authorize:
+
+- An [API Key](/docs/manage-api-keys) with appropriate permissions.
+- A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
+
+:::
+
 
 ```shell
 curl --request GET \
-    --url "${CLUSTER_ENDPOINT}/v1/vector/collections" \
-    --header "Authorization: Bearer ${TOKEN}" \
+    --url "${cluster-endpoint}/v1/vector/collections" \
+    --header "Authorization: Bearer ${YOUR_TOKEN}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```

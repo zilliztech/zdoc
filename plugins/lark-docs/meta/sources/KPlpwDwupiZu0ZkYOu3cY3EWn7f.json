@@ -5,7 +5,7 @@
   "node_token": "KPlpwDwupiZu0ZkYOu3cY3EWn7f",
   "node_type": "origin",
   "obj_create_time": "1689059114",
-  "obj_edit_time": "1700705692",
+  "obj_edit_time": "1702889449",
   "obj_token": "Cxd3doY5Yo1ByUxTHJucOvgcnrh",
   "obj_type": "docx",
   "origin_node_token": "KPlpwDwupiZu0ZkYOu3cY3EWn7f",
@@ -36,13 +36,9 @@
           "E6iTdx1PeoAhgGx72l7cAk9Fnif",
           "KrErdv60XoWQ1XxzyLwcmXqPnld",
           "MV25d9bKToltmux5tNhc3QYAnNb",
-          "BRt9dvs8PoXDjhx0ZrBc7VqZnkh",
           "GvpcdtaXuo40kcxT7a8cvJnVnCh",
-          "TXoRd0J9BonedGxCbK6c7F0dnie",
           "TF2hdsEk0ozUj4xEKlLcIBxMnkd",
-          "KNrqdQFitoMI1ux9SQYcyieBnqc",
           "BqvbdD8Fgou7opxtloWcufTBnXg",
-          "PCi5dQpfvoU6bdxMvp8cLdcBnwe",
           "PmtkdsSXDooWiXxRJAsckGmgnxd",
           "ZCzAdKmEEoo8HYxS64kcEzdvnqg",
           "ENAvdDT5Toclugx2B1ucjhcbnwy",
@@ -609,11 +605,38 @@
       {
         "block_id": "MV25d9bKToltmux5tNhc3QYAnNb",
         "block_type": 13,
+        "children": [
+          "BRt9dvs8PoXDjhx0ZrBc7VqZnkh"
+        ],
         "ordered": {
           "elements": [
             {
               "text_run": {
-                "content": "Connect to the Zilliz Cloud cluster using the provided URI.",
+                "content": "Connect to the Zilliz Cloud cluster using the provided ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "URI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -666,11 +689,14 @@
             "wrap": false
           }
         },
-        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+        "parent_id": "MV25d9bKToltmux5tNhc3QYAnNb"
       },
       {
         "block_id": "GvpcdtaXuo40kcxT7a8cvJnVnCh",
         "block_type": 13,
+        "children": [
+          "TXoRd0J9BonedGxCbK6c7F0dnie"
+        ],
         "ordered": {
           "elements": [
             {
@@ -728,11 +754,14 @@
             "wrap": false
           }
         },
-        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+        "parent_id": "GvpcdtaXuo40kcxT7a8cvJnVnCh"
       },
       {
         "block_id": "TF2hdsEk0ozUj4xEKlLcIBxMnkd",
         "block_type": 13,
+        "children": [
+          "KNrqdQFitoMI1ux9SQYcyieBnqc"
+        ],
         "ordered": {
           "elements": [
             {
@@ -790,11 +819,14 @@
             "wrap": false
           }
         },
-        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+        "parent_id": "TF2hdsEk0ozUj4xEKlLcIBxMnkd"
       },
       {
         "block_id": "BqvbdD8Fgou7opxtloWcufTBnXg",
         "block_type": 13,
+        "children": [
+          "PCi5dQpfvoU6bdxMvp8cLdcBnwe"
+        ],
         "ordered": {
           "elements": [
             {
@@ -852,7 +884,7 @@
             "wrap": false
           }
         },
-        "parent_id": "Cxd3doY5Yo1ByUxTHJucOvgcnrh"
+        "parent_id": "BqvbdD8Fgou7opxtloWcufTBnXg"
       },
       {
         "block_id": "PmtkdsSXDooWiXxRJAsckGmgnxd",
@@ -1197,7 +1229,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Title: A movie about cars\nSearch Time: 0.04272913932800293\nResults:\nRed Line 7000 ---- 0.9104408621788025\nThe Mysterious Mr. Valentine ---- 0.9127437472343445\nTomboy ---- 0.9254708290100098\n\nTitle: A movie about monsters\nSearch Time: 0.04272913932800293\nResults:\nMonster Hunt ---- 0.8105474710464478\nThe Astro-Zombies ---- 0.8998500108718872\n",
+                "content": "# Title: A movie about cars\n# Search Time: 0.04272913932800293\n# Results:\n# Red Line 7000 ---- 0.9104408621788025\n# The Mysterious Mr. Valentine ---- 0.9127437472343445\n# Tomboy ---- 0.9254708290100098\n\n# Title: A movie about monsters\n# Search Time: 0.04272913932800293\n# Results:\n# Monster Hunt ---- 0.8105474710464478\n# The Astro-Zombies ---- 0.8998500108718872\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1209,7 +1241,7 @@
             },
             {
               "text_run": {
-                "content": "Wild Country ---- 0.9238440990447998",
+                "content": "# Wild Country ---- 0.9238440990447998",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

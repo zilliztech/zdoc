@@ -5,7 +5,7 @@
   "node_token": "A5lpwIZcZiTLqakdt6rcCmPcnEe",
   "node_type": "origin",
   "obj_create_time": "1702263637",
-  "obj_edit_time": "1702284809",
+  "obj_edit_time": "1705554762",
   "obj_token": "AQXPdm3KWoACwPxjgxuc3sypnve",
   "obj_type": "docx",
   "origin_node_token": "A5lpwIZcZiTLqakdt6rcCmPcnEe",
@@ -13,7 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
   "space_id": "7167193056431783939",
-  "title": "Release Notes v2.4.0",
+  "title": "Release Notes (2023/12/11)",
   "slug": "release-notes-240",
   "blocks": {
     "items": [
@@ -22,6 +22,8 @@
         "block_type": 1,
         "children": [
           "SvP0dd2BEowUvexu7nNcgynCnDg",
+          "Lnorde8axoE7AkxJNwEczbxwnSh",
+          "A7ErdM1GyooSMhxy9aac5iRInZb",
           "XKGZdjBjToPUVBxd5pKcJoZLnjc",
           "B9bNd9dVQo76pUxizTsc1gYMnlf",
           "UvlldbfVhoJG4Mx1Qvtc57xMneb",
@@ -44,7 +46,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Release Notes v2.4.0",
+                "content": "Release Notes (2023/12/11)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -69,7 +71,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "We are excited to announce the release of Zilliz Cloud 2.4.0. Now Zilliz Cloud services are available on ",
+                "content": "Now Zilliz Cloud services are available on ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -118,6 +120,104 @@
             {
               "text_run": {
                 "content": " and credential management within Clusters, with three predefined roles (admin, read-write, read-only) for user administration. Other updates include enhanced error message content and stability improvements for more reliable service.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Lnorde8axoE7AkxJNwEczbxwnSh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Milvus Compatibility",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve"
+      },
+      {
+        "block_id": "A7ErdM1GyooSMhxy9aac5iRInZb",
+        "block_type": 2,
+        "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This release is compatible with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus 2.2.x",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus 2.3.x (Beta)",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -909,6 +1009,6 @@
         "parent_id": "AQXPdm3KWoACwPxjgxuc3sypnve"
       }
     ],
-    "counts": 19
+    "counts": 21
   }
 }

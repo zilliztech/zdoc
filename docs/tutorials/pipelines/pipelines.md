@@ -15,12 +15,6 @@ Pipelines transform your unstructured data to a searchable vector collection, ch
 
 
 
-
-
-
-
-
-
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

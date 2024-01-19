@@ -3,14 +3,18 @@ slug: /enable-dynamic-schema
 beta: FALSE
 notebook: 02_enable_dynamic_schema.ipynb
 token: Bb7lwOvwHiJlOgk3RURc3Hi7nrc
-sidebar_position: 11
+sidebar_position: 12
 ---
 
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Enable Dynamic Schema
+# Use Dynamic Field
+
+This page explains how to use the dynamic field in a collection for flexible data insertion and retrieval.
+
+## Overview{#overview}
 
 Schema design is crucial for Zilliz Cloud cluster data processing. Before inserting entities into a collection, clarify the schema design and ensure that all data entities inserted afterward match the schema. However, this puts limits on collections, making them similar to tables in relational databases.
 
@@ -18,7 +22,7 @@ Dynamic schema enables users to insert entities with new fields into a collectio
 
 Dynamic schema also provides flexibility in data processing, enabling users to store and retrieve complex data structures in their collections. This includes nested data, arrays, and other complex data types.
 
-## Create collection with dynamic schema enabled{#create-collection-with-dynamic-schema-enabled}
+## Create collection with dynamic field{#create-collection-with-dynamic-field}
 
 To create a collection using a dynamic schema, set `enable_dynamic_field` to `True` when defining the data model. Afterward, all undefined fields and their values in the data entities inserted afterward will be treated as pre-defined fields. We prefer to use the term "dynamic fields" to refer to these key-value pairs.
 
@@ -1022,9 +1026,9 @@ output_fields='$meta["#key"]'
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection) 
+- [Create Collection](./create-collection)
 
-- [Use Partition Key](./use-partition-key) 
+- [Use Partition Key](./use-partition-key)
 
 - [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 
 

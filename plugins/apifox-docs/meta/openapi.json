@@ -390,11 +390,20 @@
             "schema": {
               "type": "integer"
             }
+          },
+          {
+            "name": "projectId",
+            "in": "query",
+            "description": "ID of the project in which the clusters are to be listed.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Returns a list of your clusters.",
+            "description": "Returns a list of your clusters. The results vary with the access permissions of the API key in use.",
             "content": {
               "application/json": {
                 "schema": {
@@ -425,6 +434,10 @@
                               "items": {
                                 "type": "object",
                                 "properties": {
+                                  "projectId": {
+                                    "type": "string",
+                                    "description": "The ID of the project to which the current cluster belongs."
+                                  },
                                   "clusterId": {
                                     "type": "string",
                                     "description": "The ID of the cluster."
@@ -467,6 +480,7 @@
                                   }
                                 },
                                 "x-apifox-orders": [
+                                  "projectId",
                                   "clusterId",
                                   "clusterName",
                                   "description",
@@ -479,7 +493,8 @@
                                   "createTime"
                                 ],
                                 "required": [
-                                  "regionId"
+                                  "regionId",
+                                  "projectId"
                                 ],
                                 "x-apifox-ignore-properties": []
                               },
@@ -570,6 +585,7 @@
                       "type": "object",
                       "x-apifox-refs": {
                         "01H1RF3YYDEJQV8V95B61TT8V7": {
+                          "x-apifox-overrides": {},
                           "type": "object",
                           "properties": {
                             "clusterId": {
@@ -634,6 +650,10 @@
                         }
                       },
                       "properties": {
+                        "projectId": {
+                          "type": "string",
+                          "description": "The ID of the project to which the current cluster belongs."
+                        },
                         "clusterId": {
                           "type": "string",
                           "description": "The ID of the cluster."
@@ -692,10 +712,12 @@
                         "storageSize",
                         "snapshotNumber",
                         "createProgress",
+                        "projectId",
                         "regionId",
                         "cuSize"
                       ],
                       "x-apifox-orders": [
+                        "projectId",
                         "01H1RF3YYDEJQV8V95B61TT8V7",
                         "storageSize",
                         "snapshotNumber",
@@ -3470,19 +3492,25 @@
                                     "langauge": {
                                       "type": "string",
                                       "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
+                                    },
+                                    "chunkSize": {
+                                      "type": "integer",
+                                      "description": "Size per chunk. This field is omitted if it is left unspecified in the corresponding request."
                                     }
                                   },
                                   "x-apifox-orders": [
                                     "name",
                                     "action",
                                     "inputField",
-                                    "langauge"
+                                    "langauge",
+                                    "chunkSize"
                                   ],
                                   "required": [
                                     "name",
                                     "action",
                                     "inputField",
-                                    "langauge"
+                                    "langauge",
+                                    "chunkSize"
                                   ],
                                   "x-apifox-ignore-properties": [],
                                   "x-apifox-folder": "Schemas"
@@ -3814,6 +3842,10 @@
                               "type": "string",
                               "description": "Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working."
                             },
+                            "totalTokenUsage": {
+                              "type": "integer",
+                              "description": "Number of consumed tokens in this operation."
+                            },
                             "functions": {
                               "anyOf": [
                                 {
@@ -3834,19 +3866,25 @@
                                     "langauge": {
                                       "type": "string",
                                       "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
+                                    },
+                                    "chunkSize": {
+                                      "type": "integer",
+                                      "description": "Size per chunk. This field is omitted if it is left unspecified in the corresponding request."
                                     }
                                   },
                                   "x-apifox-orders": [
                                     "name",
                                     "action",
                                     "inputField",
-                                    "langauge"
+                                    "langauge",
+                                    "chunkSize"
                                   ],
                                   "required": [
                                     "name",
                                     "action",
                                     "inputField",
-                                    "langauge"
+                                    "langauge",
+                                    "chunkSize"
                                   ],
                                   "x-apifox-ignore-properties": [],
                                   "x-apifox-folder": "Schemas"
@@ -3910,6 +3948,7 @@
                             "type",
                             "description",
                             "status",
+                            "totalTokenUsage",
                             "functions",
                             "clusterID",
                             "collectionName"
@@ -3922,7 +3961,8 @@
                             "status",
                             "functions",
                             "clusterID",
-                            "collectionName"
+                            "collectionName",
+                            "totalTokenUsage"
                           ],
                           "x-apifox-ignore-properties": []
                         }
@@ -4179,6 +4219,10 @@
                   {
                     "type": "object",
                     "properties": {
+                      "projectId": {
+                        "type": "string",
+                        "description": "ID of the target project of this operation."
+                      },
                       "name": {
                         "type": "string",
                         "description": "Name of the pipeline to create."
@@ -4213,19 +4257,25 @@
                                 "language": {
                                   "type": "string",
                                   "description": "Language of your documents. Possible values are `ENGLISH` and `CHINESE`."
+                                },
+                                "chunkSize": {
+                                  "type": "integer",
+                                  "description": "Maximum size per chunk. The value defaults to 500 and ranges from 20 to 500."
                                 }
                               },
                               "x-apifox-orders": [
                                 "name",
                                 "action",
                                 "inputField",
-                                "language"
+                                "language",
+                                "chunkSize"
                               ],
                               "required": [
                                 "name",
                                 "action",
                                 "inputField",
-                                "language"
+                                "language",
+                                "chunkSize"
                               ],
                               "x-apifox-ignore-properties": [],
                               "x-apifox-folder": "Schemas"
@@ -4285,6 +4335,7 @@
                       }
                     },
                     "x-apifox-orders": [
+                      "projectId",
                       "name",
                       "type",
                       "description",
@@ -4298,7 +4349,8 @@
                       "type",
                       "functions",
                       "clusterId",
-                      "newCollectionName"
+                      "newCollectionName",
+                      "projectId"
                     ],
                     "x-apifox-ignore-properties": [],
                     "x-apifox-folder": "Schemas"
@@ -4306,6 +4358,10 @@
                   {
                     "type": "object",
                     "properties": {
+                      "projectId": {
+                        "type": "string",
+                        "description": "ID of the target project of this operation."
+                      },
                       "name": {
                         "type": "string",
                         "description": "Name of the pipeline to create."
@@ -4358,6 +4414,7 @@
                       }
                     },
                     "x-apifox-orders": [
+                      "projectId",
                       "name",
                       "description",
                       "type",
@@ -4367,7 +4424,8 @@
                       "name",
                       "description",
                       "type",
-                      "functions"
+                      "functions",
+                      "projectId"
                     ],
                     "x-apifox-ignore-properties": [],
                     "x-apifox-folder": "Schemas"
@@ -4375,6 +4433,10 @@
                   {
                     "type": "object",
                     "properties": {
+                      "projectId": {
+                        "type": "string",
+                        "description": "ID of the target project of this operation."
+                      },
                       "name": {
                         "type": "string",
                         "description": "Name of the pipeline to create."
@@ -4429,6 +4491,7 @@
                       }
                     },
                     "x-apifox-orders": [
+                      "projectId",
                       "name",
                       "description",
                       "type",
@@ -4442,7 +4505,8 @@
                       "type",
                       "functions",
                       "clusterId",
-                      "collectionName"
+                      "collectionName",
+                      "projectId"
                     ],
                     "x-apifox-ignore-properties": [],
                     "x-apifox-folder": "Schemas"
@@ -4488,6 +4552,10 @@
                               "type": "string",
                               "description": "Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working."
                             },
+                            "totalTokenUsage": {
+                              "type": "integer",
+                              "description": "Number of consumed tokens in this operation."
+                            },
                             "functions": {
                               "anyOf": [
                                 {
@@ -4508,19 +4576,25 @@
                                     "langauge": {
                                       "type": "string",
                                       "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
+                                    },
+                                    "chunkSize": {
+                                      "type": "integer",
+                                      "description": "Size per chunk. This field is omitted if it is left unspecified in the corresponding request."
                                     }
                                   },
                                   "x-apifox-orders": [
                                     "name",
                                     "action",
                                     "inputField",
-                                    "langauge"
+                                    "langauge",
+                                    "chunkSize"
                                   ],
                                   "required": [
                                     "name",
                                     "action",
                                     "inputField",
-                                    "langauge"
+                                    "langauge",
+                                    "chunkSize"
                                   ],
                                   "x-apifox-ignore-properties": [],
                                   "x-apifox-folder": "Schemas"
@@ -4584,6 +4658,7 @@
                             "type",
                             "description",
                             "status",
+                            "totalTokenUsage",
                             "functions",
                             "clusterID",
                             "collectionName"
@@ -4596,7 +4671,8 @@
                             "status",
                             "functions",
                             "clusterID",
-                            "collectionName"
+                            "collectionName",
+                            "totalTokenUsage"
                           ],
                           "x-apifox-ignore-properties": []
                         }
@@ -4842,7 +4918,17 @@
         "tags": [
           "Pipeline Operations"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "query",
+            "description": "ID of the project in which this operation is performed.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Returns a list of pipelines in detail.",
@@ -4881,6 +4967,10 @@
                                 "type": "string",
                                 "description": "Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working."
                               },
+                              "totalTokenUsage": {
+                                "type": "string",
+                                "description": "Number of consumed tokens in this operation."
+                              },
                               "functions": {
                                 "anyOf": [
                                   {
@@ -4901,19 +4991,25 @@
                                       "langauge": {
                                         "type": "string",
                                         "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
+                                      },
+                                      "chunkSize": {
+                                        "type": "integer",
+                                        "description": "Size per chunk. This field is omitted if it is left unspecified in the corresponding request."
                                       }
                                     },
                                     "x-apifox-orders": [
                                       "name",
                                       "action",
                                       "inputField",
-                                      "langauge"
+                                      "langauge",
+                                      "chunkSize"
                                     ],
                                     "required": [
                                       "name",
                                       "action",
                                       "inputField",
-                                      "langauge"
+                                      "langauge",
+                                      "chunkSize"
                                     ],
                                     "x-apifox-ignore-properties": [],
                                     "x-apifox-folder": "Schemas"
@@ -5047,6 +5143,7 @@
                               "type",
                               "description",
                               "status",
+                              "totalTokenUsage",
                               "functions",
                               "clusterID",
                               "collectionName"
@@ -5059,7 +5156,8 @@
                               "status",
                               "functions",
                               "clusterID",
-                              "collectionName"
+                              "collectionName",
+                              "totalTokenUsage"
                             ],
                             "x-apifox-ignore-properties": []
                           }
@@ -5298,15 +5396,21 @@
                             "doc_name": {
                               "type": "string",
                               "description": "Name of the chunked document with the file extension."
+                            },
+                            "token_usage": {
+                              "type": "integer",
+                              "description": "Number of consumed tokens in this operation."
                             }
                           },
                           "x-apifox-orders": [
                             "num_chunks",
-                            "doc_name"
+                            "doc_name",
+                            "token_usage"
                           ],
                           "required": [
                             "num_chunks",
-                            "doc_name"
+                            "doc_name",
+                            "token_usage"
                           ],
                           "description": "Payload of the response.",
                           "x-apifox-ignore-properties": []
@@ -5337,6 +5441,10 @@
                         "data": {
                           "type": "object",
                           "properties": {
+                            "token_usage": {
+                              "type": "integer",
+                              "description": "Number of consumed tokens in this operation."
+                            },
                             "result": {
                               "type": "array",
                               "items": {
@@ -5370,10 +5478,12 @@
                             }
                           },
                           "x-apifox-orders": [
+                            "token_usage",
                             "result"
                           ],
                           "required": [
-                            "result"
+                            "result",
+                            "token_usage"
                           ],
                           "description": "Payload of the response",
                           "x-apifox-ignore-properties": []
@@ -5681,13 +5791,16 @@
                             "type": "object",
                             "properties": {
                               "instanceCount": {
-                                "type": "integer"
+                                "type": "integer",
+                                "description": "Number of clusters in the current project."
                               },
                               "projectId": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "ID of the current project"
                               },
                               "projectName": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Name of the current project"
                               }
                             },
                             "required": [
@@ -5717,13 +5830,16 @@
                                 "type": "object",
                                 "properties": {
                                   "instanceCount": {
-                                    "type": "integer"
+                                    "type": "integer",
+                                    "description": "Number of clusters in the current project."
                                   },
                                   "projectId": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "ID of the current project"
                                   },
                                   "projectName": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Name of the current project"
                                   }
                                 },
                                 "required": [
@@ -5820,13 +5936,16 @@
               "type": "object",
               "properties": {
                 "instanceCount": {
-                  "type": "integer"
+                  "type": "integer",
+                  "description": "Number of clusters in the current project."
                 },
                 "projectId": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "ID of the current project"
                 },
                 "projectName": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "Name of the current project"
                 }
               },
               "required": [
@@ -5991,6 +6110,10 @@
           "data": {
             "type": "object",
             "properties": {
+              "token_usage": {
+                "type": "integer",
+                "description": "Number of consumed tokens in this operation."
+              },
               "result": {
                 "type": "array",
                 "items": {
@@ -6024,10 +6147,12 @@
               }
             },
             "x-apifox-orders": [
+              "token_usage",
               "result"
             ],
             "required": [
-              "result"
+              "result",
+              "token_usage"
             ],
             "description": "Payload of the response",
             "x-apifox-ignore-properties": []
@@ -6056,15 +6181,21 @@
               "doc_name": {
                 "type": "string",
                 "description": "Name of the chunked document with the file extension."
+              },
+              "token_usage": {
+                "type": "integer",
+                "description": "Number of consumed tokens in this operation."
               }
             },
             "x-apifox-orders": [
               "num_chunks",
-              "doc_name"
+              "doc_name",
+              "token_usage"
             ],
             "required": [
               "num_chunks",
-              "doc_name"
+              "doc_name",
+              "token_usage"
             ],
             "description": "Payload of the response.",
             "x-apifox-ignore-properties": []
@@ -6212,158 +6343,6 @@
         ],
         "required": [
           "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "pipeline.indexdocreq": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name of the function to create."
-          },
-          "action": {
-            "type": "string",
-            "description": "Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`. "
-          },
-          "inputField": {
-            "type": "string",
-            "description": "Name the field according to your needs. In an doc-indexing function, the value should be an active pre-signed URL of one of your documents in your [GCS](https://cloud.google.com/storage/docs/access-control/signed-urls) or [AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html) buckets."
-          },
-          "language": {
-            "type": "string",
-            "description": "Language of your documents. Possible values are `ENGLISH` and `CHINESE`."
-          }
-        },
-        "x-apifox-orders": [
-          "name",
-          "action",
-          "inputField",
-          "language"
-        ],
-        "required": [
-          "name",
-          "action",
-          "inputField",
-          "language"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "pipeline.preservereq": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name of the function to create."
-          },
-          "action": {
-            "type": "string",
-            "description": "Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`. "
-          },
-          "inputField": {
-            "type": "string",
-            "description": "Name the field according to your needs. In a preserve function of an ingestion pipeline, Zilliz Cloud uses the value as the name of a field in the collection to create."
-          },
-          "outputField": {
-            "type": "string",
-            "description": "Name of the output field. The value should be the same as that of `input_field`."
-          },
-          "fieldType": {
-            "type": "string",
-            "description": "Data type of the field to create in the target collection. Possible values are `BOOL`, `INT8`, `INT16`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `VARCHAR`."
-          }
-        },
-        "x-apifox-orders": [
-          "name",
-          "action",
-          "inputField",
-          "outputField",
-          "fieldType"
-        ],
-        "required": [
-          "name",
-          "action",
-          "inputField",
-          "outputField",
-          "fieldType"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "pipeline.preserveres": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name of the function to create."
-          },
-          "action": {
-            "type": "string",
-            "description": "Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`. "
-          },
-          "inputField": {
-            "type": "string",
-            "description": "Name the field according to your needs. In a preserve function of an ingestion pipeline, Zilliz Cloud uses the value as the name of a field in the collection to create."
-          },
-          "outputField": {
-            "type": "string",
-            "description": "Name of the output field. The value should be the same as that of `input_field`."
-          },
-          "fieldType": {
-            "type": "string",
-            "description": "Data type of the field to create in the target collection. Possible values are `BOOL`, `INT8`, `INT16`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `VARCHAR`."
-          }
-        },
-        "x-apifox-orders": [
-          "name",
-          "action",
-          "inputField",
-          "outputField",
-          "fieldType"
-        ],
-        "required": [
-          "name",
-          "action",
-          "inputField",
-          "outputField",
-          "fieldType"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "pipeline.indexdocres": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name of the function to create."
-          },
-          "action": {
-            "type": "string",
-            "description": "Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`. "
-          },
-          "inputField": {
-            "type": "string",
-            "description": "Name the field according to your needs. In an `INDEX_DOC` function of an ingestion pipeline, use it for pre-signed document URLs in GCS or AWS S3 buckets."
-          },
-          "langauge": {
-            "type": "string",
-            "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
-          }
-        },
-        "x-apifox-orders": [
-          "name",
-          "action",
-          "inputField",
-          "langauge"
-        ],
-        "required": [
-          "name",
-          "action",
-          "inputField",
-          "langauge"
         ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
@@ -6576,150 +6555,6 @@
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
       },
-      "pipeline.createDeleteReq": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name of the pipeline to create."
-          },
-          "description": {
-            "type": "string",
-            "description": "Description of the pipeline to create."
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the pipeline to create. For a deletion pipeline, the value should be `DELETION`"
-          },
-          "functions": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "description": "Name of the function to create."
-                },
-                "action": {
-                  "type": "string",
-                  "description": "Type of the function to create. For a delete pipeline, possible value is `PURGE_DOC_INDEX`."
-                },
-                "inputField": {
-                  "type": "string",
-                  "description": "Name the field according to your needs. In a delete pipeline, use it for the name of a document to delete."
-                }
-              },
-              "x-apifox-orders": [
-                "name",
-                "action",
-                "inputField"
-              ],
-              "required": [
-                "name",
-                "action",
-                "inputField"
-              ],
-              "x-apifox-ignore-properties": []
-            },
-            "description": "Actions to take in the pipeline to create."
-          },
-          "clusterId": {
-            "type": "string",
-            "description": "ID of a target cluster. You can find it in cluster details on Zilliz Cloud console."
-          },
-          "collectionName": {
-            "type": "string",
-            "description": "Name of the collection to create in the specified cluster. Zilliz Cloud creates a new collection and name it using this value."
-          }
-        },
-        "x-apifox-orders": [
-          "name",
-          "description",
-          "type",
-          "functions",
-          "clusterId",
-          "collectionName"
-        ],
-        "required": [
-          "name",
-          "description",
-          "type",
-          "functions",
-          "clusterId",
-          "collectionName"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "pipeline.createSearchReq": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name of the pipeline to create."
-          },
-          "description": {
-            "type": "string",
-            "description": "Description of the pipeline to create."
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the pipeline to create. For a search pipeline, the value should be `SEARCH`."
-          },
-          "functions": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "description": "Name of the function to create."
-                },
-                "action": {
-                  "type": "string",
-                  "description": "Type of the function to create. For a search pipeline, possible value is `SEARCH_DOC_CHUNK`."
-                },
-                "clusterId": {
-                  "type": "string",
-                  "description": "ID of a target collection in which Zilliz Cloud concducts the search."
-                },
-                "collectionName": {
-                  "type": "string",
-                  "description": "Name of the collection in which ZIlliz Cloud conducts the search."
-                }
-              },
-              "x-apifox-orders": [
-                "name",
-                "action",
-                "clusterId",
-                "collectionName"
-              ],
-              "required": [
-                "name",
-                "action",
-                "collectionName",
-                "clusterId"
-              ],
-              "x-apifox-ignore-properties": []
-            },
-            "description": "Actions to take in the search pipeline to create. You can define multiple functions to retrieve results from different collections."
-          }
-        },
-        "x-apifox-orders": [
-          "name",
-          "description",
-          "type",
-          "functions"
-        ],
-        "required": [
-          "name",
-          "description",
-          "type",
-          "functions"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
       "pipeline.createIngestionRes": {
         "type": "object",
         "properties": {
@@ -6749,6 +6584,10 @@
                 "type": "string",
                 "description": "Current status of the pipeline. If the value is other than `SERVING`, the pipeline is not working."
               },
+              "totalTokenUsage": {
+                "type": "integer",
+                "description": "Number of consumed tokens in this operation."
+              },
               "functions": {
                 "anyOf": [
                   {
@@ -6769,19 +6608,25 @@
                       "langauge": {
                         "type": "string",
                         "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
+                      },
+                      "chunkSize": {
+                        "type": "integer",
+                        "description": "Size per chunk. This field is omitted if it is left unspecified in the corresponding request."
                       }
                     },
                     "x-apifox-orders": [
                       "name",
                       "action",
                       "inputField",
-                      "langauge"
+                      "langauge",
+                      "chunkSize"
                     ],
                     "required": [
                       "name",
                       "action",
                       "inputField",
-                      "langauge"
+                      "langauge",
+                      "chunkSize"
                     ],
                     "x-apifox-ignore-properties": [],
                     "x-apifox-folder": "Schemas"
@@ -6845,6 +6690,7 @@
               "type",
               "description",
               "status",
+              "totalTokenUsage",
               "functions",
               "clusterID",
               "collectionName"
@@ -6857,7 +6703,8 @@
               "status",
               "functions",
               "clusterID",
-              "collectionName"
+              "collectionName",
+              "totalTokenUsage"
             ],
             "x-apifox-ignore-properties": []
           }
@@ -6873,9 +6720,251 @@
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
       },
+      "pipeline.preserveres": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the function to create."
+          },
+          "action": {
+            "type": "string",
+            "description": "Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`. "
+          },
+          "inputField": {
+            "type": "string",
+            "description": "Name the field according to your needs. In a preserve function of an ingestion pipeline, Zilliz Cloud uses the value as the name of a field in the collection to create."
+          },
+          "outputField": {
+            "type": "string",
+            "description": "Name of the output field. The value should be the same as that of `input_field`."
+          },
+          "fieldType": {
+            "type": "string",
+            "description": "Data type of the field to create in the target collection. Possible values are `BOOL`, `INT8`, `INT16`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `VARCHAR`."
+          }
+        },
+        "x-apifox-orders": [
+          "name",
+          "action",
+          "inputField",
+          "outputField",
+          "fieldType"
+        ],
+        "required": [
+          "name",
+          "action",
+          "inputField",
+          "outputField",
+          "fieldType"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.indexdocres": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the function to create."
+          },
+          "action": {
+            "type": "string",
+            "description": "Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`. "
+          },
+          "inputField": {
+            "type": "string",
+            "description": "Name the field according to your needs. In an `INDEX_DOC` function of an ingestion pipeline, use it for pre-signed document URLs in GCS or AWS S3 buckets."
+          },
+          "langauge": {
+            "type": "string",
+            "description": "Language that your document is in. Possible values are `english` or `chinese`. The parameter applies only to ingestion pipelines."
+          },
+          "chunkSize": {
+            "type": "integer",
+            "description": "Size per chunk. This field is omitted if it is left unspecified in the corresponding request."
+          }
+        },
+        "x-apifox-orders": [
+          "name",
+          "action",
+          "inputField",
+          "langauge",
+          "chunkSize"
+        ],
+        "required": [
+          "name",
+          "action",
+          "inputField",
+          "langauge",
+          "chunkSize"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.createDeleteReq": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "description": "ID of the target project of this operation."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the pipeline to create."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the pipeline to create."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the pipeline to create. For a deletion pipeline, the value should be `DELETION`"
+          },
+          "functions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the function to create."
+                },
+                "action": {
+                  "type": "string",
+                  "description": "Type of the function to create. For a delete pipeline, possible value is `PURGE_DOC_INDEX`."
+                },
+                "inputField": {
+                  "type": "string",
+                  "description": "Name the field according to your needs. In a delete pipeline, use it for the name of a document to delete."
+                }
+              },
+              "x-apifox-orders": [
+                "name",
+                "action",
+                "inputField"
+              ],
+              "required": [
+                "name",
+                "action",
+                "inputField"
+              ],
+              "x-apifox-ignore-properties": []
+            },
+            "description": "Actions to take in the pipeline to create."
+          },
+          "clusterId": {
+            "type": "string",
+            "description": "ID of a target cluster. You can find it in cluster details on Zilliz Cloud console."
+          },
+          "collectionName": {
+            "type": "string",
+            "description": "Name of the collection to create in the specified cluster. Zilliz Cloud creates a new collection and name it using this value."
+          }
+        },
+        "x-apifox-orders": [
+          "projectId",
+          "name",
+          "description",
+          "type",
+          "functions",
+          "clusterId",
+          "collectionName"
+        ],
+        "required": [
+          "name",
+          "description",
+          "type",
+          "functions",
+          "clusterId",
+          "collectionName",
+          "projectId"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.createSearchReq": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "description": "ID of the target project of this operation."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the pipeline to create."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the pipeline to create."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the pipeline to create. For a search pipeline, the value should be `SEARCH`."
+          },
+          "functions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the function to create."
+                },
+                "action": {
+                  "type": "string",
+                  "description": "Type of the function to create. For a search pipeline, possible value is `SEARCH_DOC_CHUNK`."
+                },
+                "clusterId": {
+                  "type": "string",
+                  "description": "ID of a target collection in which Zilliz Cloud concducts the search."
+                },
+                "collectionName": {
+                  "type": "string",
+                  "description": "Name of the collection in which ZIlliz Cloud conducts the search."
+                }
+              },
+              "x-apifox-orders": [
+                "name",
+                "action",
+                "clusterId",
+                "collectionName"
+              ],
+              "required": [
+                "name",
+                "action",
+                "collectionName",
+                "clusterId"
+              ],
+              "x-apifox-ignore-properties": []
+            },
+            "description": "Actions to take in the search pipeline to create. You can define multiple functions to retrieve results from different collections."
+          }
+        },
+        "x-apifox-orders": [
+          "projectId",
+          "name",
+          "description",
+          "type",
+          "functions"
+        ],
+        "required": [
+          "name",
+          "description",
+          "type",
+          "functions",
+          "projectId"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
       "pipeline.createIngestionReq": {
         "type": "object",
         "properties": {
+          "projectId": {
+            "type": "string",
+            "description": "ID of the target project of this operation."
+          },
           "name": {
             "type": "string",
             "description": "Name of the pipeline to create."
@@ -6910,19 +6999,25 @@
                     "language": {
                       "type": "string",
                       "description": "Language of your documents. Possible values are `ENGLISH` and `CHINESE`."
+                    },
+                    "chunkSize": {
+                      "type": "integer",
+                      "description": "Maximum size per chunk. The value defaults to 500 and ranges from 20 to 500."
                     }
                   },
                   "x-apifox-orders": [
                     "name",
                     "action",
                     "inputField",
-                    "language"
+                    "language",
+                    "chunkSize"
                   ],
                   "required": [
                     "name",
                     "action",
                     "inputField",
-                    "language"
+                    "language",
+                    "chunkSize"
                   ],
                   "x-apifox-ignore-properties": [],
                   "x-apifox-folder": "Schemas"
@@ -6982,6 +7077,7 @@
           }
         },
         "x-apifox-orders": [
+          "projectId",
           "name",
           "type",
           "description",
@@ -6995,7 +7091,182 @@
           "type",
           "functions",
           "clusterId",
-          "newCollectionName"
+          "newCollectionName",
+          "projectId"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.preservereq": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the function to create."
+          },
+          "action": {
+            "type": "string",
+            "description": "Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`. "
+          },
+          "inputField": {
+            "type": "string",
+            "description": "Name the field according to your needs. In a preserve function of an ingestion pipeline, Zilliz Cloud uses the value as the name of a field in the collection to create."
+          },
+          "outputField": {
+            "type": "string",
+            "description": "Name of the output field. The value should be the same as that of `input_field`."
+          },
+          "fieldType": {
+            "type": "string",
+            "description": "Data type of the field to create in the target collection. Possible values are `BOOL`, `INT8`, `INT16`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `VARCHAR`."
+          }
+        },
+        "x-apifox-orders": [
+          "name",
+          "action",
+          "inputField",
+          "outputField",
+          "fieldType"
+        ],
+        "required": [
+          "name",
+          "action",
+          "inputField",
+          "outputField",
+          "fieldType"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "pipeline.indexdocreq": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the function to create."
+          },
+          "action": {
+            "type": "string",
+            "description": "Type of the function to create. For an ingestion pipeline,  possible values are `INDEX_DOC` and `PRESERVE`. "
+          },
+          "inputField": {
+            "type": "string",
+            "description": "Name the field according to your needs. In an doc-indexing function, the value should be an active pre-signed URL of one of your documents in your [GCS](https://cloud.google.com/storage/docs/access-control/signed-urls) or [AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html) buckets."
+          },
+          "language": {
+            "type": "string",
+            "description": "Language of your documents. Possible values are `ENGLISH` and `CHINESE`."
+          },
+          "chunkSize": {
+            "type": "integer",
+            "description": "Maximum size per chunk. The value defaults to 500 and ranges from 20 to 500."
+          }
+        },
+        "x-apifox-orders": [
+          "name",
+          "action",
+          "inputField",
+          "language",
+          "chunkSize"
+        ],
+        "required": [
+          "name",
+          "action",
+          "inputField",
+          "language",
+          "chunkSize"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "Clouds": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "cloudId": {
+                  "type": "string",
+                  "description": "The ID of a cloud provider."
+                },
+                "description": {
+                  "type": "string",
+                  "description": "The description of the cloud provider."
+                }
+              },
+              "x-apifox-orders": [
+                "cloudId",
+                "description"
+              ],
+              "x-apifox-ignore-properties": []
+            }
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "Regions": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "cloudId": {
+                  "type": "string",
+                  "description": "The ID of a cloud provider"
+                },
+                "regionId": {
+                  "type": "string",
+                  "description": "The ID of a cloud region"
+                },
+                "apiBaseUrl": {
+                  "type": "string",
+                  "description": "The base URL of an Zilliz Cloud open API endpiont"
+                }
+              },
+              "x-apifox-orders": [
+                "cloudId",
+                "regionId",
+                "apiBaseUrl"
+              ],
+              "x-apifox-ignore-properties": []
+            }
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
         ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
@@ -7523,1309 +7794,93 @@
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
       },
-      "Empty": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "object",
-            "x-apifox-orders": [],
-            "properties": {},
-            "x-apifox-ignore-properties": []
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "InsertDeleteResult": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "insertCount": {
-                "type": "integer"
-              },
-              "insertIds": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            },
-            "x-apifox-orders": [
-              "insertCount",
-              "insertIds"
-            ],
-            "x-apifox-ignore-properties": []
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "RecordDeleteResult": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "deleteCount": {
-                "type": "integer"
-              },
-              "deleteIds": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            },
-            "x-apifox-orders": [
-              "deleteCount",
-              "deleteIds"
-            ],
-            "x-apifox-ignore-properties": []
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "SearchResults": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer"
-                },
-                "distance": {
-                  "type": "number",
-                  "format": "float"
-                }
-              },
-              "x-apifox-orders": [
-                "id",
-                "distance"
-              ],
-              "x-apifox-ignore-properties": []
-            }
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "CollectionCreateWithSchemaAndIndex": {
+      "customer.SearchOrQueryReq": {
         "type": "object",
         "properties": {
           "collectionName": {
             "type": "string",
-            "description": "The name of the collection to be created."
+            "description": "The name of the collection to which this operation applies."
           },
-          "shardsNum": {
-            "type": "integer",
-            "description": "The number of shards to be created for the collection. This parameter is optional."
-          },
-          "description": {
-            "type": "string",
-            "description": "The description of the collection to be created. This parameter is optional"
-          },
-          "fields": {
+          "partitionNames": {
             "type": "array",
-            "description": "The fields of the collection to be created.",
             "items": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "type": {
-                  "type": "string"
-                },
-                "primaryKey": {
-                  "type": "boolean"
-                },
-                "autoId": {
-                  "type": "boolean"
-                },
-                "description": {
-                  "type": "string"
-                }
-              },
-              "x-apifox-orders": [
-                "name",
-                "type",
-                "primaryKey",
-                "autoId",
-                "description"
-              ],
-              "x-apifox-ignore-properties": []
-            }
-          },
-          "indexes": {
-            "type": "array",
-            "description": "The fields to be indexed along with the creation of the database. This parameter is optional.",
-            "items": {
-              "type": "object",
-              "properties": {
-                "indexName": {
-                  "type": "string",
-                  "description": "The name of the index file to be created."
-                },
-                "fieldName": {
-                  "type": "string",
-                  "description": "The name of field for which the index file is to be created."
-                },
-                "metricType": {
-                  "type": "string",
-                  "description": "The algorithm used to measure the distance between vectors."
-                }
-              },
-              "x-apifox-orders": [
-                "indexName",
-                "fieldName",
-                "metricType"
-              ],
-              "x-apifox-ignore-properties": []
-            }
-          }
-        },
-        "required": [
-          "collectionName",
-          "fields"
-        ],
-        "x-apifox-orders": [
-          "collectionName",
-          "shardsNum",
-          "description",
-          "fields",
-          "indexes"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "DescribeCollectionResponse": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "collectionId": {
-                "type": "string"
-              },
-              "collectionName": {
-                "type": "string"
-              },
-              "shardNum": {
-                "type": "integer"
-              },
-              "description": {
-                "type": "string"
-              },
-              "fields": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "primaryKey": {
-                      "type": "boolean"
-                    },
-                    "autoId": {
-                      "type": "boolean"
-                    },
-                    "description": {
-                      "type": "string"
-                    }
-                  },
-                  "x-apifox-orders": [
-                    "name",
-                    "type",
-                    "primaryKey",
-                    "autoId",
-                    "description"
-                  ],
-                  "x-apifox-ignore-properties": []
-                }
-              },
-              "indexes": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "indexName": {
-                      "type": "string"
-                    },
-                    "fieldName": {
-                      "type": "string"
-                    },
-                    "metricType": {
-                      "type": "string"
-                    },
-                    "extraParams": {
-                      "type": "object",
-                      "x-apifox-orders": [],
-                      "properties": {},
-                      "x-apifox-ignore-properties": []
-                    }
-                  },
-                  "x-apifox-orders": [
-                    "indexName",
-                    "fieldName",
-                    "metricType",
-                    "extraParams"
-                  ],
-                  "x-apifox-ignore-properties": []
-                }
-              }
+              "type": "string",
+              "description": "partitionName"
             },
-            "x-apifox-orders": [
-              "collectionId",
-              "collectionName",
-              "shardNum",
-              "description",
-              "fields",
-              "indexes"
-            ],
-            "x-apifox-ignore-properties": []
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "CollectionCreateSimple": {
-        "type": "object",
-        "properties": {
-          "dbName": {
-            "type": "string",
-            "description": "The name of the database. <zilliz>This parameter applies only to dedicated clusters.</zilliz>"
+            "description": "The name of the partitions to which this operation applies."
           },
-          "collectionName": {
+          "filter": {
             "type": "string",
-            "description": "The name of the collection to create."
+            "description": "The filter used to find matches for the search"
           },
-          "dimension": {
+          "limit": {
             "type": "integer",
-            "description": "The number of dimensions for the vector field of the collection. For performance-optimized CUs, this value ranges from 1 to 32768. For capacity-optimized and cost-optimized CUs, this value ranges from 32 to 32768.",
+            "description": "The maximum number of entities to return.<br>The sum of this value of that of `offset` should be less than **1024**.",
+            "default": 100,
             "minimum": 1,
-            "maximum": 32768
+            "maximum": 100
           },
-          "metricType": {
-            "type": "string",
-            "description": "The distance metric used for the collection.",
-            "default": "L2"
+          "offset": {
+            "type": "integer",
+            "description": "The number of entities to skip in the search results.<br>The sum of this value and that of `limit` should not be greater than **1024**.",
+            "minimum": 0,
+            "maximum": 1024,
+            "exclusiveMinimum": true
           },
-          "primaryField": {
-            "type": "string",
-            "description": "The primary key field.",
-            "default": "id"
-          },
-          "vectorField": {
-            "type": "string",
-            "description": "The vector field.",
-            "default": "vector"
-          },
-          "description": {
-            "type": "string",
-            "description": "The description of the collection"
-          }
-        },
-        "required": [
-          "collectionName",
-          "dimension"
-        ],
-        "x-apifox-orders": [
-          "dbName",
-          "collectionName",
-          "dimension",
-          "metricType",
-          "primaryField",
-          "vectorField",
-          "description"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "Collections": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "collectionCount": {
-                "type": "integer"
-              },
-              "collections": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "collectionId": {
-                      "type": "string"
-                    },
-                    "collectionName": {
-                      "type": "string"
-                    }
-                  },
-                  "x-apifox-orders": [
-                    "collectionId",
-                    "collectionName"
-                  ],
-                  "x-apifox-ignore-properties": []
-                }
-              }
-            },
-            "x-apifox-orders": [
-              "collectionCount",
-              "collections"
-            ],
-            "x-apifox-ignore-properties": []
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "ClusterOps": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "clusterId": {
-                "type": "string",
-                "description": "The ID of the cluster affected by this operation."
-              },
-              "username": {
-                "type": "string",
-                "description": "The name of the cluster user generated by default."
-              },
-              "password": {
-                "type": "string",
-                "description": "The password of the cluster user generated by default. It will not be displayed again, so note it down and securely store it."
-              },
-              "prompt": {
-                "type": "string",
-                "description": "The statement indicating that this operation succeeds."
-              }
-            },
-            "x-apifox-orders": [
-              "clusterId",
-              "username",
-              "password",
-              "prompt"
-            ],
-            "x-apifox-ignore-properties": []
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "CreateCluster": {
-        "type": "object",
-        "properties": {
-          "plan": {
-            "description": "The plan tier of the Zilliz Cloud service. Available options are **Standard** and **Enterprise**.",
-            "type": "string"
-          },
-          "clusterName": {
-            "description": "The name of the cluster to be created. It is a string of no more than 32 characters.",
-            "type": "string"
-          },
-          "cuSize": {
-            "description": "The size of the CU to be used for the created cluster. It is an integer from 1 to 256.",
-            "type": "integer"
-          },
-          "cuType": {
-            "description": "The type of the CU used for the Zilliz Cloud cluster to be created. Available options are **Performance-optimized**, **Capacity-optimized**, and **Cost-optimized**. This parameter defaults to **Performance-optimized**.",
-            "default": "Performance-optimized",
-            "type": "string"
-          },
-          "projectId": {
-            "description": "The ID of the project where the cluster is to be created.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "cuSize",
-          "clusterName",
-          "projectId",
-          "plan",
-          "cuType"
-        ],
-        "x-apifox-orders": [
-          "plan",
-          "clusterName",
-          "cuSize",
-          "cuType",
-          "projectId"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "Cluster": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "clusterId": {
-                "type": "string"
-              },
-              "clusterName": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              },
-              "clusterType": {
-                "type": "string"
-              },
-              "cuSize": {
-                "type": "integer"
-              },
-              "status": {
-                "type": "string"
-              },
-              "connectAddress": {
-                "type": "string"
-              },
-              "privateLinkAddress": {
-                "type": "string"
-              },
-              "createTime": {
-                "type": "string"
-              },
-              "storageSize": {
-                "type": "integer"
-              },
-              "snapshotNumber": {
-                "type": "integer"
-              },
-              "createProgress": {
-                "type": "integer"
-              }
-            },
-            "x-apifox-orders": [
-              "clusterId",
-              "clusterName",
-              "description",
-              "clusterType",
-              "cuSize",
-              "status",
-              "connectAddress",
-              "privateLinkAddress",
-              "createTime",
-              "storageSize",
-              "snapshotNumber",
-              "createProgress"
-            ],
-            "x-apifox-ignore-properties": []
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "Regions": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
+          "outputFields": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "cloudId": {
-                  "type": "string",
-                  "description": "The ID of a cloud provider"
-                },
-                "regionId": {
-                  "type": "string",
-                  "description": "The ID of a cloud region"
-                },
-                "apiBaseUrl": {
-                  "type": "string",
-                  "description": "The base URL of an Zilliz Cloud open API endpiont"
-                }
-              },
-              "x-apifox-orders": [
-                "cloudId",
-                "regionId",
-                "apiBaseUrl"
-              ],
-              "x-apifox-ignore-properties": []
-            }
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "Error": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
+              "type": "string",
+              "default": "id, distance"
+            },
+            "description": "An array of fields to return along with the search results."
           },
-          "message": {
-            "type": "string"
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "message"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "Clouds": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
+          "vector": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "cloudId": {
-                  "type": "string",
-                  "description": "The ID of a cloud provider."
-                },
-                "description": {
-                  "type": "string",
-                  "description": "The description of the cloud provider."
-                }
-              },
-              "x-apifox-orders": [
-                "cloudId",
-                "description"
-              ],
-              "x-apifox-ignore-properties": []
-            }
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "Clusters": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
+              "type": "number",
+              "format": "float32"
+            },
+            "description": "The query vector in the form of a list of floating numbers."
           },
-          "data": {
+          "params": {
             "type": "object",
             "properties": {
-              "count": {
-                "type": "integer",
-                "description": "The total number of clusters returned."
+              "radius": {
+                "type": "number",
+                "format": "float64",
+                "description": "The angle where the vector with the least similarity resides."
               },
-              "currentPage": {
-                "type": "integer",
-                "description": "The current page in the results."
-              },
-              "pageSize": {
-                "type": "integer",
-                "description": "The number of clusters per page in the results."
-              },
-              "clusters": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "clusterId": {
-                      "type": "string",
-                      "description": "The ID of the cluster."
-                    },
-                    "clusterName": {
-                      "type": "string",
-                      "description": "The name of the cluster."
-                    },
-                    "description": {
-                      "type": "string",
-                      "description": "An optional description about the cluster."
-                    },
-                    "regionId": {
-                      "type": "string",
-                      "description": "The ID of the region where the cluster exists."
-                    },
-                    "clusterType": {
-                      "type": "string",
-                      "description": "The type of CU associated with the cluster. Possible values are **Performance-optimized** and **Capacity-optimized**."
-                    },
-                    "cuSize": {
-                      "type": "integer",
-                      "description": "The size of the CU associated with the cluster."
-                    },
-                    "status": {
-                      "type": "string",
-                      "description": "The current status of the cluster. Possible values are **INITIALIZING**, **RUNNING**, **SUSPENDING**, and **RESUMING**."
-                    },
-                    "connectAddress": {
-                      "type": "string",
-                      "description": "The public endpoint of the cluster. You can connect to the cluster using this endpoint from the public network."
-                    },
-                    "privateLinkAddress": {
-                      "type": "string",
-                      "description": "The private endpoint of the cluster. You can set up a private link to allow your VPS in the same cloud region to access your cluster."
-                    },
-                    "createTime": {
-                      "type": "string",
-                      "description": "The time at which the cluster has been created."
-                    }
-                  },
-                  "x-apifox-orders": [
-                    "clusterId",
-                    "clusterName",
-                    "description",
-                    "regionId",
-                    "clusterType",
-                    "cuSize",
-                    "status",
-                    "connectAddress",
-                    "privateLinkAddress",
-                    "createTime"
-                  ],
-                  "required": [
-                    "regionId"
-                  ],
-                  "x-apifox-ignore-properties": []
-                },
-                "description": "An array of clusters in detail."
+              "range_filter": {
+                "type": "number",
+                "format": "float64",
+                "description": "Used in combination to filter vector field values whose similarity to the query vector falls into a specific range."
               }
             },
             "x-apifox-orders": [
-              "count",
-              "currentPage",
-              "pageSize",
-              "clusters"
+              "radius",
+              "range_filter"
             ],
-            "x-apifox-ignore-properties": []
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "resp.RegionDTO": {
-        "type": "object",
-        "properties": {
-          "apiBaseUrl": {
-            "type": "string"
-          },
-          "cloudId": {
-            "type": "string"
-          },
-          "regionId": {
-            "type": "string"
-          }
-        },
-        "x-apifox-orders": [
-          "apiBaseUrl",
-          "cloudId",
-          "regionId"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "resp.ListClusterResp": {
-        "type": "object",
-        "properties": {
-          "clusters": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "clusterId": {
-                  "type": "string",
-                  "description": "The ID of the cluster."
-                },
-                "clusterName": {
-                  "type": "string",
-                  "description": "The Name of the cluster."
-                },
-                "description": {
-                  "type": "string",
-                  "description": "An optional description of the cluster."
-                },
-                "regionId": {
-                  "type": "string",
-                  "description": "The ID of the cloud region where the cluster exists."
-                },
-                "clusterType": {
-                  "type": "string",
-                  "description": "The type of the CU associated with the cluster."
-                },
-                "cuSize": {
-                  "type": "integer",
-                  "description": "The size of the CU used by the cluster."
-                },
-                "status": {
-                  "type": "string",
-                  "description": "The current status of the cluster. Possible values are **CREATING**, **RUNNING**, **SUSPENDING**, and **RESUMING**."
-                },
-                "connectAddress": {
-                  "type": "string",
-                  "description": "The public endpoint of the cluster. You can use this to connect to your cluster from public networks."
-                },
-                "privateLinkAddress": {
-                  "type": "string",
-                  "description": "The private endpoint of the cluster. You can use this to connect to your cluster from your VPSs in the same cloud region."
-                },
-                "createTime": {
-                  "type": "string",
-                  "description": "The time when this cluster has been creaated."
-                }
-              },
-              "x-apifox-orders": [
-                "clusterId",
-                "clusterName",
-                "description",
-                "regionId",
-                "clusterType",
-                "cuSize",
-                "status",
-                "connectAddress",
-                "privateLinkAddress",
-                "createTime"
-              ],
-              "required": [
-                "regionId",
-                "cuSize"
-              ],
-              "x-apifox-ignore-properties": [],
-              "x-apifox-folder": "Schemas"
-            },
-            "description": "An array of clusters in detail."
-          },
-          "count": {
-            "type": "integer",
-            "description": "The total number of clusters returned."
-          },
-          "currentPage": {
-            "type": "integer",
-            "description": "The current page of the returned results."
-          },
-          "pageSize": {
-            "type": "integer",
-            "description": "The number of clusters listed on each page."
-          }
-        },
-        "x-apifox-orders": [
-          "clusters",
-          "count",
-          "currentPage",
-          "pageSize"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "resp.ClusterDTO": {
-        "type": "object",
-        "properties": {
-          "clusterId": {
-            "type": "string",
-            "description": "The ID of the cluster."
-          },
-          "clusterName": {
-            "type": "string",
-            "description": "The Name of the cluster."
-          },
-          "description": {
-            "type": "string",
-            "description": "An optional description of the cluster."
-          },
-          "regionId": {
-            "type": "string",
-            "description": "The ID of the cloud region where the cluster exists."
-          },
-          "clusterType": {
-            "type": "string",
-            "description": "The type of the CU associated with the cluster."
-          },
-          "cuSize": {
-            "type": "integer",
-            "description": "The size of the CU used by the cluster."
-          },
-          "status": {
-            "type": "string",
-            "description": "The current status of the cluster. Possible values are **CREATING**, **RUNNING**, **SUSPENDING**, and **RESUMING**."
-          },
-          "connectAddress": {
-            "type": "string",
-            "description": "The public endpoint of the cluster. You can use this to connect to your cluster from public networks."
-          },
-          "privateLinkAddress": {
-            "type": "string",
-            "description": "The private endpoint of the cluster. You can use this to connect to your cluster from your VPSs in the same cloud region."
-          },
-          "createTime": {
-            "type": "string",
-            "description": "The time when this cluster has been creaated."
-          }
-        },
-        "x-apifox-orders": [
-          "clusterId",
-          "clusterName",
-          "description",
-          "regionId",
-          "clusterType",
-          "cuSize",
-          "status",
-          "connectAddress",
-          "privateLinkAddress",
-          "createTime"
-        ],
-        "required": [
-          "regionId",
-          "cuSize"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "resp.CloudDTO": {
-        "type": "object",
-        "properties": {
-          "cloudId": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          }
-        },
-        "x-apifox-orders": [
-          "cloudId",
-          "description"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "resp.ActionClusterResp": {
-        "type": "object",
-        "properties": {
-          "clusterId": {
-            "type": "string",
-            "description": "The ID of a cluster."
-          },
-          "prompt": {
-            "type": "string",
-            "description": "The statement indicating that the current operation succeeds."
-          }
-        },
-        "x-apifox-orders": [
-          "clusterId",
-          "prompt"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "req.PageListReq": {
-        "type": "object",
-        "properties": {
-          "currentPage": {
-            "type": "integer"
-          },
-          "pageSize": {
-            "type": "integer"
-          }
-        },
-        "x-apifox-orders": [
-          "currentPage",
-          "pageSize"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "req.CreateClusterReq": {
-        "type": "object",
-        "required": [
-          "adminPwd",
-          "clusterName"
-        ],
-        "properties": {
-          "adminPwd": {
-            "type": "string"
-          },
-          "clusterName": {
-            "type": "string"
-          },
-          "clusterType": {
-            "type": "string"
-          },
-          "cuSize": {
-            "type": "integer"
-          },
-          "description": {
-            "type": "string"
-          }
-        },
-        "x-apifox-orders": [
-          "adminPwd",
-          "clusterName",
-          "clusterType",
-          "cuSize",
-          "description"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "httpapi.GenericResp-resp_ListClusterResp": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "object",
-            "x-apifox-refs": {
-              "01H1RF3YYDEJQV8V95B61TT8V7": {
-                "type": "object",
-                "properties": {
-                  "clusterId": {
-                    "type": "string",
-                    "description": "The ID of the cluster."
-                  },
-                  "clusterName": {
-                    "type": "string",
-                    "description": "The Name of the cluster."
-                  },
-                  "description": {
-                    "type": "string",
-                    "description": "An optional description of the cluster."
-                  },
-                  "regionId": {
-                    "type": "string",
-                    "description": "The ID of the cloud region where the cluster exists."
-                  },
-                  "clusterType": {
-                    "type": "string",
-                    "description": "The type of the CU associated with the cluster."
-                  },
-                  "cuSize": {
-                    "type": "integer",
-                    "description": "The size of the CU used by the cluster."
-                  },
-                  "status": {
-                    "type": "string",
-                    "description": "The current status of the cluster. Possible values are **CREATING**, **RUNNING**, **SUSPENDING**, and **RESUMING**."
-                  },
-                  "connectAddress": {
-                    "type": "string",
-                    "description": "The public endpoint of the cluster. You can use this to connect to your cluster from public networks."
-                  },
-                  "privateLinkAddress": {
-                    "type": "string",
-                    "description": "The private endpoint of the cluster. You can use this to connect to your cluster from your VPSs in the same cloud region."
-                  },
-                  "createTime": {
-                    "type": "string",
-                    "description": "The time when this cluster has been creaated."
-                  }
-                },
-                "x-apifox-orders": [
-                  "clusterId",
-                  "clusterName",
-                  "description",
-                  "regionId",
-                  "clusterType",
-                  "cuSize",
-                  "status",
-                  "connectAddress",
-                  "privateLinkAddress",
-                  "createTime"
-                ],
-                "required": [
-                  "regionId",
-                  "cuSize"
-                ],
-                "x-apifox-ignore-properties": [],
-                "x-apifox-folder": "Schemas"
-              }
-            },
-            "properties": {
-              "clusterId": {
-                "type": "string",
-                "description": "The ID of the cluster."
-              },
-              "clusterName": {
-                "type": "string",
-                "description": "The Name of the cluster."
-              },
-              "description": {
-                "type": "string",
-                "description": "An optional description of the cluster."
-              },
-              "regionId": {
-                "type": "string",
-                "description": "The ID of the cloud region where the cluster exists."
-              },
-              "clusterType": {
-                "type": "string",
-                "description": "The type of the CU associated with the cluster."
-              },
-              "cuSize": {
-                "type": "integer",
-                "description": "The size of the CU used by the cluster."
-              },
-              "status": {
-                "type": "string",
-                "description": "The current status of the cluster. Possible values are **CREATING**, **RUNNING**, **SUSPENDING**, and **RESUMING**."
-              },
-              "connectAddress": {
-                "type": "string",
-                "description": "The public endpoint of the cluster. You can use this to connect to your cluster from public networks."
-              },
-              "privateLinkAddress": {
-                "type": "string",
-                "description": "The private endpoint of the cluster. You can use this to connect to your cluster from your VPSs in the same cloud region."
-              },
-              "createTime": {
-                "type": "string",
-                "description": "The time when this cluster has been creaated."
-              },
-              "storageSize": {
-                "type": "integer",
-                "description": "The storage size of the cluster in MB.",
-                "format": "sint64"
-              },
-              "snapshotNumber": {
-                "type": "integer",
-                "description": "The number of snapshofts created from the cluster."
-              },
-              "createProgress": {
-                "type": "integer",
-                "description": "The creation progress of the cluster."
-              }
-            },
             "required": [
-              "storageSize",
-              "snapshotNumber",
-              "createProgress",
-              "regionId",
-              "cuSize"
+              "range_filter"
             ],
-            "x-apifox-orders": [
-              "01H1RF3YYDEJQV8V95B61TT8V7",
-              "storageSize",
-              "snapshotNumber",
-              "createProgress"
-            ],
-            "x-apifox-ignore-properties": [
-              "clusterId",
-              "clusterName",
-              "description",
-              "regionId",
-              "clusterType",
-              "cuSize",
-              "status",
-              "connectAddress",
-              "privateLinkAddress",
-              "createTime"
-            ]
+            "description": "List of search parameters",
+            "x-apifox-ignore-properties": []
           }
         },
         "x-apifox-orders": [
-          "code",
-          "data"
+          "collectionName",
+          "partitionNames",
+          "filter",
+          "limit",
+          "offset",
+          "outputFields",
+          "vector",
+          "params"
         ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "httpapi.GenericResp-resp_ListRegionResp": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "apiBaseUrl": {
-                  "type": "string"
-                },
-                "cloudId": {
-                  "type": "string"
-                },
-                "regionId": {
-                  "type": "string"
-                }
-              },
-              "x-apifox-orders": [
-                "apiBaseUrl",
-                "cloudId",
-                "regionId"
-              ],
-              "x-apifox-ignore-properties": [],
-              "x-apifox-folder": "Schemas"
-            }
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "httpapi.GenericResp-resp_ActionClusterResp": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "clusterId": {
-                "type": "string",
-                "description": "The ID of a cluster."
-              },
-              "prompt": {
-                "type": "string",
-                "description": "The statement indicating that the current operation succeeds."
-              }
-            },
-            "x-apifox-orders": [
-              "clusterId",
-              "prompt"
-            ],
-            "x-apifox-ignore-properties": [],
-            "x-apifox-folder": "Schemas"
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "httpapi.GenericResp-resp_ListCloudResp": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "cloudId": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string"
-                }
-              },
-              "x-apifox-orders": [
-                "cloudId",
-                "description"
-              ],
-              "x-apifox-ignore-properties": [],
-              "x-apifox-folder": "Schemas"
-            }
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "httpapi.GenericResp-customer_ListCollectionsResp": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
+        "required": [
+          "collectionName",
+          "vector"
         ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
@@ -8876,6 +7931,101 @@
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
       },
+      "customer.InsertResp": {
+        "type": "object",
+        "properties": {
+          "insertCount": {
+            "type": "integer",
+            "examples": [
+              4
+            ],
+            "description": "The number of inserted entities."
+          },
+          "insertIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "examples": [
+              [
+                "['id1'",
+                " 'id2'",
+                " 'id3']"
+              ]
+            ],
+            "description": "An array of the IDs of inserted entities."
+          }
+        },
+        "x-apifox-orders": [
+          "insertCount",
+          "insertIds"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "customer.InsertOrUpsertReq": {
+        "type": "object",
+        "required": [
+          "data",
+          "collectionName"
+        ],
+        "properties": {
+          "collectionName": {
+            "type": "string",
+            "description": "The name of the collection to which entities will be inserted."
+          },
+          "partitionName": {
+            "type": "string",
+            "description": "The name of the partition to which this operation applies."
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true,
+              "x-apifox-orders": [],
+              "properties": {},
+              "x-apifox-ignore-properties": []
+            },
+            "description": "An array of entity objects. Note that the keys in an entity object should match the collection schema"
+          }
+        },
+        "x-apifox-orders": [
+          "collectionName",
+          "partitionName",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "httpapi.GenericResp-customer_DeleteResp": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object",
+            "x-apifox-orders": [],
+            "properties": {},
+            "x-apifox-ignore-properties": [],
+            "x-apifox-folder": "Schemas"
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "customer.DeleteResp": {
+        "type": "object",
+        "x-apifox-orders": [],
+        "properties": {},
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
       "httpapi.GenericResp-customer_DropCollectionResp": {
         "type": "object",
         "properties": {
@@ -8893,6 +8043,30 @@
         "x-apifox-orders": [
           "code",
           "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "customer.DropCollectionResp": {
+        "type": "object",
+        "x-apifox-orders": [],
+        "properties": {},
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "customer.DropCollectionReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string",
+            "description": "The name of the collection to delete."
+          }
+        },
+        "x-apifox-orders": [
+          "collectionName"
+        ],
+        "required": [
+          "collectionName"
         ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
@@ -9016,326 +8190,6 @@
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
       },
-      "httpapi.GenericResp-customer_DeleteResp": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "object",
-            "x-apifox-orders": [],
-            "properties": {},
-            "x-apifox-ignore-properties": [],
-            "x-apifox-folder": "Schemas"
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "httpapi.GenericResp-customer_CreateIndexResp": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "object",
-            "x-apifox-orders": [],
-            "properties": {},
-            "x-apifox-ignore-properties": [],
-            "x-apifox-folder": "Schemas"
-          }
-        },
-        "x-apifox-orders": [
-          "code",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "customer.SearchOrQueryReq": {
-        "type": "object",
-        "properties": {
-          "collectionName": {
-            "type": "string",
-            "description": "The name of the collection to which this operation applies."
-          },
-          "partitionNames": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "description": "partitionName"
-            },
-            "description": "The name of the partitions to which this operation applies."
-          },
-          "filter": {
-            "type": "string",
-            "description": "The filter used to find matches for the search"
-          },
-          "limit": {
-            "type": "integer",
-            "description": "The maximum number of entities to return.<br>The sum of this value of that of `offset` should be less than **1024**.",
-            "default": 100,
-            "minimum": 1,
-            "maximum": 100
-          },
-          "offset": {
-            "type": "integer",
-            "description": "The number of entities to skip in the search results.<br>The sum of this value and that of `limit` should not be greater than **1024**.",
-            "minimum": 0,
-            "maximum": 1024,
-            "exclusiveMinimum": true
-          },
-          "outputFields": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "default": "id, distance"
-            },
-            "description": "An array of fields to return along with the search results."
-          },
-          "vector": {
-            "type": "array",
-            "items": {
-              "type": "number",
-              "format": "float32"
-            },
-            "description": "The query vector in the form of a list of floating numbers."
-          },
-          "params": {
-            "type": "object",
-            "properties": {
-              "radius": {
-                "type": "number",
-                "format": "float64",
-                "description": "The angle where the vector with the least similarity resides."
-              },
-              "range_filter": {
-                "type": "number",
-                "format": "float64",
-                "description": "Used in combination to filter vector field values whose similarity to the query vector falls into a specific range."
-              }
-            },
-            "x-apifox-orders": [
-              "radius",
-              "range_filter"
-            ],
-            "required": [
-              "range_filter"
-            ],
-            "description": "List of search parameters",
-            "x-apifox-ignore-properties": []
-          }
-        },
-        "x-apifox-orders": [
-          "collectionName",
-          "partitionNames",
-          "filter",
-          "limit",
-          "offset",
-          "outputFields",
-          "vector",
-          "params"
-        ],
-        "required": [
-          "collectionName",
-          "vector"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "customer.ListCollectionsResp": {
-        "type": "object",
-        "properties": {
-          "collectionCount": {
-            "type": "integer",
-            "description": "The number of collections in the cluster."
-          },
-          "collections": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "collectionId": {
-                  "type": "integer",
-                  "description": "The ID of a collection."
-                },
-                "collectionName": {
-                  "type": "string",
-                  "description": "The Name of a collection."
-                }
-              },
-              "x-apifox-orders": [
-                "collectionId",
-                "collectionName"
-              ],
-              "x-apifox-ignore-properties": [],
-              "x-apifox-folder": "Schemas"
-            },
-            "description": "An collection array"
-          }
-        },
-        "x-apifox-orders": [
-          "collectionCount",
-          "collections"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "customer.InsertResp": {
-        "type": "object",
-        "properties": {
-          "insertCount": {
-            "type": "integer",
-            "examples": [
-              4
-            ],
-            "description": "The number of inserted entities."
-          },
-          "insertIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "examples": [
-              [
-                "['id1'",
-                " 'id2'",
-                " 'id3']"
-              ]
-            ],
-            "description": "An array of the IDs of inserted entities."
-          }
-        },
-        "x-apifox-orders": [
-          "insertCount",
-          "insertIds"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "customer.InsertOrUpsertReq": {
-        "type": "object",
-        "required": [
-          "data",
-          "collectionName"
-        ],
-        "properties": {
-          "collectionName": {
-            "type": "string",
-            "description": "The name of the collection to which entities will be inserted."
-          },
-          "partitionName": {
-            "type": "string",
-            "description": "The name of the partition to which this operation applies."
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "additionalProperties": true,
-              "x-apifox-orders": [],
-              "properties": {},
-              "x-apifox-ignore-properties": []
-            },
-            "description": "An array of entity objects. Note that the keys in an entity object should match the collection schema"
-          }
-        },
-        "x-apifox-orders": [
-          "collectionName",
-          "partitionName",
-          "data"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "customer.DropCollectionResp": {
-        "type": "object",
-        "x-apifox-orders": [],
-        "properties": {},
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "customer.DescIndex": {
-        "type": "object",
-        "properties": {
-          "fieldName": {
-            "type": "string",
-            "description": "The name of the indexed field."
-          },
-          "indexName": {
-            "type": "string",
-            "description": "The name of the generated index files."
-          },
-          "metricType": {
-            "type": "string",
-            "description": "The metric type used in the index process."
-          }
-        },
-        "x-apifox-orders": [
-          "fieldName",
-          "indexName",
-          "metricType"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "customer.DropCollectionReq": {
-        "type": "object",
-        "properties": {
-          "collectionName": {
-            "type": "string",
-            "description": "The name of the collection to delete."
-          }
-        },
-        "x-apifox-orders": [
-          "collectionName"
-        ],
-        "required": [
-          "collectionName"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "customer.DescField": {
-        "type": "object",
-        "properties": {
-          "autoId": {
-            "type": "boolean",
-            "description": "Whether the primary key automatically increments."
-          },
-          "description": {
-            "type": "string",
-            "description": "An optional description of the field."
-          },
-          "name": {
-            "type": "string",
-            "description": "The name of the field."
-          },
-          "primaryKey": {
-            "type": "boolean",
-            "description": "Whether the field is a primary field."
-          },
-          "type": {
-            "type": "string",
-            "description": "The data type of the values in this field."
-          }
-        },
-        "x-apifox-orders": [
-          "autoId",
-          "description",
-          "name",
-          "primaryKey",
-          "type"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
       "customer.DescCollectionResp": {
         "type": "object",
         "properties": {
@@ -9441,61 +8295,20 @@
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
       },
-      "customer.DeleteResp": {
-        "type": "object",
-        "x-apifox-orders": [],
-        "properties": {},
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "customer.DeleteReq": {
-        "type": "object",
-        "properties": {
-          "collectionName": {
-            "type": "string",
-            "description": "The name of the collection from which entities will be deleted."
-          },
-          "partitionName": {
-            "type": "string",
-            "description": "The name of the partition from which entities will be deleted."
-          },
-          "filter": {
-            "type": "string",
-            "description": "The filter used to find matches among all entities for deletion."
-          }
-        },
-        "x-apifox-orders": [
-          "collectionName",
-          "partitionName",
-          "filter"
-        ],
-        "required": [
-          "collectionName"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "customer.CreateIndexResp": {
-        "type": "object",
-        "x-apifox-orders": [],
-        "properties": {},
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "customer.CreateIndexParam": {
+      "customer.DescIndex": {
         "type": "object",
         "properties": {
           "fieldName": {
             "type": "string",
-            "description": "The name of the fields to be indexed."
+            "description": "The name of the indexed field."
           },
           "indexName": {
             "type": "string",
-            "description": "The name of the index file to be generated."
+            "description": "The name of the generated index files."
           },
           "metricType": {
             "type": "string",
-            "description": "The metric type used in the index process. Possible values are **L2** (Euclidean Distance) and **IP** (Inner product)."
+            "description": "The metric type used in the index process."
           }
         },
         "x-apifox-orders": [
@@ -9506,16 +8319,16 @@
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
       },
-      "customer.CreateFieldParam": {
+      "customer.DescField": {
         "type": "object",
         "properties": {
           "autoId": {
             "type": "boolean",
-            "description": "Whether the value of the primary key automatically increments. This parameter applies when **primaryKey** is set to **True** for this field."
+            "description": "Whether the primary key automatically increments."
           },
           "description": {
             "type": "string",
-            "description": "An optional description for the field."
+            "description": "An optional description of the field."
           },
           "name": {
             "type": "string",
@@ -9523,11 +8336,11 @@
           },
           "primaryKey": {
             "type": "boolean",
-            "description": "Whether this field is the primary key. Once set to true, you can also consider setting **autoID** to **True** to make the values in this field automatically increments."
+            "description": "Whether the field is a primary field."
           },
           "type": {
             "type": "string",
-            "description": "The type of the data in this field. Possible values are **"
+            "description": "The data type of the values in this field."
           }
         },
         "x-apifox-orders": [
@@ -9540,270 +8353,600 @@
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
       },
-      "customer.CreateCollectionReq": {
+      "httpapi.GenericResp-customer_CreateIndexResp": {
         "type": "object",
         "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object",
+            "x-apifox-orders": [],
+            "properties": {},
+            "x-apifox-ignore-properties": [],
+            "x-apifox-folder": "Schemas"
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "customer.CreateIndexResp": {
+        "type": "object",
+        "x-apifox-orders": [],
+        "properties": {},
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "CollectionCreateSimple": {
+        "type": "object",
+        "properties": {
+          "dbName": {
+            "type": "string",
+            "description": "The name of the database. <zilliz>This parameter applies only to dedicated clusters.</zilliz>"
+          },
           "collectionName": {
             "type": "string",
-            "description": "The name of a collection."
+            "description": "The name of the collection to create."
+          },
+          "dimension": {
+            "type": "integer",
+            "description": "The number of dimensions for the vector field of the collection. For performance-optimized CUs, this value ranges from 1 to 32768. For capacity-optimized and cost-optimized CUs, this value ranges from 32 to 32768.",
+            "minimum": 1,
+            "maximum": 32768
+          },
+          "metricType": {
+            "type": "string",
+            "description": "The distance metric used for the collection.",
+            "default": "L2"
+          },
+          "primaryField": {
+            "type": "string",
+            "description": "The primary key field.",
+            "default": "id"
+          },
+          "vectorField": {
+            "type": "string",
+            "description": "The vector field.",
+            "default": "vector"
           },
           "description": {
             "type": "string",
-            "description": "An optional description about the collection."
-          },
-          "fields": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "autoId": {
-                  "type": "boolean",
-                  "description": "Whether the value of the primary key automatically increments. This parameter applies when **primaryKey** is set to **True** for this field."
-                },
-                "description": {
-                  "type": "string",
-                  "description": "An optional description for the field."
-                },
-                "name": {
-                  "type": "string",
-                  "description": "The name of the field."
-                },
-                "primaryKey": {
-                  "type": "boolean",
-                  "description": "Whether this field is the primary key. Once set to true, you can also consider setting **autoID** to **True** to make the values in this field automatically increments."
-                },
-                "type": {
-                  "type": "string",
-                  "description": "The type of the data in this field. Possible values are **"
-                }
-              },
-              "x-apifox-orders": [
-                "autoId",
-                "description",
-                "name",
-                "primaryKey",
-                "type"
-              ],
-              "x-apifox-ignore-properties": [],
-              "x-apifox-folder": "Schemas"
-            },
-            "description": "The schema of the collection comprising the listed fields. "
-          },
-          "indexes": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "fieldName": {
-                  "type": "string",
-                  "description": "The name of the fields to be indexed."
-                },
-                "indexName": {
-                  "type": "string",
-                  "description": "The name of the index file to be generated."
-                },
-                "metricType": {
-                  "type": "string",
-                  "description": "The metric type used in the index process. Possible values are **L2** (Euclidean Distance) and **IP** (Inner product)."
-                }
-              },
-              "x-apifox-orders": [
-                "fieldName",
-                "indexName",
-                "metricType"
-              ],
-              "x-apifox-ignore-properties": [],
-              "x-apifox-folder": "Schemas"
-            },
-            "description": "An array of fields to be indxed."
-          },
-          "shardsNum": {
-            "type": "integer",
-            "description": "The number of shards in the collections."
+            "description": "The description of the collection"
           }
         },
-        "x-apifox-orders": [
-          "collectionName",
-          "description",
-          "fields",
-          "indexes",
-          "shardsNum"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "customer.CollectionResp": {
-        "type": "object",
-        "properties": {
-          "collectionId": {
-            "type": "integer",
-            "description": "The ID of a collection."
-          },
-          "collectionName": {
-            "type": "string",
-            "description": "The Name of a collection."
-          }
-        },
-        "x-apifox-orders": [
-          "collectionId",
-          "collectionName"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
-      },
-      "Category": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 1,
-            "description": "分组ID编号"
-          },
-          "name": {
-            "type": "string",
-            "description": "分组名称"
-          }
-        },
-        "xml": {
-          "name": "Category"
-        },
-        "x-apifox-orders": [
-          "id",
-          "name"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "示例数据模型"
-      },
-      "Tag": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 1,
-            "description": "标签ID编号"
-          },
-          "name": {
-            "type": "string",
-            "description": "标签名称"
-          }
-        },
-        "xml": {
-          "name": "Tag"
-        },
-        "x-apifox-orders": [
-          "id",
-          "name"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "示例数据模型"
-      },
-      "Pet": {
         "required": [
-          "name",
-          "photoUrls",
-          "id",
-          "category",
-          "tags",
-          "status"
+          "collectionName",
+          "dimension"
         ],
+        "x-apifox-orders": [
+          "dbName",
+          "collectionName",
+          "dimension",
+          "metricType",
+          "primaryField",
+          "vectorField",
+          "description"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "httpapi.GenericResp-customer_ListCollectionsResp": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 1,
-            "maximum": 5000,
-            "description": "宠物ID编号"
+          "code": {
+            "type": "integer"
           },
-          "category": {
-            "description": "分组",
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "integer",
-                "format": "int64",
-                "minimum": 1,
-                "description": "分组ID编号"
-              },
-              "name": {
-                "type": "string",
-                "description": "分组名称"
-              }
-            },
-            "xml": {
-              "name": "Category"
-            },
-            "x-apifox-orders": [
-              "id",
-              "name"
-            ],
-            "x-apifox-ignore-properties": [],
-            "x-apifox-folder": "示例数据模型"
-          },
-          "name": {
-            "type": "string",
-            "description": "名称",
-            "examples": [
-              "doggie"
-            ]
-          },
-          "photoUrls": {
+          "data": {
             "type": "array",
             "items": {
               "type": "string"
-            },
-            "description": "照片URL"
+            }
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "httpapi.GenericResp-resp_ActionClusterResp": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
           },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer",
-                  "format": "int64",
-                  "minimum": 1,
-                  "description": "标签ID编号"
-                },
-                "name": {
-                  "type": "string",
-                  "description": "标签名称"
-                }
+          "data": {
+            "type": "object",
+            "properties": {
+              "clusterId": {
+                "type": "string",
+                "description": "The ID of a cluster."
               },
-              "xml": {
-                "name": "Tag"
-              },
-              "x-apifox-orders": [
-                "id",
-                "name"
-              ],
-              "x-apifox-ignore-properties": [],
-              "x-apifox-folder": "示例数据模型"
+              "prompt": {
+                "type": "string",
+                "description": "The statement indicating that the current operation succeeds."
+              }
             },
-            "description": "标签"
-          },
-          "status": {
+            "x-apifox-orders": [
+              "clusterId",
+              "prompt"
+            ],
+            "x-apifox-ignore-properties": [],
+            "x-apifox-folder": "Schemas"
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "resp.ActionClusterResp": {
+        "type": "object",
+        "properties": {
+          "clusterId": {
             "type": "string",
-            "description": "宠物销售状态",
-            "enum": [
-              "available",
-              "pending",
-              "sold"
+            "description": "The ID of a cluster."
+          },
+          "prompt": {
+            "type": "string",
+            "description": "The statement indicating that the current operation succeeds."
+          }
+        },
+        "x-apifox-orders": [
+          "clusterId",
+          "prompt"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "httpapi.GenericResp-resp_ListClusterResp": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object",
+            "x-apifox-refs": {
+              "01H1RF3YYDEJQV8V95B61TT8V7": {
+                "x-apifox-overrides": {},
+                "type": "object",
+                "properties": {
+                  "clusterId": {
+                    "type": "string",
+                    "description": "The ID of the cluster."
+                  },
+                  "clusterName": {
+                    "type": "string",
+                    "description": "The Name of the cluster."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "An optional description of the cluster."
+                  },
+                  "regionId": {
+                    "type": "string",
+                    "description": "The ID of the cloud region where the cluster exists."
+                  },
+                  "clusterType": {
+                    "type": "string",
+                    "description": "The type of the CU associated with the cluster."
+                  },
+                  "cuSize": {
+                    "type": "integer",
+                    "description": "The size of the CU used by the cluster."
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "The current status of the cluster. Possible values are **CREATING**, **RUNNING**, **SUSPENDING**, and **RESUMING**."
+                  },
+                  "connectAddress": {
+                    "type": "string",
+                    "description": "The public endpoint of the cluster. You can use this to connect to your cluster from public networks."
+                  },
+                  "privateLinkAddress": {
+                    "type": "string",
+                    "description": "The private endpoint of the cluster. You can use this to connect to your cluster from your VPSs in the same cloud region."
+                  },
+                  "createTime": {
+                    "type": "string",
+                    "description": "The time when this cluster has been creaated."
+                  }
+                },
+                "x-apifox-orders": [
+                  "clusterId",
+                  "clusterName",
+                  "description",
+                  "regionId",
+                  "clusterType",
+                  "cuSize",
+                  "status",
+                  "connectAddress",
+                  "privateLinkAddress",
+                  "createTime"
+                ],
+                "required": [
+                  "regionId",
+                  "cuSize"
+                ],
+                "x-apifox-ignore-properties": [],
+                "x-apifox-folder": "Schemas"
+              }
+            },
+            "properties": {
+              "projectId": {
+                "type": "string",
+                "description": "The ID of the project to which the current cluster belongs."
+              },
+              "clusterId": {
+                "type": "string",
+                "description": "The ID of the cluster."
+              },
+              "clusterName": {
+                "type": "string",
+                "description": "The Name of the cluster."
+              },
+              "description": {
+                "type": "string",
+                "description": "An optional description of the cluster."
+              },
+              "regionId": {
+                "type": "string",
+                "description": "The ID of the cloud region where the cluster exists."
+              },
+              "clusterType": {
+                "type": "string",
+                "description": "The type of the CU associated with the cluster."
+              },
+              "cuSize": {
+                "type": "integer",
+                "description": "The size of the CU used by the cluster."
+              },
+              "status": {
+                "type": "string",
+                "description": "The current status of the cluster. Possible values are **CREATING**, **RUNNING**, **SUSPENDING**, and **RESUMING**."
+              },
+              "connectAddress": {
+                "type": "string",
+                "description": "The public endpoint of the cluster. You can use this to connect to your cluster from public networks."
+              },
+              "privateLinkAddress": {
+                "type": "string",
+                "description": "The private endpoint of the cluster. You can use this to connect to your cluster from your VPSs in the same cloud region."
+              },
+              "createTime": {
+                "type": "string",
+                "description": "The time when this cluster has been creaated."
+              },
+              "storageSize": {
+                "type": "integer",
+                "description": "The storage size of the cluster in MB.",
+                "format": "sint64"
+              },
+              "snapshotNumber": {
+                "type": "integer",
+                "description": "The number of snapshofts created from the cluster."
+              },
+              "createProgress": {
+                "type": "integer",
+                "description": "The creation progress of the cluster."
+              }
+            },
+            "required": [
+              "storageSize",
+              "snapshotNumber",
+              "createProgress",
+              "projectId",
+              "regionId",
+              "cuSize"
+            ],
+            "x-apifox-orders": [
+              "projectId",
+              "01H1RF3YYDEJQV8V95B61TT8V7",
+              "storageSize",
+              "snapshotNumber",
+              "createProgress"
+            ],
+            "x-apifox-ignore-properties": [
+              "clusterId",
+              "clusterName",
+              "description",
+              "regionId",
+              "clusterType",
+              "cuSize",
+              "status",
+              "connectAddress",
+              "privateLinkAddress",
+              "createTime"
             ]
           }
         },
         "x-apifox-orders": [
-          "id",
-          "category",
-          "name",
-          "photoUrls",
-          "tags",
-          "status"
+          "code",
+          "data"
         ],
         "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "示例数据模型"
+        "x-apifox-folder": "Schemas"
+      },
+      "resp.ClusterDTO": {
+        "type": "object",
+        "properties": {
+          "clusterId": {
+            "type": "string",
+            "description": "The ID of the cluster."
+          },
+          "clusterName": {
+            "type": "string",
+            "description": "The Name of the cluster."
+          },
+          "description": {
+            "type": "string",
+            "description": "An optional description of the cluster."
+          },
+          "regionId": {
+            "type": "string",
+            "description": "The ID of the cloud region where the cluster exists."
+          },
+          "clusterType": {
+            "type": "string",
+            "description": "The type of the CU associated with the cluster."
+          },
+          "cuSize": {
+            "type": "integer",
+            "description": "The size of the CU used by the cluster."
+          },
+          "status": {
+            "type": "string",
+            "description": "The current status of the cluster. Possible values are **CREATING**, **RUNNING**, **SUSPENDING**, and **RESUMING**."
+          },
+          "connectAddress": {
+            "type": "string",
+            "description": "The public endpoint of the cluster. You can use this to connect to your cluster from public networks."
+          },
+          "privateLinkAddress": {
+            "type": "string",
+            "description": "The private endpoint of the cluster. You can use this to connect to your cluster from your VPSs in the same cloud region."
+          },
+          "createTime": {
+            "type": "string",
+            "description": "The time when this cluster has been creaated."
+          }
+        },
+        "x-apifox-orders": [
+          "clusterId",
+          "clusterName",
+          "description",
+          "regionId",
+          "clusterType",
+          "cuSize",
+          "status",
+          "connectAddress",
+          "privateLinkAddress",
+          "createTime"
+        ],
+        "required": [
+          "regionId",
+          "cuSize"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "Clusters": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "integer",
+                "description": "The total number of clusters returned."
+              },
+              "currentPage": {
+                "type": "integer",
+                "description": "The current page in the results."
+              },
+              "pageSize": {
+                "type": "integer",
+                "description": "The number of clusters per page in the results."
+              },
+              "clusters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "projectId": {
+                      "type": "string",
+                      "description": "The ID of the project to which the current cluster belongs."
+                    },
+                    "clusterId": {
+                      "type": "string",
+                      "description": "The ID of the cluster."
+                    },
+                    "clusterName": {
+                      "type": "string",
+                      "description": "The name of the cluster."
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "An optional description about the cluster."
+                    },
+                    "regionId": {
+                      "type": "string",
+                      "description": "The ID of the region where the cluster exists."
+                    },
+                    "clusterType": {
+                      "type": "string",
+                      "description": "The type of CU associated with the cluster. Possible values are **Performance-optimized** and **Capacity-optimized**."
+                    },
+                    "cuSize": {
+                      "type": "integer",
+                      "description": "The size of the CU associated with the cluster."
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The current status of the cluster. Possible values are **INITIALIZING**, **RUNNING**, **SUSPENDING**, and **RESUMING**."
+                    },
+                    "connectAddress": {
+                      "type": "string",
+                      "description": "The public endpoint of the cluster. You can connect to the cluster using this endpoint from the public network."
+                    },
+                    "privateLinkAddress": {
+                      "type": "string",
+                      "description": "The private endpoint of the cluster. You can set up a private link to allow your VPS in the same cloud region to access your cluster."
+                    },
+                    "createTime": {
+                      "type": "string",
+                      "description": "The time at which the cluster has been created."
+                    }
+                  },
+                  "x-apifox-orders": [
+                    "projectId",
+                    "clusterId",
+                    "clusterName",
+                    "description",
+                    "regionId",
+                    "clusterType",
+                    "cuSize",
+                    "status",
+                    "connectAddress",
+                    "privateLinkAddress",
+                    "createTime"
+                  ],
+                  "required": [
+                    "regionId",
+                    "projectId"
+                  ],
+                  "x-apifox-ignore-properties": []
+                },
+                "description": "An array of clusters in detail."
+              }
+            },
+            "x-apifox-orders": [
+              "count",
+              "currentPage",
+              "pageSize",
+              "clusters"
+            ],
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "req.PageListReq": {
+        "type": "object",
+        "properties": {
+          "currentPage": {
+            "type": "integer"
+          },
+          "pageSize": {
+            "type": "integer"
+          }
+        },
+        "x-apifox-orders": [
+          "currentPage",
+          "pageSize"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "ClusterOps": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "clusterId": {
+                "type": "string",
+                "description": "The ID of the cluster affected by this operation."
+              },
+              "username": {
+                "type": "string",
+                "description": "The name of the cluster user generated by default."
+              },
+              "password": {
+                "type": "string",
+                "description": "The password of the cluster user generated by default. It will not be displayed again, so note it down and securely store it."
+              },
+              "prompt": {
+                "type": "string",
+                "description": "The statement indicating that this operation succeeds."
+              }
+            },
+            "x-apifox-orders": [
+              "clusterId",
+              "username",
+              "password",
+              "prompt"
+            ],
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "CreateCluster": {
+        "type": "object",
+        "properties": {
+          "plan": {
+            "description": "The plan tier of the Zilliz Cloud service. Available options are **Standard** and **Enterprise**.",
+            "type": "string"
+          },
+          "clusterName": {
+            "description": "The name of the cluster to be created. It is a string of no more than 32 characters.",
+            "type": "string"
+          },
+          "cuSize": {
+            "description": "The size of the CU to be used for the created cluster. It is an integer from 1 to 256.",
+            "type": "integer"
+          },
+          "cuType": {
+            "description": "The type of the CU used for the Zilliz Cloud cluster to be created. Available options are **Performance-optimized**, **Capacity-optimized**, and **Cost-optimized**. This parameter defaults to **Performance-optimized**.",
+            "default": "Performance-optimized",
+            "type": "string"
+          },
+          "projectId": {
+            "description": "The ID of the project where the cluster is to be created.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "cuSize",
+          "clusterName",
+          "projectId",
+          "plan",
+          "cuType"
+        ],
+        "x-apifox-orders": [
+          "plan",
+          "clusterName",
+          "cuSize",
+          "cuType",
+          "projectId"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
       }
     },
     "securitySchemes": {

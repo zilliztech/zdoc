@@ -9,27 +9,29 @@ sidebar_position: 2
 import Admonition from '@theme/Admonition';
 
 
-# Create Pipelines via RESTful API
+# Create Pipelines (RESTful API)
 
 Creating Pipelines via RESTful API offers more flexibility and customization compared to the Web UI.
 
 In Zilliz Cloud, you must create an Ingestion pipeline first. Upon successful creation of an Ingestion pipeline, you can create a Search pipeline and a Deletion pipeline to work with your newly created Ingestion pipeline.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+Currently pipelines only work with collections in a [serverless cluster](./create-cluster#set-up-a-serverless-cluster). In one project, you can only create up to 5 pipelines of the same type.
+
+</Admonition>
+
 ## Create a pipeline{#create-a-pipeline}
 
 ### Create an Ingestion pipeline{#create-an-ingestion-pipeline}
 
-A collection will be created as part of Ingestion pipeline creation. The cluster and name of newly created collection must be specified. Replace `${CLUSTER_ID}` with your own cluster ID. 
+A collection will be created as part of Ingestion pipeline creation. The cluster and name of newly created collection must be specified. Replace `${CLUSTER_ID}` with your own cluster ID.
+
+The following example creates an Ingestion pipeline named `my_doc_ingestion_pipeline` with an **INDEX_DOC** function and a **PRESERVE** function.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Currently pipelines only work with collections in a [serverless cluster](./create-cluster#set-up-a-serverless-cluster).
-
-</Admonition>
-
-The following example creates an Ingestion pipeline named `my_doc_ingestion_pipeline` with an **INDEX_DOC** function and a **PRESERVE** function. 
-
-<Admonition type="info" icon="📘" title="Notes">
+- By specifying the `projectId`, you indicate in which project to create the pipeline. Learn more about [how to obtain the project ID](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID-).
 
 - For the PRESERVE function, `inputField` must be identical with the `outputField`.
 
@@ -39,6 +41,8 @@ The following example creates an Ingestion pipeline named `my_doc_ingestion_pipe
 
 - The name of a pipeline and a function should not include hyphens (-).
 
+- The INDEX_DOC function segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size (20-500 tokens) for custom chunking strategies. Moreover, for markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size.
+
 </Admonition>
 
 ```bash
@@ -47,6 +51,7 @@ curl --request POST \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
     -d '{
+        "projectId": "proj-xxxx"，
         "name": "my_doc_ingestion_pipeline",
         "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
         "type": "INGESTION",  
@@ -55,7 +60,8 @@ curl --request POST \
                 "name": "index_my_doc",
                 "action": "INDEX_DOC", 
                 "inputField": "doc_url", 
-                "language": "ENGLISH"
+                "language": "ENGLISH",
+                "chunkSize": 500,
             },
             {
                 "name": "keep_doc_info",
@@ -81,12 +87,14 @@ If the Ingestion pipeline is created successfully, the response will be similar 
     "type": "INGESTION",
     "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
     "status": "SERVING",
+    "totalTokenUsage": 0,
     "functions": [
       {
         "action": "INDEX_DOC",
         "name": "index_my_doc",
         "inputField": "doc_url",
-        "language": "ENGLISH"
+        "language": "ENGLISH",
+        "chunkSize": 500
       },
       {
         "action": "PRESERVE",
@@ -106,8 +114,8 @@ When the Ingestion pipeline is created, a collection named `my_new_collection` i
 
 This collection contains six fields: one ID field that is automatically generated, four output fields of the **INDEX_DOC** function, and one output field for each **PRESERVE** function. The collection schema of above example is as follows.
 
-|  id<br/> <br/>  (Data Type: Int64) |  doc_name<br/> <br/>  (Data type: VarChar) |  chunk_id<br/> <br/>  (Data type: Int64) |  chunk_text<br/> <br/>  (Data type: VarChar) |  embedding<br/> <br/>  (Data type: FLOAT_VECTOR) |  publish_year<br/> <br/>  (Data type: Int16) |
-| -------------------------------- | ---------------------------------------- | -------------------------------------- | ------------------------------------------ | ---------------------------------------------- | ------------------------------------------ |
+|  id<br/> (Data Type: Int64) |  doc_name<br/> (Data type: VarChar) |  chunk_id<br/> (Data type: Int64) |  chunk_text<br/> (Data type: VarChar) |  embedding<br/> (Data type: FLOAT_VECTOR) |  publish_year<br/> (Data type: Int16) |
+| ------------------------------ | -------------------------------------- | ------------------------------------ | ---------------------------------------- | -------------------------------------------- | ---------------------------------------- |
 
 ### Create a Search pipeline{#create-a-search-pipeline}
 
@@ -123,6 +131,7 @@ curl --request POST \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
     -d '{
+        "projectId": "proj-xxxx",       
         "name": "my_text_search_pipeline",
         "description": "A pipeline that receives text and search for semantically similar doc chunks",
         "type": "SEARCH",
@@ -174,6 +183,7 @@ curl --request POST \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
     -d '{
+        "projectId": "proj-xxxx",
         "name": "my_doc_deletion_pipeline",
         "description": "A pipeline that deletes all info associated with a doc",
         "type": "DELETION",
@@ -220,11 +230,13 @@ You can also call the API to list all existing pipelines in a project or view a 
 
 ### List all pipelines in a project{#list-all-pipelines-in-a-project}
 
+To list all pipelines in a project, you need to specify the `projectId`.  Learn more about [how to obtain the project ID](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID-).
+
 ```bash
 curl --request GET \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer ${YOUR_API_KEY}" \
-    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines"
+    --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines?projectId=proj-xxxx"
 ```
 
 After calling the API, you will get a list of existing pipelines in this project. Below is an example. We can see the Ingestion, Search, and Deletion pipeline we just created.
@@ -239,12 +251,14 @@ After calling the API, you will get a list of existing pipelines in this project
       "type": "INGESTION",
       "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
       "status": "SERVING",
+      "totalTokenUsage": 0,
       "functions": [
         {
           "action": "INDEX_DOC",
           "name": "index_my_doc",
           "inputField": "doc_url",
-          "language": "ENGLISH"
+          "language": "ENGLISH",
+          "chunkSize": 500
         },
         {
           "action": "PRESERVE",
@@ -267,7 +281,7 @@ After calling the API, you will get a list of existing pipelines in this project
         {
           "action": "SEARCH_DOC_CHUNK",
           "name": "search_chunk_text_and_title",
-          "inputField": null,
+          "inputField": "query_text",
           "clusterId": "in03-***************",
           "collectionName": "my_new_collection"
         }
@@ -315,12 +329,14 @@ The command output shows the details of the Ingestion pipeline we created.
     "type": "INGESTION",
     "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
     "status": "SERVING",
+    "totalTokenUsage": 0,
     "functions": [
       {
         "action": "INDEX_DOC",
         "name": "index_my_doc",
         "inputField": "doc_url",
-        "language": "ENGLISH"
+        "language": "ENGLISH",
+        "chunkSize": 500
       },
       {
         "action": "PRESERVE",
@@ -366,12 +382,14 @@ The following is an example output.
     "type": "INGESTION",
     "description": "A pipeline that splits a text file into chunks and generates embeddings. It also stores the publish_year with each chunk.",
     "status": "SERVING",
+    "totalTokenUsage": 0,
     "functions": [
       {
         "action": "INDEX_DOC",
         "name": "index_my_doc",
         "inputField": "doc_url",
-        "language": "ENGLISH"
+        "language": "ENGLISH",
+        "chunkSize": 500
       },
       {
         "action": "PRESERVE",

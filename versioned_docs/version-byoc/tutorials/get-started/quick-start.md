@@ -3,7 +3,7 @@ slug: /quick-start
 beta: FALSE
 notebook: 00_quick_start.ipynb
 token: IoFmw0VkNiJ7jBksjYKcR191nxd
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
@@ -18,7 +18,7 @@ This tutorial guides you through CRUD tasks in a cluster. You are expecting to l
 
 Throughout this guide, we will use Zilliz Cloud's SDKs and RESTful API. Before you begin, ensure that:
 
-- You have activated your cloud and created a cluster in a project. For details, see [Activate Your Cloud](./activate-your-cloud) and [Create Cluster](./create-cluster).
+- You have activated your cloud and created a cluster in a project. For details, see [Activate Your License](./activate-your-cloud) and [Create Cluster](./create-cluster).
 
 - You have installed the preferred SDKs. Currently, there are four SDKs available, and they are [Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), and [Node.js](./install-sdks#install-nodejs-sdk). For details, see [Install SDKs](./install-sdks).
 
@@ -36,10 +36,10 @@ If you want to create a new collection, follow these steps:
 ```python
 from pymilvus import MilvusClient
 
-# Replace uri and API key with your own
+# Replace uri and token with your own
 client = MilvusClient(
     uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
-    token=TOKEN # API key or a colon-separated cluster username and password
+    token=TOKEN # a colon-separated cluster username and password
 )
 
 # Create a collection
@@ -117,7 +117,6 @@ public class QuickStartDemo
         String token = "YOUR_CLUSTER_TOKEN";
         String collectionName = "medium_articles";
         String data_file = System.getProperty("user.dir") + "/medium_articles_2020_dpr.json";
-        
 
         // 1. Connect to Zilliz Cloud
 
@@ -472,9 +471,7 @@ Here are some examples of inserting one or multiple entities from the dataset in
     
             // Output:
             // Successfully read file
-    
-    
-    
+
             // Load dataset
             JSONObject dataset = JSON.parseObject(content);
     
@@ -663,9 +660,8 @@ Here are some examples of inserting one or multiple entities from the dataset in
         //     ]
         //   }
         // ]
-        // 
-    
-        
+        //
+
         res = await client.insert({
             collection_name: collectionName,
             data: client_data
@@ -728,9 +724,7 @@ Here are some examples of inserting one or multiple entities from the dataset in
     
             // Output:
             // Successfully read file
-    
-    
-    
+
             // Load dataset
             JSONObject dataset = JSON.parseObject(content);
     
@@ -1439,50 +1433,81 @@ Here is an example of a query.
 <TabItem value='python'>
 
 ```python
-# Perform a query
+# 8. Perform a query
 res = client.query(
-        collection_name=COLLECTION_NAME,
-        filter="claps > 100 and publication in ['The Startup', 'Towards Data Science']",
-        limit=3,
-  outputField=["title", "claps", "publication"]
+    collection_name=COLLECTION_NAME,
+    filter='(publication == "Towards Data Science") and ((claps > 1500 and responses > 15) or (10 < reading_time < 15))',
+    output_fields=["title", "vector", "publication", "claps", "responses", "reading_time"],
+    limit=3,
 )
 
-print(res[0])
+print(res)
 
 # Output
 #
 # [
 #     {
-#         "id": 0,
-#         "title": "The Reported Mortality Rate of Coronavirus Is Not Important",
-#         "link": "<https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912>",
-#         "reading_time": 13,
-#         "publication": "The Startup",
-#         "claps": 1100,
+#         "title": "Top 10 In-Demand programming languages to learn in 2020",
+#         "reading_time": 21,
+#         "publication": "Towards Data Science",
+#         "claps": 3000,
 #         "responses": 18,
 #         "vector": [
-#             0.041732933,
-#             0.013779674,
-#             -0.027564144,
-#             -0.013061441,
-#             0.009748648,
-#             0.00082446384,
-#             -0.00071647146,
-#             0.048612226,
-#             -0.04836573,
-#             -0.04567751,
-#             0.018008126,
-#             0.0063936645,
-#             -0.011913628,
-#             0.030776596,
-#             -0.018274948,
-#             0.019929802,
-#             0.020547243,
-#             0.032735646,
-#             -0.031652678,
-#             -0.033816382,
-#             "(748 more items hidden)"
-#         ]
+#             -0.025530046,
+#             -0.0092489105,
+#             0.012318489,
+#             0.037440233,
+#             0.016410477,
+#             0.022736127,
+#             -0.001499891,
+#             0.034556553,
+#             -0.0059547457,
+#             -0.055044662,
+#             "(758 more items hidden)"
+#         ],
+#         "id": 69
+#     },
+#     {
+#         "title": "Data Cleaning in Python: the Ultimate Guide (2020)",
+#         "reading_time": 12,
+#         "publication": "Towards Data Science",
+#         "claps": 1500,
+#         "responses": 7,
+#         "vector": [
+#             -3.8504484e-05,
+#             -0.04375324,
+#             0.030649282,
+#             0.021253644,
+#             -0.013177449,
+#             -0.026897375,
+#             0.0068761935,
+#             -0.029512206,
+#             -0.015405618,
+#             -0.040675893,
+#             "(758 more items hidden)"
+#         ],
+#         "id": 73
+#     },
+#     {
+#         "title": "Top Trends of Graph Machine Learning in 2020",
+#         "reading_time": 11,
+#         "publication": "Towards Data Science",
+#         "claps": 1100,
+#         "responses": 0,
+#         "vector": [
+#             -0.008080184,
+#             -0.044017944,
+#             0.058341485,
+#             0.031070782,
+#             0.0064219018,
+#             -0.026769096,
+#             -0.0072628907,
+#             0.032785654,
+#             -0.03337949,
+#             -0.08574104,
+#             "(758 more items hidden)"
+#         ],
+#         "id": 75
 #     }
 # ]
 

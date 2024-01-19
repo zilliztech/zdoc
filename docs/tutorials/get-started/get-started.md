@@ -15,12 +15,6 @@ A comprehensive quick start guide and related topics to help you build your apps
 
 
 
-
-
-
-
-
-
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

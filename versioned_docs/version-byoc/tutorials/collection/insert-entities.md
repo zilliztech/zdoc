@@ -3,14 +3,14 @@ slug: /insert-entities
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 token: HBZTwCHa6iTDE0kqNqZc5OJ8nqg
-sidebar_position: 3
+sidebar_position: 8
 ---
 
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Insert Entities
+# [DEPRECATE] Insert Entities
 
 An entity represents a basic data unit within a collection. It embodies a member of a specific class, such as a book in a library or a gene in a genome. Entities in a collection share the same set of attributes, which we refer to as the schema.
 
@@ -423,7 +423,7 @@ public class UseCustomizedSchemaDemo
 
         MutationResultWrapper mutationResultWrapper = new MutationResultWrapper(insertResponse.getData());
 
-        System.out.println("Successfully insert entities: " + mutationResultWrapper.getInsertCount());   
+        System.out.println("Successfully insert entities: " + mutationResultWrapper.getInsertCount());
 
         // Output:
         // Successfully insert entities: 5979
@@ -497,13 +497,13 @@ But remember, for most users and most scenarios, there's no rush to call `flush(
 
 ## Related topics{#related-topics}
 
-- [Create Collection](./create-collection) 
+- [Create Collection](./create-collection)
 
-- [Search and Query](./search-query-and-get) 
+- [Search and Query](./search-query-and-get)
 
-- [Drop Collection](./drop-collection) 
+- [Drop Collection](./drop-collection)
 
-- [Enable Dynamic Schema](./enable-dynamic-schema) 
+- [Enable Dynamic Schema](./enable-dynamic-schema)
 
 - [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 
 

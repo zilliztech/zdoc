@@ -42,17 +42,17 @@ A collection can have one primary key field and one vector field. You can create
 For example, the following code snippet creates a collection named **medium_articles** without providing it a fixed schema.
 
 ```python
-*# Connect using a MilvusClient object*
+# Connect using a MilvusClient object
 from pymilvus import MilvusClient
 
-CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" *# Set your cluster endpoint*
-TOKEN="YOUR_CLUSTER_TOKEN" *# Set your token*
+CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" # Set your cluster endpoint
+TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
 
-*# Initialize a MilvusClient instance*
-*# Replace uri and API key with your own*
+# Initialize a MilvusClient instance
+# Replace uri and API key with your own
 client = MilvusClient(
-    uri=CLUSTER_ENDPOINT, *# Cluster endpoint obtained from the console*
-    token=TOKEN *# API key or a colon-separated cluster username and password*
+    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
+    token=TOKEN # API key or a colon-separated cluster username and password
 )
 
 # Create a collection
@@ -156,9 +156,9 @@ For your reference, Zilliz Cloud supports the following field data types:
 
 ## What’s next{#whats-next}
 
-- [Create Collection](./create-collection) 
+- [Create Collection](./create-collection)
 
-- [Enable Dynamic Schema](./enable-dynamic-schema) 
+- [Enable Dynamic Schema](./enable-dynamic-schema)
 
 - [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 
 

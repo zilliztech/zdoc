@@ -3,14 +3,14 @@ slug: /create-collection
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 token: QnKCw0v4TiFkITkneCmcy0mZnre
-sidebar_position: 1
+sidebar_position: 6
 ---
 
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create Collection
+#  Create Collection
 
 This tutorial will guide you through the steps to set up a collection for your cluster. You can find[ the detailed explanations about collections, schema, and index here](./cluster-collection-and-entities).
 
@@ -32,7 +32,7 @@ TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
 COLLECTION_NAME="medium_articles_2020" # Set your collection name
 
 # Initialize a MilvusClient instance
-# Replace uri and API key with your own
+# Replace uri and token with your own
 client = MilvusClient(
     uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
     token=TOKEN # API key or a colon-separated cluster username and password
@@ -161,7 +161,7 @@ async function main() {
     // Output
     // 
     // { error_code: 'Success', reason: '', code: 0 }
-    // 
+    //
 
     // Describe the created collection
     res = await client.describeCollection({
@@ -212,7 +212,6 @@ public final class QuickStartDemo {
         String token = "YOUR_CLUSTER_TOKEN";
         String collectionName = "medium_articles";
         String data_file = System.getProperty("user.dir") + "/medium_articles_2020_dpr.json";
-        
 
         // 1. Connect to Zilliz Cloud
 
@@ -331,13 +330,13 @@ For a serverless cluster, you can create up to two collections. For a dedicated 
 
 ## Related topics{#related-topics}
 
-- [Insert Entities](./insert-entities) 
+- [Insert Entities](./insert-entities)
 
-- [Search and Query](./search-query-and-get) 
+- [Search and Query](./search-query-and-get)
 
-- [Drop Collection](./drop-collection) 
+- [Drop Collection](./drop-collection)
 
-- [Enable Dynamic Schema](./enable-dynamic-schema) 
+- [Enable Dynamic Schema](./enable-dynamic-schema)
 
 - [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 
 

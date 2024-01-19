@@ -5,7 +5,7 @@
   "node_token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
   "node_type": "origin",
   "obj_create_time": "1689059641",
-  "obj_edit_time": "1701845122",
+  "obj_edit_time": "1705051817",
   "obj_token": "T1JedzGx9oVUcpxdjX7c6SmanqX",
   "obj_type": "docx",
   "origin_node_token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
@@ -21,7 +21,34 @@
         "block_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
         "block_type": 1,
         "children": [
-          "FZSxdlrLEol1MxxwMrIcPXoSnKc"
+          "FZSxdlrLEol1MxxwMrIcPXoSnKc",
+          "OqlJdHuUdofhHPxwqdYciaIEnCg",
+          "CV4fdMVDKo1xtVxzUkicqkfTndf",
+          "IuIjdQ7NloNSC9xXlX0chyW9nhb",
+          "L8h8d3UZsomIjYxOMmucCBNTnpf",
+          "AWxPdRmjSoW0Q1xqWWscZAhFnSd",
+          "Mhl1d2LgAoxbbpx2VzncyYnMnMe",
+          "JfpId5FmAoSW0YxPCavc42BJnGc",
+          "Bqo3dgatMom1Ibxbv0Icq3Zwnjh",
+          "CGiWdFQFQorchNxxjxOc6fccnGh",
+          "Rrhud0aJDovpaExt8wBcx2MknYe",
+          "K5c8dYLtKoZeg5xINk7cNpEUnnh",
+          "HNTudBI97ozoe2xvujLcCqbsn5b",
+          "LT63dKfyEo6EevxoZPCcO3n9nEe",
+          "EUOEdSKd7oQl8oxZvqPcrSxonGb",
+          "OASadNTgjo7z1cxHoO4cBpBhnSd",
+          "WKgcdghU8ofkCAxSmNQcu9kynuf",
+          "JBBLd0NJioyiFaxil5tcZYF2n0f",
+          "KtuSdt993oRpZ0xxxavcr1Ejn4f",
+          "GIm2dixvZoNPnUx73aacsnmXn1W",
+          "SQjIdeLh5omQNCxg4VWcl7uDnrc",
+          "I3DWdbK6yo7HNAxANd8c0361nKh",
+          "Vt6Id9d0SoPda9xPnStctq2Pnrb",
+          "XrFPdz5sNo0y0JxEufEc7Bk6n7f",
+          "ZCNkdEJMhoVdZcxXfD7coegqnif",
+          "CihEdlIRZo24ThxSRKncTKVAnab",
+          "YqVldUg9lo7E1FxukXIcPZwCnOe",
+          "ZvtqdVJv3op8UhxU3wxc6RjonTd"
         ],
         "page": {
           "elements": [
@@ -47,12 +74,58 @@
       {
         "block_id": "FZSxdlrLEol1MxxwMrIcPXoSnKc",
         "block_type": 2,
+        "comment_ids": [
+          "7323118143303483395"
+        ],
         "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Available ways for you to subscribe to our services on Zilliz Cloud with relevant notes on invoice management.",
+                "content": "This guide details the a",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7323118143303483395"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vailable ways for you to subscribe to our services on Zilliz Cloud with relevant notes on invoice management",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7323118143303483395"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OqlJdHuUdofhHPxwqdYciaIEnCg",
+        "block_type": 2,
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -68,9 +141,1538 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "CV4fdMVDKo1xtVxzUkicqkfTndf",
+        "block_type": 34,
+        "children": [
+          "Yno9d94bjouXu7xEe3wcvvaRnuB",
+          "EkwIddkD0ox2mAxyzXWcgp8wn9c"
+        ],
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
+        "quote_container": {}
+      },
+      {
+        "block_id": "Yno9d94bjouXu7xEe3wcvvaRnuB",
+        "block_type": 2,
+        "parent_id": "CV4fdMVDKo1xtVxzUkicqkfTndf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Note",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EkwIddkD0ox2mAxyzXWcgp8wn9c",
+        "block_type": 2,
+        "parent_id": "CV4fdMVDKo1xtVxzUkicqkfTndf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In order to manage payment and billing, you need to be an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owner",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IuIjdQ7NloNSC9xXlX0chyW9nhb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Payment options",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "block_type": 31,
+        "children": [
+          "SgXNdEM3FoyGaLxuSjdc6Wv5nib",
+          "Qk57dE8zkoLDWaxeHMZc346Bnye",
+          "ZAlxd970NoHvmCxdbKecOvUEnbe",
+          "M6YWdaoY0otpCaxalCLcLoOUnSc",
+          "J5tBdDBl3op5jfx8NrCcFrQSnHw",
+          "B0fgdmF1foLlYdxZYj3cwE03nnd",
+          "GxiBdgXjBoIOG2xjzimcSXupnUh",
+          "AzDCdidSYodDgDxveEpcHoatnuf",
+          "GOBzdNUiYooJUAxOHJPcg8q4npb",
+          "FQcvdd507oBQ8FxCZwFctZmAnLb",
+          "IlECdpHbNoxIKvxv68rcHfn2n3e",
+          "VYahdYOs0oVQgBxmQWEcSwE6nkd"
+        ],
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
+        "table": {
+          "cells": [
+            "SgXNdEM3FoyGaLxuSjdc6Wv5nib",
+            "Qk57dE8zkoLDWaxeHMZc346Bnye",
+            "ZAlxd970NoHvmCxdbKecOvUEnbe",
+            "M6YWdaoY0otpCaxalCLcLoOUnSc",
+            "J5tBdDBl3op5jfx8NrCcFrQSnHw",
+            "B0fgdmF1foLlYdxZYj3cwE03nnd",
+            "GxiBdgXjBoIOG2xjzimcSXupnUh",
+            "AzDCdidSYodDgDxveEpcHoatnuf",
+            "GOBzdNUiYooJUAxOHJPcg8q4npb",
+            "FQcvdd507oBQ8FxCZwFctZmAnLb",
+            "IlECdpHbNoxIKvxv68rcHfn2n3e",
+            "VYahdYOs0oVQgBxmQWEcSwE6nkd"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              220,
+              349
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 6
+          }
+        }
+      },
+      {
+        "block_id": "SgXNdEM3FoyGaLxuSjdc6Wv5nib",
+        "block_type": 32,
+        "children": [
+          "CsCydxL1IodfFLxo2M4c3cEVnpf"
+        ],
+        "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CsCydxL1IodfFLxo2M4c3cEVnpf",
+        "block_type": 2,
+        "parent_id": "SgXNdEM3FoyGaLxuSjdc6Wv5nib",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Payment method",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Qk57dE8zkoLDWaxeHMZc346Bnye",
+        "block_type": 32,
+        "children": [
+          "DWT6dgySjoQD94xzlkdck6Wknud"
+        ],
+        "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "DWT6dgySjoQD94xzlkdck6Wknud",
+        "block_type": 2,
+        "parent_id": "Qk57dE8zkoLDWaxeHMZc346Bnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZAlxd970NoHvmCxdbKecOvUEnbe",
+        "block_type": 32,
+        "children": [
+          "Tz80d2aFmosyzkxSxZOcJBvinAf"
+        ],
+        "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Tz80d2aFmosyzkxSxZOcJBvinAf",
+        "block_type": 2,
+        "parent_id": "ZAlxd970NoHvmCxdbKecOvUEnbe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Credits",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "M6YWdaoY0otpCaxalCLcLoOUnSc",
+        "block_type": 32,
+        "children": [
+          "DxoPdyIfWoVrUExDnGfcT8pant9"
+        ],
+        "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "DxoPdyIfWoVrUExDnGfcT8pant9",
+        "block_type": 2,
+        "parent_id": "M6YWdaoY0otpCaxalCLcLoOUnSc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You earn credits upon registration or by participating in Zilliz Cloud events, etc. Credits can be used to cover the expenses of using Zilliz Cloud services. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "J5tBdDBl3op5jfx8NrCcFrQSnHw",
+        "block_type": 32,
+        "children": [
+          "HdxwdoAcUoZoQPxVJf2cn80Cnih"
+        ],
+        "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "HdxwdoAcUoZoQPxVJf2cn80Cnih",
+        "block_type": 2,
+        "parent_id": "J5tBdDBl3op5jfx8NrCcFrQSnHw",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Credit card",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "B0fgdmF1foLlYdxZYj3cwE03nnd",
+        "block_type": 32,
+        "children": [
+          "Zl0gdhSw4oPO2XxGuGfcNwTXnof"
+        ],
+        "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Zl0gdhSw4oPO2XxGuGfcNwTXnof",
+        "block_type": 2,
+        "parent_id": "B0fgdmF1foLlYdxZYj3cwE03nnd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You receive a monthly invoice for your usage on Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GxiBdgXjBoIOG2xjzimcSXupnUh",
+        "block_type": 32,
+        "children": [
+          "N6YudLHTVoBrsSx5Be0c6Ildn6d"
+        ],
+        "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "N6YudLHTVoBrsSx5Be0c6Ildn6d",
+        "block_type": 2,
+        "parent_id": "GxiBdgXjBoIOG2xjzimcSXupnUh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace subscription",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AzDCdidSYodDgDxveEpcHoatnuf",
+        "block_type": 32,
+        "children": [
+          "Q1R4d9hFPoJlixxxJrtcgsHWnFd"
+        ],
+        "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Q1R4d9hFPoJlixxxJrtcgsHWnFd",
+        "block_type": 2,
+        "parent_id": "AzDCdidSYodDgDxveEpcHoatnuf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You receive invoices for your Zilliz Cloud usage through the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GOBzdNUiYooJUAxOHJPcg8q4npb",
+        "block_type": 32,
+        "children": [
+          "AafXdiC9PobfXIxuqWdcgZ3fnKc"
+        ],
+        "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "AafXdiC9PobfXIxuqWdcgZ3fnKc",
+        "block_type": 2,
+        "parent_id": "GOBzdNUiYooJUAxOHJPcg8q4npb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "GCP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace subscription",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FQcvdd507oBQ8FxCZwFctZmAnLb",
+        "block_type": 32,
+        "children": [
+          "IT5DdHZvJoUNiLxFJVjc7aDCnme"
+        ],
+        "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "IT5DdHZvJoUNiLxFJVjc7aDCnme",
+        "block_type": 2,
+        "parent_id": "FQcvdd507oBQ8FxCZwFctZmAnLb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You receive invoices for your Zilliz Cloud usage through the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "GCP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IlECdpHbNoxIKvxv68rcHfn2n3e",
+        "block_type": 32,
+        "children": [
+          "QtZpd9XW0oIjiSxFS2FcKIf5nYF"
+        ],
+        "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QtZpd9XW0oIjiSxFS2FcKIf5nYF",
+        "block_type": 2,
+        "parent_id": "IlECdpHbNoxIKvxv68rcHfn2n3e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Advance Pay",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VYahdYOs0oVQgBxmQWEcSwE6nkd",
+        "block_type": 32,
+        "children": [
+          "RSl3dXMLhoKky4x73D3cCuOBnFe"
+        ],
+        "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "RSl3dXMLhoKky4x73D3cCuOBnFe",
+        "block_type": 2,
+        "parent_id": "VYahdYOs0oVQgBxmQWEcSwE6nkd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You prepay a sum of funds for Zilliz Cloud services. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AWxPdRmjSoW0Q1xqWWscZAhFnSd",
+        "block_type": 34,
+        "children": [
+          "Q1fHdpDSBo5n5qxbuUhcAhAJnNe",
+          "DNjudnIYpoeZUixsh5Pce3Pen6b"
+        ],
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
+        "quote_container": {}
+      },
+      {
+        "block_id": "Q1fHdpDSBo5n5qxbuUhcAhAJnNe",
+        "block_type": 2,
+        "parent_id": "AWxPdRmjSoW0Q1xqWWscZAhFnSd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Note",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DNjudnIYpoeZUixsh5Pce3Pen6b",
+        "block_type": 2,
+        "parent_id": "AWxPdRmjSoW0Q1xqWWscZAhFnSd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Credits and Advance Pay can be combined with either a credit card or a Marketplace subscription (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/GCP). However, it is not possible to set both a credit card and a Marketplace subscription simultaneously.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Mhl1d2LgAoxbbpx2VzncyYnMnMe",
+        "block_type": 2,
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JfpId5FmAoSW0YxPCavc42BJnGc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Payment method priority",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "Bqo3dgatMom1Ibxbv0Icq3Zwnjh",
+        "block_type": 2,
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If multiple payment methods are in use, their priority is as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CGiWdFQFQorchNxxjxOc6fccnGh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Credits",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "Rrhud0aJDovpaExt8wBcx2MknYe",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Advance Pay funds",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "K5c8dYLtKoZeg5xINk7cNpEUnnh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Credit card / ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace subscription / GCP Marketplace subscription",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "HNTudBI97ozoe2xvujLcCqbsn5b",
+        "block_type": 2,
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example: ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "For a $500 unpaid bill, with $100 in credits and $200 in Advance Pay funds available, plus a linked credit card:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LT63dKfyEo6EevxoZPCcO3n9nEe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The $100 credits are used first, reducing the bill to $400.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "EUOEdSKd7oQl8oxZvqPcrSxonGb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Then, the $200 Advance Pay funds are applied, bringing the balance down to $200.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "OASadNTgjo7z1cxHoO4cBpBhnSd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Finally, the remaining $200 is charged to the linked credit card.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "WKgcdghU8ofkCAxSmNQcu9kynuf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Switching payment methods",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "JBBLd0NJioyiFaxil5tcZYF2n0f",
+        "block_type": 2,
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud offers flexibility in switching between different payment methods:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KtuSdt993oRpZ0xxxavcr1Ejn4f",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "From credit card to Marketplace subscription",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "GIm2dixvZoNPnUx73aacsnmXn1W",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Subscribe directly on the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FLDlOweEzmiLkdQkvPFec5lrcnbf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "GCP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FMIqTw7iJ4iQAtVkYKiEc98a7nsh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "SQjIdeLh5omQNCxg4VWcl7uDnrc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "No need to manually remove your credit card.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "I3DWdbK6yo7HNAxANd8c0361nKh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Successful Marketplace subscription automatically updates the payment method.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "Vt6Id9d0SoPda9xPnStctq2Pnrb",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "From Marketplace subscription to credit card",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "XrFPdz5sNo0y0JxEufEc7Bk6n7f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Unsubscribe manually from the original ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FLDlOweEzmiLkdQkvPFec5lrcnbf%3Fchunked%3Dfalse%23D4pldg5InoPKLsxzU3Rct1ARnOg"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "GCP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FMIqTw7iJ4iQAtVkYKiEc98a7nsh%3Fchunked%3Dfalse%23CplIdT2oAo22aGxKh69c7O4GnQc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "ZCNkdEJMhoVdZcxXfD7coegqnif",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Add your credit card",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FTVnkwXupUiX3zDkzYPWcxKP3nvg"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " on the Zilliz Cloud web console.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "CihEdlIRZo24ThxSRKncTKVAnab",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Between Marketplace subscriptions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "YqVldUg9lo7E1FxukXIcPZwCnOe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Unsubscribe from the current Marketplace.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "ZvtqdVJv3op8UhxU3wxc6RjonTd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Resubscribe using the new ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AWS",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FLDlOweEzmiLkdQkvPFec5lrcnbf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "GCP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FMIqTw7iJ4iQAtVkYKiEc98a7nsh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Marketplace account.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
       }
     ],
-    "counts": 2
+    "counts": 57
   },
   "children": [
     {
@@ -80,7 +1682,7 @@
       "node_token": "TVnkwXupUiX3zDkzYPWcxKP3nvg",
       "node_type": "origin",
       "obj_create_time": "1689062648",
-      "obj_edit_time": "1700012801",
+      "obj_edit_time": "1705454960",
       "obj_token": "Ugd9dlygComG36xn2rWcJADrn4b",
       "obj_type": "docx",
       "origin_node_token": "TVnkwXupUiX3zDkzYPWcxKP3nvg",
@@ -98,7 +1700,7 @@
       "node_token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
       "node_type": "origin",
       "obj_create_time": "1689062622",
-      "obj_edit_time": "1699622191",
+      "obj_edit_time": "1704964085",
       "obj_token": "G0qudBnqjoxXb6xywOjcLtBhnTb",
       "obj_type": "docx",
       "origin_node_token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
@@ -116,7 +1718,7 @@
       "node_token": "MIqTw7iJ4iQAtVkYKiEc98a7nsh",
       "node_type": "origin",
       "obj_create_time": "1694744188",
-      "obj_edit_time": "1698199925",
+      "obj_edit_time": "1705045745",
       "obj_token": "HCCVdW5mEoMctyxgxPRc0hE3n5f",
       "obj_type": "docx",
       "origin_node_token": "MIqTw7iJ4iQAtVkYKiEc98a7nsh",
@@ -124,7 +1726,8 @@
       "owner": "ou_fbc044d19930afd389d5c369466c38b1",
       "parent_node_token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
       "space_id": "7167193056431783939",
-      "title": "[Postponed]Subscribe on GCP Marketplace"
+      "title": "Subscribe on GCP Marketplace",
+      "slug": "subscribe-on-gcp-marketplace"
     },
     {
       "creator": "ou_fbc044d19930afd389d5c369466c38b1",
@@ -133,7 +1736,7 @@
       "node_token": "K8hFwmeBQiCSO4ktT9ScD9zMnua",
       "node_type": "origin",
       "obj_create_time": "1693381036",
-      "obj_edit_time": "1698637348",
+      "obj_edit_time": "1705458391",
       "obj_token": "IgU6dvFVUobB4lx8nfOcxl8CnJc",
       "obj_type": "docx",
       "origin_node_token": "K8hFwmeBQiCSO4ktT9ScD9zMnua",

@@ -5,7 +5,7 @@
   "node_token": "FosYwomcEims6PkFvwgcwZbcn1e",
   "node_type": "origin",
   "obj_create_time": "1697536178",
-  "obj_edit_time": "1700112584",
+  "obj_edit_time": "1705028179",
   "obj_token": "LxxEd296boH0YnxmJeGcvgPAnmf",
   "obj_type": "docx",
   "origin_node_token": "FosYwomcEims6PkFvwgcwZbcn1e",
@@ -13,7 +13,7 @@
   "owner": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
   "space_id": "7167193056431783939",
-  "title": "Upsert Entities",
+  "title": "[DEPRECATE] Upsert Entities",
   "slug": "upsert-entities",
   "blocks": {
     "items": [
@@ -58,6 +58,18 @@
         ],
         "page": {
           "elements": [
+            {
+              "text_run": {
+                "content": "[DEPRECATE] ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "Upsert ",

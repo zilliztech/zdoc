@@ -19,11 +19,11 @@ You will be prompted to verify your request to delete a snapshot before Zilliz C
 
 ## Related topics{#related-topics}
 
-- [Create Snapshot](./create-snapshot) 
+- [Create Snapshot](./create-snapshot)
 
-- [Schedule Automatic Backups](./schedule-automatic-backups) 
+- [Schedule Automatic Backups](./schedule-automatic-backups)
 
-- [View Snapshot Details](./view-snapshot-details) 
+- [View Snapshot Details](./view-snapshot-details)
 
 - [Restore from Snapshot](./restore-from-snapshot) 
 

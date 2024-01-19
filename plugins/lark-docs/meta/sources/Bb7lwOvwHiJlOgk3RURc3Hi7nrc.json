@@ -5,7 +5,7 @@
   "node_token": "Bb7lwOvwHiJlOgk3RURc3Hi7nrc",
   "node_type": "origin",
   "obj_create_time": "1689059786",
-  "obj_edit_time": "1700112427",
+  "obj_edit_time": "1705028075",
   "obj_token": "U9r5dJcNnoThpfxlKO9cKmVonGb",
   "obj_type": "docx",
   "origin_node_token": "Bb7lwOvwHiJlOgk3RURc3Hi7nrc",
@@ -13,7 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
   "space_id": "7167193056431783939",
-  "title": "Enable Dynamic Schema",
+  "title": "Use Dynamic Field",
   "slug": "enable-dynamic-schema",
   "blocks": {
     "items": [
@@ -21,6 +21,8 @@
         "block_id": "U9r5dJcNnoThpfxlKO9cKmVonGb",
         "block_type": 1,
         "children": [
+          "MXHud0POcoSZsBxH1kQcbdnfnHf",
+          "FOBPdyp1toUDVBxO2hzckxM0n1c",
           "W73bdjShpojZJBxDc4xcgHlZnjg",
           "KSUYdSAF2ombL3xKlsJcYODbnOh",
           "QsmWd7wDaoVBwGxJH5ccwJctnum",
@@ -63,7 +65,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Enable Dynamic Schema",
+                "content": "Use Dynamic Field",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -79,6 +81,56 @@
           }
         },
         "parent_id": ""
+      },
+      {
+        "block_id": "MXHud0POcoSZsBxH1kQcbdnfnHf",
+        "block_type": 2,
+        "parent_id": "U9r5dJcNnoThpfxlKO9cKmVonGb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This page explains how to use the dynamic field in a collection for flexible data insertion and retrieval.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FOBPdyp1toUDVBxO2hzckxM0n1c",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U9r5dJcNnoThpfxlKO9cKmVonGb"
       },
       {
         "block_id": "W73bdjShpojZJBxDc4xcgHlZnjg",
@@ -162,7 +214,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Create collection with dynamic schema enabled",
+                "content": "Create collection with dynamic field",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1693,6 +1745,6 @@
         "parent_id": "U9r5dJcNnoThpfxlKO9cKmVonGb"
       }
     ],
-    "counts": 38
+    "counts": 40
   }
 }

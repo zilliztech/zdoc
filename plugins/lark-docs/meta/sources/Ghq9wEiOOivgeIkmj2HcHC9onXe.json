@@ -5,7 +5,7 @@
   "node_token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
   "node_type": "origin",
   "obj_create_time": "1689055977",
-  "obj_edit_time": "1702025297",
+  "obj_edit_time": "1703237363",
   "obj_token": "EvTZdgR6CoVhAQxSUK9cEdfsnOc",
   "obj_type": "docx",
   "origin_node_token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
@@ -2039,19 +2039,7 @@
             },
             {
               "text_run": {
-                "content": " & ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "GCP",
+                "content": ", GCP, Azure",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2097,7 +2085,7 @@
             },
             {
               "text_run": {
-                "content": " & ",
+                "content": ", ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2110,6 +2098,30 @@
             {
               "text_run": {
                 "content": "GCP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Azure",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3447,7 +3459,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "Supports up to 256 CUs per cluster, with scalability options to thousands.",
+                "content": "Supports up to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "32",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " CUs per cluster, with scalability options to thousands.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

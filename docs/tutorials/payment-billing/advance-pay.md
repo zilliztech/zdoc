@@ -11,7 +11,7 @@ import Admonition from '@theme/Admonition';
 
 # Use Advance Pay
 
-Zilliz Cloud also accepts advance pay (bank transfer) as the payment method in alternative to adding a credit card or subscribing on AWS Marketplace. 
+Zilliz Cloud also accepts advance pay (bank transfer) as the payment method in alternative to adding a credit card or subscribing on AWS Marketplace.
 
 ## Add funds to Advance Pay{#add-funds-to-advance-pay}
 
@@ -33,9 +33,19 @@ To view your bank transfer history, click Billing on the top navigation bar or o
 
 ## Set monitor for Advance Pay balance{#set-monitor-for-advance-pay-balance}
 
-By default, monitoring for advance pay balance is disabled. However, you can enable it to receive notifications when the Advance Pay balance is less than the amount you specified in the monitoring conditions. For more information, refer to [Advance Pay Balance Monitor](./advance-pay-balance-monitor) 
+By default, monitoring for advance pay balance is disabled. However, you can enable it to receive notifications when the Advance Pay balance is less than the amount you specified in the monitoring conditions. For more information, refer to [Manage Organization Alerts](./manage-organization-alerts). 
 
 ## Refund Advance Pay funds{#refund-advance-pay-funds}
 
 Currently, Zilliz Cloud does not support refunds on the web console. To get a refund, please contact us and submit a request at the Zilliz Cloud [support portal](https://support.zilliz.com/hc/en-us).
+
+## Related topics{#related-topics}
+
+- [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card)
+
+- [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace)
+
+- [Subscribe on GCP Marketplace](./subscribe-on-gcp-marketplace)
+
+- [View Invoice](./view-invoice) 
 

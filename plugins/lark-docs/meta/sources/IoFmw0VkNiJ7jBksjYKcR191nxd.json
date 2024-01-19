@@ -5,7 +5,7 @@
   "node_token": "IoFmw0VkNiJ7jBksjYKcR191nxd",
   "node_type": "origin",
   "obj_create_time": "1689044516",
-  "obj_edit_time": "1700643085",
+  "obj_edit_time": "1705454452",
   "obj_token": "W33idSXytoVYC5xQrDdcAjt7npe",
   "obj_type": "docx",
   "origin_node_token": "IoFmw0VkNiJ7jBksjYKcR191nxd",
@@ -641,7 +641,7 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Activate Your Cloud",
+                "title": "Activate Your License",
                 "token": "X08WweRsXiz0MPk4DIbcXYaInjc",
                 "url": "https://zilliverse.feishu.cn/wiki/X08WweRsXiz0MPk4DIbcXYaInjc"
               }
@@ -708,8 +708,8 @@
                   "underline": false
                 },
                 "title": "Create Cluster",
-                "token": "U0Bsw2SZaihm2mkLza7cRCqTndg",
-                "url": "https://zilliverse.feishu.cn/wiki/U0Bsw2SZaihm2mkLza7cRCqTndg"
+                "token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
+                "url": "https://zilliverse.feishu.cn/wiki/KrbjwFhy3iojF3k97XmcvvXMnW7"
               }
             },
             {
@@ -1194,7 +1194,103 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# Replace uri and API key with your own\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console\n    token=TOKEN # API key or a colon-separated cluster username and password\n)\n\n# Create a collection\nclient.create_collection(\n    collection_name=COLLECTION_NAME,\n    dimension=768\n",
+                "content": "from pymilvus import MilvusClient\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Replace uri and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "token",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " with your own\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    token=TOKEN # ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<exclude target=\"paas\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API key or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "a colon-separated cluster username and password\n)\n\n# Create a collection\nclient.create_collection(\n    collection_name=COLLECTION_NAME,\n    dimension=768\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3618,7 +3714,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# Perform a query\nres = client.query(\n        collection_name=COLLECTION_NAME,\n        filter=\"claps > 100 and publication in ['The Startup', 'Towards Data Science']\",\n        limit=3,\n  outputField=[\"title\", \"claps\", \"publication\"]\n)\n\nprint(res[0])\n\n# Output\n#\n# [\n#     {\n#         \"id\": 0,\n#         \"title\": \"The Reported Mortality Rate of Coronavirus Is Not Important\",\n#         \"link\": \"<https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912>\",\n#         \"reading_time\": 13,\n#         \"publication\": \"The Startup\",\n#         \"claps\": 1100,\n#         \"responses\": 18,\n#         \"vector\": [\n#             0.041732933,\n#             0.013779674,\n#             -0.027564144,\n#             -0.013061441,\n#             0.009748648,\n#             0.00082446384,\n#             -0.00071647146,\n#             0.048612226,\n#             -0.04836573,\n#             -0.04567751,\n#             0.018008126,\n#             0.0063936645,\n#             -0.011913628,\n#             0.030776596,\n#             -0.018274948,\n#             0.019929802,\n#             0.020547243,\n#             0.032735646,\n#             -0.031652678,\n#             -0.033816382,\n#             \"(748 more items hidden)\"\n#         ]\n#     }\n# ]\n",
+                "content": "# 8. Perform a query\nres = client.query(\n    collection_name=COLLECTION_NAME,\n    filter='(publication == \"Towards Data Science\") and ((claps > 1500 and responses > 15) or (10 < reading_time < 15))',\n    output_fields=[\"title\", \"vector\", \"publication\", \"claps\", \"responses\", \"reading_time\"],\n    limit=3,\n)\n\nprint(res)\n\n# Output\n#\n# [\n#     {\n#         \"title\": \"Top 10 In-Demand programming languages to learn in 2020\",\n#         \"reading_time\": 21,\n#         \"publication\": \"Towards Data Science\",\n#         \"claps\": 3000,\n#         \"responses\": 18,\n#         \"vector\": [\n#             -0.025530046,\n#             -0.0092489105,\n#             0.012318489,\n#             0.037440233,\n#             0.016410477,\n#             0.022736127,\n#             -0.001499891,\n#             0.034556553,\n#             -0.0059547457,\n#             -0.055044662,\n#             \"(758 more items hidden)\"\n#         ],\n#         \"id\": 69\n#     },\n#     {\n#         \"title\": \"Data Cleaning in Python: the Ultimate Guide (2020)\",\n#         \"reading_time\": 12,\n#         \"publication\": \"Towards Data Science\",\n#         \"claps\": 1500,\n#         \"responses\": 7,\n#         \"vector\": [\n#             -3.8504484e-05,\n#             -0.04375324,\n#             0.030649282,\n#             0.021253644,\n#             -0.013177449,\n#             -0.026897375,\n#             0.0068761935,\n#             -0.029512206,\n#             -0.015405618,\n#             -0.040675893,\n#             \"(758 more items hidden)\"\n#         ],\n#         \"id\": 73\n#     },\n#     {\n#         \"title\": \"Top Trends of Graph Machine Learning in 2020\",\n#         \"reading_time\": 11,\n#         \"publication\": \"Towards Data Science\",\n#         \"claps\": 1100,\n#         \"responses\": 0,\n#         \"vector\": [\n#             -0.008080184,\n#             -0.044017944,\n#             0.058341485,\n#             0.031070782,\n#             0.0064219018,\n#             -0.026769096,\n#             -0.0072628907,\n#             0.032785654,\n#             -0.03337949,\n#             -0.08574104,\n#             \"(758 more items hidden)\"\n#         ],\n#         \"id\": 75\n#     }\n# ]\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

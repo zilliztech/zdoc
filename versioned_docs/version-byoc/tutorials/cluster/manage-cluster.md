@@ -2,8 +2,8 @@
 slug: /manage-cluster
 beta: FALSE
 notebook: FALSE
-token: VuYzwTq49iSiUikhIoDcsY8xnMd
-sidebar_position: 4
+token: PharwAysCiBzvgkuqqecmNzunQf
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
@@ -13,13 +13,37 @@ import Admonition from '@theme/Admonition';
 
 This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
 
-Once you have created a cluster, you will see the following in the console.
+### View cluster details{#view-cluster-details}
 
-### Establish Connection{#establish-connection}
+After setting up your Zilliz Cloud cluster, here’s what you’ll find in each section for cluster details:
+
+![byoc-cluster-lifecycle](/byoc/byoc-cluster-lifecycle.png)
+
+- **Connect**: This section provides the necessary details to begin interacting with your cluster, including the public endpoint for connections, and a token for secure access.
+
+- **Summary**: This offers a snapshot of your cluster's essentials. You can find the cluster's ID, hosting region, type, and size. Details on the creator, as well as the creation date and time, are also presented.
+
+- **Topology**: A graphical representation showing the structure of your cluster. This includes the designation of roles and compute resources for various nodes:
+
+    - **Proxy**: Stateless nodes that manage user connections and streamline service addresses with load balancers.
+
+    - **Query Node**: Responsible for hybrid vector and scalar searches and incremental data updates.
+
+    - **Coordinator**: The orchestration center, distributing tasks across worker nodes.
+
+    - **Data Node**: Handles data mutations and log-to-snapshot conversions for persistence.
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    Clusters with **1-8 CUs** typically use a single-node setup suitable for smaller datasets. Clusters with more than **8 CUs** adopt a distributed multi-server node architecture to improve performance and scalability.
+
+    </Admonition>
+
+### Establish connection{#establish-connection}
 
 - **Connect to cluster**
 
-    In the **Connect** section, you can find the **Public Endpoint** and **Token** that are used to connect to the cluster. The token can either be an [API key](./manage-api-keys) or a [cluster credential](./manage-cluster-credentials-gui) that consists of a username and password pair.
+    In the **Connect** section, you can find the **Public Endpoint** and **Token** that are used to connect to the cluster. The token can bea [cluster credential](./cluster-credentials) that consists of a username and password pair.
 
     For more information, refer to [Connect to Cluster](./connect-to-cluster).
 
@@ -47,7 +71,7 @@ Once you have created a cluster, you will see the following in the console.
 
     On the **Users** tab, you can add users, reset their passwords, and drop them.
 
-    For details, refer to [Manage Cluster Credentials](./manage-cluster-credentials-gui).
+    For details, refer to [Manage Cluster Credentials](./cluster-credentials-console).
 
     ![manage-users](/byoc/manage-users.png)
 
@@ -57,14 +81,6 @@ Once you have created a cluster, you will see the following in the console.
 
     </Admonition>
 
-- **Whitelist**
-
-    In the **Summary** section, click on the IP address in **Network Address** to add IP address segments to the whitelist. Once an IP address segment, other than a full-zero one (**0.0.0.0/0**), is added to the whitelist, Zilliz Cloud only permits access from IP addresses within the listed IP address segments.
-
-    By default, a full-zero IP address segment is added, indicating that your cluster can be accessed from anywhere.
-
-    For details on how to set up the whitelist, refer to [Set up Whitelist](./set-up-whitelist).
-
 ### Manage and configure clusters{#manage-and-configure-clusters}
 
 - **Scale-up cluster**
@@ -72,6 +88,8 @@ Once you have created a cluster, you will see the following in the console.
     In the **Summary** section, click **Scale** right to the CU **Size** to open the **Scale Cluster** dialog box. You can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. You can scale the size of a cluster up to 24 CUs in the dialog box. Contact us if you need a larger CU.
 
     For details on CU types and how to select an appropriate one, refer to [Select the Right CU](./cu-types-explained).
+
+    In addition to the web UI, you can also make an API request to scale up a cluster. For details, refer to [Modify Cluster](https://docs.zilliz.com/reference/modify-cluster).
 
     <Admonition type="caution" icon="🚧" title="Warning">
 
@@ -85,8 +103,6 @@ Once you have created a cluster, you will see the following in the console.
 
     Once the status changes to **SUSPENDED**, you will only be charged for storage. Wisely suspending some of your clusters can save you money.
 
-    
-
     To resume a suspended cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. At this point, you will be charged fully based on your CU settings and service plan.
 
     You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](https://docs.zilliz.com/reference/suspend-cluster) and [Resume Cluster](https://docs.zilliz.com/reference/resume-cluster).
@@ -95,6 +111,8 @@ Once you have created a cluster, you will see the following in the console.
 
     In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
 
+    In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](https://docs.zilliz.com/reference/drop-cluster).
+
 ## Related topics{#related-topics}
 
 - [Connect to Cluster](./connect-to-cluster)
@@ -102,6 +120,4 @@ Once you have created a cluster, you will see the following in the console.
 - [Backup & Restore](./backup-and-restore)
 
 - [Select the Right CU](./cu-types-explained)
-
-- [Set up Whitelist](./set-up-whitelist)
 

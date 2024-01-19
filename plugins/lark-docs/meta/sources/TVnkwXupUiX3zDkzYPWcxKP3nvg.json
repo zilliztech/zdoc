@@ -5,7 +5,7 @@
   "node_token": "TVnkwXupUiX3zDkzYPWcxKP3nvg",
   "node_type": "origin",
   "obj_create_time": "1689062648",
-  "obj_edit_time": "1700012801",
+  "obj_edit_time": "1705454960",
   "obj_token": "Ugd9dlygComG36xn2rWcJADrn4b",
   "obj_type": "docx",
   "origin_node_token": "TVnkwXupUiX3zDkzYPWcxKP3nvg",
@@ -54,6 +54,7 @@
           "GnbydAl9coXcv8xigyvcx0OlnUb",
           "B9MCd9ZIDoI9EqxIHEfcQ97AnUc",
           "XMupdtRnCoppsmxbXpTcTaufnjf",
+          "AM2ndLy5YoSdbpx9y8HcaY5Knjg",
           "SmqsdxyHOoDn6hxldzFczm53nAg"
         ],
         "comment_ids": [
@@ -1109,7 +1110,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FCV5vwnufwiVuQZkAktac6HDGnXc"
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FUPg7wiU71ioeELk8I8KcLDYqncb"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -2275,6 +2276,46 @@
         "parent_id": "Ugd9dlygComG36xn2rWcJADrn4b"
       },
       {
+        "block_id": "AM2ndLy5YoSdbpx9y8HcaY5Knjg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Subscribe on GCP Marketplace",
+                "token": "MIqTw7iJ4iQAtVkYKiEc98a7nsh",
+                "url": "https://zilliverse.feishu.cn/wiki/MIqTw7iJ4iQAtVkYKiEc98a7nsh"
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Ugd9dlygComG36xn2rWcJADrn4b"
+      },
+      {
         "block_id": "SmqsdxyHOoDn6hxldzFczm53nAg",
         "block_type": 12,
         "bullet": {
@@ -2318,6 +2359,6 @@
         "parent_id": "Ugd9dlygComG36xn2rWcJADrn4b"
       }
     ],
-    "counts": 66
+    "counts": 67
   }
 }

@@ -3,14 +3,14 @@ slug: /manage-index
 beta: FALSE
 notebook: 01_use_customized_schema.ipynb
 token: HyGowX0PdiwXzzkmHxIclFmpntb
-sidebar_position: 2
+sidebar_position: 7
 ---
 
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Manage Index
+# [DEPRECATE] Manage Index
 
 Utilize vector indexes as metadata structures in Zilliz Cloud to enhance vector similarity search performance. An index must be created prior to performing ANN searches on a Zilliz Cloud cluster.
 
