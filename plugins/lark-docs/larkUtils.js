@@ -20,6 +20,15 @@ class larkUtils {
         }
     }
 
+    pre_process_file_paths() {
+        const paths = fs.readdirSync(this.outputDir, {recursive: true})
+        const folders = paths.filter(path => fs.statSync(`${this.outputDir}/${path}`).isDirectory())   
+
+        for (const folder of folders) {
+            fs.rmSync(`${this.outputDir}/${folder}`, {recursive: true, force: true})
+        }
+    }
+
     post_process_file_paths() {
         const paths = fs.readdirSync(this.outputDir, {recursive: true})
         const folders = paths.filter(path => fs.statSync(`${this.outputDir}/${path}`).isDirectory())
