@@ -345,9 +345,7 @@ class larkDocWriter {
     async __listed_docs() {
         const app_id = this.__fetch_doc_source('node_token', this.root_token).children.slice(-1)[0].obj_token
         const token = await this.tokenFetcher.token()
-        console.log(token)
         let url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${app_id}/tables`
-        console.log(url)
         const table_id = (await (await fetch(url, {
             method: "get",
             headers: {
