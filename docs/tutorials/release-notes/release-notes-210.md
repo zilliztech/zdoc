@@ -9,7 +9,7 @@ sidebar_position: 5
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (2023/08/16)
+# Release Notes (August 16, 2023)
 
 We are excited to announce the launch of Zilliz Cloud. This release includes a variety of enhancements and features. [__Learn more__](./release-notes-210).
 

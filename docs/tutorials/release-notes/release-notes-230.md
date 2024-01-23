@@ -9,7 +9,7 @@ sidebar_position: 2
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (2023/10/27)
+# Release Notes (October 27, 2023)
 
 We're pleased to announce the launch of our AWS Frankfurt region in the EU. Accompanying this expansion, we introduce beta features: Range Search, Upsert, and Cosine Metric Type, enhancing search capabilities and data management efficiency. Additional functionalities include API Key Access, Retrieve Raw Vectors, JSON_CONTAINS Filter, and Entity Count. Noteworthy improvements in RBAC, billing, pricing calculation, account management, and service stability have also been implemented for an enhanced user experience. 
 
