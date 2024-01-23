@@ -4,6 +4,7 @@ on: workflow_dispatch
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    environment: Building
     steps:
     - name: Set up Environment
       uses: actions/setup-node@v4.0.1
