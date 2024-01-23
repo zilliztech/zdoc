@@ -15,11 +15,11 @@ jobs:
         npx docusaurus fetch-lark-docs -tar saas
         npx docusaurus fetch-lark-docs -tar paas
       env:
-        APP_ID: ${{ vars.APP_ID }}
-        APP_SECRET: ${{ vars.APP_SECRET }}
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-        SPACE_ID: ${{ vars.SPACE_ID }}
-        FIGMA_API_KEY: ${{ vars.FIGMA_API_KEY }}
+        SPACE_ID: ${{ secrets.SPACE_ID }}
+        FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
     - name: Build docsite
       run: |
         npm run build
