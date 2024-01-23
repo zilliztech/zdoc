@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Set up Environment
-      uses: actions/setup-node@4.0.1
+      uses: actions/setup-node@v4.0.1
     - name: Checkout
       uses: actions/checkout@v4
     - name: Fetch docs
