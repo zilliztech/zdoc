@@ -1,0 +1,26 @@
+name: "Fetch Lark Docs"
+on:
+  schedule:
+  - cron: "* 9 * * *"
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Environment
+      uses: actions/setup-node@4.0.1
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Fetch docs
+      run: |
+        yarn
+        npx docusaurus fetch-lark-docs -tar saas
+        npx docusaurus fetch-lark-docs -tar paas
+    - name: Build docsite
+      run: |
+        npm run build
+    - name: Commit to a candidate branch
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        branch: candidate-${{ steps.date.outputs.date }}
+      
