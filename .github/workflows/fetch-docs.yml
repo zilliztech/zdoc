@@ -1,7 +1,5 @@
 name: "Fetch Lark Docs"
-on:
-  schedule:
-  - cron: "* 9 * * *"
+on: workflow_dispatch
 
 jobs:
   fetch:
