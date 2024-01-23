@@ -10,6 +10,9 @@ jobs:
       uses: actions/setup-node@v4.0.1
     - name: Checkout
       uses: actions/checkout@v4
+    - name: Check environment
+      run: |
+        echo FEISHU_HOST
     - name: Fetch docs
       run: |
         yarn
