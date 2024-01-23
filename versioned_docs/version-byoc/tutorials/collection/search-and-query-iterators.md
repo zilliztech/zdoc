@@ -9,7 +9,7 @@ sidebar_position: 18
 import Admonition from '@theme/Admonition';
 
 
-# [DEPRECATE] Search and Query with Iterators
+# Search and Query with Iterators
 
 This guide is designed to help you search and query large datasets using the power of iterators. Below, you'll find step-by-step instructions on how to effectively use iterators for better performance and simplicity in your data operations.
 

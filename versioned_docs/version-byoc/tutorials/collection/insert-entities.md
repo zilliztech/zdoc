@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# [DEPRECATE] Insert Entities
+# Insert Entities
 
 An entity represents a basic data unit within a collection. It embodies a member of a specific class, such as a book in a library or a gene in a genome. Entities in a collection share the same set of attributes, which we refer to as the schema.
 

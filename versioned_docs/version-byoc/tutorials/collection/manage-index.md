@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# [DEPRECATE] Manage Index
+# Manage Index
 
 Utilize vector indexes as metadata structures in Zilliz Cloud to enhance vector similarity search performance. An index must be created prior to performing ANN searches on a Zilliz Cloud cluster.
 

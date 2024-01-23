@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# [DEPRECATE] Search and Query with Advanced Expressions
+# Search and Query with Advanced Expressions
 
 This guide will walk you through the necessary steps and provide examples to help you use advanced expressions `count()` and `json_contains()` within Zilliz Cloud for search or query operations.
 

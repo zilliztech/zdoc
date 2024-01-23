@@ -10,7 +10,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# [DEPRECATE] Create Collection
+# Create Collection
 
 This tutorial will guide you through the steps to set up a collection for your cluster. You can find[ the detailed explanations about collections, schema, and index here](./cluster-collection-and-entities).
 
