@@ -5,6 +5,9 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y%m%d')"
     - name: Set up Environment
       uses: actions/setup-node@v4.0.1
     - name: Checkout
@@ -28,5 +31,6 @@ jobs:
     - name: Commit to a candidate branch
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        branch: candidate-${{ steps.date.outputs.date }}
+        branch: candidate_${{ steps.date.outputs.date }}
+        create_branch: true
       
