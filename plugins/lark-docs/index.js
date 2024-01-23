@@ -21,10 +21,6 @@ module.exports = function (context, options) {
                 .action(async (opts) => {
 
                     const options = context.siteConfig.plugins.filter(plugin => plugin[0].includes('lark-docs'))[0][1]
-
-                    console.log(process.env.APP_ID)
-                    console.log(process.env.APP_SECRET)
-                    console.log(process.env.FEISHU_HOST)
                     
                     if (opts.pubTarget === undefined) {
                         if (opts.sourceOnly) {
