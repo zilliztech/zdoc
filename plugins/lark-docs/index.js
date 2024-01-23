@@ -43,10 +43,13 @@ module.exports = function (context, options) {
 
                         if (opts.docTitle === undefined && !opts.faq && !opts.postProcess) {
                             console.log('Fetching docs from Feishu...')
+                            utils.pre_process_file_paths()
+                            
                             if (!opts.skipSourceDown) {
                                 const scraper = new docScraper(options.root, options.base)
                                 await scraper.fetch(recursive=true)
                             }
+                            
                             const writer = new docWriter(options.root, options.docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
                             await writer.write_docs(outputDir, options.root)
 
