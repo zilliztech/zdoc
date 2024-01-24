@@ -1,20 +1,20 @@
-name: "Fetch Lark Docs"
+name: "fetch lark docs"
 on:
   schedule:
-  - cron: "0 9 * * *"
+  - cron: "30 9/6 * * *"
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
-    - name: Get current date
+    - name: get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y%m%d')"
-    - name: Set up Environment
+    - name: set up Environment
       uses: actions/setup-node@v4.0.1
-    - name: Checkout
+    - name: checkout repo
       uses: actions/checkout@v4
-    - name: Fetch docs
+    - name: fetch docs
       run: |
         yarn
         npx docusaurus fetch-lark-docs -tar saas
@@ -27,12 +27,12 @@ jobs:
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
         SPACE_ID: ${{ secrets.SPACE_ID }}
         FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
-    - name: Build docsite
+    - name: build docsite
       run: |
         npm run build
-    - name: Commit to a candidate branch
+    - name: commit to dev
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        branch: candidate_${{ steps.date.outputs.date }}
+        branch: dev
         create_branch: true
       
