@@ -166,20 +166,34 @@ class larkDocWriter {
             const children = node.children.filter(child => child.obj_type != 'bitable' && child != undefined)
             await forEachAsync(children, async (child, index) => {
                 if (child.has_child) {
-                    if (!fs.existsSync(`${current_path}/${child.slug}`)) {
-                        fs.mkdirSync(`${current_path}/${child.slug}`)
+                    const meta = await this.__is_to_publish(child.title) 
+                    if (meta['publish']) {
+                        const token = child.node_token
+                        const slug = child.slug
+                        const beta = meta['beta']
+                        const notebook = meta['notebook']
+                        const labels = meta['labels']
+                        const keywords = meta['keywords']
+                        console.log(`${current_path}/${slug}/${slug}.md`)
+
+                        if (!fs.existsSync(`${current_path}/${slug}`)) {
+                            fs.mkdirSync(`${current_path}/${slug}`)
+                        }
+
+                        await this.write_doc({
+                            path: `${current_path}/${slug}`,
+                            page_title: child.title,
+                            page_slug: slug,
+                            page_beta: beta,
+                            notebook: notebook,
+                            page_token: child.node_token,
+                            sidebar_position: index+1,
+                            sidebar_label: labels,
+                            keywords: keywords
+                        })
+
+                        await this.write_docs(`${current_path}/${slug}`, token)
                     }
-                    // this.__category_meta(`${current_path}/${slug}`, title, index+1)
-                    await this.write_doc({
-                        path: `${current_path}/${child.slug}`,
-                        page_title: child.title,
-                        page_slug: child.slug,
-                        page_beta: false,
-                        notebook: false,
-                        page_token: child.node_token,
-                        sidebar_position: index+1
-                    })
-                    await this.write_docs(`${current_path}/${child.slug}`, child.node_token)
                 } else {
                     switch (child.title) {
                         case 'FAQs':
@@ -196,6 +210,8 @@ class larkDocWriter {
                                 const slug = child.slug
                                 const beta = meta['beta']
                                 const notebook = meta['notebook']
+                                const labels = meta['labels']
+                                const keywords = meta['keywords']
                                 console.log(`${current_path}/${slug}.md`)
                                 await this.write_doc({
                                     path: current_path,
@@ -204,7 +220,9 @@ class larkDocWriter {
                                     page_beta: beta,
                                     notebook: notebook,
                                     page_token: token,
-                                    sidebar_position: index+1
+                                    sidebar_position: index+1,
+                                    sidebar_label: labels,
+                                    keywords: keywords
                                 })
                             }
                             break;
@@ -221,7 +239,9 @@ class larkDocWriter {
         page_beta,
         notebook,
         page_token,
-        sidebar_position
+        sidebar_position,
+        sidebar_label,
+        keywords
     }) {
         let obj;
         let blocks;
@@ -256,7 +276,9 @@ class larkDocWriter {
                 notebook: notebook,
                 path: path, 
                 token: page_token,
-                sidebar_position: sidebar_position
+                sidebar_position: sidebar_position,
+                sidebar_label: sidebar_label,
+                keywords: keywords
             })
         }
     }
@@ -387,6 +409,8 @@ class larkDocWriter {
                 slug: result[0]["fields"]["Slug"],
                 beta: result[0]["fields"]["Beta"],
                 notebook: result[0]["fields"]["Notebook"],
+                labels: result[0]["fields"]["Labels"],
+                keywords: result[0]["fields"]["Keywords"]
             }
         } else {
             return {
@@ -420,18 +444,10 @@ class larkDocWriter {
         return markdown.replace(/\n{3,}/g, '\n\n').replace(/^\|(\s*\|)*\s*\n/gm, '')
     }
 
-    async __write_page({slug, beta, notebook, path, token, sidebar_position}) {
-        let front_matter = this.__front_matters(slug, beta, notebook, token, sidebar_position)
+    async __write_page({slug, beta, notebook, path, token, sidebar_position, sidebar_label, keywords}) {
+        let front_matter = this.__front_matters(slug, beta, notebook, token, sidebar_position, sidebar_label, keywords)
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.target)
-        // if (!this.sdks) {
-        //     this.sdks = await this.__fetch_sdk_versions()
-        // }
-
-        // markdown = markdown.replace(/{versions.python.version}/g, this.sdks.python.version)
-        // markdown = markdown.replace(/{versions.java.version}/g, this.sdks.java.version)
-        // markdown = markdown.replace(/{versions.node.version}/g, this.sdks.node.version)
-        // markdown = markdown.replace(/{versions.go.version}/g, this.sdks.go.version)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
 
         let tabs = markdown.split('\n').filter(line => {
@@ -442,38 +458,26 @@ class larkDocWriter {
 
         var file_path = `${path}/${slug}.md`
 
-        // if (path.endsWith(slug)) {
-        //     file_path = `${path}/index.md`
-        // }
-
-        // console.log(file_path)
-
         fs.writeFileSync(file_path, front_matter + '\n\n' + imports + '\n\n' + markdown)
     }
 
-    __front_matters (slug, beta, notebook, token, sidebar_position=undefined) {
-        var sidebar_label = fs.readFileSync('plugins/lark-docs/meta/sidebarLables.json', {encoding: 'utf-8', flag: 'r'})
-
-        if (sidebar_label[slug]) {
-            sidebar_label = `sidebar_label: ${sidebar_label[slug]}` + '\n'
-        } else {
-            sidebar_label = ''
+    __front_matters (slug, beta, notebook, token, sidebar_position=undefined, sidebar_label="", keywords="") {
+        if (sidebar_label !== "") {
+            sidebar_label = `sidebar_label: ${sidebar_label}\n`
         }
 
-        // let displayed_sidebar = this.target === 'saas' ? "" : "displayed_sidebar: paasSidebar\n"
-        // slug = this.target === 'saas' ? `/${slug}` : `/byoc/${slug}`
-        // slug = `/${slug}`
-        // slug = slug.replace(/\/\//g, '/').replace(/^\//, '')
-        // slug = slug === 'docs/' ? '' : slug
+        if (keywords !== "") {
+            keywords = "keywords: \n  - " + keywords.split(',').map(item => item.trim()).join('\n  - ') + '\n'
+        }
 
         let front_matter = '---\n' + 
-        // displayed_sidebar +
         `slug: /${slug}` + '\n' +
         sidebar_label +
         `beta: ${beta}` + '\n' +
         `notebook: ${notebook}` + '\n' +
         `token: ${token}` + '\n' +
         `sidebar_position: ${sidebar_position}` + '\n' +
+        keywords +
         '---'
 
         return front_matter

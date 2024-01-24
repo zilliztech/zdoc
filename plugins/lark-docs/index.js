@@ -23,9 +23,11 @@ module.exports = function (context, options) {
                     const options = context.siteConfig.plugins.filter(plugin => plugin[0].includes('lark-docs'))[0][1]
                     
                     if (opts.pubTarget === undefined) {
+                        // Only pull source files from Feishu iteratively
                         if (opts.sourceOnly) {
                             const scraper = new docScraper(options.root, options.base)
                             await scraper.fetch(recursive=true)
+                        // Pull specific source file from Feishu
                         } else if (opts.docToken !== undefined) {
                             const scraper = new docScraper(options.root, options.base)
                             await scraper.fetch(recursive=false, page_token=opts.docToken)
@@ -36,11 +38,13 @@ module.exports = function (context, options) {
                         const { outputDir, imageDir } = options.targets.filter(target => target[0] === opts.pubTarget)[0][1]
                         const utils = new Utils(options.root, options.docSourceDir, outputDir)
 
+                        // Add necessary imports to category pages
                         if (opts.postProcess) {
                             console.log('Post processing file paths')
                             utils.post_process_file_paths()
                         }
 
+                        // Generate doc pages iteratively
                         if (opts.docTitle === undefined && !opts.faq && !opts.postProcess) {
                             console.log('Fetching docs from Feishu...')
                             utils.pre_process_file_paths()
@@ -56,10 +60,8 @@ module.exports = function (context, options) {
                             utils.post_process_file_paths()
                         }
         
+                        // Generate a specific doc page
                         if (opts.docTitle !== undefined) {
-                            const scraper = new docScraper(options.root, options.base)
-                            await scraper.fetch(recursive=false, page_token=token)
-
                             var source
     
                             var token = fs.readdirSync(options.docSourceDir).filter(file => {
@@ -74,6 +76,9 @@ module.exports = function (context, options) {
                                 console.log('Please provide a valid doc token or title')
                                 return
                             }
+
+                            const scraper = new docScraper(options.root, options.base)
+                            await scraper.fetch(recursive=false, page_token=token)
     
                             const writer = new docWriter(options.root, options.docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
                             const meta = await writer.__is_to_publish(opts.docTitle)
@@ -84,13 +89,14 @@ module.exports = function (context, options) {
                                 const page_slug = source.slug
                                 const page_beta = meta['beta']
                                 const notebook = meta['notebook']
+                                const labels = meta['labels']
+                                const keywords = meta['keywords']
                                 const sidebarPos = JSON.parse(fs.readFileSync(options.docSourceDir + '/' + source.parent_node_token + '.json', 'utf8')).children.map((child, index) => {
                                     if (child.node_token === token) {
                                         return index+1
                                     }
                                 }).filter(index => index !== undefined)[0]
                                 
-    
                                 const req = {
                                     path: file_path.split('/').slice(0, -1).join('/'),
                                     page_title: opts.docTitle,
@@ -99,41 +105,14 @@ module.exports = function (context, options) {
                                     notebook: notebook,
                                     page_token: token,
                                     sidebar_position: sidebarPos,
+                                    sidebar_label: labels,
+                                    keywords: keywords,
                                 }
     
                                 await writer.write_doc(req)
                             } else {
-                                titles = JSON.parse(fs.readFileSync('plugins/lark-docs/meta/titles.json', 'utf8'))
-                                if (titles[opts.docTitle]) {
-                                    const page_slug = titles[opts.docTitle]
-                                    const page_beta = false
-                                    const notebook = false
-                                    const sidebarPos = JSON.parse(fs.readFileSync(options.docSourceDir + '/' + source.parent_node_token + '.json', 'utf8')).children.map((child, index) => {
-                                        if (child.node_token === token) {
-                                            return index+1
-                                        }
-                                    }).filter(index => index !== undefined)[0]
-
-                                    const path = file_path.split('/').slice(0, -1).join('/') + '/' + page_slug
-                                    const file = path + '/' + page_slug + '.md'
-
-                                    const req = {
-                                        path: path,
-                                        page_title: opts.docTitle,
-                                        page_slug: page_slug,
-                                        page_beta: page_beta,
-                                        notebook: notebook,
-                                        page_token: token,
-                                        sidebar_position: sidebarPos,
-                                    }
-
-                                    await writer.write_doc(req)  
-
-                                    fs.writeFileSync(file, fs.readFileSync(file, 'utf8') + '\n\n' + "import DocCardList from '@theme/DocCardList';\n\n<DocCardList />")
-                                } else {
-                                    console.log('The doc is not ready to publish!')
-                                    return
-                                }
+                                console.log('The doc is not ready to publish!')
+                                return
                             }
                         }
                                     

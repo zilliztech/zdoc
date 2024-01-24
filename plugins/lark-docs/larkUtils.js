@@ -10,13 +10,18 @@ class larkUtils {
     }
 
     determine_file_path(token) {
-        try {
-            const source = this.__fetch_doc_source('node_token', token)
-            this.__iterate_path(source.parent_node_token)
+        const path = fs.readdirSync(this.outputDir, {recursive: true}).filter(file => file.endsWith('.md')).filter(file => {
+            const regex = new RegExp(/token: (.*)/g)
+            const content = fs.readFileSync(`${this.outputDir}/${file}`, {encoding: 'utf-8', flag: 'r'})
+            const file_token = regex.exec(content)[1]
 
-            return this.file_path
-        } catch (error) {
-            return ""
+            return file_token === token
+        })
+
+        if (path.length > 0) {
+            return path[0]
+        } else {
+            throw new Error(`Cannot find file for token ${token} in ${this.outputDir}`)
         }
     }
 
