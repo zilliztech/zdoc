@@ -97,6 +97,18 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
 
     </Admonition>
 
+- **Scale down cluster**
+
+    To scale down the cluster CU size, please create a new cluster with the desired CU size first. 
+
+    Then, migrate the data from your exsisting cluster to the new cluster. For details, refer to [Migrate Between Clusters](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster).
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    Please use the [CU calculator](https://zilliz.com/pricing#calculator) to estimate the minimum CU size needed for your data. Otherwise, data migration may fail.
+
+    </Admonition>
+
 - **Suspend & resume cluster**
 
     In the **Actions** drop-down button, select **Suspend** to stop the cluster. Once you confirm this operation in the **Suspend Cluster** dialog box, the cluster status changes from **RUNNING** to **SUSPENDING**, during which you cannot perform other actions to the cluster.

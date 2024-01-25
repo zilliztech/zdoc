@@ -5,7 +5,7 @@
   "node_token": "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
   "node_type": "origin",
   "obj_create_time": "1693562324",
-  "obj_edit_time": "1703063327",
+  "obj_edit_time": "1706150416",
   "obj_token": "QadbdhBPJoEfkrxzUi4cHeOjnKf",
   "obj_type": "docx",
   "origin_node_token": "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
@@ -915,7 +915,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "By migrating between dedicated clusters, you can modify your cluster type, region, or size your cluster configuration at ease, without interrupting your business on the original cluster.",
+                "content": "By migrating between dedicated clusters, you can modify your cluster type, region, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "and scale down your cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " at ease, without interrupting your business on the original cluster.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

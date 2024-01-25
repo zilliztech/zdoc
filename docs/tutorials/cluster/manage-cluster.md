@@ -147,6 +147,18 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
 
     </Admonition>
 
+- **Scale down cluster**
+
+    To scale down the cluster CU size, please create a new cluster with the desired CU size first. 
+
+    Then, migrate the data from your exsisting cluster to the new cluster. For details, refer to [Migrate Between Clusters](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster).
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    Please use the [CU calculator](https://zilliz.com/pricing#calculator) to estimate the minimum CU size needed for your data. Otherwise, data migration may fail.
+
+    </Admonition>
+
 - **Upgrade service plan**
 
     For standard users, click **Upgrade** right to the service **Plan** in the **Summary** section to upgrade your plan to **Enterprise**. Zilliz Cloud upgrades your service plan only after you confirm this operation in the **Upgrade to Enterprise Plan** dialog box.

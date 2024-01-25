@@ -5,7 +5,7 @@
   "node_token": "PharwAysCiBzvgkuqqecmNzunQf",
   "node_type": "origin",
   "obj_create_time": "1701225562",
-  "obj_edit_time": "1705403144",
+  "obj_edit_time": "1706150770",
   "obj_token": "B1mRdvhLaouOfaxFQq7cEUmMncg",
   "obj_type": "docx",
   "origin_node_token": "PharwAysCiBzvgkuqqecmNzunQf",
@@ -77,6 +77,7 @@
           "GLKMdEQBtoLQPqxTNC6cSaNnnab",
           "doxcnxTxiGThSTNfYx7Rg9DH1qc",
           "doxcn3Tmq2rqcBLBDAOqYMlWOWh",
+          "WSN6dYRKdohJgjxRmUrcLHd2nBf",
           "doxcn26qCIfzWjN75neu0ptDrYb",
           "doxcnFww9oGeA8jcRPuo5QyK04e",
           "doxcneoJaou7rcpYgYzwWB5644g",
@@ -4117,6 +4118,200 @@
         }
       },
       {
+        "block_id": "WSN6dYRKdohJgjxRmUrcLHd2nBf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Scale down cluster",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "YV57dOC1MoyB1KxIZXBcOY0qnah",
+          "IuewdVqMSoz8aOxeyZtc11S2nEf",
+          "JBN5dnlpUo4DTMxVf1dclFSLnfh"
+        ],
+        "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
+      },
+      {
+        "block_id": "YV57dOC1MoyB1KxIZXBcOY0qnah",
+        "block_type": 2,
+        "parent_id": "WSN6dYRKdohJgjxRmUrcLHd2nBf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To scale down the cluster CU size, please create a new cluster with the desired CU size first. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IuewdVqMSoz8aOxeyZtc11S2nEf",
+        "block_type": 2,
+        "parent_id": "WSN6dYRKdohJgjxRmUrcLHd2nBf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Then, migrate the data from your exsisting cluster to the new cluster. For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Migrate Between Clusters",
+                "token": "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
+                "url": "https://zilliverse.feishu.cn/wiki/MTqjwwUKhiyns4kGV7Lc7PRlnwb#QveqduPOwoLiD7xPG4RcviCwnOh"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JBN5dnlpUo4DTMxVf1dclFSLnfh",
+        "block_type": 34,
+        "children": [
+          "TfSqdGpjHoOmpHxOD45cN2Yfn5d",
+          "X6FkdybfDoJYwrxX2Flc62XtnVc"
+        ],
+        "parent_id": "WSN6dYRKdohJgjxRmUrcLHd2nBf",
+        "quote_container": {}
+      },
+      {
+        "block_id": "TfSqdGpjHoOmpHxOD45cN2Yfn5d",
+        "block_type": 2,
+        "parent_id": "JBN5dnlpUo4DTMxVf1dclFSLnfh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X6FkdybfDoJYwrxX2Flc62XtnVc",
+        "block_type": 2,
+        "parent_id": "JBN5dnlpUo4DTMxVf1dclFSLnfh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Please use the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "CU calculator",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliz.com%2Fpricing%23calculator"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to estimate the minimum CU size needed for your data. Otherwise, data migration may fail.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "doxcn26qCIfzWjN75neu0ptDrYb",
         "block_type": 2,
         "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg",
@@ -5785,6 +5980,6 @@
         "parent_id": "B1mRdvhLaouOfaxFQq7cEUmMncg"
       }
     ],
-    "counts": 129
+    "counts": 135
   }
 }

@@ -45,7 +45,7 @@ The dedicated cluster status will switch from **CREATING** to **RESTORING**, and
 
 ## From dedicated to another dedicated cluster{#from-dedicated-to-another-dedicated-cluster}
 
-By migrating between dedicated clusters, you can modify your cluster type, region, or size your cluster configuration at ease, without interrupting your business on the original cluster.
+By migrating between dedicated clusters, you can modify your cluster type, region, and scale down your cluster at ease, without interrupting your business on the original cluster.
 
 <Admonition type="info" icon="📘" title="Notes">
 

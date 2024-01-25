@@ -34,7 +34,9 @@ Yes. To change the CU type, you need to follow the steps below.
 
 ### How can I scale down my cluster CU size?{#how-can-i-scale-down-my-cluster-cu-size}
 
-If you need to scale down your cluster CU size, please[ submit a request](https://support.zilliz.com/hc/en-us) . We will scale down the cluster for you in less than 8 hours.
+If you need to scale down your cluster CU size, please create a new cluster with the desired CU size first. Then, [migrate](./migrate-between-clusters#from-dedicated-to-another-dedicated-cluster) the data in your exsisting cluster to the new cluster.
+
+If you require assistance when scaling down the CU size, please[ submit a request](https://support.zilliz.com/hc/en-us).
 
 ### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 

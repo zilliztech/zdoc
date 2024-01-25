@@ -5,7 +5,7 @@
   "node_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
   "node_type": "origin",
   "obj_create_time": "1689062914",
-  "obj_edit_time": "1705454356",
+  "obj_edit_time": "1706150855",
   "obj_token": "Ly6BdqdNooKWDhxejD8ckxaZnah",
   "obj_type": "docx",
   "origin_node_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
@@ -14,6 +14,7 @@
   "parent_node_token": "OUWXw5c4gia34ZkQUcEcMFbWn6s",
   "space_id": "7167193056431783939",
   "title": "FAQs",
+  "slug": "faqs",
   "blocks": {
     "items": [
       {
@@ -67,7 +68,8 @@
           "NZ6bdJW08oUwBqxtcHIcUnMHnbe",
           "AqF5dCdmCoiK6CxBecRcSvDenbf",
           "VL3cdBn7uoVsADx7qtgckhDbnFg",
-          "WYGIdB6YKoV3eDxN6mOcevUNnOh",
+          "NbjldIHx4oIW87xn1rXcUl5Lnec",
+          "A4wcdBYJNoS1XpxeUwJcBHYZnsf",
           "YmfFdzEQzoINOpxCRSlcThyFnIc",
           "TRBHduLOgogSpsxDG6ac8PLtntc",
           "M5qcdXsk9oVx2yxGWi0c6ysZnvh",
@@ -1958,7 +1960,59 @@
           "elements": [
             {
               "text_run": {
-                "content": "If you need to scale down your cluster CU size, please",
+                "content": "If you need to scale down your cluster CU size, please create a new cluster with the desired CU size first. Then, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "migrate",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FMTqjwwUKhiyns4kGV7Lc7PRlnwb%23QveqduPOwoLiD7xPG4RcviCwnOh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " the data in your exsisting cluster to the new cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NbjldIHx4oIW87xn1rXcUl5Lnec",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you require assistance when scaling down the CU size, please",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1985,7 +2039,7 @@
             },
             {
               "text_run": {
-                "content": " . We will scale down the cluster for you in less than 8 hours.",
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2003,7 +2057,7 @@
         }
       },
       {
-        "block_id": "WYGIdB6YKoV3eDxN6mOcevUNnOh",
+        "block_id": "A4wcdBYJNoS1XpxeUwJcBHYZnsf",
         "block_type": 2,
         "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
         "text": {
@@ -6943,7 +6997,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The \"Capacity-optimized Compute Unit\" suits data volumes that are five times larger than the performance-optimized CU option but at the cost of higher search latency. This option works best for increased storage capacity scenarios.",
+                "content": "The \"Capacity-optimized Compute Unit\" suits data volumes that are five times larger than the performance-optimized CU option. This option works best for increased storage capacity scenarios.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6968,7 +7022,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The \"Cost-optimized Compute Unit\" provides the same large capacity as the \"Capacity-optimized\" option, but at a lower cost with reduced search performance. This option is ideal for budget-conscious projects that need ample storage without high-performance demands.",
+                "content": "The \"Cost-optimized Compute Unit\" provides the same large capacity as the \"Capacity-optimized\" option, but at a lower cost. This option is ideal for budget-conscious projects that need ample storage without high-performance demands.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -10488,6 +10542,6 @@
         }
       }
     ],
-    "counts": 315
+    "counts": 316
   }
 }

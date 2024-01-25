@@ -47,9 +47,9 @@ Since your collection's schema may differ from the ones in the simple guide abov
 
 The "Performance-optimized Compute Unit" suits low latency or high throughput similarity searches. This option works best for high-search performance scenarios.
 
-The "Capacity-optimized Compute Unit" suits data volumes that are five times larger than the performance-optimized CU option but at the cost of higher search latency. This option works best for increased storage capacity scenarios.
+The "Capacity-optimized Compute Unit" suits data volumes that are five times larger than the performance-optimized CU option. This option works best for increased storage capacity scenarios.
 
-The "Cost-optimized Compute Unit" provides the same large capacity as the "Capacity-optimized" option, but at a lower cost with reduced search performance. This option is ideal for budget-conscious projects that need ample storage without high-performance demands.
+The "Cost-optimized Compute Unit" provides the same large capacity as the "Capacity-optimized" option, but at a lower cost. This option is ideal for budget-conscious projects that need ample storage without high-performance demands.
 
 For more details, see [Select the Right CU](./cu-types-explained).
 

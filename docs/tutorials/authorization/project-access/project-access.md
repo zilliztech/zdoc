@@ -1,7 +1,7 @@
 ---
 slug: /project-access
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 token: O3rEwwCCTiu0k1kAyygcKYwhnzg
 sidebar_position: 4
 ---
@@ -12,10 +12,6 @@ import Admonition from '@theme/Admonition';
 # Project Access
 
 Learn about how to manage projects and project users.
-
-## {#}
-
-## {#}
 
 import DocCardList from '@theme/DocCardList';
 

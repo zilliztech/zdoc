@@ -84,6 +84,8 @@ module.exports = function (context, options) {
                             const meta = await writer.__is_to_publish(opts.docTitle)
 
                             var file_path = outputDir + '/' + utils.determine_file_path(token, options.docSourceDir)
+
+                            const doc_card_list = Object.keys(source).indexOf('children') > -1 ? true : false
     
                             if (meta['publish']) {
                                 const page_slug = source.slug
@@ -107,6 +109,7 @@ module.exports = function (context, options) {
                                     sidebar_position: sidebarPos,
                                     sidebar_label: labels,
                                     keywords: keywords,
+                                    doc_card_list: doc_card_list,
                                 }
     
                                 await writer.write_doc(req)

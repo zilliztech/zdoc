@@ -5,7 +5,7 @@
   "node_token": "O3rEwwCCTiu0k1kAyygcKYwhnzg",
   "node_type": "origin",
   "obj_create_time": "1689062456",
-  "obj_edit_time": "1705372112",
+  "obj_edit_time": "1706081875",
   "obj_token": "MkXydAxvtoBH2IxYnx0cyamTn6b",
   "obj_type": "docx",
   "origin_node_token": "O3rEwwCCTiu0k1kAyygcKYwhnzg",
@@ -21,9 +21,7 @@
         "block_id": "MkXydAxvtoBH2IxYnx0cyamTn6b",
         "block_type": 1,
         "children": [
-          "T4xqdQ9iao3mgkxA7Mqcb0rLnrb",
-          "VKGZdxnkXom4hmxzxE6cGsfvnCh",
-          "H9iXdk8Klop5paxF6xIcg7z6nVf"
+          "T4xqdQ9iao3mgkxA7Mqcb0rLnrb"
         ],
         "page": {
           "elements": [
@@ -82,59 +80,9 @@
             "folded": false
           }
         }
-      },
-      {
-        "block_id": "VKGZdxnkXom4hmxzxE6cGsfvnCh",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "MkXydAxvtoBH2IxYnx0cyamTn6b"
-      },
-      {
-        "block_id": "H9iXdk8Klop5paxF6xIcg7z6nVf",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "MkXydAxvtoBH2IxYnx0cyamTn6b"
       }
     ],
-    "counts": 4
+    "counts": 2
   },
   "children": [
     {
@@ -162,7 +110,7 @@
       "node_token": "DXbRwHM79iK5VDkV5E8cW6N7nxb",
       "node_type": "origin",
       "obj_create_time": "1703644330",
-      "obj_edit_time": "1705043956",
+      "obj_edit_time": "1705908767",
       "obj_token": "Iy6Nd8LX6opchJxVeRzcvKirnzc",
       "obj_type": "docx",
       "origin_node_token": "DXbRwHM79iK5VDkV5E8cW6N7nxb",

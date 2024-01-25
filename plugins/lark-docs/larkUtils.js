@@ -44,13 +44,6 @@ class larkUtils {
             if (files.length === 1 && files[0] === folder.split('/').slice(-1)[0] + '.md') {
                 fs.rmSync(`${this.outputDir}/${folder}`, {recursive: true, force: true})
             }   
-
-            // if (files.length > 1) {
-            //   const index_file = `${this.outputDir}/${folder}/${folder.split('/').slice(-1)[0]}.md`
-            //   const original = fs.readFileSync(index_file, {encoding: 'utf-8', flag: 'r'})
-            //   const new_lines = "import DocCardList from '@theme/DocCardList';\n\n<DocCardList />"
-            //   fs.writeFileSync(index_file, original + '\n\n' + new_lines, {encoding: 'utf-8', flag: 'w'})
-            // }
         }
     }
 
