@@ -99,7 +99,7 @@ After setting up your Zilliz Cloud cluster, here’s what you’ll find in each 
 
 - **Scale down cluster**
 
-To scale down the cluster CU size, please [submit a request](https://support.zilliz.com/hc/en-us).
+    To scale down the cluster CU size, please [submit a request](https://support.zilliz.com/hc/en-us).
 
 - **Suspend & resume cluster**
 
