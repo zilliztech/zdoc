@@ -5,7 +5,7 @@
   "node_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
   "node_type": "origin",
   "obj_create_time": "1689062914",
-  "obj_edit_time": "1706150855",
+  "obj_edit_time": "1706166592",
   "obj_token": "Ly6BdqdNooKWDhxejD8ckxaZnah",
   "obj_type": "docx",
   "origin_node_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
@@ -67,8 +67,15 @@
           "OR7edPSj4oTVfaxbs7ncIUeHnxe",
           "NZ6bdJW08oUwBqxtcHIcUnMHnbe",
           "AqF5dCdmCoiK6CxBecRcSvDenbf",
+          "FYkHdsdFXorZ2GxwyDdchVWQnLg",
           "VL3cdBn7uoVsADx7qtgckhDbnFg",
           "NbjldIHx4oIW87xn1rXcUl5Lnec",
+          "IpVAdAtkjo3Mj8x0OUecT70knce",
+          "Iq0MdWpo3oNEWZxCMuCcr6fcnHh",
+          "LJMVdRipLon3Ytx4pNxcC9xQnDd",
+          "RO4XdnloCoK67PxazZac2ZcqnAc",
+          "NUoydduznogHSUxSCEIciJulnYc",
+          "LZlkdezBtodqO1x28dMcOwm1nef",
           "A4wcdBYJNoS1XpxeUwJcBHYZnsf",
           "YmfFdzEQzoINOpxCRSlcThyFnIc",
           "TRBHduLOgogSpsxDG6ac8PLtntc",
@@ -1953,8 +1960,36 @@
         }
       },
       {
+        "block_id": "FYkHdsdFXorZ2GxwyDdchVWQnLg",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"paas\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "VL3cdBn7uoVsADx7qtgckhDbnFg",
         "block_type": 2,
+        "comment_ids": [
+          "7327929105084104707"
+        ],
         "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
         "text": {
           "elements": [
@@ -1975,6 +2010,9 @@
                 "content": "migrate",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7327929105084104707"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "link": {
@@ -1987,7 +2025,22 @@
             },
             {
               "text_run": {
-                "content": " the data in your exsisting cluster to the new cluster.",
+                "content": " the",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7327929105084104707"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " data in your exsisting cluster to the new cluster.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2040,6 +2093,183 @@
             {
               "text_run": {
                 "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IpVAdAtkjo3Mj8x0OUecT70knce",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Iq0MdWpo3oNEWZxCMuCcr6fcnHh",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"paas\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LJMVdRipLon3Ytx4pNxcC9xQnDd",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you need to scale down your cluster CU size, please",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " submit a request",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fsupport.zilliz.com%2Fhc%2Fen-us"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RO4XdnloCoK67PxazZac2ZcqnAc",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NUoydduznogHSUxSCEIciJulnYc",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LZlkdezBtodqO1x28dMcOwm1nef",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -10542,6 +10772,6 @@
         }
       }
     ],
-    "counts": 316
+    "counts": 323
   }
 }
