@@ -36,4 +36,5 @@ jobs:
       with:
         branch: dev
         create_branch: true
+        push_options: --force
       
