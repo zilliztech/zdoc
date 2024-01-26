@@ -5,7 +5,7 @@
   "node_token": "X08WweRsXiz0MPk4DIbcXYaInjc",
   "node_type": "origin",
   "obj_create_time": "1699850504",
-  "obj_edit_time": "1704881372",
+  "obj_edit_time": "1706183684",
   "obj_token": "Gf1XdIrKxoavIjxqtRHcvC8MnUg",
   "obj_type": "docx",
   "origin_node_token": "X08WweRsXiz0MPk4DIbcXYaInjc",
@@ -554,7 +554,34 @@
           "elements": [
             {
               "text_run": {
-                "content": "curl -O https://zilliz-byoc-bucket-test.s3.us-west-2.amazonaws.com/terraform-aws-iam.tar.gz && tar -zxvf terraform-aws-iam.tar.gz\n",
+                "content": "curl -O ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "https://zilliz-byoc-bucket.s3.us-west-2.amazonaws.com/terraform-aws-iam.tar.gz",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliz-byoc-bucket.s3.us-west-2.amazonaws.com%2Fterraform-aws-iam.tar.gz"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " && tar -zxvf terraform-aws-iam.tar.gz\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

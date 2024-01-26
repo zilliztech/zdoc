@@ -91,17 +91,16 @@ Cloud administrators can monitor resource usage and quotas in the cloud quota da
 
 </Admonition>
 
-|  **Resource Type**        |  **Instance**<br/>  |  Min. Config<br/>                                                                                                                           |
-| ------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-|  Virtual Machine<br/>  |  EC2<br/>           |  - (m6i.xlarge) * 4<br/> - (m6i.2xlarge) * 4<br/> - (m6i.8xlarge) * 1<br/> - (m6id.8xlarge) * 1<br/> **Total**: 112 vCPUs, 448 GiB |
-|  Object Storage           |  S3                    |  1.3 TB                                                                                                                                        |
-|  Block Storage            |  EBS                   |  550 GB                                                                                                                                        |
-|  Public IP                |  EIP                   |  3                                                                                                                                             |
-|  Private Network          |  VPC<br/>           |  2                                                                                                                                             |
-|  Network Channel          |  PrivateLink           |  1                                                                                                                                             |
-|  Load Balance             |  AWS LB                |  1                                                                                                                                             |
-|  K8s Cluster              |  EKS                   |  1                                                                                                                                             |
-|  DNS                      |  DNS Zone              |  2                                                                                                                                             |
+|  **Resource Type**        |  **Instance**<br/>  |  Min. Config<br/>                                                                                              |
+| ------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------- |
+|  Virtual Machine<br/>  |  EC2<br/>           |  - (m6i.xlarge) * 4<br/> - (m6i.2xlarge) * 4<br/> - (r6id.8xlarge) * 1<br/> **Total**: 80 vCPUs, 448 GiB |
+|  Object Storage           |  S3                    |  1.3 TB                                                                                                           |
+|  Block Storage            |  EBS                   |  550 GB                                                                                                           |
+|  Public IP                |  EIP                   |  1                                                                                                                |
+|  Private Network          |  VPC<br/>           |  2                                                                                                                |
+|  Network Channel          |  PrivateLink           |  1                                                                                                                |
+|  Load Balance             |  AWS LB                |  1                                                                                                                |
+|  DNS                      |  DNS Zone              |  2                                                                                                                |
 
 ### IAM permissions{#iam-permissions}
 
