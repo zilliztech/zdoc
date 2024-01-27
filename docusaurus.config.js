@@ -99,6 +99,7 @@ const config = {
       ]
     }],
     './plugins/apifox-docs',
+    './plugins/link-checks',
   ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
