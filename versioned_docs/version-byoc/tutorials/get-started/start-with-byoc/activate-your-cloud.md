@@ -36,7 +36,7 @@ To acquire your external ARNs:
 1. Download and decompress the configuration package:
 
     ```bash
-    curl -O [https://zilliz-byoc-bucket.s3.us-west-2.amazonaws.com/terraform-aws-iam.tar.gz](https://zilliz-byoc-bucket.s3.us-west-2.amazonaws.com/terraform-aws-iam.tar.gz) && tar -zxvf terraform-aws-iam.tar.gz
+    curl -O https://zilliz-byoc-bucket.s3.us-west-2.amazonaws.com/terraform-aws-iam.tar.gz && tar -zxvf terraform-aws-iam.tar.gz
     cd terraform-aws-iam
     ```
 

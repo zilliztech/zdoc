@@ -5,7 +5,7 @@
   "node_token": "X08WweRsXiz0MPk4DIbcXYaInjc",
   "node_type": "origin",
   "obj_create_time": "1699850504",
-  "obj_edit_time": "1706183684",
+  "obj_edit_time": "1706516108",
   "obj_token": "Gf1XdIrKxoavIjxqtRHcvC8MnUg",
   "obj_type": "docx",
   "origin_node_token": "X08WweRsXiz0MPk4DIbcXYaInjc",
@@ -571,9 +571,6 @@
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fzilliz-byoc-bucket.s3.us-west-2.amazonaws.com%2Fterraform-aws-iam.tar.gz"
-                  },
                   "strikethrough": false,
                   "underline": false
                 }
