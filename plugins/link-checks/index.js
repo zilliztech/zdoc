@@ -15,6 +15,14 @@ module.exports = function (context, options) {
                     const plugin_meta_folder = 'plugins/link-checks/meta'
                     const build_folder = 'build'
 
+                    if (!fs.existsSync(`${plugin_meta_folder}/reports`)) {
+                        fs.mkdirSync(`${plugin_meta_folder}/reports`)
+                    }
+
+                    if (!fs.existsSync(`${plugin_meta_folder}/sitemaps`)) {
+                        fs.mkdirSync(`${build_folder}/sitemaps`)
+                    }
+
                     var report = ''
 
                     // 1. Check external links from the cloud platform
