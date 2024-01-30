@@ -38,6 +38,19 @@ curl --request POST \
     }'
 ```
 
+Your access key and secret key should have necessary permissions to access the object URL. 
+
+- For AWS S3, the following permissions are required:
+
+  - `s3:GetObject`
+  - `s3:ListBucket`
+  - `s3:GetBucketLocation`
+
+- For Google Cloud Storage, the following permissions are required:
+
+  - `storage.objects.get`
+  - `storage.objects.list`
+
 
 ## Request
 
