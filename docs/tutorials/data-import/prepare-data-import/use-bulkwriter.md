@@ -7,7 +7,8 @@ sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Use BulkWriter
 
@@ -20,13 +21,6 @@ If your data format does not meet the requirements on [Prepare Source Data](./pr
 - **LocalBulkWriter**: Reads the designated dataset and transforms it into an easy-to-use format.
 
 - **RemoteBulkWriter**: Performs the same task as the **LocalBulkWriter** but additionally transfers the converted data files to a specified remote object storage bucket.
-
-The following table compares the two writers.
-
-|                          |  **LocalBulkWriter**        |  **RemoteBulkWriter**       |
-| ------------------------ | --------------------------- | --------------------------- |
-|  Acceptable data format  |  A data row as a dictionary |  A data row as a dictionary |
-|  Output data file format |  JSON, Parquet, and NumPy   |  JSON, Parquet, and NumPy   |
 
 ## Procedure{#procedure}
 
@@ -42,7 +36,7 @@ pip install --upgrade pymilvus
 
 Decide on the schema for the collection you wish to import your dataset into. This involves selecting which fields to include from the dataset.
 
-The following code creates a collection schema with two necessary fields: **id** and **vector**. One is the primary field and the other is the vector field to store 768-dimensional vector embeddings.
+The following code creates a collection schema with four fields: **id**, **vector**, **scalar_1**, **and scalar_2**. The first one is the primary field, the second one is the vector field to store 768-dimensional vector embeddings, and the rest two are scalar fields.
 
 In addition, the schema disables the primary field from automatically incrementing and enables dynamic fields.
 
@@ -109,16 +103,53 @@ There are two types of **BulkWriter**s available.
 
     Instead of committing appended data to a local file, a **RemoteBulkWriter** commits them to a remote bucket. Therefore, you should set up a **ConnectParam** object before creating a **RemoteBulkWriter**.
 
+    <Tabs groupId="python" defaultValue='python' values={[{"label":"AWS S3/GCS","value":"python"},{"label":"Microsoft Azure","value":"python_1"}]}>
+    <TabItem value='python'>
+
     ```python
-    from pymilvus import RemoteBulkWriter, BulkFileType
+    from pymilvus import RemoteBulkWriter
     
+    # Connections parameters to access the remote bucket
     conn = RemoteBulkWriter.ConnectParam(
-        endpoint="storage.googleapis.com",
-        access_key="Your-Access-Key",
-        secret_key="Your-Secret-key",
-        bucket_name="Your-Bucket-Name",
+        endpoint="storage.googleapis.com", # Use "s3.amazonaws.com" for AWS S3
+        access_key=ACCESS_KEY,
+        secret_key=SECRET_KEY,
+        bucket_name=BUCKET_NAME, # Use a bucket hosted in the same cloud as the target cluster
         secure=True
     )
+    
+    ```
+
+    </TabItem>
+    <TabItem value='python_1'>
+
+    ```python
+    AZURE_CONNECT_STRING = ""
+    
+    conn = RemoteBulkWriter.AzureConnectParam(
+        conn_str=AZURE_CONNECT_STRING,
+        container_name=BUCKET_NAME
+    )
+    
+    # or
+    
+    AZURE_ACCOUNT_URL = ""
+    AZURE_CREDENTIAL = ""
+    
+    conn = RemoteBulkWriter.AzureConnectParam(
+        account_url=AZURE_ACCOUNT_URL,
+        credential=AZURE_CREDENTIAL,
+        container_name=BUCKET_NAME
+    )
+    ```
+
+    </TabItem>
+    </Tabs>
+
+    Once the connection parameters are ready, you can reference it in the **RemoteBulkWriter** as follows:
+
+    ```python
+    from pymilvus import BulkFileType
     
     writer = RemoteBulkWriter(
         schema=schema,
