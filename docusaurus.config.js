@@ -40,7 +40,7 @@ const config = {
       ({
         docs: {
           path: 'docs',
-          breadcrumbs: true,
+          breadcrumbs: false,
           sidebarPath: require.resolve('./sidebarsTutorial.js'),
           routeBasePath: 'docs',
           lastVersion: 'current',
@@ -115,16 +115,18 @@ const config = {
         },
         items: [
           {
-            type: 'docsVersionDropdown',
-            position: 'right',
-          },
-          {
             type: 'search',
             position: 'right',
           },
           {
             href: '/docs/quick-start',
-            label: 'User Guides',
+            label: 'Cloud Guides',
+            position: 'left',
+            className: 'header-link',
+          },
+          {
+            href: '/docs/byoc/quick-start',
+            label: 'BYOC Guides',
             position: 'left',
             className: 'header-link',
           },
