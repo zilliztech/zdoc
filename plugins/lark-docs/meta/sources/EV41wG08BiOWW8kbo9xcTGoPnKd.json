@@ -5,7 +5,7 @@
   "node_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
   "node_type": "origin",
   "obj_create_time": "1689062914",
-  "obj_edit_time": "1706166592",
+  "obj_edit_time": "1706520853",
   "obj_token": "Ly6BdqdNooKWDhxejD8ckxaZnah",
   "obj_type": "docx",
   "origin_node_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
@@ -168,6 +168,23 @@
           "TFwvd15IAos66Tx4Bn9cMIX9nId",
           "AF4sd2NNFocVldxkSaYco6qlnxb",
           "BjfidFi9FoqCXvxCTt2cQJPJnTf",
+          "K8KedVGX6olqgzxL0dbcwyNdnte",
+          "DF81dvkQ2o7N5rxgYJJc7jKcn2c",
+          "LpEndyGeLo7QZSxVVAVcAN4Lnph",
+          "WG0ydbTLnonUDQxUgYncdvFCnAg",
+          "RKXVdgoBXodKYExlT2Qc7hT7nFd",
+          "D2Ujd4JddoqVzYxdtU3cV0gMnIg",
+          "M6TCdyhC4oROUYxp79LcpzwvnUb",
+          "Mh2PdU5bmoTqcexzlRfc8QzqnJh",
+          "R6irdSA16oEY85xMb6xcnIdbnZf",
+          "M3jtdhVQdouoNaxeuRrcPD20nQZ",
+          "L4FsdattGoHYEYxZdowc2zq3nch",
+          "Pv68d5wXOoZ7LyxnmUNccniOnud",
+          "JjS6dQ9c9oG7ELxKzJOcPAFVnec",
+          "My1jdPs9Io6O2IxmPy5cm7sYnTT",
+          "BRmldV75aod8WUx0a8mcz84MnQg",
+          "Xsh9dgiJzoDlrqxfEbdc3849nhg",
+          "VhIPdrFwmo2J9UxVpQPci5tVnkd",
           "XpzudVeYRoO2ibx8RbwcRINUn2g",
           "A592dCCfnoKxJFxEFW7cFWV3nLb",
           "SwxPd8BCcoKTwZxNquhcdcUanzd",
@@ -5656,6 +5673,1198 @@
       },
       {
         "block_id": "BjfidFi9FoqCXvxCTt2cQJPJnTf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "FAQ: Pipelines",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah"
+      },
+      {
+        "block_id": "K8KedVGX6olqgzxL0dbcwyNdnte",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "How can Zilliz Cloud Pipelines enhance my semantic search capabilities?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DF81dvkQ2o7N5rxgYJJc7jKcn2c",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Pipelines help create high-quality vector embeddings, which serve as the foundation for relevant semantic search results.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LpEndyGeLo7QZSxVVAVcAN4Lnph",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Which Zilliz Cloud Product Tiers are Pipelines available in?",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WG0ydbTLnonUDQxUgYncdvFCnAg",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud Pipeline is available on all tiers as long as you have created a cluster on GCP. ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RKXVdgoBXodKYExlT2Qc7hT7nFd",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Which embedding model does Zilliz Cloud Pipelines use?",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D2Ujd4JddoqVzYxdtU3cV0gMnIg",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The text doc ingestion and search pipelines support various embedding models.",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "M6TCdyhC4oROUYxp79LcpzwvnUb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For English:",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "FkRPd2NcioySONx0BSFceJaInTG",
+          "PrqYdLdWto7y4XxEGb2cVvKknye",
+          "Y6QrdzkQqo7OQtxo3udctUIDnhh",
+          "VUHzd3bklot502xwIVjcfdhxnUf",
+          "IevEdGcdZor2P9xSpv7cgtRHnbb"
+        ],
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah"
+      },
+      {
+        "block_id": "FkRPd2NcioySONx0BSFceJaInTG",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz/bge-base-en-v1.5",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "AvBXd9m5EorPamxiMSac4SUvn2b"
+        ],
+        "parent_id": "M6TCdyhC4oROUYxp79LcpzwvnUb"
+      },
+      {
+        "block_id": "AvBXd9m5EorPamxiMSac4SUvn2b",
+        "block_type": 2,
+        "parent_id": "FkRPd2NcioySONx0BSFceJaInTG",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model.",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PrqYdLdWto7y4XxEGb2cVvKknye",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "voyageai/voyage-02",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "FxxGd39VNoMrqLx39vTcVY1nn2f"
+        ],
+        "parent_id": "M6TCdyhC4oROUYxp79LcpzwvnUb"
+      },
+      {
+        "block_id": "FxxGd39VNoMrqLx39vTcVY1nn2f",
+        "block_type": 2,
+        "parent_id": "PrqYdLdWto7y4XxEGb2cVvKknye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard.",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Y6QrdzkQqo7OQtxo3udctUIDnhh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "voyageai/voyage-code-02",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "DEe5dVPPYoW7qjxHpvVcXBWqnie"
+        ],
+        "parent_id": "M6TCdyhC4oROUYxp79LcpzwvnUb"
+      },
+      {
+        "block_id": "DEe5dVPPYoW7qjxHpvVcXBWqnie",
+        "block_type": 2,
+        "parent_id": "Y6QrdzkQqo7OQtxo3udctUIDnhh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks.",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VUHzd3bklot502xwIVjcfdhxnUf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "openai/text-embedding-3-small ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "KmgHdoIU7oKjq4xFvDmcnMgBnng"
+        ],
+        "parent_id": "M6TCdyhC4oROUYxp79LcpzwvnUb"
+      },
+      {
+        "block_id": "KmgHdoIU7oKjq4xFvDmcnMgBnng",
+        "block_type": 2,
+        "parent_id": "VUHzd3bklot502xwIVjcfdhxnUf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality.",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IevEdGcdZor2P9xSpv7cgtRHnbb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "openai/text-embedding-3-large",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "THMDdll1wo9r5qxMSH7cUD1Enwd"
+        ],
+        "parent_id": "M6TCdyhC4oROUYxp79LcpzwvnUb"
+      },
+      {
+        "block_id": "THMDdll1wo9r5qxMSH7cUD1Enwd",
+        "block_type": 2,
+        "parent_id": "IevEdGcdZor2P9xSpv7cgtRHnbb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Hosted by OpenAI. This is OpenAI's best performing model. Compared to ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "text-embedding-ada-002",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", the MTEB score has increased from 61.0% to 64.6%.",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Mh2PdU5bmoTqcexzlRfc8QzqnJh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For Chinese:",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "JRHZdyQKFoEp0fx05bHcCZcZnoO"
+        ],
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah"
+      },
+      {
+        "block_id": "JRHZdyQKFoEp0fx05bHcCZcZnoO",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz/bge-base-zh-v1.5 ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "JN1Sd0iQEocleqxntcBca4Fxndg"
+        ],
+        "parent_id": "Mh2PdU5bmoTqcexzlRfc8QzqnJh"
+      },
+      {
+        "block_id": "JN1Sd0iQEocleqxntcBca4Fxndg",
+        "block_type": 2,
+        "parent_id": "JRHZdyQKFoEp0fx05bHcCZcZnoO",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model.",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "R6irdSA16oEY85xMb6xcnIdbnZf",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "How is Zilliz Cloud Pipelines charged?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "M3jtdhVQdouoNaxeuRrcPD20nQZ",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, Zilliz Cloud Pipelines is free to use. You only need to pay for the cluster usage.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "L4FsdattGoHYEYxZdowc2zq3nch",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Can I use Zilliz Cloud Pipelines standalone?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Pv68d5wXOoZ7LyxnmUNccniOnud",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "No, you must be a Zilliz Cloud vector database customer to access the Pipelines functionalities.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JjS6dQ9c9oG7ELxKzJOcPAFVnec",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What data sources are supported by Ingestion Pipelines?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "My1jdPs9Io6O2IxmPy5cm7sYnTT",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, Ingestion Pipelines support files stored on AWS S3 and Google Cloud Storage. We are actively working to expand support for additional data sources in the future.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BRmldV75aod8WUx0a8mcz84MnQg",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What document file formats are supported by Pipelines?",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Xsh9dgiJzoDlrqxfEbdc3849nhg",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Supported file formats include ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".txt",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".pdf",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".md",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".html",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".epub",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".csv",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".doc",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".docx",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".xls",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".xlsx",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".ppt",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".pptx",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". When ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "running an Ingestion pipeline",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FIEoHwfIsBioVCRkHU7AcJdANn9c"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", the input file should be an ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "S3 presigned URL",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or a ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "GCS signed URL",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VhIPdrFwmo2J9UxVpQPci5tVnkd",
         "block_type": 2,
         "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
         "text": {
@@ -10772,6 +11981,6 @@
         }
       }
     ],
-    "counts": 323
+    "counts": 352
   }
 }

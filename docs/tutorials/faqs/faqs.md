@@ -8,3 +8,6 @@ sidebar_position: 999
 
 # FAQs
 
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />
