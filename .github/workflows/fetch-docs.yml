@@ -31,7 +31,10 @@ jobs:
       run: |
         npm run build
     - name: link checks
+      env:
+          TOKEN: ${{ secrets.ACTION_TOKEN }}
       run: |
+        curl -H "Authorization: token $TOKEN" https://raw.githubusercontent.com/zilliztech/zilliz-cloud-client/release_2.0.0/packages/CommonService/client/src/consts/Link.ts -o plugins/link-checks/meta/Link.ts
         npx docusaurus link-checks
     - name: commit to dev
       uses: stefanzweifel/git-auto-commit-action@v5
