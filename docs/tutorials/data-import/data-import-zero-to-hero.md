@@ -1,6 +1,5 @@
 ---
 slug: /data-import-zero-to-hero
-sidebar_label: Zero to Hero
 beta: FALSE
 notebook: 99_data_import_zero_to_hero.ipynb
 token: BjHZwBkk0iFScik49QMc1Wwjndb
@@ -8,8 +7,7 @@ sidebar_position: 1
 ---
 
 import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
 
 # User Guide: Data Import from Zero to Hero
 
@@ -173,9 +171,6 @@ collection.load()
 
 Once the schema is ready, you can use the schema to create a **RemoteBulkWriter**. A **RemoteBulkWriter** asks for permission to access a remote bucket. You should set up connection parameters to access the remote bucket in a **ConnectParam** object and reference it in the **RemoteBulkWriter**.
 
-<Tabs groupId="python" defaultValue='python' values={[{"label":"AWS S3/GCS","value":"python"},{"label":"Microsoft Azure","value":"python_1"}]}>
-<TabItem value='python'>
-
 ```python
 from pymilvus import RemoteBulkWriter, BulkFileType
 
@@ -187,34 +182,7 @@ conn = RemoteBulkWriter.ConnectParam(
     bucket_name=BUCKET_NAME, # Use a bucket hosted in the same cloud as the target cluster
     secure=True
 )
-
 ```
-
-</TabItem>
-<TabItem value='python_1'>
-
-```python
-AZURE_CONNECT_STRING = ""
-
-conn = RemoteBulkWriter.AzureConnectParam(
-    conn_str=AZURE_CONNECT_STRING,
-    container_name=BUCKET_NAME
-)
-
-# or
-
-AZURE_ACCOUNT_URL = ""
-AZURE_CREDENTIAL = ""
-
-conn = RemoteBulkWriter.AzureConnectParam(
-    account_url=AZURE_ACCOUNT_URL,
-    credential=AZURE_CREDENTIAL,
-    container_name=BUCKET_NAME
-)
-```
-
-</TabItem>
-</Tabs>
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -241,7 +209,7 @@ writer = RemoteBulkWriter(
 # - BulkFileType.PARQUET
 ```
 
-The above writer generates files in JSON format and uploads them to the root folder of the specified bucket.
+The above writer generates files in Parquet format and uploads them to the root folder of the specified bucket.
 
 - `remote_path="/"`
 
@@ -404,7 +372,7 @@ from pymilvus import list_import_jobs
 
 res = list_import_jobs(
     # highlight-next-line
-    url=CLOUD_API_ENDPOINT,
+    url="controller.api.gcp-us-west2.zillizcloud.com",
     api_key=API_KEY,
     cluster_id=CLUSTER_ID,
     page_size=10,
@@ -436,7 +404,7 @@ In this course, we have covered the entire process of importing data, and here a
 
 - Examine your data to work out the schema of the target collection.
 
-- Before the data import, ensure that your cluster and remote object storage bucket are hosted on the same cloud.
+- When creating the target cluster, select the cloud provider that hosts the source data to be imported.
 
 - When using **BulkWriter**, note the following:
 
@@ -444,5 +412,5 @@ In this course, we have covered the entire process of importing data, and here a
 
     - Do not forget to call **commit()** after appending all rows.
 
-- When using **bulk_import()**, build the object URL by concatenating the endpoint of the cloud provider hosting the prepared data and the data path returned by the writer.
+- When using **bulk_import()**, build the object URL by prefixing the data path returned by the writer with the endpoint of the cloud provider hosting the prepared data.
 
