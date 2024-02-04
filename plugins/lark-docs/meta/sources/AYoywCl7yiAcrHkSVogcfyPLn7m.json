@@ -5,7 +5,7 @@
   "node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
   "node_type": "origin",
   "obj_create_time": "1704710624",
-  "obj_edit_time": "1705554873",
+  "obj_edit_time": "1706083303",
   "obj_token": "DK0cd2Ix8oQD0rxWUBYcW57snLd",
   "obj_type": "docx",
   "origin_node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
@@ -58,6 +58,7 @@
           "MlwRd4mx9o03tVxxyqCc4dApn3c",
           "FtFMdC2tkopx5PxMH5DcpmqFnTe",
           "UaqUdhTAyoiiuCxJVwsc2DSknKh",
+          "ICcXdif2ZorCvexQ6CrcTi8vnn4",
           "M8C0dG5sIoWYdCxtXhncbRZQnTe",
           "Sxs7dgTkqorzUkxCj7NcnFkGnAd",
           "KxjQdEyrsoMVFbx8nsdcEi4Fncg",
@@ -2571,7 +2572,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "This file type is available for cluster compatible with Milvus 2.3.x.",
+                "content": "This file type is available for clusters compatible with Milvus 2.3.x.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3987,7 +3988,7 @@
             },
             {
               "text_run": {
-                "content": ".",
+                "content": " through the console, RESTful API, and SDKs.",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -4094,6 +4095,17 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "ICcXdif2ZorCvexQ6CrcTi8vnn4",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D27707-1139%26mode%3Ddesign%26t%3D9L8YCdafyPAOYOHV-4"
+          }
+        },
+        "parent_id": "DK0cd2Ix8oQD0rxWUBYcW57snLd"
       },
       {
         "block_id": "M8C0dG5sIoWYdCxtXhncbRZQnTe",
@@ -7485,6 +7497,6 @@
         }
       }
     ],
-    "counts": 242
+    "counts": 243
   }
 }

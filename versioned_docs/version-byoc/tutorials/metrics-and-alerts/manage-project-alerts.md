@@ -3,7 +3,7 @@ slug: /manage-project-alerts
 beta: FALSE
 notebook: FALSE
 token: NvDLw4kFji0xeWkc4Hpc9wUfnRh
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';
@@ -17,19 +17,18 @@ This topic describes how to view and manage project alerts.
 
 ## Overview{#overview}
 
-Below is a table outlining the default conditions for each type of project alert.
+Below is a table outlining the default conditions for each default project alert.
 
 When an alert in an **ON** status, the specified recipients will receive notifications once the conditions are met. You can [edit an alert](./manage-project-alerts#edit-a-project-alert) to change its status.
 
-|  Alert Target         |  Unit |  Severity Level             |  Default Trigger Condition                                                                                                                                                      |  Default Status |
-| --------------------- | ----- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-|  CU Computation       |  %    |  **WARNING** / **CRITICAL** |  - **WARNING**: Triggered at >70% utilized computational power for 10+ minutes.<br/> - **CRITICAL**: Triggered at >90% utilized computational power for 10+ minutes.<br/> |  ON<br/>     |
-|  CU Capacity          |  %    |  **WARNING** / **CRITICAL** |  - **WARNING**: Triggered at >70% utilized CU capacity for 10+ minutes.<br/> - **CRITICAL**: Triggered at >90% utilized CU capacity for 10+ minutes.<br/>                 |  ON             |
-|  Search QPS           |  QPS  |  **WARNING**                |  Triggered at >50 search operations per second for 10+ minutes.                                                                                                                 |  OFF            |
-|  Query QPS            |  QPS  |  **WARNING**                |  Triggered at >50 query operations per second for 10+ minutes.                                                                                                                  |  OFF            |
-|  P99 Search Latency   |  ms   |  **WARNING**                |  Triggered at P99 latency >1000ms for 10+ minutes.                                                                                                                              |  OFF            |
-|  P99 Query Latency    |  ms   |  **WARNING**                |  Triggered at P99 latency >1000ms for 10+ minutes.                                                                                                                              |  OFF            |
-|  Request Failure Rate |  %    |  **WARNING**                |  Triggered at a failure rate of >50% for 10+ minutes.                                                                                                                           |  ON             |
+|  Alert Target       |  Unit |  Severity Level             |  Default Trigger Condition                                                                                                                                                      |  Default Status |
+| ------------------- | ----- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+|  CU Computation     |  %    |  **WARNING** / **CRITICAL** |  - **WARNING**: Triggered at >70% utilized computational power for 10+ minutes.<br/> - **CRITICAL**: Triggered at >90% utilized computational power for 10+ minutes.<br/> |  ON<br/>     |
+|  CU Capacity        |  %    |  **WARNING** / **CRITICAL** |  - **WARNING**: Triggered at >70% utilized CU capacity for 10+ minutes.<br/> - **CRITICAL**: Triggered at >90% utilized CU capacity for 10+ minutes.<br/>                 |  ON             |
+|  Search QPS         |  QPS  |  **WARNING**                |  Triggered at >50 search operations per second for 10+ minutes.                                                                                                                 |  OFF            |
+|  Query QPS          |  QPS  |  **WARNING**                |  Triggered at >50 query operations per second for 10+ minutes.                                                                                                                  |  OFF            |
+|  P99 Search Latency |  ms   |  **WARNING**                |  Triggered at P99 latency >1000ms for 10+ minutes.                                                                                                                              |  OFF            |
+|  P99 Query Latency  |  ms   |  **WARNING**                |  Triggered at P99 latency >1000ms for 10+ minutes.                                                                                                                              |  OFF            |
 
 **Permissions**:
 
@@ -61,9 +60,9 @@ Navigate to the **Project Alerts** page to view project alerts.
 
 ## Create a project alert{#create-a-project-alert}
 
-In addition to default alerts, you can click **+ Alert** to create an alert by customizing the alert type, severity level, alert condition, and notification recipients.
+In addition to default project alerts, you can click **+ Alert** to create an alert by customizing the alert type, severity level, alert condition, and notification recipients.
 
-For supported alert types for customization, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
+For supported custom alert targets, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
 
 ![byoc-create-alert](/byoc/byoc-create-alert.png)
 
@@ -75,19 +74,19 @@ For supported alert types for customization, refer to [Metrics & Alerts Referenc
 
 <Admonition type="info" icon="📘" title="Notes">
 
-To quickly turn on or off an alert, you can select **Turn On** or **Turn Off** from the **Actions** column.
+To quickly enable or disable an alert, you can select **Enable** or **Disable** from the **Actions** column.
 
 </Admonition>
 
 ![byoc-edit-project-alert](/byoc/byoc-edit-project-alert.png)
 
-## Turn on or off a project alert{#turn-on-or-off-a-project-alert}
+## Enable or disable a project alert{#enable-or-disable-a-project-alert}
 
-To quickly turn on or off a project alert, select **Turn On** or **Turn Off** from the **Actions** column. 
+To quickly enable or disable a project alert, select **Enable** or **Disable** from the **Actions** column. 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Once an alert is turned off, you'll no longer receive alert notifications if alert conditions are met.
+Once an alert is disabled, you'll no longer receive alert notifications if alert conditions are met.
 
 </Admonition>
 

@@ -1,5 +1,6 @@
 ---
 slug: /image-search-with-zilliz-cloud-and-pytorch
+sidebar_label: With PyTorch
 beta: FALSE
 notebook: 84_integrations_pytorch.ipynb
 token: XnWswbO9Zi4sykkgRzec8el8nyd

@@ -3,13 +3,13 @@ slug: /release-notes-220
 beta: FALSE
 notebook: FALSE
 token: GqyhwKVspiYRwDk8OaucNfgJnhd
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (September 13, 2023)
+# Release Notes (Sept 13, 2023)
 
 We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience.
 

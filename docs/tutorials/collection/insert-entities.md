@@ -3,14 +3,14 @@ slug: /insert-entities
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 token: HBZTwCHa6iTDE0kqNqZc5OJ8nqg
-sidebar_position: 8
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-#  Insert Entities
+# Insert Entities
 
 An entity represents a basic data unit within a collection. It embodies a member of a specific class, such as a book in a library or a gene in a genome. Entities in a collection share the same set of attributes, which we refer to as the schema.
 

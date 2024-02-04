@@ -1,0 +1,989 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1707037296",
+  "node_token": "VbjiwU5RYi4bWdkC48Jceltnnpd",
+  "node_type": "origin",
+  "obj_create_time": "1707037296",
+  "obj_edit_time": "1707037759",
+  "obj_token": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+  "obj_type": "docx",
+  "origin_node_token": "VbjiwU5RYi4bWdkC48Jceltnnpd",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
+  "space_id": "7167193056431783939",
+  "title": "Release Notes (Jan 18, 2024)",
+  "slug": "release-notes-250",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "block_type": 1,
+        "children": [
+          "TFTkdoo7oozaGkxW8V4cE1tinFg",
+          "FFZgd6sajoIw2oxi6IHcOE7cnQf",
+          "VEAud25QloMaFvxAWnpcT0ujnuf",
+          "BO5idDYUcoqNSoxIWnIcVRPvnQf",
+          "PeRxd5Dcio7id7xtj0FcjN7wn80",
+          "HV3idDtnkob21HxynwUcYJSMnkh",
+          "V2A2dWSRyowkEKxeKbocPavNnYd",
+          "LfVIdu68woB0xxxT0IWcwQrjnph",
+          "PS0adpPdkoylLmxSOsIcd5xcnEg",
+          "LWSUdtG7QoGKU6xNKpJc2eHXn4f",
+          "GiVdd1LxjoD2EcxUW9PctGv7nAb",
+          "AslAdaHeDonhdBxlKrhchWkCnZb",
+          "Uy3Adbh0wooumrxkSKxckjr7nke",
+          "Iwigd4j5coOTvtxXDoJcYl8QnFc",
+          "C7BUdDvgQoZA39xe6XDcdRX5nmb",
+          "Oy1Od6wSfop2a0x1tC4csVJknDb",
+          "B5nsd5rwro5YgaxD2ZsciOqhnmh",
+          "EuNxdTQSTokQpexP2cBc1yU7nIb",
+          "KBt3dlhZfo1YyQxhq2LcuHGKnOh",
+          "S0Pwdckuaoc1rAxxjp2c6Zqgnpb",
+          "Bx3AdGSyaoYOQwxQbFZcGwaHntc",
+          "OZ41dkXT1orVhgxtm7LcKHCUnab",
+          "CIrOdy4xIo8G1txZf1qcvu61nfd",
+          "WIDydXsB2o2ggRxrzc9c0OYWnae",
+          "HU7vdbm9Oo4Ttox5Gr3c6NgHniD",
+          "XxGBd9aE9oCM3Sxx4GNcZYmIn3g",
+          "F7nZdWo6WowbgexcvTvca1abnbf",
+          "ZoNHdSolQoJ6LoxjKgKcs19Unhe",
+          "QgxcdR9RMoFzhTxX8Q7cFUfpnTe",
+          "GUcnd0blzoYvTdxAP0GcfntBnAb",
+          "WtfxdsGhZoovDJxwVvLcuRl3nOc"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Release Notes (Jan 18, 2024)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "TFTkdoo7oozaGkxW8V4cE1tinFg",
+        "block_type": 2,
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud now officially supports the Bring-Your-Own-Cloud (BYOC) subscription plan. Additionally, we have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FFZgd6sajoIw2oxi6IHcOE7cnQf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Milvus Compatibility",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "VEAud25QloMaFvxAWnpcT0ujnuf",
+        "block_type": 2,
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This release is compatible with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus 2.2.x",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus 2.3.x (Beta)",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BO5idDYUcoqNSoxIWnIcVRPvnQf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Bring Your Own Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "PeRxd5Dcio7id7xtj0FcjN7wn80",
+        "block_type": 2,
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Today, we're thrilled to unveil the Zilliz Bring Your Own Cloud (BYOC) deployment model. This innovative approach offers you the best of both worlds: fully managed vector database services right in your own Virtual Private Cloud (VPC) for top level data security, with Zilliz expertly handling all operations and maintenance.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HV3idDtnkob21HxynwUcYJSMnkh",
+        "block_type": 2,
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the rapidly evolving landscape of machine learning and artificial intelligence, one aspect that cannot be overlooked is the importance of security. For those who are facing stringent security and internal compliance demands, having tight control over your data is non-negotiable. The ideal solution is to store and manage all your data within your own Virtual Private Cloud (VPC). But here’s a key insight: the majority of today's vector database services are designed as SaaS, meaning both your control plane and data plane typically reside within your vendor's VPC, as shown below:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "V2A2dWSRyowkEKxeKbocPavNnYd",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 318,
+          "token": "VbKXbqrLhoPaIrxDEVTcmeOzn0c",
+          "width": 1140
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "LfVIdu68woB0xxxT0IWcwQrjnph",
+        "block_type": 2,
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Bring Your Own Cloud (BYOC) is a deployment model which sits somewhere between a SaaS cloud service and an on-premise deployment. For the data plane part, the vendor deploys their software in a VPC in the customer account. And for the control plane part, the vendor manages most of the administration for the customer:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PS0adpPdkoylLmxSOsIcd5xcnEg",
+        "block_type": 27,
+        "image": {
+          "align": 2,
+          "height": 348,
+          "token": "NjzYboVmVoziKZxLu0vchbNunbh",
+          "width": 1140
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "LWSUdtG7QoGKU6xNKpJc2eHXn4f",
+        "block_type": 2,
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For more details of Zilliz Cloud BYOC, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Ensuring Vector Data Security with Zilliz 'Bring Your Own Cloud' Option",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": true
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GiVdd1LxjoD2EcxUW9PctGv7nAb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Data Import",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "AslAdaHeDonhdBxlKrhchWkCnZb",
+        "block_type": 2,
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "We are excited to announce support for the Parquet data format in our latest release. To enhance user experience, we've introduced the PyMilvus writer utility, a powerful tool designed to assist our users in effortlessly creating files in JSON or Parquet formats for seamless data import. Dive into the details and explore the new possibilities ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "here",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FT5BnwoXuFiwXyekEJ1ZcfaJGnqd"
+                  },
+                  "strikethrough": false,
+                  "underline": true
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Uy3Adbh0wooumrxkSKxckjr7nke",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "API Key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "Iwigd4j5coOTvtxXDoJcYl8QnFc",
+        "block_type": 2,
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this release, Zilliz Cloud introduced a unified design for the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API Key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FBRsZwqOUTiBbrPk9b5WcvFgTnze"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Each user can access the Zilliz Cloud platform and multiple Clusters using a single unified API key.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "C7BUdDvgQoZA39xe6XDcdRX5nmb",
+        "block_type": 2,
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The permission design of Zilliz Cloud follows the RBAC (Role-Based Access Control) principles, divided into two layers: the Operation Layer and the Data Layer. In the Operation Layer, roles govern the operational permissions of resources such as Clusters, Projects, Users, and Billing. In the Data Layer, roles focus on controlling the capabilities of adding, deleting, modifying, and querying data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Oy1Od6wSfop2a0x1tC4csVJknDb",
+        "block_type": 43,
+        "board": {
+          "height": 305,
+          "token": "PlslwVOaxhz1a1bpRabcdYOCn6c",
+          "width": 792
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "B5nsd5rwro5YgaxD2ZsciOqhnmh",
+        "block_type": 2,
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the Operation Layer, Zilliz Cloud supports four types of roles, of which Organization Owner, Project Owner, and Project Member are three commonly used roles:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EuNxdTQSTokQpexP2cBc1yU7nIb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Organization Owner: Has full management rights over the organization, including organizational settings, managing payment methods and billing, API Keys, all projects in the organization, and related resources.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "KBt3dlhZfo1YyQxhq2LcuHGKnOh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Project Owner: Has full management rights over the project, including project settings, all clusters within the project, API Keys, and other related resources.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "S0Pwdckuaoc1rAxxjp2c6Zqgnpb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Project Member: Has read and write permissions to all clusters within the project, can view cluster details, and manage Collections and Indexes.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "Bx3AdGSyaoYOQwxQbFZcGwaHntc",
+        "block_type": 2,
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the Data Layer, Zilliz Cloud provides three built-in roles: Admin, Read-Only, and Read-Write, to control management, write, and read permissions of data. Zilliz Cloud allows users to create custom roles. These custom roles can define permissions for specific Collections, Partitions, or operations, ensuring the principle of minimal data permissions while using Zilliz Cloud. See the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "documentations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": true
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to learn the details.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OZ41dkXT1orVhgxtm7LcKHCUnab",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Metrics & Alert",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "CIrOdy4xIo8G1txZf1qcvu61nfd",
+        "block_type": 2,
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this release, we made a refactor of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "metric boards and alert system",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FXma9w6Ne9ihcsZkFkSmcHidEnZg"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". In the new version, you have the capability to monitor a comprehensive range of metrics:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WIDydXsB2o2ggRxrzc9c0OYWnae",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Resource Usage Metrics: This includes a detailed view of CU (Compute Unit) computation resource utilization, CU capacity utilization (fullness), and overall storage usage.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "HU7vdbm9Oo4Ttox5Gr3c6NgHniD",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Performance Metrics: Keep track of critical performance indicators such as search/query throughput and latency, the efficiency of data insertion (both throughput and latency), and the rate of request failures.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "XxGBd9aE9oCM3Sxx4GNcZYmIn3g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Data Metrics: Get insights into the number of collections, the total count of entities, the number of loaded entities for search, and the number of indexed entities.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "F7nZdWo6WowbgexcvTvca1abnbf",
+        "block_type": 2,
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Additionally, our enhanced Alert System allows you to set customized alert rules for all the aforementioned metrics. This means you can create alerts for scenarios like when the Query Per Second (QPS) rate surpasses 1000, or when the CU fullness exceeds 70%, ensuring you stay informed and proactive about your system's health and performance.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZoNHdSolQoJ6LoxjKgKcs19Unhe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enhancements",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "QgxcdR9RMoFzhTxX8Q7cFUfpnTe",
+        "block_type": 2,
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This release also includes a series of enhancements:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GUcnd0blzoYvTdxAP0GcfntBnAb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Improved experience of several web console pages.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      },
+      {
+        "block_id": "WtfxdsGhZoovDJxwVvLcuRl3nOc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Stability Enhancements: addressing known issues to further enhance the reliability of our service.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NOmsdWN7PoMEM8xxJqlcFtpEn8g"
+      }
+    ],
+    "counts": 32
+  }
+}

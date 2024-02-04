@@ -1,9 +1,9 @@
 ---
 slug: /drop-collection
 beta: FALSE
-notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
+notebook: FALSE
 token: KxK7wHZrciDa0skHrW1c6nkWn5f
-sidebar_position: 20
+sidebar_position: 15
 ---
 
 import Admonition from '@theme/Admonition';

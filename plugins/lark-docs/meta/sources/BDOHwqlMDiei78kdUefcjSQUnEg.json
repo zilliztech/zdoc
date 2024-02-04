@@ -124,7 +124,7 @@
       "node_token": "IoFmw0VkNiJ7jBksjYKcR191nxd",
       "node_type": "origin",
       "obj_create_time": "1689044516",
-      "obj_edit_time": "1705454452",
+      "obj_edit_time": "1707030582",
       "obj_token": "W33idSXytoVYC5xQrDdcAjt7npe",
       "obj_type": "docx",
       "origin_node_token": "IoFmw0VkNiJ7jBksjYKcR191nxd",
@@ -134,23 +134,6 @@
       "space_id": "7167193056431783939",
       "title": "Quick Start",
       "slug": "quick-start"
-    },
-    {
-      "creator": "ou_8554528ee6e965bad56710acde1c7847",
-      "has_child": false,
-      "node_create_time": "1700634470",
-      "node_token": "PodzwWvqpiontZkZXkXcscyPnDc",
-      "node_type": "origin",
-      "obj_create_time": "1700634470",
-      "obj_edit_time": "1702952927",
-      "obj_token": "UR6idKEtmotpYPx5ia5cTIsFnMf",
-      "obj_type": "docx",
-      "origin_node_token": "PodzwWvqpiontZkZXkXcscyPnDc",
-      "origin_space_id": "7167193056431783939",
-      "owner": "ou_8554528ee6e965bad56710acde1c7847",
-      "parent_node_token": "BDOHwqlMDiei78kdUefcjSQUnEg",
-      "space_id": "7167193056431783939",
-      "title": "Quickstart (Dev)"
     },
     {
       "creator": "ou_e55a208a81fc721928685fc3df9cb678",

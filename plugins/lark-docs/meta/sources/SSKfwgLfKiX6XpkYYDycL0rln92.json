@@ -5,7 +5,7 @@
   "node_token": "SSKfwgLfKiX6XpkYYDycL0rln92",
   "node_type": "origin",
   "obj_create_time": "1697536230",
-  "obj_edit_time": "1705028222",
+  "obj_edit_time": "1706174951",
   "obj_token": "WSWidb1WZoNboExpxxacgBlLnYb",
   "obj_type": "docx",
   "origin_node_token": "SSKfwgLfKiX6XpkYYDycL0rln92",
@@ -13,7 +13,7 @@
   "owner": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
   "space_id": "7167193056431783939",
-  "title": "[DEPRECATE] Search and Query with Iterators",
+  "title": "Search and Query with Iterators",
   "slug": "search-and-query-iterators",
   "blocks": {
     "items": [
@@ -56,67 +56,13 @@
           "YRegdAkqqo9xlKxPktIcgAONn8c",
           "Z6D4dXI62oFejxxgkflcSn9fnxg"
         ],
-        "comment_ids": [
-          "7297123183655960580"
-        ],
         "page": {
           "elements": [
             {
               "text_run": {
-                "content": "[DEPRECATE] ",
+                "content": "Search and Query with Iterators",
                 "text_element_style": {
                   "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Search and ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Query",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " with ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Iterators",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7297123183655960580"
-                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,

@@ -1,7 +1,7 @@
 ---
 slug: /migrations
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 token: IeNswy8ySiutKAkdphRc4lfynsf
 sidebar_position: 7
 ---

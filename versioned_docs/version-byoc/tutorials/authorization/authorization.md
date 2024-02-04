@@ -1,7 +1,7 @@
 ---
 slug: /authorization
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 token: HvXowwu7Xifm3nkEq3EcZBoUnob
 sidebar_position: 11
 ---

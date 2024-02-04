@@ -3,13 +3,13 @@ slug: /release-notes-200
 beta: FALSE
 notebook: FALSE
 token: BcXMwUYQ3iD7mEkWKFhcU5PUnB5
-sidebar_position: 6
+sidebar_position: 7
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (July 11, 2023)
+# Release Notes (June 11, 2023)
 
 The release of Zilliz Cloud sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, cost-optimized CU, organization and collaboration support, RBAC support, partition key, dynamic schema, and JSON type support. Try out this game-changing update today!
 

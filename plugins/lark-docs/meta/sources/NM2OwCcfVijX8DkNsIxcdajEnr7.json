@@ -214,7 +214,8 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "NM2OwCcfVijX8DkNsIxcdajEnr7",
       "space_id": "7167193056431783939",
-      "title": "[DEV] Use Multi-Tenancy"
+      "title": "[DEV] Use Multi-Tenancy",
+      "slug": "use-multi-tenancy"
     }
   ]
 }

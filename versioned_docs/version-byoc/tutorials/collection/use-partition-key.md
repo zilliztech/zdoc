@@ -3,7 +3,7 @@ slug: /use-partition-key
 beta: FALSE
 notebook: 03_use_partition_key.ipynb
 token: UzY9wHHcIiDJAUkkFSzcBUk9n4o
-sidebar_position: 13
+sidebar_position: 12
 ---
 
 import Admonition from '@theme/Admonition';

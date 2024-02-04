@@ -1,7 +1,7 @@
 ---
 slug: /payment-billing
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 token: FmkCwm1QHitB7uk9U9ncLnHrnse
 sidebar_position: 14
 ---

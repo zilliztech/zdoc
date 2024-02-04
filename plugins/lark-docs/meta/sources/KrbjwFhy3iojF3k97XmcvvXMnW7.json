@@ -5,7 +5,7 @@
   "node_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
   "node_type": "origin",
   "obj_create_time": "1701223750",
-  "obj_edit_time": "1705460647",
+  "obj_edit_time": "1707032875",
   "obj_token": "GQVdd3C8ho6IDexgNBMcTdf1nGc",
   "obj_type": "docx",
   "origin_node_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
@@ -80,12 +80,7 @@
           "doxcng9ak5yW6v3Icexj8vZHZKb",
           "doxcniNIkq2Wpz9DQpJI2DUopxh",
           "doxcndB2hFky5vAEGgwhLTmmXoh",
-          "doxcnU2hjBdo37OmgpG78Xossfg",
-          "doxcnDz17XqCX65SfHvZOQTtdag",
-          "doxcnbuYaJNN9FTlE0tHnOSpAYY",
-          "doxcnVBRXU5ErcUEe4zEaAzu1Kh",
-          "doxcnPpUGFttvMLeMSHyTti7VBg",
-          "doxcnCDxeE0PIwpZooJi1txDVI8"
+          "doxcnU2hjBdo37OmgpG78Xossfg"
         ],
         "page": {
           "elements": [
@@ -757,31 +752,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "<TabItem value=\"Cloud ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "UI",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\">",
+                "content": "<TabItem value=\"Cloud Console\">",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2883,31 +2854,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "<TabItem value=\"Cloud ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "UI",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\">",
+                "content": "<TabItem value=\"Cloud Console\">",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -5208,175 +5155,8 @@
             "folded": false
           }
         }
-      },
-      {
-        "block_id": "doxcnDz17XqCX65SfHvZOQTtdag",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Related topics",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "GQVdd3C8ho6IDexgNBMcTdf1nGc"
-      },
-      {
-        "block_id": "doxcnbuYaJNN9FTlE0tHnOSpAYY",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Connect to Cluster",
-                "token": "IVFfws0lJi8gIVkRvrvc9aXvnNe",
-                "url": "https://zilliverse.feishu.cn/wiki/IVFfws0lJi8gIVkRvrvc9aXvnNe"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FConnect-to-Cluster-6b8f0f0e96234400ad9dce8781eb94f4%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "GQVdd3C8ho6IDexgNBMcTdf1nGc"
-      },
-      {
-        "block_id": "doxcnVBRXU5ErcUEe4zEaAzu1Kh",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "[DEV] Manage Collections",
-                "token": "RwL3wOzONihxtJkVIcncIlu1nWe",
-                "url": "https://zilliverse.feishu.cn/wiki/RwL3wOzONihxtJkVIcncIlu1nWe"
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "GQVdd3C8ho6IDexgNBMcTdf1nGc"
-      },
-      {
-        "block_id": "doxcnPpUGFttvMLeMSHyTti7VBg",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "[DEV] Insert, Upsert & Delete",
-                "token": "QnFiwPp0yigjYjk8OoAcIk7lnmg",
-                "url": "https://zilliverse.feishu.cn/wiki/QnFiwPp0yigjYjk8OoAcIk7lnmg"
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "GQVdd3C8ho6IDexgNBMcTdf1nGc"
-      },
-      {
-        "block_id": "doxcnCDxeE0PIwpZooJi1txDVI8",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Example Dataset",
-                "token": "FCgWwFVtQiUy9GkDlQNcA0xZnPa",
-                "url": "https://zilliverse.feishu.cn/wiki/FCgWwFVtQiUy9GkDlQNcA0xZnPa"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FExample-Dataset-2df10a1ffe454c52a2be0ec069f4424e%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "GQVdd3C8ho6IDexgNBMcTdf1nGc"
       }
     ],
-    "counts": 132
+    "counts": 127
   }
 }

@@ -1,7 +1,7 @@
 ---
 slug: /understand-basics
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 token: L4qDwChWLi1Vy6kbt30cd7W4ntC
 sidebar_position: 2
 ---

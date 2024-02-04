@@ -1,7 +1,7 @@
 ---
 slug: /organization-settings
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 token: W4sbwK3wnid47YkXD0jcDiXUndd
 sidebar_position: 3
 ---

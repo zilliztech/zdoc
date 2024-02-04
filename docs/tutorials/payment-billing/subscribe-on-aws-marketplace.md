@@ -1,5 +1,6 @@
 ---
 slug: /subscribe-on-aws-marketplace
+sidebar_label: AWS Marketplace
 beta: FALSE
 notebook: FALSE
 token: LDlOweEzmiLkdQkvPFec5lrcnbf
@@ -48,8 +49,6 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
     AWS Marketplace uses query strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.
 
     </Admonition>
-
-1. Fill out the required information to access $100 in long-term credits and decide if you want to receive updates from Zilliz Cloud.
 
 1. Go to **Billing** to ensure your AWS Marketplace subscription is set as your payment method.
 

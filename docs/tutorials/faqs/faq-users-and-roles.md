@@ -3,7 +3,7 @@ slug: /faq-users-and-roles
 beta: null
 notebook: null
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
-sidebar_position: 8
+sidebar_position: 9
 ---
 
 # FAQ: Users & Roles

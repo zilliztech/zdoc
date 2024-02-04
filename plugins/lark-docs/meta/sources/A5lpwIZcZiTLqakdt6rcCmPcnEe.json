@@ -5,7 +5,7 @@
   "node_token": "A5lpwIZcZiTLqakdt6rcCmPcnEe",
   "node_type": "origin",
   "obj_create_time": "1702263637",
-  "obj_edit_time": "1705554762",
+  "obj_edit_time": "1705926281",
   "obj_token": "AQXPdm3KWoACwPxjgxuc3sypnve",
   "obj_type": "docx",
   "origin_node_token": "A5lpwIZcZiTLqakdt6rcCmPcnEe",
@@ -13,7 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
   "space_id": "7167193056431783939",
-  "title": "Release Notes (2023/12/11)",
+  "title": "Release Notes (Dec 11, 2023)",
   "slug": "release-notes-240",
   "blocks": {
     "items": [
@@ -46,7 +46,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Release Notes (2023/12/11)",
+                "content": "Release Notes (Dec 11, 2023)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

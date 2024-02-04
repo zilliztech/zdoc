@@ -5,7 +5,7 @@
   "node_token": "YtxBwrPfBiuFDdk10GVcYY1DnGg",
   "node_type": "origin",
   "obj_create_time": "1698052024",
-  "obj_edit_time": "1705554392",
+  "obj_edit_time": "1705926342",
   "obj_token": "GJdCdQYjKodPgPxzs4lck9jQnoh",
   "obj_type": "docx",
   "origin_node_token": "YtxBwrPfBiuFDdk10GVcYY1DnGg",
@@ -13,7 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "NOYvw884PigqIhk1gwLcw1OYnfe",
   "space_id": "7167193056431783939",
-  "title": "Release Notes (2023/09/27)",
+  "title": "Release Notes (Sept 27, 2023)",
   "slug": "release-notes-221",
   "blocks": {
     "items": [
@@ -39,7 +39,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Release Notes (2023/09/27)",
+                "content": "Release Notes (Sept 27, 2023)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

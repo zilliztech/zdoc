@@ -1,5 +1,6 @@
 ---
 slug: /question-answering-over-documents-with-zilliz-cloud-and-langchain
+sidebar_label: With LangChain
 beta: FALSE
 notebook: 83_integrations_langchain.ipynb
 token: VSL7w4qDdiW0onkmrpucHCiBnIC

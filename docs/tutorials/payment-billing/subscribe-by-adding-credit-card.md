@@ -1,5 +1,6 @@
 ---
 slug: /subscribe-by-adding-credit-card
+sidebar_label: Credit Card
 beta: FALSE
 notebook: FALSE
 token: TVnkwXupUiX3zDkzYPWcxKP3nvg

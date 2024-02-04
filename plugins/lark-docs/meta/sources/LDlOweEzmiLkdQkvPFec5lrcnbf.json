@@ -5,7 +5,7 @@
   "node_token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
   "node_type": "origin",
   "obj_create_time": "1689062622",
-  "obj_edit_time": "1704964085",
+  "obj_edit_time": "1705995008",
   "obj_token": "G0qudBnqjoxXb6xywOjcLtBhnTb",
   "obj_type": "docx",
   "origin_node_token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
@@ -33,7 +33,6 @@
           "YH5zdnH34oMKwWx2V33clxS2nAb",
           "QHMbdPP6soqctXxkhGZcVMW6nwa",
           "GXWudsT59oa6moxCNjDcTc5ZnYb",
-          "ShPEd9iskoDrtkx39qucsGkLnVS",
           "ErqSdSGI4oLuRJxvLz5cM4Q7n4j",
           "XJdgdSNFjo2QffxJUHpct9HYn1d",
           "GeBSdu3pzoaWCFxoCdAcOp0xneh",
@@ -1001,31 +1000,6 @@
             "folded": false
           }
         }
-      },
-      {
-        "block_id": "ShPEd9iskoDrtkx39qucsGkLnVS",
-        "block_type": 13,
-        "ordered": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Fill out the required information to access $100 in long-term credits and decide if you want to receive updates from Zilliz Cloud.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
       },
       {
         "block_id": "ErqSdSGI4oLuRJxvLz5cM4Q7n4j",
@@ -4482,6 +4456,6 @@
         "parent_id": "G0qudBnqjoxXb6xywOjcLtBhnTb"
       }
     ],
-    "counts": 144
+    "counts": 143
   }
 }

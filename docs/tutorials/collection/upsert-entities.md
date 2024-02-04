@@ -3,14 +3,14 @@ slug: /upsert-entities
 beta: TRUE
 notebook: 08_upsert_entities.ipynb
 token: FosYwomcEims6PkFvwgcwZbcn1e
-sidebar_position: 9
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-#  Upsert Entities
+# Upsert Entities
 
 This topic describes how to upsert data into a collection in Zilliz Cloud.
 

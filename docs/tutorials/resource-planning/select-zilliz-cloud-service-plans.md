@@ -1,5 +1,6 @@
 ---
 slug: /select-zilliz-cloud-service-plans
+sidebar_label: Cluster Plans
 beta: FALSE
 notebook: FALSE
 token: Ghq9wEiOOivgeIkmj2HcHC9onXe

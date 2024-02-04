@@ -1,7 +1,7 @@
 ---
 slug: /pipelines
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 token: RzBdwMKAxiiejDk9rWjc1Sv1nSf
 sidebar_position: 6
 ---

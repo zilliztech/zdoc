@@ -1,5 +1,6 @@
 ---
 slug: /view-invoice
+sidebar_label: Invoice
 beta: FALSE
 notebook: FALSE
 token: PBEbwjRu9iyyaFkZnuzcINHCnke

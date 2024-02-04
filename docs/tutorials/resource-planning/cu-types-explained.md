@@ -1,5 +1,6 @@
 ---
 slug: /cu-types-explained
+sidebar_label: CU Types
 beta: FALSE
 notebook: FALSE
 token: UgqvwKh2QiKE1kkYNLJcaHt0nkg

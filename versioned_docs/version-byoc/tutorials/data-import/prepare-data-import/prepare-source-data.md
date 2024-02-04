@@ -90,7 +90,7 @@ You are advised to use [the ](./use-bulkwriter)[**BulkWriter**](./use-bulkwriter
 
 <Admonition type="info" icon="📘" title="Notes">
 
-This file type is available for cluster compatible with Milvus 2.3.x.
+This file type is available for clusters compatible with Milvus 2.3.x.
 
 </Admonition>
 
@@ -132,13 +132,15 @@ Zilliz Cloud supports data import from a JSON file in a local folder on the Zill
 
 ### From remote buckets{#from-remote-buckets}
 
-Zilliz Cloud also supports data import from a bucket on **AWS S3**, **Google GCS**, and **Azure Blob**.
+Zilliz Cloud also supports data import from a bucket on **AWS S3**, **Google GCS**, and **Azure Blob** through the console, RESTful API, and SDKs.
 
 <Admonition type="info" icon="📘" title="Notes">
 
 The bucket and the target cluster of this import should reside on the same public cloud. For example, if the target cluster is hosted on AWS, you should use an AWS S3 bucket to hold the source data files.
 
 </Admonition>
+
+![data-import-on-console-remote](/byoc/data-import-on-console-remote.png)
 
 - **Object access URIs**
 

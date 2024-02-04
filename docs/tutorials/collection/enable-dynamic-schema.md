@@ -3,7 +3,7 @@ slug: /enable-dynamic-schema
 beta: FALSE
 notebook: 02_enable_dynamic_schema.ipynb
 token: Bb7lwOvwHiJlOgk3RURc3Hi7nrc
-sidebar_position: 12
+sidebar_position: 11
 ---
 
 import Admonition from '@theme/Admonition';

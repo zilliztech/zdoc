@@ -1,5 +1,6 @@
 ---
 slug: /movie-search-using-zilliz-cloud-and-sentencetransformers
+sidebar_label: With SentenceTransformers
 beta: FALSE
 notebook: 86_integrations_sentencetransformers.ipynb
 token: KPlpwDwupiZu0ZkYOu3cY3EWn7f

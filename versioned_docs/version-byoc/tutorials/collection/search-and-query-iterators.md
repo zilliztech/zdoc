@@ -3,7 +3,7 @@ slug: /search-and-query-iterators
 beta: TRUE
 notebook: 09_search_query_iterators.ipynb
 token: SSKfwgLfKiX6XpkYYDycL0rln92
-sidebar_position: 18
+sidebar_position: 8
 ---
 
 import Admonition from '@theme/Admonition';

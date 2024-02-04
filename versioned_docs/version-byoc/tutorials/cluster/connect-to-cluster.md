@@ -167,14 +167,3 @@ curl --request GET \\
 
 </TabItem>
 </Tabs>
-
-## Related topics{#related-topics}
-
-- [Create Collection](./create-collection)
-
-- [Insert Entities](./insert-entities)
-
-- [Search and Query](./search-query-and-get)
-
-- [Drop Collection](./drop-collection) 
-

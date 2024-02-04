@@ -1,9 +1,9 @@
 ---
 slug: /start-with-byoc
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 token: YVxQwnj23iS9sNkUTcmcPKzNnQh
-sidebar_position: 4
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';

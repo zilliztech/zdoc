@@ -1,7 +1,7 @@
 ---
 slug: /cluster-credentials
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 token: B10Owir21iSfZfkjsvgcnU6nnFc
 sidebar_position: 3
 ---

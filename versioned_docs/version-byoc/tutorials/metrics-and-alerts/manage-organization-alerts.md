@@ -3,7 +3,7 @@ slug: /manage-organization-alerts
 beta: FALSE
 notebook: FALSE
 token: UPg7wiU71ioeELk8I8KcLDYqncb
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
@@ -56,23 +56,23 @@ Navigate to the **Organization Alert** page to view various license-related aler
 
 - **Customizations**: Modify alert conditions, update notification recipients, and change the active status.
 
-- **Restrictions**: Alert target target and severity level are fixed and cannot be changed.
+- **Restrictions**: Alert targets and severity level are fixed and cannot be changed.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-To quickly turn on or off an alert, you can select **Turn On** or **Turn Off** from the **Actions** column.
+To quickly enable or disable an alert, you can select **Enable** or **Disable** from the **Actions** column.
 
 </Admonition>
 
 ![byoc-edit-organization-alert](/byoc/byoc-edit-organization-alert.png)
 
-## Turn on or off an organization alert{#turn-on-or-off-an-organization-alert}
+## Enable or disable an organization alert{#enable-or-disable-an-organization-alert}
 
-To quickly turn on or off an organization alert, select **Turn On** or **Turn Off** from the **Actions** column. 
+To quickly enable or disable an organization alert, select **Enable** or **Disable** from the **Actions** column. 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Once an alert is turned off, you'll no longer receive alert notifications if alert conditions are met.
+Once an alert is disabled, you'll no longer receive alert notifications if alert conditions are met.
 
 </Admonition>
 

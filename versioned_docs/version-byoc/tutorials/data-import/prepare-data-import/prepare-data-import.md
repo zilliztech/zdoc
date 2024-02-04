@@ -1,7 +1,7 @@
 ---
 slug: /prepare-data-import
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 token: YNbGwiEjAinaQfkSdNlcTehwn8I
 sidebar_position: 2
 ---
