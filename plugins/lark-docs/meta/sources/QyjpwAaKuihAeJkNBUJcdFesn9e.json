@@ -5,7 +5,7 @@
   "node_token": "QyjpwAaKuihAeJkNBUJcdFesn9e",
   "node_type": "origin",
   "obj_create_time": "1704332748",
-  "obj_edit_time": "1706963028",
+  "obj_edit_time": "1707046319",
   "obj_token": "HRtvddLG2oWHM7x9FzUcQVkcnye",
   "obj_type": "docx",
   "origin_node_token": "QyjpwAaKuihAeJkNBUJcdFesn9e",
@@ -3096,7 +3096,7 @@
             },
             {
               "text_run": {
-                "content": "://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy",
+                "content": "://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/\\*.npy",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3577,7 +3577,7 @@
             },
             {
               "text_run": {
-                "content": "://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy",
+                "content": "://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/\\*.npy",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
