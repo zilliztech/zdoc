@@ -3,14 +3,14 @@ slug: /search-query-and-get
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 token: YfMEwLHzeisARCk4VZ3cVhJmnjd
-sidebar_position: 16
+sidebar_position: 6
 ---
 
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-#  Search, Query, and Get
+# Search, Query, and Get
 
 This guide walks you through performing nearest-neighbor searches and queries. A search involves looking for the closest vector to a given vector in a collection, while a query filters out entities that match a certain condition.
 

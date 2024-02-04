@@ -28,7 +28,7 @@ Ensure:
 
 <Tabs groupId="cluster" defaultValue="Cloud UI" values={[{"label":"Cloud UI","value":"Cloud UI"},{"label":"Bash","value":"Bash"}]}>
 
-<TabItem value="Cloud UI">
+<TabItem value="Cloud Console">
 
 1. Navigate to [Zilliz Cloud console](https://cloud.zilliz.com/login) and log in.
 
@@ -119,7 +119,7 @@ In the command above,
 
 <Tabs groupId="cluster" defaultValue="Cloud UI" values={[{"label":"Cloud UI","value":"Cloud UI"},{"label":"Bash","value":"Bash"}]}>
 
-<TabItem value="Cloud UI">
+<TabItem value="Cloud Console">
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
@@ -204,10 +204,3 @@ In the command above,
 ## Verification{#verification}
 
 After you create the cluster, you can check its status on the cluster list page. A cluster in the **Running** state indicates successful creation.
-
-## Related topics{#related-topics}
-
-- [Connect to Cluster](./connect-to-cluster)
-
-- [Example Dataset](./example-dataset) 
-

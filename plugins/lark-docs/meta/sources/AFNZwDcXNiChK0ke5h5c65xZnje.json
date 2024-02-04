@@ -5,7 +5,7 @@
   "node_token": "AFNZwDcXNiChK0ke5h5c65xZnje",
   "node_type": "origin",
   "obj_create_time": "1700448717",
-  "obj_edit_time": "1705574794",
+  "obj_edit_time": "1706179509",
   "obj_token": "DLwfdFXX3oC5zvxMHeXcibKpnve",
   "obj_type": "docx",
   "origin_node_token": "AFNZwDcXNiChK0ke5h5c65xZnje",
@@ -5707,6 +5707,7 @@
         "block_type": 32,
         "children": [
           "VqZ4dIEnIojxXuxNySica5Psnyc",
+          "NNzOdzgMGojuGLxfPC4c8wjAn0f",
           "F1ISdS7DooRdcax7RzrcK8jDnde",
           "PnZ6dwoTUoazbHxUAIOcyBhQnqh",
           "H6SjdCr7joWK78xkH9ccTwK2nBh",
@@ -5714,13 +5715,13 @@
           "W6rQdrtAaoy8B8xfF5mcUBFinbd",
           "WdU0dx83EoHhDyxIALYc3CxXnkd",
           "KSd7d0yf8o82noxdms6cTVZ4n5I",
-          "GnK1dsREJozkd3xwsg3cuHkYnPc",
           "RnIudQW1zo2I4Tx1S6QcTDZTnxF",
           "EcnjdblTcoobg4xaSYzc7yVanCK",
           "H6DUdEiAeou8k9xaRlmckzRCnNg",
           "LyDcdbqcmoleqaxYtZuc3FRvn1c",
           "VpbndDowioJaXVxKdPcc1Y2TnVC",
-          "RWrAdwgiYoxzTaxgywAcvS4mnce"
+          "RWrAdwgiYoxzTaxgywAcvS4mnce",
+          "RuB0dbP9Goidd6xdkLzcCYbOnDe"
         ],
         "parent_id": "YuI6d7mrAoFkIlxYIdjcHlUInCh",
         "table_cell": {}
@@ -5749,6 +5750,97 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "NNzOdzgMGojuGLxfPC4c8wjAn0f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "list cloud providers",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Flist-cloud-providers"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " & ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "regions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Freference%2Flist-cloud-regions"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MsGadJxoUo4B51xzYokcQIuhncd"
       },
       {
         "block_id": "F1ISdS7DooRdcax7RzrcK8jDnde",
@@ -6484,31 +6576,6 @@
         }
       },
       {
-        "block_id": "GnK1dsREJozkd3xwsg3cuHkYnPc",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Credential (create, delete, list, update, addUserToRole, selectUser)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "MsGadJxoUo4B51xzYokcQIuhncd"
-      },
-      {
         "block_id": "RnIudQW1zo2I4Tx1S6QcTDZTnxF",
         "block_type": 12,
         "bullet": {
@@ -6705,6 +6772,31 @@
           }
         },
         "parent_id": "MsGadJxoUo4B51xzYokcQIuhncd"
+      },
+      {
+        "block_id": "RuB0dbP9Goidd6xdkLzcCYbOnDe",
+        "block_type": 2,
+        "parent_id": "MsGadJxoUo4B51xzYokcQIuhncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "TX5IdzkqLoEYIcxH0DicOnlJnXg",
@@ -8941,6 +9033,6 @@
         "parent_id": "DLwfdFXX3oC5zvxMHeXcibKpnve"
       }
     ],
-    "counts": 185
+    "counts": 186
   }
 }

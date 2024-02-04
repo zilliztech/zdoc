@@ -218,12 +218,16 @@
       },
       {
         "block_id": "TdUIdRItRomoKfxJXsCcUNcXnSh",
-        "block_type": 999,
+        "block_type": 43,
+        "board": {
+          "height": 291,
+          "token": "Ed2EwZKVlhXhq0bzpOkc4Sr3nVc",
+          "width": 799
+        },
         "comment_ids": [
           "7322023916241977348"
         ],
-        "parent_id": "Q7aGdJo34olnBnxphiccatUgnug",
-        "undefined": {}
+        "parent_id": "Q7aGdJo34olnBnxphiccatUgnug"
       },
       {
         "block_id": "LkgDdIxD7o11jDxxxD1cww3Rntc",

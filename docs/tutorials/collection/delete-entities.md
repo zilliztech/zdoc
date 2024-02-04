@@ -3,14 +3,14 @@ slug: /delete-entities
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 token: EcMiwjPhRiwTL0kHuvjcaW1Bng1
-sidebar_position: 10
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-#  Delete Entities
+# Delete Entities
 
 Entities on Zilliz Cloud refer to data objects stored in a cluster, containing data for processing, search, and queries. If an entity is no longer needed, you can perform operations to delete it.
 

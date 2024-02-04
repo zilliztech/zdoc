@@ -1,7 +1,7 @@
 ---
 slug: /backup-and-restore
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 token: VvikwOKc9iZ5vBkgMnycrXKmnId
 sidebar_position: 9
 ---

@@ -1,5 +1,6 @@
 ---
 slug: /advance-pay
+sidebar_label: Advance Pay
 beta: FALSE
 notebook: FALSE
 token: K8hFwmeBQiCSO4ktT9ScD9zMnua

@@ -3,7 +3,7 @@ slug: /example-dataset
 beta: FALSE
 notebook: FALSE
 token: FCgWwFVtQiUy9GkDlQNcA0xZnPa
-sidebar_position: 7
+sidebar_position: 6
 ---
 
 import Admonition from '@theme/Admonition';

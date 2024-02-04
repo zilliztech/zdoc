@@ -1,5 +1,6 @@
 ---
 slug: /perf-benchmark-vectordb
+sidebar_label: Use VectorDBBench
 beta: FALSE
 notebook: FALSE
 token: Za3QwAcfjiSSvxk8UzUcTPmfnmb
@@ -102,3 +103,5 @@ Click **Results **to view and analyze benchmarking results. Below are some examp
 ![DJBibk5puoOLxYxxnH3chlxcnAd](/byoc/DJBibk5puoOLxYxxnH3chlxcnAd.png)
 
 Optionally, you can set up the **DB Filter** and **Case Filter** in the left navigation pane to compare the benchmarking results of pre-defined vector databases and cases.
+
+## {#}

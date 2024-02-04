@@ -5,7 +5,7 @@
   "node_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
   "node_type": "origin",
   "obj_create_time": "1689062914",
-  "obj_edit_time": "1706520853",
+  "obj_edit_time": "1707038148",
   "obj_token": "Ly6BdqdNooKWDhxejD8ckxaZnah",
   "obj_type": "docx",
   "origin_node_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
@@ -167,6 +167,7 @@
           "E8cXdTvgSozNq8xgrbDcsoJzn8c",
           "TFwvd15IAos66Tx4Bn9cMIX9nId",
           "AF4sd2NNFocVldxkSaYco6qlnxb",
+          "DYe1dipVmoJCc2xIa3yccdHgnug",
           "BjfidFi9FoqCXvxCTt2cQJPJnTf",
           "K8KedVGX6olqgzxL0dbcwyNdnte",
           "DF81dvkQ2o7N5rxgYJJc7jKcn2c",
@@ -5672,6 +5673,31 @@
         "parent_id": "AF4sd2NNFocVldxkSaYco6qlnxb"
       },
       {
+        "block_id": "DYe1dipVmoJCc2xIa3yccdHgnug",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"saas\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "BjfidFi9FoqCXvxCTt2cQJPJnTf",
         "block_type": 4,
         "heading2": {
@@ -5780,7 +5806,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Zilliz Cloud Pipeline is available on all tiers as long as you have created a cluster on GCP. ",
+                "content": "Zilliz Cloud Pipeline is available on all tiers as long as you have created a cluster on GCP us-west1. ",
                 "text_element_style": {
                   "background_color": 1,
                   "bold": false,
@@ -5945,7 +5971,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "voyageai/voyage-02",
+                "content": "voyageai/voyage-2",
                 "text_element_style": {
                   "background_color": 1,
                   "bold": false,
@@ -6000,7 +6026,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "voyageai/voyage-code-02",
+                "content": "voyageai/voyage-code-2",
                 "text_element_style": {
                   "background_color": 1,
                   "bold": false,
@@ -6447,6 +6473,9 @@
       {
         "block_id": "Xsh9dgiJzoDlrqxfEbdc3849nhg",
         "block_type": 2,
+        "comment_ids": [
+          "7330220086567714819"
+        ],
         "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
         "text": {
           "elements": [
@@ -6764,10 +6793,26 @@
             },
             {
               "text_run": {
-                "content": ". When ",
+                "content": ". ",
                 "text_element_style": {
                   "background_color": 1,
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "When ",
+                "text_element_style": {
+                  "background_color": 1,
+                  "bold": false,
+                  "comment_ids": [
+                    "7330220086567714819"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -6781,6 +6826,9 @@
                 "text_element_style": {
                   "background_color": 1,
                   "bold": false,
+                  "comment_ids": [
+                    "7330220086567714819"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "link": {
@@ -6793,10 +6841,13 @@
             },
             {
               "text_run": {
-                "content": ", the input file should be an ",
+                "content": ", you can either upload a local file or use an ",
                 "text_element_style": {
                   "background_color": 1,
                   "bold": false,
+                  "comment_ids": [
+                    "7330220086567714819"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -6810,6 +6861,9 @@
                 "text_element_style": {
                   "background_color": 1,
                   "bold": false,
+                  "comment_ids": [
+                    "7330220086567714819"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -6823,6 +6877,9 @@
                 "text_element_style": {
                   "background_color": 1,
                   "bold": false,
+                  "comment_ids": [
+                    "7330220086567714819"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -6836,6 +6893,9 @@
                 "text_element_style": {
                   "background_color": 1,
                   "bold": false,
+                  "comment_ids": [
+                    "7330220086567714819"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -6849,6 +6909,9 @@
                 "text_element_style": {
                   "background_color": 1,
                   "bold": false,
+                  "comment_ids": [
+                    "7330220086567714819"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -6871,7 +6934,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "",
+                "content": "</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -11981,6 +12044,6 @@
         }
       }
     ],
-    "counts": 352
+    "counts": 353
   }
 }

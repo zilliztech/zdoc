@@ -3,7 +3,7 @@ slug: /install-sdks
 beta: FALSE
 notebook: FALSE
 token: J274wT61xiEM4fkYeL8cMb4Pnbd
-sidebar_position: 6
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';

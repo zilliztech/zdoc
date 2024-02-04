@@ -3,19 +3,19 @@ slug: /release-notes-230
 beta: FALSE
 notebook: FALSE
 token: MocQwCCItiHYEbkkJtOcROPTnod
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Release Notes (October 27, 2023)
+# Release Notes (Oct 17, 2023)
 
 We're pleased to announce the launch of our AWS Frankfurt region in the EU. Accompanying this expansion, we introduce beta features: Range Search, Upsert, and Cosine Metric Type, enhancing search capabilities and data management efficiency. Additional functionalities include API Key Access, Retrieve Raw Vectors, JSON_CONTAINS Filter, and Entity Count. Noteworthy improvements in RBAC, billing, pricing calculation, account management, and service stability have also been implemented for an enhanced user experience. 
 
 ## Milvus Compatibility{#milvus-compatibility}
 
-This release is compatible with **Milvus 2.2.x**.
+This release is compatible with **Milvus 2.2.x** and **Milvus 2.3.x (Beta)**.
 
 ## New AWS Region: Frankfurt (aws-eu-central-1) - Now Live{#new-aws-region-frankfurt-aws-eu-central-1-now-live}
 

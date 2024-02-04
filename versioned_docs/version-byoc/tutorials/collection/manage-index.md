@@ -3,7 +3,7 @@ slug: /manage-index
 beta: FALSE
 notebook: 01_use_customized_schema.ipynb
 token: HyGowX0PdiwXzzkmHxIclFmpntb
-sidebar_position: 7
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';

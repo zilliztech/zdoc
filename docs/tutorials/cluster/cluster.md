@@ -1,7 +1,7 @@
 ---
 slug: /cluster
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 token: BIy4we6qXiq8NpkHfXgcxuONngb
 sidebar_position: 3
 ---

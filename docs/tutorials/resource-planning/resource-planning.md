@@ -1,7 +1,7 @@
 ---
 slug: /resource-planning
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 token: NM2OwCcfVijX8DkNsIxcdajEnr7
 sidebar_position: 8
 ---

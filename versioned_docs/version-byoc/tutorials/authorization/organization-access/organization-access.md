@@ -1,7 +1,7 @@
 ---
 slug: /organization-access
-beta: false
-notebook: false
+beta: FALSE
+notebook: FALSE
 token: SkFxwYKdfirHv3k0g6zcXLPtnWD
 sidebar_position: 3
 ---

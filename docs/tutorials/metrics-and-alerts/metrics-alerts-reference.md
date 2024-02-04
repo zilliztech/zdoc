@@ -3,7 +3,7 @@ slug: /metrics-alerts-reference
 beta: FALSE
 notebook: FALSE
 token: KnnBwce9JifxvXkd070cvgUPnag
-sidebar_position: 4
+sidebar_position: 1
 ---
 
 import Admonition from '@theme/Admonition';
@@ -58,26 +58,67 @@ The following table lists the actions that you are advised to perform when the u
 
 Organization alerts keep you informed about billing-related issues such as expiring credit cards, the status of free credits, balance alerts for advance payments, and notifications regarding usage costs.
 
-|  Alert Target                    |  Unit             |  Default Status |  Default Trigger Condition                                                                                                               |  Severity Level                      |
-| -------------------------------- | ----------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-|  Credit Card Expiration<br/>  |  Day              |  ON             |  - **WARNING**: Triggered within 30 days of card expiration.<br/> - **CRITICAL**: Triggered within 7 days of card expiration.<br/> |  **WARNING** / **CRITICAL**<br/>  |
-|  Credits (Usage / Validity)      |  % / Day<br/>  |  ON<br/>     |  Triggered when credit balance falls below $10 or validity period reaches 0 days.                                                        |  **WARNING**                         |
-|  Advance Pay Balance             |  $                |  ON             |  Triggered when the balance falls below $100.                                                                                            |  **CRITICAL**                        |
-|  Usage Amount                    |  $                |  OFF            |  Triggered when the amount of usage exceeds $100.                                                                                        |  **WARNING**                         |
+|  Alert Target                    |  Unit         |  Default Status |  Default Trigger Condition                                                                                                               |  Severity Level                      |
+| -------------------------------- | ------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+|  Expiration Date of Credit card  |  Day          |  ON             |  - **WARNING**: Triggered within 30 days of card expiration.<br/> - **CRITICAL**: Triggered within 7 days of card expiration.<br/> |  **WARNING** / **CRITICAL**<br/>  |
+|  Remaining Credits               |  $            |  ON             |  Triggered when the balance of free credits falls below $10.                                                                             |  **WARNING**                         |
+|  Credit Validity Period<br/>  |  Day<br/>  |  ON<br/>     |  Triggered when the validity period of free credits reaches 0 days.                                                                      |  **WARNING**                         |
+|  Advance Pay Balance             |  $            |  ON             |  Triggered when the balance falls below $100.                                                                                            |  **CRITICAL**                        |
+|  Usage Amount                    |  $            |  OFF            |  Triggered when the amount of usage exceeds $100.                                                                                        |  **WARNING**                         |
 
 ## Project alerts{#project-alerts}
 
 Project alerts focus on the operational aspects of your clusters, including notifications on the CU usage, QPS thresholds, latency issues, and request anomalies, ensuring you maintain optimal cluster performance.
 
-|  Alert Target         |  Unit |  Default Status |  Default Trigger Condition                                                                                                                                                      |  Severity Level             |
-| --------------------- | ----- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-|  CU Computation       |  %    |  ON             |  - **WARNING**: Triggered at >70% utilized computational power for 10+ minutes.<br/> - **CRITICAL**: Triggered at >90% utilized computational power for 10+ minutes.<br/> |  **WARNING** / **CRITICAL** |
-|  CU Capacity          |  %    |  ON             |  - **WARNING**: Triggered at >70% utilized CU capacity for 10+ minutes.<br/> - **CRITICAL**: Triggered at >90% utilized CU capacity for 10+ minutes.<br/>                 |  **WARNING** / **CRITICAL** |
-|  Search QPS           |  QPS  |  OFF            |  Triggered at >50 search operations per second for 10+ minutes.                                                                                                                 |  **WARNING**                |
-|  Query QPS            |  QPS  |  OFF            |  Triggered at >50 query operations per second for 10+ minutes.                                                                                                                  |  **WARNING**                |
-|  P99 Search Latency   |  ms   |  OFF            |  Triggered at P99 latency >1000ms for 10+ minutes.                                                                                                                              |  **WARNING**                |
-|  P99 Query Latency    |  ms   |  OFF            |  Triggered at P99 latency >1000ms for 10+ minutes.                                                                                                                              |  **WARNING**                |
-|  Request Failure Rate |  %    |  ON             |  Triggered at a failure rate of >50% for 10+ minutes.                                                                                                                           |  **WARNING**                |
+### Default alert targets{#default-alert-targets}
+
+Zilliz Cloud provides predefined default alert targets to ensure that critical issues are quickly identified and addressed with the appropriate actions.
+
+|  Alert Target            |  Unit |  Default Status |  Default Trigger Condition                                                                                                                                                      |  Severity Level             |
+| ------------------------ | ----- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+|  CU Computation<br/>  |  %    |  ON             |  - **WARNING**: Triggered at >70% utilized computational power for 10+ minutes.<br/> - **CRITICAL**: Triggered at >90% utilized computational power for 10+ minutes.<br/> |  **WARNING** / **CRITICAL** |
+|  CU Capacity             |  %    |  ON             |  - **WARNING**: Triggered at >70% utilized CU capacity for 10+ minutes.<br/> - **CRITICAL**: Triggered at >90% utilized CU capacity for 10+ minutes.<br/>                 |  **WARNING** / **CRITICAL** |
+|  Search QPS              |  QPS  |  OFF            |  Triggered at >50 search operations per second for 10+ minutes.                                                                                                                 |  **WARNING**                |
+|  Query QPS               |  QPS  |  OFF            |  Triggered at >50 query operations per second for 10+ minutes.                                                                                                                  |  **WARNING**                |
+|  P99 Search Latency      |  ms   |  OFF            |  Triggered at P99 latency >1,000ms for 10+ minutes.                                                                                                                             |  **WARNING**                |
+|  P99 Query Latency       |  ms   |  OFF            |  Triggered at P99 latency >1,000ms for 10+ minutes.                                                                                                                             |  **WARNING**                |
+
+### Custom alert targets{#custom-alert-targets}
+
+In addition to the predefined default project alerts , you can also configure custom alert targets as needed.
+
+|  Alert Target                           |  Description                                                                                                                       |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+|  **Resource**                           |                                                                                                                                    |
+|  Storage Usage                          |  Monitor storage usage and send notifications if the usage exceeds a threshold for a certain duration.                             |
+|  **Performance (read/write)**           |                                                                                                                                    |
+|  Insert QPS                             |  Monitor the rate of insert operations and send notifications if the rate exceeds a threshold for a certain duration.              |
+|  Bulk Insert QPS                        |  Monitor the rate of bulk insert operations and send notifications if the rate exceeds a threshold for a certain duration.         |
+|  Upsert QPS                             |  Monitor the rate of upsert operations and send notifications if the rate exceeds a threshold for a certain duration.              |
+|  Delete QPS                             |  Monitor the rate of delete operations and send notifications if the rate exceeds a threshold for a certain duration.              |
+|  Search VPS                             |  Monitor the rate of vector search operations and send notifications if the rate exceeds a threshold for a certain duration.       |
+|  Insert VPS                             |  Monitor the rate of vector insert operations and send notifications if the rate exceeds a threshold for a certain duration.       |
+|  Upsert VPS                             |  Monitor the rate of vector upsert operations and send notifications if the rate exceeds a threshold for a certain duration.       |
+|  **Performance (latency)**              |                                                                                                                                    |
+|  Average Search Request Latency         |  Monitor the average latency for search requests and send notifications if the latency exceeds a threshold for a certain duration. |
+|  Average Query Latency                  |  Monitor the average latency for query requests and send notifications if the latency exceeds a threshold for a certain duration.  |
+|  Average Insert Latency                 |  Monitor the average latency for insert requests and send notifications if the latency exceeds a threshold for a certain duration. |
+|  P99 Insert Latency                     |  Monitor the P99 latency for insert requests and send notifications if the latency exceeds a threshold for a certain duration.     |
+|  Average Upsert Latency                 |  Monitor the average latency for upsert requests and send notifications if the latency exceeds a threshold for a certain duration. |
+|  P99 Upsert Latency                     |  Monitor the P99 latency for upsert requests and send notifications if the latency exceeds a threshold for a certain duration.     |
+|  Average Delete Latency                 |  Monitor the average latency for delete requests and send notifications if the latency exceeds a threshold for a certain duration. |
+|  P99 Delete Latency                     |  Monitor the P99 latency for delete requests and send notifications if the latency exceeds a threshold for a certain duration.     |
+|  **Performance (request failure rate)** |                                                                                                                                    |
+|  Search Failure Rate                    |  Monitor the failure rate of search requests and send notifications if the rate exceeds a threshold for a certain duration.        |
+|  Query Failure Rate                     |  Monitor the failure rate of query requests and send notifications if the rate exceeds a threshold for a certain duration.         |
+|  Insert Failure Rate                    |  Monitor the failure rate of insert requests and send notifications if the rate exceeds a threshold for a certain duration.        |
+|  Bulk Insert Failure Rate               |  Monitor the failure rate of bulk insert requests and send notifications if the rate exceeds a threshold for a certain duration.   |
+|  Upsert Failure Rate                    |  Monitor the failure rate of upsert requests and send notifications if the rate exceeds a threshold for a certain duration.        |
+|  Delete Failure Rate                    |  Monitor the failure rate of delete requests and send notifications if the rate exceeds a threshold for a certain duration.        |
+|  **Data**                               |                                                                                                                                    |
+|  Loaded Entities                        |  Monitor the count of loaded entities and send notifications if the count exceeds a threshold for a certain duration.              |
+|  Total Entities                         |  Monitor the count of total entities and send notifications if the count exceeds a threshold for a certain duration.               |
+|  Total Collections                      |  Monitor the count of total collections and send notifications if the count exceeds a threshold for a certain duration.            |
 
 ## Related topics{#related-topics}
 

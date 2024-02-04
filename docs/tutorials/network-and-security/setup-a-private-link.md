@@ -430,7 +430,7 @@ Check your DNS settings by referring to [Set up firewall rules and a DNS record]
 
 ## Related topics{#related-topics}
 
-- [Manage API Keys](./manage-api-keys)
+- [API Keys](./manage-api-keys)
 
 - [Manage Cluster Credentials](./cluster-credentials-console)
 

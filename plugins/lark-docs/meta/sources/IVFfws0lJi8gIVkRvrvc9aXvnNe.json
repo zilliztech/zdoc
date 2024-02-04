@@ -5,7 +5,7 @@
   "node_token": "IVFfws0lJi8gIVkRvrvc9aXvnNe",
   "node_type": "origin",
   "obj_create_time": "1689055049",
-  "obj_edit_time": "1705402588",
+  "obj_edit_time": "1707032885",
   "obj_token": "NA7ydNrsQo0XdhxdzRRctPBSn1d",
   "obj_type": "docx",
   "origin_node_token": "IVFfws0lJi8gIVkRvrvc9aXvnNe",
@@ -39,12 +39,7 @@
           "PeW5dKKvnoQHGQx5OxHcHi1unac",
           "ELM5dQ1DtoqEPKxIg1Jc7oaEnzb",
           "BA26dLfUYoZ19Jx2RZbchkovnme",
-          "T1g7dS6Ydokc08xNeOtcRF14nOh",
-          "DWrCdzleKoCGutxANlPc6ZJrnm2",
-          "HQW3dkbHZoGUvtxZtEOcJsQYn6d",
-          "QpaZd9n4UolbWnxlgmSccJ20nyC",
-          "ISWydM3ERod8GkxhRDJcGjmanbe",
-          "KZILd5DAAoNhuZxzBqycYMEJncc"
+          "T1g7dS6Ydokc08xNeOtcRF14nOh"
         ],
         "page": {
           "elements": [
@@ -1014,205 +1009,8 @@
           }
         },
         "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
-      },
-      {
-        "block_id": "DWrCdzleKoCGutxANlPc6ZJrnm2",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Related topics",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
-      },
-      {
-        "block_id": "HQW3dkbHZoGUvtxZtEOcJsQYn6d",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Create Collection",
-                "token": "QnKCw0v4TiFkITkneCmcy0mZnre",
-                "url": "https://zilliverse.feishu.cn/wiki/QnKCw0v4TiFkITkneCmcy0mZnre"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FCreate-Collection-e3b47847e3cd463ba141fba47e7c2603%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
-      },
-      {
-        "block_id": "QpaZd9n4UolbWnxlgmSccJ20nyC",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Insert Entities",
-                "token": "HBZTwCHa6iTDE0kqNqZc5OJ8nqg",
-                "url": "https://zilliverse.feishu.cn/wiki/HBZTwCHa6iTDE0kqNqZc5OJ8nqg"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FDrop-Collection-523172cacd21488c9910e759287f5604%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
-      },
-      {
-        "block_id": "ISWydM3ERod8GkxhRDJcGjmanbe",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Search and Query",
-                "token": "YfMEwLHzeisARCk4VZ3cVhJmnjd",
-                "url": "https://zilliverse.feishu.cn/wiki/YfMEwLHzeisARCk4VZ3cVhJmnjd"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FInsert-Entities-375dd098632d4a5297617a51c69c7967%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
-      },
-      {
-        "block_id": "KZILd5DAAoNhuZxzBqycYMEJncc",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Drop Collection",
-                "token": "KxK7wHZrciDa0skHrW1c6nkWn5f",
-                "url": "https://zilliverse.feishu.cn/wiki/KxK7wHZrciDa0skHrW1c6nkWn5f"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FSearch-and-Query-40930370867642c6b8b65249cfb58c5b%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "NA7ydNrsQo0XdhxdzRRctPBSn1d"
       }
     ],
-    "counts": 27
+    "counts": 22
   }
 }

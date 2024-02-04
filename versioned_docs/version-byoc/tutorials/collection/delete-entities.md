@@ -3,7 +3,7 @@ slug: /delete-entities
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 token: EcMiwjPhRiwTL0kHuvjcaW1Bng1
-sidebar_position: 10
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';

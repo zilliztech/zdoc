@@ -3,7 +3,7 @@ slug: /conduct-a-range-search
 beta: TRUE
 notebook: 11_conduct_a_range_search.ipynb
 token: PXk1wQm7GiMgqDkUWJAcdgpGny0
-sidebar_position: 17
+sidebar_position: 7
 ---
 
 import Admonition from '@theme/Admonition';

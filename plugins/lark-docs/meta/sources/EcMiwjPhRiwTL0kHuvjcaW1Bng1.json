@@ -5,7 +5,7 @@
   "node_token": "EcMiwjPhRiwTL0kHuvjcaW1Bng1",
   "node_type": "origin",
   "obj_create_time": "1689055221",
-  "obj_edit_time": "1705028187",
+  "obj_edit_time": "1706174916",
   "obj_token": "VTeCdbeqhoHPaFxmDKIcNYVinfg",
   "obj_type": "docx",
   "origin_node_token": "EcMiwjPhRiwTL0kHuvjcaW1Bng1",
@@ -13,7 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
   "space_id": "7167193056431783939",
-  "title": "[DEPRECATE] Delete Entities",
+  "title": "Delete Entities",
   "slug": "delete-entities",
   "blocks": {
     "items": [
@@ -40,7 +40,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "[DEPRECATE] Delete Entities",
+                "content": "Delete Entities",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

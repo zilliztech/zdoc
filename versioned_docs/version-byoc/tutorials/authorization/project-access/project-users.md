@@ -11,6 +11,8 @@ import Admonition from '@theme/Admonition';
 
 # Project Users
 
+This topic describes how to manage project users.
+
 ## Invite a user to join a project{#invite-a-user-to-join-a-project}
 
 To invite a user to join a project, you must be an [Organization Owner](./resource-hierarchy) or a [Project Owner](./resource-hierarchy).

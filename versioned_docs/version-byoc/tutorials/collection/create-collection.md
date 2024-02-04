@@ -3,7 +3,7 @@ slug: /create-collection
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 token: QnKCw0v4TiFkITkneCmcy0mZnre
-sidebar_position: 6
+sidebar_position: 1
 ---
 
 import Admonition from '@theme/Admonition';

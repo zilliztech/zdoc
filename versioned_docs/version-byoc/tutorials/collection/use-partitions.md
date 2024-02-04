@@ -3,7 +3,7 @@ slug: /use-partitions
 beta: FALSE
 notebook: 12_use_partition.ipynb
 token: RnqlwR30LiIrOwk4GWYcT7xvnLb
-sidebar_position: 11
+sidebar_position: 10
 ---
 
 import Admonition from '@theme/Admonition';

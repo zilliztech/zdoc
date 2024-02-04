@@ -5,7 +5,7 @@
   "node_token": "HBZTwCHa6iTDE0kqNqZc5OJ8nqg",
   "node_type": "origin",
   "obj_create_time": "1689055152",
-  "obj_edit_time": "1705028173",
+  "obj_edit_time": "1706174895",
   "obj_token": "YWz5dKUzJofbb5xEvzTcbvSWn9c",
   "obj_type": "docx",
   "origin_node_token": "HBZTwCHa6iTDE0kqNqZc5OJ8nqg",
@@ -13,7 +13,7 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "OaqCwA1YZiQwAwkkaXccyFlgnud",
   "space_id": "7167193056431783939",
-  "title": "[DEPRECATE] Insert Entities",
+  "title": "Insert Entities",
   "slug": "insert-entities",
   "blocks": {
     "items": [
@@ -57,7 +57,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "[DEPRECATE] Insert Entities",
+                "content": "Insert Entities",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

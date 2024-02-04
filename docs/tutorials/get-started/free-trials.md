@@ -3,7 +3,7 @@ slug: /free-trials
 beta: FALSE
 notebook: FALSE
 token: LMfdwRwKIiJtywkwbHVcGnOFnRf
-sidebar_position: 5
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';

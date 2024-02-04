@@ -3,7 +3,7 @@ slug: /search-query-and-get
 beta: FALSE
 notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
 token: YfMEwLHzeisARCk4VZ3cVhJmnjd
-sidebar_position: 16
+sidebar_position: 6
 ---
 
 import Admonition from '@theme/Admonition';

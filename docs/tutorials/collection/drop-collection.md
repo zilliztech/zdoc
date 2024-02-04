@@ -1,16 +1,16 @@
 ---
 slug: /drop-collection
 beta: FALSE
-notebook: 00_quick_start.ipynb,01_use_customized_schema.ipynb
+notebook: FALSE
 token: KxK7wHZrciDa0skHrW1c6nkWn5f
-sidebar_position: 20
+sidebar_position: 15
 ---
 
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-#  Drop Collection
+# Drop Collection
 
 This guide walks you through dropping a collection from a cluster.
 

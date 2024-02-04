@@ -5,7 +5,7 @@
   "node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
   "node_type": "origin",
   "obj_create_time": "1704332777",
-  "obj_edit_time": "1705553437",
+  "obj_edit_time": "1706962997",
   "obj_token": "TXlrdXzlPokEQ5xnA30c93SLnMc",
   "obj_type": "docx",
   "origin_node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
@@ -4138,7 +4138,88 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import RemoteBulkWriter, BulkFileType\n\n# Connections parameters to access the remote bucket\nconn = RemoteBulkWriter.ConnectParam(\n",
+                "content": "# AWS S3/GCS\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "from pymilvus import RemoteBulkWriter, BulkFileType",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7329823743840124932"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# Connections parameters to access the remote bucket",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7329823743840124932"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "conn = RemoteBulkWriter.ConnectParam(",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7329823743840124932"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4153,6 +4234,9 @@
                 "content": "    endpoint=\"storage.googleapis.com\", # Use",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7329823743840124932"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -4165,6 +4249,9 @@
                 "content": " \"",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7329823743840124932"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -4178,7 +4265,8 @@
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7322368131396648963"
+                    "7322368131396648963",
+                    "7329823743840124932"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -4193,7 +4281,8 @@
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7322368131396648963"
+                    "7322368131396648963",
+                    "7329823743840124932"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -4208,7 +4297,8 @@
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7322368131396648963"
+                    "7322368131396648963",
+                    "7329823743840124932"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -4234,6 +4324,9 @@
                 "content": "   ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7329823743840124932"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -4247,7 +4340,8 @@
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7324239655208255492"
+                    "7324239655208255492",
+                    "7329823743840124932"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -4262,7 +4356,8 @@
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7324239655208255492"
+                    "7324239655208255492",
+                    "7329823743840124932"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -4273,7 +4368,23 @@
             },
             {
               "text_run": {
-                "content": ",\n",
+                "content": ",",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7324239655208255492",
+                    "7329823743840124932"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -4292,7 +4403,8 @@
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7324239655208255492"
+                    "7324239655208255492",
+                    "7329823743840124932"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -4307,7 +4419,8 @@
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7324239655208255492"
+                    "7324239655208255492",
+                    "7329823743840124932"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -4322,7 +4435,8 @@
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
-                    "7324239655208255492"
+                    "7324239655208255492",
+                    "7329823743840124932"
                   ],
                   "inline_code": false,
                   "italic": false,
@@ -4348,6 +4462,9 @@
                 "content": "    bucket_name=",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7329823743840124932"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -4360,6 +4477,9 @@
                 "content": "BUCKET_NAME",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7329823743840124932"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -4369,7 +4489,76 @@
             },
             {
               "text_run": {
-                "content": ", # Use a bucket hosted in the same cloud as the target cluster\n    secure=True\n",
+                "content": ", # Use a bucket hosted in the same cloud as the target cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7329823743840124932"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    secure=True",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7329823743840124932"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7329823743840124932"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\n# ======\n# Microsoft Azure\n\nAZURE_CONNECT_STRING = \"\"\n\nconn = RemoteBulkWriter.AzureConnectParam(\n    conn_str=AZURE_CONNECT_STRING,\n    container_name=BUCKET_NAME\n)\n\n# or\n\nAZURE_ACCOUNT_URL = \"\"\nAZURE_CREDENTIAL = \"\"\n\nconn = RemoteBulkWriter.AzureConnectParam(\n    account_url=AZURE_ACCOUNT_URL,\n    credential=AZURE_CREDENTIAL,\n    container_name=BUCKET_NAME\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4398,6 +4587,7 @@
           }
         },
         "comment_ids": [
+          "7329823743840124932",
           "7324239655208255492",
           "7322368131396648963"
         ],
@@ -4647,7 +4837,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The above writer generates files in Parquet format and uploads them to the root folder of the specified bucket.",
+                "content": "The above writer generates files in JSON format and uploads them to the root folder of the specified bucket.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6861,43 +7051,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import list_import_jobs\n\nres = list_import_jobs(\n    # highlight-next-line\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "    url=\"",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "controller.api.gcp-us-west2.zillizcloud.com",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\",\n",
+                "content": "from pymilvus import list_import_jobs\n\nres = list_import_jobs(\n    # highlight-next-line\n    url=CLOUD_API_ENDPOINT,\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -7141,7 +7295,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "When creating the target cluster, select the cloud provider that hosts the source data to be imported.",
+                "content": "Before the data import, ensure that your cluster and remote object storage bucket are hosted on the same cloud.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -7317,7 +7471,7 @@
             },
             {
               "text_run": {
-                "content": ", build the object URL by prefixing the data path returned by the writer with the endpoint of the cloud provider hosting the prepared data.",
+                "content": ", build the object URL by concatenating the endpoint of the cloud provider hosting the prepared data and the data path returned by the writer.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

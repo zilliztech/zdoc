@@ -1,5 +1,6 @@
 ---
 slug: /subscribe-on-gcp-marketplace
+sidebar_label: GCP Marketplace
 beta: FALSE
 notebook: FALSE
 token: MIqTw7iJ4iQAtVkYKiEc98a7nsh
