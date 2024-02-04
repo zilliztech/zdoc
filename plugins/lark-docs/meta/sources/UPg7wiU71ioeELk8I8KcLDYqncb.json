@@ -5,7 +5,7 @@
   "node_token": "UPg7wiU71ioeELk8I8KcLDYqncb",
   "node_type": "origin",
   "obj_create_time": "1704856645",
-  "obj_edit_time": "1705461462",
+  "obj_edit_time": "1707036589",
   "obj_token": "J1nddT7ZzoxYq5xvSO2crscMnxe",
   "obj_type": "docx",
   "origin_node_token": "UPg7wiU71ioeELk8I8KcLDYqncb",
@@ -30,7 +30,7 @@
           "Ll4rdbVvcosRb5xrSSJctIJvnfc",
           "CcB3dep4vo8KN6xJpN6cqiRGnKd",
           "TT7Vdi32WohF1wxMS1ZcLsFtnad",
-          "UIpVdk44Gost7lxIebTc4uhEnab",
+          "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
           "VgirdzZpoofoZWx6c4FcMWvLnIb",
           "RZLQdvB8Jo7MOCxAyRkcNBE2nHd",
           "CpAXdx4iVoUDb0xdlZNcW9stndf",
@@ -592,72 +592,82 @@
         }
       },
       {
-        "block_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "block_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "block_type": 31,
         "children": [
-          "BL4WdJbpnodi2cxzUeLcm7Vwnle",
-          "XYpmddn3qoLp44x4IPucuy4Anue",
-          "CVYYdbJ16oB8URxXF6ycKCGOnuh",
-          "CkD2d7e3hob0Jsxx54Acjg7AnJb",
-          "XbqvdnM8KoEuzBxX2kQc6BXZnff",
-          "RR5GdmlM3otw32xAf7Jc81iOnKd",
-          "I1NodV2BWo7BQMxcAyQcx4zcnIh",
-          "CYDrdMURjoHW5XxAadtcrOXqnTc",
-          "DctMdIwzIoXGSUxzKL3c2JLCnhb",
-          "OKuIdT2fho9CUqxdeIecHEGlnxd",
-          "KMKtdf8zWofnXJxqBTVc3RxRnrg",
-          "XBy5dJa0FowmjHxIvGecvKC6nBg",
-          "WZ8XdtTdyoMaV9xk7aYcIeY5n7c",
-          "YuBjdO1ZMoAUACx32owco2Jcngd",
-          "CfBKdsHxqoJFfYxYYc3cXa7TnJf",
-          "LI97d3SiBoTXASxHKdTc9rBanjx",
-          "Iqx0dXr4moOTNbxWK8fcciVznre",
-          "XqMTdlMcmoCMMExsiTKc6NlPnQd",
-          "HgPWd8bZyoWr03xJx5Dc6v7dn7s",
-          "QECOdaN1koT51LxtXYqcJbILn3T",
-          "FYsLdKVNeouPgMxzXN9cAIRSnHf",
-          "WeO8dbhB5oWW0Ex81Z2cHFFonRf",
-          "JvJPdAwmtouXKNxYBTHcwZe0nyb",
-          "Qli7dulodofWjax3qnUctVPRnqf",
-          "D2VEdJmPAoRSCQxprNScSZOzn9c"
+          "A0LpdFCsPoP8voxAozTcWE6LnMh",
+          "F5LpdZxHWobv8CxpRSKcsExKnyf",
+          "EvsNdlMGToQ7oyxQRhccvVLSnHd",
+          "XRandXBSqoHpRIxEq8AcjpN9n5f",
+          "ImdtdZRwto0lC6xmqIgcw9Bun1g",
+          "NABgd3BUooYFOXxH4a9cdQFInWe",
+          "CgvVdOH7Xor5xDxM6i7cR52rnMg",
+          "ODQPdWA2FolScVx4aJPcX0rOnqd",
+          "HZStdHcvuou413xoBRHcs06Gn2d",
+          "XI92d1Xhjo0TfjxJUpscxTbnnsg",
+          "C0Uhde0F6oJoRPxWECuc1JAunnh",
+          "JasGdi3Xaoav2zxs8sBcpRw2nab",
+          "YI6hdMNejo1ToAxKlphc2cWYn4b",
+          "CNqMdMUWUoWdoVxsTPGc8Fs9ngc",
+          "XdKGdyrSRoVxnKxf4Opcbjw5nBe",
+          "PHXIdsKAAopDpBxbLnIcAPdynQd",
+          "RWXjdNQwpoXPNexQPtOcFb6qnCe",
+          "AtridcLzZoN2PYxPXkQcM8gInPf",
+          "UN8vdnM0Joq9e8x5JOHckyAsnjb",
+          "HgHVdn0sAoPiddx0TeicOaBanuc",
+          "O99pdieDIocchsxRUHsclQeKnRg",
+          "Cqs6dyT4TokypYxLJEbcSTI9nbb",
+          "LnuIdYJr5onnMJxVvHdcjX8Xn7e",
+          "OmpOdvbfKoVp1oxrxtLcsmnbnlc",
+          "XFdldprHToR8iyxb8Qbcsf41nzf",
+          "EAgcdSt0XoFFsmxDXtncdjZVndf",
+          "TztGdeIZBoy8CgxEMZ1cTDyIn19",
+          "GOqEdtxPgoKQD1xblA4cB8lIn0e",
+          "MJH9do1Dlo6GOWxtWYGcGynin0b",
+          "QWCRdDQ8do6t7yxAUOQcDd0FnUd"
         ],
         "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe",
         "table": {
           "cells": [
-            "BL4WdJbpnodi2cxzUeLcm7Vwnle",
-            "XYpmddn3qoLp44x4IPucuy4Anue",
-            "CVYYdbJ16oB8URxXF6ycKCGOnuh",
-            "CkD2d7e3hob0Jsxx54Acjg7AnJb",
-            "XbqvdnM8KoEuzBxX2kQc6BXZnff",
-            "RR5GdmlM3otw32xAf7Jc81iOnKd",
-            "I1NodV2BWo7BQMxcAyQcx4zcnIh",
-            "CYDrdMURjoHW5XxAadtcrOXqnTc",
-            "DctMdIwzIoXGSUxzKL3c2JLCnhb",
-            "OKuIdT2fho9CUqxdeIecHEGlnxd",
-            "KMKtdf8zWofnXJxqBTVc3RxRnrg",
-            "XBy5dJa0FowmjHxIvGecvKC6nBg",
-            "WZ8XdtTdyoMaV9xk7aYcIeY5n7c",
-            "YuBjdO1ZMoAUACx32owco2Jcngd",
-            "CfBKdsHxqoJFfYxYYc3cXa7TnJf",
-            "LI97d3SiBoTXASxHKdTc9rBanjx",
-            "Iqx0dXr4moOTNbxWK8fcciVznre",
-            "XqMTdlMcmoCMMExsiTKc6NlPnQd",
-            "HgPWd8bZyoWr03xJx5Dc6v7dn7s",
-            "QECOdaN1koT51LxtXYqcJbILn3T",
-            "FYsLdKVNeouPgMxzXN9cAIRSnHf",
-            "WeO8dbhB5oWW0Ex81Z2cHFFonRf",
-            "JvJPdAwmtouXKNxYBTHcwZe0nyb",
-            "Qli7dulodofWjax3qnUctVPRnqf",
-            "D2VEdJmPAoRSCQxprNScSZOzn9c"
+            "A0LpdFCsPoP8voxAozTcWE6LnMh",
+            "F5LpdZxHWobv8CxpRSKcsExKnyf",
+            "EvsNdlMGToQ7oyxQRhccvVLSnHd",
+            "XRandXBSqoHpRIxEq8AcjpN9n5f",
+            "ImdtdZRwto0lC6xmqIgcw9Bun1g",
+            "NABgd3BUooYFOXxH4a9cdQFInWe",
+            "CgvVdOH7Xor5xDxM6i7cR52rnMg",
+            "ODQPdWA2FolScVx4aJPcX0rOnqd",
+            "HZStdHcvuou413xoBRHcs06Gn2d",
+            "XI92d1Xhjo0TfjxJUpscxTbnnsg",
+            "C0Uhde0F6oJoRPxWECuc1JAunnh",
+            "JasGdi3Xaoav2zxs8sBcpRw2nab",
+            "YI6hdMNejo1ToAxKlphc2cWYn4b",
+            "CNqMdMUWUoWdoVxsTPGc8Fs9ngc",
+            "XdKGdyrSRoVxnKxf4Opcbjw5nBe",
+            "PHXIdsKAAopDpBxbLnIcAPdynQd",
+            "RWXjdNQwpoXPNexQPtOcFb6qnCe",
+            "AtridcLzZoN2PYxPXkQcM8gInPf",
+            "UN8vdnM0Joq9e8x5JOHckyAsnjb",
+            "HgHVdn0sAoPiddx0TeicOaBanuc",
+            "O99pdieDIocchsxRUHsclQeKnRg",
+            "Cqs6dyT4TokypYxLJEbcSTI9nbb",
+            "LnuIdYJr5onnMJxVvHdcjX8Xn7e",
+            "OmpOdvbfKoVp1oxrxtLcsmnbnlc",
+            "XFdldprHToR8iyxb8Qbcsf41nzf",
+            "EAgcdSt0XoFFsmxDXtncdjZVndf",
+            "TztGdeIZBoy8CgxEMZ1cTDyIn19",
+            "GOqEdtxPgoKQD1xblA4cB8lIn0e",
+            "MJH9do1Dlo6GOWxtWYGcGynin0b",
+            "QWCRdDQ8do6t7yxAUOQcDd0FnUd"
           ],
           "property": {
             "column_size": 5,
             "column_width": [
               172,
-              80,
-              150,
+              82,
+              100,
               281,
-              100
+              191
             ],
             "header_row": true,
             "merge_info": [
@@ -760,25 +770,45 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 5
+            "row_size": 6
           }
         }
       },
       {
-        "block_id": "BL4WdJbpnodi2cxzUeLcm7Vwnle",
+        "block_id": "A0LpdFCsPoP8voxAozTcWE6LnMh",
         "block_type": 32,
         "children": [
-          "IgzsdsGzboLc6LxF0SCcr162nvh"
+          "HEH5duonPo1iYExRESAcGazBnxd"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "IgzsdsGzboLc6LxF0SCcr162nvh",
+        "block_id": "HEH5duonPo1iYExRESAcGazBnxd",
         "block_type": 2,
-        "parent_id": "BL4WdJbpnodi2cxzUeLcm7Vwnle",
+        "parent_id": "A0LpdFCsPoP8voxAozTcWE6LnMh",
         "text": {
           "elements": [
             {
@@ -801,18 +831,18 @@
         }
       },
       {
-        "block_id": "XYpmddn3qoLp44x4IPucuy4Anue",
+        "block_id": "F5LpdZxHWobv8CxpRSKcsExKnyf",
         "block_type": 32,
         "children": [
-          "PPjad0rKFor088xkNW7clNHCnUf"
+          "KwocdUT3IoaZq0xn73mcthksnob"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "PPjad0rKFor088xkNW7clNHCnUf",
+        "block_id": "KwocdUT3IoaZq0xn73mcthksnob",
         "block_type": 2,
-        "parent_id": "XYpmddn3qoLp44x4IPucuy4Anue",
+        "parent_id": "F5LpdZxHWobv8CxpRSKcsExKnyf",
         "text": {
           "elements": [
             {
@@ -835,86 +865,18 @@
         }
       },
       {
-        "block_id": "CVYYdbJ16oB8URxXF6ycKCGOnuh",
+        "block_id": "EvsNdlMGToQ7oyxQRhccvVLSnHd",
         "block_type": 32,
         "children": [
-          "OGJ4dUqKDofuVtxGgD7cHqLMnL8"
+          "ADEid9EXToJUjdx3mKSct2uqnYd"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "OGJ4dUqKDofuVtxGgD7cHqLMnL8",
+        "block_id": "ADEid9EXToJUjdx3mKSct2uqnYd",
         "block_type": 2,
-        "parent_id": "CVYYdbJ16oB8URxXF6ycKCGOnuh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Severity Level",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "CkD2d7e3hob0Jsxx54Acjg7AnJb",
-        "block_type": 32,
-        "children": [
-          "Aat0djiACoCRmMx3fnKcXAFXnnh"
-        ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
-        "table_cell": {}
-      },
-      {
-        "block_id": "Aat0djiACoCRmMx3fnKcXAFXnnh",
-        "block_type": 2,
-        "parent_id": "CkD2d7e3hob0Jsxx54Acjg7AnJb",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Default Trigger Condition",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "XbqvdnM8KoEuzBxX2kQc6BXZnff",
-        "block_type": 32,
-        "children": [
-          "K1pMdOzkBoVqtixe63Uc5EEknPe"
-        ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
-        "table_cell": {}
-      },
-      {
-        "block_id": "K1pMdOzkBoVqtixe63Uc5EEknPe",
-        "block_type": 2,
-        "parent_id": "XbqvdnM8KoEuzBxX2kQc6BXZnff",
+        "parent_id": "EvsNdlMGToQ7oyxQRhccvVLSnHd",
         "text": {
           "elements": [
             {
@@ -937,24 +899,23 @@
         }
       },
       {
-        "block_id": "RR5GdmlM3otw32xAf7Jc81iOnKd",
+        "block_id": "XRandXBSqoHpRIxEq8AcjpN9n5f",
         "block_type": 32,
         "children": [
-          "BZDWdxRbIoIF5qxgQk4cFJVqnXf",
-          "VkRJdqk7ao8S5zxEOhoc3oDNnud"
+          "PUUWdiDfboTM0zxv7eSceASGnhU"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "BZDWdxRbIoIF5qxgQk4cFJVqnXf",
+        "block_id": "PUUWdiDfboTM0zxv7eSceASGnhU",
         "block_type": 2,
-        "parent_id": "RR5GdmlM3otw32xAf7Jc81iOnKd",
+        "parent_id": "XRandXBSqoHpRIxEq8AcjpN9n5f",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Credit Card Expiration",
+                "content": "Default Trigger Condition",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -972,14 +933,23 @@
         }
       },
       {
-        "block_id": "VkRJdqk7ao8S5zxEOhoc3oDNnud",
+        "block_id": "ImdtdZRwto0lC6xmqIgcw9Bun1g",
+        "block_type": 32,
+        "children": [
+          "M24ad9apPoObf5x1mricZvPknYb"
+        ],
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
+        "table_cell": {}
+      },
+      {
+        "block_id": "M24ad9apPoObf5x1mricZvPknYb",
         "block_type": 2,
-        "parent_id": "RR5GdmlM3otw32xAf7Jc81iOnKd",
+        "parent_id": "ImdtdZRwto0lC6xmqIgcw9Bun1g",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "",
+                "content": "Severity Level",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -997,18 +967,52 @@
         }
       },
       {
-        "block_id": "I1NodV2BWo7BQMxcAyQcx4zcnIh",
+        "block_id": "NABgd3BUooYFOXxH4a9cdQFInWe",
         "block_type": 32,
         "children": [
-          "ReSAdh3h8o6SuExqjJ9ck1xgnNk"
+          "WQH4dQPxQorVlOxaeCEcu9kLnfe"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "ReSAdh3h8o6SuExqjJ9ck1xgnNk",
+        "block_id": "WQH4dQPxQorVlOxaeCEcu9kLnfe",
         "block_type": 2,
-        "parent_id": "I1NodV2BWo7BQMxcAyQcx4zcnIh",
+        "parent_id": "NABgd3BUooYFOXxH4a9cdQFInWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Expiration Date of Credit card",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CgvVdOH7Xor5xDxM6i7cR52rnMg",
+        "block_type": 32,
+        "children": [
+          "AWOEdFf84okOg1xxLD2cLO08nWc"
+        ],
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
+        "table_cell": {}
+      },
+      {
+        "block_id": "AWOEdFf84okOg1xxLD2cLO08nWc",
+        "block_type": 2,
+        "parent_id": "CgvVdOH7Xor5xDxM6i7cR52rnMg",
         "text": {
           "elements": [
             {
@@ -1031,19 +1035,137 @@
         }
       },
       {
-        "block_id": "CYDrdMURjoHW5XxAadtcrOXqnTc",
+        "block_id": "ODQPdWA2FolScVx4aJPcX0rOnqd",
         "block_type": 32,
         "children": [
-          "SZPTdVwuuoHhaKxrYFPcBFtan8e",
-          "Unfldzx90oHGoEx8pWpc1O80nQh"
+          "FudAdYq41oYaiFxTGVMc3DyYn6b"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "SZPTdVwuuoHhaKxrYFPcBFtan8e",
+        "block_id": "FudAdYq41oYaiFxTGVMc3DyYn6b",
         "block_type": 2,
-        "parent_id": "CYDrdMURjoHW5XxAadtcrOXqnTc",
+        "parent_id": "ODQPdWA2FolScVx4aJPcX0rOnqd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HZStdHcvuou413xoBRHcs06Gn2d",
+        "block_type": 32,
+        "children": [
+          "OKJudTWjmotHdlxJR4vcrzxtnAg",
+          "HvAnd14kZo6wSwxIWO5c60Rdnef"
+        ],
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OKJudTWjmotHdlxJR4vcrzxtnAg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Triggered within 30 days of card expiration.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HZStdHcvuou413xoBRHcs06Gn2d"
+      },
+      {
+        "block_id": "HvAnd14kZo6wSwxIWO5c60Rdnef",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CRITICAL",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Triggered within 7 days of card expiration.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HZStdHcvuou413xoBRHcs06Gn2d"
+      },
+      {
+        "block_id": "XI92d1Xhjo0TfjxJUpscxTbnnsg",
+        "block_type": 32,
+        "children": [
+          "HyWPdPUyqoegqkx5zv0ce52Knke",
+          "S17Yd5lR1oH5LwxZht3cHFIqnTf"
+        ],
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
+        "table_cell": {}
+      },
+      {
+        "block_id": "HyWPdPUyqoegqkx5zv0ce52Knke",
+        "block_type": 2,
+        "parent_id": "XI92d1Xhjo0TfjxJUpscxTbnnsg",
         "text": {
           "elements": [
             {
@@ -1090,9 +1212,9 @@
         }
       },
       {
-        "block_id": "Unfldzx90oHGoEx8pWpc1O80nQh",
+        "block_id": "S17Yd5lR1oH5LwxZht3cHFIqnTf",
         "block_type": 2,
-        "parent_id": "CYDrdMURjoHW5XxAadtcrOXqnTc",
+        "parent_id": "XI92d1Xhjo0TfjxJUpscxTbnnsg",
         "text": {
           "elements": [
             {
@@ -1115,102 +1237,86 @@
         }
       },
       {
-        "block_id": "DctMdIwzIoXGSUxzKL3c2JLCnhb",
+        "block_id": "C0Uhde0F6oJoRPxWECuc1JAunnh",
         "block_type": 32,
         "children": [
-          "Caq1d2SUSolrpJxf1FrcQxRnndd",
-          "FSgtdvaxNopU5KxGpM9cFgxan5g"
+          "HElBdg4bBoK1VlxFxLjcOT4Vntf"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "Caq1d2SUSolrpJxf1FrcQxRnndd",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "WARNING",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": Triggered within 30 days of card expiration.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "DctMdIwzIoXGSUxzKL3c2JLCnhb"
-      },
-      {
-        "block_id": "FSgtdvaxNopU5KxGpM9cFgxan5g",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "CRITICAL",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": Triggered within 7 days of card expiration.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "DctMdIwzIoXGSUxzKL3c2JLCnhb"
-      },
-      {
-        "block_id": "OKuIdT2fho9CUqxdeIecHEGlnxd",
-        "block_type": 32,
-        "children": [
-          "LaKkdLLw5o4ZAOxzbvGcFrQ5n9b"
-        ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
-        "table_cell": {}
-      },
-      {
-        "block_id": "LaKkdLLw5o4ZAOxzbvGcFrQ5n9b",
+        "block_id": "HElBdg4bBoK1VlxFxLjcOT4Vntf",
         "block_type": 2,
-        "parent_id": "OKuIdT2fho9CUqxdeIecHEGlnxd",
+        "parent_id": "C0Uhde0F6oJoRPxWECuc1JAunnh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Remaining Credits",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JasGdi3Xaoav2zxs8sBcpRw2nab",
+        "block_type": 32,
+        "children": [
+          "H3QFdc69Ko3WwuxzctQckwbZn1g"
+        ],
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
+        "table_cell": {}
+      },
+      {
+        "block_id": "H3QFdc69Ko3WwuxzctQckwbZn1g",
+        "block_type": 2,
+        "parent_id": "JasGdi3Xaoav2zxs8sBcpRw2nab",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YI6hdMNejo1ToAxKlphc2cWYn4b",
+        "block_type": 32,
+        "children": [
+          "LdTOdPwBooQZkHx38mtcUSNdnZb"
+        ],
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
+        "table_cell": {}
+      },
+      {
+        "block_id": "LdTOdPwBooQZkHx38mtcUSNdnZb",
+        "block_type": 2,
+        "parent_id": "YI6hdMNejo1ToAxKlphc2cWYn4b",
         "text": {
           "elements": [
             {
@@ -1233,23 +1339,23 @@
         }
       },
       {
-        "block_id": "KMKtdf8zWofnXJxqBTVc3RxRnrg",
+        "block_id": "CNqMdMUWUoWdoVxsTPGc8Fs9ngc",
         "block_type": 32,
         "children": [
-          "BlOtdztlKoYE7Gx7Fu0cK8s6ndc"
+          "Fn8ndKCpyoUNRVxNdY8c3oqUnec"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "BlOtdztlKoYE7Gx7Fu0cK8s6ndc",
+        "block_id": "Fn8ndKCpyoUNRVxNdY8c3oqUnec",
         "block_type": 2,
-        "parent_id": "KMKtdf8zWofnXJxqBTVc3RxRnrg",
+        "parent_id": "CNqMdMUWUoWdoVxsTPGc8Fs9ngc",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Credits (Usage / Validity)",
+                "content": "Triggered when the balance of free credits falls below $10.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1267,78 +1373,18 @@
         }
       },
       {
-        "block_id": "XBy5dJa0FowmjHxIvGecvKC6nBg",
+        "block_id": "XdKGdyrSRoVxnKxf4Opcbjw5nBe",
         "block_type": 32,
         "children": [
-          "OPWcd7GXRoNSGSxJmztcjwl0nOf",
-          "IbwVdXBdAom80YxxlvEc3kqLnBh"
+          "UtStdpXVsoEA6uxUxI0cj2asn5b"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "OPWcd7GXRoNSGSxJmztcjwl0nOf",
+        "block_id": "UtStdpXVsoEA6uxUxI0cj2asn5b",
         "block_type": 2,
-        "parent_id": "XBy5dJa0FowmjHxIvGecvKC6nBg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "% / Day",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "IbwVdXBdAom80YxxlvEc3kqLnBh",
-        "block_type": 2,
-        "parent_id": "XBy5dJa0FowmjHxIvGecvKC6nBg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "WZ8XdtTdyoMaV9xk7aYcIeY5n7c",
-        "block_type": 32,
-        "children": [
-          "Lt1Ud1VltommgNxWLBrcIufcnwb"
-        ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
-        "table_cell": {}
-      },
-      {
-        "block_id": "Lt1Ud1VltommgNxWLBrcIufcnwb",
-        "block_type": 2,
-        "parent_id": "WZ8XdtTdyoMaV9xk7aYcIeY5n7c",
+        "parent_id": "XdKGdyrSRoVxnKxf4Opcbjw5nBe",
         "text": {
           "elements": [
             {
@@ -1361,23 +1407,24 @@
         }
       },
       {
-        "block_id": "YuBjdO1ZMoAUACx32owco2Jcngd",
+        "block_id": "PHXIdsKAAopDpBxbLnIcAPdynQd",
         "block_type": 32,
         "children": [
-          "AMEId546Modv8cxUsdncyylEnof"
+          "LqBCdBZJroazfExJpijcPLX3n6e",
+          "DiXsd0eXfoY81nxmJqQcQzgDn5d"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "AMEId546Modv8cxUsdncyylEnof",
+        "block_id": "LqBCdBZJroazfExJpijcPLX3n6e",
         "block_type": 2,
-        "parent_id": "YuBjdO1ZMoAUACx32owco2Jcngd",
+        "parent_id": "PHXIdsKAAopDpBxbLnIcAPdynQd",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Triggered when credit balance falls below $10 or validity period reaches 0 days.",
+                "content": "Credit Validity Period",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1395,44 +1442,9 @@
         }
       },
       {
-        "block_id": "CfBKdsHxqoJFfYxYYc3cXa7TnJf",
-        "block_type": 32,
-        "children": [
-          "YQr3dL7ULofekux88BscJGafnVd",
-          "OO9zdyvnEofMMcxOH05cf4GQn2e"
-        ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
-        "table_cell": {}
-      },
-      {
-        "block_id": "YQr3dL7ULofekux88BscJGafnVd",
+        "block_id": "DiXsd0eXfoY81nxmJqQcQzgDn5d",
         "block_type": 2,
-        "parent_id": "CfBKdsHxqoJFfYxYYc3cXa7TnJf",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "ON",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "OO9zdyvnEofMMcxOH05cf4GQn2e",
-        "block_type": 2,
-        "parent_id": "CfBKdsHxqoJFfYxYYc3cXa7TnJf",
+        "parent_id": "PHXIdsKAAopDpBxbLnIcAPdynQd",
         "text": {
           "elements": [
             {
@@ -1455,18 +1467,206 @@
         }
       },
       {
-        "block_id": "LI97d3SiBoTXASxHKdTc9rBanjx",
+        "block_id": "RWXjdNQwpoXPNexQPtOcFb6qnCe",
         "block_type": 32,
         "children": [
-          "O8FrdVisfobd81xmYGkcBcionWc"
+          "QhGVd7LSOosfbFxU4ShcOAZyn8f",
+          "Z4iGd2OsDoU3kyxko7ccUIOlnKg"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "O8FrdVisfobd81xmYGkcBcionWc",
+        "block_id": "QhGVd7LSOosfbFxU4ShcOAZyn8f",
         "block_type": 2,
-        "parent_id": "LI97d3SiBoTXASxHKdTc9rBanjx",
+        "parent_id": "RWXjdNQwpoXPNexQPtOcFb6qnCe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Day",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Z4iGd2OsDoU3kyxko7ccUIOlnKg",
+        "block_type": 2,
+        "parent_id": "RWXjdNQwpoXPNexQPtOcFb6qnCe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AtridcLzZoN2PYxPXkQcM8gInPf",
+        "block_type": 32,
+        "children": [
+          "VgyUdbkfxo80hrxaySQcgQsOnRg",
+          "ZvX0dawmJoILyXx3UKlcIIUSngf"
+        ],
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
+        "table_cell": {}
+      },
+      {
+        "block_id": "VgyUdbkfxo80hrxaySQcgQsOnRg",
+        "block_type": 2,
+        "parent_id": "AtridcLzZoN2PYxPXkQcM8gInPf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ON",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZvX0dawmJoILyXx3UKlcIIUSngf",
+        "block_type": 2,
+        "parent_id": "AtridcLzZoN2PYxPXkQcM8gInPf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UN8vdnM0Joq9e8x5JOHckyAsnjb",
+        "block_type": 32,
+        "children": [
+          "P1ypddxH3oAWFnx1xqscVb6mnPd"
+        ],
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
+        "table_cell": {}
+      },
+      {
+        "block_id": "P1ypddxH3oAWFnx1xqscVb6mnPd",
+        "block_type": 2,
+        "parent_id": "UN8vdnM0Joq9e8x5JOHckyAsnjb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Triggered when the validity period of free credits reaches 0 days.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HgHVdn0sAoPiddx0TeicOaBanuc",
+        "block_type": 32,
+        "children": [
+          "LUBydY6UZoY2EZxtLBAcjqAHnwe"
+        ],
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
+        "table_cell": {}
+      },
+      {
+        "block_id": "LUBydY6UZoY2EZxtLBAcjqAHnwe",
+        "block_type": 2,
+        "parent_id": "HgHVdn0sAoPiddx0TeicOaBanuc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "WARNING",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O99pdieDIocchsxRUHsclQeKnRg",
+        "block_type": 32,
+        "children": [
+          "MgMhdyk4Zo5nJvxC1aYc8cD1nfe"
+        ],
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
+        "table_cell": {}
+      },
+      {
+        "block_id": "MgMhdyk4Zo5nJvxC1aYc8cD1nfe",
+        "block_type": 2,
+        "parent_id": "O99pdieDIocchsxRUHsclQeKnRg",
         "text": {
           "elements": [
             {
@@ -1489,18 +1689,18 @@
         }
       },
       {
-        "block_id": "Iqx0dXr4moOTNbxWK8fcciVznre",
+        "block_id": "Cqs6dyT4TokypYxLJEbcSTI9nbb",
         "block_type": 32,
         "children": [
-          "IdQVdAvUtoV8MTxyqN7cBkpHnwc"
+          "Y8p7dPdIuoQr2lxoi5ucwPD5n1g"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "IdQVdAvUtoV8MTxyqN7cBkpHnwc",
+        "block_id": "Y8p7dPdIuoQr2lxoi5ucwPD5n1g",
         "block_type": 2,
-        "parent_id": "Iqx0dXr4moOTNbxWK8fcciVznre",
+        "parent_id": "Cqs6dyT4TokypYxLJEbcSTI9nbb",
         "text": {
           "elements": [
             {
@@ -1523,86 +1723,18 @@
         }
       },
       {
-        "block_id": "XqMTdlMcmoCMMExsiTKc6NlPnQd",
+        "block_id": "LnuIdYJr5onnMJxVvHdcjX8Xn7e",
         "block_type": 32,
         "children": [
-          "GC8yd2a30oTcmAxuH2xcpZZen1b"
+          "TKwadXLIxo1of5xDWvOcQUOlnpe"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "GC8yd2a30oTcmAxuH2xcpZZen1b",
+        "block_id": "TKwadXLIxo1of5xDWvOcQUOlnpe",
         "block_type": 2,
-        "parent_id": "XqMTdlMcmoCMMExsiTKc6NlPnQd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "CRITICAL",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "HgPWd8bZyoWr03xJx5Dc6v7dn7s",
-        "block_type": 32,
-        "children": [
-          "ZUK5dPQI8owzJ1xlZVQcuc9pn9c"
-        ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
-        "table_cell": {}
-      },
-      {
-        "block_id": "ZUK5dPQI8owzJ1xlZVQcuc9pn9c",
-        "block_type": 2,
-        "parent_id": "HgPWd8bZyoWr03xJx5Dc6v7dn7s",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Triggered when the balance falls below $100.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "QECOdaN1koT51LxtXYqcJbILn3T",
-        "block_type": 32,
-        "children": [
-          "E1U0dui6goYZJoxt2qhc3s8gn4g"
-        ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
-        "table_cell": {}
-      },
-      {
-        "block_id": "E1U0dui6goYZJoxt2qhc3s8gn4g",
-        "block_type": 2,
-        "parent_id": "QECOdaN1koT51LxtXYqcJbILn3T",
+        "parent_id": "LnuIdYJr5onnMJxVvHdcjX8Xn7e",
         "text": {
           "elements": [
             {
@@ -1625,18 +1757,86 @@
         }
       },
       {
-        "block_id": "FYsLdKVNeouPgMxzXN9cAIRSnHf",
+        "block_id": "OmpOdvbfKoVp1oxrxtLcsmnbnlc",
         "block_type": 32,
         "children": [
-          "GbuhdnSEdopnpMxbLNecpIMHnrO"
+          "SVrydzLUzo19K2x4iywc0tuYntd"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "GbuhdnSEdopnpMxbLNecpIMHnrO",
+        "block_id": "SVrydzLUzo19K2x4iywc0tuYntd",
         "block_type": 2,
-        "parent_id": "FYsLdKVNeouPgMxzXN9cAIRSnHf",
+        "parent_id": "OmpOdvbfKoVp1oxrxtLcsmnbnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Triggered when the balance falls below $100.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XFdldprHToR8iyxb8Qbcsf41nzf",
+        "block_type": 32,
+        "children": [
+          "HzfadbtcFo3HVTx0S9dcR6ktnod"
+        ],
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
+        "table_cell": {}
+      },
+      {
+        "block_id": "HzfadbtcFo3HVTx0S9dcR6ktnod",
+        "block_type": 2,
+        "parent_id": "XFdldprHToR8iyxb8Qbcsf41nzf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CRITICAL",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EAgcdSt0XoFFsmxDXtncdjZVndf",
+        "block_type": 32,
+        "children": [
+          "TzTqdAuyYoCtZCxICjQc0JZFnTc"
+        ],
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
+        "table_cell": {}
+      },
+      {
+        "block_id": "TzTqdAuyYoCtZCxICjQc0JZFnTc",
+        "block_type": 2,
+        "parent_id": "EAgcdSt0XoFFsmxDXtncdjZVndf",
         "text": {
           "elements": [
             {
@@ -1659,18 +1859,18 @@
         }
       },
       {
-        "block_id": "WeO8dbhB5oWW0Ex81Z2cHFFonRf",
+        "block_id": "TztGdeIZBoy8CgxEMZ1cTDyIn19",
         "block_type": 32,
         "children": [
-          "Fc7Vdb55oo6QmYxo86GcUxqPn9b"
+          "WA4VdOrV9oi6GPxxKvccvwDCn0g"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "Fc7Vdb55oo6QmYxo86GcUxqPn9b",
+        "block_id": "WA4VdOrV9oi6GPxxKvccvwDCn0g",
         "block_type": 2,
-        "parent_id": "WeO8dbhB5oWW0Ex81Z2cHFFonRf",
+        "parent_id": "TztGdeIZBoy8CgxEMZ1cTDyIn19",
         "text": {
           "elements": [
             {
@@ -1693,25 +1893,25 @@
         }
       },
       {
-        "block_id": "JvJPdAwmtouXKNxYBTHcwZe0nyb",
+        "block_id": "GOqEdtxPgoKQD1xblA4cB8lIn0e",
         "block_type": 32,
         "children": [
-          "DxFZdHIzAoIexAxsIRCcouoynBg"
+          "UF7Vdf41OontCtxdHdtcpAJgngc"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "DxFZdHIzAoIexAxsIRCcouoynBg",
+        "block_id": "UF7Vdf41OontCtxdHdtcpAJgngc",
         "block_type": 2,
-        "parent_id": "JvJPdAwmtouXKNxYBTHcwZe0nyb",
+        "parent_id": "GOqEdtxPgoKQD1xblA4cB8lIn0e",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "WARNING",
+                "content": "OFF",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1727,18 +1927,18 @@
         }
       },
       {
-        "block_id": "Qli7dulodofWjax3qnUctVPRnqf",
+        "block_id": "MJH9do1Dlo6GOWxtWYGcGynin0b",
         "block_type": 32,
         "children": [
-          "EcFjdIl9CoFcg6xworHc6bAun1Q"
+          "DooddUayGok2HJxdBZ3c4nwJnog"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "EcFjdIl9CoFcg6xworHc6bAun1Q",
+        "block_id": "DooddUayGok2HJxdBZ3c4nwJnog",
         "block_type": 2,
-        "parent_id": "Qli7dulodofWjax3qnUctVPRnqf",
+        "parent_id": "MJH9do1Dlo6GOWxtWYGcGynin0b",
         "text": {
           "elements": [
             {
@@ -1761,25 +1961,25 @@
         }
       },
       {
-        "block_id": "D2VEdJmPAoRSCQxprNScSZOzn9c",
+        "block_id": "QWCRdDQ8do6t7yxAUOQcDd0FnUd",
         "block_type": 32,
         "children": [
-          "MXlZdiKfFoY5nBxBodncUimjnYc"
+          "WqH6dS6Fwo5KXIxR1vAcnJDbnHd"
         ],
-        "parent_id": "UIpVdk44Gost7lxIebTc4uhEnab",
+        "parent_id": "LcACdXG8Yo6QwVxbxgFcLXkbn2j",
         "table_cell": {}
       },
       {
-        "block_id": "MXlZdiKfFoY5nBxBodncUimjnYc",
+        "block_id": "WqH6dS6Fwo5KXIxR1vAcnJDbnHd",
         "block_type": 2,
-        "parent_id": "D2VEdJmPAoRSCQxprNScSZOzn9c",
+        "parent_id": "QWCRdDQ8do6t7yxAUOQcDd0FnUd",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "OFF",
+                "content": "WARNING",
                 "text_element_style": {
-                  "bold": false,
+                  "bold": true,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3602,7 +3802,7 @@
             },
             {
               "text_run": {
-                "content": "target target",
+                "content": "targets",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -3681,7 +3881,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "To quickly turn on or off an alert, you can select ",
+                "content": "To quickly enable or disable an alert, you can select ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3693,7 +3893,7 @@
             },
             {
               "text_run": {
-                "content": "Turn On",
+                "content": "Enable",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3717,7 +3917,7 @@
             },
             {
               "text_run": {
-                "content": "Turn Off",
+                "content": "Disable",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3968,7 +4168,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Turn on or off an organization alert",
+                "content": "Enable or disable an organization alert",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -3997,7 +4197,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "To quickly turn on or off an organization alert, select ",
+                "content": "To quickly enable or disable an organization alert, select ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4009,7 +4209,7 @@
             },
             {
               "text_run": {
-                "content": "Turn On",
+                "content": "Enable",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -4033,7 +4233,7 @@
             },
             {
               "text_run": {
-                "content": "Turn Off",
+                "content": "Disable",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -4129,7 +4329,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Once an alert is turned off, you'll no longer receive alert notifications if alert conditions are met.",
+                "content": "Once an alert is disabled, you'll no longer receive alert notifications if alert conditions are met.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4736,6 +4936,6 @@
         "parent_id": "J1nddT7ZzoxYq5xvSO2crscMnxe"
       }
     ],
-    "counts": 159
+    "counts": 169
   }
 }

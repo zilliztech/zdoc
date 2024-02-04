@@ -3,7 +3,7 @@ slug: /view-cluster-metric-charts
 beta: FALSE
 notebook: FALSE
 token: DbPIw4jLOiEabCk5uptc6EZ1nbf
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
@@ -79,7 +79,7 @@ To view metric charts for resource usage, locate the **Resources** section on th
 
 ### Performance{#performance}
 
-To view metric charts for performance, locate the **Performance** section on the **Metrics** tab. These charts provide a snapshot of cluster performance, including QPS, VPS, latency, and request.
+To view metric charts for performance, locate the **Performance** section on the **Metrics** tab. These charts provide a snapshot of cluster performance, including QPS, VPS, latency, and request .
 
 - **QPS/VPS (Read)**: The count of search and query requests per second. Vector search operations per second (VPS) is not available for query requests because query operations does not involve vectors.
 

@@ -3,7 +3,7 @@ slug: /view-cluster-metric-charts
 beta: FALSE
 notebook: FALSE
 token: DbPIw4jLOiEabCk5uptc6EZ1nbf
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
@@ -69,39 +69,37 @@ To view metric charts for resource usage, locate the **Resources** section on th
 
 - **Storage Use**: Shows total persistent storage consumed, calculated in GB/s over a selected period.
 
-![view_metric_charts_resources](/byoc/view_metric_charts_resources.png)
+![byob_view_metric_charts_resources](/byoc/byob_view_metric_charts_resources.png)
 
 ### Performance{#performance}
 
-To view metric charts for performance, locate the **Performance** section on the **Metrics** tab. These charts provide a snapshot of cluster performance, including QPS, VPS, and latency.
+To view metric charts for performance, locate the **Performance** section on the **Metrics** tab. These charts provide a snapshot of cluster performance, including QPS, VPS, latency, and request .
 
-- **QPS**: The count of search, query, bulk insert, and upsert requests per second.
+- **QPS/VPS (Read)**: The count of search and query requests per second. Vector search operations per second (VPS) is not available for query requests because query operations does not involve vectors.
 
-- **VPS**: The count of vector search operations per second (VPS) in multi-vector operations. Calculation formula: VPS = QPS * *N* (where *N* indicates the number of vectors involved in multi-vector operations).
+- **QPS/VPS (Write)**: The count of insert and upsert requests per second.
 
-- **Latency**: The time elapsed between a client sending a request to a server and the client receiving a response. It includes an average latency and a P99 latency.
+- **Latency (Read)**: The time elapsed between a client sending a read request (search and query request) to a server and the client receiving a response. It includes an average latency and a P99 latency.
 
-![view_metric_charts_performance](/byoc/view_metric_charts_performance.png)
+- **Latency (Write)**: The time elapsed between a client sending a write request (insert and upsert request) to a server and the client receiving a response. It includes an average latency and a P99 latency.
 
-### Request Rate{#request-rate}
+- **Request Failure Rate (Read)**: The percentage of timeout read requests in all requests per second.
 
-To view metric charts for requests, locate the **Request Rate** section on the **Metrics** tab. These charts provide a snapshot of the cluster's request performance by showing the proportion of successful and failed requests.
+- **Request Failure Rate (Write)**: The percentage of timeout write requests in all requests per second.
 
-- **Request Success**: The percentage of successful requests in all requests per second.
+![byoc_view_metric_charts_performance](/byoc/byoc_view_metric_charts_performance.png)
 
-- **Request Fail**: The percentage of timeout requests in all requests per second.
+### Data{#data}
 
-![view_metric_charts_request_rate](/byoc/view_metric_charts_request_rate.png)
+To view metric charts for business data, locate the **Data** section on the **Metrics** tab. These charts provide a snapshot of the cluster's entity data by indicating the number of collections, entities, and loaded entities in the cluster.
 
-### Entity{#entity}
+- **Collection Count**: The count of collections created in the cluster.
 
-To view metric charts for entities, locate the **Entity** section on the **Metrics** tab. These charts provide a snapshot of the cluster's entity data by indicating the current entity count and the rate at which new entity data is being inserted.
+- **Entity Count**: The count of entities inserted into the cluster.
 
 - **Loaded Entities**: The count of entities loaded in the cluster.
 
-- **Entity Insert Rate**: The count of entities inserted per second.
-
-![view_metric_charts_entity](/byoc/view_metric_charts_entity.png)
+![byoc_view_metric_charts_entity](/byoc/byoc_view_metric_charts_entity.png)
 
 ## Related topics{#related-topics}
 

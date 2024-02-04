@@ -5,7 +5,7 @@
   "node_token": "NvDLw4kFji0xeWkc4Hpc9wUfnRh",
   "node_type": "origin",
   "obj_create_time": "1702957091",
-  "obj_edit_time": "1705057619",
+  "obj_edit_time": "1707035526",
   "obj_token": "NoO5dX5QboENU1xRgADc59x1nog",
   "obj_type": "docx",
   "origin_node_token": "NvDLw4kFji0xeWkc4Hpc9wUfnRh",
@@ -469,7 +469,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Below is a table outlining the default conditions for each type of project alert.",
+                "content": "Below is a table outlining the default conditions for each default project alert.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -600,12 +600,7 @@
           "QS0KdyloboewJCxVbVRcqmwOnfc",
           "Z86Gd5tItoMN88xqmHEcMTn9nFb",
           "GJOydykD8oJoOVxrTMScVBednwd",
-          "U1ehdWd6ToC4Ddxxcr8cWGH9n9c",
-          "NlHWdhAD0oiyMWx0YNbcP6F4nHd",
-          "GxihdjPWtogZkwxbKE8cL8tVncd",
-          "GTNFdCLOIoXowlxFSWZcQE0En8f",
-          "P0dzdYM7To4mHPx102EcT4ocnEd",
-          "E8UUdGCTJoJPErx2wJGc6ZEGnOJ"
+          "U1ehdWd6ToC4Ddxxcr8cWGH9n9c"
         ],
         "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
         "table": {
@@ -644,12 +639,7 @@
             "QS0KdyloboewJCxVbVRcqmwOnfc",
             "Z86Gd5tItoMN88xqmHEcMTn9nFb",
             "GJOydykD8oJoOVxrTMScVBednwd",
-            "U1ehdWd6ToC4Ddxxcr8cWGH9n9c",
-            "NlHWdhAD0oiyMWx0YNbcP6F4nHd",
-            "GxihdjPWtogZkwxbKE8cL8tVncd",
-            "GTNFdCLOIoXowlxFSWZcQE0En8f",
-            "P0dzdYM7To4mHPx102EcT4ocnEd",
-            "E8UUdGCTJoJPErx2wJGc6ZEGnOJ"
+            "U1ehdWd6ToC4Ddxxcr8cWGH9n9c"
           ],
           "property": {
             "column_size": 5,
@@ -801,29 +791,9 @@
               {
                 "col_span": 1,
                 "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
               }
             ],
-            "row_size": 8
+            "row_size": 7
           }
         }
       },
@@ -2276,176 +2246,6 @@
         }
       },
       {
-        "block_id": "NlHWdhAD0oiyMWx0YNbcP6F4nHd",
-        "block_type": 32,
-        "children": [
-          "Fn2jdPTKTohIA5xcxz2c55nynwf"
-        ],
-        "parent_id": "J8LYdcnSio1WHGx6fA8cWr8bnGK",
-        "table_cell": {}
-      },
-      {
-        "block_id": "Fn2jdPTKTohIA5xcxz2c55nynwf",
-        "block_type": 2,
-        "parent_id": "NlHWdhAD0oiyMWx0YNbcP6F4nHd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Request Failure Rate",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "GxihdjPWtogZkwxbKE8cL8tVncd",
-        "block_type": 32,
-        "children": [
-          "FJaddHDfUoYj3PxpZxJcowONnQc"
-        ],
-        "parent_id": "J8LYdcnSio1WHGx6fA8cWr8bnGK",
-        "table_cell": {}
-      },
-      {
-        "block_id": "FJaddHDfUoYj3PxpZxJcowONnQc",
-        "block_type": 2,
-        "parent_id": "GxihdjPWtogZkwxbKE8cL8tVncd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "%",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "GTNFdCLOIoXowlxFSWZcQE0En8f",
-        "block_type": 32,
-        "children": [
-          "KMuNdPpd8ocTrUxs2WHcjorpnkh"
-        ],
-        "parent_id": "J8LYdcnSio1WHGx6fA8cWr8bnGK",
-        "table_cell": {}
-      },
-      {
-        "block_id": "KMuNdPpd8ocTrUxs2WHcjorpnkh",
-        "block_type": 2,
-        "parent_id": "GTNFdCLOIoXowlxFSWZcQE0En8f",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "WARNING",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "P0dzdYM7To4mHPx102EcT4ocnEd",
-        "block_type": 32,
-        "children": [
-          "IFWLdc9lpoKP5hxLkhmcXTWsnvc"
-        ],
-        "parent_id": "J8LYdcnSio1WHGx6fA8cWr8bnGK",
-        "table_cell": {}
-      },
-      {
-        "block_id": "IFWLdc9lpoKP5hxLkhmcXTWsnvc",
-        "block_type": 2,
-        "parent_id": "P0dzdYM7To4mHPx102EcT4ocnEd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Triggered at a failure rate of >50% for 10+ minutes.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "E8UUdGCTJoJPErx2wJGc6ZEGnOJ",
-        "block_type": 32,
-        "children": [
-          "CYnZdIaVnommf5xQVnDcxDq7nWf"
-        ],
-        "parent_id": "J8LYdcnSio1WHGx6fA8cWr8bnGK",
-        "table_cell": {}
-      },
-      {
-        "block_id": "CYnZdIaVnommf5xQVnDcxDq7nWf",
-        "block_type": 2,
-        "parent_id": "E8UUdGCTJoJPErx2wJGc6ZEGnOJ",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "ON",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
         "block_id": "doxcnYQBHZrlrOt5vHZK02QxC0f",
         "block_type": 2,
         "parent_id": "NoO5dX5QboENU1xRgADc59x1nog",
@@ -3216,7 +3016,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "In addition to default alerts, you can click ",
+                "content": "In addition to default project alerts, you can click ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3265,7 +3065,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "For supported alert types for customization, refer to ",
+                "content": "For supported custom alert targets, refer to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3621,7 +3421,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "To quickly turn on or off an alert, you can select ",
+                "content": "To quickly enable or disable an alert, you can select ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3633,7 +3433,7 @@
             },
             {
               "text_run": {
-                "content": "Turn On",
+                "content": "Enable",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3657,7 +3457,7 @@
             },
             {
               "text_run": {
-                "content": "Turn Off",
+                "content": "Disable",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3887,7 +3687,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Turn on or off a project alert",
+                "content": "Enable or disable a project alert",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3913,7 +3713,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "To quickly turn on or off a project alert, select ",
+                "content": "To quickly enable or disable a project alert, select ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3925,7 +3725,7 @@
             },
             {
               "text_run": {
-                "content": "Turn On",
+                "content": "Enable",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3949,7 +3749,7 @@
             },
             {
               "text_run": {
-                "content": "Turn Off",
+                "content": "Disable",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -4045,7 +3845,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Once an alert is turned off, you'll no longer receive alert notifications if alert conditions are met.",
+                "content": "Once an alert is disabled, you'll no longer receive alert notifications if alert conditions are met.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4866,6 +4666,6 @@
         "parent_id": "NoO5dX5QboENU1xRgADc59x1nog"
       }
     ],
-    "counts": 169
+    "counts": 159
   }
 }

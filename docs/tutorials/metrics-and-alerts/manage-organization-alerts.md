@@ -3,7 +3,7 @@ slug: /manage-organization-alerts
 beta: FALSE
 notebook: FALSE
 token: UPg7wiU71ioeELk8I8KcLDYqncb
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
@@ -27,12 +27,13 @@ This feature is exclusively available to clusters in the Standard and Enterprise
 
 When an alert in an **ON** status, the specified recipients will receive notifications once the conditions are met. You can [edit an alert](./manage-organization-alerts#edit-organization-alerts) to change its status.
 
-|  Alert Target                    |  Unit             |  Severity Level                      |  Default Trigger Condition                                                                                                               |  Default Status |
-| -------------------------------- | ----------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-|  Credit Card Expiration<br/>  |  Day              |  **WARNING** / **CRITICAL**<br/>  |  - **WARNING**: Triggered within 30 days of card expiration.<br/> - **CRITICAL**: Triggered within 7 days of card expiration.<br/> |  ON             |
-|  Credits (Usage / Validity)      |  % / Day<br/>  |  **WARNING**                         |  Triggered when credit balance falls below $10 or validity period reaches 0 days.                                                        |  ON<br/>     |
-|  Advance Pay Balance             |  $                |  **CRITICAL**                        |  Triggered when the balance falls below $100.                                                                                            |  ON             |
-|  Usage Amount                    |  $                |  **WARNING**                         |  Triggered when the amount of usage exceeds $100.                                                                                        |  OFF            |
+|  Alert Target                    |  Unit         |  Default Status |  Default Trigger Condition                                                                                                               |  Severity Level                      |
+| -------------------------------- | ------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+|  Expiration Date of Credit card  |  Day          |  ON             |  - **WARNING**: Triggered within 30 days of card expiration.<br/> - **CRITICAL**: Triggered within 7 days of card expiration.<br/> |  **WARNING** / **CRITICAL**<br/>  |
+|  Remaining Credits               |  $            |  ON             |  Triggered when the balance of free credits falls below $10.                                                                             |  **WARNING**                         |
+|  Credit Validity Period<br/>  |  Day<br/>  |  ON<br/>     |  Triggered when the validity period of free credits reaches 0 days.                                                                      |  **WARNING**                         |
+|  Advance Pay Balance             |  $            |  ON             |  Triggered when the balance falls below $100.                                                                                            |  **CRITICAL**                        |
+|  Usage Amount                    |  $            |  OFF            |  Triggered when the amount of usage exceeds $100.                                                                                        |  **WARNING**                         |
 
 **Permissions**:
 
@@ -64,23 +65,23 @@ Navigate to the **Organization Alert** page to view various billing-related aler
 
 - **Customizations**: Modify alert conditions, update notification recipients, and change the active status.
 
-- **Restrictions**: Alert target target and severity level are fixed and cannot be changed.
+- **Restrictions**: Alert targets and severity level are fixed and cannot be changed.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-To quickly turn on or off an alert, you can select **Turn On** or **Turn Off** from the **Actions** column.
+To quickly enable or disable an alert, you can select **Enable** or **Disable** from the **Actions** column.
 
 </Admonition>
 
 ![edit-organization-alert](/img/edit-organization-alert.png)
 
-## Turn on or off an organization alert{#turn-on-or-off-an-organization-alert}
+## Enable or disable an organization alert{#enable-or-disable-an-organization-alert}
 
-To quickly turn on or off an organization alert, select **Turn On** or **Turn Off** from the **Actions** column. 
+To quickly enable or disable an organization alert, select **Enable** or **Disable** from the **Actions** column. 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Once an alert is turned off, you'll no longer receive alert notifications if alert conditions are met.
+Once an alert is disabled, you'll no longer receive alert notifications if alert conditions are met.
 
 </Admonition>
 
