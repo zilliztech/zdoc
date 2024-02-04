@@ -12,43 +12,117 @@ import TabItem from '@theme/TabItem';
 
 # Quick Start
 
-This tutorial guides you through CRUD tasks in a serverless cluster. You are expecting to learn the basic CRUD operations in Zilliz Cloud clusters.
+This guide explains how to set up your Zilliz Cloud cluster and perform CRUD operations in minutes.
 
 ## Before you start{#before-you-start}
 
-Throughout this guide, we will use Zilliz Cloud's SDKs and RESTful API. Before you begin, ensure that:
+- You have [signed up with Zilliz Cloud](https://cloud.zilliz.com). For details, refer to [Register with Zilliz Cloud](./register-with-zilliz-cloud).
 
-- You have registered an account with Zilliz Cloud at [https://cloud.zilliz.com/signup](https://cloud.zilliz.com/signup). For details, see [Register with Zilliz Cloud](./register-with-zilliz-cloud).
+    On the [Starter plan](./select-zilliz-cloud-service-plans#select-a-cluster-plan), you can own a free serverless cluster with up to two collections to run small applications. Although not all advanced features are included in the Starter plan, [it's easy to upgrade](./undefined#migrate-to-dedicated-cluster) when you are ready.
 
-- You have subscribed to the **Starter** plan and created a serverless cluster in a project. For details, see [Free Trials](./free-trials) and [Create Cluster](./create-cluster).
+- You can click the **Open in Colab** button above if you prefer to start right away in the browser.
 
-- You have installed the preferred SDKs. Currently, there are four SDKs available, and they are [Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), and [Node.js](./install-sdks#install-nodejs-sdk). For details, see [Install SDKs](./install-sdks).
+## Install an SDK{#install-an-sdk}
 
-- You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset).
+Zilliz Cloud supports the Milvus SDKs and all [RESTful API endpoints](https://docs.zilliz.com/reference/cloud-meta). You can use the RESTful API directly, or choose one of the following SDKs to start with:
 
-## Create a collection{#create-a-collection}
+- [Install the Python SDK.](./install-sdks#install-pymilvus-python-sdk)
 
-Zilliz Cloud automatically creates a collection when you create a serverless cluster. It has dynamic schema enabled, with **id** and **vector** acting as predefined fields for the primary key and the vector field, respectively. The **autoId** attribute is enabled by default for the primary key. 
+- [Install the Java SDK.](./install-sdks#install-java-sdk)
 
-If you want to create a new collection, follow these steps:
+- [Install the Go SDK.](./install-sdks#install-go-sdk)
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+- [Install the Node.js SDK.](./install-sdks#install-nodejs-sdk)
+
+## Create a Cluster{#create-a-cluster}
+
+You can create a cluster with the subscription plan of your choice using either the RESTful API endpoints or on the Zilliz Cloud console. 
+
+The following demonstrates how to create a serverless cluster using the RESTful API.
+
+```bash
+curl --request POST \
+    --url "https://controller.api.${CLOUD_REGION}.cloud-uat3.zilliz.com/v1/clusters/createServerless" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    --data-raw "{
+        \"clusterName\": \"cluster-starter\",
+        \"projectId\": \"${PROJECT_ID}\"
+    }"
+```
+
+The following demonstrates how to create a  cluster using the RESTful API.
+
+```bash
+curl --request POST \
+    --url "https://controller.api.${CLOUD_REGION}.cloud-uat3.zilliz.com/v1/clusters/create" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    --data-raw "{
+        \"plan\": \"Standard\",
+        \"clusterName\": \"cluster-standard\",
+        \"cuSize\": 1,
+        \"cuType\": \"Performance-optimized\",
+        \"projectId\": \"${PROJECT_ID}\"
+    }"
+```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+You have to add a payment method before you can create a dedicated cluster.
+
+</Admonition>
+
+To obtain the cloud region, API key, and project ID, refer to [On Zilliz Cloud Console](./on-zilliz-cloud-console). If you prefer to create a serverless cluster on the Zilliz Cloud console, refer to [Create Cluster](./create-cluster).
+
+Once your cluster is running, you will be prompted with the [cluster credentials](./cluster-credentials) for once. Download and save it in a safe place. You will need it to connect to your cluster later.
+
+Alternatively, you can [create an API key](./manage-api-keys) instead of using the cluster credentials for the connection.
+
+## Connect to Cluster{#connect-to-cluster}
+
+Once you have obtained the cluster credentials or an API key, you can use it to connect to your cluster now.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
 
-# Replace uri and token with your own
+CLUSTER_ENDPOINT = ""
+TOKEN = ""
+
+# Replace CLUSTER_ENDPOINT and TOKEN with your own
 client = MilvusClient(
     uri=CLUSTER_ENDPOINT, # Cluster endpoint obtained from the console
-    token=TOKEN # API key or a colon-separated cluster username and password
+    token=TOKEN # An API key or a colon-separated cluster username and password
 )
+```
 
-# Create a collection
-client.create_collection(
-    collection_name=COLLECTION_NAME,
-    dimension=768
-)
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.client.MilvusServiceClient;
+import io.milvus.param.ConnectParam;
+
+public static void main() {
+    String CLUSTER_ENDPOINT = "";
+    String TOKEN = "";
+    
+    ConnectParam connectParam = ConnectParam.newBuilder()
+        .withUri(CLUSTER_ENDPOINT)
+        .withToken(TOKEN)
+        .build();
+        
+    MilvusServiceClient client = new MilvusServiceClient(connectParam);
+    
+    // You should add the code snippets that follow here.
+    // ...
+}
 ```
 
 </TabItem>
@@ -56,228 +130,113 @@ client.create_collection(
 <TabItem value='javascript'>
 
 ```javascript
-const fs = require("fs")
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node")
+const { MilvusClient, DataType, sleep } = require("@zilliz/milvus2-sdk-node")
 
 const address = "YOUR_CLUSTER_ENDPOINT"
 const token = "YOUR_CLUSTER_TOKEN"
-const collectionName = "medium_articles_2020"
-const data_file = `./medium_articles_2020_dpr.json`
 
-// Include the following in an async function declaration
-async function main () {
-
-    // Connect to the cluster
+async function main() {
+    // 1. Connect to the cluster
     const client = new MilvusClient({address, token})
         
-    // Create a collection
+    // 2. Create a collection
     let res = await client.createCollection({
-        collection_name: collectionName,
-        dimension: 768,
-    });
+        collection_name: "quick_setup",
+        dimension: 5,
+    });  
 
     console.log(res)
 
     // Output
     // 
-    // { error_code: 'Success', reason: '', code: 0 }
+    // {
+    //   error_code: 'Success',
+    //   reason: '',
+    //   code: 0,
+    //   retriable: false,
+    //   detail: ''
+    // }
     // 
     
-    // <Insert the following code snippets here>
-
-}
-
-main()
+    // You should add the code snippets that follow blow.
+    // ...
+ }
+ 
+ main()
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='go'>
 
-```java
-import java.nio.file.Path;
-import java.util.*;
+```go
+import (
+    "context"
+    "encoding/json"
+    "fmt"
+    "log"
+    "math/rand"
+    "time"
 
-import com.alibaba.fastjson.*;
+    "github.com/milvus-io/milvus-sdk-go/v2/client"
+    "github.com/milvus-io/milvus-sdk-go/v2/entity"
+)
 
-import io.milvus.client.MilvusServiceClient;
-import io.milvus.grpc.DescribeCollectionResponse;
-import io.milvus.param.*;
-import io.milvus.param.collection.*;
-import io.milvus.param.highlevel.collection.*;
-import io.milvus.param.highlevel.dml.*;
-import io.milvus.param.highlevel.dml.response.*;
-import io.milvus.response.DescCollResponseWrapper;
-import io.milvus.response.QueryResultsWrapper;
-import io.milvus.response.QueryResultsWrapper.RowRecord;
+func main() {
+    CLUSTER_ENDPOINT := "YOUR_CLUSTER_ENDPOINT"
+    TOKEN := "YOUR_CLUSTER_TOKEN"
 
-public class QuickStartDemo
-{
-    public static void main( String[] args )
-    {
-        String clusterEndpoint = "YOUR_CLUSTER_ENDPOINT";
-        String token = "YOUR_CLUSTER_TOKEN";
-        String collectionName = "medium_articles";
-        String data_file = System.getProperty("user.dir") + "/medium_articles_2020_dpr.json";
+    // 1. Connect to cluster
 
-        // 1. Connect to Zilliz Cloud
+    connParams := client.Config{
+        Address: CLUSTER_ENDPOINT,
+        APIKey:  TOKEN,
+    }
 
-        ConnectParam connectParam = ConnectParam.newBuilder()
-            .withUri(clusterEndpoint)
-            .withToken(token)
-            .build();   
-            
-        MilvusServiceClient client = new MilvusServiceClient(connectParam);
+    conn, err := client.NewClient(context.Background(), connParams)
 
-        System.out.println("Connected to Zilliz Cloud!");
+    if err != nil {
+        log.Fatal("Failed to connect to Zilliz Cloud:", err.Error())
+    }
 
-        // Output:
-        // Connected to Zilliz Cloud!
+    fmt.Println("Connected to Milvus")
 
-        // 2. Create collection
-
-        CreateSimpleCollectionParam createCollectionParam = CreateSimpleCollectionParam.newBuilder()
-            .withCollectionName(collectionName)
-            .withDimension(768)
-            .build();
-
-        R<RpcStatus> createCollection = client.createCollection(createCollectionParam);
-
-        if (createCollection.getException() != null) {
-            System.err.println("Failed to create collection: " + createCollection.getException().getMessage());
-            return;            
-        }
-
-     }
+    // Output: 
+    //
+    // Connected to Milvus
+    
+    // ...
+    // You should add the code snippets that follow here.
+    // ...
 }
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# Replace PUBLIC_ENDPOINT and TOKEN with your own 
-# token="username:password" or token="your-api-key" 
-curl --location --request POST "${PUBLIC_ENDPOINT}/v1/vector/collections/create" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "Content-Type: application/json" \
-    --header "Accept: */*" \
-    --data '{
-        "collectionName": "medium_articles_2020",
-        "dimension": 768
-    }'
-
-# Output
-# { "code": 200, "data": {} }
 ```
 
 </TabItem>
 </Tabs>
-
-If you need full control of your collection, such as schema definition and manual enabling of dynamic schema, refer to [Create Collection](./create-collection) and [Enable Dynamic Schema](./enable-dynamic-schema).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Each serverless cluster contains a maximum of two collections with basic settings. If you encounter an error while creating a collection, please check the number of collections on the Zilliz Cloud console.
+Due to language differences, you should** include your code in a main function** if you prefer to code in **Java**, **Golang**, or **Node.js**.
 
 </Admonition>
 
-## View collections{#view-collections}
+## Create a Collection{#create-a-collection}
 
-To view information about a collection, you can make **DescribeCollection** API calls. The **DescribeCollection** operation returns the details of a specific collection.
+On Zilliz Cloud, you need to store your vector embeddings in collections. All vector embeddings stored in a collection share the same dimensionality and distance metric for measuring similarity.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+<Tabs groupId="setupCol" defaultValue='quick' values={[{"label":"Quick Setup","value":"quick"},{"label":"Customized Setup","value":"custom"}]}>
+
+<TabItem value="quick">
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Bash","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-res = client.describe_collection(
-    collection_name=COLLECTION_NAME
+# 2. Create a collection in quick setup mode
+client.create_collection(
+    collection_name="quick_setup",
+    dimension=5
 )
-
-print(res)
-
-# Output
-#
-# {
-#     "collection_name": "medium_articles_2020",
-#     "auto_id": false,
-#     "num_shards": 1,
-#     "description": "",
-#     "fields": [
-#         {
-#             "field_id": 100,
-#             "name": "id",
-#             "description": "",
-#             "type": 5,
-#             "params": {},
-#             "is_primary": true
-#         },
-#         {
-#             "field_id": 101,
-#             "name": "vector",
-#             "description": "",
-#             "type": 101,
-#             "params": {
-#                 "dim": 768
-#             }
-#         }
-#     ],
-#     "aliases": [],
-#     "collection_id": 443943328732839733,
-#     "consistency_level": 2,
-#     "properties": [],
-#     "num_partitions": 1,
-#     "enable_dynamic_field": true
-# }
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-async function main () {  
-    
-    // (Continued)
-      
-    // Describe the created collection
-    res = await client.describeCollection({
-        collection_name: collectionName
-    });
-   
-    console.log(res)
-
-    // Output
-    // 
-    // {
-    //   virtual_channel_names: [ 'by-dev-rootcoord-dml_0_445337000187266398v0' ],
-    //   physical_channel_names: [ 'by-dev-rootcoord-dml_0' ],
-    //   aliases: [],
-    //   start_positions: [],
-    //   properties: [],
-    //   status: { error_code: 'Success', reason: '', code: 0 },
-    //   schema: {
-    //     fields: [ [Object], [Object] ],
-    //     name: 'medium_articles_2020',
-    //     description: '',
-    //     autoID: false,
-    //     enable_dynamic_field: true
-    //   },
-    //   collectionID: '445337000187266398',
-    //   created_timestamp: '445337085300965381',
-    //   created_utc_timestamp: '1698826161579',
-    //   shards_num: 1,
-    //   consistency_level: 'Bounded',
-    //   collection_name: 'medium_articles_2020',
-    //   db_name: 'default',
-    //   num_partitions: '1'
-    // }
-    // 
-    
-}
-
-main()
 ```
 
 </TabItem>
@@ -285,34 +244,47 @@ main()
 <TabItem value='java'>
 
 ```java
-public class QuickStartDemo
-{
-    public static void main( String[] args )
-    {
-        // (Continued)
+import io.milvus.param.R;
+import io.milvus.param.RpcStatus;
+import io.milvus.param.highlevel.collection.CreateSimpleCollectionParam;
+
+// 2. Create a collection in quick setup mode
+CreateSimpleCollectionParam createSimpleCollectionParam = CreateSimpleCollectionParam.newBuilder()
+    .withCollectionName("quick_setup")
+    .withDimension(5)
+    .build();
     
-        // 3. Describe collection
+R<RpcStatus> quickSetup = client.createCollection(createSimpleCollectionParam);
 
-        DescribeCollectionParam describeCollectionParam = DescribeCollectionParam.newBuilder()
-            .withCollectionName(collectionName)
-            .build();
+System.out.println("Quick Setup Status: " + quickSetup.getStatus());
 
-        R<DescribeCollectionResponse> collectionInfo = client.describeCollection(describeCollectionParam);
+// Output:
+// Quick Setup Status: 0
+```
 
-        if (collectionInfo.getException() != null) {
-            System.err.println("Failed to describe collection: " + collectionInfo.getException().getMessage());
-            return;            
-        }
+</TabItem>
 
-        DescCollResponseWrapper descCollResponseWrapper = new DescCollResponseWrapper(collectionInfo.getData());
+<TabItem value='javascript'>
 
-        System.out.println(descCollResponseWrapper);
+```javascript
+// 2. Create a collection
+let res = await client.createCollection({
+    collection_name: "quick_setup",
+    dimension: 5,
+});  
 
-        // Output:
-        // Collection Description{name:'medium_articles', description:'', id:445337000188271120, shardNumber:1, createdUtcTimestamp:1698906291178, aliases:[], fields:[FieldType{name='id', type='Int64', elementType='None', primaryKey=true, partitionKey=false, autoID=false, params={}}, FieldType{name='vector', type='FloatVector', elementType='None', primaryKey=false, partitionKey=false, autoID=false, params={dim=768}}], isDynamicFieldEnabled:true}
+console.log(res)
 
-     }
-}
+// Output
+// 
+// {
+//   error_code: 'Success',
+//   reason: '',
+//   code: 0,
+//   retriable: false,
+//   detail: ''
+// }
+// 
 ```
 
 </TabItem>
@@ -320,390 +292,911 @@ public class QuickStartDemo
 <TabItem value='bash'>
 
 ```bash
-# Replace PUBLIC_ENDPOINT and TOKEN with your own 
-# Replace TOKEN with your API key 
-curl --request GET \
-    --url "${PUBLIC_ENDPOINT}/v1/vector/collections/describe?collectionName=medium_articles_2020" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header 'accept: application/json' \
-    --header 'content-type: application/json'
+COLLECTION_NAME="quick_setup"
 
-# Response
-#
-# {
-#      "code": 200,
-#      "data": {
-#           "collectionName": "medium_articles_2020",
-#           "shardsNum": 2,
-#           "description": "",
-#           "load": "loaded",
-#           "enableDynamicField": true,
-#           "fields": [
-#                {
-#                     "name": "id",
-#                     "type": "int64",
-#                     "primaryKey": true,
-#                     "autoId": true,
-#                     "description": ""
-#                },
-#                {
-#                     "name": "vector",
-#                     "type": "floatVector(768)",
-#                     "primaryKey": false,
-#                     "autoId": false,
-#                     "description": ""
-#                },
-#                {
-#                     "name": "$meta",
-#                     "type": "JSON",
-#                     "primaryKey": false,
-#                     "autoId": false,
-#                     "description": "dynamic schema"
-#                }
-#           ],
-#           "indexes": [
-#                {
-#                     "indexName": "vector_idx",
-#                     "fieldName": "vector",
-#                     "metricType": "L2"
-#                }
-#           ]
-#      }
-# }
+curl --request POST \
+    --url "${CLUSTER_ENDPOINT}/v1/vector/collections/create" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    --data-raw "{   
+        \"collectionName\": \"${COLLECTION_NAME}\",
+        \"dimension\": 32
+    }"
+
+# [Note]    
+# When creating a collection using RESTful API, the minimum dimension allowed is 32.
 ```
 
 </TabItem>
 </Tabs>
 
-## Insert data{#insert-data}
+In the above setup, 
 
-In this example, we have prepared a dataset containing over 5,000 articles from [Medium.com](http://Medium.com) published from January through August in 2020. You can download the prepared dataset from [here](https://s3.us-west-2.amazonaws.com/publicdataset.zillizcloud.com/medium_articles_2020_dpr/medium_articles_2020_dpr.json). To know more about the dataset, read [the introduction page on Kaggle](https://www.kaggle.com/datasets/shiyu22chen/cleaned-medium-articles-dataset).
+- The primary and vector fields use their default names (**id** and **vector**).
 
-Here are some examples of inserting one or multiple entities from the dataset into the collection. You can view the inserted entities on the Zilliz Cloud console.
+- The metric type is also set to its default value (**IP**).
 
-- Insert a single entity
+- The primary field accepts integers and does not automatically increments.
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
-    <TabItem value='python'>
+- A reserved JSON field named **$meta** is used to store non-schema-defined fields and their values.
 
-    ```python
-    # Insert a single entity
-    res = client.insert(
-            collection_name=COLLECTION_NAME,
-            data={
-            'id': 0, 
-            'title': 'The Reported Mortality Rate of Coronavirus Is Not Important', 
-            'link': '<https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912>', 
-            'reading_time': 13, 
-            'publication': 'The Startup', 
-            'claps': 1100, 
-            'responses': 18, 
-            'vector': [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648, 0.00082446384, -0.00071647146, 0.048612226, -0.04836573, -0.04567751, 0.018008126, 0.0063936645, -0.011913628, 0.030776596, -0.018274948, 0.019929802, 0.020547243, 0.032735646, -0.031652678, -0.033816382, -0.051087562, -0.033748355, 0.0039493158, 0.009246126, -0.060236514, -0.017136049, 0.028754413, -0.008433934, 0.011168004, -0.012391256, -0.011225835, 0.031775184, 0.002929508, -0.007448661, -0.005337719, -0.010999258, -0.01515909, -0.005130484, 0.0060212007, 0.0034560722, -0.022935811, -0.04970116, -0.0155887455, 0.06627353, -0.006052789, -0.051570725, -0.109865054, 0.033205193, 0.00041118253, 0.0029823708, 0.036160238, -0.011256539, 0.00023560718, 0.058322437, 0.022275906, 0.015206677, -0.02884609, 0.0016338055, 0.0049200393, 0.014388571, -0.0049061654, -0.04664761, -0.027454877, 0.017526226, -0.005100602, 0.018090058, 0.02700998, 0.04031944, -0.0097965, -0.03674761, -0.0043163053, -0.023320708, 0.012654851, -0.014262311, -0.008081833, -0.018334744, 0.0014025003, -0.003053399, -0.002636383, -0.022398386, -0.004725274, 0.00036367847, -0.012368711, 0.0014739085, 0.03450414, 0.009684024, 0.017912658, 0.06594397, 0.021381201, 0.029343689, -0.0069561847, 0.026152428, 0.04635037, 0.014746184, -0.002119602, 0.034359712, -0.013705124, 0.010691518, 0.04060854, 0.013679299, -0.018990282, 0.035340093, 0.007353945, -0.035990074, 0.013126987, -0.032933377, -0.001756877, -0.0049658176, -0.03380879, -0.07024137, -0.0130426735, 0.010533265, -0.023091802, -0.004645729, -0.03344451, 0.04759929, 0.025985204, -0.040710885, -0.016681142, -0.024664842, -0.025170377, 0.08839205, -0.023733815, 0.019494494, 0.0055427826, 0.045460507, 0.07066554, 0.022181382, 0.018302314, 0.026806992, -0.006066003, 0.046525814, -0.04066389, 0.019001767, 0.021242762, -0.020784091, -0.031635042, 0.04573943, 0.02515421, -0.050663553, -0.05183343, -0.046468202, -0.07910535, 0.017036669, 0.021445233, 0.04277428, -0.020235524, -0.055314954, 0.00904601, -0.01104365, 0.03069203, -0.00821997, -0.035594665, 0.024322856, -0.0068963314, 0.009003657, 0.00398102, -0.008596356, 0.014772055, 0.02740991, 0.025503553, 0.0038213644, -0.0047855405, -0.034888722, 0.030553816, -0.008325959, 0.030010607, 0.023729775, 0.016138833, -0.022967983, -0.08616877, -0.02460819, -0.008210168, -0.06444098, 0.018750126, -0.03335763, 0.022024624, 0.032374356, 0.023870794, 0.021288997, -0.026617877, 0.020435361, -0.003692393, -0.024113296, 0.044870164, -0.030451361, 0.013022849, 0.002278627, -0.027616743, -0.012087787, -0.033232547, -0.022974484, 0.02801226, -0.029057292, 0.060317725, -0.02312559, 0.015558754, 0.073630534, 0.02490823, -0.0140531305, -0.043771528, 0.040756326, 0.01667925, -0.0046050115, -0.08938058, 0.10560781, 0.015044094, 0.003613817, 0.013523503, -0.011039813, 0.06396795, 0.013428416, -0.025031878, -0.014972648, -0.015970055, 0.037022553, -0.013759925, 0.013363354, 0.0039748577, -0.0040822625, 0.018209668, -0.057496265, 0.034993384, 0.07075411, 0.023498386, 0.085871644, 0.028646072, 0.007590898, 0.07037031, -0.05005178, 0.010477505, -0.014106617, 0.013402172, 0.007472563, -0.03131418, 0.020552127, -0.031878896, -0.04170217, -0.03153583, 0.03458349, 0.03366634, 0.021306382, -0.037176874, 0.029069472, 0.014662372, 0.0024123765, -0.025403008, -0.0372993, -0.049923114, -0.014209514, -0.015524425, 0.036377322, 0.04259327, -0.029715618, 0.02657093, -0.0062432447, -0.0024253451, -0.021287171, 0.010478781, -0.029322306, -0.021203341, 0.047209084, 0.025337176, 0.018471811, -0.008709492, -0.047414266, -0.06227469, -0.05713435, 0.02141101, 0.024481304, 0.07176469, 0.0211379, -0.049316987, -0.124073654, 0.0049275495, -0.02461509, -0.02738388, 0.04825289, -0.05069646, 0.012640115, -0.0061352802, 0.034599125, 0.02799496, -0.01511028, -0.046418104, 0.011309801, 0.016673129, -0.033531003, -0.049203333, -0.027218347, -0.03528408, 0.008881575, 0.010736325, 0.034232814, 0.012807507, -0.0100207105, 0.0067757815, 0.009538357, 0.026212366, -0.036120333, -0.019764563, 0.006527411, -0.016437015, -0.009759148, -0.042246807, 0.012492151, 0.0066206953, 0.010672299, -0.44499892, -0.036189068, -0.015703931, -0.031111298, -0.020329623, 0.0047888453, 0.090396516, -0.041484866, 0.033830352, -0.0033847596, 0.06065415, 0.030880837, 0.05558494, 0.022805553, 0.009607596, 0.006682602, 0.036806617, 0.02406229, 0.034229457, -0.0105605405, 0.034754273, 0.02436426, -0.03849325, 0.021132406, -0.01251386, 0.022090863, -0.029137045, 0.0064384523, -0.03175176, -0.0070441505, 0.016025176, -0.023172623, 0.00076795724, -0.024106828, -0.045440633, -0.0074440194, 0.00035374766, 0.024374487, 0.0058897804, -0.012461025, -0.029086761, 0.0029477053, -0.022914894, -0.032369837, 0.020743662, 0.024116345, 0.0020526652, 0.0008596536, -0.000583463, 0.061080184, 0.020812698, -0.0235381, 0.08112197, 0.05689626, -0.003070104, -0.010714772, -0.004864459, 0.027089117, -0.030910335, 0.0017404438, -0.014978656, 0.0127020255, 0.01878998, -0.051732827, -0.0037475713, 0.013033434, -0.023682894, -0.03219574, 0.03736345, 0.0058930484, -0.054040316, 0.047637977, 0.012636436, -0.05820182, 0.013828813, -0.057893142, -0.012405234, 0.030266648, -0.0029184038, -0.021839319, -0.045179468, -0.013123978, -0.021320488, 0.0015718226, 0.020244086, -0.014414709, 0.009535103, -0.004497577, -0.02577227, -0.0085017495, 0.029090486, 0.009356506, 0.0055838437, 0.021151636, 0.039531752, 0.07814674, 0.043186333, -0.0077368533, 0.028967595, 0.025058193, 0.05432941, -0.04383656, -0.027070394, -0.080263995, -0.03616516, -0.026129462, -0.0033627374, 0.035040155, 0.015231506, -0.06372076, 0.046391208, 0.0049725454, 0.003783345, -0.057800908, 0.061461, -0.017880175, 0.022820404, 0.048944063, 0.04725843, -0.013392871, 0.05023065, 0.0069421427, -0.019561166, 0.012953843, 0.06227977, -0.02114757, -0.003334329, 0.023241237, -0.061053444, -0.023145229, 0.016086273, 0.0774039, 0.008069459, -0.0013532874, -0.016790181, -0.027246375, -0.03254919, 0.033754334, 0.00037142826, -0.02387325, 0.0057056695, 0.0084914565, -0.051856343, 0.029254, 0.005583839, 0.011591886, -0.033027634, -0.004170374, 0.018334484, -0.0030969654, 0.0024489106, 0.0030196267, 0.023012564, 0.020529047, 0.00010772953, 0.0017700809, 0.029260442, -0.018829526, -0.024797931, -0.039499596, 0.008108761, -0.013099816, -0.11726566, -0.005652353, -0.008117937, -0.012961832, 0.0152542135, -0.06429504, 0.0184562, 0.058997117, -0.027178442, -0.019294549, -0.01587592, 0.0048053437, 0.043830805, 0.011232237, -0.026841154, -0.0007282251, -0.00862919, -0.008405325, 0.019370917, -0.008112641, -0.014931766, 0.065622255, 0.0149185015, 0.013089685, -0.0028022556, -0.028629888, -0.048105706, 0.009296162, 0.010251239, 0.030800395, 0.028263845, -0.011021621, -0.034127586, 0.014709971, -0.0075270324, 0.010737263, 0.020517904, -0.012932179, 0.007153817, 0.03736311, -0.03391106, 0.03028614, 0.012531187, -0.046059456, -0.0043963846, 0.028799629, -0.06663413, -0.009447025, -0.019833198, -0.036111858, -0.01901045, 0.040701825, 0.0060573653, 0.027482377, -0.019782187, -0.020186251, 0.028398912, 0.027108852, 0.026535714, -0.000995191, -0.020599326, -0.005658084, -0.017271476, 0.026300041, -0.006992451, -0.08593853, 0.03675959, 0.0029454317, -0.040927384, -0.035480253, 0.016498009, -0.03406521, -0.026182177, -0.0007024827, 0.019500641, 0.0047998386, -0.02416359, 0.0019833131, 0.0033488963, 0.037788488, -0.009154958, -0.043469638, -0.024896, -0.017234193, 0.044996973, -0.06303135, -0.051730774, 0.04041444, 0.0075959326, -0.03901764, -0.019851806, -0.008242245, 0.06107143, 0.030118924, -0.016167669, -0.028161867, -0.0025679746, -0.021713274, 0.025275888, -0.012819265, -0.036431268, 0.017991759, 0.040626206, -0.0036572467, -0.0005935883, -0.0037468506, 0.034460746, -0.0182785, -0.00431203, -0.044755403, 0.016463224, 0.041199315, -0.0093387, 0.03919184, -0.01151653, -0.016965209, 0.006347649, 0.021104146, 0.060276803, -0.026659148, 0.026461488, -0.032700688, 0.0012274865, -0.024675943, -0.003006079, -0.009607032, 0.010597691, 0.0043017124, -0.01908524, 0.006748306, -0.03049305, -0.017481703, 0.036747415, 0.036634356, 0.0007106319, 0.045647435, -0.020883067, -0.0593661, -0.03929885, 0.042825453, 0.016104022, -0.03222858, 0.031112716, 0.020407677, -0.013276762, 0.03657825, -0.033871554, 0.004176301, 0.009538976, -0.009995692, 0.0042660628, 0.050545394, -0.018142857, 0.005219403, 0.0006711967, -0.014264284, 0.031044828, -0.01827481, 0.012488852, 0.031393733, 0.050390214, -0.014484084, -0.054758117, 0.055042055, -0.005506624, -0.0066648237, 0.010891078, 0.012446279, 0.061687976, 0.018091502, 0.0026527622, 0.0321537, -0.02469515, 0.01772019, 0.006846163, -0.07471038, -0.024433741, 0.02483875, 0.0497063, 0.0043456135, 0.056550737, 0.035752796, -0.02430349, 0.036570627, -0.027576203, -0.012418993, 0.023442797, -0.03433812, 0.01953399, -0.028003592, -0.021168072, 0.019414881, -0.014712576, -0.0003938545, 0.021453558, -0.023197332, -0.004455581, -0.08799191, 0.0010808896, 0.009281116, -0.0051161298, 0.031497046, 0.034916095, -0.023042161, 0.030799815, 0.017298799, 0.0015253434, 0.013728047, 0.0035838438, 0.016767647, -0.022243451, 0.013371096, 0.053564783, -0.008776885, -0.013133307, 0.015577713, -0.027008705, 0.009490815, -0.04103532, -0.012426461, -0.0050485474, -0.04323231, -0.013291623, -0.01660157, -0.055480026, 0.017622838, 0.017476618, -0.009798125, 0.038226977, -0.03127579, 0.019329516, 0.033461004, -0.0039813113, -0.039526325, 0.03884973, -0.011381027, -0.023257744, 0.03033401, 0.0029607012, -0.0006490531, -0.0347344, 0.029701462, -0.04153701, 0.028073426, -0.025427297, 0.009756264, -0.048082624, 0.021743972, 0.057197016, 0.024082556, -0.013968224, 0.044379756, -0.029081704, 0.003487999, 0.042621125, -0.04339743, -0.027005397, -0.02944044, -0.024172144, -0.07388652, 0.05952364, 0.02561452, -0.010255158, -0.015288555, 0.045012463, 0.012403602, -0.021197597, 0.025847573, -0.016983166, 0.03021369, -0.02920852, 0.035140667, -0.010627725, -0.020431923, 0.03191218, 0.0046844087, 0.056356475, -0.00012615003, -0.0052536936, -0.058609407, 0.009710908, 0.00041168949, -0.22300485, -0.0077232462, 0.0029359192, -0.028645728, -0.021156758, 0.029606635, -0.026473567, -0.0019432966, 0.023867624, 0.021946864, -0.00082128344, 0.01897284, -0.017976845, -0.015677344, -0.0026336901, 0.030096486]
-            }
-    )
+</TabItem>
+
+<TabItem value="custom">
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# 3. Create a collection in customized setup mode
+
+# 3.1. Create schema
+schema = MilvusClient.create_schema(
+    auto_id=False,
+    enable_dynamic_field=True,
+)
+
+# 3.2. Add fields to schema
+schema.add_field(field_name="my_id", datatype=DataType.INT64, is_primary=True)
+schema.add_field(field_name="my_vector", datatype=DataType.FLOAT_VECTOR, dim=5)
+
+# 3.3. Prepare index parameters
+index_params = client.prepare_index_params()
+
+# 3.4. Add indexes
+index_params.add_index(
+    field_name="my_id",
+    index_type="TRIE"
+)
+
+index_params.add_index(
+    field_name="my_vector", 
+    index_type="AUTOINDEX",
+    metric_type="IP"
+)
+
+# 3.5. Create a collection
+client.create_collection(
+    collection_name="customized_setup",
+    schema=schema,
+    index_params=index_params
+)
+
+# [NOTE]
+# Collection created in this way are automatically indexed and loaded.
+# Skip the "index_params" parameter leaves you to manually index and load the collection.
+
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.grpc.DataType;
+import io.milvus.param.IndexType;
+import io.milvus.param.MetricType;
+import io.milvus.param.collection.CreateCollectionParam;
+import io.milvus.param.collection.FieldType;
+import io.milvus.param.collection.LoadCollectionParam;
+import io.milvus.param.index.CreateIndexParam;
+
+// 3. Create a collection in customized setup mode
+
+// 3.1 Define fields
+FieldType id = FieldType.newBuilder()
+    .withName("my_id")
+    .withDataType(DataType.Int64)
+    .withPrimaryKey(true)
+    .withAutoID(false)
+    .build();
+
+FieldType vector = FieldType.newBuilder()
+    .withName("my_vector")
+    .withDataType(DataType.FloatVector)
+    .withDimension(5)
+    .build();    
     
-    print(res)
-    
-    # Output
-    #
-    # [0]
-      
-    ```
+// 3.2 Create collection
+CreateCollectionParam createCollectionParam = CreateCollectionParam.newBuilder()
+    .withCollectionName("customized_setup")
+    .addFieldType(id)
+    .addFieldType(vector)
+    .withEnableDynamicField(true)
+    .build();
 
-    </TabItem>
+R<RpcStatus> customizedSetup = client.createCollection(createCollectionParam);   
 
-    <TabItem value='javascript'>
+System.out.println("Customized Setup Status: " + customizedSetup.getStatus());
 
-    ```javascript
-    async function main () {
-        // (continued)
-        
-        // Insert a record
-        res = await client.insert({
-            collection_name: collectionName,
-            data: [{
-                'id': 0, 
-                'title': 'The Reported Mortality Rate of Coronavirus Is Not Important', 
-                'link': '<https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912>', 
-                'reading_time': 13, 
-                'publication': 'The Startup', 
-                'claps': 1100, 
-                'responses': 18, 
-                'vector': [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648, 0.00082446384, -0.00071647146, 0.048612226, -0.04836573, -0.04567751, 0.018008126, 0.0063936645, -0.011913628, 0.030776596, -0.018274948, 0.019929802, 0.020547243, 0.032735646, -0.031652678, -0.033816382, -0.051087562, -0.033748355, 0.0039493158, 0.009246126, -0.060236514, -0.017136049, 0.028754413, -0.008433934, 0.011168004, -0.012391256, -0.011225835, 0.031775184, 0.002929508, -0.007448661, -0.005337719, -0.010999258, -0.01515909, -0.005130484, 0.0060212007, 0.0034560722, -0.022935811, -0.04970116, -0.0155887455, 0.06627353, -0.006052789, -0.051570725, -0.109865054, 0.033205193, 0.00041118253, 0.0029823708, 0.036160238, -0.011256539, 0.00023560718, 0.058322437, 0.022275906, 0.015206677, -0.02884609, 0.0016338055, 0.0049200393, 0.014388571, -0.0049061654, -0.04664761, -0.027454877, 0.017526226, -0.005100602, 0.018090058, 0.02700998, 0.04031944, -0.0097965, -0.03674761, -0.0043163053, -0.023320708, 0.012654851, -0.014262311, -0.008081833, -0.018334744, 0.0014025003, -0.003053399, -0.002636383, -0.022398386, -0.004725274, 0.00036367847, -0.012368711, 0.0014739085, 0.03450414, 0.009684024, 0.017912658, 0.06594397, 0.021381201, 0.029343689, -0.0069561847, 0.026152428, 0.04635037, 0.014746184, -0.002119602, 0.034359712, -0.013705124, 0.010691518, 0.04060854, 0.013679299, -0.018990282, 0.035340093, 0.007353945, -0.035990074, 0.013126987, -0.032933377, -0.001756877, -0.0049658176, -0.03380879, -0.07024137, -0.0130426735, 0.010533265, -0.023091802, -0.004645729, -0.03344451, 0.04759929, 0.025985204, -0.040710885, -0.016681142, -0.024664842, -0.025170377, 0.08839205, -0.023733815, 0.019494494, 0.0055427826, 0.045460507, 0.07066554, 0.022181382, 0.018302314, 0.026806992, -0.006066003, 0.046525814, -0.04066389, 0.019001767, 0.021242762, -0.020784091, -0.031635042, 0.04573943, 0.02515421, -0.050663553, -0.05183343, -0.046468202, -0.07910535, 0.017036669, 0.021445233, 0.04277428, -0.020235524, -0.055314954, 0.00904601, -0.01104365, 0.03069203, -0.00821997, -0.035594665, 0.024322856, -0.0068963314, 0.009003657, 0.00398102, -0.008596356, 0.014772055, 0.02740991, 0.025503553, 0.0038213644, -0.0047855405, -0.034888722, 0.030553816, -0.008325959, 0.030010607, 0.023729775, 0.016138833, -0.022967983, -0.08616877, -0.02460819, -0.008210168, -0.06444098, 0.018750126, -0.03335763, 0.022024624, 0.032374356, 0.023870794, 0.021288997, -0.026617877, 0.020435361, -0.003692393, -0.024113296, 0.044870164, -0.030451361, 0.013022849, 0.002278627, -0.027616743, -0.012087787, -0.033232547, -0.022974484, 0.02801226, -0.029057292, 0.060317725, -0.02312559, 0.015558754, 0.073630534, 0.02490823, -0.0140531305, -0.043771528, 0.040756326, 0.01667925, -0.0046050115, -0.08938058, 0.10560781, 0.015044094, 0.003613817, 0.013523503, -0.011039813, 0.06396795, 0.013428416, -0.025031878, -0.014972648, -0.015970055, 0.037022553, -0.013759925, 0.013363354, 0.0039748577, -0.0040822625, 0.018209668, -0.057496265, 0.034993384, 0.07075411, 0.023498386, 0.085871644, 0.028646072, 0.007590898, 0.07037031, -0.05005178, 0.010477505, -0.014106617, 0.013402172, 0.007472563, -0.03131418, 0.020552127, -0.031878896, -0.04170217, -0.03153583, 0.03458349, 0.03366634, 0.021306382, -0.037176874, 0.029069472, 0.014662372, 0.0024123765, -0.025403008, -0.0372993, -0.049923114, -0.014209514, -0.015524425, 0.036377322, 0.04259327, -0.029715618, 0.02657093, -0.0062432447, -0.0024253451, -0.021287171, 0.010478781, -0.029322306, -0.021203341, 0.047209084, 0.025337176, 0.018471811, -0.008709492, -0.047414266, -0.06227469, -0.05713435, 0.02141101, 0.024481304, 0.07176469, 0.0211379, -0.049316987, -0.124073654, 0.0049275495, -0.02461509, -0.02738388, 0.04825289, -0.05069646, 0.012640115, -0.0061352802, 0.034599125, 0.02799496, -0.01511028, -0.046418104, 0.011309801, 0.016673129, -0.033531003, -0.049203333, -0.027218347, -0.03528408, 0.008881575, 0.010736325, 0.034232814, 0.012807507, -0.0100207105, 0.0067757815, 0.009538357, 0.026212366, -0.036120333, -0.019764563, 0.006527411, -0.016437015, -0.009759148, -0.042246807, 0.012492151, 0.0066206953, 0.010672299, -0.44499892, -0.036189068, -0.015703931, -0.031111298, -0.020329623, 0.0047888453, 0.090396516, -0.041484866, 0.033830352, -0.0033847596, 0.06065415, 0.030880837, 0.05558494, 0.022805553, 0.009607596, 0.006682602, 0.036806617, 0.02406229, 0.034229457, -0.0105605405, 0.034754273, 0.02436426, -0.03849325, 0.021132406, -0.01251386, 0.022090863, -0.029137045, 0.0064384523, -0.03175176, -0.0070441505, 0.016025176, -0.023172623, 0.00076795724, -0.024106828, -0.045440633, -0.0074440194, 0.00035374766, 0.024374487, 0.0058897804, -0.012461025, -0.029086761, 0.0029477053, -0.022914894, -0.032369837, 0.020743662, 0.024116345, 0.0020526652, 0.0008596536, -0.000583463, 0.061080184, 0.020812698, -0.0235381, 0.08112197, 0.05689626, -0.003070104, -0.010714772, -0.004864459, 0.027089117, -0.030910335, 0.0017404438, -0.014978656, 0.0127020255, 0.01878998, -0.051732827, -0.0037475713, 0.013033434, -0.023682894, -0.03219574, 0.03736345, 0.0058930484, -0.054040316, 0.047637977, 0.012636436, -0.05820182, 0.013828813, -0.057893142, -0.012405234, 0.030266648, -0.0029184038, -0.021839319, -0.045179468, -0.013123978, -0.021320488, 0.0015718226, 0.020244086, -0.014414709, 0.009535103, -0.004497577, -0.02577227, -0.0085017495, 0.029090486, 0.009356506, 0.0055838437, 0.021151636, 0.039531752, 0.07814674, 0.043186333, -0.0077368533, 0.028967595, 0.025058193, 0.05432941, -0.04383656, -0.027070394, -0.080263995, -0.03616516, -0.026129462, -0.0033627374, 0.035040155, 0.015231506, -0.06372076, 0.046391208, 0.0049725454, 0.003783345, -0.057800908, 0.061461, -0.017880175, 0.022820404, 0.048944063, 0.04725843, -0.013392871, 0.05023065, 0.0069421427, -0.019561166, 0.012953843, 0.06227977, -0.02114757, -0.003334329, 0.023241237, -0.061053444, -0.023145229, 0.016086273, 0.0774039, 0.008069459, -0.0013532874, -0.016790181, -0.027246375, -0.03254919, 0.033754334, 0.00037142826, -0.02387325, 0.0057056695, 0.0084914565, -0.051856343, 0.029254, 0.005583839, 0.011591886, -0.033027634, -0.004170374, 0.018334484, -0.0030969654, 0.0024489106, 0.0030196267, 0.023012564, 0.020529047, 0.00010772953, 0.0017700809, 0.029260442, -0.018829526, -0.024797931, -0.039499596, 0.008108761, -0.013099816, -0.11726566, -0.005652353, -0.008117937, -0.012961832, 0.0152542135, -0.06429504, 0.0184562, 0.058997117, -0.027178442, -0.019294549, -0.01587592, 0.0048053437, 0.043830805, 0.011232237, -0.026841154, -0.0007282251, -0.00862919, -0.008405325, 0.019370917, -0.008112641, -0.014931766, 0.065622255, 0.0149185015, 0.013089685, -0.0028022556, -0.028629888, -0.048105706, 0.009296162, 0.010251239, 0.030800395, 0.028263845, -0.011021621, -0.034127586, 0.014709971, -0.0075270324, 0.010737263, 0.020517904, -0.012932179, 0.007153817, 0.03736311, -0.03391106, 0.03028614, 0.012531187, -0.046059456, -0.0043963846, 0.028799629, -0.06663413, -0.009447025, -0.019833198, -0.036111858, -0.01901045, 0.040701825, 0.0060573653, 0.027482377, -0.019782187, -0.020186251, 0.028398912, 0.027108852, 0.026535714, -0.000995191, -0.020599326, -0.005658084, -0.017271476, 0.026300041, -0.006992451, -0.08593853, 0.03675959, 0.0029454317, -0.040927384, -0.035480253, 0.016498009, -0.03406521, -0.026182177, -0.0007024827, 0.019500641, 0.0047998386, -0.02416359, 0.0019833131, 0.0033488963, 0.037788488, -0.009154958, -0.043469638, -0.024896, -0.017234193, 0.044996973, -0.06303135, -0.051730774, 0.04041444, 0.0075959326, -0.03901764, -0.019851806, -0.008242245, 0.06107143, 0.030118924, -0.016167669, -0.028161867, -0.0025679746, -0.021713274, 0.025275888, -0.012819265, -0.036431268, 0.017991759, 0.040626206, -0.0036572467, -0.0005935883, -0.0037468506, 0.034460746, -0.0182785, -0.00431203, -0.044755403, 0.016463224, 0.041199315, -0.0093387, 0.03919184, -0.01151653, -0.016965209, 0.006347649, 0.021104146, 0.060276803, -0.026659148, 0.026461488, -0.032700688, 0.0012274865, -0.024675943, -0.003006079, -0.009607032, 0.010597691, 0.0043017124, -0.01908524, 0.006748306, -0.03049305, -0.017481703, 0.036747415, 0.036634356, 0.0007106319, 0.045647435, -0.020883067, -0.0593661, -0.03929885, 0.042825453, 0.016104022, -0.03222858, 0.031112716, 0.020407677, -0.013276762, 0.03657825, -0.033871554, 0.004176301, 0.009538976, -0.009995692, 0.0042660628, 0.050545394, -0.018142857, 0.005219403, 0.0006711967, -0.014264284, 0.031044828, -0.01827481, 0.012488852, 0.031393733, 0.050390214, -0.014484084, -0.054758117, 0.055042055, -0.005506624, -0.0066648237, 0.010891078, 0.012446279, 0.061687976, 0.018091502, 0.0026527622, 0.0321537, -0.02469515, 0.01772019, 0.006846163, -0.07471038, -0.024433741, 0.02483875, 0.0497063, 0.0043456135, 0.056550737, 0.035752796, -0.02430349, 0.036570627, -0.027576203, -0.012418993, 0.023442797, -0.03433812, 0.01953399, -0.028003592, -0.021168072, 0.019414881, -0.014712576, -0.0003938545, 0.021453558, -0.023197332, -0.004455581, -0.08799191, 0.0010808896, 0.009281116, -0.0051161298, 0.031497046, 0.034916095, -0.023042161, 0.030799815, 0.017298799, 0.0015253434, 0.013728047, 0.0035838438, 0.016767647, -0.022243451, 0.013371096, 0.053564783, -0.008776885, -0.013133307, 0.015577713, -0.027008705, 0.009490815, -0.04103532, -0.012426461, -0.0050485474, -0.04323231, -0.013291623, -0.01660157, -0.055480026, 0.017622838, 0.017476618, -0.009798125, 0.038226977, -0.03127579, 0.019329516, 0.033461004, -0.0039813113, -0.039526325, 0.03884973, -0.011381027, -0.023257744, 0.03033401, 0.0029607012, -0.0006490531, -0.0347344, 0.029701462, -0.04153701, 0.028073426, -0.025427297, 0.009756264, -0.048082624, 0.021743972, 0.057197016, 0.024082556, -0.013968224, 0.044379756, -0.029081704, 0.003487999, 0.042621125, -0.04339743, -0.027005397, -0.02944044, -0.024172144, -0.07388652, 0.05952364, 0.02561452, -0.010255158, -0.015288555, 0.045012463, 0.012403602, -0.021197597, 0.025847573, -0.016983166, 0.03021369, -0.02920852, 0.035140667, -0.010627725, -0.020431923, 0.03191218, 0.0046844087, 0.056356475, -0.00012615003, -0.0052536936, -0.058609407, 0.009710908, 0.00041168949, -0.22300485, -0.0077232462, 0.0029359192, -0.028645728, -0.021156758, 0.029606635, -0.026473567, -0.0019432966, 0.023867624, 0.021946864, -0.00082128344, 0.01897284, -0.017976845, -0.015677344, -0.0026336901, 0.030096486]
-                }]
-        });
-    
-        console.log(res)
-    
-        // Output
-        // 
-        // {
-        //   succ_index: [ 0 ],
-        //   err_index: [],
-        //   status: { error_code: 'Success', reason: '', code: 0 },
-        //   IDs: { int_id: { data: [Array] }, id_field: 'int_id' },
-        //   acknowledged: false,
-        //   insert_cnt: '1',
-        //   delete_cnt: '0',
-        //   upsert_cnt: '0',
-        //   timestamp: '445337086401708038'
-        // }
-        // 
-    
-    }
-    ```
+// Output:
+// Customized Setup Status: 0
 
-    </TabItem>
+// 3.3 Create index
+CreateIndexParam createIndexParam = CreateIndexParam.newBuilder()
+    .withCollectionName("customized_setup")
+    .withFieldName("my_vector")
+    .withIndexType(IndexType.AUTOINDEX)
+    .withMetricType(MetricType.IP)
+    .build();
 
-    <TabItem value='java'>
+R<RpcStatus> index = client.createIndex(createIndexParam);        
 
-    ```java
-    public class QuickStartDemo
+System.out.println("Create Index Status: " + index.getStatus());
+
+// Output:
+// Create Index Status: 0
+
+// 3.4 Load collection
+LoadCollectionParam loadCollectionParam = LoadCollectionParam.newBuilder()
+    .withCollectionName("customized_setup")
+    .build();
+
+R<RpcStatus> load = client.loadCollection(loadCollectionParam);    
+
+System.out.println("Load Collection Status: " +load.getStatus());
+
+// Output:
+// Load Collection Status: 0
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 3. Create a collection with a schema
+const fields = [
     {
-        public static void main( String[] args )
-        {
-            // (Continued)
-    
-            // 4. Insert entities
-            String content;
-    
-            Path file = Path.of(data_file);
-            try {
-                content = Files.readString(file);
-            } catch (Exception e) {
-                System.err.println("Failed to read file: " + e.getMessage());
-                return;
-            }
-    
-            System.out.println("Successfully read file");
-    
-            // Output:
-            // Successfully read file
+        name: "my_id",
+        data_type: DataType.Int64,
+        is_primary_key: true,
+        auto_id: false
+    },
+    {
+        name: "my_vector",
+        data_type: DataType.FloatVector,
+        dim: 5
+    },
+]
 
-            // Load dataset
-            JSONObject dataset = JSON.parseObject(content);
-    
-            // Change the counts argument to limit the rows.
-            List<JSONObject> rows = getRows(dataset.getJSONArray("rows"), 1);
-    
-            // Pretty print the first row
-            System.out.println(rows.get(0));
-    
-            // Output:
-            // {"id":0,"link":"https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912","publication":"The Startup","reading_time":13,"claps":1100,"responses":18,"title":"The Reported Mortality Rate of Coronavirus Is Not Important","vector":[0.041732933,0.013779674,-0.027564144,-0.013061441,0.009748648,8.2446384E-4,-7.1647146E-4,0.048612226,-0.04836573,-0.04567751,0.018008126,0.0063936645,-0.011913628,0.030776596,-0.018274948,0.019929802,0.020547243,0.032735646,-0.031652678,-0.033816382,-0.051087562,-0.033748355,0.0039493158,0.009246126,-0.060236514,-0.017136049,0.028754413,-0.008433934,0.011168004,-0.012391256,-0.011225835,0.031775184,0.002929508,-0.007448661,-0.005337719,-0.010999258,-0.01515909,-0.005130484,0.0060212007,0.0034560722,-0.022935811,-0.04970116,-0.0155887455,0.06627353,-0.006052789,-0.051570725,-0.109865054,0.033205193,4.1118253E-4,0.0029823708,0.036160238,-0.011256539,2.3560718E-4,0.058322437,0.022275906,0.015206677,-0.02884609,0.0016338055,0.0049200393,0.014388571,-0.0049061654,-0.04664761,-0.027454877,0.017526226,-0.005100602,0.018090058,0.02700998,0.04031944,-0.0097965,-0.03674761,-0.0043163053,-0.023320708,0.012654851,-0.014262311,-0.008081833,-0.018334744,0.0014025003,-0.003053399,-0.002636383,-0.022398386,-0.004725274,3.6367847E-4,-0.012368711,0.0014739085,0.03450414,0.009684024,0.017912658,0.06594397,0.021381201,0.029343689,-0.0069561847,0.026152428,0.04635037,0.014746184,-0.002119602,0.034359712,-0.013705124,0.010691518,0.04060854,0.013679299,-0.018990282,0.035340093,0.007353945,-0.035990074,0.013126987,-0.032933377,-0.001756877,-0.0049658176,-0.03380879,-0.07024137,-0.0130426735,0.010533265,-0.023091802,-0.004645729,-0.03344451,0.04759929,0.025985204,-0.040710885,-0.016681142,-0.024664842,-0.025170377,0.08839205,-0.023733815,0.019494494,0.0055427826,0.045460507,0.07066554,0.022181382,0.018302314,0.026806992,-0.006066003,0.046525814,-0.04066389,0.019001767,0.021242762,-0.020784091,-0.031635042,0.04573943,0.02515421,-0.050663553,-0.05183343,-0.046468202,-0.07910535,0.017036669,0.021445233,0.04277428,-0.020235524,-0.055314954,0.00904601,-0.01104365,0.03069203,-0.00821997,-0.035594665,0.024322856,-0.0068963314,0.009003657,0.00398102,-0.008596356,0.014772055,0.02740991,0.025503553,0.0038213644,-0.0047855405,-0.034888722,0.030553816,-0.008325959,0.030010607,0.023729775,0.016138833,-0.022967983,-0.08616877,-0.02460819,-0.008210168,-0.06444098,0.018750126,-0.03335763,0.022024624,0.032374356,0.023870794,0.021288997,-0.026617877,0.020435361,-0.003692393,-0.024113296,0.044870164,-0.030451361,0.013022849,0.002278627,-0.027616743,-0.012087787,-0.033232547,-0.022974484,0.02801226,-0.029057292,0.060317725,-0.02312559,0.015558754,0.073630534,0.02490823,-0.0140531305,-0.043771528,0.040756326,0.01667925,-0.0046050115,-0.08938058,0.10560781,0.015044094,0.003613817,0.013523503,-0.011039813,0.06396795,0.013428416,-0.025031878,-0.014972648,-0.015970055,0.037022553,-0.013759925,0.013363354,0.0039748577,-0.0040822625,0.018209668,-0.057496265,0.034993384,0.07075411,0.023498386,0.085871644,0.028646072,0.007590898,0.07037031,-0.05005178,0.010477505,-0.014106617,0.013402172,0.007472563,-0.03131418,0.020552127,-0.031878896,-0.04170217,-0.03153583,0.03458349,0.03366634,0.021306382,-0.037176874,0.029069472,0.014662372,0.0024123765,-0.025403008,-0.0372993,-0.049923114,-0.014209514,-0.015524425,0.036377322,0.04259327,-0.029715618,0.02657093,-0.0062432447,-0.0024253451,-0.021287171,0.010478781,-0.029322306,-0.021203341,0.047209084,0.025337176,0.018471811,-0.008709492,-0.047414266,-0.06227469,-0.05713435,0.02141101,0.024481304,0.07176469,0.0211379,-0.049316987,-0.124073654,0.0049275495,-0.02461509,-0.02738388,0.04825289,-0.05069646,0.012640115,-0.0061352802,0.034599125,0.02799496,-0.01511028,-0.046418104,0.011309801,0.016673129,-0.033531003,-0.049203333,-0.027218347,-0.03528408,0.008881575,0.010736325,0.034232814,0.012807507,-0.0100207105,0.0067757815,0.009538357,0.026212366,-0.036120333,-0.019764563,0.006527411,-0.016437015,-0.009759148,-0.042246807,0.012492151,0.0066206953,0.010672299,-0.44499892,-0.036189068,-0.015703931,-0.031111298,-0.020329623,0.0047888453,0.090396516,-0.041484866,0.033830352,-0.0033847596,0.06065415,0.030880837,0.05558494,0.022805553,0.009607596,0.006682602,0.036806617,0.02406229,0.034229457,-0.0105605405,0.034754273,0.02436426,-0.03849325,0.021132406,-0.01251386,0.022090863,-0.029137045,0.0064384523,-0.03175176,-0.0070441505,0.016025176,-0.023172623,7.6795724E-4,-0.024106828,-0.045440633,-0.0074440194,3.5374766E-4,0.024374487,0.0058897804,-0.012461025,-0.029086761,0.0029477053,-0.022914894,-0.032369837,0.020743662,0.024116345,0.0020526652,8.596536E-4,-5.83463E-4,0.061080184,0.020812698,-0.0235381,0.08112197,0.05689626,-0.003070104,-0.010714772,-0.004864459,0.027089117,-0.030910335,0.0017404438,-0.014978656,0.0127020255,0.01878998,-0.051732827,-0.0037475713,0.013033434,-0.023682894,-0.03219574,0.03736345,0.0058930484,-0.054040316,0.047637977,0.012636436,-0.05820182,0.013828813,-0.057893142,-0.012405234,0.030266648,-0.0029184038,-0.021839319,-0.045179468,-0.013123978,-0.021320488,0.0015718226,0.020244086,-0.014414709,0.009535103,-0.004497577,-0.02577227,-0.0085017495,0.029090486,0.009356506,0.0055838437,0.021151636,0.039531752,0.07814674,0.043186333,-0.0077368533,0.028967595,0.025058193,0.05432941,-0.04383656,-0.027070394,-0.080263995,-0.03616516,-0.026129462,-0.0033627374,0.035040155,0.015231506,-0.06372076,0.046391208,0.0049725454,0.003783345,-0.057800908,0.061461,-0.017880175,0.022820404,0.048944063,0.04725843,-0.013392871,0.05023065,0.0069421427,-0.019561166,0.012953843,0.06227977,-0.02114757,-0.003334329,0.023241237,-0.061053444,-0.023145229,0.016086273,0.0774039,0.008069459,-0.0013532874,-0.016790181,-0.027246375,-0.03254919,0.033754334,3.7142826E-4,-0.02387325,0.0057056695,0.0084914565,-0.051856343,0.029254,0.005583839,0.011591886,-0.033027634,-0.004170374,0.018334484,-0.0030969654,0.0024489106,0.0030196267,0.023012564,0.020529047,1.0772953E-4,0.0017700809,0.029260442,-0.018829526,-0.024797931,-0.039499596,0.008108761,-0.013099816,-0.11726566,-0.005652353,-0.008117937,-0.012961832,0.0152542135,-0.06429504,0.0184562,0.058997117,-0.027178442,-0.019294549,-0.01587592,0.0048053437,0.043830805,0.011232237,-0.026841154,-7.282251E-4,-0.00862919,-0.008405325,0.019370917,-0.008112641,-0.014931766,0.065622255,0.0149185015,0.013089685,-0.0028022556,-0.028629888,-0.048105706,0.009296162,0.010251239,0.030800395,0.028263845,-0.011021621,-0.034127586,0.014709971,-0.0075270324,0.010737263,0.020517904,-0.012932179,0.007153817,0.03736311,-0.03391106,0.03028614,0.012531187,-0.046059456,-0.0043963846,0.028799629,-0.06663413,-0.009447025,-0.019833198,-0.036111858,-0.01901045,0.040701825,0.0060573653,0.027482377,-0.019782187,-0.020186251,0.028398912,0.027108852,0.026535714,-9.95191E-4,-0.020599326,-0.005658084,-0.017271476,0.026300041,-0.006992451,-0.08593853,0.03675959,0.0029454317,-0.040927384,-0.035480253,0.016498009,-0.03406521,-0.026182177,-7.024827E-4,0.019500641,0.0047998386,-0.02416359,0.0019833131,0.0033488963,0.037788488,-0.009154958,-0.043469638,-0.024896,-0.017234193,0.044996973,-0.06303135,-0.051730774,0.04041444,0.0075959326,-0.03901764,-0.019851806,-0.008242245,0.06107143,0.030118924,-0.016167669,-0.028161867,-0.0025679746,-0.021713274,0.025275888,-0.012819265,-0.036431268,0.017991759,0.040626206,-0.0036572467,-5.935883E-4,-0.0037468506,0.034460746,-0.0182785,-0.00431203,-0.044755403,0.016463224,0.041199315,-0.0093387,0.03919184,-0.01151653,-0.016965209,0.006347649,0.021104146,0.060276803,-0.026659148,0.026461488,-0.032700688,0.0012274865,-0.024675943,-0.003006079,-0.009607032,0.010597691,0.0043017124,-0.01908524,0.006748306,-0.03049305,-0.017481703,0.036747415,0.036634356,7.106319E-4,0.045647435,-0.020883067,-0.0593661,-0.03929885,0.042825453,0.016104022,-0.03222858,0.031112716,0.020407677,-0.013276762,0.03657825,-0.033871554,0.004176301,0.009538976,-0.009995692,0.0042660628,0.050545394,-0.018142857,0.005219403,6.711967E-4,-0.014264284,0.031044828,-0.01827481,0.012488852,0.031393733,0.050390214,-0.014484084,-0.054758117,0.055042055,-0.005506624,-0.0066648237,0.010891078,0.012446279,0.061687976,0.018091502,0.0026527622,0.0321537,-0.02469515,0.01772019,0.006846163,-0.07471038,-0.024433741,0.02483875,0.0497063,0.0043456135,0.056550737,0.035752796,-0.02430349,0.036570627,-0.027576203,-0.012418993,0.023442797,-0.03433812,0.01953399,-0.028003592,-0.021168072,0.019414881,-0.014712576,-3.938545E-4,0.021453558,-0.023197332,-0.004455581,-0.08799191,0.0010808896,0.009281116,-0.0051161298,0.031497046,0.034916095,-0.023042161,0.030799815,0.017298799,0.0015253434,0.013728047,0.0035838438,0.016767647,-0.022243451,0.013371096,0.053564783,-0.008776885,-0.013133307,0.015577713,-0.027008705,0.009490815,-0.04103532,-0.012426461,-0.0050485474,-0.04323231,-0.013291623,-0.01660157,-0.055480026,0.017622838,0.017476618,-0.009798125,0.038226977,-0.03127579,0.019329516,0.033461004,-0.0039813113,-0.039526325,0.03884973,-0.011381027,-0.023257744,0.03033401,0.0029607012,-6.490531E-4,-0.0347344,0.029701462,-0.04153701,0.028073426,-0.025427297,0.009756264,-0.048082624,0.021743972,0.057197016,0.024082556,-0.013968224,0.044379756,-0.029081704,0.003487999,0.042621125,-0.04339743,-0.027005397,-0.02944044,-0.024172144,-0.07388652,0.05952364,0.02561452,-0.010255158,-0.015288555,0.045012463,0.012403602,-0.021197597,0.025847573,-0.016983166,0.03021369,-0.02920852,0.035140667,-0.010627725,-0.020431923,0.03191218,0.0046844087,0.056356475,-1.2615003E-4,-0.0052536936,-0.058609407,0.009710908,4.1168949E-4,-0.22300485,-0.0077232462,0.0029359192,-0.028645728,-0.021156758,0.029606635,-0.026473567,-0.0019432966,0.023867624,0.021946864,-8.2128344E-4,0.01897284,-0.017976845,-0.015677344,-0.0026336901,0.030096486]}
-    
-            InsertRowsParam insertRowsParam = InsertRowsParam.newBuilder()
-                .withCollectionName(collectionName)
-                .withRows(rows)
-                .build();
-    
-            R<InsertResponse> res = client.insert(insertRowsParam);
-    
-            if (res.getException() != null) {
-                System.err.println("Failed to insert: " + res.getException().getMessage());
-                return;
-            }
-    
-            System.out.println("Successfully inserted " + res.getData().getInsertCount() + " records");
-    
-            // Output:
-            // Successfully inserted 1 records
-            
-        }
-         
-        public static List<JSONObject> getRows(JSONArray dataset, int counts) {
-            List<JSONObject> rows = new ArrayList<JSONObject>();
-            for (int i = 0; i < counts; i++) {
-                JSONObject json_row = new JSONObject(1, true);
-                JSONObject original_row = dataset.getJSONObject(i);
-                
-                Long id = original_row.getLong("id");
-                String title = original_row.getString("title");
-                String link = original_row.getString("link");
-                String publication = original_row.getString("publication");
-                Long reading_time = original_row.getLong("reading_time");
-                Long claps = original_row.getLong("claps");
-                Long responses = original_row.getLong("responses");
-                List<Float> vectors = original_row.getJSONArray("title_vector").toJavaList(Float.class);
-        
-                json_row.put("id", id);
-                json_row.put("link", link);
-                json_row.put("publication", publication);
-                json_row.put("reading_time", reading_time);
-                json_row.put("claps", claps);
-                json_row.put("responses", responses);
-                json_row.put("title", title);
-                json_row.put("vector", vectors);
-                rows.add(json_row);
-            }
-            return rows;
-        }
-    }
-    ```
+res = await client.createCollection({
+    collection_name: "customized_setup",
+    fields: fields,
+    enable_dynamic_field: true
+})
 
-    </TabItem>
+console.log(res)
 
-    <TabItem value='bash'>
+// Output
+// 
+// {
+//   error_code: 'Success',
+//   reason: '',
+//   code: 0,
+//   retriable: false,
+//   detail: ''
+// }
+// 
 
-    ```bash
-    # Read the first record from the dataset
-    data="$(cat path/to/medium_articles_2020_dpr.json \
-        | jq '.rows' \
-        | jq '.[0]' \
-        | jq -c '. + {"vector": .title_vector} | del(.title_vector) | del(.id)' )"
+res = await client.createIndex({
+    collection_name: "customized_setup",
+    field_name: "my_vector",
+    index_ttype: "AUTOINDEX",
+    metric_type: "L2",
+    params: {}
+})
+
+console.log(res)
+
+// Output
+// 
+// {
+//   error_code: 'Success',
+//   reason: '',
+//   code: 0,
+//   retriable: false,
+//   detail: ''
+// }
+// 
+
+res = await client.loadCollection({
+    collection_name: "customized_setup"
+})
+
+console.log(res)
+
+// Output
+// 
+// {
+//   error_code: 'Success',
+//   reason: '',
+//   code: 0,
+//   retriable: false,
+//   detail: ''
+// }
+// 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// 2. Create a collection
+collectionName := "quick_setup"
+
+id := entity.NewField().
+    WithName("id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true)
+
+vector := entity.NewField().
+    WithName("vector").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(5)
+
+schema := &entity.Schema{
+    CollectionName: collectionName,
+    AutoID:         false,
+    Fields: []*entity.Field{
+        id,
+        vector,
+    },
+    EnableDynamicField: true,
+}
+
+err = conn.CreateCollection(
+    context.Background(), // ctx
+    schema,               // schema
+    1,                    // shards
+)
+
+if err != nil {
+    log.Fatal("Failed to create collection:", err.Error())
+}
+
+fmt.Println("Collection created")
+
+// Output: 
+//
+// Collection created
+
+// 3. Create the index
+index, err := entity.NewIndexAUTOINDEX(entity.MetricType("IP"))
+
+if err != nil {
+    log.Fatal("Failed to prepare the index:", err.Error())
+}
+
+err = conn.CreateIndex(
+    context.Background(), // ctx
+    collectionName,       // collection name
+    "vector",             // target field name
+    index,                // index type
+    false,                // async
+)
+
+if err != nil {
+    log.Fatal("Failed to create the index:", err.Error())
+}
+
+fmt.Println("Index created")
+
+// Output: 
+//
+// Index created
+
+// 4. Load the collection
+err = conn.LoadCollection(
+    context.Background(), // ctx
+    collectionName,       // collection name
+    false,                // async
+)
+
+if err != nil {
+    log.Fatal("Failed to load the collection:", err.Error())
+}
+
+fmt.Println("Collection loaded")
+
+// Output: 
+//
+// Collection loaded
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+COLLECTION_NAME="customized_setup"
+
+curl --request POST \
+    --url "${CLUSTER_ENDPOINT}/v1/vector/collections/create" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    --data-raw "{   
+        \"collectionName\": \"${COLLECTION_NAME}\",
+        \"dimension\": 32,
+        \"metricType\": \"L2\",
+        \"primaryField\": \"my_id\",
+        \"vectorField\": \"my_vector\"
+    }"
     
-    echo $data
+ # [Note]
+ # When creating a collection using RESTful API, you can customize the metric type and the names of the primary and vector fields.
+```
+
+</TabItem>
+</Tabs>
+
+In the above setup, you have the flexibility to define various aspects of the collection during its creation, including its schema and index parameters.
+
+- **Schema**
+
+    The schema defines the structure of a collection. Except for adding pre-defined fields and setting their attributes, you have the option of enabling and disabling
+
+    - **AutoID**
+
+        Whether to enable the collection to automatically increment the primary field.
+
+    - **Dynamic Field**
+
+        Whether to use the reserved JSON field **$meta** to store non-schema-defined fields and their values. 
+
+     For a detailed explanation of the schema, refer to [Schema Explained](./schema-explained).
+
+- **Index parameters**
+
+    Index parameters dictate how Zilliz Cloud organizes your data within a collection. You can assign specific indexes to fields by configuring their **metric types** and **index types**. 
+
+    - For the vector field, you can use `AUTOINDEX` as the index type and use `COSINE`, `L2`, or `IP` as the `metric_type`.
+
+    - For scalar fields, including the primary field, Zilliz Cloud uses `TRIE` for integers and `STL_SORT` for strings.
+
+    For additional insights into index types, refer to[AUTOINDEX Explained](./autoindex-explained).
+
+</TabItem>
+
+</Tabs>
+
+## Insert Data{#insert-data}
+
+Collections created in either of the preceding ways have been indexed and loaded. Once you are ready, insert some example data.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# 4. Insert data into the collection
+# 4.1. Prepare data
+data=[
+    {"id": 0, "vector": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], "color": "pink_8682"},
+    {"id": 1, "vector": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104], "color": "red_7025"},
+    {"id": 2, "vector": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592], "color": "orange_6781"},
+    {"id": 3, "vector": [0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345], "color": "pink_9298"},
+    {"id": 4, "vector": [0.4452349528804562, -0.8757026943054742, 0.8220779437047674, 0.46406290649483184, 0.30337481143159106], "color": "red_4794"},
+    {"id": 5, "vector": [0.985825131989184, -0.8144651566660419, 0.6299267002202009, 0.1206906911183383, -0.1446277761879955], "color": "yellow_4222"},
+    {"id": 6, "vector": [0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987], "color": "red_9392"},
+    {"id": 7, "vector": [-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052], "color": "grey_8510"},
+    {"id": 8, "vector": [0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336], "color": "white_9381"},
+    {"id": 9, "vector": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], "color": "purple_4976"}
+]
+
+# 4.2. Insert data
+res = client.insert(
+    collection_name="quick_setup",
+    data=data
+)
+
+print(res)
+
+# Output
+#
+# {
+#     "insert_count": 10
+# }
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.param.highlevel.dml.InsertRowsParam;
+import io.milvus.param.highlevel.dml.response.InsertResponse;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.alibaba.fastjson.JSONObject;
+
+// 4. Insert data into the collection
+
+// 4.1 Prepare data
+List<JSONObject> data = new ArrayList<>();
+
+JSONObject row1 = new JSONObject();
+row1.put("id", 0L);
+row1.put("vector", Arrays.asList(0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f));
+row1.put("color", "pink_8682");
+data.add(row1);
+
+JSONObject row2 = new JSONObject();
+row2.put("id", 1L);
+row2.put("vector", Arrays.asList(0.19886812562848388f, 0.06023560599112088f, 0.6976963061752597f, 0.2614474506242501f, 0.838729485096104f));
+row2.put("color", "red_7025");
+data.add(row2);
+
+JSONObject row3 = new JSONObject();
+row3.put("id", 2L);
+row3.put("vector", Arrays.asList(0.43742130801983836f, -0.5597502546264526f, 0.6457887650909682f, 0.7894058910881185f, 0.20785793220625592f));
+row3.put("color", "orange_6781");
+data.add(row3);
+
+JSONObject row4 = new JSONObject();
+row4.put("id", 3L);
+row4.put("vector", Arrays.asList(0.16228770231628418f, -0.1996217642211914f, 0.5229960446357727f, 0.7976727294921875f, 0.3812752212524414f));
+row4.put("color", "blue_5219");
+data.add(row4);
+
+JSONObject row5 = new JSONObject();
+row5.put("id", 4L);
+row5.put("vector", Arrays.asList(0.26286205330961354f, 0.9029438446296592f, 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f));
+row5.put("color", "green_3898");
+data.add(row5);
+
+// 4.2 Insert data
+
+InsertRowsParam insertRowsParam = InsertRowsParam.newBuilder()
+    .withCollectionName("quick_setup")
+    .withRows(data)
+    .build();
+
+R<InsertResponse> insert = client.insert(insertRowsParam);
+
+System.out.println("Insert Counts: " + insert.getData().getInsertCount());
+
+// Output:
+// Insert Counts: 5
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 4. Insert data into the collection
+var data = [
+    {id: 0, vector: [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], color: "pink_8682"},
+    {id: 1, vector: [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104], color: "red_7025"},
+    {id: 2, vector: [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592], color: "orange_6781"},
+    {id: 3, vector: [0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345], color: "pink_9298"},
+    {id: 4, vector: [0.4452349528804562, -0.8757026943054742, 0.8220779437047674, 0.46406290649483184, 0.30337481143159106], color: "red_4794"},
+    {id: 5, vector: [0.985825131989184, -0.8144651566660419, 0.6299267002202009, 0.1206906911183383, -0.1446277761879955], color: "yellow_4222"},
+    {id: 6, vector: [0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987], color: "red_9392"},
+    {id: 7, vector: [-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052], color: "grey_8510"},
+    {id: 8, vector: [0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336], color: "white_9381"},
+    {id: 9, vector: [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], color: "purple_4976"}
+]
+
+res = await client.insert({
+    collection_name: "quick_setup",
+    data: data
+})
+
+console.log(res)
+
+// Output
+// 
+// {
+//   succ_index: [
+//     0, 1, 2, 3, 4,
+//     5, 6, 7, 8, 9
+//   ],
+//   err_index: [],
+//   status: {
+//     error_code: 'Success',
+//     reason: '',
+//     code: 0,
+//     retriable: false,
+//     detail: ''
+//   },
+//   IDs: { int_id: { data: [Array] }, id_field: 'int_id' },
+//   acknowledged: false,
+//   insert_cnt: '10',
+//   delete_cnt: '0',
+//   upsert_cnt: '0',
+//   timestamp: '447460747229265922'
+// }
+// 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+<Tabs groupId="go" defaultValue='go' values={[{"label":"Demo Code","value":"go"},{"label":"Row Struct Definition","value":"go_1"}]}>
+<TabItem value='go'>
+
+```go
+// 5. Prepare the data
+rows := make([]interface{}, 0, 1)
+
+rows = append(rows, Row{
+    ID:     0,
+    Vector: []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592},
+    Color:  "pink_8682",
+})
+
+rows = append(rows, Row{
+    ID:     1,
+    Vector: []float32{0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104},
+    Color:  "red_7025",
+})
+
+rows = append(rows, Row{
+    ID:     2,
+    Vector: []float32{0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592},
+    Color:  "orange_6781",
+})
+
+rows = append(rows, Row{
+    ID:     3,
+    Vector: []float32{0.2923324203491211, -0.14941246032714844, 0.5195220947265625, -0.8015365600585938, 0.12919048309326172},
+    Color:  "blue_5452",
+})
+
+rows = append(rows, Row{
+    ID:     4,
+    Vector: []float32{0.6222862243652344, -0.7742881774902344, 0.13988418579101562, -0.1562347412109375, 0.1722564697265625},
+    Color:  "green_4620",
+})
+
+// 6. Insert the data
+col, err := conn.InsertRows(
+    context.Background(), // ctx
+    collectionName,       // collection name
+    "",                   // partition name
+    rows,                 // rows
+)
+
+if err != nil {
+    log.Fatal("Failed to insert the data:", err.Error())
+}
+
+fmt.Println("Insert Counts:", col.Len())
+
+// Output: 
+//
+// Insert Counts: 5
+
+```
+
+</TabItem>
+<TabItem value='go_1'>
+
+```go
+type Row struct {
+    ID     int64     `json:"id" milvus:"name:id"`
+    Vector []float32 `json:"vector" milvus:"name:vector"`
+    Color  string    `json:"color" milvus:"name:color"`
+}
+```
+
+</TabItem>
+</Tabs>
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl -s --request POST \
+    --url "${CLUSTER_ENDPOINT}/v1/vector/insert" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    --data-raw '{
+        "collectionName": "quick_setup",
+        "data": [
+          {"vector": [0.3847391566891949, -0.5163308707041789, -0.5295937262122905, -0.3592193314357348, 0.9108593166893231, 0.5785260847050646, -0.054715415380102606, -0.5397764260208828, 0.43017743102321027, 0.9806353568812998, -0.24673180651795223, 0.34881128643815407, -0.32534925835429895, 0.7241025896770166, -0.9310390347090534, -0.00517733162532541, 0.35907388281139796, 0.18688386131011714, -0.8001861303343061, -0.5566607389660039, 0.04377295852369856, 0.8581396389536908, -0.978968045358507, -0.4880334792710488, 0.5358685336203941, -0.7193875502048268, -0.4532291009652729, -0.11581052480270215, 0.10653024983528492, -0.8627130991811947, -0.25257559931666673, -0.5504183627361223], "color": "grey_4070"},
+          {"vector": [-0.3909198248479646, -0.8726174312444843, 0.4981267572657442, -0.9392508698102204, -0.5470572556090092, -0.3935189142612121, 0.1352989877734332, 0.024264294653546514, 0.7264052115187281, -0.6808533057244894, 0.7351664405855725, 0.005931211564576433, -0.0697782425914808, 0.6040296457830396, -0.47872914502564345, -0.5288260741725077, -0.5362319321619846, -0.8108472036219292, -0.8577528226667432, -0.2048056936793683, -0.6943943334329779, -0.8299930135359141, 0.49330825099195597, 0.6527186109414937, -0.6682390594575318, -0.9522414136501673, -0.8932844905587374, 0.6156902872360595, 0.4407973007703412, 0.36692826296755854, -0.019596585511122644, 0.5003546782774693], "color": "black_3737"},
+          {"vector": [-0.9098169905660276, -0.9307025336058208, -0.5308685343695865, -0.3852032359431963, -0.8050806646961366, -0.7553958648430483, -0.04746686780074083, 0.3159553062289606, 0.7370698278509888, -0.6989962887777352, 0.8064774943951307, 0.4263340869435144, -0.8213814014479408, 0.6238869984219455, 0.13179555217281624, -0.5249440937384842, 0.3112418861757056, -0.009645837220139786, -0.34449540620045216, -0.16945013209894366, -0.08038078340201227, -0.5288249245667362, -0.26255967229065824, -0.2601166677919182, -0.9203887463545513, 0.4976565748955917, -0.8474289284878807, -0.7117411686814676, -0.05565836948920677, 0.6094714291840837, -0.0020195585026894225, 0.362204588344899], "color": "yellow_7436"},
+          {"vector": [-0.05064204615748724, 0.6058571389881378, 0.26812302147792155, 0.4862225881265785, -0.27042586524166445, -0.10680573214013545, -0.7152960094489149, -0.7053115315538734, -0.5081969178297439, -0.07475606674958946, -0.7587226116897114, 0.7886604365718077, -0.528645030042241, 0.86863376110431, 0.28607868071957854, -0.5571199703709493, 0.8499541027352635, 0.5813793976730512, -0.5556154008368948, -0.36544531446924267, 0.019021916423604956, -0.6436002715728013, 0.6630699558027113, -0.5903357545674612, -0.5324197660811583, 0.5397005035747773, -0.8636516266354666, 0.6514205420589516, 0.18186014054232635, -0.6579510629936576, 0.9154204121171494, -0.588373370919973], "color": "grey_9883"},
+          {"vector": [-0.8610792440629793, 0.5278969698864726, 0.09065723848982965, -0.8685651142668274, 0.5912780986996793, 0.7718057232138666, -0.6930251121964992, -0.17342634825314818, 0.061179249376206, -0.837569096833388, -0.3767257369548458, -0.8687434527488724, -0.06111062357392094, 0.6072631561858302, 0.4725979771913693, -0.08096083856280956, -0.5442650638494355, 0.5091961466254937, 0.2921502370985445, 0.9443668573144401, 0.8571520725555872, 0.17127995370389137, -0.7250695774062459, -0.5881549461813231, 0.38032084480540296, -0.030410542912708394, -0.3805227007958596, 0.43257136753925574, 0.5753379480674585, 0.7776080918850938, 0.3290459466010087, 0.44644425336832505], "color": "green_8111"},
+          {"vector": [0.4814454540587043, -0.23573937400668377, -0.14938260011601723, 0.08275006479687019, 0.6726732239961157, -0.31385042293554943, 0.9065116066382561, -0.07376617502043659, -0.15985076697373835, 0.8263269726712981, 0.7132277417959834, 0.5844650108623501, 0.020362603272864988, 0.9082939898010478, -0.919972930439023, 0.7046162221439936, 0.8553697519202315, -0.07825115185283904, 0.7391763987156941, -0.41400552255842027, 0.35433032483330784, 0.9985892288882159, -0.9516074554318614, 0.22832313108038482, -0.21336772684586625, 0.23130728052337313, -0.18432662864762395, 0.003069103769209436, -0.24614748888766202, -0.42442199335438135, -0.8464531066031178, 0.9721537266896632], "color": "orange_2725"},
+          {"vector": [0.9763298348098068, 0.5777919290849443, 0.9579310732153326, 0.8951091168874232, 0.46917481926682525, -0.3061975140935782, -0.16434109070432057, -0.6434953092266336, 0.6075700936951791, 0.7286632067443393, -0.8441327280179198, 0.36851370865411615, 0.35737333933348236, 0.6662206497349656, 0.5937307976280566, 0.9988743075763993, -0.25270272864064935, -0.7279204320769948, 0.8063165272147106, 0.9371129579799526, -0.13546107168994004, 0.08170978985509914, -0.12002219980690865, -0.4541366824231243, -0.9991267995837836, 0.30319946122207386, -0.5678648848761576, 0.47977343131413464, 0.5368586513295002, -0.8628460510223892, 0.047832472509733215, 0.42742619692820605], "color": "black_6073"},
+          {"vector": [0.326134221411539, 0.6870356809753577, 0.7977120714123429, 0.4305198158670587, -0.14894148480426983, 0.33293178404139834, 0.989645830971488, 0.9694029045116572, -0.9665991194957253, 0.3494360539847803, 0.9214746589945242, -0.9837563715221675, 0.19427528567061514, 0.9480034805808477, 0.44987272210144713, 0.140189550857855, 0.3467104580971587, 0.2114891340667513, -0.17782796206191853, 0.5987574466521213, -0.15394322442802588, -0.8119407476074019, 0.24952406054263054, -0.8707940028976195, 0.29912917392406735, 0.35946930014146994, 0.7351955477319807, -0.49286540351167396, -0.5563489486554862, 0.7526768798984209, -0.6701129581899767, -0.4130966219244212], "color": "purple_1285"},
+          {"vector": [0.8709056428858379, 0.021264532993509055, -0.8042932327188321, -0.007299919034885249, 0.14411861700299666, 0.4241829662545695, 0.7975746278107849, -0.4458631108150193, 0.9884543861771473, 0.3130286915737188, -0.22046712292493242, -0.45285286937302316, -0.018640592787550814, 0.8799940941813773, 0.035261311713563614, 0.4658267779876306, -0.7413463515490162, -0.7759814759030597, -0.4529594870928504, -0.19067842917654443, 0.5011790741277351, 0.3757039803466302, -0.6209543465851151, -0.42329482992153356, 0.33756431637161577, -0.5507021636838432, -0.2560901440100689, 0.2674794972696948, -0.6657069132148055, 0.9336993159102207, -0.7371725139286605, -0.02842483808811025], "color": "green_3127"},
+          {"vector": [-0.8182282159972083, -0.7882247281939101, -0.1870871133115657, 0.07914806834708976, 0.9825978431531959, 0.6376417285837821, 0.03471891555076656, -0.528573240192042, -0.3120101879340418, 0.7310244200318836, 0.3667663237097627, 0.9999351024798635, 0.07293451060816847, 0.6677216710145908, -0.22314582717085552, 0.40498852077068226, 0.2795560683848244, 0.9332235971261622, -0.9714034189529892, 0.913281723620643, -0.7104703586519907, 0.5913739340519524, 0.04391242994176703, 0.07074627854378579, 0.9076826088747483, 0.9438187849605835, 0.5835538442072998, 0.960003211421663, 0.35362751894674815, -0.7583360985487917, -0.8714012832349345, 0.48642391194514345], "color": "blue_6372"}
+        ]
+    }'
     
-    # Insert a single entity
-    # Replace uri and API key with your own
-    curl --request POST \
-         --url "${PUBLIC_ENDPOINT}/v1/vector/insert" \
-         --header "Authorization: Bearer ${TOKEN}" \
-         --header 'accept: application/json' \
-         --header 'content-type: application/json' \
-         --data "{
-            \"collectionName\": \"medium_articles_2020\",
-            \"data\": ${data}
-        }"
-    
-    # Output:
-    #
-    # {
-    #      "code": 200,
-    #      "data": {
-    #           "insertCount": 1,
-    #           "insertIds": [
-    #                "442147653350115745"
-    #           ]
-    #      }
-    # }
-    ```
+# [NOTE]
+# For collections created using RESTful API, exclude the primary field from the data to insert.
+```
 
-    </TabItem>
-    </Tabs>
+</TabItem>
+</Tabs>
 
-- Insert multiple entities
+The provided code assumes that you have created a collection in the **Quick Setup** manner. As shown in the above code, 
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
-    <TabItem value='python'>
+- The data to insert is organized into a list of dictionaries, where each dictionary represents a data record, termed as an entity.
 
-    ```python
-    # Read the first 200 records
-    with open(DATASET_PATH) as f:
-      data = json.load(f)
-      data = data["rows"][:200]
-      for x in data:
-        x["vector"] = x.pop("title_vector") 
-    
-    # Insert multiple entities
-    res = client.insert(
-      collection_name=COLLECTION_NAME,
-      data=data
-    )
-    
-    print(res)
-    
-    # Output
-    #
-    # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, "(180 more items hidden)"]
-    ```
+- Each dictionary contains a non-schema-defined field named **color**.
 
-    </TabItem>
+- Each dictionary contains the keys corresponding to both pre-defined and dynamic fields.
 
-    <TabItem value='javascript'>
+For the sake of the search later, you can use the following code snippet to add more entities into the collection.
 
-    ```javascript
-    async function main() {
-    
-        // (Continued)
-        
-        // Read a few records from the dataset
-        const data = JSON.parse(fs.readFileSync(data_file, 'utf8'));
-        const client_data = data.rows.map((row) => {
-            row.vector = row.title_vector;
-            delete row.title_vector;
-            return row;
-        });
-        
-        console.log(client_data[0]);
-    
-        // Output
-        // 
-        // [
-        //   {
-        //     id: 0,
-        //     title: 'The Reported Mortality Rate of Coronavirus Is Not Important',
-        //     link: 'https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912',
-        //     reading_time: 13,
-        //     publication: 'The Startup',
-        //     claps: 1100,
-        //     responses: 18,
-        //     vector: [
-        //         0.041732933,   0.013779674,   -0.027564144, -0.013061441,
-        //         0.009748648, 0.00082446384, -0.00071647146,  0.048612226,
-        //         -0.04836573,   -0.04567751,    0.018008126, 0.0063936645,
-        //        -0.011913628,   0.030776596,   -0.018274948,  0.019929802,
-        //         0.020547243,   0.032735646,   -0.031652678, -0.033816382,
-        //        -0.051087562,  -0.033748355,   0.0039493158,  0.009246126,
-        //        -0.060236514,  -0.017136049,    0.028754413, -0.008433934,
-        //         0.011168004,  -0.012391256,   -0.011225835,  0.031775184,
-        //         0.002929508,  -0.007448661,   -0.005337719, -0.010999258,
-        //         -0.01515909,  -0.005130484,   0.0060212007, 0.0034560722,
-        //        -0.022935811,   -0.04970116,  -0.0155887455,   0.06627353,
-        //        -0.006052789,  -0.051570725,   -0.109865054,  0.033205193,
-        //       0.00041118253,  0.0029823708,    0.036160238, -0.011256539,
-        //       0.00023560718,   0.058322437,    0.022275906,  0.015206677,
-        //         -0.02884609,  0.0016338055,   0.0049200393,  0.014388571,
-        //       -0.0049061654,   -0.04664761,   -0.027454877,  0.017526226,
-        //        -0.005100602,   0.018090058,     0.02700998,   0.04031944,
-        //          -0.0097965,   -0.03674761,  -0.0043163053, -0.023320708,
-        //         0.012654851,  -0.014262311,   -0.008081833, -0.018334744,
-        //        0.0014025003,  -0.003053399,   -0.002636383, -0.022398386,
-        //        -0.004725274, 0.00036367847,   -0.012368711, 0.0014739085,
-        //          0.03450414,   0.009684024,    0.017912658,   0.06594397,
-        //         0.021381201,   0.029343689,  -0.0069561847,  0.026152428,
-        //          0.04635037,   0.014746184,   -0.002119602,  0.034359712,
-        //        -0.013705124,   0.010691518,     0.04060854,  0.013679299,
-        //       ... 668 more items
-        //     ]
-        //   }
-        // ]
-        //
+<Admonition type="info" icon="📘" title="Notes">
 
-        res = await client.insert({
-            collection_name: collectionName,
-            data: client_data
+The following code snippets demonstrate how to generate random data and insert the generated data into the collection. You can safely skip this section if you do not need more data.
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# 5. Insert more data into the collection
+# 5.1. Prepare data
+
+colors = ["green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"]
+data = [ {"id": i, "vector": [ random.uniform(-1, 1) for _ in range(5) ], "color": f"{random.choice(colors)}_{str(random.randint(1000, 9999))}" } for i in range(1000) ]
+
+# 5.2. Insert data
+res = client.insert(
+    collection_name="quick_setup",
+    data=data[10:]
+)
+
+print(res)
+
+# Output
+#
+# {
+#     "insert_count": 990
+# }
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// 4.3 Insert more data
+
+data.clear();
+
+for (int i = 5; i < 1000; i++) {
+    Random random = new Random();
+    String[] colors = {"green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"};
+    JSONObject row = new JSONObject();
+    row.put("id", Long.valueOf(i));
+    row.put("vector", Arrays.asList(random.nextFloat(), random.nextFloat(), random.nextFloat(), random.nextFloat(), random.nextFloat()));
+    row.put("color", colors[random.nextInt(colors.length)] + "_" + String.format("%04d",random.nextInt(9999)));
+    data.add(row);
+}
+
+insertRowsParam = InsertRowsParam.newBuilder()
+    .withCollectionName("quick_setup")
+    .withRows(data)
+    .build();
+
+insert = client.insert(insertRowsParam);
+
+System.out.println("Insert Counts: " + insert.getData().getInsertCount());
+
+// Output:
+// Insert Counts: 995
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 5. Insert more records
+data = []
+colors = ["green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"]
+
+for (i =5; i < 1000; i++) {
+    vector = [(Math.random() * (0.99 - 0.01) + 0.01), (Math.random() * (0.99 - 0.01) + 0.01), (Math.random() * (0.99 - 0.01) + 0.01), (Math.random() * (0.99 - 0.01) + 0.01), (Math.random() * (0.99 - 0.01) + 0.01)]
+    color = colors[Math.floor(Math.random() * colors.length)] + "_" + Math.floor(Math.random() * (9999 - 1000) + 1000)
+
+    data.push({id: i, vector: vector, color: color})
+}
+
+res = await client.insert({
+    collection_name: "quick_setup",
+    data: data
+})
+
+console.log(res)
+
+// Output
+// 
+// {
+//   succ_index: [
+//      0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11,
+//     12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+//     24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
+//     36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
+//     48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
+//     60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71,
+//     72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83,
+//     84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95,
+//     96, 97, 98, 99,
+//     ... 895 more items
+//   ],
+//   err_index: [],
+//   status: {
+//     error_code: 'Success',
+//     reason: '',
+//     code: 0,
+//     retriable: false,
+//     detail: ''
+//   },
+//   IDs: { int_id: { data: [Array] }, id_field: 'int_id' },
+//   acknowledged: false,
+//   insert_cnt: '995',
+//   delete_cnt: '0',
+//   upsert_cnt: '0',
+//   timestamp: '447460747268849665'
+// }
+// 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// 7. Insert more data
+rows = make([]interface{}, 0, 1)
+colors := []string{"green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"}
+
+for i := 5; i < 1000; i++ {
+    rows = append(rows, Row{
+        ID:     int64(i),
+        Vector: []float32{rand.Float32(), rand.Float32(), rand.Float32(), rand.Float32(), rand.Float32()},
+        Color:  "color_" + colors[rand.Intn(len(colors))],
+    })
+}
+
+col, err = conn.InsertRows(
+    context.Background(), // ctx
+    collectionName,       // collection name
+    "",                   // partition name
+    rows,                 // rows
+)
+
+if err != nil {
+    log.Fatal("Failed to insert the data:", err.Error())
+}
+
+fmt.Println("Insert Counts:", col.Len())
+
+// Output: 
+//
+// Insert Counts: 995
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+<Tabs groupId="bash" defaultValue='bash' values={[{"label":"Bash Code","value":"bash"},{"label":"Code for Generating Random Floats ","value":"bash_1"}]}>
+<TabItem value='bash'>
+
+```bash
+# 7. Insert more fields
+for i in {1..10}; do
+  DATA=$(python random_floats.py)
+
+  curl --request POST \
+      --url "${CLUSTER_ENDPOINT}/v1/vector/insert" \
+      --header "Authorization: Bearer ${API_KEY}" \
+      --header "accept: application/json" \
+      --header "content-type: application/json" \
+      --data-raw "{
+          \"collectionName\": \"quick_setup\",
+          \"data\": ${DATA}
+      }"
+
+  sleep 1
+done  
+
+```
+
+</TabItem>
+<TabItem value='bash_1'>
+
+```bash
+# random_floats.py
+import random, json
+from sys import argv
+
+if __name__ == '__main__':
+    data = []
+    colors = ['red', 'green', 'blue', 'yellow', 'orange', 'purple']
+
+    for i in range(100):
+        data.append({
+            'vector': [random.uniform(-1, 1) for _ in range(32)],
+            'color': random.choice(colors) + '_' + str(random.randint(1000, 9999))
         })
-        
-        console.log(res);
+
+    print(json.dumps(data))
+```
+
+</TabItem>
+</Tabs>
+</TabItem>
+</Tabs>
+
+## Similarity Search{#similarity-search}
+
+You can conduct similarity searches based on one or more vector embeddings.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+Conducting searches immediately after inserting data may result in an empty set, because the inserted data may be still streaming into the collection. 
+
+You are advised to wait for a few seconds before conducting the following operations.
+
+</Admonition>
+
+- **Search with a single vector embedding.**
+
+    The value of the **query_vectors** variable is a list containing a sub-list of floats. The sub-list represents a vector embedding of 5 dimensions. 
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+    <TabItem value='python'>
+
+    ```python
+    # 6. Search with a single vector
+    # 6.1. Prepare query vectors
+    query_vectors = [
+        [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648]
+    ]
     
-        // Output
-        // 
-        // {
-        //   succ_index: [
-        //      0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11,
-        //     12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
-        //     24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
-        //     36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
-        //     48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
-        //     60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71,
-        //     72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83,
-        //     84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95,
-        //     96, 97, 98, 99,
-        //     ... 5879 more items
-        //   ],
-        //   err_index: [],
-        //   status: { error_code: 'Success', reason: '', code: 0 },
-        //   IDs: { int_id: { data: [Array] }, id_field: 'int_id' },
-        //   acknowledged: false,
-        //   insert_cnt: '5979',
-        //   delete_cnt: '0',
-        //   upsert_cnt: '0',
-        //   timestamp: '445337091304325121'
-        // }
-        //     
+    # 6.2. Start search
+    res = client.search(
+        collection_name="quick_setup",     # target collection
+        data=query_vectors,                # query vectors
+        limit=3,                           # number of returned entities
+    )
     
-    }
+    print(res)
+    
+    # Output
+    #
+    # [
+    #     [
+    #         {
+    #             "id": 548,
+    #             "distance": 0.08589144051074982,
+    #             "entity": {}
+    #         },
+    #         {
+    #             "id": 736,
+    #             "distance": 0.07866684347391129,
+    #             "entity": {}
+    #         },
+    #         {
+    #             "id": 928,
+    #             "distance": 0.07650312781333923,
+    #             "entity": {}
+    #         }
+    #     ]
+    # ]
+    
     ```
 
     </TabItem>
@@ -711,87 +1204,919 @@ Here are some examples of inserting one or multiple entities from the dataset in
     <TabItem value='java'>
 
     ```java
-    public class QuickStartDemo
-    {
-        public static void main( String[] args )
-        {
-            // (Continued)
+    import io.milvus.param.highlevel.dml.SearchSimpleParam;
+    import io.milvus.param.highlevel.dml.response.SearchResponse;
+    import io.milvus.response.QueryResultsWrapper;
     
-            // 4. Insert entities
-            String content;
+    // 6. Search data
     
-            Path file = Path.of(data_file);
-            try {
-                content = Files.readString(file);
-            } catch (Exception e) {
-                System.err.println("Failed to read file: " + e.getMessage());
-                return;
-            }
+    // 6.1 Prepare query vectors for single-vector search
+    List<List<Float>> queryVectors = new ArrayList<>();
+    queryVectors.add(Arrays.asList(0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f));
     
-            System.out.println("Successfully read file");
+    // 6.2 Search data
+    SearchSimpleParam searchSimpleParam = SearchSimpleParam.newBuilder()
+        .withCollectionName("quick_setup")
+        .withVectors(queryVectors)
+        .withLimit(3L)
+        .build();
     
-            // Output:
-            // Successfully read file
+    R<SearchResponse> search = client.search(searchSimpleParam);
+    
+    List<List<JSONObject>> searchResults = new ArrayList<>();
+    
+    for (int i = 0; i < queryVectors.size(); i++) {
+        List<JSONObject> rowSet = new ArrayList<>();
+        for (QueryResultsWrapper.RowRecord rowRecord: search.getData().getRowRecords(i)) {
+            JSONObject object = new JSONObject();
+            object.put("id", rowRecord.getFieldValues().get("id"));
+            object.put("distance", rowRecord.getFieldValues().get("distance"));
+            rowSet.add(object);
+        }
+        searchResults.add(rowSet);
+    };
+    
+    System.out.println(searchResults);
+    
+    // Output:
+    // [[
+    //     {
+    //         "distance": 0,
+    //         "id": 0
+    //     },
+    //     {
+    //         "distance": 0.68204224,
+    //         "id": 42
+    //     },
+    //     {
+    //         "distance": 0.68476903,
+    //         "id": 352
+    //     }
+    // ]]
+    ```
 
-            // Load dataset
-            JSONObject dataset = JSON.parseObject(content);
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // 6. Search with a single vector
+    const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
     
-            // Change the counts argument to limit the rows.
-            List<JSONObject> rows = getRows(dataset.getJSONArray("rows"), 5979);
+    res = await client.search({
+        collection_name: "quick_setup",
+        vectors: query_vector,
+        limit: 5,
+    })
     
-            // Pretty print the first row
-            System.out.println(rows.get(0));
+    console.log(res.results)
     
-            // Output:
-            // {"id":0,"link":"https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912","publication":"The Startup","reading_time":13,"claps":1100,"responses":18,"title":"The Reported Mortality Rate of Coronavirus Is Not Important","vector":[0.041732933,0.013779674,-0.027564144,-0.013061441,0.009748648,8.2446384E-4,-7.1647146E-4,0.048612226,-0.04836573,-0.04567751,0.018008126,0.0063936645,-0.011913628,0.030776596,-0.018274948,0.019929802,0.020547243,0.032735646,-0.031652678,-0.033816382,-0.051087562,-0.033748355,0.0039493158,0.009246126,-0.060236514,-0.017136049,0.028754413,-0.008433934,0.011168004,-0.012391256,-0.011225835,0.031775184,0.002929508,-0.007448661,-0.005337719,-0.010999258,-0.01515909,-0.005130484,0.0060212007,0.0034560722,-0.022935811,-0.04970116,-0.0155887455,0.06627353,-0.006052789,-0.051570725,-0.109865054,0.033205193,4.1118253E-4,0.0029823708,0.036160238,-0.011256539,2.3560718E-4,0.058322437,0.022275906,0.015206677,-0.02884609,0.0016338055,0.0049200393,0.014388571,-0.0049061654,-0.04664761,-0.027454877,0.017526226,-0.005100602,0.018090058,0.02700998,0.04031944,-0.0097965,-0.03674761,-0.0043163053,-0.023320708,0.012654851,-0.014262311,-0.008081833,-0.018334744,0.0014025003,-0.003053399,-0.002636383,-0.022398386,-0.004725274,3.6367847E-4,-0.012368711,0.0014739085,0.03450414,0.009684024,0.017912658,0.06594397,0.021381201,0.029343689,-0.0069561847,0.026152428,0.04635037,0.014746184,-0.002119602,0.034359712,-0.013705124,0.010691518,0.04060854,0.013679299,-0.018990282,0.035340093,0.007353945,-0.035990074,0.013126987,-0.032933377,-0.001756877,-0.0049658176,-0.03380879,-0.07024137,-0.0130426735,0.010533265,-0.023091802,-0.004645729,-0.03344451,0.04759929,0.025985204,-0.040710885,-0.016681142,-0.024664842,-0.025170377,0.08839205,-0.023733815,0.019494494,0.0055427826,0.045460507,0.07066554,0.022181382,0.018302314,0.026806992,-0.006066003,0.046525814,-0.04066389,0.019001767,0.021242762,-0.020784091,-0.031635042,0.04573943,0.02515421,-0.050663553,-0.05183343,-0.046468202,-0.07910535,0.017036669,0.021445233,0.04277428,-0.020235524,-0.055314954,0.00904601,-0.01104365,0.03069203,-0.00821997,-0.035594665,0.024322856,-0.0068963314,0.009003657,0.00398102,-0.008596356,0.014772055,0.02740991,0.025503553,0.0038213644,-0.0047855405,-0.034888722,0.030553816,-0.008325959,0.030010607,0.023729775,0.016138833,-0.022967983,-0.08616877,-0.02460819,-0.008210168,-0.06444098,0.018750126,-0.03335763,0.022024624,0.032374356,0.023870794,0.021288997,-0.026617877,0.020435361,-0.003692393,-0.024113296,0.044870164,-0.030451361,0.013022849,0.002278627,-0.027616743,-0.012087787,-0.033232547,-0.022974484,0.02801226,-0.029057292,0.060317725,-0.02312559,0.015558754,0.073630534,0.02490823,-0.0140531305,-0.043771528,0.040756326,0.01667925,-0.0046050115,-0.08938058,0.10560781,0.015044094,0.003613817,0.013523503,-0.011039813,0.06396795,0.013428416,-0.025031878,-0.014972648,-0.015970055,0.037022553,-0.013759925,0.013363354,0.0039748577,-0.0040822625,0.018209668,-0.057496265,0.034993384,0.07075411,0.023498386,0.085871644,0.028646072,0.007590898,0.07037031,-0.05005178,0.010477505,-0.014106617,0.013402172,0.007472563,-0.03131418,0.020552127,-0.031878896,-0.04170217,-0.03153583,0.03458349,0.03366634,0.021306382,-0.037176874,0.029069472,0.014662372,0.0024123765,-0.025403008,-0.0372993,-0.049923114,-0.014209514,-0.015524425,0.036377322,0.04259327,-0.029715618,0.02657093,-0.0062432447,-0.0024253451,-0.021287171,0.010478781,-0.029322306,-0.021203341,0.047209084,0.025337176,0.018471811,-0.008709492,-0.047414266,-0.06227469,-0.05713435,0.02141101,0.024481304,0.07176469,0.0211379,-0.049316987,-0.124073654,0.0049275495,-0.02461509,-0.02738388,0.04825289,-0.05069646,0.012640115,-0.0061352802,0.034599125,0.02799496,-0.01511028,-0.046418104,0.011309801,0.016673129,-0.033531003,-0.049203333,-0.027218347,-0.03528408,0.008881575,0.010736325,0.034232814,0.012807507,-0.0100207105,0.0067757815,0.009538357,0.026212366,-0.036120333,-0.019764563,0.006527411,-0.016437015,-0.009759148,-0.042246807,0.012492151,0.0066206953,0.010672299,-0.44499892,-0.036189068,-0.015703931,-0.031111298,-0.020329623,0.0047888453,0.090396516,-0.041484866,0.033830352,-0.0033847596,0.06065415,0.030880837,0.05558494,0.022805553,0.009607596,0.006682602,0.036806617,0.02406229,0.034229457,-0.0105605405,0.034754273,0.02436426,-0.03849325,0.021132406,-0.01251386,0.022090863,-0.029137045,0.0064384523,-0.03175176,-0.0070441505,0.016025176,-0.023172623,7.6795724E-4,-0.024106828,-0.045440633,-0.0074440194,3.5374766E-4,0.024374487,0.0058897804,-0.012461025,-0.029086761,0.0029477053,-0.022914894,-0.032369837,0.020743662,0.024116345,0.0020526652,8.596536E-4,-5.83463E-4,0.061080184,0.020812698,-0.0235381,0.08112197,0.05689626,-0.003070104,-0.010714772,-0.004864459,0.027089117,-0.030910335,0.0017404438,-0.014978656,0.0127020255,0.01878998,-0.051732827,-0.0037475713,0.013033434,-0.023682894,-0.03219574,0.03736345,0.0058930484,-0.054040316,0.047637977,0.012636436,-0.05820182,0.013828813,-0.057893142,-0.012405234,0.030266648,-0.0029184038,-0.021839319,-0.045179468,-0.013123978,-0.021320488,0.0015718226,0.020244086,-0.014414709,0.009535103,-0.004497577,-0.02577227,-0.0085017495,0.029090486,0.009356506,0.0055838437,0.021151636,0.039531752,0.07814674,0.043186333,-0.0077368533,0.028967595,0.025058193,0.05432941,-0.04383656,-0.027070394,-0.080263995,-0.03616516,-0.026129462,-0.0033627374,0.035040155,0.015231506,-0.06372076,0.046391208,0.0049725454,0.003783345,-0.057800908,0.061461,-0.017880175,0.022820404,0.048944063,0.04725843,-0.013392871,0.05023065,0.0069421427,-0.019561166,0.012953843,0.06227977,-0.02114757,-0.003334329,0.023241237,-0.061053444,-0.023145229,0.016086273,0.0774039,0.008069459,-0.0013532874,-0.016790181,-0.027246375,-0.03254919,0.033754334,3.7142826E-4,-0.02387325,0.0057056695,0.0084914565,-0.051856343,0.029254,0.005583839,0.011591886,-0.033027634,-0.004170374,0.018334484,-0.0030969654,0.0024489106,0.0030196267,0.023012564,0.020529047,1.0772953E-4,0.0017700809,0.029260442,-0.018829526,-0.024797931,-0.039499596,0.008108761,-0.013099816,-0.11726566,-0.005652353,-0.008117937,-0.012961832,0.0152542135,-0.06429504,0.0184562,0.058997117,-0.027178442,-0.019294549,-0.01587592,0.0048053437,0.043830805,0.011232237,-0.026841154,-7.282251E-4,-0.00862919,-0.008405325,0.019370917,-0.008112641,-0.014931766,0.065622255,0.0149185015,0.013089685,-0.0028022556,-0.028629888,-0.048105706,0.009296162,0.010251239,0.030800395,0.028263845,-0.011021621,-0.034127586,0.014709971,-0.0075270324,0.010737263,0.020517904,-0.012932179,0.007153817,0.03736311,-0.03391106,0.03028614,0.012531187,-0.046059456,-0.0043963846,0.028799629,-0.06663413,-0.009447025,-0.019833198,-0.036111858,-0.01901045,0.040701825,0.0060573653,0.027482377,-0.019782187,-0.020186251,0.028398912,0.027108852,0.026535714,-9.95191E-4,-0.020599326,-0.005658084,-0.017271476,0.026300041,-0.006992451,-0.08593853,0.03675959,0.0029454317,-0.040927384,-0.035480253,0.016498009,-0.03406521,-0.026182177,-7.024827E-4,0.019500641,0.0047998386,-0.02416359,0.0019833131,0.0033488963,0.037788488,-0.009154958,-0.043469638,-0.024896,-0.017234193,0.044996973,-0.06303135,-0.051730774,0.04041444,0.0075959326,-0.03901764,-0.019851806,-0.008242245,0.06107143,0.030118924,-0.016167669,-0.028161867,-0.0025679746,-0.021713274,0.025275888,-0.012819265,-0.036431268,0.017991759,0.040626206,-0.0036572467,-5.935883E-4,-0.0037468506,0.034460746,-0.0182785,-0.00431203,-0.044755403,0.016463224,0.041199315,-0.0093387,0.03919184,-0.01151653,-0.016965209,0.006347649,0.021104146,0.060276803,-0.026659148,0.026461488,-0.032700688,0.0012274865,-0.024675943,-0.003006079,-0.009607032,0.010597691,0.0043017124,-0.01908524,0.006748306,-0.03049305,-0.017481703,0.036747415,0.036634356,7.106319E-4,0.045647435,-0.020883067,-0.0593661,-0.03929885,0.042825453,0.016104022,-0.03222858,0.031112716,0.020407677,-0.013276762,0.03657825,-0.033871554,0.004176301,0.009538976,-0.009995692,0.0042660628,0.050545394,-0.018142857,0.005219403,6.711967E-4,-0.014264284,0.031044828,-0.01827481,0.012488852,0.031393733,0.050390214,-0.014484084,-0.054758117,0.055042055,-0.005506624,-0.0066648237,0.010891078,0.012446279,0.061687976,0.018091502,0.0026527622,0.0321537,-0.02469515,0.01772019,0.006846163,-0.07471038,-0.024433741,0.02483875,0.0497063,0.0043456135,0.056550737,0.035752796,-0.02430349,0.036570627,-0.027576203,-0.012418993,0.023442797,-0.03433812,0.01953399,-0.028003592,-0.021168072,0.019414881,-0.014712576,-3.938545E-4,0.021453558,-0.023197332,-0.004455581,-0.08799191,0.0010808896,0.009281116,-0.0051161298,0.031497046,0.034916095,-0.023042161,0.030799815,0.017298799,0.0015253434,0.013728047,0.0035838438,0.016767647,-0.022243451,0.013371096,0.053564783,-0.008776885,-0.013133307,0.015577713,-0.027008705,0.009490815,-0.04103532,-0.012426461,-0.0050485474,-0.04323231,-0.013291623,-0.01660157,-0.055480026,0.017622838,0.017476618,-0.009798125,0.038226977,-0.03127579,0.019329516,0.033461004,-0.0039813113,-0.039526325,0.03884973,-0.011381027,-0.023257744,0.03033401,0.0029607012,-6.490531E-4,-0.0347344,0.029701462,-0.04153701,0.028073426,-0.025427297,0.009756264,-0.048082624,0.021743972,0.057197016,0.024082556,-0.013968224,0.044379756,-0.029081704,0.003487999,0.042621125,-0.04339743,-0.027005397,-0.02944044,-0.024172144,-0.07388652,0.05952364,0.02561452,-0.010255158,-0.015288555,0.045012463,0.012403602,-0.021197597,0.025847573,-0.016983166,0.03021369,-0.02920852,0.035140667,-0.010627725,-0.020431923,0.03191218,0.0046844087,0.056356475,-1.2615003E-4,-0.0052536936,-0.058609407,0.009710908,4.1168949E-4,-0.22300485,-0.0077232462,0.0029359192,-0.028645728,-0.021156758,0.029606635,-0.026473567,-0.0019432966,0.023867624,0.021946864,-8.2128344E-4,0.01897284,-0.017976845,-0.015677344,-0.0026336901,0.030096486]}
+    // Output
+    // 
+    // [
+    //   { score: 1.4093276262283325, id: '0' },
+    //   { score: 1.1681138277053833, id: '949' },
+    //   { score: 1.1286306381225586, id: '257' },
+    //   { score: 1.1050969362258911, id: '55' },
+    //   { score: 1.0776047706604004, id: '273' }
+    // ]
+    // 
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    <Tabs groupId="go" defaultValue='go' values={[{"label":"Demo code ","value":"go"},{"label":"Result Format Functions","value":"go_1"}]}>
+    <TabItem value='go'>
+
+    ```go
+    // 8. Search with a single vector
+    queryVector := make(entity.FloatVector, 0, 5)
+    queryVector = append(queryVector, 0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592)
+    queryVectors := []entity.Vector{}
+    queryVectors = append(queryVectors, queryVector)
+    expr := ""
+    outputFields := []string{"id", "color"}
+    topK := 3
     
-            InsertRowsParam insertRowsParam = InsertRowsParam.newBuilder()
-                .withCollectionName(collectionName)
-                .withRows(rows)
-                .build();
+    sp, _ := entity.NewIndexAUTOINDEXSearchParam(1)
     
-            R<InsertResponse> res = client.insert(insertRowsParam);
+    search, err := conn.Search(
+        context.Background(),    // ctx
+        collectionName,          // collection name
+        []string{},              // partition names
+        expr,                    // expression
+        outputFields,            // output fields
+        queryVectors,            // query vectors
+        "vector",                // target field name
+        entity.MetricType("IP"), // metric type
+        topK,                    // topK
+        sp,                      // search param
+    )
     
-            if (res.getException() != null) {
-                System.err.println("Failed to insert: " + res.getException().getMessage());
-                return;
-            }
-    
-            System.out.println("Successfully inserted " + res.getData().getInsertCount() + " records");
-    
-            // Output:
-            // Successfully inserted 5979 records
-            
-        }
-         
-        public static List<JSONObject> getRows(JSONArray dataset, int counts) {
-            List<JSONObject> rows = new ArrayList<JSONObject>();
-            for (int i = 0; i < counts; i++) {
-                JSONObject json_row = new JSONObject(1, true);
-                JSONObject original_row = dataset.getJSONObject(i);
-                
-                Long id = original_row.getLong("id");
-                String title = original_row.getString("title");
-                String link = original_row.getString("link");
-                String publication = original_row.getString("publication");
-                Long reading_time = original_row.getLong("reading_time");
-                Long claps = original_row.getLong("claps");
-                Long responses = original_row.getLong("responses");
-                List<Float> vectors = original_row.getJSONArray("title_vector").toJavaList(Float.class);
-        
-                json_row.put("id", id);
-                json_row.put("link", link);
-                json_row.put("publication", publication);
-                json_row.put("reading_time", reading_time);
-                json_row.put("claps", claps);
-                json_row.put("responses", responses);
-                json_row.put("title", title);
-                json_row.put("vector", vectors);
-                rows.add(json_row);
-            }
-            return rows;
-        }
+    if err != nil {
+        log.Fatal("Failed to search the data:", err.Error())
     }
+    
+    fmt.Println(resultsToJSON(search))
+    
+    // Output: 
+    // [
+    //  {
+    //      "counts": 3,
+    //      "distances": [
+    //          1.4093276,
+    //          1.2094578,
+    //          1.1929908
+    //      ],
+    //      "rows": [
+    //          {
+    //              "color": "pink_8682",
+    //              "id": 0
+    //          },
+    //          {
+    //              "color": "color_red",
+    //              "id": 960
+    //          },
+    //          {
+    //              "color": "color_yellow",
+    //              "id": 253
+    //          }
+    //      ]
+    //  }
+    // ]
+
+    ```
+
+    </TabItem>
+    <TabItem value='go_1'>
+
+    ```go
+    func resultsToJSON(results []client.SearchResult) string {
+        var result []map[string]interface{}
+        for _, r := range results {
+            result = append(result, map[string]interface{}{
+                "counts": r.ResultCount,
+                // "fields": fieldsToJSON(results, true),
+                "rows":      fieldsToJSON(results, false),
+                "distances": r.Scores,
+            })
+        }
+    
+        jsonData, _ := json.Marshal(result)
+        return string(jsonData)
+    }
+    
+    func fieldsToJSON(results []client.SearchResult, inFields bool) []map[string]interface{} {
+        var fields []map[string]interface{}
+        var rows []map[string]interface{}
+        var ret []map[string]interface{}
+        for _, r := range results {
+            for _, f := range r.Fields {
+                field := make(map[string]interface{})
+                name := f.Name()
+                data := typeSwitch(f)
+    
+                for i, v := range data {
+                    if len(rows) < i+1 {
+                        row := make(map[string]interface{})
+                        row[name] = v
+                        rows = append(rows, row)
+                    } else {
+                        rows[i][name] = v
+                    }
+                }
+    
+                field[name] = data
+                fields = append(fields, field)
+            }
+        }
+    
+        if inFields {
+            ret = fields
+        } else {
+            ret = rows
+        }
+    
+        return ret
+    }
+    
+    func typeSwitch(c entity.Column) []interface{} {
+        ctype := c.FieldData().GetType().String()
+    
+        var data []interface{}
+        switch ctype {
+        case "Int64":
+            longData := c.FieldData().GetScalars().GetLongData().Data
+            for _, d := range longData {
+                data = append(data, d)
+            }
+        case "VarChar":
+            stringData := c.FieldData().GetScalars().GetStringData().Data
+            for _, d := range stringData {
+                data = append(data, d)
+            }
+        case "JSON":
+            jsonData := c.FieldData().GetScalars().GetJsonData().Data
+            for _, d := range jsonData {
+                var jsonValue interface{}
+                err := json.Unmarshal(d, &jsonValue)
+                if err != nil {
+                    log.Fatal("Failed to unmarshal")
+                    continue
+                }
+                value, _ := jsonValue.(map[string]interface{})
+                data = append(data, value[c.Name()])
+            }
+        }
+        // You should add more types here
+        return data
+    }
+    
+    ```
+
+    </TabItem>
+    </Tabs>
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # 8. Conduct a single vector search
+    curl --request POST \
+        --url "${CLUSTER_ENDPOINT}/v1/vector/search" \
+        --header "Authorization: Bearer ${API_KEY}" \
+        --header "accept: application/json" \
+        --header "content-type: application/json" \
+        -d '{
+           "collectionName": "quick_setup",
+           "vector": [0.3847391566891949, -0.5163308707041789, -0.5295937262122905, -0.3592193314357348, 0.9108593166893231, 0.5785260847050646, -0.054715415380102606, -0.5397764260208828, 0.43017743102321027, 0.9806353568812998, -0.24673180651795223, 0.34881128643815407, -0.32534925835429895, 0.7241025896770166, -0.9310390347090534, -0.00517733162532541, 0.35907388281139796, 0.18688386131011714, -0.8001861303343061, -0.5566607389660039, 0.04377295852369856, 0.8581396389536908, -0.978968045358507, -0.4880334792710488, 0.5358685336203941, -0.7193875502048268, -0.4532291009652729, -0.11581052480270215, 0.10653024983528492, -0.8627130991811947, -0.25257559931666673, -0.5504183627361223]
+        }'
+    ```
+
+    </TabItem>
+    </Tabs>
+
+    The output is a list containing a sub-list of three dictionaries, representing the returned entities with their IDs and distances.
+
+- **Search with multiple vector embeddings.**
+
+    You can also include multiple vector-embeddings in the **query_vectors** variable to conduct a bulk similarity search.
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
+    <TabItem value='python'>
+
+    ```python
+    # 7. Search with multiple vectors
+    # 7.1. Prepare query vectors
+    query_vectors = [
+        [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648],
+        [0.0039737443, 0.003020432, -0.0006188639, 0.03913546, -0.00089768134]
+    ]
+    
+    # 7.2. Start search
+    res = client.search(
+        collection_name="quick_setup",
+        data=query_vectors,
+        limit=3,
+    )
+    
+    print(res)
+    
+    # Output
+    #
+    # [
+    #     [
+    #         {
+    #             "id": 548,
+    #             "distance": 0.08589144051074982,
+    #             "entity": {}
+    #         },
+    #         {
+    #             "id": 736,
+    #             "distance": 0.07866684347391129,
+    #             "entity": {}
+    #         },
+    #         {
+    #             "id": 928,
+    #             "distance": 0.07650312781333923,
+    #             "entity": {}
+    #         }
+    #     ],
+    #     [
+    #         {
+    #             "id": 532,
+    #             "distance": 0.044551681727170944,
+    #             "entity": {}
+    #         },
+    #         {
+    #             "id": 149,
+    #             "distance": 0.044386886060237885,
+    #             "entity": {}
+    #         },
+    #         {
+    #             "id": 271,
+    #             "distance": 0.0442606583237648,
+    #             "entity": {}
+    #         }
+    #     ]
+    # ]
+    
+    ```
+
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // 6.3 Prepare query vectors for multi-vector search
+    queryVectors.clear();
+    queryVectors.add(Arrays.asList(0.19886812562848388f, 0.06023560599112088f, 0.6976963061752597f, 0.2614474506242501f, 0.838729485096104f));
+    queryVectors.add(Arrays.asList(0.43742130801983836f, -0.5597502546264526f, 0.6457887650909682f, 0.7894058910881185f, 0.20785793220625592f));
+    
+    // 6.4 Search data
+    searchSimpleParam = SearchSimpleParam.newBuilder()
+        .withCollectionName("quick_setup")
+        .withVectors(queryVectors)
+        .withLimit(3L)
+        .build();
+    
+    search = client.search(searchSimpleParam);
+    
+    searchResults = new ArrayList<>();
+    
+    for (int i = 0; i < queryVectors.size(); i++) {
+        List<JSONObject> rowSet = new ArrayList<>();
+        for (QueryResultsWrapper.RowRecord rowRecord: search.getData().getRowRecords(i)) {
+            JSONObject object = new JSONObject();
+            object.put("id", rowRecord.getFieldValues().get("id"));
+            object.put("distance", rowRecord.getFieldValues().get("distance"));
+            rowSet.add(object);
+        }
+        searchResults.add(rowSet);
+    };
+    
+    System.out.println(searchResults);
+    
+    // Output:
+    // [
+    //     [
+    //         {
+    //             "distance": 0,
+    //             "id": 1
+    //         },
+    //         {
+    //             "distance": 0.023562228,
+    //             "id": 495
+    //         },
+    //         {
+    //             "distance": 0.034179505,
+    //             "id": 953
+    //         }
+    //     ],
+    //     [
+    //         {
+    //             "distance": 0,
+    //             "id": 2
+    //         },
+    //         {
+    //             "distance": 0.25061098,
+    //             "id": 3
+    //         },
+    //         {
+    //             "distance": 0.36550486,
+    //             "id": 841
+    //         }
+    //     ]
+    // ]
+    
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // 7. Search with multiple vectors
+    const query_vectors = [
+        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], 
+        [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104]
+    ]
+    
+    res = await client.search({
+        collection_name: "quick_setup",
+        vectors: query_vectors,
+        limit: 5,
+    })
+    
+    console.log(res.results)
+    
+    // Output
+    // 
+    // [
+    //   [
+    //     { score: 1.4093276262283325, id: '0' },
+    //     { score: 1.1681138277053833, id: '949' },
+    //     { score: 1.1286306381225586, id: '257' },
+    //     { score: 1.1050969362258911, id: '55' },
+    //     { score: 1.0776047706604004, id: '273' }
+    //   ],
+    //   [
+    //     { score: 1.7927448749542236, id: '631' },
+    //     { score: 1.7744147777557373, id: '549' },
+    //     { score: 1.765260934829712, id: '357' },
+    //     { score: 1.7636831998825073, id: '522' },
+    //     { score: 1.7498563528060913, id: '740' }
+    //   ]
+    // ]
+    // 
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // 9. Search with multiple vectors
+    queryVector1 := make(entity.FloatVector, 0, 5)
+    queryVector2 := make(entity.FloatVector, 0, 5)
+    queryVector1 = append(queryVector1, 0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592)
+    queryVector2 = append(queryVector2, 0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104)
+    queryVectors = []entity.Vector{}
+    queryVectors = append(queryVectors, queryVector1)
+    queryVectors = append(queryVectors, queryVector2)
+    expr = ""
+    outputFields = []string{"id", "color"}
+    topK = 3
+    
+    sp, _ = entity.NewIndexAUTOINDEXSearchParam(1)
+    
+    search, err = conn.Search(
+        context.Background(),    // ctx
+        collectionName,          // collection name
+        []string{},              // partition names
+        expr,                    // expression
+        outputFields,            // output fields
+        queryVectors,            // query vectors
+        "vector",                // target field name
+        entity.MetricType("IP"), // metric type
+        topK,                    // topK
+        sp,                      // search param
+    )
+    
+    if err != nil {
+        log.Fatal("Failed to search the data:", err.Error())
+    }
+    
+    fmt.Println(resultsToJSON(search))
+    
+    // Output: 
+    // [
+    //  {
+    //      "counts": 3,
+    //      "distances": [
+    //          1.4093276,
+    //          1.2094578,
+    //          1.1929908
+    //      ],
+    //      "rows": [
+    //          {
+    //              "color": "color_black",
+    //              "id": 488
+    //          },
+    //          {
+    //              "color": "color_black",
+    //              "id": 338
+    //          },
+    //          {
+    //              "color": "color_green",
+    //              "id": 160
+    //          }
+    //      ]
+    //  },
+    //  {
+    //      "counts": 3,
+    //      "distances": [
+    //          1.8348937,
+    //          1.807337,
+    //          1.7894672
+    //      ],
+    //      "rows": [
+    //          {
+    //              "color": "color_black",
+    //              "id": 488
+    //          },
+    //          {
+    //              "color": "color_black",
+    //              "id": 338
+    //          },
+    //          {
+    //              "color": "color_green",
+    //              "id": 160
+    //          }
+    //      ]
+    //  }
+    // ]
+    ```
+
+    </TabItem>
+    </Tabs>
+
+    The output should be a list of two sub-lists, each of which contains three dictionaries, representing the returned entities with their IDs and distances. 
+
+- **Search with filter expressions using fields defined in the schema.**
+
+    You can also enhance the search result by including a filter and specifying certain output fields in the search request.
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
+    <TabItem value='python'>
+
+    ```python
+    # 8. Search with a filter expression using schema-defined fields
+    # 1 Prepare query vectors
+    query_vectors = [
+        [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648]
+    ]
+    
+    # 2. Start search
+    res = client.search(
+        collection_name="quick_setup",
+        data=query_vectors,
+        filter="500 < id < 800",
+        limit=3
+    )
+    
+    print(res)
+    
+    # Output
+    #
+    # [
+    #     [
+    #         {
+    #             "id": 548,
+    #             "distance": 0.08589144051074982,
+    #             "entity": {}
+    #         },
+    #         {
+    #             "id": 736,
+    #             "distance": 0.07866684347391129,
+    #             "entity": {}
+    #         },
+    #         {
+    #             "id": 505,
+    #             "distance": 0.0749310627579689,
+    #             "entity": {}
+    #         }
+    #     ]
+    # ]
+    ```
+
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // 6.5 Prepare query vectors 
+    queryVectors.clear();
+    queryVectors.add(Arrays.asList(0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f));
+    String filter = "500 < id < 800";
+    
+    // 6.6 Search data
+    searchSimpleParam = SearchSimpleParam.newBuilder()
+        .withCollectionName("quick_setup")
+        .withVectors(queryVectors)
+        .withLimit(3L)
+        .withFilter(filter)
+        .build();
+    
+    search = client.search(searchSimpleParam);
+    
+    searchResults = new ArrayList<>();
+    
+    for (int i = 0; i < queryVectors.size(); i++) {
+        List<JSONObject> rowSet = new ArrayList<>();
+        for (QueryResultsWrapper.RowRecord rowRecord: search.getData().getRowRecords(i)) {
+            JSONObject object = new JSONObject();
+            object.put("id", rowRecord.getFieldValues().get("id"));
+            object.put("distance", rowRecord.getFieldValues().get("distance"));
+            rowSet.add(object);
+        }
+        searchResults.add(rowSet);
+    };
+    
+    System.out.println(searchResults);
+    
+    // Output:
+    // [[
+    //     {
+    //         "distance": 0.83093774,
+    //         "id": 550
+    //     },
+    //     {
+    //         "distance": 0.85608006,
+    //         "id": 630
+    //     },
+    //     {
+    //         "distance": 0.96230835,
+    //         "id": 762
+    //     }
+    // ]]
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // 8. Search with a filter expression using schema-defined fields
+    res = await client.search({
+        collection_name: "quick_setup",
+        vectors: query_vector,
+        limit: 5,
+        filter: "500 < id < 800",
+        output_fields: ["id"]
+    })
+    
+    console.log(res.results)
+    
+    // Output
+    // 
+    // [
+    //   { score: 1.0726149082183838, id: '596' },
+    //   { score: 0.9994362592697144, id: '709' },
+    //   { score: 0.9901663064956665, id: '613' },
+    //   { score: 0.9756573438644409, id: '722' },
+    //   { score: 0.9303033351898193, id: '595' }
+    // ]
+    // 
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // 10. Search with filter expressions using schema-defined fields
+    queryVector = make(entity.FloatVector, 0, 5)
+    queryVector = append(queryVector, 0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592)
+    queryVectors = []entity.Vector{}
+    queryVectors = append(queryVectors, queryVector)
+    expr = "500 < id < 800"
+    outputFields = []string{"id", "color"}
+    topK = 3
+    
+    sp, _ = entity.NewIndexAUTOINDEXSearchParam(1)
+    
+    search, err = conn.Search(
+        context.Background(),    // ctx
+        collectionName,          // collection name
+        []string{},              // partition names
+        expr,                    // expression
+        outputFields,            // output fields
+        queryVectors,            // query vectors
+        "vector",                // target field name
+        entity.MetricType("IP"), // metric type
+        topK,                    // topK
+        sp,                      // search param
+    )
+    
+    if err != nil {
+        log.Fatal("Failed to search the data:", err.Error())
+    }
+    
+    fmt.Println(resultsToJSON(search))
+    
+    // Output: 
+    // [
+    //  {
+    //      "counts": 3,
+    //      "distances": [
+    //          1.1309906,
+    //          1.0854248,
+    //          1.0046971
+    //      ],
+    //      "rows": [
+    //          {
+    //              "color": "color_brown",
+    //              "id": 750
+    //          },
+    //          {
+    //              "color": "color_black",
+    //              "id": 771
+    //          },
+    //          {
+    //              "color": "color_black",
+    //              "id": 683
+    //          }
+    //      ]
+    //  }
+    // ]
+    ```
+
+    </TabItem>
+    </Tabs>
+
+    The output should be a list containing a sub-list of three dictionaries, each representing a searched entity with its ID, distance, and the specified output fields.
+
+- **Search with filter expressions using a non-schema-defined field.**
+
+    You can also include dynamic fields in a filter expression. In the following code snippet, `color` is a non-schema-defined field. You can include them either as keys in the magic `$meta` field, such as `$meta["color"]`, or directly use it like a schema-defined field, such as `color`.
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+    <TabItem value='python'>
+
+    ```python
+    # 9. Search with a filter expression using custom fields
+    # 9.1.Prepare query vectors
+    query_vectors = [
+        [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648]
+    ]
+    
+    # 9.2.Start search
+    res = client.search(
+        collection_name="quick_setup",
+        data=query_vectors,
+        filter='$meta["color"] like "red%"',
+        limit=3,
+        output_fields=["color"]
+    )
+    
+    print(res)
+    
+    # Output
+    #
+    # [
+    #     [
+    #         {
+    #             "id": 240,
+    #             "distance": 0.0694073885679245,
+    #             "entity": {
+    #                 "color": "red_8667"
+    #             }
+    #         },
+    #         {
+    #             "id": 581,
+    #             "distance": 0.059804242104291916,
+    #             "entity": {
+    #                 "color": "red_1786"
+    #             }
+    #         },
+    #         {
+    #             "id": 372,
+    #             "distance": 0.049707964062690735,
+    #             "entity": {
+    #                 "color": "red_2186"
+    #             }
+    #         }
+    #     ]
+    # ]
+    
+    ```
+
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // 6.7 Search with non-schema-defined fields
+    
+    filter = "$meta[\"color\"] like \"red%\"";
+    List<String> outputFields = Arrays.asList("id", "color");
+    
+    searchSimpleParam = SearchSimpleParam.newBuilder()
+        .withCollectionName("quick_setup")
+        .withVectors(queryVectors)
+        .withLimit(3L)
+        .withFilter(filter)
+        .withOutputFields(outputFields)
+        .build();
+    
+    search = client.search(searchSimpleParam);
+    
+    searchResults = new ArrayList<>();
+    
+    for (int i = 0; i < queryVectors.size(); i++) {
+        List<JSONObject> rowSet = new ArrayList<>();
+        for (QueryResultsWrapper.RowRecord rowRecord: search.getData().getRowRecords(i)) {
+            JSONObject object = new JSONObject();
+            object.put("id", rowRecord.getFieldValues().get("id"));
+            object.put("distance", rowRecord.getFieldValues().get("distance"));
+            object.put("color", rowRecord.getFieldValues().get("color"));
+            rowSet.add(object);
+        }
+        searchResults.add(rowSet);
+    };
+    
+    System.out.println(searchResults);
+    
+    // Output:
+    // [[
+    //     {
+    //         "distance": 0.7879871,
+    //         "color": "red_2427",
+    //         "id": 382
+    //     },
+    //     {
+    //         "distance": 0.99741167,
+    //         "color": "red_6226",
+    //         "id": 567
+    //     },
+    //     {
+    //         "distance": 1.007118,
+    //         "color": "red_7025",
+    //         "id": 1
+    //     }
+    // ]]
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // 9. Search with a filter expression using non-schema-defined fields
+    res = await client.search({
+        collection_name: "quick_setup",
+        vectors: query_vector,
+        limit: 5,
+        filter: '$meta["color"] like "red%"',
+        output_fields: ["color"]
+    })
+    
+    console.log(res)
+    
+    // Output
+    // 
+    // {
+    //   status: {
+    //     error_code: 'Success',
+    //     reason: '',
+    //     code: 0,
+    //     retriable: false,
+    //     detail: ''
+    //   },
+    //   results: [
+    //     { score: 1.1681138277053833, id: '949', color: 'red_7798' },
+    //     { score: 0.9946126937866211, id: '898', color: 'red_7664' },
+    //     { score: 0.9902134537696838, id: '4', color: 'red_4794' },
+    //     { score: 0.9756573438644409, id: '722', color: 'red_1496' },
+    //     { score: 0.931635856628418, id: '916', color: 'red_1816' }
+    //   ]
+    // }
+    // 
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // 10. Search with filter expressions using non-schema-defined fields
+    queryVector = make(entity.FloatVector, 0, 5)
+    queryVector = append(queryVector, 0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592)
+    queryVectors = []entity.Vector{}
+    queryVectors = append(queryVectors, queryVector)
+    expr = "$meta[\"color\"] like \"red%\""
+    outputFields = []string{"id", "color"}
+    topK = 3
+    
+    sp, _ = entity.NewIndexAUTOINDEXSearchParam(1)
+    
+    search, err = conn.Search(
+        context.Background(),    // ctx
+        collectionName,          // collection name
+        []string{},              // partition names
+        expr,                    // expression
+        outputFields,            // output fields
+        queryVectors,            // query vectors
+        "vector",                // target field name
+        entity.MetricType("IP"), // metric type
+        topK,                    // topK
+        sp,                      // search param
+    )
+    
+    if err != nil {
+        log.Fatal("Failed to search the data:", err.Error())
+    }
+    
+    fmt.Println(resultsToJSON(search))
+    
+    // Output: 
+    // [
+    //  {
+    //      "counts": 1,
+    //      "distances": [
+    //          0.8519943
+    //      ],
+    //      "rows": [
+    //          {
+    //              "color": "red_7025",
+    //              "id": 1
+    //          }
+    //      ]
+    //  }
+    // ]
     ```
 
     </TabItem>
@@ -799,654 +2124,375 @@ Here are some examples of inserting one or multiple entities from the dataset in
     <TabItem value='bash'>
 
     ```bash
-    # read the first 200 records from the dataset
-    data="$(cat path/to/medium_articles_2020_dpr.json \
-                    | jq '.rows' \
-                    | jq '.[1:200]' \
-                    | jq -r '.[] | . + {"vector": .title_vector} | del(.title_vector) | del(.id)' \
-                    | jq -s -c '.')"
-    
-    echo $data
-    
-    # Insert multiple entities
-    # Replace uri and API key with your own
+    # 9. Conduct a single vector search with filters and output fields
     curl --request POST \
-         --url "${PUBLIC_ENDPOINT}/v1/vector/insert" \
-         --header "Authorization: Bearer ${TOKEN}" \
-         --header 'accept: application/json' \
-         --header 'content-type: application/json' \
-         --data "{
-            \"collectionName\": \"medium_articles_2020\",
-            \"data\": ${data}
-        }"
-    
-    # Response
-    #
-    # {
-    #      "code": 200,
-    #      "data": {
-    #           "insertCount": 200,
-    #           "insertIds": [
-    #                "442147653350115755",
-    #                "442147653350115756",
-    #                ...
-    #           ]
-    #      }
-    # }
+        --url "${CLUSTER_ENDPOINT}/v1/vector/search" \
+        --header "Authorization: Bearer ${API_KEY}" \
+        --header "accept: application/json" \
+        --header "content-type: application/json" \
+        -d '{
+           "collectionName": "quick_setup",
+           "vector": [0.3847391566891949, -0.5163308707041789, -0.5295937262122905, -0.3592193314357348, 0.9108593166893231, 0.5785260847050646, -0.054715415380102606, -0.5397764260208828, 0.43017743102321027, 0.9806353568812998, -0.24673180651795223, 0.34881128643815407, -0.32534925835429895, 0.7241025896770166, -0.9310390347090534, -0.00517733162532541, 0.35907388281139796, 0.18688386131011714, -0.8001861303343061, -0.5566607389660039, 0.04377295852369856, 0.8581396389536908, -0.978968045358507, -0.4880334792710488, 0.5358685336203941, -0.7193875502048268, -0.4532291009652729, -0.11581052480270215, 0.10653024983528492, -0.8627130991811947, -0.25257559931666673, -0.5504183627361223],
+           "filter": "color like \"red%\"",
+           "outputFields": ["color"]
+        }'
     ```
 
     </TabItem>
     </Tabs>
 
-## Search, query, and get operations{#search-query-and-get-operations}
+## Scalar Query{#scalar-query}
 
-The search, query, and get API operations are three different operations for data retrieving:
+Unlike a vector similarity search, a query retrieves vectors via scalar filtering based on [filter expressions](https://milvus.io/docs/boolean.md).
 
-- A search operation performs an approximate nearest neighbor (ANN) search.
+- **Query with filter using schema-defined fields**
 
-- A query operation matches entities based on specific conditions.
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
+    <TabItem value='python'>
 
-- A get operation fetches specific entities by their IDs.
-
-### Perform an ANN search{#perform-an-ann-search}
-
-In the dataset, the **vector** field contains vector embeddings of each article’s title. This example illustrates how to conduct an ANN search among these vectors (finding the closest titles with a query vector `data`).
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-# Conduct an ANN search
-res = client.search(
-    collection_name=COLLECTION_NAME,
-          data=[data["rows"][0]["title_vector"]],
-    output_fields=["title"]
-)
-
-print(res)
-
-# Output
-#
-# [
-#     [
-#         {
-#             "id": 0,
-#             "distance": 1.0,
-#             "entity": {
-#                 "title": "The Reported Mortality Rate of Coronavirus Is Not Important"
-#             }
-#         },
-#         {
-#             "id": 70,
-#             "distance": 0.7525784969329834,
-#             "entity": {
-#                 "title": "How bad will the Coronavirus Outbreak get? \u2014 Predicting the outbreak figures"
-#             }
-#         },
-#         {
-#             "id": 160,
-#             "distance": 0.7132074236869812,
-#             "entity": {
-#                 "title": "The Funeral Industry is a Killer"
-#             }
-#         },
-#         {
-#             "id": 111,
-#             "distance": 0.6888885498046875,
-#             "entity": {
-#                 "title": "The role of AI in web-based ADA and WCAG compliance"
-#             }
-#         },
-#         {
-#             "id": 196,
-#             "distance": 0.6882869601249695,
-#             "entity": {
-#                 "title": "The Question We Should Be Asking About the Cost of Youth Sports"
-#             }
-#         },
-#         {
-#             "id": 51,
-#             "distance": 0.6719912886619568,
-#             "entity": {
-#                 "title": "What if Facebook had to pay you for the profit they are making?"
-#             }
-#         },
-#         {
-#             "id": 178,
-#             "distance": 0.6699185371398926,
-#             "entity": {
-#                 "title": "Is The Environmental Damage Due To Cruise Ships Irreversible?"
-#             }
-#         },
-#         {
-#             "id": 47,
-#             "distance": 0.6680259704589844,
-#             "entity": {
-#                 "title": "What Happens When the Google Cookie Crumbles?"
-#             }
-#         },
-#         {
-#             "id": 135,
-#             "distance": 0.6597772836685181,
-#             "entity": {
-#                 "title": "How to Manage Risk as a Product Manager"
-#             }
-#         }
-#     ]
-# ]
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-async function main () {
-
-    // (Continued)
+    ```python
+    # 10. Query with a filter expression using a schema-defined field
+    res = client.query(
+        collection_name="quick_setup",
+        filter="10 < id < 15",
+        output_fields=["color"]
+    )
     
-    // Conduct an ANN search
-    res = await client.search({
-        collection_name: collectionName,
-        vector: client_data[0].vector,
-        output_fields: ['title', 'link'],
-        limit: 5,
-    })
+    print(res)
     
-    console.log(res)
-
-    // Output
-    // 
-    // {
-    //   status: { error_code: 'Success', reason: '', code: 0 },
-    //   results: [
-    //     {
-    //       score: 1,
-    //       id: '0',
-    //       title: 'The Reported Mortality Rate of Coronavirus Is Not Important',
-    //       link: 'https://medium.com/swlh/the-reported-mortality-rate-of-coronavirus-is-not-important-369989c8d912'
-    //     },
-    //     {
-    //       score: 0.8500008583068848,
-    //       id: '3177',
-    //       title: 'Following the Spread of Coronavirus',
-    //       link: 'https://towardsdatascience.com/following-the-spread-of-coronavirus-23626940c125'
-    //     },
-    //     {
-    //       score: 0.8194807767868042,
-    //       id: '5607',
-    //       title: 'The Hidden Side Effect of the Coronavirus',
-    //       link: 'https://medium.com/swlh/the-hidden-side-effect-of-the-coronavirus-b6a7a5ee9586'
-    //     },
-    //     {
-    //       score: 0.8116300106048584,
-    //       id: '5641',
-    //       title: 'Why The Coronavirus Mortality Rate is Misleading',
-    //       link: 'https://towardsdatascience.com/why-the-coronavirus-mortality-rate-is-misleading-cc63f571b6a6'
-    //     }
-    //   ]
-    // }
-    //    
+    # Output
+    #
+    # [
+    #     {
+    #         "color": "green_7413",
+    #         "id": 11
+    #     },
+    #     {
+    #         "color": "orange_1417",
+    #         "id": 12
+    #     },
+    #     {
+    #         "color": "orange_6143",
+    #         "id": 13
+    #     },
+    #     {
+    #         "color": "white_4084",
+    #         "id": 14
+    #     }
+    # ]
     
-    // Conduct an ANN search with filters
-    res = await client.search({
-        collection_name: collectionName,
-        vector: client_data[0].vector,
-        output_fields: ["title", "claps", "publication"],
-        filter: 'claps > 100 and publication in ["The Startup", "Towards Data Science"]',
-        limit: 5,
-    })
+    ```
+
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    import io.milvus.param.highlevel.dml.QuerySimpleParam;
+    import io.milvus.response.QueryResultsWrapper;
     
-    console.log(res)
-
-    // Output
-    // 
-    // {
-    //   status: { error_code: 'Success', reason: '', code: 0 },
-    //   results: [
-    //     {
-    //       score: 1,
-    //       id: '0',
-    //       claps: 1100,
-    //       publication: 'The Startup',
-    //       title: 'The Reported Mortality Rate of Coronavirus Is Not Important'
-    //     },
-    //     {
-    //       score: 0.8500008583068848,
-    //       id: '3177',
-    //       claps: 215,
-    //       publication: 'Towards Data Science',
-    //       title: 'Following the Spread of Coronavirus'
-    //     },
-    //     {
-    //       score: 0.8116300106048584,
-    //       id: '5641',
-    //       claps: 2900,
-    //       publication: 'Towards Data Science',
-    //       title: 'Why The Coronavirus Mortality Rate is Misleading'
-    //     },
-    //     {
-    //       score: 0.7555683851242065,
-    //       id: '4275',
-    //       claps: 255,
-    //       publication: 'The Startup',
-    //       title: 'How Can AI Help Fight Coronavirus?'
-    //     }
-    //   ]
-    // }
-    //  
-
-}
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-public class QuickStartDemo
-{
-    public static void main( String[] args )
-    {
-        // (Continued)
-
-        // 5. search
-        List<List<Float>> queryVectors = new ArrayList<>();
-        List<Float> queryVector1 = rows.get(0).getJSONArray("vector").toJavaList(Float.class);
-        queryVectors.add(queryVector1);
-
-        List<String> outputFields = new ArrayList<>();
-        outputFields.add("title");
-
-        SearchSimpleParam searchSimpleParam = SearchSimpleParam.newBuilder()
-            .withCollectionName(collectionName)
-            .withVectors(queryVectors)
-            .withOutputFields(outputFields)
-            .withOffset(0L)
-            .withLimit(3L)
-            .build();
-
-        R<SearchResponse> searchRes = client.search(searchSimpleParam);
-
-        if (searchRes.getException() != null) {
-            System.err.println("Failed to search: " + searchRes.getException().getMessage());
-            return;
-        }
-
-        List<RowRecord> searchResults = new ArrayList<>();
-
-        for (QueryResultsWrapper.RowRecord rowRecord: searchRes.getData().getRowRecords(0)) {
-            searchResults.add(rowRecord);
-        }
-
-        System.out.println(searchResults);
-
-        // Output:
-        // [[distance:0.0, id:0, title:The Reported Mortality Rate of Coronavirus Is Not Important], [distance:0.29999834, id:3177, title:Following the Spread of Coronavirus], [distance:0.36103833, id:5607, title:The Hidden Side Effect of the Coronavirus]]
-
-        // 6. search with filters
-
-        outputFields.add("claps");
-        outputFields.add("publication");
-
-        SearchSimpleParam searchSimpleParamWithFilter = SearchSimpleParam.newBuilder()
-            .withCollectionName(collectionName)
-            .withVectors(queryVectors)
-            .withOutputFields(outputFields)
-            .withFilter("claps > 100 and publication in ['The Startup', 'Towards Data Science']")
-            .withOffset(0L)
-            .withLimit(3L)
-            .build();
-
-        R<SearchResponse> searchResWithFilter = client.search(searchSimpleParamWithFilter);
-
-        if (searchResWithFilter.getException() != null) {
-            System.err.println("Failed to search: " + searchResWithFilter.getException().getMessage());
-            return;
-        }
-
-        List<RowRecord> searchWithFilterResults = new ArrayList<>();
-
-        for (QueryResultsWrapper.RowRecord rowRecord: searchResWithFilter.getData().getRowRecords(0)) {
-            searchWithFilterResults.add(rowRecord);
-        }
-
-        System.out.println(searchWithFilterResults);
-
-        // Output:
-        // [[distance:0.0, publication:The Startup, id:0, title:The Reported Mortality Rate of Coronavirus Is Not Important, claps:1100], [distance:0.29999834, publication:Towards Data Science, id:3177, title:Following the Spread of Coronavirus, claps:215], [distance:0.37674016, publication:Towards Data Science, id:5641, title:Why The Coronavirus Mortality Rate is Misleading, claps:2900]]
-
+    QuerySimpleParam querySimpleParam = QuerySimpleParam.newBuilder()
+        .withCollectionName("quick_setup")
+        .withFilter("10 < id < 15")
+        .withOutputFields(Arrays.asList("id", "color"))
+        .build();
+    
+    R<QueryResponse> query = client.query(querySimpleParam);
+    
+    List<JSONObject> queryResults = new ArrayList<>();
+    
+    for (QueryResultsWrapper.RowRecord rowRecord: query.getData().getRowRecords()) {
+        JSONObject object = new JSONObject();
+        object.put("id", rowRecord.getFieldValues().get("id"));
+        object.put("color", rowRecord.getFieldValues().get("color"));
+        queryResults.add(object);
     }
-}
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# read the first vector from the dataset
-vector="$(cat path/to/medium_articles_2020_dpr.json \
-    | jq '.rows[0].title_vector' )"
-
-echo $vector
-
-# Replace uri and API key with your own
-curl --request POST \
-     --url "${PUBLIC_ENDPOINT}/v1/vector/search" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header 'accept: application/json' \
-     --header 'content-type: application/json' \
-     --data "{
-        \"collectionName\": \"medium_articles_2020\",
-        \"limit\": 3,
-        \"vector\": $vector
-      }"
-
-# Response
-#
-# {
-#      "code": 200,
-#      "data": [
-#           {
-#                "distance": 0,
-#                "id": 442147653350115900
-#           },
-#           {
-#                "distance": 0.494843,
-#                "id": 442147653350116000
-#           },
-#           {
-#                "distance": 0.65601754,
-#                "id": 442147653350116000
-#           }
-#      ]
-# }
-```
-
-</TabItem>
-</Tabs>
-
-You can also conduct an ANN search in a limited scope by applying a filter condition.
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-# Conduct an ANN search with filters
-res = client.search(
-    collection_name=COLLECTION_NAME,
-    data=[data["rows"][0]["title_vector"]],
-    filter='claps > 100 and publication in ["The Startup", "Towards Data Science"]',
-    output_fields=["title", "claps", "publication"]
-)
-
-print(res)
-
-# Output
-#
-# [
-#     [
-#         {
-#             "id": 0,
-#             "distance": 1.0,
-#             "entity": {
-#                 "title": "The Reported Mortality Rate of Coronavirus Is Not Important",
-#                 "publication": "The Startup",
-#                 "claps": 1100
-#             }
-#         },
-#         {
-#             "id": 70,
-#             "distance": 0.7525784969329834,
-#             "entity": {
-#                 "title": "How bad will the Coronavirus Outbreak get? \u2014 Predicting the outbreak figures",
-#                 "publication": "Towards Data Science",
-#                 "claps": 1100
-#             }
-#         },
-#         {
-#             "id": 160,
-#             "distance": 0.7132074236869812,
-#             "entity": {
-#                 "title": "The Funeral Industry is a Killer",
-#                 "publication": "The Startup",
-#                 "claps": 407
-#             }
-#         },
-#         {
-#             "id": 111,
-#             "distance": 0.6888885498046875,
-#             "entity": {
-#                 "title": "The role of AI in web-based ADA and WCAG compliance",
-#                 "publication": "Towards Data Science",
-#                 "claps": 935
-#             }
-#         },
-#         {
-#             "id": 47,
-#             "distance": 0.6680259704589844,
-#             "entity": {
-#                 "title": "What Happens When the Google Cookie Crumbles?",
-#                 "publication": "The Startup",
-#                 "claps": 203
-#             }
-#         },
-#         {
-#             "id": 135,
-#             "distance": 0.6597772836685181,
-#             "entity": {
-#                 "title": "How to Manage Risk as a Product Manager",
-#                 "publication": "The Startup",
-#                 "claps": 120
-#             }
-#         },
-#         {
-#             "id": 174,
-#             "distance": 0.6502071619033813,
-#             "entity": {
-#                 "title": "I Thought Suicide was Selfish Until I Wanted to Die",
-#                 "publication": "The Startup",
-#                 "claps": 319
-#             }
-#         },
-#         {
-#             "id": 7,
-#             "distance": 0.6361640095710754,
-#             "entity": {
-#                 "title": "Building Comprehensible Customer Churn Prediction Models",
-#                 "publication": "The Startup",
-#                 "claps": 261
-#             }
-#         },
-#         {
-#             "id": 181,
-#             "distance": 0.6355971693992615,
-#             "entity": {
-#                 "title": "It\u2019s OK to Admit You\u2019re Writing For Money",
-#                 "publication": "The Startup",
-#                 "claps": 626
-#             }
-#         }
-#     ]
-# ]
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-async function main () {
-
-    // (Continued)
     
-    // Conduct an ANN search with filters
-    res = await client.search({
-        collection_name: collectionName,
-        vector: client_data[0].vector,
-        output_fields: ["title", "claps", "publication"],
-        filter: 'claps > 100 and publication in ["The Startup", "Towards Data Science"]',
-        limit: 5,
+    System.out.println(queryResults);
+    
+    // Output:
+    // [
+    //     {
+    //         "color": "grey_1631",
+    //         "id": 11
+    //     },
+    //     {
+    //         "color": "green_7524",
+    //         "id": 12
+    //     },
+    //     {
+    //         "color": "black_3071",
+    //         "id": 13
+    //     },
+    //     {
+    //         "color": "green_0242",
+    //         "id": 14
+    //     }
+    // ]
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // 10. query with schema-defined fields
+    res = await client.query({
+        collection_name: "quick_setup",
+        expr: "id in [0, 1, 2, 3, 4]",
+        output_fields: ["id", "color"]  
     })
     
-    console.log(res)
-
+    console.log(res.data)
+    
     // Output
     // 
-    // {
-    //   status: { error_code: 'Success', reason: '', code: 0 },
-    //   results: [
-    //     {
-    //       score: 1,
-    //       id: '0',
-    //       claps: 1100,
-    //       publication: 'The Startup',
-    //       title: 'The Reported Mortality Rate of Coronavirus Is Not Important'
-    //     },
-    //     {
-    //       score: 0.8500008583068848,
-    //       id: '3177',
-    //       claps: 215,
-    //       publication: 'Towards Data Science',
-    //       title: 'Following the Spread of Coronavirus'
-    //     },
-    //     {
-    //       score: 0.8116300106048584,
-    //       id: '5641',
-    //       claps: 2900,
-    //       publication: 'Towards Data Science',
-    //       title: 'Why The Coronavirus Mortality Rate is Misleading'
-    //     },
-    //     {
-    //       score: 0.7555683851242065,
-    //       id: '4275',
-    //       claps: 255,
-    //       publication: 'The Startup',
-    //       title: 'How Can AI Help Fight Coronavirus?'
-    //     }
-    //   ]
-    // }
-    //  
+    // [
+    //   { id: '0', '$meta': { color: 'pink_8682' } },
+    //   { id: '1', '$meta': { color: 'red_7025' } },
+    //   { id: '2', '$meta': { color: 'orange_6781' } },
+    //   { id: '3', '$meta': { color: 'pink_9298' } },
+    //   { id: '4', '$meta': { color: 'red_4794' } }
+    // ]
+    // 
+    ```
 
-}
-```
+    </TabItem>
 
-</TabItem>
+    <TabItem value='go'>
 
-<TabItem value='java'>
-
-```java
-public class QuickStartDemo
-{
-    public static void main( String[] args )
-    {
-        // (Continued)
-
-        // 6. search with filters
-
-        outputFields.add("claps");
-        outputFields.add("publication");
-
-        SearchSimpleParam searchSimpleParamWithFilter = SearchSimpleParam.newBuilder()
-            .withCollectionName(collectionName)
-            .withVectors(queryVectors)
-            .withOutputFields(outputFields)
-            .withFilter("claps > 100 and publication in ['The Startup', 'Towards Data Science']")
-            .withOffset(0L)
-            .withLimit(3L)
-            .build();
-
-        R<SearchResponse> searchResWithFilter = client.search(searchSimpleParamWithFilter);
-
-        if (searchResWithFilter.getException() != null) {
-            System.err.println("Failed to search: " + searchResWithFilter.getException().getMessage());
-            return;
-        }
-
-        List<RowRecord> searchWithFilterResults = new ArrayList<>();
-
-        for (QueryResultsWrapper.RowRecord rowRecord: searchResWithFilter.getData().getRowRecords(0)) {
-            searchWithFilterResults.add(rowRecord);
-        }
-
-        System.out.println(searchWithFilterResults);
-
-        // Output:
-        // [[distance:0.0, publication:The Startup, id:0, title:The Reported Mortality Rate of Coronavirus Is Not Important, claps:1100], [distance:0.29999834, publication:Towards Data Science, id:3177, title:Following the Spread of Coronavirus, claps:215], [distance:0.37674016, publication:Towards Data Science, id:5641, title:Why The Coronavirus Mortality Rate is Misleading, claps:2900]]
-
+    ```go
+    // 10. Query using schema-defined fields
+    expr = "10 < id < 15"
+    outputFields = []string{"id", "color"}
+    topK = 3
+    
+    sp, _ = entity.NewIndexAUTOINDEXSearchParam(1)
+    
+    query, err := conn.Query(
+        context.Background(), // ctx
+        collectionName,       // collection name
+        []string{},           // partition names
+        expr,                 // expression
+        outputFields,         // output fields
+    )
+    
+    if err != nil {
+        log.Fatal("Failed to query the data:", err.Error())
     }
-}
-```
+    
+    fmt.Println(resultSetToJSON(query, true))
+    
+    // Output: 
+    // [
+    //  {
+    //      "id": [
+    //          11,
+    //          12,
+    //          13,
+    //          14
+    //      ]
+    //  },
+    //  {
+    //      "$meta": [
+    //          "color_purple",
+    //          "color_green",
+    //          "color_white",
+    //          "color_blue"
+    //      ]
+    //  }
+    // ]
+    ```
 
-</TabItem>
+    </TabItem>
+    </Tabs>
 
-<TabItem value='bash'>
+- **Query with filter using dynamic fields.**
 
-```bash
-# read the first vector from the dataset
-vector="$(cat path/to/medium_articles_2020_dpr.json \
-    | jq '.rows[0].title_vector' )"
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+    <TabItem value='python'>
 
-echo $vector
+    ```python
+    # 11. Query with a filter expression using a custom field
+    res = client.query(
+        collection_name="quick_setup",
+        filter='$meta["color"] like "brown_8%"',
+        output_fields=["color"],
+        limit=5
+    )
+    
+    print(res)
+    
+    # Output
+    #
+    # [
+    #     {
+    #         "color": "brown_8856",
+    #         "id": 38
+    #     },
+    #     {
+    #         "color": "brown_8216",
+    #         "id": 165
+    #     },
+    #     {
+    #         "color": "brown_8788",
+    #         "id": 207
+    #     },
+    #     {
+    #         "color": "brown_8750",
+    #         "id": 383
+    #     },
+    #     {
+    #         "color": "brown_8712",
+    #         "id": 414
+    #     }
+    # ]
+    ```
 
-# Replace uri and API key with your own
-curl --request POST \
-     --url "${PUBLIC_ENDPOINT}/v1/vector/search" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header 'accept: application/json' \
-     --header 'content-type: application/json' \
-     --data "{
-        \"collectionName\": \"medium_articles_2020\",
-        \"limit\": 3,
-        \"vector\": $vector,
-        \"filter\": \"claps > 5\",
-        \"outputFields\": [\"title\", \"claps\"]
-      }"
+    </TabItem>
 
-# Output
-#
-# {
-#      "code": 200,
-#      "data": [
-#           {
-#                "claps": 1100,
-#                "distance": 0,
-#                "title": "The Reported Mortality Rate of Coronavirus Is Not Important"
-#           },
-#           {
-#                "claps": 1100,
-#                "distance": 0.494843,
-#                "title": "How bad will the Coronavirus Outbreak get? — Predicting the outbreak figures"
-#           },
-#           {
-#                "claps": 54,
-#                "distance": 0.65601754,
-#                "title": "What if Facebook had to pay you for the profit they are making?"
-#           }
-#      ]
-# }
-```
+    <TabItem value='java'>
 
-</TabItem>
-</Tabs>
+    ```java
+    querySimpleParam = QuerySimpleParam.newBuilder()
+        .withCollectionName("quick_setup")
+        .withFilter("$meta[\"color\"] like \"brown_8%\"")
+        .withOutputFields(Arrays.asList("id", "color"))
+        .withLimit(5L)
+        .build();
+    
+    query = client.query(querySimpleParam);
+    
+    queryResults = new ArrayList<>();
+    
+    for (QueryResultsWrapper.RowRecord rowRecord: query.getData().getRowRecords()) {
+        JSONObject object = new JSONObject();
+        object.put("id", rowRecord.getFieldValues().get("id"));
+        object.put("color", rowRecord.getFieldValues().get("color"));
+        queryResults.add(object);
+    }
+    
+    System.out.println(queryResults);
+    
+    // Output:
+    // [
+    //     {
+    //         "color": "brown_8828",
+    //         "id": 171
+    //     },
+    //     {
+    //         "color": "brown_8384",
+    //         "id": 226
+    //     },
+    //     {
+    //         "color": "brown_8695",
+    //         "id": 227
+    //     },
+    //     {
+    //         "color": "brown_8198",
+    //         "id": 390
+    //     },
+    //     {
+    //         "color": "brown_8484",
+    //         "id": 392
+    //     }
+    // ]
+    ```
 
-### Perform a query{#perform-a-query}
+    </TabItem>
 
-All fields, except for the **vector** field, are scalar fields. You can define a filter condition against scalar fields to fetch the necessary entities.
+    <TabItem value='javascript'>
 
-Here is an example of a query.
+    ```javascript
+    // 11. query with non-schema-defined fields
+    res = await client.query({
+        collection_name: "quick_setup",
+        expr: '$meta["color"] like "brown_8%"',
+        output_fields: ["color"]
+    })
+    
+    console.log(res.data)
+    
+    // Output
+    // 
+    // [
+    //   { '$meta': { color: 'brown_8980' }, id: '36' },
+    //   { '$meta': { color: 'brown_8005' }, id: '43' },
+    //   { '$meta': { color: 'brown_8719' }, id: '181' },
+    //   { '$meta': { color: 'brown_8589' }, id: '184' },
+    //   { '$meta': { color: 'brown_8335' }, id: '209' },
+    //   { '$meta': { color: 'brown_8678' }, id: '280' },
+    //   { '$meta': { color: 'brown_8640' }, id: '430' },
+    //   { '$meta': { color: 'brown_8032' }, id: '676' },
+    //   { '$meta': { color: 'brown_8345' }, id: '692' },
+    //   { '$meta': { color: 'brown_8056' }, id: '756' },
+    //   { '$meta': { color: 'brown_8906' }, id: '953' }
+    // ]
+    // 
+    ```
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // 11. Query using schema-defined fields
+    expr = "$meta[\"color\"] like \"brown_8%\""
+    outputFields = []string{"id", "color"}
+    topK = 3
+    
+    sp, _ = entity.NewIndexAUTOINDEXSearchParam(1)
+    
+    query, err = conn.Query(
+        context.Background(), // ctx
+        collectionName,       // collection name
+        []string{},           // partition names
+        expr,                 // expression
+        outputFields,         // output fields
+    )
+    
+    if err != nil {
+        log.Fatal("Failed to query the data:", err.Error())
+    }
+    
+    fmt.Println(resultSetToJSON(query, true))
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # 10. Conduct a scalar query with filters and output fields
+    curl --request POST \
+        --url "${CLUSTER_ENDPOINT}/v1/vector/query" \
+        --header "Authorization: Bearer ${API_KEY}" \
+        --header "accept: application/json" \
+        --header "content-type: application/json" \
+        -d '{
+           "collectionName": "quick_setup",
+           "query": "color like \"red%\"",
+           "outputFields": ["color"],
+           "limit": 3
+        }'
+    ```
+
+    </TabItem>
+    </Tabs>
+
+## Get Entities{#get-entities}
+
+If you know the IDs of the entities to retrieve, you can get entities by their IDs as follows:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
-# 8. Perform a query
-res = client.query(
-    collection_name=COLLECTION_NAME,
-    filter='(publication == "Towards Data Science") and ((claps > 1500 and responses > 15) or (10 < reading_time < 15))',
-    output_fields=["title", "vector", "publication", "claps", "responses", "reading_time"],
-    limit=3,
+# 12. Get entities by IDs
+res = client.get(
+    collection_name="quick_setup",
+    ids=[1,2,3],
+    output_fields=["title", "vector"]
 )
 
 print(res)
@@ -1455,70 +2501,125 @@ print(res)
 #
 # [
 #     {
-#         "title": "Top 10 In-Demand programming languages to learn in 2020",
-#         "reading_time": 21,
-#         "publication": "Towards Data Science",
-#         "claps": 3000,
-#         "responses": 18,
+#         "id": 1,
 #         "vector": [
-#             -0.025530046,
-#             -0.0092489105,
-#             0.012318489,
-#             0.037440233,
-#             0.016410477,
-#             0.022736127,
-#             -0.001499891,
-#             0.034556553,
-#             -0.0059547457,
-#             -0.055044662,
-#             "(758 more items hidden)"
-#         ],
-#         "id": 69
+#             0.19886813,
+#             0.060235605,
+#             0.6976963,
+#             0.26144746,
+#             0.8387295
+#         ]
 #     },
 #     {
-#         "title": "Data Cleaning in Python: the Ultimate Guide (2020)",
-#         "reading_time": 12,
-#         "publication": "Towards Data Science",
-#         "claps": 1500,
-#         "responses": 7,
+#         "id": 2,
 #         "vector": [
-#             -3.8504484e-05,
-#             -0.04375324,
-#             0.030649282,
-#             0.021253644,
-#             -0.013177449,
-#             -0.026897375,
-#             0.0068761935,
-#             -0.029512206,
-#             -0.015405618,
-#             -0.040675893,
-#             "(758 more items hidden)"
-#         ],
-#         "id": 73
+#             0.43742132,
+#             -0.55975026,
+#             0.6457888,
+#             0.7894059,
+#             0.20785794
+#         ]
 #     },
 #     {
-#         "title": "Top Trends of Graph Machine Learning in 2020",
-#         "reading_time": 11,
-#         "publication": "Towards Data Science",
-#         "claps": 1100,
-#         "responses": 0,
+#         "id": 3,
 #         "vector": [
-#             -0.008080184,
-#             -0.044017944,
-#             0.058341485,
-#             0.031070782,
-#             0.0064219018,
-#             -0.026769096,
-#             -0.0072628907,
-#             0.032785654,
-#             -0.03337949,
-#             -0.08574104,
-#             "(758 more items hidden)"
-#         ],
-#         "id": 75
+#             0.3172005,
+#             0.97190446,
+#             -0.36981148,
+#             -0.48608947,
+#             0.9579189
+#         ]
 #     }
 # ]
+```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// 8. Get entities by IDs
+
+List<Long> ids = Arrays.asList(0L, 1L, 2L, 3L, 4L);
+
+GetIdsParam getIdsParam = GetIdsParam.newBuilder()
+    .withCollectionName("quick_setup")
+    .withPrimaryIds(ids)
+    .withOutputFields(Arrays.asList("id", "vector", "color"))
+    .build();
+
+R<GetResponse> get = client.get(getIdsParam);
+
+List<JSONObject> getResults = new ArrayList<>();
+
+for (QueryResultsWrapper.RowRecord entity: get.getData().getRowRecords()) {
+    JSONObject object = new JSONObject();
+    object.put("id", entity.getFieldValues().get("id"));
+    object.put("vector", entity.getFieldValues().get("vector"));
+    object.put("color", entity.getFieldValues().get("color"));
+    getResults.add(object);
+}
+
+System.out.println(getResults);
+
+// Output:
+// [
+//     {
+//         "color": "pink_8682",
+//         "vector": [
+//             0.35803765,
+//             -0.6023496,
+//             0.18414013,
+//             -0.26286206,
+//             0.90294385
+//         ],
+//         "id": 0
+//     },
+//     {
+//         "color": "red_7025",
+//         "vector": [
+//             0.19886813,
+//             0.060235605,
+//             0.6976963,
+//             0.26144746,
+//             0.8387295
+//         ],
+//         "id": 1
+//     },
+//     {
+//         "color": "orange_6781",
+//         "vector": [
+//             0.43742132,
+//             -0.55975026,
+//             0.6457888,
+//             0.7894059,
+//             0.20785794
+//         ],
+//         "id": 2
+//     },
+//     {
+//         "color": "blue_5219",
+//         "vector": [
+//             0.1622877,
+//             -0.19962177,
+//             0.52299607,
+//             0.79767275,
+//             0.3812752
+//         ],
+//         "id": 3
+//     },
+//     {
+//         "color": "green_3898",
+//         "vector": [
+//             0.26286206,
+//             0.90294385,
+//             0.35803765,
+//             -0.6023496,
+//             0.18414013
+//         ],
+//         "id": 4
+//     }
+// ]
 ```
 
 </TabItem>
@@ -1526,34 +2627,271 @@ print(res)
 <TabItem value='javascript'>
 
 ```javascript
-async function main () {
+// 12. Get entities by IDs
+res = await client.get({
+    collection_name: "quick_setup",
+    ids: [0, 1, 2, 3, 4]
+})
 
-    // (Continued)
+console.log(res.data)
+
+// Output
+// 
+// [ { id: '0' }, { id: '1' }, { id: '2' }, { id: '3' }, { id: '4' } ]
+// 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// 12. Get entity by ID
+ids := entity.NewColumnInt64("id", []int64{0, 1, 2, 3, 4})
+
+get, err := conn.Get(
+    context.Background(), // ctx
+    collectionName,       // collection name
+    ids,                  // ids
+)
+
+if err != nil {
+    log.Fatal("Failed to get the data:", err.Error())
+}
+
+fmt.Println(resultSetToJSON(get, true))
+
+```
+
+</TabItem>
+</Tabs>
+
+## Delete Entities{#delete-entities}
+
+Zilliz Cloud allows deleting entities by IDs and by filters.
+
+- **Delete entities by IDs.**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+    <TabItem value='python'>
+
+    ```python
+    # 13. Delete entities by IDs
+    res = client.delete(
+        collection_name="quick_setup",
+        ids=[0,1,2,3,4]
+    )
     
-    // Perform a query
-    res = await client.query({
-        collection_name: collectionName,
-        filter: 'claps > 100 and publication in ["The Startup", "Towards Data Science"]',
-        output_fields: ["title", "claps", "publication"],
-        limit: 5,
+    print(res)
+    
+    # Output
+    #
+    # {
+    #     "delete_count": 5
+    # }
+    ```
+
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // 9. Delete entities by IDs
+    
+    DeleteIdsParam deleteIdsParam = DeleteIdsParam.newBuilder()
+        .withCollectionName("quick_setup")
+        .withPrimaryIds(ids)
+        .build();
+    
+    R<DeleteResponse> deleteByIds = client.delete(deleteIdsParam);
+    
+    System.out.println("Delete Operation Status: " + deleteByIds.getStatus());
+    
+    // Output:
+    // Delete Operation Status: 0
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // 13. Delete entities by IDs
+    res = await client.deleteEntities({
+        collection_name: "quick_setup",
+        expr: "id in [5, 6, 7, 8, 9]"
     })
     
     console.log(res)
-
+    
     // Output
     // 
     // {
-    //   status: { error_code: 'Success', reason: '', code: 0 },
-    //   data: [
-    //     { '$meta': [Object], id: '0' },
-    //     { '$meta': [Object], id: '1' },
-    //     { '$meta': [Object], id: '2' },
-    //     { '$meta': [Object], id: '3' }
-    //   ]
+    //   succ_index: [],
+    //   err_index: [],
+    //   status: {
+    //     error_code: 'Success',
+    //     reason: '',
+    //     code: 0,
+    //     retriable: false,
+    //     detail: ''
+    //   },
+    //   IDs: {},
+    //   acknowledged: false,
+    //   insert_cnt: '0',
+    //   delete_cnt: '5',
+    //   upsert_cnt: '0',
+    //   timestamp: '0'
     // }
     // 
+    ```
 
-}
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // 13. Delete entities by ID
+    ids = entity.NewColumnInt64("id", []int64{0, 1, 2, 3, 4})
+    
+    err = conn.DeleteByPks(
+        context.Background(), // ctx
+        collectionName,       // collection name
+        "",                   // partition names
+        ids,                  // ids
+    )
+    
+    if err != nil {
+        log.Fatal("Failed to delete the data:", err.Error())
+    }
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # 12. Delete entities by IDs
+    curl --request POST \
+        --url "${CLUSTER_ENDPOINT}/v1/vector/delete" \
+        --header "Authorization: Bearer ${API_KEY}" \
+        --header "accept: application/json" \
+        --header "content-type: application/json" \
+        -d "{
+           \"collectionName\": \"quick_setup\",
+           \"id\": ${IDs},
+        }"
+    ```
+
+    </TabItem>
+    </Tabs>
+
+- **Delete entities by filter**
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
+    <TabItem value='python'>
+
+    ```python
+    # 14. Delete entities by a filter expression
+    res = client.delete(
+        collection_name="quick_setup",
+        filter="id in [5,6,7,8,9]"
+    )
+    
+    print(res)
+    
+    # Output
+    #
+    # {
+    #     "delete_count": 5
+    # }
+    ```
+
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // 9. Delete entities by Filter
+    
+    DeleteParam deleteParam = DeleteParam.newBuilder()
+        .withCollectionName("quick_setup")
+        .withExpr("id in [5, 6, 7, 8, 9]")
+        .build();
+    
+    R<MutationResult> deleteByFilter = client.delete(deleteParam);
+    
+    System.out.println("Delete Counts: " + new MutationResultWrapper(deleteByFilter.getData()).getDeleteCount());
+    
+    // Output:
+    // Delete Counts: 5
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // 14. Delete entities by filter
+    res = await client.delete({
+        collection_name: "quick_setup",
+        ids: [0, 1, 2, 3, 4]
+    })
+    
+    console.log(res)
+    
+    // Output
+    // 
+    // {
+    //   succ_index: [],
+    //   err_index: [],
+    //   status: {
+    //     error_code: 'Success',
+    //     reason: '',
+    //     code: 0,
+    //     retriable: false,
+    //     detail: ''
+    //   },
+    //   IDs: {},
+    //   acknowledged: false,
+    //   insert_cnt: '0',
+    //   delete_cnt: '5',
+    //   upsert_cnt: '0',
+    //   timestamp: '0'
+    // }
+    // 
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // 13. Delete entities by filter expressions
+    expr = "id in [5,6,7,8,9]"
+    
+    err = conn.Delete(
+        context.Background(), // ctx
+        collectionName,       // collection name
+        "",                   // partition names
+        expr,                 // expression
+    )
+    ```
+
+    </TabItem>
+    </Tabs>
+
+## Drop the collection{#drop-the-collection}
+
+The Starter plan allows up to two collections in the serverless cluster. Once you have done this guide, you can drop the collection as follows:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"Bash","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+client.drop_collection(
+    collection_name="quick_setup"
+)
 ```
 
 </TabItem>
@@ -1561,672 +2899,18 @@ async function main () {
 <TabItem value='java'>
 
 ```java
-public class QuickStartDemo
-{
-    public static void main( String[] args )
-    {
-        // (Continued)
-        QuerySimpleParam querySimpleParam = QuerySimpleParam.newBuilder()
-            .withCollectionName(collectionName)
-            .withFilter("claps > 100 and publication in ['The Startup', 'Towards Data Science']")
-            .withOutputFields(outputFields)
-            .withOffset(0L)
-            .withLimit(3L)
-            .build();
+// 8. Drop collection
 
-        R<QueryResponse> queryRes = client.query(querySimpleParam);
+DropCollectionParam dropCollectionParam = DropCollectionParam.newBuilder()
+    .withCollectionName("quick_setup")
+    .build();
 
-        if (queryRes.getException() != null) {
-            System.err.println("Failed to query: " + queryRes.getException().getMessage());
-            return;
-        }
+R<RpcStatus> drop = client.dropCollection(dropCollectionParam);
 
-        List<RowRecord> queryResults = new ArrayList<>();
+System.out.println("Drop Collection Status: " + drop.getStatus());
 
-        for (QueryResultsWrapper.RowRecord rowRecord: queryRes.getData().getRowRecords()) {
-            queryResults.add(rowRecord);
-        }
-
-        System.out.println(queryResults);
-
-        // Output:
-        // [[publication:The Startup, id:0, title:The Reported Mortality Rate of Coronavirus Is Not Important, claps:1100], [publication:The Startup, id:1, title:Dashboards in Python: 3 Advanced Examples for Dash Beginners and Everyone Else, claps:726], [publication:The Startup, id:2, title:How Can We Best Switch in Python?, claps:500]]
-    }
-}
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# Replace uri and API key with your own
-curl --request POST \
-     --url "${PUBLIC_ENDPOINT}/v1/vector/query" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header 'accept: application/json' \
-     --header 'content-type: application/json' \
-     --data "{
-        \"collectionName\": \"medium_articles_2020\",
-        \"limit\": 3,
-        \"filter\": \"claps > 100 and publication in ['The Startup', 'Towards Data Science']\",
-        \"outputFields\": [\"title\", \"claps\", \"publication\"]
-      }"
-
-# Output
-#
-# {
-#      "code": 200,
-#      "data": [
-#           {
-#                "claps": 1100,
-#                "id": 442147653350117440,
-#                "publication": "The Startup",
-#                "title": "The Reported Mortality Rate of Coronavirus Is Not Important"
-#           },
-#           {
-#                "claps": 726,
-#                "id": 442147653350117440,
-#                "publication": "The Startup",
-#                "title": "Dashboards in Python: 3 Advanced Examples for Dash Beginners and Everyone Else"
-#           },
-#           {
-#                "claps": 500,
-#                "id": 442147653350117440,
-#                "publication": "The Startup",
-#                "title": "How Can We Best Switch in Python?"
-#           }
-#      ]
-# }
-```
-
-</TabItem>
-</Tabs>
-
-### Get entities by IDs{#get-entities-by-ids}
-
-In some cases, you may want to get specific entities based on their IDs. This is where the get operation comes into play.
-
-Here are some examples of getting entities by IDs.
-
-- Get a single entity by its ID
-
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
-    <TabItem value='python'>
-
-    ```python
-    # Retrieve a single entity by ID
-    res = client.get(
-            collection_name=COLLECTION_NAME,
-            ids=1
-    )
-    
-    print(res)
-    
-    # Output
-    #
-    # [
-    #     {
-    #         "id": 1,
-    #         "title": "Dashboards in Python: 3 Advanced Examples for Dash Beginners and Everyone Else",
-    #         "link": "https://medium.com/swlh/dashboards-in-python-3-advanced-examples-for-dash-beginners-and-everyone-else-b1daf4e2ec0a",
-    #         "reading_time": 14,
-    #         "publication": "The Startup",
-    #         "claps": 726,
-    #         "responses": 3,
-    #         "vector": [
-    #             0.0039737443,
-    #             0.003020432,
-    #             -0.0006188639,
-    #             0.03913546,
-    #             -0.00089768134,
-    #             0.021238148,
-    #             0.014454661,
-    #             0.025742851,
-    #             0.0022063442,
-    #             -0.051130578,
-    #             -0.0010897011,
-    #             0.038453076,
-    #             0.011593861,
-    #             -0.046852026,
-    #             0.0064208573,
-    #             0.010120634,
-    #             -0.023668954,
-    #             0.041229635,
-    #             0.008146385,
-    #             -0.023367394,
-    #             "(748 more items hidden)"
-    #         ]
-    #     }
-    # ]
-    ```
-
-    </TabItem>
-
-    <TabItem value='javascript'>
-
-    ```javascript
-    async function main () {
-    
-        // (Continued)
-        
-        // Get an entity by id
-        res = await client.get({
-            collection_name: collectionName,
-            ids: [0],
-            output_fields: ['id', 'title']
-        });
-        
-        console.log(res)
-    
-        // Output
-        // 
-        // {
-        //   status: { error_code: 'Success', reason: '', code: 0 },
-        //   data: [ { id: '0', '$meta': [Object] } ]
-        // }
-        // 
-    
-    }
-    ```
-
-    </TabItem>
-
-    <TabItem value='java'>
-
-    ```java
-    public class QuickStartDemo
-    {
-        public static void main( String[] args )
-        {
-            // (Continued)
-            List<String> ids = Lists.newArrayList("1");
-            // List<String> ids = Lists.newArrayList("1", "2", "3");
-    
-            GetIdsParam getParam = GetIdsParam.newBuilder()
-                    .withCollectionName(collectionName)
-                    .withPrimaryIds(ids)
-                    .withOutputFields(Lists.newArrayList("*"))
-                    .build();
-    
-            R<GetResponse> getRes = client.get(getParam);
-    
-            if (getRes.getException() != null) {
-                System.err.println("Failed to get: " + getRes.getException().getMessage());
-                return;
-            }
-    
-            List<RowRecord> getResults = new ArrayList<>();
-    
-            for (QueryResultsWrapper.RowRecord rowRecord: getRes.getData().getRowRecords()) {
-                getResults.add(rowRecord);
-            }
-    
-            System.out.println(getResults);
-    
-            // Output:
-            // [[reading_time:14, publication:The Startup, link:https://medium.com/swlh/dashboards-in-python-3-advanced-examples-for-dash-beginners-and-everyone-else-b1daf4e2ec0a, responses:3, vector:[0.0039737443, 0.003020432, -6.188639E-4, 0.03913546, -8.9768134E-4, 0.021238148, 0.014454661, 0.025742851, 0.0022063442, -0.051130578, -0.0010897011, 0.038453076, 0.011593861, -0.046852026, 0.0064208573, 0.010120634, -0.023668954, 0.041229635, 0.008146385, -0.023367394, -0.029139837, -0.023222756, -0.016318452, -0.076287195, 0.035851076, 0.044926822, 0.0037161126, 0.024241403, -0.024827085, -0.012770665, 0.0018561907, 0.047921725, -0.030281143, -0.031129083, -0.038785066, -0.048101038, 0.008587025, -0.0036647166, -0.013043694, -0.044786748, 0.0015023423, -0.02393749, 0.027479807, 0.03407725, -0.011031249, -0.016997544, -0.11140522, -0.0012403706, -0.0116099715, 0.010803051, -0.042221617, 0.071550176, 0.029078195, 0.02936992, -0.016870253, 0.024187507, -0.0064322287, -0.0018420032, -0.010838795, 0.005448679, 0.042049922, 0.015199081, -0.00612731, 0.04651738, -4.543191E-4, 0.0018536948, -0.021741537, 0.042303678, -0.016282137, 0.031659417, 0.03347323, -0.05687932, -0.04784338, 0.047716856, -0.04012971, -0.024161791, -0.015605036, 0.01364975, 0.023177518, 0.01887649, 0.040253926, 0.021470893, 0.09768697, -0.032784328, 0.03222924, 0.03559948, -0.0028161134, 0.03687029, -0.013814558, -0.009652667, 0.021593641, -0.05943368, 0.026042875, 0.028282177, 0.007687183, 0.020226369, -0.0016281981, -0.008526736, 0.025751492, -0.003104332, -0.0061201006, 0.02595484, -0.021449475, -0.014293144, -0.029449001, 0.0020593074, -0.034804724, -0.022180008, -0.006285631, 0.013707787, -0.037423145, -0.009107584, -0.009432007, 0.010610414, -0.056727782, 0.0233536, -0.0060632285, 0.055170756, 0.015278058, -0.0074357074, 0.038479842, 0.07088861, 0.06036749, 0.015448346, 0.024050185, 0.015041763, 0.022847643, 0.018183885, 0.047313735, 0.026332416, -0.002408156, 0.04366259, 0.0057872427, -0.02127312, -0.020023786, -0.02634593, 0.028322363, 0.020426102, 0.026535949, 0.031108813, -0.03800821, -0.016794013, -0.0022405083, -0.028002623, 0.013555326, -0.020880137, -0.040561143, -0.024379047, -0.058721762, 0.009864129, -0.0060728258, 0.019879017, -0.027474888, 0.004868736, -0.01618118, 0.07627549, -0.009566949, -0.0362882, -0.0013981637, 3.6380984E-4, 0.025276562, 0.061608184, -0.048915602, -0.043986745, -0.0055106534, -0.03694729, 0.0018953384, 0.0063064545, 0.010227479, -0.0068412647, -0.011093203, -0.0093250135, -0.019277632, 0.026233265, 0.009567129, 0.008851426, 0.01565083, 0.02383659, 0.058387164, 0.007578936, -0.039052304, -0.020484922, 0.041768145, -0.038177934, 0.032690376, -0.0088214185, 0.040147487, 0.015718441, -0.026545178, -0.023138655, -0.055501554, -0.06176257, 0.01347796, -0.043426935, 0.09015595, -0.05628449, -0.03414897, 0.077925004, 0.039848283, 0.004569112, -0.021932716, -0.008975595, 0.032322578, 0.0011694044, -0.008094395, 0.013524566, -0.010504273, -0.008891303, -0.047701288, -0.003401436, -0.006817342, -0.0131783355, 0.013252014, -0.02291292, 0.005158376, -0.005217175, -0.009027178, 0.01674159, 0.0062977904, -0.0021274886, 0.1001569, -0.010145763, 0.00398632, 0.016642937, -0.04561657, -0.00593123, 0.068103015, 0.022859594, 0.055262484, -0.07711217, -0.013573, 0.00793467, -0.00206392, -0.055678505, -0.0027695482, -0.008978216, 0.023205645, 0.010584002, 0.036940057, 0.0055925045, -0.03128972, 0.008169264, 0.002143065, 0.0054644635, 0.007751248, -0.049370192, -0.017171964, 0.012460248, -0.039616507, -0.008905116, -0.029277697, 0.0316178, 0.007783805, -0.046197712, -0.02389374, 0.03949501, 0.012882567, -0.050312858, -0.0025155935, 0.05531826, -0.0060943947, 0.040836193, -0.0057800347, 0.0639973, 0.009591699, -0.05218372, -0.03645041, -0.05206777, 0.053644467, 0.071591765, 0.008294372, 0.0028174156, 0.0048404625, 0.013453085, 0.022866488, -0.06087804, 0.023474297, 0.027761765, -0.040729735, -0.009113696, 0.020109607, 0.010756393, 0.066961266, -0.03530044, -0.0013631586, -0.034647003, 0.03281657, -0.055955954, -0.043759737, -0.014830927, -0.0012740378, 0.053068876, 0.0041171, -0.009249764, 0.04119711, -0.0022221678, 0.008220726, 0.011716879, 0.04751782, -0.021161754, -0.0034890848, 0.017168297, 0.018082855, -0.054346565, 0.01130623, -0.014759945, -0.020925378, -0.011718521, -0.5058962, -0.016079627, -0.05195381, -0.065540574, -0.024114326, 0.0045832954, 0.05303542, -0.040304415, -0.001513657, 0.019103762, 0.008554532, 0.053032935, -0.00915671, -0.009092158, -0.009177251, 0.028371146, 0.028055405, -0.008145964, 0.011927662, 0.027140373, -0.04623, -0.026633251, -1.9752477E-4, 0.045192443, 0.02449006, 0.013997616, -0.06873905, 0.027910134, 0.003347047, 0.0013439717, 0.034202795, -0.015585498, -0.055015743, 1.6024683E-4, -0.015891591, -0.021741774, 0.025558911, 0.011084363, 0.014056266, -0.018982887, 0.0016998561, 0.048058353, 0.007829392, 0.0018672302, 0.041273497, -0.039120134, 3.624535E-4, -0.0011298673, -0.006326307, 0.032140832, -0.037109844, -4.1404666E-4, -0.0084530655, 0.0077904286, 0.012144728, -0.03869803, 0.047453202, 0.04121898, -0.032067478, 0.022875102, 0.07410041, -0.024542922, -0.036993448, -0.039777547, 0.0094557, -0.025156112, -0.035101883, -0.048749104, -0.0045563756, -0.006167684, -0.048193872, 0.0017396678, 0.019029584, -0.061944872, 0.050563816, -0.021848006, 0.008817201, 0.010323988, 0.020705162, 0.018577144, -0.048376583, -0.041189134, -0.0047300197, -0.00836772, -0.0052992413, -0.035920832, -0.029942693, 0.028925791, 0.030509083, 0.00738733, 0.124217756, -0.04977689, 0.023752924, 0.027065763, 0.057005685, 0.03732509, 0.069008276, -0.022444589, 0.0035944746, -0.041807327, 0.028195074, -0.011788701, -0.0034672262, -0.014074685, -0.009594197, 0.0018883395, -0.024706602, 0.015436245, 0.054175258, -0.03945695, -0.029252004, -0.006543419, -0.064558335, 0.00635337, 0.014417143, 0.013945442, -0.009091861, 5.249867E-4, 0.010337455, -0.009454559, -0.035721924, -0.022774082, -0.031336624, 0.0416093, -0.038794383, -0.008280955, 0.033273164, 0.013371025, -0.0129316645, -0.012368203, 0.022565264, -0.0012145197, 0.01841233, -0.002506566, 0.02414115, -0.047187645, -0.0046407585, 0.032652196, 0.053410284, -0.0365266, -0.0063986774, 0.023949109, 0.010821287, 0.013743939, 0.04780526, 0.008855356, -0.028712442, 0.010830425, -0.0039607813, 0.022576412, -0.009031381, -0.04623192, 0.0140510835, 0.009459673, -0.0033195931, 0.02447672, 0.025940116, 0.015182389, -0.03030254, -0.042433836, 0.043204527, -0.009033531, -0.09083154, -3.1694994E-4, 0.030156016, -0.030984623, -0.031595454, 0.002228252, -0.003698093, -0.006667667, 0.023925511, -0.045642223, -0.0054936595, -0.020487037, -0.011321221, -0.008023139, -0.0022487226, 0.016701572, -0.004573161, -0.0076336027, -0.007048531, -0.03015078, 0.03309948, 0.028124114, 0.014135684, 0.009500284, -0.0033359944, 0.017857917, 0.034960285, 0.005099243, 0.021408139, -0.0065242476, 0.03559723, 0.002711937, -0.028567772, -0.044500142, 0.025019938, 0.020869007, -0.023909464, -0.06710058, -0.04702157, -0.012781483, -0.03416069, 0.009026116, 0.016877936, -0.015858926, 0.0432861, 0.029753765, -0.016831696, -0.04155155, -0.056399744, -0.0632834, -0.030745849, -0.023681961, -0.02031578, -0.006460313, 0.009156013, -0.03944369, -0.05559119, 0.011855634, 0.0043062386, -0.026944742, -0.05057878, -0.033390008, 0.0012567446, 0.00859911, 0.031703074, -0.024424741, 0.011032831, -0.03794956, -0.0058376114, 0.050361525, 0.02664676, 0.035737876, 9.327007E-5, -0.0036208995, -0.07552407, 0.008858675, 0.06525408, -0.03309569, -0.019470563, 0.029411364, -0.023945473, -0.02741788, 0.025530888, -0.004085135, -0.023078475, -0.05026493, -0.047704235, 0.0063968995, 0.05705471, -0.039139755, -0.016409663, -0.050894372, 0.0229268, 0.024625905, -0.020794865, -0.018509613, -0.0286961, 0.02955773, -0.012118265, 0.007289678, -0.017907536, -9.589148E-5, -0.014387568, 0.01077215, -0.0057492387, -0.070152126, 0.011277187, -0.06932382, 0.0064085126, -0.002137664, 0.020172758, 0.018431762, 0.02997658, -0.035457257, -0.027747527, 0.023011072, 0.0044074785, 0.022357704, -0.011456843, -0.014637661, 0.028279554, -0.018716238, 0.03532025, 0.003035383, 0.028103184, -0.026085945, -0.012884989, 0.024874324, 0.0021957066, 0.038837254, -0.013919544, 0.021001196, -0.006413539, 0.03233318, 0.054959916, 0.002057221, -0.008223584, 0.02089053, 0.031112751, 0.06568271, 0.07437756, -0.032314405, 0.0063390816, 0.021723315, 0.009370877, -0.019755581, -0.009407542, 0.008717818, -0.012684821, -0.015996328, 0.019934947, 0.05044348, -0.03040645, -0.0076975147, 0.013472682, -0.04469578, 0.059487574, 0.0077290037, -0.0062347664, 0.017982362, 0.047718633, -0.029480672, -0.049545363, 0.019446652, -0.012957434, 0.021308606, 0.0034625032, 0.016427478, 0.062390056, 0.074961245, -0.0017664412, -0.0374053, 0.006156502, -0.023779914, 0.022087418, -0.0018362328, 0.036417086, -0.031101517, 0.03615886, 0.0011009142, -0.009626947, 0.0020367356, -0.024929306, 0.05029518, 0.01021691, 0.02706921, -0.055606462, 0.050653223, -0.020299971, 0.022907283, -0.0078015765, 0.0013674265, -0.016805433, -0.005469926, -0.010843944, 0.024753453, 0.0036051865, 0.021984477, 0.019608894, 0.056622125, 0.0168941, 5.6558E-5, -0.037705585, 0.010488043, 0.055042468, -0.012437194, 0.017340036, 0.008242167, -0.032131612, 0.046392333, -0.050994188, 0.013369047, -0.031277575, -0.057127792, 0.026656566, 0.012472042, 0.03171042, 0.0155100925, -0.014371186, -0.0074701216, -0.03548123, -0.019203192, 0.020641252, 0.037671227, -0.050689723, 0.012942378, -0.010964106, -0.009750868, -0.032187466, -0.030583298, 0.031428117, -0.030721085, -0.009199497, -0.025520792, -0.016073162, 0.03206433, 0.035993624, 0.005494608, -0.02187293, 0.026701238, -0.013911904, -0.0024700807, -0.013015862, 0.041535176, -0.032522723, 0.0139125, -0.043542273, -0.02516857, 0.0098249065, 0.018275063, 0.0026843066, 0.009207035, -0.0024260108, 0.014267937, 0.04338487, -0.006479658, 0.026931532, -0.013153546, -0.032537226, -0.012409599, 0.03284542, -0.014427827, 9.0851216E-4, 0.034384534, 0.0022898254, 0.013645849, -0.0264273, 0.04843669, -0.037393637, -0.026378367, -0.03421471, 0.023813134, -0.037445217, -0.018552892, 0.006716699, 0.033491645, 0.046465095, -0.024037533, -0.027822671, 0.017161718, -0.0103931315, 0.043290958, -0.04675785, 0.045929935, -0.07786675, -0.033439267, -0.07128675, 0.009419761, -0.0013642106, -0.022022273, -0.019086521, -0.0038238734, -7.658402E-4, -0.0077877254, 0.035752963, -0.031361237, -0.0020773965, 0.021713957], id:1, title:Dashboards in Python: 3 Advanced Examples for Dash Beginners and Everyone Else, claps:726]]
-        }
-    }
-    ```
-
-    </TabItem>
-
-    <TabItem value='bash'>
-
-    ```bash
-    # Retrieve a single entity by ID
-    # Go to Zilliz Cloud console, and look for the ID of an entity
-    # Fill the ID in the request body
-    curl --request POST \
-         --url "${PUBLIC_ENDPOINT}/v1/vector/get" \
-         --header "Authorization: Bearer ${TOKEN}" \
-         --header 'accept: application/json' \
-         --header 'content-type: application/json' \
-         --data "{
-            \"collectionName\": \"medium_articles_2020\",
-            \"id\": 442169042773492589,
-            \"outputFields\": [\"id\", \"title\"]
-          }"
-    
-    # Output
-    #
-    # {
-    #      "code": 200,
-    #      "data": [
-    #           {
-    #                "id": 442147653350117440,
-    #                "title": "The Reported Mortality Rate of Coronavirus Is Not Important"
-    #           }
-    #      ]
-    # }
-    ```
-
-    </TabItem>
-    </Tabs>
-
-- Get multiple entities in a batch by their IDs
-
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
-    <TabItem value='python'>
-
-    ```python
-    # Retrieve a set of entities by their IDs
-    res = client.get(
-            collection_name=COLLECTION_NAME,
-            ids=[1, 2, 3]
-    )
-    
-    print(res[0])
-    
-    # Output
-    #
-    # [
-    #     {
-    #         "id": 1,
-    #         "title": "Dashboards in Python: 3 Advanced Examples for Dash Beginners and Everyone Else",
-    #         "link": "https://medium.com/swlh/dashboards-in-python-3-advanced-examples-for-dash-beginners-and-everyone-else-b1daf4e2ec0a",
-    #         "reading_time": 14,
-    #         "publication": "The Startup",
-    #         "claps": 726,
-    #         "responses": 3,
-    #         "vector": [
-    #             0.0039737443,
-    #             0.003020432,
-    #             -0.0006188639,
-    #             0.03913546,
-    #             -0.00089768134,
-    #             0.021238148,
-    #             0.014454661,
-    #             0.025742851,
-    #             0.0022063442,
-    #             -0.051130578,
-    #             -0.0010897011,
-    #             0.038453076,
-    #             0.011593861,
-    #             -0.046852026,
-    #             0.0064208573,
-    #             0.010120634,
-    #             -0.023668954,
-    #             0.041229635,
-    #             0.008146385,
-    #             -0.023367394,
-    #             "(748 more items hidden)"
-    #         ]
-    #     }
-    # ]
-    ```
-
-    </TabItem>
-
-    <TabItem value='javascript'>
-
-    ```javascript
-    async function main () {
-    
-        // (Continued)
-        
-        // Get a set of entities by their IDs
-        res = await client.get({
-            collection_name: collectionName,
-            ids: [0, 1, 2],
-            output_fields: ['id', 'title']
-        });
-        
-        console.log(res)
-    
-        // Output
-        // 
-        // {
-        //   status: { error_code: 'Success', reason: '', code: 0 },
-        //   data: [
-        //     { id: '0', '$meta': [Object] },
-        //     { id: '1', '$meta': [Object] },
-        //     { id: '2', '$meta': [Object] }
-        //   ]
-        // }
-        // 
-    
-    }
-    ```
-
-    </TabItem>
-
-    <TabItem value='java'>
-
-    ```java
-    public class QuickStartDemo
-    {
-        public static void main( String[] args )
-        {
-            // (Continued)
-            // List<String> ids = Lists.newArrayList("1");
-            List<String> ids = Lists.newArrayList("1", "2", "3");
-    
-            GetIdsParam getParam = GetIdsParam.newBuilder()
-                    .withCollectionName(collectionName)
-                    .withPrimaryIds(ids)
-                    .withOutputFields(Lists.newArrayList("*"))
-                    .build();
-    
-            R<GetResponse> getRes = client.get(getParam);
-    
-            if (getRes.getException() != null) {
-                System.err.println("Failed to get: " + getRes.getException().getMessage());
-                return;
-            }
-    
-            List<RowRecord> getResults = new ArrayList<>();
-    
-            for (QueryResultsWrapper.RowRecord rowRecord: getRes.getData().getRowRecords()) {
-                getResults.add(rowRecord);
-            }
-    
-            System.out.println(getResults);
-    
-            // Output:
-            // [[reading_time:14, publication:The Startup, link:https://medium.com/swlh/dashboards-in-python-3-advanced-examples-for-dash-beginners-and-everyone-else-b1daf4e2ec0a, responses:3, vector:[0.0039737443, 0.003020432, -6.188639E-4, 0.03913546, -8.9768134E-4, 0.021238148, 0.014454661, 0.025742851, 0.0022063442, -0.051130578, -0.0010897011, 0.038453076, 0.011593861, -0.046852026, 0.0064208573, 0.010120634, -0.023668954, 0.041229635, 0.008146385, -0.023367394, -0.029139837, -0.023222756, -0.016318452, -0.076287195, 0.035851076, 0.044926822, 0.0037161126, 0.024241403, -0.024827085, -0.012770665, 0.0018561907, 0.047921725, -0.030281143, -0.031129083, -0.038785066, -0.048101038, 0.008587025, -0.0036647166, -0.013043694, -0.044786748, 0.0015023423, -0.02393749, 0.027479807, 0.03407725, -0.011031249, -0.016997544, -0.11140522, -0.0012403706, -0.0116099715, 0.010803051, -0.042221617, 0.071550176, 0.029078195, 0.02936992, -0.016870253, 0.024187507, -0.0064322287, -0.0018420032, -0.010838795, 0.005448679, 0.042049922, 0.015199081, -0.00612731, 0.04651738, -4.543191E-4, 0.0018536948, -0.021741537, 0.042303678, -0.016282137, 0.031659417, 0.03347323, -0.05687932, -0.04784338, 0.047716856, -0.04012971, -0.024161791, -0.015605036, 0.01364975, 0.023177518, 0.01887649, 0.040253926, 0.021470893, 0.09768697, -0.032784328, 0.03222924, 0.03559948, -0.0028161134, 0.03687029, -0.013814558, -0.009652667, 0.021593641, -0.05943368, 0.026042875, 0.028282177, 0.007687183, 0.020226369, -0.0016281981, -0.008526736, 0.025751492, -0.003104332, -0.0061201006, 0.02595484, -0.021449475, -0.014293144, -0.029449001, 0.0020593074, -0.034804724, -0.022180008, -0.006285631, 0.013707787, -0.037423145, -0.009107584, -0.009432007, 0.010610414, -0.056727782, 0.0233536, -0.0060632285, 0.055170756, 0.015278058, -0.0074357074, 0.038479842, 0.07088861, 0.06036749, 0.015448346, 0.024050185, 0.015041763, 0.022847643, 0.018183885, 0.047313735, 0.026332416, -0.002408156, 0.04366259, 0.0057872427, -0.02127312, -0.020023786, -0.02634593, 0.028322363, 0.020426102, 0.026535949, 0.031108813, -0.03800821, -0.016794013, -0.0022405083, -0.028002623, 0.013555326, -0.020880137, -0.040561143, -0.024379047, -0.058721762, 0.009864129, -0.0060728258, 0.019879017, -0.027474888, 0.004868736, -0.01618118, 0.07627549, -0.009566949, -0.0362882, -0.0013981637, 3.6380984E-4, 0.025276562, 0.061608184, -0.048915602, -0.043986745, -0.0055106534, -0.03694729, 0.0018953384, 0.0063064545, 0.010227479, -0.0068412647, -0.011093203, -0.0093250135, -0.019277632, 0.026233265, 0.009567129, 0.008851426, 0.01565083, 0.02383659, 0.058387164, 0.007578936, -0.039052304, -0.020484922, 0.041768145, -0.038177934, 0.032690376, -0.0088214185, 0.040147487, 0.015718441, -0.026545178, -0.023138655, -0.055501554, -0.06176257, 0.01347796, -0.043426935, 0.09015595, -0.05628449, -0.03414897, 0.077925004, 0.039848283, 0.004569112, -0.021932716, -0.008975595, 0.032322578, 0.0011694044, -0.008094395, 0.013524566, -0.010504273, -0.008891303, -0.047701288, -0.003401436, -0.006817342, -0.0131783355, 0.013252014, -0.02291292, 0.005158376, -0.005217175, -0.009027178, 0.01674159, 0.0062977904, -0.0021274886, 0.1001569, -0.010145763, 0.00398632, 0.016642937, -0.04561657, -0.00593123, 0.068103015, 0.022859594, 0.055262484, -0.07711217, -0.013573, 0.00793467, -0.00206392, -0.055678505, -0.0027695482, -0.008978216, 0.023205645, 0.010584002, 0.036940057, 0.0055925045, -0.03128972, 0.008169264, 0.002143065, 0.0054644635, 0.007751248, -0.049370192, -0.017171964, 0.012460248, -0.039616507, -0.008905116, -0.029277697, 0.0316178, 0.007783805, -0.046197712, -0.02389374, 0.03949501, 0.012882567, -0.050312858, -0.0025155935, 0.05531826, -0.0060943947, 0.040836193, -0.0057800347, 0.0639973, 0.009591699, -0.05218372, -0.03645041, -0.05206777, 0.053644467, 0.071591765, 0.008294372, 0.0028174156, 0.0048404625, 0.013453085, 0.022866488, -0.06087804, 0.023474297, 0.027761765, -0.040729735, -0.009113696, 0.020109607, 0.010756393, 0.066961266, -0.03530044, -0.0013631586, -0.034647003, 0.03281657, -0.055955954, -0.043759737, -0.014830927, -0.0012740378, 0.053068876, 0.0041171, -0.009249764, 0.04119711, -0.0022221678, 0.008220726, 0.011716879, 0.04751782, -0.021161754, -0.0034890848, 0.017168297, 0.018082855, -0.054346565, 0.01130623, -0.014759945, -0.020925378, -0.011718521, -0.5058962, -0.016079627, -0.05195381, -0.065540574, -0.024114326, 0.0045832954, 0.05303542, -0.040304415, -0.001513657, 0.019103762, 0.008554532, 0.053032935, -0.00915671, -0.009092158, -0.009177251, 0.028371146, 0.028055405, -0.008145964, 0.011927662, 0.027140373, -0.04623, -0.026633251, -1.9752477E-4, 0.045192443, 0.02449006, 0.013997616, -0.06873905, 0.027910134, 0.003347047, 0.0013439717, 0.034202795, -0.015585498, -0.055015743, 1.6024683E-4, -0.015891591, -0.021741774, 0.025558911, 0.011084363, 0.014056266, -0.018982887, 0.0016998561, 0.048058353, 0.007829392, 0.0018672302, 0.041273497, -0.039120134, 3.624535E-4, -0.0011298673, -0.006326307, 0.032140832, -0.037109844, -4.1404666E-4, -0.0084530655, 0.0077904286, 0.012144728, -0.03869803, 0.047453202, 0.04121898, -0.032067478, 0.022875102, 0.07410041, -0.024542922, -0.036993448, -0.039777547, 0.0094557, -0.025156112, -0.035101883, -0.048749104, -0.0045563756, -0.006167684, -0.048193872, 0.0017396678, 0.019029584, -0.061944872, 0.050563816, -0.021848006, 0.008817201, 0.010323988, 0.020705162, 0.018577144, -0.048376583, -0.041189134, -0.0047300197, -0.00836772, -0.0052992413, -0.035920832, -0.029942693, 0.028925791, 0.030509083, 0.00738733, 0.124217756, -0.04977689, 0.023752924, 0.027065763, 0.057005685, 0.03732509, 0.069008276, -0.022444589, 0.0035944746, -0.041807327, 0.028195074, -0.011788701, -0.0034672262, -0.014074685, -0.009594197, 0.0018883395, -0.024706602, 0.015436245, 0.054175258, -0.03945695, -0.029252004, -0.006543419, -0.064558335, 0.00635337, 0.014417143, 0.013945442, -0.009091861, 5.249867E-4, 0.010337455, -0.009454559, -0.035721924, -0.022774082, -0.031336624, 0.0416093, -0.038794383, -0.008280955, 0.033273164, 0.013371025, -0.0129316645, -0.012368203, 0.022565264, -0.0012145197, 0.01841233, -0.002506566, 0.02414115, -0.047187645, -0.0046407585, 0.032652196, 0.053410284, -0.0365266, -0.0063986774, 0.023949109, 0.010821287, 0.013743939, 0.04780526, 0.008855356, -0.028712442, 0.010830425, -0.0039607813, 0.022576412, -0.009031381, -0.04623192, 0.0140510835, 0.009459673, -0.0033195931, 0.02447672, 0.025940116, 0.015182389, -0.03030254, -0.042433836, 0.043204527, -0.009033531, -0.09083154, -3.1694994E-4, 0.030156016, -0.030984623, -0.031595454, 0.002228252, -0.003698093, -0.006667667, 0.023925511, -0.045642223, -0.0054936595, -0.020487037, -0.011321221, -0.008023139, -0.0022487226, 0.016701572, -0.004573161, -0.0076336027, -0.007048531, -0.03015078, 0.03309948, 0.028124114, 0.014135684, 0.009500284, -0.0033359944, 0.017857917, 0.034960285, 0.005099243, 0.021408139, -0.0065242476, 0.03559723, 0.002711937, -0.028567772, -0.044500142, 0.025019938, 0.020869007, -0.023909464, -0.06710058, -0.04702157, -0.012781483, -0.03416069, 0.009026116, 0.016877936, -0.015858926, 0.0432861, 0.029753765, -0.016831696, -0.04155155, -0.056399744, -0.0632834, -0.030745849, -0.023681961, -0.02031578, -0.006460313, 0.009156013, -0.03944369, -0.05559119, 0.011855634, 0.0043062386, -0.026944742, -0.05057878, -0.033390008, 0.0012567446, 0.00859911, 0.031703074, -0.024424741, 0.011032831, -0.03794956, -0.0058376114, 0.050361525, 0.02664676, 0.035737876, 9.327007E-5, -0.0036208995, -0.07552407, 0.008858675, 0.06525408, -0.03309569, -0.019470563, 0.029411364, -0.023945473, -0.02741788, 0.025530888, -0.004085135, -0.023078475, -0.05026493, -0.047704235, 0.0063968995, 0.05705471, -0.039139755, -0.016409663, -0.050894372, 0.0229268, 0.024625905, -0.020794865, -0.018509613, -0.0286961, 0.02955773, -0.012118265, 0.007289678, -0.017907536, -9.589148E-5, -0.014387568, 0.01077215, -0.0057492387, -0.070152126, 0.011277187, -0.06932382, 0.0064085126, -0.002137664, 0.020172758, 0.018431762, 0.02997658, -0.035457257, -0.027747527, 0.023011072, 0.0044074785, 0.022357704, -0.011456843, -0.014637661, 0.028279554, -0.018716238, 0.03532025, 0.003035383, 0.028103184, -0.026085945, -0.012884989, 0.024874324, 0.0021957066, 0.038837254, -0.013919544, 0.021001196, -0.006413539, 0.03233318, 0.054959916, 0.002057221, -0.008223584, 0.02089053, 0.031112751, 0.06568271, 0.07437756, -0.032314405, 0.0063390816, 0.021723315, 0.009370877, -0.019755581, -0.009407542, 0.008717818, -0.012684821, -0.015996328, 0.019934947, 0.05044348, -0.03040645, -0.0076975147, 0.013472682, -0.04469578, 0.059487574, 0.0077290037, -0.0062347664, 0.017982362, 0.047718633, -0.029480672, -0.049545363, 0.019446652, -0.012957434, 0.021308606, 0.0034625032, 0.016427478, 0.062390056, 0.074961245, -0.0017664412, -0.0374053, 0.006156502, -0.023779914, 0.022087418, -0.0018362328, 0.036417086, -0.031101517, 0.03615886, 0.0011009142, -0.009626947, 0.0020367356, -0.024929306, 0.05029518, 0.01021691, 0.02706921, -0.055606462, 0.050653223, -0.020299971, 0.022907283, -0.0078015765, 0.0013674265, -0.016805433, -0.005469926, -0.010843944, 0.024753453, 0.0036051865, 0.021984477, 0.019608894, 0.056622125, 0.0168941, 5.6558E-5, -0.037705585, 0.010488043, 0.055042468, -0.012437194, 0.017340036, 0.008242167, -0.032131612, 0.046392333, -0.050994188, 0.013369047, -0.031277575, -0.057127792, 0.026656566, 0.012472042, 0.03171042, 0.0155100925, -0.014371186, -0.0074701216, -0.03548123, -0.019203192, 0.020641252, 0.037671227, -0.050689723, 0.012942378, -0.010964106, -0.009750868, -0.032187466, -0.030583298, 0.031428117, -0.030721085, -0.009199497, -0.025520792, -0.016073162, 0.03206433, 0.035993624, 0.005494608, -0.02187293, 0.026701238, -0.013911904, -0.0024700807, -0.013015862, 0.041535176, -0.032522723, 0.0139125, -0.043542273, -0.02516857, 0.0098249065, 0.018275063, 0.0026843066, 0.009207035, -0.0024260108, 0.014267937, 0.04338487, -0.006479658, 0.026931532, -0.013153546, -0.032537226, -0.012409599, 0.03284542, -0.014427827, 9.0851216E-4, 0.034384534, 0.0022898254, 0.013645849, -0.0264273, 0.04843669, -0.037393637, -0.026378367, -0.03421471, 0.023813134, -0.037445217, -0.018552892, 0.006716699, 0.033491645, 0.046465095, -0.024037533, -0.027822671, 0.017161718, -0.0103931315, 0.043290958, -0.04675785, 0.045929935, -0.07786675, -0.033439267, -0.07128675, 0.009419761, -0.0013642106, -0.022022273, -0.019086521, -0.0038238734, -7.658402E-4, -0.0077877254, 0.035752963, -0.031361237, -0.0020773965, 0.021713957], id:1, title:Dashboards in Python: 3 Advanced Examples for Dash Beginners and Everyone Else, claps:726]]
-        }
-    }
-    ```
-
-    </TabItem>
-
-    <TabItem value='bash'>
-
-    ```bash
-    # Retrieve a set of entities by their IDs
-    # Go to Zilliz Cloud console, and look for the ID of some entities
-    # Fill the IDs in the request body
-    curl --request POST \
-         --url "${PUBLIC_ENDPOINT}/v1/vector/get" \
-         --header "Authorization: Bearer ${TOKEN}" \
-         --header 'accept: application/json' \
-         --header 'content-type: application/json' \
-         --data "{
-            \"collectionName\": \"medium_articles_2020\",
-            \"id\": [442169042773492591, 442169042773492593, 442169042773492595],
-            \"outputFields\": [\"id\", \"title\"]
-          }"
-    
-    # Output
-    #
-    # {
-    #      "code": 200,
-    #      "data": [
-    #           {
-    #                "id": 442147653350117570,
-    #                "title": "Dashboards in Python: 3 Advanced Examples for Dash Beginners and Everyone Else"
-    #           },
-    #           {
-    #                "id": 442147653350117570,
-    #                "title": "How Can We Best Switch in Python?"
-    #           },
-    #           {
-    #                "id": 442147653350117570,
-    #                "title": "Maternity leave shouldn’t set women back"
-    #           }
-    #      ]
-    # }
-    ```
-
-    </TabItem>
-    </Tabs>
-
-## Delete entities{#delete-entities}
-
-If entities are outdated or no longer needed, you can delete them from a collection by their IDs. You can delete one or more entities at a time.
-
-Here are some examples of deleting entities.
-
-- Delete a single entity by its ID
-
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
-    <TabItem value='python'>
-
-    ```python
-    # Delete a single entity
-    res = client.delete(
-            collection_name=COLLECTION_NAME,
-            pks=0
-    )
-    
-    print(res)
-    
-    # Output
-    #
-    # [0]
-    ```
-
-    </TabItem>
-
-    <TabItem value='javascript'>
-
-    ```javascript
-    async function main () {
-    
-        // (Continued)
-        
-        // Delete an entity by its ID
-        res = await client.delete({
-            collection_name: collectionName,
-            ids: [0]
-        });
-        
-        console.log(res);
-    
-        // Output
-        // 
-        // {
-        //   succ_index: [],
-        //   err_index: [],
-        //   status: { error_code: 'Success', reason: '', code: 0 },
-        //   IDs: {},
-        //   acknowledged: false,
-        //   insert_cnt: '0',
-        //   delete_cnt: '1',
-        //   upsert_cnt: '0',
-        //   timestamp: '445337093833752585'
-        // }
-        // 
-    
-    }
-    ```
-
-    </TabItem>
-
-    <TabItem value='java'>
-
-    ```java
-    public class QuickStartDemo
-    {
-        public static void main( String[] args )
-        {
-            // (Continued)
-            List<String> ids = Lists.newArrayList("1");
-            // List<String> ids = Lists.newArrayList("1", "2", "3");       
-     
-            DeleteIdsParam deleteParam = DeleteIdsParam.newBuilder()
-                    .withCollectionName(collectionName)
-                    .withPrimaryIds(ids)
-                    .build();
-    
-            R<DeleteResponse> deleteRes = client.delete(deleteParam);
-    
-            if (deleteRes.getException() != null) {
-                System.err.println("Failed to delete: " + deleteRes.getException().getMessage());
-                return;
-            }
-    
-            System.out.println("Successfully deleted " + deleteRes.getData().toString() + " records");
-    
-            // Output:
-            // Successfully deleted DeleteResponse(deleteIds=[]) records }
-    }
-    ```
-
-    </TabItem>
-
-    <TabItem value='bash'>
-
-    ```bash
-    # Deletes an entity
-    # Go to Zilliz Cloud console, and look for the ID of an entity
-    # Fill the ID in the request body
-    curl --request POST \
-         --url "${PUBLIC_ENDPOINT}/v1/vector/delete" \
-         --header "Authorization: Bearer ${API_KEY}" \
-         --header 'accept: application/json' \
-         --header 'content-type: application/json' \
-         --data "{
-            \"collectionName\": \"medium_articles_2020\",
-            \"id\": 442169042773492589
-          }"
-    
-    # Output
-    #
-    # {
-    #         "code": 200,
-    #         "data": {}
-    # }
-    ```
-
-    </TabItem>
-    </Tabs>
-
-- Delete multiple entities in a batch by their IDs
-
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
-    <TabItem value='python'>
-
-    ```python
-    # Delete a set of entities in a batch
-    res = client.delete(
-            collection_name=COLLECTION_NAME,
-            pks=[1, 2, 3]
-    )
-    
-    print(res)
-    
-    # Output
-    #
-    # [1, 2, 3]
-    ```
-
-    </TabItem>
-
-    <TabItem value='javascript'>
-
-    ```javascript
-    async function main () {
-    
-        // (Continued)
-        
-        // Delete a set of entities by their IDs
-        res = await client.delete({
-            collection_name: collectionName,
-            ids: [1, 2, 3]
-        });
-        
-        console.log(res);
-    
-        // Output
-        // 
-        // {
-        //   succ_index: [],
-        //   err_index: [],
-        //   status: { error_code: 'Success', reason: '', code: 0 },
-        //   IDs: {},
-        //   acknowledged: false,
-        //   insert_cnt: '0',
-        //   delete_cnt: '3',
-        //   upsert_cnt: '0',
-        //   timestamp: '445337093833752590'
-        // }
-        // 
-    
-    }
-    ```
-
-    </TabItem>
-
-    <TabItem value='java'>
-
-    ```java
-    public class QuickStartDemo
-    {
-        public static void main( String[] args )
-        {
-            // (Continued)
-            // List<String> ids = Lists.newArrayList("1");
-            List<String> ids = Lists.newArrayList("1", "2", "3");
-            
-            DeleteIdsParam deleteParam = DeleteIdsParam.newBuilder()
-                    .withCollectionName(collectionName)
-                    .withPrimaryIds(ids)
-                    .build();
-    
-            R<DeleteResponse> deleteRes = client.delete(deleteParam);
-    
-            if (deleteRes.getException() != null) {
-                System.err.println("Failed to delete: " + deleteRes.getException().getMessage());
-                return;
-            }
-    
-            System.out.println("Successfully deleted " + deleteRes.getData().toString() + " records");
-    
-            // Output:
-            // Successfully deleted DeleteResponse(deleteIds=[]) records }
-    }
-    ```
-
-    </TabItem>
-
-    <TabItem value='bash'>
-
-    ```bash
-    # Delete a set of entities in a batch
-    # Go to Zilliz Cloud console, and look for the ID of some entities
-    # Fill the IDs in the request body
-    curl --request POST \
-         --url "${PUBLIC_ENDPOINT}/v1/vector/delete" \
-         --header "Authorization: Bearer ${TOKEN}" \
-         --header 'accept: application/json' \
-         --header 'content-type: application/json' \
-         --data "{
-            \"collectionName\": \"medium_articles_2020\",
-            \"id\": [442169042773492591, 442169042773492593, 442169042773492595]
-          }"
-    
-    # Output
-    #
-    # {
-    #         "code": 200,
-    #         "data": {}
-    # }
-    ```
-
-    </TabItem>
-    </Tabs>
-
-## Drop a collection{#drop-a-collection}
-
-If a collection is no longer used, you can drop it from a cluster by collection name.
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Bash","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-# Drop a collection
-res = client.drop_collection(
-        collection_name=COLLECTION_NAME
-)
-
-print(res)
-
-# Output
-#
-# None
+// Output:
+// Drop Collection Status: 0
 ```
 
 </TabItem>
@@ -2234,51 +2918,45 @@ print(res)
 <TabItem value='javascript'>
 
 ```javascript
-async function main () {
+// 15. Drop the collection
+res = await client.dropCollection({
+    collection_name: "quick_setup"
+})
 
-    // (Continued)
-    
-    // Drop collection
-    res = await client.dropCollection({
-        collection_name: collectionName
-    });
-    
-    console.log(res);
+console.log(res)
 
-    // Output
-    // 
-    // { error_code: 'Success', reason: '', code: 0 }
-    // 
-
-}
+// Output
+// 
+// {
+//   error_code: 'Success',
+//   reason: '',
+//   code: 0,
+//   retriable: false,
+//   detail: ''
+// }
+// 
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='go'>
 
-```java
-public class QuickStartDemo
-{
-    public static void main( String[] args )
-    {
-        // (Continued)
-        DropCollectionParam dropCollectionParam = DropCollectionParam.newBuilder()
-            .withCollectionName(collectionName)
-            .build();
+```go
+// 14. Drop the collection
+err = conn.DropCollection(
+    context.Background(), // ctx
+    collectionName,       // collection name
+)
 
-        R<RpcStatus> dropCollection = client.dropCollection(dropCollectionParam);
-
-        if (dropCollection.getException() != null) {
-            System.err.println("Failed to drop collection: " + dropCollection.getException().getMessage());
-            return;            
-        }
-
-        System.out.println("Successfully dropped collection " + collectionName);
-
-        // Output:
-        // Successfully dropped collection medium_articles
+if err != nil {
+    log.Fatal("Failed to drop the collection:", err.Error())
 }
+
+fmt.Println("Collection dropped")
+
+// Output:
+//
+// Collection dropped
 ```
 
 </TabItem>
@@ -2286,39 +2964,24 @@ public class QuickStartDemo
 <TabItem value='bash'>
 
 ```bash
-# Drop a collection
-# Replace uri and API key with your own
 curl --request POST \
-     --url "${PUBLIC_ENDPOINT}/v1/vector/collections/drop" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header 'accept: application/json' \
-     --header 'content-type: application/json' \
-     --data "{
-        \"collectionName\": \"medium_articles_2020\"
-      }"
-
-# Output
-#
-# {
-#         "code": 200,
-#         "data": {}
-# }
+    --url "${CLUSTER_ENDPOINT}/v1/vector/collections/drop" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "accept: application/json" \
+    --header "content-type: application/json" \
+    --data-raw '{
+        "collectionName": "quick_setup"
+    }'
 ```
 
 </TabItem>
 </Tabs>
 
-## Related topics{#related-topics}
+## Recaps{#recaps}
 
-- [Register with Zilliz Cloud](./register-with-zilliz-cloud)
+- There are two ways to create a collection. The first is the quick setup, which only requires you to provide a name and the dimension of the vector field. The second is the customized setup, which allows you to customize almost every aspect of the collection.
 
-- [Example Dataset](./example-dataset)
+- The data insertion process may take some time to complete. It is recommended to wait a few seconds after inserting data before conducting similarity searches.
 
-- [Connect to Cluster](./connect-to-cluster)
-
-- [Drop Collection](./drop-collection)
-
-- [Search and Query](./search-query-and-get)
-
-- [ANN Search Explained](./ann-search-explained)
+- Filter expressions can be used in both search and query requests. However, they are mandatory for query requests.
 
