@@ -5,7 +5,7 @@
   "node_token": "DbPIw4jLOiEabCk5uptc6EZ1nbf",
   "node_type": "origin",
   "obj_create_time": "1702438447",
-  "obj_edit_time": "1704956160",
+  "obj_edit_time": "1706770030",
   "obj_token": "O4OwdGeQbol46kxxjCEchNljnxh",
   "obj_type": "docx",
   "origin_node_token": "DbPIw4jLOiEabCk5uptc6EZ1nbf",
@@ -46,18 +46,17 @@
           "T2BYdg2XeoKUj2x9rUxcj6ffn2b",
           "BSyBdRbjBoU29lx1Deacls5Pn9g",
           "JeLHdbfjno7ZN1xSfkbcEIBqnTg",
-          "EWdadyMjAo3pNHx22XZc9o5NnWb",
-          "Q8gKd4YXEoVhtNxvO4wcunqDn8b",
+          "A9X0dchjwoTMtGxVXI7cI8aCnRb",
+          "KguTdSoNEoVQqUx992ScalR7nMb",
+          "Lm55dM4q7o1NKmxlTMDc1HGpnWb",
+          "CzzOdsAguovQLLxJ422cOja1n5b",
+          "AvagdccVSo8ZKLxEwr2ctJqAntf",
           "G1eTdTaiJouzYZx48C3cARhfnBg",
-          "QSHkdcWfsobGqIxLFnAc0dTNnDe",
-          "NqmLd4dgDo6gzJxUMj6c1dsrnne",
-          "CIL6dfXteoZnXnxxmLZcknJbnyg",
-          "LuqgdNVNyol1IJxHz33cHs6jnjv",
-          "PW8ddYQXCoAxkvxjvJHc236snsd",
           "GzORdsnltoo1yMxWqoxcK4xwnUd",
           "OZ02dfZTWo3SPwxM8KncCDxXn8g",
-          "PAOhdKCg4oX9wdxSIo2c4vYsnUb",
+          "M768d3e8vocTLsxhNOuc6RiNnlh",
           "PmUpdV73Ro7DLWxFy46cHYAEnQd",
+          "PAOhdKCg4oX9wdxSIo2c4vYsnUb",
           "B7WNd7wkFoHp52xFpxxcqkrHn8c",
           "doxcn3qbr7qa56tOc82XeoRFndf",
           "JI7OdrzmIoxfujx4ajfcuxgWnFc",
@@ -1510,7 +1509,7 @@
             },
             {
               "text_run": {
-                "content": ", VPS, and latency.",
+                "content": ", VPS, latency, and request .",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1534,7 +1533,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "QPS",
+                "content": "QPS/VPS (Read)",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -1546,31 +1545,7 @@
             },
             {
               "text_run": {
-                "content": ": The count of search, ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "query",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ", bulk insert, and upsert requests per second.",
+                "content": ": The count of search and query requests per second. Vector search operations per second (VPS) is not available for query requests because query operations does not involve vectors.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1589,18 +1564,15 @@
         "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
       },
       {
-        "block_id": "EWdadyMjAo3pNHx22XZc9o5NnWb",
+        "block_id": "A9X0dchjwoTMtGxVXI7cI8aCnRb",
         "block_type": 12,
         "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "VPS",
+                "content": "QPS/VPS (Write)",
                 "text_element_style": {
                   "bold": true,
-                  "comment_ids": [
-                    "7322674804673576963"
-                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1610,79 +1582,7 @@
             },
             {
               "text_run": {
-                "content": ": The count of vector search operations per second (VPS) in multi-vector operations. Calculation formula: VPS = ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "QPS",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " * ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "N",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " (where ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "N",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " indicates the number of vectors involved in multi-vector operations).",
+                "content": ": The count of insert and upsert requests per second.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1698,19 +1598,16 @@
             "folded": false
           }
         },
-        "comment_ids": [
-          "7322674804673576963"
-        ],
         "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
       },
       {
-        "block_id": "Q8gKd4YXEoVhtNxvO4wcunqDn8b",
+        "block_id": "KguTdSoNEoVQqUx992ScalR7nMb",
         "block_type": 12,
         "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "Latency",
+                "content": "Latency (Read)",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -1722,7 +1619,118 @@
             },
             {
               "text_run": {
-                "content": ": The time elapsed between a client sending a request to a server and the client receiving a response. It includes an average latency and a P99 latency.",
+                "content": ": The time elapsed between a client sending a read request (search and query request) to a server and the client receiving a response. It includes an average latency and a P99 latency.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "Lm55dM4q7o1NKmxlTMDc1HGpnWb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Latency (Write)",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The time elapsed between a client sending a write request (insert and upsert request) to a server and the client receiving a response. It includes an average latency and a P99 latency.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "CzzOdsAguovQLLxJ422cOja1n5b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Failure Rate (Read)",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The percentage of timeout read requests in all requests per second.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "AvagdccVSo8ZKLxEwr2ctJqAntf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Failure Rate (Write)",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The percentage of timeout write requests in all requests per second.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1752,196 +1760,13 @@
         "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
       },
       {
-        "block_id": "QSHkdcWfsobGqIxLFnAc0dTNnDe",
-        "block_type": 5,
-        "heading3": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Request Rate",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
-      },
-      {
-        "block_id": "NqmLd4dgDo6gzJxUMj6c1dsrnne",
-        "block_type": 2,
-        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "To view metric charts for requests, locate the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Request Rate",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " section on the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Metrics",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " tab. These charts provide a snapshot of the cluster's request performance by showing the proportion of successful and failed requests.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "CIL6dfXteoZnXnxxmLZcknJbnyg",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Request Success",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": The percentage of successful requests in all requests per second.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
-      },
-      {
-        "block_id": "LuqgdNVNyol1IJxHz33cHs6jnjv",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Request Fail",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ": The percentage of timeout requests in all requests per second.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
-      },
-      {
-        "block_id": "PW8ddYQXCoAxkvxjvJHc236snsd",
-        "block_type": 26,
-        "iframe": {
-          "component": {
-            "iframe_type": 8,
-            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D28273-1173%26mode%3Ddesign%26t%3DNfgsCH1TmWr8BJZb-4"
-          }
-        },
-        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
-      },
-      {
         "block_id": "GzORdsnltoo1yMxWqoxcK4xwnUd",
         "block_type": 5,
         "heading3": {
           "elements": [
             {
               "text_run": {
-                "content": "Entity",
+                "content": "Data",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1967,7 +1792,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "To view metric charts for entities, locate the ",
+                "content": "To view metric charts for business data, locate the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1979,7 +1804,7 @@
             },
             {
               "text_run": {
-                "content": "Entity",
+                "content": "Data",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -2015,7 +1840,7 @@
             },
             {
               "text_run": {
-                "content": " tab. These charts provide a snapshot of the cluster's entity data by indicating the current entity count and the rate at which new entity data is being inserted.",
+                "content": " tab. These charts provide a snapshot of the cluster's entity data by indicating the number of collections, entities, and loaded entities in the cluster.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2033,13 +1858,13 @@
         }
       },
       {
-        "block_id": "PAOhdKCg4oX9wdxSIo2c4vYsnUb",
+        "block_id": "M768d3e8vocTLsxhNOuc6RiNnlh",
         "block_type": 12,
         "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "Loaded Entities",
+                "content": "Collection Count",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -2051,7 +1876,7 @@
             },
             {
               "text_run": {
-                "content": ": The count of entities loaded in the cluster.",
+                "content": ": The count of collections created in the cluster.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2076,7 +1901,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Entity Insert Rate",
+                "content": "Entity Count",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -2088,7 +1913,44 @@
             },
             {
               "text_run": {
-                "content": ": The count of entities inserted per second.",
+                "content": ": The count of entities inserted into the cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
+      },
+      {
+        "block_id": "PAOhdKCg4oX9wdxSIo2c4vYsnUb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Loaded Entities",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": The count of entities loaded in the cluster.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2227,6 +2089,6 @@
         "parent_id": "O4OwdGeQbol46kxxjCEchNljnxh"
       }
     ],
-    "counts": 56
+    "counts": 55
   }
 }
