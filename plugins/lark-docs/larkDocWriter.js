@@ -696,7 +696,7 @@ class larkDocWriter {
                     return elements;
             }
         } else {
-            var comment_mark = lang === 'Python' ? '# ' : '// '
+            var comment_mark = lang === 'Python' || lang === 'Bash' ? '# ' : '// '
             var half_1 = elements.slice(0, divider)
             var half_1_label = half_1[0].replace(comment_mark, '') 
             var half_2 = elements.slice(divider)
