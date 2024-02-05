@@ -13,6 +13,8 @@ import Admonition from '@theme/Admonition';
 
 Topics related to role-based access control (RBAC) on your Zilliz Cloud clusters.
 
+## Contents{#contents}
+
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

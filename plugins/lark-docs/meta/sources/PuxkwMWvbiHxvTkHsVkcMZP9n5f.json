@@ -5,7 +5,7 @@
   "node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
   "node_type": "origin",
   "obj_create_time": "1705979316",
-  "obj_edit_time": "1706856214",
+  "obj_edit_time": "1707104799",
   "obj_token": "NIIldYshaoVw2bxiWjrcTt14nac",
   "obj_type": "docx",
   "origin_node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
@@ -3074,7 +3074,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "Maximum Number (Per Project)",
+                "content": "Max.",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Number (Per Project)",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3841,7 +3853,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "20-8,191",
+                "content": "250-8,191",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3909,7 +3921,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "20-8,191",
+                "content": "250-8,191",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4059,7 +4071,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Max Number",
+                "content": "Max. Number",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -4393,7 +4405,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "max_total_tokens/ingestion",
+                "content": "Max. Total Tokens/Ingestion",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -6193,7 +6205,7 @@
             },
             {
               "text_run": {
-                "content": "You can create up to 2 serverless clusters.",
+                "content": "You can create up to 2 serverless collections.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

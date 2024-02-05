@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 You can run the created pipelines to convert your unstructured data into embedding vectors(with or without metadata field), conduct a text semantic search, or delete unnecessary documents.
 
-
+## Contents{#contents}
 
 import DocCardList from '@theme/DocCardList';
 

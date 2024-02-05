@@ -83,8 +83,8 @@ A collection will be created automatically as part of Ingestion pipeline creatio
             |  zilliz/bge-base-zh-v1.5       |  20-500 tokens                 |
             |  voyageai/voyage-2             |  20-3,000   tokens             |
             |  voyageai/voyage-code-2        |  20-12,000 tokens              |
-            |  openai/text-embedding-3-small |  20-8,191 tokens               |
-            |  openai/text-embedding-3-large |  20-8,191 tokens               |
+            |  openai/text-embedding-3-small |  250-8,191 tokens              |
+            |  openai/text-embedding-3-large |  250-8,191 tokens              |
 
             ![customize-chunk-size](/img/customize-chunk-size.png)
 
@@ -197,8 +197,8 @@ The parameters in the above code are described as follows:
         |  zilliz/bge-base-zh-v1.5       |  20-500 tokens                 |
         |  voyageai/voyage-2             |  20-3,000   tokens             |
         |  voyageai/voyage-code-2        |  20-12,000 tokens              |
-        |  openai/text-embedding-3-small |  20-8,191 tokens               |
-        |  openai/text-embedding-3-large |  20-8,191 tokens               |
+        |  openai/text-embedding-3-small |  250-8,191 tokens              |
+        |  openai/text-embedding-3-large |  250-8,191 tokens              |
 
     - `outputField`: The name of the output field which will be used in the collection schema. Currently, the output field name must be identical to the input field name. *(This parameter is only used in the `PRESERVE` function.)*
 

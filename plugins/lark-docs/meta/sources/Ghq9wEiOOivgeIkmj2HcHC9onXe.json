@@ -5,7 +5,7 @@
   "node_token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
   "node_type": "origin",
   "obj_create_time": "1689055977",
-  "obj_edit_time": "1703237363",
+  "obj_edit_time": "1707042647",
   "obj_token": "EvTZdgR6CoVhAQxSUK9cEdfsnOc",
   "obj_type": "docx",
   "origin_node_token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
@@ -1229,8 +1229,8 @@
             "column_width": [
               189,
               122,
-              111,
-              111,
+              216,
+              235,
               111
             ],
             "header_row": true,
@@ -2296,20 +2296,59 @@
         "block_id": "D5c6dgILioLcjmxrtcbckGjsnvd",
         "block_type": 32,
         "children": [
-          "GQNXdorwGovngtxtUwUcOxVlnOd"
+          "GQNXdorwGovngtxtUwUcOxVlnOd",
+          "WV9zdFsQMo3qdExbd4sc5gWgnrf"
         ],
         "parent_id": "OaBXdRpUQosVUbxlw3gcw2mjnV6",
         "table_cell": {}
       },
       {
         "block_id": "GQNXdorwGovngtxtUwUcOxVlnOd",
-        "block_type": 2,
-        "parent_id": "D5c6dgILioLcjmxrtcbckGjsnvd",
-        "text": {
+        "block_type": 12,
+        "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "Up to 24 CUs (Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24)",
+                "content": "Up to 24 CUs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". (You can directly create cluster of 24 CUs or less on the web UI. For larger CU sizes, please ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "contact sales",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliz.com%2Fcontact-sales"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2324,26 +2363,127 @@
             "align": 1,
             "folded": false
           }
-        }
+        },
+        "parent_id": "D5c6dgILioLcjmxrtcbckGjsnvd"
+      },
+      {
+        "block_id": "WV9zdFsQMo3qdExbd4sc5gWgnrf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "I",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ncrements: 1, 2, 4, 6, 8, 12, 16, 20, 24",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "D5c6dgILioLcjmxrtcbckGjsnvd"
       },
       {
         "block_id": "OKczdTzpwoXBZPxfpdrc306MnKd",
         "block_type": 32,
         "children": [
-          "XAGtdM0rnoz4rtxsmLNcLujLnm4"
+          "XAGtdM0rnoz4rtxsmLNcLujLnm4",
+          "Ze9WdeDFoo0uZsxs3gbcAd8YnAH"
         ],
         "parent_id": "OaBXdRpUQosVUbxlw3gcw2mjnV6",
         "table_cell": {}
       },
       {
         "block_id": "XAGtdM0rnoz4rtxsmLNcLujLnm4",
-        "block_type": 2,
-        "parent_id": "OKczdTzpwoXBZPxfpdrc306MnKd",
-        "text": {
+        "block_type": 12,
+        "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "Up to 32 CUs (Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32)",
+                "content": "Up to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "256",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " CUs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".(You can directly create cluster of 32 CUs or less on the web UI. For larger CU sizes, please ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "contact sales",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliz.com%2Fcontact-sales"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2358,7 +2498,57 @@
             "align": 1,
             "folded": false
           }
-        }
+        },
+        "parent_id": "OKczdTzpwoXBZPxfpdrc306MnKd"
+      },
+      {
+        "block_id": "Ze9WdeDFoo0uZsxs3gbcAd8YnAH",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",...,256 ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(Notes: When CU size is greater than 8, the increment increase becomes 4 CUs)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OKczdTzpwoXBZPxfpdrc306MnKd"
       },
       {
         "block_id": "LSLQd10QKoqKz5xc2OvcU78Fnje",
@@ -4061,6 +4251,6 @@
         "parent_id": "EvTZdgR6CoVhAQxSUK9cEdfsnOc"
       }
     ],
-    "counts": 159
+    "counts": 161
   }
 }

@@ -13,13 +13,15 @@ import Admonition from '@theme/Admonition';
 
 This guide details the available ways for you to subscribe to our services on Zilliz Cloud with relevant notes on invoice management
 
+## Overview{#overview}
+
 <Admonition type="info" icon="📘" title="Notes">
 
 In order to manage payment and billing, you need to be an **Organization Owner**.
 
 </Admonition>
 
-## Payment options{#payment-options}
+### Payment options{#payment-options}
 
 |  **Payment method**           |  **Description**                                                                                                                                                |
 | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -35,7 +37,7 @@ Credits and Advance Pay can be combined with either a credit card or a Marketpla
 
 </Admonition>
 
-## Payment method priority{#payment-method-priority}
+### Payment method priority{#payment-method-priority}
 
 If multiple payment methods are in use, their priority is as follows:
 
@@ -53,11 +55,11 @@ If multiple payment methods are in use, their priority is as follows:
 
 - Finally, the remaining $200 is charged to the linked credit card.
 
-## Switching payment methods{#switching-payment-methods}
+### Switching payment methods{#switching-payment-methods}
 
 Zilliz Cloud offers flexibility in switching between different payment methods:
 
-### From credit card to Marketplace subscription{#from-credit-card-to-marketplace-subscription}
+#### From credit card to Marketplace subscription{#from-credit-card-to-marketplace-subscription}
 
 - Subscribe directly on the [AWS](./subscribe-on-aws-marketplace) or [GCP](./subscribe-on-gcp-marketplace) Marketplace.
 
@@ -65,19 +67,19 @@ Zilliz Cloud offers flexibility in switching between different payment methods:
 
 - Successful Marketplace subscription automatically updates the payment method.
 
-### From Marketplace subscription to credit card{#from-marketplace-subscription-to-credit-card}
+#### From Marketplace subscription to credit card{#from-marketplace-subscription-to-credit-card}
 
 - Unsubscribe manually from the original [AWS](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription) or [GCP](./subscribe-on-gcp-marketplace#cancel-gcp-marketplace-subscription) Marketplace.
 
 - [Add your credit card](./subscribe-by-adding-credit-card) on the Zilliz Cloud web console.
 
-### Between Marketplace subscriptions{#between-marketplace-subscriptions}
+#### Between Marketplace subscriptions{#between-marketplace-subscriptions}
 
 - Unsubscribe from the current Marketplace.
 
 - Resubscribe using the new [AWS](./subscribe-on-aws-marketplace) or [GCP](./subscribe-on-gcp-marketplace) Marketplace account.
 
-
+## Contents{#contents}
 
 import DocCardList from '@theme/DocCardList';
 

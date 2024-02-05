@@ -69,7 +69,7 @@ To view metric charts for resource usage, locate the **Resources** section on th
 
 - **Storage Use**: Shows total persistent storage consumed, calculated in GB/s over a selected period.
 
-![view_metric_charts_resources](/byoc/view_metric_charts_resources.png)
+![byob_view_metric_charts_resources](/byoc/byob_view_metric_charts_resources.png)
 
 ### Performance{#performance}
 
@@ -87,7 +87,7 @@ To view metric charts for performance, locate the **Performance** section on the
 
 - **Request Failure Rate (Write)**: The percentage of timeout write requests in all requests per second.
 
-![view_metric_charts_performance](/byoc/view_metric_charts_performance.png)
+![byoc_view_metric_charts_performance](/byoc/byoc_view_metric_charts_performance.png)
 
 ### Data{#data}
 
@@ -99,7 +99,7 @@ To view metric charts for business data, locate the **Data** section on the **Me
 
 - **Loaded Entities**: The count of entities loaded in the cluster.
 
-![view_metric_charts_entity](/byoc/view_metric_charts_entity.png)
+![byoc_view_metric_charts_entity](/byoc/byoc_view_metric_charts_entity.png)
 
 ## Related topics{#related-topics}
 
