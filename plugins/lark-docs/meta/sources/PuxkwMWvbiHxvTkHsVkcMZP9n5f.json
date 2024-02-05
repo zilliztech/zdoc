@@ -5,7 +5,7 @@
   "node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
   "node_type": "origin",
   "obj_create_time": "1705979316",
-  "obj_edit_time": "1707104799",
+  "obj_edit_time": "1707126186",
   "obj_token": "NIIldYshaoVw2bxiWjrcTt14nac",
   "obj_type": "docx",
   "origin_node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
@@ -30,6 +30,7 @@
           "N5tHdBrE7opgdUxbTTjcimxFnoC",
           "Em8BdOkVQorboKxgTnGcyYg9nEg",
           "JJA2dke09oflMfxhHSzcv8gHnRf",
+          "Ci0Ud28FZo6EnRx9S20cww9lnHh",
           "Gc5PdTe2uotjcPxxt44ckIApn5g",
           "HiXpd49EYoUuO2xqZGdc24nTnfN",
           "VlhCd1DVCoeTb6xwcascOL71nIc",
@@ -59,6 +60,7 @@
           "LCY6d9mlloJt4CxPOyJczwqfnDd",
           "LGdDdw0xKol0NGxaDaucB8Dxnqg",
           "FaRydxNTroqQucxeKBtcwKKvnsg",
+          "VuVddsosToSQZlxWbJSctaZhnqc",
           "Kkckd0xPooeWTrxP0dycIOD1nge",
           "Y1mydhJ2KoqEn9xGxN5cupFtnkc",
           "E5yxdHM16okh57xV3WKcTJsYn0f",
@@ -399,7 +401,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Max number ",
+                "content": "Max number",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -1076,7 +1078,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The maximum number of clusters and CUs varies with your payment method and subscription plan.",
+                "content": "The maximum number of clusters and CUs varies with your payment method and subscription plan. The following focuses on dedicated clusters.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1117,456 +1119,9 @@
           }
         },
         "children": [
-          "DTWhdYvYXo1tKmxIcrjcuwcgnXe",
           "EvF3dnmPHovXrgx9h4DcNjx2ntb"
         ],
         "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac"
-      },
-      {
-        "block_id": "DTWhdYvYXo1tKmxIcrjcuwcgnXe",
-        "block_type": 31,
-        "children": [
-          "OfFcdG7npoL7oOxcYvLcdyGxn8d",
-          "QjcEdqVXroVTzVxjO6Kc12uWnrb",
-          "JsPSdvrLhoLd1TxMw8DcY8n2nFc",
-          "Y55IdcfMvo7B73xWMLmcqrtrn9g",
-          "BQIDdJ7jgoyZIrxIG9icrxslnrh",
-          "El1CdaABOo0LctxBeX0cv5jQnqd",
-          "CojCdUoEtoXHxXxNlsEc0X3rn19",
-          "WEYadTEE9oDoiexWXAIc0xVVntd",
-          "BWpTdedM4oNoV9xZhstccE1GnQf"
-        ],
-        "parent_id": "Em8BdOkVQorboKxgTnGcyYg9nEg",
-        "table": {
-          "cells": [
-            "OfFcdG7npoL7oOxcYvLcdyGxn8d",
-            "QjcEdqVXroVTzVxjO6Kc12uWnrb",
-            "JsPSdvrLhoLd1TxMw8DcY8n2nFc",
-            "Y55IdcfMvo7B73xWMLmcqrtrn9g",
-            "BQIDdJ7jgoyZIrxIG9icrxslnrh",
-            "El1CdaABOo0LctxBeX0cv5jQnqd",
-            "CojCdUoEtoXHxXxNlsEc0X3rn19",
-            "WEYadTEE9oDoiexWXAIc0xVVntd",
-            "BWpTdedM4oNoV9xZhstccE1GnQf"
-          ],
-          "property": {
-            "column_size": 3,
-            "column_width": [
-              173,
-              106,
-              421
-            ],
-            "merge_info": [
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              }
-            ],
-            "row_size": 3
-          }
-        }
-      },
-      {
-        "block_id": "OfFcdG7npoL7oOxcYvLcdyGxn8d",
-        "block_type": 32,
-        "children": [
-          "E4N9dI8gboHhxGx8dMrcO16hnOb"
-        ],
-        "parent_id": "DTWhdYvYXo1tKmxIcrjcuwcgnXe",
-        "table_cell": {}
-      },
-      {
-        "block_id": "E4N9dI8gboHhxGx8dMrcO16hnOb",
-        "block_type": 2,
-        "parent_id": "OfFcdG7npoL7oOxcYvLcdyGxn8d",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Cluster Type",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "QjcEdqVXroVTzVxjO6Kc12uWnrb",
-        "block_type": 32,
-        "children": [
-          "T3zWd7ajyoVH43xLzxFclAMcnGc"
-        ],
-        "parent_id": "DTWhdYvYXo1tKmxIcrjcuwcgnXe",
-        "table_cell": {}
-      },
-      {
-        "block_id": "T3zWd7ajyoVH43xLzxFclAMcnGc",
-        "block_type": 2,
-        "parent_id": "QjcEdqVXroVTzVxjO6Kc12uWnrb",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Max Number",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "JsPSdvrLhoLd1TxMw8DcY8n2nFc",
-        "block_type": 32,
-        "children": [
-          "OtHgd8pzuoAljkx3sWEcznMwnxb"
-        ],
-        "parent_id": "DTWhdYvYXo1tKmxIcrjcuwcgnXe",
-        "table_cell": {}
-      },
-      {
-        "block_id": "OtHgd8pzuoAljkx3sWEcznMwnxb",
-        "block_type": 2,
-        "parent_id": "JsPSdvrLhoLd1TxMw8DcY8n2nFc",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Remarks",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Y55IdcfMvo7B73xWMLmcqrtrn9g",
-        "block_type": 32,
-        "children": [
-          "ST3kdtqriofvgFxpSA5cGS2Cnvc"
-        ],
-        "parent_id": "DTWhdYvYXo1tKmxIcrjcuwcgnXe",
-        "table_cell": {}
-      },
-      {
-        "block_id": "ST3kdtqriofvgFxpSA5cGS2Cnvc",
-        "block_type": 2,
-        "parent_id": "Y55IdcfMvo7B73xWMLmcqrtrn9g",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Serverless",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "BQIDdJ7jgoyZIrxIG9icrxslnrh",
-        "block_type": 32,
-        "children": [
-          "XT7WddoNroqVKVxQWpxcuWAVnTc",
-          "NUPhdAh8Ioh9aXxIkPwcwx0fnnd"
-        ],
-        "parent_id": "DTWhdYvYXo1tKmxIcrjcuwcgnXe",
-        "table_cell": {}
-      },
-      {
-        "block_id": "XT7WddoNroqVKVxQWpxcuWAVnTc",
-        "block_type": 2,
-        "parent_id": "BQIDdJ7jgoyZIrxIG9icrxslnrh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "1",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "NUPhdAh8Ioh9aXxIkPwcwx0fnnd",
-        "block_type": 2,
-        "parent_id": "BQIDdJ7jgoyZIrxIG9icrxslnrh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "El1CdaABOo0LctxBeX0cv5jQnqd",
-        "block_type": 32,
-        "children": [
-          "JH36d3l4Xoxq09xzeb9cnOLGnQh",
-          "EQhJdE9vAo2QtexwMuhc0KH7nIf"
-        ],
-        "parent_id": "DTWhdYvYXo1tKmxIcrjcuwcgnXe",
-        "table_cell": {}
-      },
-      {
-        "block_id": "JH36d3l4Xoxq09xzeb9cnOLGnQh",
-        "block_type": 2,
-        "parent_id": "El1CdaABOo0LctxBeX0cv5jQnqd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Only one serverless cluster is allowed. ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "EQhJdE9vAo2QtexwMuhc0KH7nIf",
-        "block_type": 2,
-        "parent_id": "El1CdaABOo0LctxBeX0cv5jQnqd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "To create a new serverless cluster, please drop your existing one first.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "CojCdUoEtoXHxXxNlsEc0X3rn19",
-        "block_type": 32,
-        "children": [
-          "TmyrdBHKZoWivKxSZCjc7gagnUd"
-        ],
-        "parent_id": "DTWhdYvYXo1tKmxIcrjcuwcgnXe",
-        "table_cell": {}
-      },
-      {
-        "block_id": "TmyrdBHKZoWivKxSZCjc7gagnUd",
-        "block_type": 2,
-        "comment_ids": [
-          "7329809592832622620"
-        ],
-        "parent_id": "CojCdUoEtoXHxXxNlsEc0X3rn19",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Dedicated ",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7329809592832622620"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "WEYadTEE9oDoiexWXAIc0xVVntd",
-        "block_type": 32,
-        "children": [
-          "It4YdwKTuoiF5AxaHK6cWSwYn0g"
-        ],
-        "parent_id": "DTWhdYvYXo1tKmxIcrjcuwcgnXe",
-        "table_cell": {}
-      },
-      {
-        "block_id": "It4YdwKTuoiF5AxaHK6cWSwYn0g",
-        "block_type": 2,
-        "comment_ids": [
-          "7329809592832622620"
-        ],
-        "parent_id": "WEYadTEE9oDoiexWXAIc0xVVntd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "N/A",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7329809592832622620"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "BWpTdedM4oNoV9xZhstccE1GnQf",
-        "block_type": 32,
-        "children": [
-          "EqUtd3M7FoHKhHxzt2jcH0TJnPf"
-        ],
-        "parent_id": "DTWhdYvYXo1tKmxIcrjcuwcgnXe",
-        "table_cell": {}
-      },
-      {
-        "block_id": "EqUtd3M7FoHKhHxzt2jcH0TJnPf",
-        "block_type": 2,
-        "parent_id": "BWpTdedM4oNoV9xZhstccE1GnQf",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
       },
       {
         "block_id": "EvF3dnmPHovXrgx9h4DcNjx2ntb",
@@ -1695,7 +1250,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Limit",
+                "content": "Max number",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -2032,418 +1587,9 @@
           }
         },
         "children": [
-          "Z7DJdo8MioCnQXxmAzxcpSVnntb",
           "OThsd4ktyoJrLqx1QlZcAAOxnmd"
         ],
         "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac"
-      },
-      {
-        "block_id": "Z7DJdo8MioCnQXxmAzxcpSVnntb",
-        "block_type": 31,
-        "children": [
-          "ECtBdJALCoknV2xcbc3c86trnlc",
-          "D0QDdLWaPod3dMx6tavcEfBJnHh",
-          "WTr6dYVdJoBvbxxwtYCcR89Mn0f",
-          "JMt9d1UGnoedtuxRu1JcAXnBnjg",
-          "O93jdy798ovnjcxMSEecOdnGnVh",
-          "Bk8advAsmojEeXxmnGRcfUWXn9e",
-          "FvQjdq7Yyo8uEMx9mkmczbP9nTb",
-          "WIE7d46S4onPrxx9chAcMAkynxe",
-          "LZWkdeKLUoo7WpxaSsWc9UY5nyf"
-        ],
-        "parent_id": "JJA2dke09oflMfxhHSzcv8gHnRf",
-        "table": {
-          "cells": [
-            "ECtBdJALCoknV2xcbc3c86trnlc",
-            "D0QDdLWaPod3dMx6tavcEfBJnHh",
-            "WTr6dYVdJoBvbxxwtYCcR89Mn0f",
-            "JMt9d1UGnoedtuxRu1JcAXnBnjg",
-            "O93jdy798ovnjcxMSEecOdnGnVh",
-            "Bk8advAsmojEeXxmnGRcfUWXn9e",
-            "FvQjdq7Yyo8uEMx9mkmczbP9nTb",
-            "WIE7d46S4onPrxx9chAcMAkynxe",
-            "LZWkdeKLUoo7WpxaSsWc9UY5nyf"
-          ],
-          "property": {
-            "column_size": 3,
-            "column_width": [
-              173,
-              106,
-              427
-            ],
-            "merge_info": [
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              }
-            ],
-            "row_size": 3
-          }
-        }
-      },
-      {
-        "block_id": "ECtBdJALCoknV2xcbc3c86trnlc",
-        "block_type": 32,
-        "children": [
-          "BVwkdDbIMowhNwxk2wpcZet8nnh"
-        ],
-        "parent_id": "Z7DJdo8MioCnQXxmAzxcpSVnntb",
-        "table_cell": {}
-      },
-      {
-        "block_id": "BVwkdDbIMowhNwxk2wpcZet8nnh",
-        "block_type": 2,
-        "parent_id": "ECtBdJALCoknV2xcbc3c86trnlc",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Cluster Type",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "D0QDdLWaPod3dMx6tavcEfBJnHh",
-        "block_type": 32,
-        "children": [
-          "P3v1d7MTUoEsmaxHYfkcBCYPn3c"
-        ],
-        "parent_id": "Z7DJdo8MioCnQXxmAzxcpSVnntb",
-        "table_cell": {}
-      },
-      {
-        "block_id": "P3v1d7MTUoEsmaxHYfkcBCYPn3c",
-        "block_type": 2,
-        "parent_id": "D0QDdLWaPod3dMx6tavcEfBJnHh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Max Number",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "WTr6dYVdJoBvbxxwtYCcR89Mn0f",
-        "block_type": 32,
-        "children": [
-          "XNUSdXp5Noomuwx87HeczUFVnaf"
-        ],
-        "parent_id": "Z7DJdo8MioCnQXxmAzxcpSVnntb",
-        "table_cell": {}
-      },
-      {
-        "block_id": "XNUSdXp5Noomuwx87HeczUFVnaf",
-        "block_type": 2,
-        "parent_id": "WTr6dYVdJoBvbxxwtYCcR89Mn0f",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Remarks",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "JMt9d1UGnoedtuxRu1JcAXnBnjg",
-        "block_type": 32,
-        "children": [
-          "R3hqd9slzo7owtxjqi0cMQRcnKf"
-        ],
-        "parent_id": "Z7DJdo8MioCnQXxmAzxcpSVnntb",
-        "table_cell": {}
-      },
-      {
-        "block_id": "R3hqd9slzo7owtxjqi0cMQRcnKf",
-        "block_type": 2,
-        "parent_id": "JMt9d1UGnoedtuxRu1JcAXnBnjg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Serverless",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "O93jdy798ovnjcxMSEecOdnGnVh",
-        "block_type": 32,
-        "children": [
-          "FvpcdMpxSo6BpXxXRFKcF1QGnfh"
-        ],
-        "parent_id": "Z7DJdo8MioCnQXxmAzxcpSVnntb",
-        "table_cell": {}
-      },
-      {
-        "block_id": "FvpcdMpxSo6BpXxXRFKcF1QGnfh",
-        "block_type": 2,
-        "parent_id": "O93jdy798ovnjcxMSEecOdnGnVh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "1",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Bk8advAsmojEeXxmnGRcfUWXn9e",
-        "block_type": 32,
-        "children": [
-          "TPgEdXxjioEDUHx4Qcvcs1q8nCj",
-          "Sqr6dZ6LvovKmDxuPVsc78iinNd"
-        ],
-        "parent_id": "Z7DJdo8MioCnQXxmAzxcpSVnntb",
-        "table_cell": {}
-      },
-      {
-        "block_id": "TPgEdXxjioEDUHx4Qcvcs1q8nCj",
-        "block_type": 2,
-        "parent_id": "Bk8advAsmojEeXxmnGRcfUWXn9e",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Only one serverless cluster is allowed. ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Sqr6dZ6LvovKmDxuPVsc78iinNd",
-        "block_type": 2,
-        "parent_id": "Bk8advAsmojEeXxmnGRcfUWXn9e",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "To create a new serverless cluster, please drop your existing one first.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "FvQjdq7Yyo8uEMx9mkmczbP9nTb",
-        "block_type": 32,
-        "children": [
-          "Z099dwbkBonXEpx0EcrceNHknlh"
-        ],
-        "parent_id": "Z7DJdo8MioCnQXxmAzxcpSVnntb",
-        "table_cell": {}
-      },
-      {
-        "block_id": "Z099dwbkBonXEpx0EcrceNHknlh",
-        "block_type": 2,
-        "parent_id": "FvQjdq7Yyo8uEMx9mkmczbP9nTb",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Dedicated ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "WIE7d46S4onPrxx9chAcMAkynxe",
-        "block_type": 32,
-        "children": [
-          "KA1cdFiMKoHdlOxdRkVczmeUn0i"
-        ],
-        "parent_id": "Z7DJdo8MioCnQXxmAzxcpSVnntb",
-        "table_cell": {}
-      },
-      {
-        "block_id": "KA1cdFiMKoHdlOxdRkVczmeUn0i",
-        "block_type": 2,
-        "parent_id": "WIE7d46S4onPrxx9chAcMAkynxe",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "LZWkdeKLUoo7WpxaSsWc9UY5nyf",
-        "block_type": 32,
-        "children": [
-          "AOqUd8raHoAHKTx7SvncCnLYntd"
-        ],
-        "parent_id": "Z7DJdo8MioCnQXxmAzxcpSVnntb",
-        "table_cell": {}
-      },
-      {
-        "block_id": "AOqUd8raHoAHKTx7SvncCnLYntd",
-        "block_type": 2,
-        "parent_id": "LZWkdeKLUoo7WpxaSsWc9UY5nyf",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
       },
       {
         "block_id": "OThsd4ktyoJrLqx1QlZcAAOxnmd",
@@ -2811,6 +1957,70 @@
             {
               "text_run": {
                 "content": "Users can use up to 128 CUs across all enterprise clusters and 32 CUs for a single cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ci0Ud28FZo6EnRx9S20cww9lnHh",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "RV3mdKiBPoRgCyxKvnMcGdFUnAc",
+          "Oxwcd8vOkoL4kyxpZPxc71N2nPf"
+        ],
+        "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac"
+      },
+      {
+        "block_id": "RV3mdKiBPoRgCyxKvnMcGdFUnAc",
+        "block_type": 2,
+        "parent_id": "Ci0Ud28FZo6EnRx9S20cww9lnHh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Oxwcd8vOkoL4kyxpZPxc71N2nPf",
+        "block_type": 2,
+        "parent_id": "Ci0Ud28FZo6EnRx9S20cww9lnHh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can always create one serverless cluster. To create a new serverless cluster, drop the existing one first.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6597,7 +5807,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "12+ CUs",
+                "content": "12 CUs and more",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -8191,13 +7401,9 @@
             },
             {
               "text_run": {
-                "content": "16",
+                "content": "8",
                 "text_element_style": {
                   "bold": true,
-                  "comment_ids": [
-                    "7329809564625600516",
-                    "7330174641786798084"
-                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -8239,6 +7445,267 @@
             {
               "text_run": {
                 "content": "for the collection. If not specified, a collection has a shard by default.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VuVddsosToSQZlxWbJSctaZhnqc",
+        "block_type": 31,
+        "children": [
+          "P4KJdLBzLosJMWxvbRdcFZthnWf",
+          "AJMtdae87o5UQ6xdGPXcFasnnCg",
+          "OnIldS0zRoPanxxyFgfcMvKonCg",
+          "BPARdeFmkoqBh6xMOYzc4Qennlc",
+          "PogUd75JKoG6vPx7TBpcMMionJe",
+          "TZh0dkuhsobax6xcyW4cDNYRnSd"
+        ],
+        "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac",
+        "table": {
+          "cells": [
+            "P4KJdLBzLosJMWxvbRdcFZthnWf",
+            "AJMtdae87o5UQ6xdGPXcFasnnCg",
+            "OnIldS0zRoPanxxyFgfcMvKonCg",
+            "BPARdeFmkoqBh6xMOYzc4Qennlc",
+            "PogUd75JKoG6vPx7TBpcMMionJe",
+            "TZh0dkuhsobax6xcyW4cDNYRnSd"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              216,
+              115
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 3
+          }
+        }
+      },
+      {
+        "block_id": "P4KJdLBzLosJMWxvbRdcFZthnWf",
+        "block_type": 32,
+        "children": [
+          "Rjs8dAKcqoZFXvxiEWRcSgZ5ntb"
+        ],
+        "parent_id": "VuVddsosToSQZlxWbJSctaZhnqc",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Rjs8dAKcqoZFXvxiEWRcSgZ5ntb",
+        "block_type": 2,
+        "parent_id": "P4KJdLBzLosJMWxvbRdcFZthnWf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Item",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AJMtdae87o5UQ6xdGPXcFasnnCg",
+        "block_type": 32,
+        "children": [
+          "PEhCdHLDDoMXQTxdw7bcB3wfn2g"
+        ],
+        "parent_id": "VuVddsosToSQZlxWbJSctaZhnqc",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PEhCdHLDDoMXQTxdw7bcB3wfn2g",
+        "block_type": 2,
+        "parent_id": "AJMtdae87o5UQ6xdGPXcFasnnCg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Max Number",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OnIldS0zRoPanxxyFgfcMvKonCg",
+        "block_type": 32,
+        "children": [
+          "T5VXdcgihoSgONxfPoacCxx4nNg"
+        ],
+        "parent_id": "VuVddsosToSQZlxWbJSctaZhnqc",
+        "table_cell": {}
+      },
+      {
+        "block_id": "T5VXdcgihoSgONxfPoacCxx4nNg",
+        "block_type": 2,
+        "parent_id": "OnIldS0zRoPanxxyFgfcMvKonCg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": " 1-8 CUs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BPARdeFmkoqBh6xMOYzc4Qennlc",
+        "block_type": 32,
+        "children": [
+          "CPWudGn0Mo1yONxFEgpc7wbBnif"
+        ],
+        "parent_id": "VuVddsosToSQZlxWbJSctaZhnqc",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CPWudGn0Mo1yONxFEgpc7wbBnif",
+        "block_type": 2,
+        "parent_id": "BPARdeFmkoqBh6xMOYzc4Qennlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PogUd75JKoG6vPx7TBpcMMionJe",
+        "block_type": 32,
+        "children": [
+          "OArudWL5foCzEdxL0iac7yGWnWc"
+        ],
+        "parent_id": "VuVddsosToSQZlxWbJSctaZhnqc",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OArudWL5foCzEdxL0iac7yGWnWc",
+        "block_type": 2,
+        "parent_id": "PogUd75JKoG6vPx7TBpcMMionJe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "12 CUs and more",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TZh0dkuhsobax6xcyW4cDNYRnSd",
+        "block_type": 32,
+        "children": [
+          "ZEcwd4bGboL6bsxzfnlcojiQnid"
+        ],
+        "parent_id": "VuVddsosToSQZlxWbJSctaZhnqc",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ZEcwd4bGboL6bsxzfnlcojiQnid",
+        "block_type": 2,
+        "parent_id": "TZh0dkuhsobax6xcyW4cDNYRnSd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "8",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -10396,9 +9863,6 @@
       {
         "block_id": "ZYjQdBD1EoSCV4x9sCQc8TFWnBb",
         "block_type": 2,
-        "comment_ids": [
-          "7329809992571142148"
-        ],
         "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac",
         "text": {
           "elements": [
@@ -10407,21 +9871,6 @@
                 "content": "When upserting data, include all schema-defined fields. ",
                 "text_element_style": {
                   "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Exclude the primary key if the collection has AutoID enabled.",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7329809992571142148"
-                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -12760,6 +12209,6 @@
         }
       }
     ],
-    "counts": 524
+    "counts": 499
   }
 }

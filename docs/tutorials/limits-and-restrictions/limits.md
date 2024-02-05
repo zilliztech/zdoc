@@ -17,7 +17,7 @@ This page provides information about limits on the Zilliz Cloud platform as well
 
 The following table lists the limits on the maximum number of organizations and projects allowed for a single user.
 
-|  **Item**                                      |  **Max number **                             |  **Remarks**                                                                                             |
+|  **Item**                                      |  **Max number**                              |  **Remarks**                                                                                             |
 | ---------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 |  Organization |  1<br/>  |  Each user can create only one organization.<br/>                    |
 |  Organization member                           |  100                                         |  An organization can hold up to 100 members. A user can belong to multiple organizations.                |
@@ -26,31 +26,27 @@ The following table lists the limits on the maximum number of organizations and 
 
 ## Clusters & CUs{#clusters-and-cus}
 
-The maximum number of clusters and CUs varies with your payment method and subscription plan.
+The maximum number of clusters and CUs varies with your payment method and subscription plan. The following focuses on dedicated clusters.
 
 - **Without a valid payment method**
 
-    |  **Cluster Type** |  **Max Number** |  **Remarks**                                                                                                               |
-    | ----------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------- |
-    |  Serverless       |  1<br/>      |  Only one serverless cluster is allowed. <br/> To create a new serverless cluster, please drop your existing one first. |
-    |  Dedicated        |  N/A            |                                                                                                                            |
-
-    |  **Subscription Plan** |  **Limit**  |  **Remarks**                                                                              |
-    | ---------------------- | ----------- | ----------------------------------------------------------------------------------------- |
-    |  Standard Cluster      |  1<br/>  |  Only one free cluster can be created. <br/> To continue, please add a payment method. |
-    |  Enterprise Cluster    |  0          |                                                                                           |
+    |  **Subscription Plan** |  **Max number** |  **Remarks**                                                                              |
+    | ---------------------- | --------------- | ----------------------------------------------------------------------------------------- |
+    |  Standard Cluster      |  1<br/>      |  Only one free cluster can be created. <br/> To continue, please add a payment method. |
+    |  Enterprise Cluster    |  0              |                                                                                           |
 
 - **With a valid payment method**
-
-    |  **Cluster Type** |  **Max Number** |  **Remarks**                                                                                                               |
-    | ----------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------- |
-    |  Serverless       |  1              |  Only one serverless cluster is allowed. <br/> To create a new serverless cluster, please drop your existing one first. |
-    |  Dedicated        |                 |                                                                                                                            |
 
     |  **Subscription Plan** |  **Limits** |  **Remarks**                                                                                 |
     | ---------------------- | ----------- | -------------------------------------------------------------------------------------------- |
     |  Standard Cluster      |  128 CUs    |  Users can use up to 128 CUs across all standard clusters and 32 CUs for a single cluster.   |
     |  Enterprise Cluster    |  128 CUs    |  Users can use up to 128 CUs across all enterprise clusters and 32 CUs for a single cluster. |
+
+<Admonition type="info" icon="📘" title="Notes">
+
+You can always create one serverless cluster. To create a new serverless cluster, drop the existing one first.
+
+</Admonition>
 
 To create clusters with more than 32 CUs, [contact us](https://support.zilliz.com/hc/en-us).
 
@@ -128,7 +124,7 @@ In addition to the limits on the number of collections per cluster, Zilliz Cloud
 |  **Number of CUs** |  **General Capacity**            |
 | ------------------ | -------------------------------- |
 |  1-8 CUs           |  <= 4,096                        |
-|  12+ CUs           |  Min(512 x Number of CUs, 65536) |
+|  12 CUs and more   |  Min(512 x Number of CUs, 65536) |
 
 The consumed capacity should be less than the general capacity available.
 
@@ -173,7 +169,12 @@ When calculating the consumed and general capacity, refer to the notes in [Colle
 
 ### Shards{#shards}
 
-When creating a collection, you can create up to **16** shards for the collection. If not specified, a collection has a shard by default.
+When creating a collection, you can create up to **8** shards for the collection. If not specified, a collection has a shard by default.
+
+|  **Item**        |  **Max Number** |
+| ---------------- | --------------- |
+|   1-8 CUs        |  2              |
+|  12 CUs and more |  8              |
 
 You are advised to keep the default settings for the shard number when creating collections, especially for clusters using no more than **24** CUs.
 
@@ -232,7 +233,7 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 |  Dedicated cluster 12 - 20 CUs                       |  8 MB/s                                  |
 |  Dedicated cluster >= 24 CUs                         |  12 MB/s                                 |
 
-When upserting data, include all schema-defined fields. Exclude the primary key if the collection has AutoID enabled.
+When upserting data, include all schema-defined fields. 
 
 To make upserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to **Strong**. Read [Consistency Level](./consistency-level) for more.
 
