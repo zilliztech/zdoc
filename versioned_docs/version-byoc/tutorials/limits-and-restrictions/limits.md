@@ -26,7 +26,7 @@ The following table lists the limits on the maximum number of organizations and 
 ## Collections{#collections}
 
 |  **Cluster Type**                                    |  **Max Number**                              |  **Remarks**                                                                                                               |
-| ---------------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |                                             |
+| ---------------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 |  Dedicated cluster<br/>                           |  64 per CU, and <= 4096                      |  You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster. |
 
 In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following table lists the limits on the general capacity of a cluster.
