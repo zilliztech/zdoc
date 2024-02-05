@@ -13,6 +13,8 @@ import Admonition from '@theme/Admonition';
 
 You can find articles on the best practices when using Zilliz Cloud.
 
+## Contents{#contents}
+
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

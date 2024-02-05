@@ -13,6 +13,8 @@ import Admonition from '@theme/Admonition';
 
 There are two possible ways for you to manage your cluster credentials, namely on the Zilliz Cloud console or via SDKs.
 
+## Contents{#contents}
+
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

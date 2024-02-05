@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 Pipelines transform your unstructured data to a searchable vector collection, chaining up the embedding, ingestion, search, and deletion of your data.
 
-
+## Contents{#contents}
 
 import DocCardList from '@theme/DocCardList';
 

@@ -13,6 +13,8 @@ import Admonition from '@theme/Admonition';
 
 You can migrate your data from self-hosted Milvus, Elasticsearch, and even between Zilliz Cloud clusters.
 
+## Contents{#contents}
+
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

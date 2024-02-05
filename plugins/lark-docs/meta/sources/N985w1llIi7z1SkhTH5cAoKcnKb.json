@@ -5,7 +5,7 @@
   "node_token": "N985w1llIi7z1SkhTH5cAoKcnKb",
   "node_type": "origin",
   "obj_create_time": "1689056279",
-  "obj_edit_time": "1700619787",
+  "obj_edit_time": "1707042241",
   "obj_token": "Gkiyd0tqkoVl3PxHc5Vclalzn2e",
   "obj_type": "docx",
   "origin_node_token": "N985w1llIi7z1SkhTH5cAoKcnKb",
@@ -49,6 +49,7 @@
           "HAIddhM1woY38VxyL3mcKG0qnbd",
           "Fy25d0dWhowvqJxJDvmcIx73nJh",
           "OPAhdNfTvoI8lYxf9PmcAkQ4nBd",
+          "OZhZdCs6toqpcHxF6MwcQ6sxnBh",
           "ZHRTdHNveoZrbqxOkXzcU3Qencd",
           "Ij4odEDrWovhN2xepM0cgpKGnIe",
           "DB9Idu9vJogkjKxW50RcCVmxnDb",
@@ -1203,6 +1204,31 @@
         "parent_id": "Gkiyd0tqkoVl3PxHc5Vclalzn2e"
       },
       {
+        "block_id": "OZhZdCs6toqpcHxF6MwcQ6sxnBh",
+        "block_type": 2,
+        "parent_id": "Gkiyd0tqkoVl3PxHc5Vclalzn2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When the estimated CU size is less than 8, the increment increase of CU size is 2CUs, which means the CU sizes will increase in the sequence of 1, 2, 4, 6, 8 CUs. When the estimated CU size is greater than 8, the increment increase becomes 4 CUs, meaning the sequence of CU sizes will be 8, 12, 16, 20, 24, 28, 32, and so on.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "ZHRTdHNveoZrbqxOkXzcU3Qencd",
         "block_type": 2,
         "parent_id": "Gkiyd0tqkoVl3PxHc5Vclalzn2e",
@@ -1210,7 +1236,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Our calculator is designed to estimate costs for clusters up to 32 ",
+                "content": "Our calculator is designed to estimate costs for clusters up to 256 ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1391,6 +1417,6 @@
         "parent_id": "Gkiyd0tqkoVl3PxHc5Vclalzn2e"
       }
     ],
-    "counts": 34
+    "counts": 35
   }
 }

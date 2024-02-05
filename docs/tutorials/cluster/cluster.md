@@ -13,6 +13,8 @@ import Admonition from '@theme/Admonition';
 
 Everything you need to know about managing clusters on Zilliz Cloud.
 
+## Contents{#contents}
+
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

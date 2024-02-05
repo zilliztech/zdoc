@@ -131,9 +131,9 @@ Below is an example output.
 
 ## Related topics{#related-topics}
 
-- [[WIP] Manage Pipelines](./manage-pipelines)
+- [Manage Pipelines](./manage-pipelines)
 
-- [[WIP] Run Deletion Pipeline](./run-deletion-pipelines)
+- [Run Deletion Pipeline](./run-deletion-pipelines)
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 

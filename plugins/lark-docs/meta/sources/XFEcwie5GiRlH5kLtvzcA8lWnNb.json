@@ -5,7 +5,7 @@
   "node_token": "XFEcwie5GiRlH5kLtvzcA8lWnNb",
   "node_type": "origin",
   "obj_create_time": "1699859825",
-  "obj_edit_time": "1706838699",
+  "obj_edit_time": "1707100988",
   "obj_token": "XKz7dnRAyooJEHxjvaAciETmnfd",
   "obj_type": "docx",
   "origin_node_token": "XFEcwie5GiRlH5kLtvzcA8lWnNb",
@@ -72,13 +72,12 @@
       },
       {
         "block_id": "ADmedZtXRoiluIx4jmRc33ZfnZf",
-        "block_type": 2,
-        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd",
-        "text": {
+        "block_type": 4,
+        "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "",
+                "content": "Contents",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -93,7 +92,8 @@
             "align": 1,
             "folded": false
           }
-        }
+        },
+        "parent_id": "XKz7dnRAyooJEHxjvaAciETmnfd"
       }
     ],
     "counts": 3

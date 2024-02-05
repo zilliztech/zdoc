@@ -5,7 +5,7 @@
   "node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
   "node_type": "origin",
   "obj_create_time": "1699859629",
-  "obj_edit_time": "1706838533",
+  "obj_edit_time": "1707100967",
   "obj_token": "GSLpdWWKpo2WFkxVKenc4qBynBh",
   "obj_type": "docx",
   "origin_node_token": "GamzwNAVPiwblikNFHwcJ5ipnKc",
@@ -22,11 +22,8 @@
         "block_type": 1,
         "children": [
           "GmJmd0o9oodXudxLgz4cpOBsn7l",
-          "IyeCd6hw5oRAWpxXHUeci0m4nhc",
           "KZAYdoN4topJnPxGUtpck13unh1",
-          "YwUZdQZDCoO9Dlxow5jcRsL9n9f",
-          "CPhgdk7NwoE04YxhkqkcoKeQnZe",
-          "DqBZddsBvoYaZ7xQ3pScFhZxnSb"
+          "YwUZdQZDCoO9Dlxow5jcRsL9n9f"
         ],
         "page": {
           "elements": [
@@ -87,7 +84,68 @@
         }
       },
       {
-        "block_id": "IyeCd6hw5oRAWpxXHUeci0m4nhc",
+        "block_id": "KZAYdoN4topJnPxGUtpck13unh1",
+        "block_type": 2,
+        "parent_id": "GSLpdWWKpo2WFkxVKenc4qBynBh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Y",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ou can create",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " the following types of piplines on",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YwUZdQZDCoO9Dlxow5jcRsL9n9f",
         "block_type": 2,
         "parent_id": "GSLpdWWKpo2WFkxVKenc4qBynBh",
         "text": {
@@ -110,109 +168,9 @@
             "folded": false
           }
         }
-      },
-      {
-        "block_id": "KZAYdoN4topJnPxGUtpck13unh1",
-        "block_type": 2,
-        "parent_id": "GSLpdWWKpo2WFkxVKenc4qBynBh",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "There are three types of pipelines that you can create on Zilliz Cloud.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "YwUZdQZDCoO9Dlxow5jcRsL9n9f",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Ingestion pipeline",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "GSLpdWWKpo2WFkxVKenc4qBynBh"
-      },
-      {
-        "block_id": "CPhgdk7NwoE04YxhkqkcoKeQnZe",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Search pipeline",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "GSLpdWWKpo2WFkxVKenc4qBynBh"
-      },
-      {
-        "block_id": "DqBZddsBvoYaZ7xQ3pScFhZxnSb",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Deletion pipeline",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "GSLpdWWKpo2WFkxVKenc4qBynBh"
       }
     ],
-    "counts": 7
+    "counts": 4
   },
   "children": [
     {
@@ -222,7 +180,7 @@
       "node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
       "node_type": "origin",
       "obj_create_time": "1706249835",
-      "obj_edit_time": "1707020923",
+      "obj_edit_time": "1707116534",
       "obj_token": "Fyg6dFS6foYW2ixcQyKcnltOnIe",
       "obj_type": "docx",
       "origin_node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
@@ -258,7 +216,7 @@
       "node_token": "PPAbwMvgdiGvS2kRyrLc7bJvn9e",
       "node_type": "origin",
       "obj_create_time": "1706249872",
-      "obj_edit_time": "1706838405",
+      "obj_edit_time": "1707111734",
       "obj_token": "MZKKdcR1moNfaExtipQc18bInxc",
       "obj_type": "docx",
       "origin_node_token": "PPAbwMvgdiGvS2kRyrLc7bJvn9e",

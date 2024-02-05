@@ -13,6 +13,8 @@ import Admonition from '@theme/Admonition';
 
 You can find the history of Zilliz Cloud releases in these docs.
 
+## Contents{#contents}
+
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />
