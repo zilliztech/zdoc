@@ -220,11 +220,11 @@ The following is an example output.
 
 - [Estimate Pipelines Usage](./estimate-pipelines-usage)
 
-- [[WIP] Run Ingestion Pipeline](./run-ingestion-pipelines)
+- [Run Ingestion Pipeline](./run-ingestion-pipelines)
 
-- [[WIP] Run Search Pipeline](./run-search-pipelines)
+- [Run Search Pipeline](./run-search-pipelines)
 
-- [[WIP] Run Deletion Pipeline](./run-deletion-pipelines)
+- [Run Deletion Pipeline](./run-deletion-pipelines)
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 

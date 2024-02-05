@@ -146,9 +146,9 @@ Below is an example output.
 
 ## Related topics{#related-topics}
 
-- [[WIP] Run Search Pipeline](./run-search-pipelines)
+- [Run Search Pipeline](./run-search-pipelines)
 
-- [[WIP] Manage Pipelines](./manage-pipelines)
+- [Manage Pipelines](./manage-pipelines)
 
 - [Estimate Pipelines Usage](./estimate-pipelines-usage)
 

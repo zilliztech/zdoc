@@ -19,7 +19,6 @@ The following table lists the limits on the maximum number of organizations and 
 
 |  **Item**                                      |  **Max number**                              |  **Remarks**                                                                                             |
 | ---------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-|   |  <br/>  |  <br/>                    |
 |  Organization member                           |  100                                         |  An organization can hold up to 100 members. A user can belong to multiple organizations.                |
 |  Project                                       |  10                                          |  Each user can create 10 projects.                                                                       |
 |  Project Member                                |  100                                         |  A project can hold up to 100 members. A user can belong to multiple projects within their organization. |
@@ -27,8 +26,7 @@ The following table lists the limits on the maximum number of organizations and 
 ## Collections{#collections}
 
 |  **Cluster Type**                                    |  **Max Number**                              |  **Remarks**                                                                                                               |
-| ---------------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-|   |  <br/>  |                                             |
+| ---------------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |                                             |
 |  Dedicated cluster<br/>                           |  64 per CU, and <= 4096                      |  You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster. |
 
 In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following table lists the limits on the general capacity of a cluster.
@@ -74,7 +72,6 @@ Additionally, the rate limit for creating collections is **1 **collection/s per 
 
 |  **Cluster Type**                                    |  **Max number (Per collection)**              |  **Remarks**                                                                                                 |
 | ---------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-|   |  <br/>  |   |
 |  Dedicated cluster<br/>                           |  4,096                                        |  You can create up to 4,096 partitions per collection in a dedicated cluster.                                |
 
 When calculating the consumed and general capacity, refer to the notes in [Collections](./limits#collections). Additionally, the rate limit for creating partitions is **1** partition/s per cluster.
@@ -96,7 +93,7 @@ When calculating the consumed and general capacity, refer to the notes in [Colle
 
 |  **Item**                     |  **Max Number** |  **Remarks**                                            |
 | ----------------------------- | --------------- | ------------------------------------------------------- |
-|  Fields per collection        |  64             |                                                         |
+|  Fields per collection        |  64             |  N/A                                                    |
 |  Vector fields per collection |  1              |  The support for multiple vector fields is coming soon. |
 
 Other limits on fields:
@@ -121,7 +118,6 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 
 |                                                      |  Insert rate limits                               |
 | ---------------------------------------------------- | ------------------------------------------------- |
-|   |  <br/>  |
 |  Dedicated cluster 1 CU and 2 CUs                    |  4 MB/s                                           |
 |  Dedicated cluster 4 - 8 CUs                         |  6 MB/s                                           |
 |  Dedicated cluster 12 - 20 CUs                       |  8 MB/s                                           |

@@ -452,6 +452,7 @@ class larkDocWriter {
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.target)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
+        //markdown = markdown.replace(/^[\s|\|][\s|<br\/>|\|]*\|/g, '')
 
         let tabs = markdown.split('\n').filter(line => {
             return line.trim().startsWith("<Tab")

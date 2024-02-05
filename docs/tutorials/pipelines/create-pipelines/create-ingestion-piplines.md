@@ -260,13 +260,13 @@ This collection contains six fields: one ID field that is automatically generate
 
 ## Related topics{#related-topics}
 
-- [[WIP] Manage Pipelines](./manage-pipelines)
+- [Manage Pipelines](./manage-pipelines)
 
-- [[WIP] Run Ingestion Pipeline](./run-ingestion-pipelines)
+- [Run Ingestion Pipeline](./run-ingestion-pipelines)
 
 - [Estimate Pipelines Usage](./estimate-pipelines-usage)
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 
-- https://zilliverse.feishu.cn/wiki/EV41wG08BiOWW8kbo9xcTGoPnKd#BjfidFi9FoqCXvxCTt2cQJPJnTf
+- [FAQs](./faq-pipelines)
 

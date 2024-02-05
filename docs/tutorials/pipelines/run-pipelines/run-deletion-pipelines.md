@@ -62,7 +62,7 @@ Below is an example response.
 
 ## Related topics{#related-topics}
 
-- [[WIP] Manage Pipelines](./manage-pipelines)
+- [Manage Pipelines](./manage-pipelines)
 
 - [Estimate Pipelines Usage](./estimate-pipelines-usage)
 

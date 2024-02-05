@@ -24,7 +24,7 @@ Ensure:
 
 ## Create a cluster{#create-a-cluster}
 
-<Tabs groupId="cluster" defaultValue="Cloud UI" values={[{"label":"Cloud UI","value":"Cloud UI"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 

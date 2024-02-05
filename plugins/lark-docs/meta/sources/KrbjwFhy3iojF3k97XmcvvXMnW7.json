@@ -5,7 +5,7 @@
   "node_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
   "node_type": "origin",
   "obj_create_time": "1701223750",
-  "obj_edit_time": "1707032875",
+  "obj_edit_time": "1707130086",
   "obj_token": "GQVdd3C8ho6IDexgNBMcTdf1nGc",
   "obj_type": "docx",
   "origin_node_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
@@ -703,31 +703,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "<Tabs groupId=\"cluster\" defaultValue=\"Cloud ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "UI",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\" values={[{\"label\":\"Cloud UI\",\"value\":\"Cloud UI\"},{\"label\":\"Bash\",\"value\":\"Bash\"}]}>",
+                "content": "<Tabs groupId=\"cluster\" defaultValue=\"Cloud Console\" values={[{\"label\":\"Cloud Console\",\"value\":\"Cloud Console\"},{\"label\":\"Bash\",\"value\":\"Bash\"}]}>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2805,31 +2781,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "<Tabs groupId=\"cluster\" defaultValue=\"Cloud ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "UI",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\" values={[{\"label\":\"Cloud UI\",\"value\":\"Cloud UI\"},{\"label\":\"Bash\",\"value\":\"Bash\"}]}>",
+                "content": "<Tabs groupId=\"cluster\" defaultValue=\"Cloud Console\" values={[{\"label\":\"Cloud Console\",\"value\":\"Cloud Console\"},{\"label\":\"Bash\",\"value\":\"Bash\"}]}>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

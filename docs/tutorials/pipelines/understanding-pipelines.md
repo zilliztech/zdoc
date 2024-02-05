@@ -81,11 +81,11 @@ For a collection managed by Ingestion pipeline, deleting all entities (each with
 
 ## Related topics{#related-topics}
 
-- [[WIP] Create Ingestion Pipeline](./create-ingestion-piplines)
+- [Create Ingestion Pipeline](./create-ingestion-piplines)
 
-- [[WIP] Create Search Pipeline](./create-search-piplines)
+- [Create Search Pipeline](./create-search-piplines)
 
-- [[WIP] Create Deletion Pipeline](./create-deletion-pipelines)
+- [Create Deletion Pipeline](./create-deletion-pipelines)
 
 - [FAQs](./faqs#faq-pipelines) 
 

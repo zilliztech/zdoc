@@ -86,7 +86,7 @@ The `doc_name` field in the output  will play a crucial role. If identical docum
 
 ## Related topics{#related-topics}
 
-- [[WIP] Manage Pipelines](./manage-pipelines)
+- [Manage Pipelines](./manage-pipelines)
 
 - [Estimate Pipelines Usage](./estimate-pipelines-usage)
 
