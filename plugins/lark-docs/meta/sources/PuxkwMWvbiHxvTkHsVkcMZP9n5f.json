@@ -5,7 +5,7 @@
   "node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
   "node_type": "origin",
   "obj_create_time": "1705979316",
-  "obj_edit_time": "1707129433",
+  "obj_edit_time": "1707199160",
   "obj_token": "NIIldYshaoVw2bxiWjrcTt14nac",
   "obj_type": "docx",
   "origin_node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
@@ -3437,14 +3437,20 @@
       {
         "block_id": "ZZkQdoytwom8ZYx2j57cewJ2n5A",
         "block_type": 2,
+        "comment_ids": [
+          "7332364712455258116"
+        ],
         "parent_id": "NIIldYshaoVw2bxiWjrcTt14nac",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "The following table lists the limits on the number of tokens that are allowed to be ingested each time.",
+                "content": "The following table lists the limits on the number of chunks that are allowed to be ingested each time.",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7332364712455258116"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3615,7 +3621,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Max. Total Tokens/Ingestion",
+                "content": "Max. Chunks/Ingestion",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3683,7 +3689,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "280,000",
+                "content": "3,500",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3751,7 +3757,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "240,000",
+                "content": "6,000",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3819,7 +3825,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "90,000",
+                "content": "6,000",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3887,7 +3893,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "5,000,000",
+                "content": "6,000",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3955,7 +3961,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "760,000",
+                "content": "6,000",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4023,7 +4029,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "280,000",
+                "content": "3,500",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
