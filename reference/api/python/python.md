@@ -1,16 +1,18 @@
 ---
-slug: /{{slug}}
+slug: /python
 beta: FALSE
 notebook: FALSE
-sidebar_position: {{position}}
+sidebar_position: 1
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# {{group_name}}
+# Python SDK Reference
 
-{{description}}
+Welcome to the Python SDK Reference!
+
+## Contents
 
 import DocCardList from '@theme/DocCardList';
 

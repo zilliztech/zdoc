@@ -1,16 +1,18 @@
 ---
-slug: /{{slug}}
+slug: /restful
 beta: FALSE
 notebook: FALSE
-sidebar_position: {{position}}
+sidebar_position: 0
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# {{group_name}}
+# RESTful API Reference
 
-{{description}}
+This is a reference guide for the RESTful API of Zilliz Cloud services.
+
+## Contents
 
 import DocCardList from '@theme/DocCardList';
 

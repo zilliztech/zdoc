@@ -1,16 +1,16 @@
 ---
-slug: /{{slug}}
+slug: /cloud-meta
 beta: FALSE
 notebook: FALSE
-sidebar_position: {{position}}
+sidebar_position: 0
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# {{group_name}}
+# Cloud
 
-{{description}}
+This set of APIs provides a way to view cloud providers and regions.
 
 import DocCardList from '@theme/DocCardList';
 

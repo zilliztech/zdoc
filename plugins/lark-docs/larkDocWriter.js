@@ -452,7 +452,7 @@ class larkDocWriter {
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.target)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
-        //markdown = markdown.replace(/^[\s|\|][\s|<br\/>|\|]*\|/g, '')
+        markdown = markdown.replace(/^[\||\s][\s|\||<br\/>]*\|\n/gm, '')
 
         let tabs = markdown.split('\n').filter(line => {
             return line.trim().startsWith("<Tab")
@@ -567,9 +567,13 @@ class larkDocWriter {
 
     async __heading(heading, level) {
         let content = await this.__text_elements(heading['elements'])
-        content = this.__filter_content(content, this.target)
-        let slug = slugify(content, {lower: true, strict: true})
-        return '#'.repeat(level) + ' ' + content + '{#'+slug+'}';
+        if (content.length > 0) {
+            content = this.__filter_content(content, this.target)
+            let slug = slugify(content, {lower: true, strict: true})
+            return '#'.repeat(level) + ' ' + content + '{#'+slug+'}';
+        } else {
+            return '';
+        }
     }
 
     async __bullet(block, indent) {

@@ -1,16 +1,18 @@
 ---
-slug: /{{slug}}
+slug: /go/client
 beta: FALSE
 notebook: FALSE
-sidebar_position: {{position}}
+sidebar_position: 0
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# {{group_name}}
+# Client API
 
-{{description}}
+The client API is used to interact with the Zilliz Cloud cluster.
+
+## Contents
 
 import DocCardList from '@theme/DocCardList';
 

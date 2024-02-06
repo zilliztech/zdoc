@@ -1,16 +1,16 @@
 ---
-slug: /{{slug}}
+slug: /pipeline-operations
 beta: FALSE
 notebook: FALSE
-sidebar_position: {{position}}
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# {{group_name}}
+# Pipeline
 
-{{description}}
+This set of APIs provides a way to manage Zilliz Cloud Pipelines.
 
 import DocCardList from '@theme/DocCardList';
 

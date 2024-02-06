@@ -1,16 +1,18 @@
 ---
-slug: /{{slug}}
+slug: /go
 beta: FALSE
 notebook: FALSE
-sidebar_position: {{position}}
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# {{group_name}}
+# Go SDK Reference
 
-{{description}}
+Welcome to the Go SDK Reference!
+
+## Contents
 
 import DocCardList from '@theme/DocCardList';
 

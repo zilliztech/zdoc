@@ -5,7 +5,7 @@
   "node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
   "node_type": "origin",
   "obj_create_time": "1706249835",
-  "obj_edit_time": "1707127812",
+  "obj_edit_time": "1707132068",
   "obj_token": "Fyg6dFS6foYW2ixcQyKcnltOnIe",
   "obj_type": "docx",
   "origin_node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
@@ -8526,21 +8526,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "[WIP] Manage Pipelines",
+                "title": "Manage Pipelines",
                 "token": "RxmuwIgydiN3vkkKmATcam59nDc",
                 "url": "https://zilliverse.feishu.cn/wiki/RxmuwIgydiN3vkkKmATcam59nDc"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
               }
             }
           ],
@@ -8566,21 +8554,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "[WIP] Run Ingestion Pipeline",
+                "title": "Run Ingestion Pipeline",
                 "token": "IEoHwfIsBioVCRkHU7AcJdANn9c",
                 "url": "https://zilliverse.feishu.cn/wiki/IEoHwfIsBioVCRkHU7AcJdANn9c"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
               }
             }
           ],
@@ -8678,7 +8654,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "https://docs.zilliz.com/docs/faq-pipelines",
+                "content": "FAQs",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

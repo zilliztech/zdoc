@@ -1,16 +1,16 @@
 ---
-slug: /{{slug}}
+slug: /import-operations
 beta: FALSE
 notebook: FALSE
-sidebar_position: {{position}}
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# {{group_name}}
+# Import
 
-{{description}}
+This set of APIs provides a way to import data into Zilliz Cloud.
 
 import DocCardList from '@theme/DocCardList';
 

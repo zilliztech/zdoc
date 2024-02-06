@@ -47,7 +47,7 @@ class refGen {
 
         const page_title = specifications.paths[page_url][method].summary
         const page_excerpt = specifications.paths[page_url][method].description
-        const page_parent = parents.filter(x => x === specifications.paths[page_url][method].tags[0])[0].split(' ')[0]
+        const page_parent = parents.filter(x => x === specifications.paths[page_url][method].tags[0])[0].split(' ').join('-').toLowerCase()
         const page_slug = this.get_slug(page_title)
         const page_method = method.toLowerCase()
         const host = lang === 'zh-CN' ? 'cloud.zilliz.com.cn' : 'zillizcloud.com'
@@ -121,20 +121,23 @@ class refGen {
     for (const group of Object.keys(specifications.tags)) {
       const slug = specifications.tags[group].name.split(' ').join('-').toLowerCase()
       const group_name = specifications.tags[group].name.split(' ')[0]
+      const descriptions = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/descriptions.json', 'utf-8'))
+      const description = descriptions.filter(x => x.name === slug)[0].description
       const position = specifications.tags.map(x => x.name).indexOf(specifications.tags[group].name)
       const t = template.render({
         group_name,
         position,
-        slug
+        slug,
+        description
       })
 
-      const folder_path = `${target_path}/${group_name}`
+      const folder_path = `${target_path}/${slug}`
 
       if (!fs.existsSync(folder_path)) {
         fs.mkdirSync(folder_path)
       }
 
-      fs.writeFileSync(`${folder_path}/_category_.json`, t)
+      fs.writeFileSync(`${folder_path}/${slug}.md`, t)
     }
   }
   

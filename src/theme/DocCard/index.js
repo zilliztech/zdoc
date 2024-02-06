@@ -45,16 +45,16 @@ function CardCategory({item}) {
       icon="🗃️"
       title={item.label}
       description={
-        item.description ??
-        translate(
-          {
-            message: '{count} items',
-            id: 'theme.docs.DocCard.categoryDescription',
-            description:
-              'The default description for a category card in the generated index about how many items this category includes',
-          },
-          {count: item.items.length},
-        )
+        item.description ?? useDocById(item.items[0].docId.split('/').slice(0,-1).join('/') + '/' + item.items[0].docId.split('/').slice(0,-1).pop() ?? undefined) ?.description
+        // translate(
+        //   {
+        //     message: '{count} items',
+        //     id: 'theme.docs.DocCard.categoryDescription',
+        //     description:
+        //       'The default description for a category card in the generated index about how many items this category includes',
+        //   },
+        //   {count: item.items.length},
+        // )
       }
     />
   );

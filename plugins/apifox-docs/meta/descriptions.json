@@ -1,0 +1,26 @@
+[
+    {
+        "name": "cloud-meta",
+        "description": "This set of APIs provides a way to view cloud providers and regions."
+    },
+    {
+        "name": "cluster-operations",
+        "description": "This set of APIs provides a way to manage Zilliz Cloud clusters in a cloud provider."
+    },
+    {
+        "name": "collection-operations",
+        "description": "This set of APIs provides a way to manage collections in Zilliz Cloud."
+    },
+    {
+        "name": "import-operations",
+        "description": "This set of APIs provides a way to import data into Zilliz Cloud."
+    },
+    {
+        "name": "pipeline-operations",
+        "description": "This set of APIs provides a way to manage Zilliz Cloud Pipelines."
+    },
+    {
+        "name": "vector-operations",
+        "description": "This set of APIs provides a way to perform CRUD operations on the data stored in Zilliz Cloud."
+    }
+]

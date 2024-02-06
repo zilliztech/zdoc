@@ -1,16 +1,18 @@
 ---
-slug: /{{slug}}
+slug: /nodejs
 beta: FALSE
 notebook: FALSE
-sidebar_position: {{position}}
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# {{group_name}}
+# Node.js SDK Reference
 
-{{description}}
+This is the Node.js SDK reference documentation.
+
+## Contents
 
 import DocCardList from '@theme/DocCardList';
 
