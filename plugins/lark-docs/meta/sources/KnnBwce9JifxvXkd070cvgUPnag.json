@@ -5,7 +5,7 @@
   "node_token": "KnnBwce9JifxvXkd070cvgUPnag",
   "node_type": "origin",
   "obj_create_time": "1702439304",
-  "obj_edit_time": "1707035867",
+  "obj_edit_time": "1707188477",
   "obj_token": "F3rPdjH5soDvywx6Ec9cgDKgnNf",
   "obj_type": "docx",
   "origin_node_token": "KnnBwce9JifxvXkd070cvgUPnag",
@@ -3557,7 +3557,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "Scale up",
+                "content": "When CU capacity reaches 100%, you will be unable to write data into the cluster. Please ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "scale up",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
