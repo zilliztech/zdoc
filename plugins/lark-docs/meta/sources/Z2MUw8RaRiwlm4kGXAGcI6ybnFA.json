@@ -5,7 +5,7 @@
   "node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
   "node_type": "origin",
   "obj_create_time": "1699859454",
-  "obj_edit_time": "1706670561",
+  "obj_edit_time": "1707286131",
   "obj_token": "WVx8dp8wGoBBKexHzdicvLnynYc",
   "obj_type": "docx",
   "origin_node_token": "Z2MUw8RaRiwlm4kGXAGcI6ybnFA",
@@ -57,7 +57,7 @@
           "GmQFdDEkCoaplexzCVScu0fnnsc",
           "UNsBd443poKFfrxmjqlcJX9An0g",
           "GDgwdVk2joheefx6YKycITF3nFf",
-          "TkhpdOwGAo91B8xEWKEc0UcfnLb"
+          "FBGXdtL3yoTshExfcbZcVNWBnoW"
         ],
         "page": {
           "elements": [
@@ -2602,21 +2602,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "[WIP] Create Ingestion Pipeline",
+                "title": "Create Ingestion Pipeline",
                 "token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
                 "url": "https://zilliverse.feishu.cn/wiki/QFsIwkbwVi7CWdkMVGQcFnPonLc"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
               }
             }
           ],
@@ -2642,21 +2630,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "[WIP] Create Search Pipeline",
+                "title": "Create Search Pipeline",
                 "token": "TQnswMmIpiTmUSkf1iscU05Lnfb",
                 "url": "https://zilliverse.feishu.cn/wiki/TQnswMmIpiTmUSkf1iscU05Lnfb"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
               }
             }
           ],
@@ -2682,21 +2658,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "[WIP] Create Deletion Pipeline",
+                "title": "Create Deletion Pipeline",
                 "token": "PPAbwMvgdiGvS2kRyrLc7bJvn9e",
                 "url": "https://zilliverse.feishu.cn/wiki/PPAbwMvgdiGvS2kRyrLc7bJvn9e"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
               }
             }
           ],
@@ -2708,32 +2672,20 @@
         "parent_id": "WVx8dp8wGoBBKexHzdicvLnynYc"
       },
       {
-        "block_id": "TkhpdOwGAo91B8xEWKEc0UcfnLb",
+        "block_id": "FBGXdtL3yoTshExfcbZcVNWBnoW",
         "block_type": 12,
         "bullet": {
           "elements": [
             {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "FAQs",
-                "token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
-                "url": "https://zilliverse.feishu.cn/wiki/EV41wG08BiOWW8kbo9xcTGoPnKd#BjfidFi9FoqCXvxCTt2cQJPJnTf"
-              }
-            },
-            {
               "text_run": {
-                "content": " ",
+                "content": "FAQs",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Ffaq-pipelines"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }

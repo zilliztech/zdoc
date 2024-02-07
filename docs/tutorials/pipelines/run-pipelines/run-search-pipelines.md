@@ -95,5 +95,5 @@ Below is an example response.
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 
-- [FAQs](./faqs#faq-pipelines) 
+- [FAQs](./faq-pipelines)
 

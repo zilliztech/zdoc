@@ -5,7 +5,7 @@
   "node_token": "JQDDwqHi3i47jAkybnCcgNt6nSe",
   "node_type": "origin",
   "obj_create_time": "1706261074",
-  "obj_edit_time": "1706838438",
+  "obj_edit_time": "1707286056",
   "obj_token": "Bvlndb45JoworixJokocT55Znke",
   "obj_type": "docx",
   "origin_node_token": "JQDDwqHi3i47jAkybnCcgNt6nSe",
@@ -38,10 +38,10 @@
           "MyXpdRZE5otMy3x92sMcrXGfnTh",
           "JxqHdGUFsoeSIUxZHrWcx4Tgnmf",
           "IyvcdKa6Bo5PmpxfMeDcSPgZn0f",
-          "M4IQdhJloo4hKWxwb8EcpbWNnwg",
-          "AgZedy7eKoPF2IxaS4BcLI1knK5",
-          "BKDodw9y2onRfIxHHSkckY27nVd",
-          "B4mQdXbmXoL9EoxIBsfcqLMcnNd"
+          "I4GuddRgAopAaXxKm4Sc0L9Hnig",
+          "Ywm0dCEPfokLswxLjq8cyOwlnQf",
+          "Uk5Vd3NL3otPD7xmHkIcwjLmnTb",
+          "H5E8dte1poq9aexa9xNc4EMCnyc"
         ],
         "page": {
           "elements": [
@@ -1332,7 +1332,7 @@
         "parent_id": "Bvlndb45JoworixJokocT55Znke"
       },
       {
-        "block_id": "M4IQdhJloo4hKWxwb8EcpbWNnwg",
+        "block_id": "I4GuddRgAopAaXxKm4Sc0L9Hnig",
         "block_type": 12,
         "bullet": {
           "elements": [
@@ -1346,21 +1346,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "[WIP] Manage Pipelines",
+                "title": "Manage Pipelines",
                 "token": "RxmuwIgydiN3vkkKmATcam59nDc",
                 "url": "https://zilliverse.feishu.cn/wiki/RxmuwIgydiN3vkkKmATcam59nDc"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
               }
             }
           ],
@@ -1372,7 +1360,7 @@
         "parent_id": "Bvlndb45JoworixJokocT55Znke"
       },
       {
-        "block_id": "AgZedy7eKoPF2IxaS4BcLI1knK5",
+        "block_id": "Ywm0dCEPfokLswxLjq8cyOwlnQf",
         "block_type": 12,
         "bullet": {
           "elements": [
@@ -1412,7 +1400,7 @@
         "parent_id": "Bvlndb45JoworixJokocT55Znke"
       },
       {
-        "block_id": "BKDodw9y2onRfIxHHSkckY27nVd",
+        "block_id": "Uk5Vd3NL3otPD7xmHkIcwjLmnTb",
         "block_type": 12,
         "bullet": {
           "elements": [
@@ -1452,32 +1440,20 @@
         "parent_id": "Bvlndb45JoworixJokocT55Znke"
       },
       {
-        "block_id": "B4mQdXbmXoL9EoxIBsfcqLMcnNd",
+        "block_id": "H5E8dte1poq9aexa9xNc4EMCnyc",
         "block_type": 12,
         "bullet": {
           "elements": [
             {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "FAQs",
-                "token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
-                "url": "https://zilliverse.feishu.cn/wiki/EV41wG08BiOWW8kbo9xcTGoPnKd#BjfidFi9FoqCXvxCTt2cQJPJnTf"
-              }
-            },
-            {
               "text_run": {
-                "content": " ",
+                "content": "FAQs",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Ffaq-pipelines"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }

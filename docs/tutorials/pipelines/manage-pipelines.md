@@ -228,5 +228,5 @@ The following is an example output.
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 
-- [FAQs](./faqs#faq-pipelines) 
+- [FAQs](./faq-pipelines)
 

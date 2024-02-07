@@ -5,7 +5,7 @@
   "node_token": "WbQZwNrsIiqw1bkkP7zctG6knXf",
   "node_type": "origin",
   "obj_create_time": "1703211072",
-  "obj_edit_time": "1707038312",
+  "obj_edit_time": "1707285926",
   "obj_token": "T1VMdLekqoex3OxJ2wccYe15nNg",
   "obj_type": "docx",
   "origin_node_token": "WbQZwNrsIiqw1bkkP7zctG6knXf",
@@ -42,7 +42,7 @@
           "SjhAdeOP7oRz0cx0XAecEffAnfc",
           "MZTDdTmcPohmUvxC7AgchXKhnkh",
           "M3tqdpK8coneZax3bttcAGfnnPc",
-          "OH4VdWccwozql9xkjyYck9FinQe"
+          "Ox1kd0WR2oqbwAxvKjNcsJmXnxe"
         ],
         "page": {
           "elements": [
@@ -1923,32 +1923,20 @@
         "parent_id": "T1VMdLekqoex3OxJ2wccYe15nNg"
       },
       {
-        "block_id": "OH4VdWccwozql9xkjyYck9FinQe",
+        "block_id": "Ox1kd0WR2oqbwAxvKjNcsJmXnxe",
         "block_type": 12,
         "bullet": {
           "elements": [
             {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "FAQs",
-                "token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
-                "url": "https://zilliverse.feishu.cn/wiki/EV41wG08BiOWW8kbo9xcTGoPnKd#BjfidFi9FoqCXvxCTt2cQJPJnTf"
-              }
-            },
-            {
               "text_run": {
-                "content": " ",
+                "content": "FAQs",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Ffaq-pipelines"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }

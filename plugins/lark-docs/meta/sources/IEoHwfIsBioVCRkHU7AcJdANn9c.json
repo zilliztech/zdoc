@@ -5,7 +5,7 @@
   "node_token": "IEoHwfIsBioVCRkHU7AcJdANn9c",
   "node_type": "origin",
   "obj_create_time": "1706261052",
-  "obj_edit_time": "1706838434",
+  "obj_edit_time": "1707286042",
   "obj_token": "U2Y4dwccUoFrkax5nJdcbdEqnPb",
   "obj_type": "docx",
   "origin_node_token": "IEoHwfIsBioVCRkHU7AcJdANn9c",
@@ -45,7 +45,7 @@
           "P32Tdnuqio9OkSxHU43cXAjYnne",
           "MF5Bd0AuQoFUkzxw12QcEgvzn1b",
           "T0vyd9Qu8oshTLx3SdqchxlynRh",
-          "CLqUdNv1FolRUJxgR2Yc7Cjvnxf"
+          "ML2kdQGdyol6Ncx5dsac8YWonN7"
         ],
         "page": {
           "elements": [
@@ -2029,21 +2029,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "[WIP] Manage Pipelines",
+                "title": "Manage Pipelines",
                 "token": "RxmuwIgydiN3vkkKmATcam59nDc",
                 "url": "https://zilliverse.feishu.cn/wiki/RxmuwIgydiN3vkkKmATcam59nDc"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
               }
             }
           ],
@@ -2135,32 +2123,20 @@
         "parent_id": "U2Y4dwccUoFrkax5nJdcbdEqnPb"
       },
       {
-        "block_id": "CLqUdNv1FolRUJxgR2Yc7Cjvnxf",
+        "block_id": "ML2kdQGdyol6Ncx5dsac8YWonN7",
         "block_type": 12,
         "bullet": {
           "elements": [
             {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "FAQs",
-                "token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
-                "url": "https://zilliverse.feishu.cn/wiki/EV41wG08BiOWW8kbo9xcTGoPnKd#BjfidFi9FoqCXvxCTt2cQJPJnTf"
-              }
-            },
-            {
               "text_run": {
-                "content": " ",
+                "content": "FAQs",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Ffaq-pipelines"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }

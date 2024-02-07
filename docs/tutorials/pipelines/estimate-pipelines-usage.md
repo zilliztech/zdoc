@@ -77,5 +77,5 @@ To help easily understand the cost implication of any pipeline run, we offer a w
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 
-- [FAQs](./faqs#faq-pipelines) 
+- [FAQs](./faq-pipelines)
 

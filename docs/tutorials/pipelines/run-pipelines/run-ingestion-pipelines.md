@@ -92,5 +92,5 @@ The `doc_name` field in the output  will play a crucial role. If identical docum
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 
-- [FAQs](./faqs#faq-pipelines) 
+- [FAQs](./faq-pipelines)
 
