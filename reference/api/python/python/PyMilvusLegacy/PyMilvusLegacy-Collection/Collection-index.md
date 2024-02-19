@@ -1,0 +1,128 @@
+---
+displayed_sidbar: pythonSidebar
+slug: /python/Collection-index
+beta: false
+notebook: false
+token: RkQ8dnWDHo3DiDxiCVRcP1xPnob
+sidebar_position: 10
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# index()
+
+This operation gets the specified index of the current collection.
+
+```python
+pymilvus.Collection.index(
+    **kwargs
+)
+```
+
+The following operations are related to `index()`
+
+- create_index()
+
+- drop_index()
+
+- has_index()
+
+- index()
+
+- utility.index_building_progress()
+
+- utility.wait_for_index_building_complete()
+
+- utility.list_indexes()
+
+See also the Python SDK Reference.
+
+## Request Syntax{#request-syntax}
+
+```python
+from pymilvus import Collection
+
+from pymilvus import Collection
+
+# Get an existing collection
+collection = Collection(name="string")
+
+# Get all indexes
+collection.index(index_name="string")
+```
+
+**PARAMETERS:**
+
+- **kwargs - **
+
+    Additional keyword arguments.
+
+    - **index_name** (*str*) -
+
+        The name of the index. If no index is specified, the default index name is used.
+
+        A default index name is in the following format: `_default_idx_{field_id}`.
+
+**RETURN TYPE:**
+
+*Index*
+
+**RETURNS:**
+
+An Index object of the current collection.
+
+**EXCEPTIONS:**
+
+- **IndexNotExistException**
+
+    This exception will be raised when the specified index does not exist.
+
+- **AmbiguousIndexName**
+
+    This exception will be raised when multiple indexes exist but no index name has been specified. 
+
+## Examples{#examples}
+
+```python
+from pymilvus import Collection
+
+# Get an existing collection
+collection = Collection(name="test_collection")
+
+# Create an index on a scalar field
+collection.create_index(
+    field_name="id"
+)
+
+# Set the index parameters
+index_params = {
+    "index_type": "AUTOINDEX",
+    "metric_type": "COSINE",
+    "params": {
+        "nprobe": 10
+    }
+}
+
+# Create an index on the vector field
+collection.create_index(
+    field_name="vector", 
+    index_params=index_params, 
+    timeout=None
+)
+
+# Check the index
+collection.has_index() # True
+
+# list all index names
+collection.indexes
+
+# [<pymilvus.orm.index.Index at 0x12045f910>,
+# <pymilvus.orm.index.Index at 0x12045d0d0>]
+
+# Get a specific index object
+collection.index(index_name="_default_idex_101")
+
+# <pymilvus.orm.index.Index at 0x1205b8690>
+```
+

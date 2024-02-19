@@ -1,0 +1,101 @@
+---
+displayed_sidbar: pythonSidebar
+slug: /python/utility-mkts_from_unixtime
+beta: false
+notebook: false
+token: ZdKEd2ua6o9AHHxKq25ctNSdncb
+sidebar_position: 38
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# mkts_from_unixtime()
+
+This operation converts a hybrid timestamp from a UNIX epoch timestamp.
+
+```python
+pymilvus.utility.mkts_from_unixtime(
+    epoch: float,
+    milliseconds: float = 0.0,
+    delta: Optional[timedelta] = None,
+)
+```
+
+The following operations are related to `mkts_from_unixtime()`:
+
+- mkts_from_hybridts()
+
+- mkts_from_datetime()
+
+- hybridts_to_unixtime()
+
+- hybridts_to_datatime()
+
+See also the Python SDK Reference.
+
+## Request Syntax{#request-syntax}
+
+```python
+from pymilvus import utility
+
+utility.mkts_from_unixtime(
+    epoch=1704550236
+    milliseconds=0.0
+    delta=None
+)
+```
+
+**PARAMETERS:**
+
+- **epoch** (*float*) -
+
+    **[REQUIRED]**
+
+    A UNIX epoch timestamp.
+
+    A UNIX epoch timestamp is an integer that represents the time elapsed since January 1, 1970 (midnight UTC/GMT) in seconds.
+
+- **milliseconds** (*float*) -
+An incremental time interval in milliseconds.
+
+- **delta** (*Optional[timedelta]*) -
+
+    A **datetime.timedelta** object that represents the duration expressing the difference between two `date`, `time`, or `datetime` instances to microsecond resolution.
+
+**RETURN TYPE:**
+
+*int*
+
+**RETURNS:**
+A hybrid timestamp, which is a non-negative integer ranging from **0** to **18446744073709551615**.
+
+## **Examples**{#examples}
+
+```python
+import time
+from datetime import timedelta
+from pymilvus import utility
+
+# Get a UNIX epoch timestamp
+epoch1 = time.time()
+
+# Set up a timedelta object
+delta = timedelta(
+    days=50,
+    seconds=27,
+    microseconds=10,
+    milliseconds=29000,
+    minutes=5,
+    hours=8,
+    weeks=2
+)
+
+# Get a hybrid timestamp
+mkts_from_unixtime(
+    epoch=epoch1,
+    milliseconds=1000,
+    delta=delta,
+)
+```
+

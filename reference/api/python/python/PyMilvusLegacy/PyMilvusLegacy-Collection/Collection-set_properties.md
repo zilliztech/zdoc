@@ -1,0 +1,92 @@
+---
+displayed_sidbar: pythonSidebar
+slug: /python/Collection-set_properties
+beta: false
+notebook: false
+token: ECmAdaYKboPTNlxqkLxcUEZ4nrh
+sidebar_position: 17
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# set_properties()
+
+This operation sets properties for the collection.
+
+```python
+pymilvus.Collection.set_properties(
+    properties: dict, 
+    timeout: float | None, 
+    kwargs
+)
+```
+
+The following operations are related to `insert()`:
+
+- Collection
+
+See also the Python SDK Reference.
+
+## Request Syntax{#request-syntax}
+
+```python
+from pymilvus import Collection
+
+# Get an existing collection
+collection = Collection(name="string")
+
+# Set the properties
+collection.set_properties(
+    properties={
+        "collection.ttl.seconds": 60
+    }
+)
+```
+
+**PARAMETERS:**
+
+- properties (dict) -
+
+    A set of collection properties in the form of a dictionary. Currently, you can set the following properties:
+
+    - **collection.ttl.seconds**
+
+        Once this property is set, data in the current collection expires in the specified time. Expired data in the collection will be cleaned up and will not be involved in searches or queries.
+
+- **timeout** (*float*)  -
+
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+**RETURN TYPE:**
+
+*NoneType*
+
+**RETURNS:**
+
+None
+
+## Examples{#examples}
+
+```python
+from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
+
+schema = CollectionSchema([
+    FieldSchema("id", DataType.INT64, is_primary=True),
+    FieldSchema("vector", DataType.FLOAT_VECTOR, dim=5)
+])
+
+# Create a collection
+collection = Collection(
+    name="test_collection",
+    schema=schema
+)
+
+# Set the TTL for the data in the collection
+collection.set_properties(
+    properties={
+        "collection.ttl.seconds": 60
+    }
+)
+```
+

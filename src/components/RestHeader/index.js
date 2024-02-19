@@ -26,7 +26,7 @@ export default function RestHeader (props) {
 
     return (
         <div>
-            <div style={{display: "inline-block", background: color, fontSize: "0.6em", borderRadius: "10px", color: "#ffffff", padding: "0.3em 1em", height: "100%", verticalAlign: "middle"}}>
+            <div style={{display: "inline-block", background: color, fontSize: "0.6em", borderRadius: "10px", color: "#ffffff", padding: "0.3em 1em", height: "100%", verticalAlign: "middle", marginBottom: "0.3em"}}>
                 <span>{method.toUpperCase()}</span>
             </div>
             <span style={{fontWeight: "bold", marginLeft: "0.5em"}}>  {endpoint}</span>

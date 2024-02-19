@@ -37,7 +37,7 @@ The INDEX_DOC function splits the input text document into chunks and generates 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-An Ingestion pipeline requires one and only one INDEX_DOC function.
+<p>An Ingestion pipeline requires one and only one INDEX_DOC function.</p>
 
 </Admonition>
 

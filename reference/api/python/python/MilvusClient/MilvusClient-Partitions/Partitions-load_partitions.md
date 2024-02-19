@@ -1,0 +1,107 @@
+---
+displayed_sidbar: pythonSidebar
+slug: /python/Partitions-load_partitions
+beta: false
+notebook: false
+token: DdQ1dBNagoBa08xhEiucxZrHnzc
+sidebar_position: 5
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# load_partitions()
+
+This operation loads a specific set of partitions in a specified collection into memory.
+
+## Request Syntax{#request-syntax}
+
+```python
+pymilvus.MilvusClient.load_partitions(
+    collection_name: str,
+    partition_names: str | List[str],
+    timeout: Optional[float] = None
+) -> None
+```
+
+**PARAMETERS:**
+
+- **collection_name **(*str*) -
+
+    **[REQUIRED]**
+
+    The name of an existing collection.
+
+- **partition_names** (*str | list[str]*) -
+
+    **[REQUIRED]**
+
+    A list of the names of the partitions to load.
+
+- **timeout** (*float *|* None*)  
+
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+**RETURN TYPE:**
+
+*NoneType*
+
+**RETURNS:**
+
+None
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>A collection is in the loaded state only if all its partitions are loaded.</p>
+
+</Admonition>
+
+**EXCEPTIONS:**
+
+- **MilvusException**
+
+    This exception will be raised when any error occurs during this operation.
+
+## Example{#example}
+
+```python
+from pymilvus import MilvusClient
+
+# 1. Create a milvus client
+client = MilvusClient(
+    uri="http://localhost:19530",
+    token="root:Milvus"
+)
+
+# 2. Create a collection
+client.create_collection(collection_name="test_collection", dimension=5)
+
+# 3. Create a partition
+client.create_partition(
+    collection_name="test_collection", 
+    partition_name="partition_A"
+)
+
+# 4. Release the collection
+client.release_collection(collection_name="test_collection")
+
+# 5. Load a partition
+client.load_partitions(
+    collection_name="test_collection",
+    partition_names=["partition_A"]
+)
+
+# 6. Check the load status of the collection
+client.get_load_state(collection_name="test_collection") 
+
+# {'state': <LoadState: NotLoad>}
+
+# 7. Check the load status of the partition
+client.get_load_state(
+    collection_name="test_collection",
+    partition_names=["partition_A"],
+)
+
+# {'state': <LoadState: Loaded>}
+```
+

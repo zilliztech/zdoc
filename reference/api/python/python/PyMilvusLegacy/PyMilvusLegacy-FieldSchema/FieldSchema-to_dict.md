@@ -1,0 +1,98 @@
+---
+displayed_sidbar: pythonSidebar
+slug: /python/FieldSchema-to_dict
+beta: false
+notebook: false
+token: G1gsdGWwuoPOPrxJdABcfa76nUd
+sidebar_position: 2
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# to_dict()
+
+This operation converts a FieldSchema object to a dictionary representation.
+
+```python
+pymilvus.FieldSchema.to_dict()
+```
+
+The following operations are related to `to_dict()`:
+
+- FieldSchema
+
+- CollectionSchema
+
+See also the Python SDK Reference.
+
+## Request Syntax{#request-syntax}
+
+```python
+from pymilvus import CollectionSchema, FieldSchema, DataType
+
+# Create field schemas  
+primary_key = FieldSchema(
+    name="string",
+    dtype=DataType,
+    is_primary=True,
+)
+ 
+vector = FieldSchema(
+    name="string", 
+    dtype=DataType,
+    dim=int
+)
+
+# Get dictionary representation
+primary_key_dict = primary_key.to_dict()
+vector_dict = vector.to_dict()
+```
+
+**PARAMETERS:**
+
+None
+
+**RETURN TYPE:**
+
+*dict*
+
+**RETURNS:**
+
+The dictionary representation of the field schema.
+
+**EXCEPTIONS:**
+
+- **MilvusException**
+
+    This exception will be raised when any error occurs during this operation.
+
+## Examples{#examples}
+
+```python
+from pymilvus import CollectionSchema, FieldSchema, DataType
+
+# Create field schemas  
+primary_key = FieldSchema(
+    name="id",
+    dtype=DataType.INT64,
+    is_primary=True,
+)
+ 
+vector = FieldSchema(
+    name="vector", 
+    dtype=DataType.FLOAT_VECTOR,
+    dim=768
+)
+
+# Get dictionary representation
+primary_key_dict = primary_key.to_dict()
+vector_dict = vector.to_dict()
+
+print(primary_key_dict)
+print(vector_dict)
+
+# Output
+# {'name': 'id', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': False}
+# {'name': 'vector', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 768}}
+```

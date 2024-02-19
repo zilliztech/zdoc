@@ -1,0 +1,43 @@
+{
+  "created_time": "1708317839",
+  "modified_time": "1708318052",
+  "name": "Insert & Delete",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "DxvKfXmUolw51AdM5Mdcyr8Angh",
+  "token": "ZA7LfYxQHltI94dGs2Fc62AvnSh",
+  "type": "folder",
+  "url": "https://zilliverse.feishu.cn/drive/folder/ZA7LfYxQHltI94dGs2Fc62AvnSh",
+  "slug": "MilvusClient-InsertDelete",
+  "children": [
+    {
+      "created_time": "1704884342",
+      "modified_time": "1707112839",
+      "name": "delete()",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "ZA7LfYxQHltI94dGs2Fc62AvnSh",
+      "token": "DWLXdSCYnoPT4ExktRKceEqLnAd",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/DWLXdSCYnoPT4ExktRKceEqLnAd"
+    },
+    {
+      "created_time": "1705028645",
+      "modified_time": "1706598344",
+      "name": "insert()",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "ZA7LfYxQHltI94dGs2Fc62AvnSh",
+      "token": "QI87dhVnioL9JLxnNKxcM8jWnkh",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/QI87dhVnioL9JLxnNKxcM8jWnkh"
+    },
+    {
+      "created_time": "1705563808",
+      "modified_time": "1705564066",
+      "name": "upsert()",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "ZA7LfYxQHltI94dGs2Fc62AvnSh",
+      "token": "WRYFdoDe8ofrlDxxTxQcdoJjnAh",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/WRYFdoDe8ofrlDxxTxQcdoJjnAh"
+    }
+  ]
+}

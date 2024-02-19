@@ -1,0 +1,165 @@
+---
+displayed_sidbar: pythonSidebar
+slug: /python/Collection-load
+beta: false
+notebook: false
+token: HQDndiGwloWKIexgPCUcEZGenOh
+sidebar_position: 6
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# load()
+
+This operation loads the data of the current collection into memory. 
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>This operation is non-blocking. You can call <code>utility.wait_for_loading_complete()</code> to block the current process.</p>
+
+</Admonition>
+
+```python
+pymilvus.Collection.load(
+    partition_names: list[str] | None, 
+    replica_number: int, 
+    timeout: float | None, 
+)
+```
+
+The following operations are related to `load()`:
+
+- Collection
+
+- Partition
+
+- release()
+
+- utility.load_state()
+
+- utility.load_progress()
+
+- utility.wait_for_load_complete()
+
+See also the Python SDK Reference.
+
+## Request Syntax{#request-syntax}
+
+```python
+from pymilvus import Collection
+
+# Get an existing collection
+collection = Collection(name="string")
+
+# Load the collection data into memory
+collection.load(
+    partition_names=["string01", "string02"],
+    replica_number=1,
+    timeout=None
+)
+```
+
+**PARAMETERS:**
+
+- **partition_names** (*list(str)* | *None*) - 
+
+    The partitions of the current collection to load. If left unspecified, all partitions are to be loaded.
+
+- **replica_number** (*int*) -
+
+    The number of replicas to create. The value defaults to 1 and ranges from 1 to the number of query nodes available. Setting this to `1` indicates that segments in the current collection or any specified partitions are to be loaded onto one query node.
+
+    <Admonition type="info" icon="📘" title="What are the differences between partitions and replicas?">
+
+    <p>Partitioning allows you to further split a collection into multiple partitions, store different data in them, and load or release each of them individually. A collection can have up to 64 partitions. </p>
+    <p>Replication is a mechanism for Zilliz Cloud to load the same segments on multiple query nodes. It is very useful if you have a relatively small dataset but want to increase read-throughput with extra hardware resources.</p>
+
+    </Admonition>
+
+- **timeout** (*float *|* None*)  -
+
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+- **kwargs** - 
+
+    - **_resource_groups** (*list*) -
+
+        A specific set of resource groups into which the current collection is to be loaded.
+
+        If left unspecified, the default resource group applies.
+
+        <Admonition type="info" icon="📘" title="What is a resource group?">
+
+        <p>A resource group can hold several or all of the query nodes in a Zilliz Cloud cluster.</p>
+        <p>Setting this parameter for this operation makes Zilliz Cloud loads the current collection to the query nodes in the specified resource groups.</p>
+
+        </Admonition>
+
+**RETURN TYPE:**
+
+*NoneType*
+
+**RETURNS:**
+
+*None*
+
+**EXCEPTIONS:**
+
+- **MilvusException**
+
+    This exception is to be raised when any error occurs during this operation.
+
+<Admonition type="danger" icon="🚧" title="Warning">
+
+<p>If you try to load a collection that is not indexed, you will receive a <strong>MilvusException</strong>.</p>
+
+</Admonition>
+
+## Examples{#examples}
+
+```python
+from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
+
+schema = CollectionSchema([
+    FieldSchema("id", DataType.INT64, is_primary=True),
+    FieldSchema("vector", DataType.FLOAT_VECTOR, dim=5)
+])
+
+# Create a collection
+collection = Collection(
+    name="test_collection",
+    schema=schema
+)
+
+# Set the index parameters
+index_params = {
+    "index_type": "AUTOINDEX",
+    "metric_type": "COSINE",
+    "params": {
+        "nprobe": 10
+    }
+}
+
+# Create an index on the vector field
+collection.create_index(
+    field_name="vector", 
+    index_params=index_params, 
+    timeout=None
+)
+
+# Load the entire collection with one replica of the collection data
+collection.load()
+
+# Load the entire collection with two replicas of the collection data
+collection.load(
+    replica_number=2
+)
+
+# Load a specific partition with two replicas of the partition data
+collection.load(
+    partition_names=["partitionA"],
+    replica_number=2
+)
+```
+

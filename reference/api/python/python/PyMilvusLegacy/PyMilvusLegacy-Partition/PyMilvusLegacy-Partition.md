@@ -1,0 +1,106 @@
+---
+displayed_sidbar: pythonSidebar
+slug: /python/PyMilvusLegacy-Partition
+beta: false
+notebook: false
+token: Ed0CftM6Mlb5e4dUYApc9syJnDb
+sidebar_position: 8
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# Partition
+
+A **Partition** instance represents a partition within a collection.
+
+```python
+class pymilvus.Partition
+```
+
+## Constructor{#constructor}
+
+Constructs a partition in a collection by name, description, and other parameters. 
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>When using partitions, ensure that <strong>enable<em>partition</em>key</strong> is not set to <strong>True</strong> in the collection schema. Otherwise, an error will occur.</p>
+
+</Admonition>
+
+```python
+from pymilvus import Collection, Partition
+
+# Get an existing collection
+collection = Collection(name="string")
+
+# Create a partition in the collection
+partition = Partition(
+    collection=collection, 
+    name="string",
+    description="string",
+)
+```
+
+**PARAMETERS:**
+
+- **collection** (*Collection* | *str*) - 
+
+    **[REQUIRED]**
+
+    The collection in which to create a partition. 
+
+    You can either reference a **Collection** object or its name.
+
+    <Admonition type="info" icon="📘" title="What is a collection?">
+
+    <p>A collection collects data in a two-dimensional table with a fixed number of columns and a variable number of rows. In the table, each column corresponds to a field, and each row represents an entity.</p>
+    <p>A collection can support up to 64 partitions.</p>
+
+    </Admonition>
+
+- **name** (*string*) - 
+
+    **[REQUIRED]**
+
+    The name of the partition to create.
+
+- **description** (*string*) - 
+
+    The description of the partition to create.
+
+**RETURN TYPE:**
+
+*Partition*
+
+**RETURNS:**
+
+A **Partition** object.
+
+**EXCEPTIONS:**
+
+- **MilvusException**
+
+    This exception will be raised when any error occurs during this operation.
+
+## Examples{#examples}
+
+```python
+from pymilvus import Collection, Partition
+
+# Get an existing collection
+collection = Collection("book")
+
+# Create a partition object in the current collection
+partition = Partition(collection, "novel", "")
+```
+
+## Methods{#methods}
+
+The following are the methods of the `Partition` class:
+
+
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

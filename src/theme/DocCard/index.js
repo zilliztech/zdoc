@@ -8,6 +8,21 @@ import {
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import {translate} from '@docusaurus/Translate';
 import styles from './styles.module.css';
+
+function findCategoryDocId(item, level=0) {
+  var docId;
+  if (item.type === 'category') {
+    level -= 1;
+    if (item.items[0].type === 'link') {
+      docId = item.items[0].docId.split('/').slice(0, level).join('/') + '/' + item.items[0].docId.split('/').slice(0, level).pop();
+    } else {
+      docId = findCategoryDocId(item.items[0], level);
+    }
+  }
+
+  return docId;
+}
+
 function CardContainer({href, children}) {
   return (
     <Link
@@ -39,13 +54,17 @@ function CardCategory({item}) {
   if (!href) {
     return null;
   }
+
+  var docId = findCategoryDocId(item);
+  console.log(docId);
+
   return (
     <CardLayout
       href={href}
       icon="🗃️"
       title={item.label}
       description={
-        item.description ?? useDocById(item.items[0].docId.split('/').slice(0,-1).join('/') + '/' + item.items[0].docId.split('/').slice(0,-1).pop() ?? undefined) ?.description
+        item.description ?? useDocById(docId ?? undefined) ?.description
         // translate(
         //   {
         //     message: '{count} items',

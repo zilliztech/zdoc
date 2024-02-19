@@ -1,0 +1,570 @@
+{
+  "created_time": "1704271859",
+  "modified_time": "1704337568",
+  "name": "get_users()",
+  "owner_id": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_token": "O8YAfe5P0lZ0TZdUOqNcDHEunCe",
+  "token": "CCOhd671iog6rRxu8aOcaPncnLK",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/CCOhd671iog6rRxu8aOcaPncnLK",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "CCOhd671iog6rRxu8aOcaPncnLK",
+        "block_type": 1,
+        "children": [
+          "doxcnbHumeMG2sRrL5hrKbH1BKf",
+          "doxcnIGczi1Ln5sjkkmWox6qiFg",
+          "OabOdPjbsotvhLx8TqIcXCmdnMh",
+          "QxNHdtfJEopUuDxiQbYcr6yxnYH",
+          "TYd2djal9oJmKGx4B3gcmPQlnRg",
+          "JrildOCtgoYGWwxhFzvclicknke",
+          "T5r6dFrNeoaJhUxJlNRciRb3nPg",
+          "MC8MddIw0oZPiZxlWVFcBgdbnyf",
+          "XUJUdQwgcoxxdbxivKbcZux4n6d",
+          "OywodZO22ofYTGxHICvcs9frnlb",
+          "O72EdxzeOoGHn1xQsYlcKw97nGf",
+          "ZDHddmT5doZy6lxUhzpcb3bpnvb",
+          "OoO3dht5So0VhXx0mfZcYYtDny5",
+          "UNe1dAMtfogIhwxhTbecrQounfg",
+          "Iza8deXSMoqjbZxA1tncvhCTnye",
+          "OwNud51rwoE1k5xQJdEcWy9mnE4",
+          "DxYadBE65oSrHaxcpmtcvkyonHf",
+          "doxcnzMadPDNs9gZHIqlYU3oxFf"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "get_users()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnbHumeMG2sRrL5hrKbH1BKf",
+        "block_type": 2,
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation lists all users associated with the current role.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnIGczi1Ln5sjkkmWox6qiFg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pymilvus.Role.get_users()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK"
+      },
+      {
+        "block_id": "OabOdPjbsotvhLx8TqIcXCmdnMh",
+        "block_type": 2,
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following operations are related to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "get_users()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QxNHdtfJEopUuDxiQbYcr6yxnYH",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Role",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK"
+      },
+      {
+        "block_id": "TYd2djal9oJmKGx4B3gcmPQlnRg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "add_user()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK"
+      },
+      {
+        "block_id": "JrildOCtgoYGWwxhFzvclicknke",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "remove_user()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK"
+      },
+      {
+        "block_id": "T5r6dFrNeoaJhUxJlNRciRb3nPg",
+        "block_type": 2,
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "See also the Python SDK Reference.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MC8MddIw0oZPiZxlWVFcBgdbnyf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK"
+      },
+      {
+        "block_id": "XUJUdQwgcoxxdbxivKbcZux4n6d",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import Role\n\n# Get an existing role\nrole = Role(name=\"string\")\n\n# List all users associated with the current role\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "users = role.get_users()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK"
+      },
+      {
+        "block_id": "OywodZO22ofYTGxHICvcs9frnlb",
+        "block_type": 2,
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O72EdxzeOoGHn1xQsYlcKw97nGf",
+        "block_type": 2,
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "N/A",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZDHddmT5doZy6lxUhzpcb3bpnvb",
+        "block_type": 2,
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OoO3dht5So0VhXx0mfZcYYtDny5",
+        "block_type": 2,
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "tuple",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UNe1dAMtfogIhwxhTbecrQounfg",
+        "block_type": 2,
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Iza8deXSMoqjbZxA1tncvhCTnye",
+        "block_type": 2,
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A tuple that contains the names of all users added to the current role.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OwNud51rwoE1k5xQJdEcWy9mnE4",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK"
+      },
+      {
+        "block_id": "DxYadBE65oSrHaxcpmtcvkyonHf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import Role\n\n# Get an existing role\nrole = Role(name=\"admin\")\n\n# List all users associated with the current role\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "users = role.get_users()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " # (admin, )",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK"
+      },
+      {
+        "block_id": "doxcnzMadPDNs9gZHIqlYU3oxFf",
+        "block_type": 2,
+        "parent_id": "CCOhd671iog6rRxu8aOcaPncnLK",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 19
+  },
+  "slug": "Role-get_users"
+}

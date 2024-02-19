@@ -5,15 +5,18 @@ const fs = require('node:fs')
 const { URL } = require('node:url')
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
+const showdown = require('showdown')
 
 class larkDocWriter {
-    constructor(root_token, docSourceDir='plugins/lark-docs/meta/sources', imageDir='static/img', target='saas', skip_image_download=false) {
+    constructor(root_token, base_token, docSourceDir='plugins/lark-docs/meta/sources', imageDir='static/img', targets='zilliz.saas', skip_image_download=false) {
         this.root_token = root_token
+        this.base_token = base_token
         this.docSourceDir = docSourceDir
         this.page_blocks = []
         this.blocks = []
-        this.target = target
+        this.targets = targets
         this.skip_image_download = skip_image_download
+        this.imageDir = imageDir
         this.block_types = [
             "page",
             "text",
@@ -302,7 +305,7 @@ class larkDocWriter {
             })
 
             let a = await this.__markdown()
-            a = this.__filter_content(a, this.target).split('\n')
+            a = this.__filter_content(a, this.targets).split('\n')
             let header_pos = a.map((line, index) => {
                 if (line.startsWith('##')) {
                     return index
@@ -368,9 +371,9 @@ class larkDocWriter {
     // }
 
     async __listed_docs() {
-        const app_id = this.__fetch_doc_source('node_token', this.root_token).children.slice(-1)[0].obj_token
+        // const app_id = this.__fetch_doc_source('node_token', this.root_token).children.slice(-1)[0].obj_token
         const token = await this.tokenFetcher.token()
-        let url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${app_id}/tables`
+        let url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_token}/tables`
         const table_id = (await (await fetch(url, {
             method: "get",
             headers: {
@@ -379,7 +382,7 @@ class larkDocWriter {
             }
         })).json()).data.items[0].table_id
 
-        url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${app_id}/tables/${table_id}/records?page_size=500`
+        url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_token}/tables/${table_id}/records?page_size=500`
         this.records = (await (await fetch(url, {
             method: "get",
             headers: {
@@ -395,12 +398,12 @@ class larkDocWriter {
         }
 
         const result = this.records.filter(record => {
-            if (record["fields"]["Docs"] && record["fields"]["Docs"] === title &&
+            if (record["fields"]["Docs"] && record["fields"]["Docs"]["text"] === title && record["fields"]["Targets"] &&
                 record["fields"]["Progress"] && (record["fields"]["Progress"] === "Draft" || record["fields"]["Progress"] === "Publish")) {
-                
-                if ((this.target === 'saas' && record["fields"]["Target"] && record["fields"]["Target"] != "PaaS Only") ||
-                    (this.target === 'paas' && record["fields"]["Target"] && record["fields"]["Target"] != "SaaS Only")
-                ) {
+
+                const targets = record["fields"]["Targets"].map(item => item.trim().toLowerCase())
+
+                if (targets.includes(this.targets.toLowerCase())) {
                     return record
                 }
             }
@@ -413,7 +416,8 @@ class larkDocWriter {
                 beta: result[0]["fields"]["Beta"],
                 notebook: result[0]["fields"]["Notebook"],
                 labels: result[0]["fields"]["Labels"],
-                keywords: result[0]["fields"]["Keywords"]
+                keywords: result[0]["fields"]["Keywords"],
+                description: result[0]["fields"]["Description"]
             }
         } else {
             return {
@@ -423,34 +427,46 @@ class larkDocWriter {
         
     }
 
-    __filter_content (markdown, target) {
+    __filter_content (markdown, targets) {
         const regex = /<(include|exclude) target="(\b(\w+,)*\w+\b)">[\s\S]*?<\/\1>/g
-        markdown = markdown.replace(regex, (match, tag, value) => {
-            value = value.split(',').map(item => item.trim())
-            if (tag == 'include' && value.includes(target)) {
-                return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
-            }
+        targets = targets.split('.')
+        for (let target of targets) {
+            markdown = markdown.replace(regex, (match, tag, value) => {
+                value = value.split(',').map(item => item.trim())
+                if (tag == 'include' && value.includes(target)) {
+                    return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
+                }
 
-            if (tag == 'exclude' && !value.includes(target)) {
-                return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
-            }
+                if (tag == 'include' && !value.includes(target)) {
+                    if (targets.indexOf(target) === targets.length - 1) {
+                        return ""
+                    } else {
+                        return match
+                    }
+                    
+                }
 
-            if (tag == 'exclude' && value.includes(target)) {
-                return ""
-            }
-            
-            if (tag == 'include' && !value.includes(target)) {
-                return ""
-            }
-        })
+                if (tag == 'exclude' && value.includes(target)) {
+                    return ""
+                }
+    
+                if (tag == 'exclude' && !value.includes(target)) {
+                    if (targets.indexOf(target) === targets.length - 1) {
+                        return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
+                    } else {
+                        return match
+                    }
+                }
+            })
+        }
 
-        return markdown.replace(/\n{3,}/g, '\n\n').replace(/^\|(\s*\|)*\s*\n/gm, '')
+        return markdown.replace(/\n{3,}/g, '\n\n')
     }
 
     async __write_page({slug, beta, notebook, path, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
         let front_matter = this.__front_matters(slug, beta, notebook, token, sidebar_position, sidebar_label, keywords)
         let markdown = await this.__markdown()
-        markdown = this.__filter_content(markdown, this.target)
+        markdown = this.__filter_content(markdown, this.targets)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
         markdown = markdown.replace(/^[\||\s][\s|\||<br\/>]*\|\n/gm, '')
 
@@ -466,7 +482,15 @@ class larkDocWriter {
 
         var file_path = `${path}/${slug}.md`
 
-        fs.writeFileSync(file_path, front_matter + '\n\n' + imports + '\n\n' + markdown)
+        if (path) {
+            fs.writeFileSync(file_path, front_matter + '\n\n' + imports + '\n\n' + markdown)
+        } else {
+            return {
+                front_matter,
+                imports,
+                markdown
+            }
+        }
     }
 
     __front_matters (slug, beta, notebook, token, sidebar_position=undefined, sidebar_label="", keywords="") {
@@ -568,7 +592,7 @@ class larkDocWriter {
     async __heading(heading, level) {
         let content = await this.__text_elements(heading['elements'])
         if (content.length > 0) {
-            content = this.__filter_content(content, this.target)
+            content = this.__filter_content(content, this.targets)
             let slug = slugify(content, {lower: true, strict: true})
             return '#'.repeat(level) + ' ' + content + '{#'+slug+'}';
         } else {
@@ -608,6 +632,7 @@ class larkDocWriter {
             })
 
             children = await this.__markdown(children, indent)
+            children = children.split('\n')
         }
 
         let emoji = block['callout']['emoji_id']
@@ -615,18 +640,21 @@ class larkDocWriter {
 
         switch (emoji) {
             case 'blue_book':
-                type = '<Admonition type="info" icon="📘" title="Notes">'
+                type = `<Admonition type="info" icon="📘" title="${children[0].trim()}">`
                 break;
             case 'construction':
-                type = '<Admonition type="danger" icon="🚧" title="Caution">'
+                type = `<Admonition type="danger" icon="🚧" title="${children[0].trim()}">`
                 break;
             default:
-                type = '<Admonition type="info" icon="📘" title="Notes">'
+                type = `<Admonition type="info" icon="📘" title="${children[0].trim()}">`
                 break; 
         }               
         
-        const raw = ' '.repeat(indent) + type + '\n\n' + children.split('\n').slice(1).join(' '.repeat(indent) + '\n') + '\n\n' + ' '.repeat(indent) + '</Admonition>';
-        return raw.replace(/(\s*\n){3,}/g, '\n\n');
+        const converter = new showdown.Converter()
+        const html = converter.makeHtml(children.slice(1).map(line => line.replace(/^\s*/g, '')).join('\n'))
+
+        const raw = ' '.repeat(indent) + type + '\n\n' + ' '.repeat(indent) + html.split('\n').join('\n' + ' '.repeat(indent)) + '\n\n' + ' '.repeat(indent) + '</Admonition>';
+        return raw.replace(/(\s*\n){3,}/g, `\n${' '.repeat(indent)}\n`);
     }
 
     async __code(code, indent, prev, next, blocks) {
@@ -775,21 +803,24 @@ class larkDocWriter {
             type = 'caution 🚧 Warning';
         }
 
-        res[0] = `<Admonition type="${type.split(' ')[0]}" icon="${type.split(' ')[1]}" title="${type.split(' ')[2]}">`;
+        type = `<Admonition type="${type.split(' ')[0]}" icon="${type.split(' ')[1]}" title="${type.split(' ')[2]}">`;
         res.splice(1, 0, "");
 
-        const raw = ' '.repeat(indent) + res.join(' '.repeat(indent) + '\n') + '\n\n' + ' '.repeat(indent) + '</Admonition>';
+        const converter = new showdown.Converter()
+        const html = converter.makeHtml(res.slice(1).map(line => line.replace(/^\s*/g, '')).join('\n'))
+
+        const raw = ' '.repeat(indent) + type + '\n\n' + ' '.repeat(indent) + html.split('\n').join('\n' + ' '.repeat(indent)) + '\n\n' + ' '.repeat(indent) + '</Admonition>';
         return raw.replace(/(\s*\n){3,}/g, '\n\n');
     }  
     
     async __image(image) {
         if (this.skip_image_download) {
-            const root = this.target === 'saas' ? 'img' : 'byoc'
+            const root = this.imageDir.replace(/^static\//g, '')
             return `![${image.token}](/${root}/${image["token"]}.png)`;
         }
 
         const result = await this.downloader.__downloadImage(image.token)
-        const root = this.target === 'saas' ? 'img' : 'byoc'
+        const root = this.imageDir.replace(/^static\//g, '')
         result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${image["token"]}.png`));
         return `![${image.token}](/${root}/${image["token"]}.png)`;
     }
@@ -799,7 +830,7 @@ class larkDocWriter {
             return '';
         } else if (this.skip_image_download) {
             const url = new URL(decodeURIComponent(iframe.component.url))
-            const root = this.target === 'saas' ? 'img' : 'byoc'
+            const root = this.imageDir.replace(/^static\//g, '')
             const key = url.pathname.split('/')[2]
             const node = url.searchParams.get('node-id').split('-').join(":") 
 
@@ -807,7 +838,7 @@ class larkDocWriter {
             return `![${caption}](/${root}/${caption}.png)`;
         } else {
             const url = new URL(decodeURIComponent(iframe.component.url))
-            const root = this.target === 'saas' ? 'img' : 'byoc'
+            const root = this.imageDir.replace(/^static\//g, '')
             const key = url.pathname.split('/')[2]
             const node = url.searchParams.get('node-id').split('-').join(":") 
 
@@ -873,7 +904,7 @@ class larkDocWriter {
         if (!content.match(/^\s+$/)) {
             if (style['inline_code']) {
                 content = this.__style_markdown(element, elements, 'inline_code', '`');
-            } else {
+            } else {                
                 if (style['bold']) {
                     content = this.__style_markdown(element, elements, 'bold', '**');
                 }
@@ -893,8 +924,14 @@ class larkDocWriter {
                 if ('link' in style) {
                     const url = await this.__convert_link(decodeURIComponent(style['link']['url']))
 
+                    var suffix = [...content.matchAll(/\*{1,2}$|~~$|__$/g)]
+
+                    if (suffix.length > 0) {
+                        suffix = content.slice(suffix[0]['index'])
+                    }
+
                     if (url) {
-                        content = `[${content}](${url})`;
+                        content = `[${content.replace(suffix, '')}](${url})${suffix}`;
                     } else {
                         console.log(`Cannot find ${content}`)
                     }

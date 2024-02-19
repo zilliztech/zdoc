@@ -1,0 +1,422 @@
+{
+  "created_time": "1704958814",
+  "modified_time": "1707112624",
+  "name": "drop_collection()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
+  "token": "QNB4d2q2ZorIApxpnzqczW2HnL7",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/QNB4d2q2ZorIApxpnzqczW2HnL7",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "QNB4d2q2ZorIApxpnzqczW2HnL7",
+        "block_type": 1,
+        "children": [
+          "doxcnhG3ESOP0TLZOrP1kve2qab",
+          "MSDVdv0ffoWxuYxsXplcaF3Mn7c",
+          "doxcntl4Nw77qvWC1HSki5BKelg",
+          "doxcn5LANNQ5lfVLlIXkOvymkgc",
+          "RXJCdjhNxoj4rCxdtZVc6iEdnUh",
+          "doxcnUeZOh5Z0LR0TfIvZZFNgxg",
+          "doxcncp8TS2wWSujkFV7bD6OrQc",
+          "doxcnNM262dNbrXuPMMJ6PVVtzh"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "drop_collection()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnhG3ESOP0TLZOrP1kve2qab",
+        "block_type": 2,
+        "parent_id": "QNB4d2q2ZorIApxpnzqczW2HnL7",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation drops a collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MSDVdv0ffoWxuYxsXplcaF3Mn7c",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "QNB4d2q2ZorIApxpnzqczW2HnL7"
+      },
+      {
+        "block_id": "doxcntl4Nw77qvWC1HSki5BKelg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pymilvus.MilvusClient.drop_collection(collection_name: str) -> None",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "QNB4d2q2ZorIApxpnzqczW2HnL7"
+      },
+      {
+        "block_id": "doxcn5LANNQ5lfVLlIXkOvymkgc",
+        "block_type": 2,
+        "parent_id": "QNB4d2q2ZorIApxpnzqczW2HnL7",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RXJCdjhNxoj4rCxdtZVc6iEdnUh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection_name",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "BLLWdgmVMoiCOmxJCEBcEJAZnTe",
+          "AFZsdbcjToMkw5x2YBycQhlEnzD"
+        ],
+        "parent_id": "QNB4d2q2ZorIApxpnzqczW2HnL7"
+      },
+      {
+        "block_id": "BLLWdgmVMoiCOmxJCEBcEJAZnTe",
+        "block_type": 2,
+        "parent_id": "RXJCdjhNxoj4rCxdtZVc6iEdnUh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[REQUIRED]",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AFZsdbcjToMkw5x2YBycQhlEnzD",
+        "block_type": 2,
+        "parent_id": "RXJCdjhNxoj4rCxdtZVc6iEdnUh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of an existing collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnUeZOh5Z0LR0TfIvZZFNgxg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "QNB4d2q2ZorIApxpnzqczW2HnL7"
+      },
+      {
+        "block_id": "doxcncp8TS2wWSujkFV7bD6OrQc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient\n\n# 1. Set up a milvus client\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 2. Create a collection\nclient.create_collection(\n    collection_name=\"test_collection\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    dimension=5",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7330900427943919620"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n)\n\n# 3. List collections\nres = client.list_collections() # ['test_collection']\n\n# 4. Drop the collection\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.drop",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "_collection(collection_name=\"test_collection\")",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7330900682600939524"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\n# 5. List collections\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "res = client.list_collections() # []",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "comment_ids": [
+          "7330900682600939524",
+          "7330900427943919620"
+        ],
+        "parent_id": "QNB4d2q2ZorIApxpnzqczW2HnL7"
+      },
+      {
+        "block_id": "doxcnNM262dNbrXuPMMJ6PVVtzh",
+        "block_type": 2,
+        "parent_id": "QNB4d2q2ZorIApxpnzqczW2HnL7",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 11
+  },
+  "slug": "Collections-drop_collection"
+}

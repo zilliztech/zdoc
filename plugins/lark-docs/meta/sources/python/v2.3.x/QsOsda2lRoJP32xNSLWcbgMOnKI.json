@@ -1,0 +1,878 @@
+{
+  "created_time": "1704175670",
+  "modified_time": "1706695671",
+  "name": "has_partition()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "ZGbAfWoUjl0Z3xdgyItc8wYXngf",
+  "token": "QsOsda2lRoJP32xNSLWcbgMOnKI",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/QsOsda2lRoJP32xNSLWcbgMOnKI",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "QsOsda2lRoJP32xNSLWcbgMOnKI",
+        "block_type": 1,
+        "children": [
+          "doxcnh0KAveuCgJDII6yqQjXmQf",
+          "doxcnZf3MjaCDmm18gqg7kgZ7Om",
+          "KdamdWXJVobitJxXNMpc8iAtnDc",
+          "PON5dgB71oEFLix6ZCdccuymnmd",
+          "JsSGdM2XYoCxXox0eLbcDMrYnpa",
+          "L1JldEL2CoTmQ5xRBlGcepManXe",
+          "BFiEdPFHmoQNJBxJTLeclph1nNe",
+          "FwBydexZAoBTP3xnlp8cS42ynGe",
+          "I1c3dDsggoPyMaxe0Kxc3avYnsg",
+          "doxcnmPycASeHoC2yqt20XfsHOd",
+          "doxcnjINYtZrvMcHdrygM7siKEm",
+          "doxcnaW6EKxBrjQVdhAHzBleUlf",
+          "XcXrd6EXBoaXIFxzieXcHgCCnJh",
+          "Xs1ndhctToSkocxY7pjc7DyTneg",
+          "E7Zqd2qHro5o1Pxgy6Kcr5ZAngf",
+          "DAaMdV9OFohaVBx8FyOcZ10TnTf",
+          "MNSwdQzdfoIMOlxn1Ygc6jmJnhd",
+          "QB4IdtTrloDr3qxjVtUczEN9nL8",
+          "Tm0ZdAPH3ocgIHxIbbmcPW9OnDf",
+          "StfhdHJzzoNwjnxf0Fncp2sNnse",
+          "doxcnZcqGL9Jy5ldtXtBN0iX5Fg",
+          "doxcnASSLBiB1LGuFS0RCh9ECCg"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "has_partition()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnh0KAveuCgJDII6yqQjXmQf",
+        "block_type": 2,
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation checks whether the specified partition exists in the current collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnZf3MjaCDmm18gqg7kgZ7Om",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pymilvus.Collection.has_partition(\n    partition_name: str, \n    timeout: float | None,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI"
+      },
+      {
+        "block_id": "KdamdWXJVobitJxXNMpc8iAtnDc",
+        "block_type": 2,
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following operations are related to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "has_collection()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PON5dgB71oEFLix6ZCdccuymnmd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI"
+      },
+      {
+        "block_id": "JsSGdM2XYoCxXox0eLbcDMrYnpa",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Partition",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI"
+      },
+      {
+        "block_id": "L1JldEL2CoTmQ5xRBlGcepManXe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "partition()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI"
+      },
+      {
+        "block_id": "BFiEdPFHmoQNJBxJTLeclph1nNe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "create_partition()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI"
+      },
+      {
+        "block_id": "FwBydexZAoBTP3xnlp8cS42ynGe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "drop_partition()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI"
+      },
+      {
+        "block_id": "I1c3dDsggoPyMaxe0Kxc3avYnsg",
+        "block_type": 2,
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "See also the Python SDK Reference.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnmPycASeHoC2yqt20XfsHOd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI"
+      },
+      {
+        "block_id": "doxcnjINYtZrvMcHdrygM7siKEm",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import Collection\n\n# Get an existing collection\ncollection = Collection(name=\"string\")\n\n# Check whether the specified partition exists\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection.has_partition(partition_name=\"string\")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI"
+      },
+      {
+        "block_id": "doxcnaW6EKxBrjQVdhAHzBleUlf",
+        "block_type": 2,
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XcXrd6EXBoaXIFxzieXcHgCCnJh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "partition_name",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "F9ozdeOodoSLXdxpYYsce6u6nKe"
+        ],
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI"
+      },
+      {
+        "block_id": "F9ozdeOodoSLXdxpYYsce6u6nKe",
+        "block_type": 2,
+        "parent_id": "XcXrd6EXBoaXIFxzieXcHgCCnJh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the partition to drop.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Xs1ndhctToSkocxY7pjc7DyTneg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "timeout",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "float ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "|",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " None",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")  ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "RdGHdf4Imo3qd1xWdLjcVp5Qnkc"
+        ],
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI"
+      },
+      {
+        "block_id": "RdGHdf4Imo3qd1xWdLjcVp5Qnkc",
+        "block_type": 2,
+        "parent_id": "Xs1ndhctToSkocxY7pjc7DyTneg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The timeout duration for this operation. Setting this to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " indicates that this operation timeouts when any response arrives or any error occurs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "E7Zqd2qHro5o1Pxgy6Kcr5ZAngf",
+        "block_type": 2,
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DAaMdV9OFohaVBx8FyOcZ10TnTf",
+        "block_type": 2,
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "bool",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MNSwdQzdfoIMOlxn1Ygc6jmJnhd",
+        "block_type": 2,
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QB4IdtTrloDr3qxjVtUczEN9nL8",
+        "block_type": 2,
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A boolean value indicating whether the current collection has the specified partition or not",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Tm0ZdAPH3ocgIHxIbbmcPW9OnDf",
+        "block_type": 2,
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "StfhdHJzzoNwjnxf0Fncp2sNnse",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusException",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcn0N4VYoNV7VOLsv8UGzz74d"
+        ],
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI"
+      },
+      {
+        "block_id": "doxcn0N4VYoNV7VOLsv8UGzz74d",
+        "block_type": 2,
+        "parent_id": "StfhdHJzzoNwjnxf0Fncp2sNnse",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when any error occurs during this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnZcqGL9Jy5ldtXtBN0iX5Fg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI"
+      },
+      {
+        "block_id": "doxcnASSLBiB1LGuFS0RCh9ECCg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import Collection, CollectionSchema, FieldSchema, DataType\n\nschema = CollectionSchema([\n    FieldSchema(\"id\", DataType.INT64, is_primary=True),\n    FieldSchema(\"vector\", DataType.FLOAT_VECTOR, dim=5)\n])\n\n# Create a collection\ncollection = Collection(\n    name=\"test_collection\",\n    schema=schema\n)\n\n# Create a partition\npartition = collection.create_partition(\"test_partition\")\n\n# Check whether the partition exists\ncollection.has_partition(\"test_partition\") # True\n\n# Drop the partition\ncollection.drop_partition(\"test_partition\")\n\n# Check whether the partition exists\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection.has_partition(\"test_partition\") # False",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "QsOsda2lRoJP32xNSLWcbgMOnKI"
+      }
+    ],
+    "counts": 26
+  },
+  "slug": "Collection-has_partition"
+}

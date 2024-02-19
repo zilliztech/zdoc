@@ -72,6 +72,7 @@ const config = {
       {
         id: 'reference',
         path: 'reference',
+        breadcrumbs: false,
         routeBasePath: 'reference',
         sidebarPath: require.resolve('./sidebarsReference.js'),
       },
@@ -82,21 +83,46 @@ const config = {
         id: 'GTM-MBBF2KR',
       },
     ],
-    ['./plugins/lark-docs',
-    {
-      root: 'OUWXw5c4gia34ZkQUcEcMFbWn6s',
-      base: 'PnsobATKVayIDFs6hhQcChlGnje',
-      docSourceDir: './plugins/lark-docs/meta/sources',
-      targets: [
-        ['saas', {
-          outputDir: 'docs/tutorials',
-          imageDir: 'static/img',
-        }],
-        ['paas', {
-          outputDir: 'versioned_docs/version-byoc/tutorials',
-          imageDir: 'static/byoc',
-        }]
-      ]
+    ['./plugins/lark-docs', {
+      guides: {
+        root: 'OUWXw5c4gia34ZkQUcEcMFbWn6s',
+        base: 'PnsobATKVayIDFs6hhQcChlGnje',
+        sourceType: 'wiki',
+        docSourceDir: './plugins/lark-docs/meta/sources/guides',
+        targets: {
+          milvus: {
+            outputDir: '',
+            imageDir: ''
+          },
+          zilliz: {
+            saas: {
+              outputDir: 'docs/tutorials',
+              imageDir: 'static/img',
+            },
+            paas: {
+              outputDir: 'versioned_docs/version-byoc/tutorials',
+              imageDir: 'static/byoc'
+            } 
+          }
+        }
+      },
+      python: {
+        root: 'PTJzfzI0ulKGjwdUsxQcFxfJn6b',
+        base: 'D1VabelmAansLwsNTvLc2Wxxn1g',
+        sourceType: 'drive',
+        version: 'v2.3.x',
+        docSourceDir: './plugins/lark-docs/meta/sources/python/v2.3.x',
+        targets: {
+          milvus: {
+            outputDir: '',
+            imageDir: ''
+          },
+          zilliz: {
+            outputDir: 'reference/api/python/python',
+            imageDir: 'static/img',
+          }
+        }
+      }
     }],
     './plugins/apifox-docs',
     './plugins/link-checks',
@@ -106,6 +132,11 @@ const config = {
     ({
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
+      docs: {
+        sidebar: {
+          autoCollapseCategories: true,
+        },
+      },
       navbar: {
         title: '',
         logo: {
@@ -131,10 +162,31 @@ const config = {
             className: 'header-link',
           },
           {
-            href: '/reference',
-            label: 'API Reference',
+            type: 'dropdown',
+            label: 'Reference',
             position: 'left',
-            className: 'header-link',
+            items: [
+              {
+                label: 'RESTful API',
+                to: '/reference/restful'
+              },
+              {
+                label: 'Python SDK',
+                to: '/reference/python'
+              },
+              {
+                label: 'Java SDK',
+                to: 'reference/java',
+              },
+              {
+                label: 'Go SDK',
+                to: 'reference/go'
+              },
+              {
+                label: 'Node.js SDK',
+                to: 'reference/nodejs'
+              }
+            ]
           },
           {
             href: 'https://zilliz.com/pricing',
@@ -191,8 +243,24 @@ const config = {
                 to: '/docs/quick-start',
               },
               {
-                label: 'API Reference',
-                to: '/reference',
+                label: 'RESTful API',
+                to: '/reference/restful',
+              },
+              {
+                label: 'Python SDK',
+                to: '/reference/python',
+              },
+              {
+                label: 'Java SDK',
+                to: '/reference/java',
+              },
+              {
+                label: 'Go SDK',
+                to: '/reference/go',
+              },
+              {
+                label: 'Node.js SDK',
+                to: '/reference/nodejs',
               },
             ],
           },
@@ -277,6 +345,30 @@ const config = {
       highlightSearchTermsOnTargetPage: true,
     }],
     'docusaurus-theme-frontmatter',
+  ],
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossorigin: 'crossorigin',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel:'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap',
+      }
+    }
   ],
   scripts: [
     {

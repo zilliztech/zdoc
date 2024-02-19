@@ -1,0 +1,1976 @@
+
+> site@0.0.0 build
+> docusaurus build
+
+
+   ╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+   │                                                                                                                       │
+   │                                            Update available 2.4.3 → 3.1.1                                             │
+   │                                                                                                                       │
+   │                  To upgrade Docusaurus packages with the latest version, run the following command:                   │
+   │    `yarn upgrade @docusaurus/core@latest @docusaurus/plugin-content-docs@latest @docusaurus/preset-classic@latest     │
+   │                                       @docusaurus/module-type-aliases@latest`                                         │
+   │                                                                                                                       │
+   ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+[INFO] [en] Creating an optimized production build...
+ℹ Compiling Client
+ℹ Compiling Server
+✔ Client: Compiled successfully in 12.53s
+{
+  type: 'category',
+  label: 'Cluster Credentials',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Manage Cluster Credentials (Console)',
+      href: '/docs/byoc/cluster-credentials-console',
+      docId: 'tutorials/authentication/cluster-credentials/cluster-credentials-console'
+    },
+    {
+      type: 'link',
+      label: 'Manage Cluster Credentials (SDK)',
+      href: '/docs/byoc/cluster-credentials-sdk',
+      docId: 'tutorials/authentication/cluster-credentials/cluster-credentials-sdk'
+    }
+  ],
+  href: '/docs/byoc/cluster-credentials'
+}
+{
+  type: 'category',
+  label: 'Organization Access',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Organizations',
+      href: '/docs/byoc/organizations',
+      docId: 'tutorials/authorization/organization-access/organizations'
+    },
+    {
+      type: 'link',
+      label: 'Organization Users',
+      href: '/docs/byoc/organization-users',
+      docId: 'tutorials/authorization/organization-access/organization-users'
+    },
+    {
+      type: 'category',
+      label: 'Organization Settings',
+      collapsible: true,
+      collapsed: true,
+      items: [Array],
+      href: '/docs/byoc/organization-settings'
+    }
+  ],
+  href: '/docs/byoc/organization-access'
+}
+{
+  type: 'category',
+  label: 'Project Access',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Projects',
+      href: '/docs/byoc/projects',
+      docId: 'tutorials/authorization/project-access/projects'
+    },
+    {
+      type: 'link',
+      label: 'Project Users',
+      href: '/docs/byoc/project-users',
+      docId: 'tutorials/authorization/project-access/project-users'
+    }
+  ],
+  href: '/docs/byoc/project-access'
+}
+{
+  type: 'category',
+  label: 'Prepare Data Import',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Prepare Source Data',
+      href: '/docs/byoc/prepare-source-data',
+      docId: 'tutorials/data-import/prepare-data-import/prepare-source-data'
+    },
+    {
+      type: 'link',
+      label: 'Use BulkWriter',
+      href: '/docs/byoc/use-bulkwriter',
+      docId: 'tutorials/data-import/prepare-data-import/use-bulkwriter'
+    }
+  ],
+  href: '/docs/byoc/prepare-data-import'
+}
+{
+  type: 'category',
+  label: 'Import Data',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Import Data (Console)',
+      href: '/docs/byoc/import-data-on-web-ui',
+      docId: 'tutorials/data-import/import-data/import-data-on-web-ui'
+    },
+    {
+      type: 'link',
+      label: 'Import Data (RESTful API)',
+      href: '/docs/byoc/import-data-via-restful-api',
+      docId: 'tutorials/data-import/import-data/import-data-via-restful-api'
+    },
+    {
+      type: 'link',
+      label: 'Import Data (SDK)',
+      href: '/docs/byoc/import-data-via-sdks',
+      docId: 'tutorials/data-import/import-data/import-data-via-sdks'
+    }
+  ],
+  href: '/docs/byoc/import-data'
+}
+{
+  type: 'category',
+  label: 'Start with BYOC',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Prerequisites',
+      href: '/docs/byoc/byoc-prerequisites',
+      docId: 'tutorials/get-started/start-with-byoc/byoc-prerequisites'
+    },
+    {
+      type: 'link',
+      label: 'Activate Your License',
+      href: '/docs/byoc/activate-your-cloud',
+      docId: 'tutorials/get-started/start-with-byoc/activate-your-cloud'
+    }
+  ],
+  href: '/docs/byoc/start-with-byoc'
+}
+{
+  type: 'category',
+  label: 'Organization Settings',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'View System Settings',
+      href: '/docs/byoc/view-system-settings',
+      docId: 'tutorials/authorization/organization-access/organization-settings/view-system-settings'
+    },
+    {
+      type: 'link',
+      label: 'View Activities',
+      href: '/docs/byoc/view-activities',
+      docId: 'tutorials/authorization/organization-access/organization-settings/view-activities'
+    },
+    {
+      type: 'link',
+      label: 'Manage Timezone',
+      href: '/docs/byoc/manage-timezone',
+      docId: 'tutorials/authorization/organization-access/organization-settings/manage-timezone'
+    },
+    {
+      type: 'link',
+      label: 'Set up Maintenance Window',
+      href: '/docs/byoc/setup-maintenance-window',
+      docId: 'tutorials/authorization/organization-access/organization-settings/setup-maintenance-window'
+    },
+    {
+      type: 'link',
+      label: 'Use Recycle Bin',
+      href: '/docs/byoc/use-recycle-bin',
+      docId: 'tutorials/authorization/organization-access/organization-settings/use-recycle-bin'
+    }
+  ],
+  href: '/docs/byoc/organization-settings'
+}
+{
+  type: 'category',
+  label: 'Cluster Credentials',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Manage Cluster Credentials (Console)',
+      href: '/docs/cluster-credentials-console',
+      docId: 'tutorials/authentication/cluster-credentials/cluster-credentials-console'
+    },
+    {
+      type: 'link',
+      label: 'Manage Cluster Credentials (SDK)',
+      href: '/docs/cluster-credentials-sdk',
+      docId: 'tutorials/authentication/cluster-credentials/cluster-credentials-sdk'
+    }
+  ],
+  href: '/docs/cluster-credentials'
+}
+{
+  type: 'category',
+  label: 'Organization Access',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Organizations',
+      href: '/docs/organizations',
+      docId: 'tutorials/authorization/organization-access/organizations'
+    },
+    {
+      type: 'link',
+      label: 'Organization Users',
+      href: '/docs/organization-users',
+      docId: 'tutorials/authorization/organization-access/organization-users'
+    },
+    {
+      type: 'category',
+      label: 'Organization Settings',
+      collapsible: true,
+      collapsed: true,
+      items: [Array],
+      href: '/docs/organization-settings'
+    }
+  ],
+  href: '/docs/organization-access'
+}
+{
+  type: 'category',
+  label: 'Project Access',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Projects',
+      href: '/docs/projects',
+      docId: 'tutorials/authorization/project-access/projects'
+    },
+    {
+      type: 'link',
+      label: 'Project Users',
+      href: '/docs/project-users',
+      docId: 'tutorials/authorization/project-access/project-users'
+    }
+  ],
+  href: '/docs/project-access'
+}
+{
+  type: 'category',
+  label: 'Prepare Data Import',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Prepare Source Data',
+      href: '/docs/prepare-source-data',
+      docId: 'tutorials/data-import/prepare-data-import/prepare-source-data'
+    },
+    {
+      type: 'link',
+      label: 'Use BulkWriter',
+      href: '/docs/use-bulkwriter',
+      docId: 'tutorials/data-import/prepare-data-import/use-bulkwriter'
+    }
+  ],
+  href: '/docs/prepare-data-import'
+}
+{
+  type: 'category',
+  label: 'Import Data',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Import Data (Console)',
+      href: '/docs/import-data-on-web-ui',
+      docId: 'tutorials/data-import/import-data/import-data-on-web-ui'
+    },
+    {
+      type: 'link',
+      label: 'Import Data (RESTful API)',
+      href: '/docs/import-data-via-restful-api',
+      docId: 'tutorials/data-import/import-data/import-data-via-restful-api'
+    },
+    {
+      type: 'link',
+      label: 'Import Data (SDK)',
+      href: '/docs/import-data-via-sdks',
+      docId: 'tutorials/data-import/import-data/import-data-via-sdks'
+    }
+  ],
+  href: '/docs/import-data'
+}
+{
+  type: 'category',
+  label: 'Organization Settings',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'View System Settings',
+      href: '/docs/view-system-settings',
+      docId: 'tutorials/authorization/organization-access/organization-settings/view-system-settings'
+    },
+    {
+      type: 'link',
+      label: 'View Activities',
+      href: '/docs/view-activities',
+      docId: 'tutorials/authorization/organization-access/organization-settings/view-activities'
+    },
+    {
+      type: 'link',
+      label: 'Manage Timezone',
+      href: '/docs/manage-timezone',
+      docId: 'tutorials/authorization/organization-access/organization-settings/manage-timezone'
+    },
+    {
+      type: 'link',
+      label: 'Set up Maintenance Window',
+      href: '/docs/setup-maintenance-window',
+      docId: 'tutorials/authorization/organization-access/organization-settings/setup-maintenance-window'
+    },
+    {
+      type: 'link',
+      label: 'Delete Your Organization',
+      href: '/docs/delete-your-organization',
+      docId: 'tutorials/authorization/organization-access/organization-settings/delete-your-organization'
+    },
+    {
+      type: 'link',
+      label: 'Use Recycle Bin',
+      href: '/docs/use-recycle-bin',
+      docId: 'tutorials/authorization/organization-access/organization-settings/use-recycle-bin'
+    }
+  ],
+  href: '/docs/organization-settings'
+}
+{
+  type: 'category',
+  label: 'Create Pipelines',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Create Ingestion Pipeline',
+      href: '/docs/create-ingestion-piplines',
+      docId: 'tutorials/pipelines/create-pipelines/create-ingestion-piplines'
+    },
+    {
+      type: 'link',
+      label: 'Create Search Pipeline',
+      href: '/docs/create-search-piplines',
+      docId: 'tutorials/pipelines/create-pipelines/create-search-piplines'
+    },
+    {
+      type: 'link',
+      label: 'Create Deletion Pipeline',
+      href: '/docs/create-deletion-pipelines',
+      docId: 'tutorials/pipelines/create-pipelines/create-deletion-pipelines'
+    }
+  ],
+  href: '/docs/create-pipelines'
+}
+{
+  type: 'category',
+  label: 'Run Pipelines',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Run Ingestion Pipeline',
+      href: '/docs/run-ingestion-pipelines',
+      docId: 'tutorials/pipelines/run-pipelines/run-ingestion-pipelines'
+    },
+    {
+      type: 'link',
+      label: 'Run Search Pipeline',
+      href: '/docs/run-search-pipelines',
+      docId: 'tutorials/pipelines/run-pipelines/run-search-pipelines'
+    },
+    {
+      type: 'link',
+      label: 'Run Deletion Pipeline',
+      href: '/docs/run-deletion-pipelines',
+      docId: 'tutorials/pipelines/run-pipelines/run-deletion-pipelines'
+    }
+  ],
+  href: '/docs/run-pipelines'
+}
+{
+  type: 'category',
+  label: 'Pipeline Integrations',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Using Pipelines in LlamaIndex',
+      href: '/docs/use-pipeline-in-llamaindex',
+      docId: 'tutorials/pipelines/pipeline-integrations/use-pipeline-in-llamaindex'
+    }
+  ],
+  href: '/docs/pipeline-integrations'
+}
+{
+  type: 'category',
+  label: 'Client API',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'NewClient()',
+      href: '/reference/go/client.NewClient()',
+      docId: 'api/go/go/Client/NewClient()'
+    }
+  ],
+  href: '/reference/go/client'
+}
+{
+  type: 'category',
+  label: 'Vector API',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Insert()',
+      href: '/reference/go/client.Insert()',
+      docId: 'api/go/go/Vector/Insert()'
+    },
+    {
+      type: 'link',
+      label: 'InsertRows()',
+      href: '/reference/go/client.InsertRows()',
+      docId: 'api/go/go/Vector/InsertRows()'
+    },
+    {
+      type: 'link',
+      label: 'Search()',
+      href: '/reference/go/client.Search()',
+      docId: 'api/go/go/Vector/Search()'
+    },
+    {
+      type: 'link',
+      label: 'Query()',
+      href: '/reference/go/client.Query()',
+      docId: 'api/go/go/Vector/Query()'
+    },
+    {
+      type: 'link',
+      label: 'QueryByPks()',
+      href: '/reference/go/client.QueryByPks()',
+      docId: 'api/go/go/Vector/QueryByPks()'
+    },
+    {
+      type: 'link',
+      label: 'DeleteByPks()',
+      href: '/reference/go/client.DeleteByPks()',
+      docId: 'api/go/go/Vector/DeleteByPks()'
+    }
+  ],
+  href: '/reference/go/vector'
+}
+{
+  type: 'category',
+  label: 'Collection API',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'CreateCollection()',
+      href: '/reference/go/client.CreateCollection()',
+      docId: 'api/go/go/Collection/CreateCollection()'
+    },
+    {
+      type: 'link',
+      label: 'DescribeCollection()',
+      href: '/reference/go/client.DescribeCollection()',
+      docId: 'api/go/go/Collection/DescribeCollection()'
+    },
+    {
+      type: 'link',
+      label: 'ListCollections()',
+      href: '/reference/go/client.ListCollection()',
+      docId: 'api/go/go/Collection/ListCollections()'
+    },
+    {
+      type: 'link',
+      label: 'DropCollection()',
+      href: '/reference/go/client.DropCollection()',
+      docId: 'api/go/go/Collection/DropCollection()'
+    }
+  ],
+  href: '/reference/go/collection'
+}
+{
+  type: 'category',
+  label: 'Client API',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'MilvusServiceClient',
+      href: '/reference/java/client.MilvusServiceClient',
+      docId: 'api/java/java/Client/MilvusServiceClient'
+    }
+  ],
+  href: '/reference/java/client'
+}
+{
+  type: 'category',
+  label: 'Collection API',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'createCollection()',
+      href: '/reference/java/collection.createCollection()',
+      docId: 'api/java/java/Collection/createCollection()'
+    },
+    {
+      type: 'link',
+      label: 'describeCollection()',
+      href: '/reference/java/collection.describecollection()',
+      docId: 'api/java/java/Collection/describeCollection()'
+    },
+    {
+      type: 'link',
+      label: 'listCollections()',
+      href: '/reference/java/collection/listCollections()',
+      docId: 'api/java/java/Collection/listCollections()'
+    },
+    {
+      type: 'link',
+      label: 'showCollections()',
+      href: '/reference/java/collection.showCollections()',
+      docId: 'api/java/java/Collection/showCollections()'
+    },
+    {
+      type: 'link',
+      label: 'dropCollection()',
+      href: '/reference/java/collection.dropColletion()',
+      docId: 'api/java/java/Collection/dropCollection()'
+    }
+  ],
+  href: '/reference/java/collection'
+}
+{
+  type: 'category',
+  label: 'Vector API',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'insert()',
+      href: '/reference/java/vector.insert()',
+      docId: 'api/java/java/Vector/insert()'
+    },
+    {
+      type: 'link',
+      label: 'search()',
+      href: '/reference/java/vector.search()',
+      docId: 'api/java/java/Vector/search()'
+    },
+    {
+      type: 'link',
+      label: 'query()',
+      href: '/reference/java/vector.query()',
+      docId: 'api/java/java/Vector/query()'
+    },
+    {
+      type: 'link',
+      label: 'get()',
+      href: '/reference/java/vector.get()',
+      docId: 'api/java/java/Vector/get()'
+    },
+    {
+      type: 'link',
+      label: 'delete()',
+      href: '/reference/java/vector.delete()',
+      docId: 'api/java/java/Vector/delete()'
+    }
+  ],
+  href: '/reference/java/vector'
+}
+{
+  type: 'category',
+  label: 'Client API',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'MilvusClient()',
+      href: '/reference/nodejs/client.MilvusClient()',
+      docId: 'api/nodejs/nodejs/Client/MilvusClient()'
+    }
+  ],
+  href: '/reference/nodejs/client'
+}
+{
+  type: 'category',
+  label: 'Vector API',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'insert()',
+      href: '/reference/nodejs/vector.insert()',
+      docId: 'api/nodejs/nodejs/Vector/insert()'
+    },
+    {
+      type: 'link',
+      label: 'search()',
+      href: '/reference/nodejs/vector.search()',
+      docId: 'api/nodejs/nodejs/Vector/search()'
+    },
+    {
+      type: 'link',
+      label: 'query()',
+      href: '/reference/nodejs/vector.query()',
+      docId: 'api/nodejs/nodejs/Vector/query()'
+    },
+    {
+      type: 'link',
+      label: 'get()',
+      href: '/reference/nodejs/vector.get()',
+      docId: 'api/nodejs/nodejs/Vector/get()'
+    },
+    {
+      type: 'link',
+      label: 'delete()',
+      href: '/reference/nodejs/vector.delete()',
+      docId: 'api/nodejs/nodejs/Vector/delete()'
+    }
+  ],
+  href: '/reference/nodejs/vector'
+}
+{
+  type: 'category',
+  label: 'Collection API',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'createCollection()',
+      href: '/reference/nodejs/collection.createCollection()',
+      docId: 'api/nodejs/nodejs/Collection/createCollection()'
+    },
+    {
+      type: 'link',
+      label: 'describeCollection()',
+      href: '/reference/nodejs/collection.describeCollection()',
+      docId: 'api/nodejs/nodejs/Collection/describeCollection()'
+    },
+    {
+      type: 'link',
+      label: 'showCollections()',
+      href: '/reference/nodejs/collection.showCollections()',
+      docId: 'api/nodejs/nodejs/Collection/showCollections()'
+    },
+    {
+      type: 'link',
+      label: 'dropCollection()',
+      href: '/reference/nodejs/collection.dropCollection()',
+      docId: 'api/nodejs/nodejs/Collection/dropCollection()'
+    }
+  ],
+  href: '/reference/nodejs/collection'
+}
+{
+  type: 'category',
+  label: 'Enum',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'BulkInsertState',
+      href: '/reference/python/Enum-BulkInsertState',
+      docId: 'api/python/python/Enum/Enum-BulkInsertState'
+    },
+    {
+      type: 'link',
+      label: 'IndexType',
+      href: '/reference/python/Enum-IndexType',
+      docId: 'api/python/python/Enum/Enum-IndexType'
+    },
+    {
+      type: 'link',
+      label: 'BulkFileType',
+      href: '/reference/python/Enum-BulkFileType',
+      docId: 'api/python/python/Enum/Enum-BulkFileType'
+    },
+    {
+      type: 'link',
+      label: 'DataType',
+      href: '/reference/python/Enum-DataType',
+      docId: 'api/python/python/Enum/Enum-DataType'
+    }
+  ],
+  href: '/reference/python/Enum'
+}
+{
+  type: 'category',
+  label: 'RemoteBulkWriter',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'ConnectParam',
+      href: '/reference/python/RemoteBulkWriter-ConnectParam',
+      docId: 'api/python/python/DataImport/DataImport-RemoteBulkWriter/RemoteBulkWriter-ConnectParam'
+    },
+    {
+      type: 'link',
+      label: 'commit()',
+      href: '/reference/python/RemoteBulkWriter-commit',
+      docId: 'api/python/python/DataImport/DataImport-RemoteBulkWriter/RemoteBulkWriter-commit'
+    },
+    {
+      type: 'link',
+      label: 'append_row()',
+      href: '/reference/python/RemoteBulkWriter-append_row',
+      docId: 'api/python/python/DataImport/DataImport-RemoteBulkWriter/RemoteBulkWriter-append_row'
+    }
+  ],
+  href: '/reference/python/DataImport-RemoteBulkWriter'
+}
+{
+  type: 'category',
+  label: 'LocalBulkWriter',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'append_row()',
+      href: '/reference/python/LocalBulkWriter-append_row',
+      docId: 'api/python/python/DataImport/DataImport-LocalBulkWriter/LocalBulkWriter-append_row'
+    },
+    {
+      type: 'link',
+      label: 'commit()',
+      href: '/reference/python/LocalBulkWriter-commit',
+      docId: 'api/python/python/DataImport/DataImport-LocalBulkWriter/LocalBulkWriter-commit'
+    }
+  ],
+  href: '/reference/python/DataImport-LocalBulkWriter'
+}
+{
+  type: 'category',
+  label: 'BulkImport',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'list_import_jobs()',
+      href: '/reference/python/BulkImport-list_import_jobs',
+      docId: 'api/python/python/DataImport/DataImport-BulkImport/BulkImport-list_import_jobs'
+    },
+    {
+      type: 'link',
+      label: 'bulk_import()',
+      href: '/reference/python/BulkImport-bulk_import',
+      docId: 'api/python/python/DataImport/DataImport-BulkImport/BulkImport-bulk_import'
+    },
+    {
+      type: 'link',
+      label: 'get_import_progress()',
+      href: '/reference/python/BulkImport-get_import_progress',
+      docId: 'api/python/python/DataImport/DataImport-BulkImport/BulkImport-get_import_progress'
+    }
+  ],
+  href: '/reference/python/DataImport-BulkImport'
+}
+{
+  type: 'category',
+  label: 'Users & Roles',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'update_password()',
+      href: '/reference/python/UsersRoles-update_password',
+      docId: 'api/python/python/MilvusClient/MilvusClient-UsersRoles/UsersRoles-update_password'
+    },
+    {
+      type: 'link',
+      label: 'describe_user()',
+      href: '/reference/python/UsersRoles-describe_user',
+      docId: 'api/python/python/MilvusClient/MilvusClient-UsersRoles/UsersRoles-describe_user'
+    },
+    {
+      type: 'link',
+      label: 'list_users()',
+      href: '/reference/python/UsersRoles-list_users',
+      docId: 'api/python/python/MilvusClient/MilvusClient-UsersRoles/UsersRoles-list_users'
+    },
+    {
+      type: 'link',
+      label: 'drop_user()',
+      href: '/reference/python/UsersRoles-drop_user',
+      docId: 'api/python/python/MilvusClient/MilvusClient-UsersRoles/UsersRoles-drop_user'
+    },
+    {
+      type: 'link',
+      label: 'create_user()',
+      href: '/reference/python/UsersRoles-create_user',
+      docId: 'api/python/python/MilvusClient/MilvusClient-UsersRoles/UsersRoles-create_user'
+    },
+    {
+      type: 'link',
+      label: 'revoke_role()',
+      href: '/reference/python/UsersRoles-revoke_role',
+      docId: 'api/python/python/MilvusClient/MilvusClient-UsersRoles/UsersRoles-revoke_role'
+    },
+    {
+      type: 'link',
+      label: 'grant_role()',
+      href: '/reference/python/UsersRoles-grant_role',
+      docId: 'api/python/python/MilvusClient/MilvusClient-UsersRoles/UsersRoles-grant_role'
+    },
+    {
+      type: 'link',
+      label: 'describe_role()',
+      href: '/reference/python/UsersRoles-describe_role',
+      docId: 'api/python/python/MilvusClient/MilvusClient-UsersRoles/UsersRoles-describe_role'
+    },
+    {
+      type: 'link',
+      label: 'list_roles()',
+      href: '/reference/python/UsersRoles-list_roles',
+      docId: 'api/python/python/MilvusClient/MilvusClient-UsersRoles/UsersRoles-list_roles'
+    }
+  ],
+  href: '/reference/python/MilvusClient-UsersRoles'
+}
+{
+  type: 'category',
+  label: 'Search & Query',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'query()',
+      href: '/reference/python/SearchQuery-query',
+      docId: 'api/python/python/MilvusClient/MilvusClient-SearchQuery/SearchQuery-query'
+    },
+    {
+      type: 'link',
+      label: 'search()',
+      href: '/reference/python/SearchQuery-search',
+      docId: 'api/python/python/MilvusClient/MilvusClient-SearchQuery/SearchQuery-search'
+    },
+    {
+      type: 'link',
+      label: 'get()',
+      href: '/reference/python/SearchQuery-get',
+      docId: 'api/python/python/MilvusClient/MilvusClient-SearchQuery/SearchQuery-get'
+    }
+  ],
+  href: '/reference/python/MilvusClient-SearchQuery'
+}
+{
+  type: 'category',
+  label: 'Insert & Delete',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'delete()',
+      href: '/reference/python/InsertDelete-delete',
+      docId: 'api/python/python/MilvusClient/MilvusClient-InsertDelete/InsertDelete-delete'
+    },
+    {
+      type: 'link',
+      label: 'insert()',
+      href: '/reference/python/InsertDelete-insert',
+      docId: 'api/python/python/MilvusClient/MilvusClient-InsertDelete/InsertDelete-insert'
+    },
+    {
+      type: 'link',
+      label: 'upsert()',
+      href: '/reference/python/InsertDelete-upsert',
+      docId: 'api/python/python/MilvusClient/MilvusClient-InsertDelete/InsertDelete-upsert'
+    }
+  ],
+  href: '/reference/python/MilvusClient-InsertDelete'
+}
+{
+  type: 'category',
+  label: 'Collections',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'describe_collection()',
+      href: '/reference/python/Collections-describe_collection',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Collections/Collections-describe_collection'
+    },
+    {
+      type: 'link',
+      label: 'rename_collection()',
+      href: '/reference/python/Collections-rename_collection',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Collections/Collections-rename_collection'
+    },
+    {
+      type: 'link',
+      label: 'create_collection()',
+      href: '/reference/python/Collections-create_collection',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_collection'
+    },
+    {
+      type: 'link',
+      label: 'drop_collection()',
+      href: '/reference/python/Collections-drop_collection',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection'
+    },
+    {
+      type: 'link',
+      label: 'get_collection_stats()',
+      href: '/reference/python/Collections-get_collection_stats',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Collections/Collections-get_collection_stats'
+    },
+    {
+      type: 'link',
+      label: 'release_collection()',
+      href: '/reference/python/Collections-release_collection',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Collections/Collections-release_collection'
+    },
+    {
+      type: 'link',
+      label: 'load_collection()',
+      href: '/reference/python/Collections-load_collection',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Collections/Collections-load_collection'
+    },
+    {
+      type: 'link',
+      label: 'has_collection()',
+      href: '/reference/python/Collections-has_collection',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Collections/Collections-has_collection'
+    },
+    {
+      type: 'link',
+      label: 'create_schema()',
+      href: '/reference/python/Collections-create_schema',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_schema'
+    },
+    {
+      type: 'link',
+      label: 'list_collections()',
+      href: '/reference/python/Collections-list_collections',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Collections/Collections-list_collections'
+    }
+  ],
+  href: '/reference/python/MilvusClient-Collections'
+}
+{
+  type: 'category',
+  label: 'Partitions',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'drop_partition()',
+      href: '/reference/python/Partitions-drop_partition',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Partitions/Partitions-drop_partition'
+    },
+    {
+      type: 'link',
+      label: 'list_partitions()',
+      href: '/reference/python/Partitions-list_partitions',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Partitions/Partitions-list_partitions'
+    },
+    {
+      type: 'link',
+      label: 'release_partitions()',
+      href: '/reference/python/Partitions-release_partitions',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Partitions/Partitions-release_partitions'
+    },
+    {
+      type: 'link',
+      label: 'get_partition_stats()',
+      href: '/reference/python/Partitions-get_partition_stats',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Partitions/Partitions-get_partition_stats'
+    },
+    {
+      type: 'link',
+      label: 'load_partitions()',
+      href: '/reference/python/Partitions-load_partitions',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Partitions/Partitions-load_partitions'
+    },
+    {
+      type: 'link',
+      label: 'has_partition()',
+      href: '/reference/python/Partitions-has_partition',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Partitions/Partitions-has_partition'
+    },
+    {
+      type: 'link',
+      label: 'create_partition()',
+      href: '/reference/python/Partitions-create_partition',
+      docId: 'api/python/python/MilvusClient/MilvusClient-Partitions/Partitions-create_partition'
+    }
+  ],
+  href: '/reference/python/MilvusClient-Partitions'
+}
+{
+  type: 'category',
+  label: 'Index, Load & Release',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'describe_index()',
+      href: '/reference/python/IndexLoadRelease-describe_index',
+      docId: 'api/python/python/MilvusClient/MilvusClient-IndexLoadRelease/IndexLoadRelease-describe_index'
+    },
+    {
+      type: 'link',
+      label: 'refresh_load()',
+      href: '/reference/python/IndexLoadRelease-refresh_load',
+      docId: 'api/python/python/MilvusClient/MilvusClient-IndexLoadRelease/IndexLoadRelease-refresh_load'
+    },
+    {
+      type: 'link',
+      label: 'drop_index()',
+      href: '/reference/python/IndexLoadRelease-drop_index',
+      docId: 'api/python/python/MilvusClient/MilvusClient-IndexLoadRelease/IndexLoadRelease-drop_index'
+    },
+    {
+      type: 'link',
+      label: 'list_indexes()',
+      href: '/reference/python/IndexLoadRelease-list_indexes',
+      docId: 'api/python/python/MilvusClient/MilvusClient-IndexLoadRelease/IndexLoadRelease-list_indexes'
+    },
+    {
+      type: 'link',
+      label: 'create_index()',
+      href: '/reference/python/IndexLoadRelease-create_index',
+      docId: 'api/python/python/MilvusClient/MilvusClient-IndexLoadRelease/IndexLoadRelease-create_index'
+    },
+    {
+      type: 'link',
+      label: 'prepare_index_params()',
+      href: '/reference/python/IndexLoadRelease-prepare_index_params',
+      docId: 'api/python/python/MilvusClient/MilvusClient-IndexLoadRelease/IndexLoadRelease-prepare_index_params'
+    },
+    {
+      type: 'link',
+      label: 'add_index()',
+      href: '/reference/python/IndexLoadRelease-add_index',
+      docId: 'api/python/python/MilvusClient/MilvusClient-IndexLoadRelease/IndexLoadRelease-add_index'
+    },
+    {
+      type: 'link',
+      label: 'get_load_state()',
+      href: '/reference/python/IndexLoadRelease-get_load_state',
+      docId: 'api/python/python/MilvusClient/MilvusClient-IndexLoadRelease/IndexLoadRelease-get_load_state'
+    }
+  ],
+  href: '/reference/python/MilvusClient-IndexLoadRelease'
+}
+{
+  type: 'category',
+  label: 'Collection Aliases',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'alter_alias()',
+      href: '/reference/python/CollectionAliases-alter_alias',
+      docId: 'api/python/python/MilvusClient/MilvusClient-CollectionAliases/CollectionAliases-alter_alias'
+    },
+    {
+      type: 'link',
+      label: 'describe_alias()',
+      href: '/reference/python/CollectionAliases-describe_alias',
+      docId: 'api/python/python/MilvusClient/MilvusClient-CollectionAliases/CollectionAliases-describe_alias'
+    },
+    {
+      type: 'link',
+      label: 'drop_alias()',
+      href: '/reference/python/CollectionAliases-drop_alias',
+      docId: 'api/python/python/MilvusClient/MilvusClient-CollectionAliases/CollectionAliases-drop_alias'
+    },
+    {
+      type: 'link',
+      label: 'list_aliases()',
+      href: '/reference/python/CollectionAliases-list_aliases',
+      docId: 'api/python/python/MilvusClient/MilvusClient-CollectionAliases/CollectionAliases-list_aliases'
+    },
+    {
+      type: 'link',
+      label: 'create_alias()',
+      href: '/reference/python/CollectionAliases-create_alias',
+      docId: 'api/python/python/MilvusClient/MilvusClient-CollectionAliases/CollectionAliases-create_alias'
+    }
+  ],
+  href: '/reference/python/MilvusClient-CollectionAliases'
+}
+{
+  type: 'category',
+  label: 'utility',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'drop_alias()',
+      href: '/reference/python/utility-drop_alias',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-drop_alias'
+    },
+    {
+      type: 'link',
+      label: 'delete_user()',
+      href: '/reference/python/utility-delete_user',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-delete_user'
+    },
+    {
+      type: 'link',
+      label: 'rename_collection()',
+      href: '/reference/python/utility-rename_collection',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-rename_collection'
+    },
+    {
+      type: 'link',
+      label: 'alter_alias()',
+      href: '/reference/python/utility-alter_alias',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-alter_alias'
+    },
+    {
+      type: 'link',
+      label: 'list_aliases()',
+      href: '/reference/python/utility-list_aliases',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-list_aliases'
+    },
+    {
+      type: 'link',
+      label: 'create_alias()',
+      href: '/reference/python/utility-create_alias',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-create_alias'
+    },
+    {
+      type: 'link',
+      label: 'list_usernames()',
+      href: '/reference/python/utility-list_usernames',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-list_usernames'
+    },
+    {
+      type: 'link',
+      label: 'create_user()',
+      href: '/reference/python/utility-create_user',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-create_user'
+    },
+    {
+      type: 'link',
+      label: 'list_user()',
+      href: '/reference/python/utility-list_user',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-list_user'
+    },
+    {
+      type: 'link',
+      label: 'list_users()',
+      href: '/reference/python/utility-list_users',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-list_users'
+    },
+    {
+      type: 'link',
+      label: 'list_roles()',
+      href: '/reference/python/utility-list_roles',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-list_roles'
+    },
+    {
+      type: 'link',
+      label: 'update_password()',
+      href: '/reference/python/utility-update_password',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-update_password'
+    },
+    {
+      type: 'link',
+      label: 'reset_password()',
+      href: '/reference/python/utility-reset_password',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-reset_password'
+    },
+    {
+      type: 'link',
+      label: 'get_server_version()',
+      href: '/reference/python/utility-get_server_version',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-get_server_version'
+    },
+    {
+      type: 'link',
+      label: 'index_building_progress()',
+      href: '/reference/python/utility-index_building_progress',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-index_building_progress'
+    },
+    {
+      type: 'link',
+      label: 'wait_for_index_building_complete()',
+      href: '/reference/python/utility-wait_for_index_building_complete',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-wait_for_index_building_complete'
+    },
+    {
+      type: 'link',
+      label: 'list_indexes()',
+      href: '/reference/python/utility-list_indexes',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-list_indexes'
+    },
+    {
+      type: 'link',
+      label: 'drop_resource_group()',
+      href: '/reference/python/utility-drop_resource_group',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-drop_resource_group'
+    },
+    {
+      type: 'link',
+      label: 'load_state()',
+      href: '/reference/python/utility-load_state',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-load_state'
+    },
+    {
+      type: 'link',
+      label: 'loading_progress()',
+      href: '/reference/python/utility-loading_progress',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-loading_progress'
+    },
+    {
+      type: 'link',
+      label: 'drop_collection()',
+      href: '/reference/python/utility-drop_collection',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-drop_collection'
+    },
+    {
+      type: 'link',
+      label: 'flush_all()',
+      href: '/reference/python/utility-flush_all',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-flush_all'
+    },
+    {
+      type: 'link',
+      label: 'has_collection()',
+      href: '/reference/python/utility-has_collection',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-has_collection'
+    },
+    {
+      type: 'link',
+      label: 'has_partition()',
+      href: '/reference/python/utility-has_partition',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-has_partition'
+    },
+    {
+      type: 'link',
+      label: 'wait_for_loading_complete()',
+      href: '/reference/python/utility-wait_for_loading_complete',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-wait_for_loading_complete'
+    },
+    {
+      type: 'link',
+      label: 'list_collections()',
+      href: '/reference/python/utility-list_collections',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-list_collections'
+    },
+    {
+      type: 'link',
+      label: 'mkts_from_unixtime()',
+      href: '/reference/python/utility-mkts_from_unixtime',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-mkts_from_unixtime'
+    },
+    {
+      type: 'link',
+      label: 'mkts_from_datetime()',
+      href: '/reference/python/utility-mkts_from_datetime',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-mkts_from_datetime'
+    },
+    {
+      type: 'link',
+      label: 'mkts_from_hybridts()',
+      href: '/reference/python/utility-mkts_from_hybridts',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-utility/utility-mkts_from_hybridts'
+    }
+  ],
+  href: '/reference/python/PyMilvusLegacy-utility'
+}
+{
+  type: 'category',
+  label: 'Collection',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'has_partition()',
+      href: '/reference/python/Collection-has_partition',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-has_partition'
+    },
+    {
+      type: 'link',
+      label: 'search()',
+      href: '/reference/python/Collection-search',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-search'
+    },
+    {
+      type: 'link',
+      label: 'query()',
+      href: '/reference/python/Collection-query',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-query'
+    },
+    {
+      type: 'link',
+      label: 'describe()',
+      href: '/reference/python/Collection-describe',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-describe'
+    },
+    {
+      type: 'link',
+      label: 'load()',
+      href: '/reference/python/Collection-load',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-load'
+    },
+    {
+      type: 'link',
+      label: 'create_index()',
+      href: '/reference/python/Collection-create_index',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-create_index'
+    },
+    {
+      type: 'link',
+      label: 'drop_index()',
+      href: '/reference/python/Collection-drop_index',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-drop_index'
+    },
+    {
+      type: 'link',
+      label: 'has_index()',
+      href: '/reference/python/Collection-has_index',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-has_index'
+    },
+    {
+      type: 'link',
+      label: 'index()',
+      href: '/reference/python/Collection-index',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-index'
+    },
+    {
+      type: 'link',
+      label: 'compact()',
+      href: '/reference/python/Collection-compact',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-compact'
+    },
+    {
+      type: 'link',
+      label: 'wait_for_compaction_completed()',
+      href: '/reference/python/Collection-wait_for_compaction_completed',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-wait_for_compaction_completed'
+    },
+    {
+      type: 'link',
+      label: 'upsert()',
+      href: '/reference/python/Collection-upsert',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-upsert'
+    },
+    {
+      type: 'link',
+      label: 'flush()',
+      href: '/reference/python/Collection-flush',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-flush'
+    },
+    {
+      type: 'link',
+      label: 'delete()',
+      href: '/reference/python/Collection-delete',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-delete'
+    },
+    {
+      type: 'link',
+      label: 'insert()',
+      href: '/reference/python/Collection-insert',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-insert'
+    },
+    {
+      type: 'link',
+      label: 'set_properties()',
+      href: '/reference/python/Collection-set_properties',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-set_properties'
+    },
+    {
+      type: 'link',
+      label: 'search_iterator()',
+      href: '/reference/python/Collection-search_iterator',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-search_iterator'
+    },
+    {
+      type: 'link',
+      label: 'release()',
+      href: '/reference/python/Collection-release',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-release'
+    },
+    {
+      type: 'link',
+      label: 'query_iterator()',
+      href: '/reference/python/Collection-query_iterator',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-query_iterator'
+    },
+    {
+      type: 'link',
+      label: 'partition()',
+      href: '/reference/python/Collection-partition',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-partition'
+    },
+    {
+      type: 'link',
+      label: 'get_replicas()',
+      href: '/reference/python/Collection-get_replicas',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-get_replicas'
+    },
+    {
+      type: 'link',
+      label: 'get_compaction_state()',
+      href: '/reference/python/Collection-get_compaction_state',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-get_compaction_state'
+    },
+    {
+      type: 'link',
+      label: 'get_compaction_plans()',
+      href: '/reference/python/Collection-get_compaction_plans',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-get_compaction_plans'
+    },
+    {
+      type: 'link',
+      label: 'drop()',
+      href: '/reference/python/Collection-drop',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-drop'
+    },
+    {
+      type: 'link',
+      label: 'drop_partition()',
+      href: '/reference/python/Collection-drop_partition',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-drop_partition'
+    },
+    {
+      type: 'link',
+      label: 'create_partition()',
+      href: '/reference/python/Collection-create_partition',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-create_partition'
+    },
+    {
+      type: 'link',
+      label: 'construct_from_dataframe()',
+      href: '/reference/python/Collection-construct_from_dataframe',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Collection/Collection-construct_from_dataframe'
+    }
+  ],
+  href: '/reference/python/PyMilvusLegacy-Collection'
+}
+{
+  type: 'category',
+  label: 'FieldSchema',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'to_dict()',
+      href: '/reference/python/FieldSchema-to_dict',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-FieldSchema/FieldSchema-to_dict'
+    },
+    {
+      type: 'link',
+      label: 'construct_from_dict()',
+      href: '/reference/python/FieldSchema-construct_from_dict',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-FieldSchema/FieldSchema-construct_from_dict'
+    }
+  ],
+  href: '/reference/python/PyMilvusLegacy-FieldSchema'
+}
+{
+  type: 'category',
+  label: 'CollectionSchema',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'verify()',
+      href: '/reference/python/CollectionSchema-verify',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-CollectionSchema/CollectionSchema-verify'
+    },
+    {
+      type: 'link',
+      label: 'to_dict()',
+      href: '/reference/python/CollectionSchema-to_dict',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-CollectionSchema/CollectionSchema-to_dict'
+    },
+    {
+      type: 'link',
+      label: 'construct_from_dict()',
+      href: '/reference/python/CollectionSchema-construct_from_dict',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-CollectionSchema/CollectionSchema-construct_from_dict'
+    },
+    {
+      type: 'link',
+      label: 'add_field()',
+      href: '/reference/python/CollectionSchema-add_field',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-CollectionSchema/CollectionSchema-add_field'
+    }
+  ],
+  href: '/reference/python/PyMilvusLegacy-CollectionSchema'
+}
+{
+  type: 'category',
+  label: 'Connections',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'add_connection()',
+      href: '/reference/python/Connections-add_connection',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Connections/Connections-add_connection'
+    },
+    {
+      type: 'link',
+      label: 'remove_connection()',
+      href: '/reference/python/Connections-remove_connection',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Connections/Connections-remove_connection'
+    },
+    {
+      type: 'link',
+      label: 'list_connections()',
+      href: '/reference/python/Connections-list_connections',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Connections/Connections-list_connections'
+    },
+    {
+      type: 'link',
+      label: 'has_connection()',
+      href: '/reference/python/Connections-has_connection',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Connections/Connections-has_connection'
+    },
+    {
+      type: 'link',
+      label: 'disconnect()',
+      href: '/reference/python/Connections-disconnect',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Connections/Connections-disconnect'
+    },
+    {
+      type: 'link',
+      label: 'connect()',
+      href: '/reference/python/Connections-connect',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Connections/Connections-connect'
+    },
+    {
+      type: 'link',
+      label: 'get_connection_addr()',
+      href: '/reference/python/Connections-get_connection_addr',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Connections/Connections-get_connection_addr'
+    }
+  ],
+  href: '/reference/python/PyMilvusLegacy-Connections'
+}
+{
+  type: 'category',
+  label: 'Role',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'revoke()',
+      href: '/reference/python/Role-revoke',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Role/Role-revoke'
+    },
+    {
+      type: 'link',
+      label: 'list_grant()',
+      href: '/reference/python/Role-list_grant',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Role/Role-list_grant'
+    },
+    {
+      type: 'link',
+      label: 'grant()',
+      href: '/reference/python/Role-grant',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Role/Role-grant'
+    },
+    {
+      type: 'link',
+      label: 'remove_user()',
+      href: '/reference/python/Role-remove_user',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Role/Role-remove_user'
+    },
+    {
+      type: 'link',
+      label: 'list_grants()',
+      href: '/reference/python/Role-list_grants',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Role/Role-list_grants'
+    },
+    {
+      type: 'link',
+      label: 'is_exist()',
+      href: '/reference/python/Role-is_exist',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Role/Role-is_exist'
+    },
+    {
+      type: 'link',
+      label: 'get_users()',
+      href: '/reference/python/Role-get_users',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Role/Role-get_users'
+    },
+    {
+      type: 'link',
+      label: 'drop()',
+      href: '/reference/python/Role-drop',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Role/Role-drop'
+    },
+    {
+      type: 'link',
+      label: 'create()',
+      href: '/reference/python/Role-create',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Role/Role-create'
+    },
+    {
+      type: 'link',
+      label: 'add_user()',
+      href: '/reference/python/Role-add_user',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Role/Role-add_user'
+    }
+  ],
+  href: '/reference/python/PyMilvusLegacy-Role'
+}
+{
+  type: 'category',
+  label: 'Partition',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'load()',
+      href: '/reference/python/Partition-load',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Partition/Partition-load'
+    },
+    {
+      type: 'link',
+      label: 'upsert()',
+      href: '/reference/python/Partition-upsert',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Partition/Partition-upsert'
+    },
+    {
+      type: 'link',
+      label: 'search()',
+      href: '/reference/python/Partition-search',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Partition/Partition-search'
+    },
+    {
+      type: 'link',
+      label: 'release()',
+      href: '/reference/python/Partition-release',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Partition/Partition-release'
+    },
+    {
+      type: 'link',
+      label: 'query()',
+      href: '/reference/python/Partition-query',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Partition/Partition-query'
+    },
+    {
+      type: 'link',
+      label: 'insert()',
+      href: '/reference/python/Partition-insert',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Partition/Partition-insert'
+    },
+    {
+      type: 'link',
+      label: 'drop()',
+      href: '/reference/python/Partition-drop',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Partition/Partition-drop'
+    },
+    {
+      type: 'link',
+      label: 'delete()',
+      href: '/reference/python/Partition-delete',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Partition/Partition-delete'
+    },
+    {
+      type: 'link',
+      label: 'get_replicas()',
+      href: '/reference/python/Partition-get_replicas',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Partition/Partition-get_replicas'
+    },
+    {
+      type: 'link',
+      label: 'flush()',
+      href: '/reference/python/Partition-flush',
+      docId: 'api/python/python/PyMilvusLegacy/PyMilvusLegacy-Partition/Partition-flush'
+    }
+  ],
+  href: '/reference/python/PyMilvusLegacy-Partition'
+}
+{
+  type: 'category',
+  label: 'Cloud',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'List Cloud Providers',
+      href: '/reference/list-cloud-providers',
+      docId: 'api/restful/restful/cloud-meta/list-cloud-providers'
+    },
+    {
+      type: 'link',
+      label: 'List Cloud Regions',
+      href: '/reference/list-cloud-regions',
+      docId: 'api/restful/restful/cloud-meta/list-cloud-regions'
+    }
+  ],
+  href: '/reference/restful/cloud-meta'
+}
+{
+  type: 'category',
+  label: 'Cluster',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Create Cluster',
+      href: '/reference/create-cluster',
+      docId: 'api/restful/restful/cluster-operations/create-cluster'
+    },
+    {
+      type: 'link',
+      label: 'List Clusters',
+      href: '/reference/list-clusters',
+      docId: 'api/restful/restful/cluster-operations/list-clusters'
+    },
+    {
+      type: 'link',
+      label: 'Describe Cluster',
+      href: '/reference/describe-cluster',
+      docId: 'api/restful/restful/cluster-operations/describe-cluster'
+    },
+    {
+      type: 'link',
+      label: 'Drop Cluster',
+      href: '/reference/drop-cluster',
+      docId: 'api/restful/restful/cluster-operations/drop-cluster'
+    },
+    {
+      type: 'link',
+      label: 'Modify Cluster',
+      href: '/reference/modify-cluster',
+      docId: 'api/restful/restful/cluster-operations/modify-cluster'
+    },
+    {
+      type: 'link',
+      label: 'Resume Cluster',
+      href: '/reference/resume-cluster',
+      docId: 'api/restful/restful/cluster-operations/resume-cluster'
+    },
+    {
+      type: 'link',
+      label: 'Suspend Cluster',
+      href: '/reference/suspend-cluster',
+      docId: 'api/restful/restful/cluster-operations/suspend-cluster'
+    },
+    {
+      type: 'link',
+      label: 'Create Serverless Cluster',
+      href: '/reference/create-serverless-cluster',
+      docId: 'api/restful/restful/cluster-operations/create-serverless-cluster'
+    },
+    {
+      type: 'link',
+      label: 'List Projects',
+      href: '/reference/list-projects',
+      docId: 'api/restful/restful/cluster-operations/list-projects'
+    }
+  ],
+  href: '/reference/restful/cluster-operations'
+}
+{
+  type: 'category',
+  label: 'Import',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Import',
+      href: '/reference/import',
+      docId: 'api/restful/restful/import-operations/import'
+    },
+    {
+      type: 'link',
+      label: 'Get Import Progress',
+      href: '/reference/get-import-progress',
+      docId: 'api/restful/restful/import-operations/get-import-progress'
+    },
+    {
+      type: 'link',
+      label: 'List Import Jobs',
+      href: '/reference/list-import-jobs',
+      docId: 'api/restful/restful/import-operations/list-import-jobs'
+    }
+  ],
+  href: '/reference/restful/import-operations'
+}
+{
+  type: 'category',
+  label: 'Pipeline',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Describe Pipeline',
+      href: '/reference/describe-pipeline',
+      docId: 'api/restful/restful/pipeline-operations/describe-pipeline'
+    },
+    {
+      type: 'link',
+      label: 'Drop Pipeline',
+      href: '/reference/drop-pipeline',
+      docId: 'api/restful/restful/pipeline-operations/drop-pipeline'
+    },
+    {
+      type: 'link',
+      label: 'Create Pipeline',
+      href: '/reference/create-pipeline',
+      docId: 'api/restful/restful/pipeline-operations/create-pipeline'
+    },
+    {
+      type: 'link',
+      label: 'List Pipelines',
+      href: '/reference/list-pipelines',
+      docId: 'api/restful/restful/pipeline-operations/list-pipelines'
+    },
+    {
+      type: 'link',
+      label: 'Run Pipeline',
+      href: '/reference/run-pipeline',
+      docId: 'api/restful/restful/pipeline-operations/run-pipeline'
+    }
+  ],
+  href: '/reference/restful/pipeline-operations'
+}
+{
+  type: 'category',
+  label: 'Collection',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'List Collections',
+      href: '/reference/list-collections',
+      docId: 'api/restful/restful/collection-operations/list-collections'
+    },
+    {
+      type: 'link',
+      label: 'Create Collection',
+      href: '/reference/create-collection',
+      docId: 'api/restful/restful/collection-operations/create-collection'
+    },
+    {
+      type: 'link',
+      label: 'Describe Collection',
+      href: '/reference/describe-collection',
+      docId: 'api/restful/restful/collection-operations/describe-collection'
+    },
+    {
+      type: 'link',
+      label: 'Drop Collection',
+      href: '/reference/drop-collection',
+      docId: 'api/restful/restful/collection-operations/drop-collection'
+    }
+  ],
+  href: '/reference/restful/collection-operations'
+}
+{
+  type: 'category',
+  label: 'Vector',
+  collapsible: true,
+  collapsed: true,
+  items: [
+    {
+      type: 'link',
+      label: 'Delete',
+      href: '/reference/delete',
+      docId: 'api/restful/restful/vector-operations/delete'
+    },
+    {
+      type: 'link',
+      label: 'Insert',
+      href: '/reference/insert',
+      docId: 'api/restful/restful/vector-operations/insert'
+    },
+    {
+      type: 'link',
+      label: 'Search',
+      href: '/reference/search',
+      docId: 'api/restful/restful/vector-operations/search'
+    },
+    {
+      type: 'link',
+      label: 'Query',
+      href: '/reference/query',
+      docId: 'api/restful/restful/vector-operations/query'
+    },
+    {
+      type: 'link',
+      label: 'Get',
+      href: '/reference/get',
+      docId: 'api/restful/restful/vector-operations/get'
+    },
+    {
+      type: 'link',
+      label: 'Upsert',
+      href: '/reference/upsert',
+      docId: 'api/restful/restful/vector-operations/upsert'
+    }
+  ],
+  href: '/reference/restful/vector-operations'
+}
+✔ Server: Compiled with some errors in 26.32s
+
+
+TypeError: notebook.indexOf is not a function
+[INFO] Docusaurus version: 2.4.3
+Node version: v20.5.1

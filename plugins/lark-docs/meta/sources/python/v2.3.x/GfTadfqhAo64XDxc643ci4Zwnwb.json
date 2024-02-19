@@ -1,0 +1,586 @@
+{
+  "created_time": "1704258291",
+  "modified_time": "1704440839",
+  "name": "to_dict()",
+  "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_token": "SeaffVvutlNtvTdpV17cy78un5T",
+  "token": "GfTadfqhAo64XDxc643ci4Zwnwb",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/GfTadfqhAo64XDxc643ci4Zwnwb",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "GfTadfqhAo64XDxc643ci4Zwnwb",
+        "block_type": 1,
+        "children": [
+          "doxcnmxhUKCmjyPX99pQLLjtYGh",
+          "doxcn4L5mvCkb4yX9j6DoFPH2wf",
+          "doxcnvV38ReTnoZJxPrp4K9qxBg",
+          "VGpAdarZaohSqbx790Vcgxbentq",
+          "SeWMd2C4NoTpGdx0Cidc8DuKn7f",
+          "OHFBdc6Mro4SE9xHQ0hcZcE8nVL",
+          "doxcnYWfRFhRKXaJiqukE71lL9d",
+          "doxcnyeHfX0wkREBOfRT3RDkGob",
+          "I2N8d7RHeo4aUJxvt3fcV3WMnDh",
+          "IF4YdYA0loyigvxQQ5fcQOfNngb",
+          "ZZuIdLmTvoyTIdx4e2FcPDfunhb",
+          "XgVdd312soWVMHx3BwRc3Ue5nKt",
+          "doxcnyi8Xkljfx8qYWEHY0evqWh",
+          "doxcnTPFQSIlwiLQQtQhvjlhqQc",
+          "S72wdgcjsod5Tfx7sqEccAOHnod",
+          "BAD8drTbtoRUmRxPLVdcnm3On0e",
+          "doxcnSPbdcFTuDJ28YzRkoFa9yd",
+          "doxcnFiNnW8g92vF6o60Xz2CnYg"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "to_dict()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnmxhUKCmjyPX99pQLLjtYGh",
+        "block_type": 2,
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation converts a CollectionSchema object to a dictionary representation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn4L5mvCkb4yX9j6DoFPH2wf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pymilvus.CollectionSchema.to_dict()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb"
+      },
+      {
+        "block_id": "doxcnvV38ReTnoZJxPrp4K9qxBg",
+        "block_type": 2,
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following operations are related to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "to_dict()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VGpAdarZaohSqbx790Vcgxbentq",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "FieldSchema",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb"
+      },
+      {
+        "block_id": "SeWMd2C4NoTpGdx0Cidc8DuKn7f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CollectionSchema",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb"
+      },
+      {
+        "block_id": "OHFBdc6Mro4SE9xHQ0hcZcE8nVL",
+        "block_type": 2,
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "See also the Python SDK Reference.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnYWfRFhRKXaJiqukE71lL9d",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb"
+      },
+      {
+        "block_id": "doxcnyeHfX0wkREBOfRT3RDkGob",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import CollectionSchema, FieldSchema, DataType  \n\n# Create field schemas\n\nprimary_key = FieldSchema(\n    name=\"string\",\n    dtype=DataType.INT64,\n    is_primary=True,\n)\n \nvector = FieldSchema(\n    name=\"string\",\n    dtype=DataType.FLOAT_VECTOR,\n    dim=int,\n)\n\n# Create a CollectionSchema with field schemas\nschema = CollectionSchema(\n    fields = [primary_key, vector]\n)\n\n# Get a dictionary representation of the collection schema\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema_dict = schema.to_dict()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb"
+      },
+      {
+        "block_id": "I2N8d7RHeo4aUJxvt3fcV3WMnDh",
+        "block_type": 2,
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IF4YdYA0loyigvxQQ5fcQOfNngb",
+        "block_type": 2,
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZZuIdLmTvoyTIdx4e2FcPDfunhb",
+        "block_type": 2,
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XgVdd312soWVMHx3BwRc3Ue5nKt",
+        "block_type": 2,
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "dict",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnyi8Xkljfx8qYWEHY0evqWh",
+        "block_type": 2,
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnTPFQSIlwiLQQtQhvjlhqQc",
+        "block_type": 2,
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The dictionary representation of the collection schema.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "S72wdgcjsod5Tfx7sqEccAOHnod",
+        "block_type": 2,
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BAD8drTbtoRUmRxPLVdcnm3On0e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusException",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "K5VBdkmIPopq7jxxcLvcrsyPnCh"
+        ],
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb"
+      },
+      {
+        "block_id": "K5VBdkmIPopq7jxxcLvcrsyPnCh",
+        "block_type": 2,
+        "parent_id": "BAD8drTbtoRUmRxPLVdcnm3On0e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when any error occurs during this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnSPbdcFTuDJ28YzRkoFa9yd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb"
+      },
+      {
+        "block_id": "doxcnFiNnW8g92vF6o60Xz2CnYg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import CollectionSchema, FieldSchema, DataType  \n\n# Create field schemas\nprimary_key = FieldSchema(\n    name=\"id\",\n    dtype=DataType.INT64,\n    is_primary=True,\n)\n\nvector = FieldSchema(\n    name=\"vector\",\n    dtype=DataType.FLOAT_VECTOR,\n    dim=768,\n)\n\n# Create a CollectionSchema with field schemas\n\nschema = CollectionSchema(\n    fields = [primary_key, vector]\n)\n\n# Call to_dict() to get a dictionary representation of the schema \n\nschema_dict = schema.to_dict()  \nprint(schema_dict)\n\n# Output\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# {'auto_id': False, 'description': '', 'fields': [{'name': 'id', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': False}, {'name': 'vector', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 768}}]}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "GfTadfqhAo64XDxc643ci4Zwnwb"
+      }
+    ],
+    "counts": 20
+  },
+  "slug": "CollectionSchema-to_dict"
+}

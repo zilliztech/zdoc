@@ -1,0 +1,103 @@
+{
+  "created_time": "1703727822",
+  "modified_time": "1708326349",
+  "name": "MilvusClient",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "PTJzfzI0ulKGjwdUsxQcFxfJn6b",
+  "token": "DxvKfXmUolw51AdM5Mdcyr8Angh",
+  "type": "folder",
+  "url": "https://zilliverse.feishu.cn/drive/folder/DxvKfXmUolw51AdM5Mdcyr8Angh",
+  "slug": "MilvusClient",
+  "children": [
+    {
+      "created_time": "1708318119",
+      "modified_time": "1708326330",
+      "name": "Client",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "DxvKfXmUolw51AdM5Mdcyr8Angh",
+      "token": "M0pgf1TX3lTotndwA7Vc3gJsnAd",
+      "type": "folder",
+      "url": "https://zilliverse.feishu.cn/drive/folder/M0pgf1TX3lTotndwA7Vc3gJsnAd"
+    },
+    {
+      "created_time": "1708317888",
+      "modified_time": "1708318104",
+      "name": "Users & Roles",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "DxvKfXmUolw51AdM5Mdcyr8Angh",
+      "token": "W9SBfQfXUlZAXDdK6nTcop4rnFd",
+      "type": "folder",
+      "url": "https://zilliverse.feishu.cn/drive/folder/W9SBfQfXUlZAXDdK6nTcop4rnFd"
+    },
+    {
+      "created_time": "1708318017",
+      "modified_time": "1708318052",
+      "name": "Search & Query",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "DxvKfXmUolw51AdM5Mdcyr8Angh",
+      "token": "NBMPfSYW3lbxDbdCFEicDSkrnld",
+      "type": "folder",
+      "url": "https://zilliverse.feishu.cn/drive/folder/NBMPfSYW3lbxDbdCFEicDSkrnld"
+    },
+    {
+      "created_time": "1708317839",
+      "modified_time": "1708318052",
+      "name": "Insert & Delete",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "DxvKfXmUolw51AdM5Mdcyr8Angh",
+      "token": "ZA7LfYxQHltI94dGs2Fc62AvnSh",
+      "type": "folder",
+      "url": "https://zilliverse.feishu.cn/drive/folder/ZA7LfYxQHltI94dGs2Fc62AvnSh"
+    },
+    {
+      "created_time": "1708317411",
+      "modified_time": "1708317795",
+      "name": "Collections",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "DxvKfXmUolw51AdM5Mdcyr8Angh",
+      "token": "AzdefBpvklrrFOdFnA1cicgonLf",
+      "type": "folder",
+      "url": "https://zilliverse.feishu.cn/drive/folder/AzdefBpvklrrFOdFnA1cicgonLf"
+    },
+    {
+      "created_time": "1708317488",
+      "modified_time": "1708317774",
+      "name": "Partitions",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "DxvKfXmUolw51AdM5Mdcyr8Angh",
+      "token": "YpEjf83y1lvvzxd31BqcvQmknEd",
+      "type": "folder",
+      "url": "https://zilliverse.feishu.cn/drive/folder/YpEjf83y1lvvzxd31BqcvQmknEd"
+    },
+    {
+      "created_time": "1708317660",
+      "modified_time": "1708317720",
+      "name": "Index, Load & Release",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "DxvKfXmUolw51AdM5Mdcyr8Angh",
+      "token": "IZKcfUEfClhhnWdFhk2co7krnAV",
+      "type": "folder",
+      "url": "https://zilliverse.feishu.cn/drive/folder/IZKcfUEfClhhnWdFhk2co7krnAV"
+    },
+    {
+      "created_time": "1708317567",
+      "modified_time": "1708317623",
+      "name": "Collection Aliases",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "DxvKfXmUolw51AdM5Mdcyr8Angh",
+      "token": "AbksfPuSAl0PWUdoFY0cWoBFngc",
+      "type": "folder",
+      "url": "https://zilliverse.feishu.cn/drive/folder/AbksfPuSAl0PWUdoFY0cWoBFngc"
+    },
+    {
+      "created_time": "1704785712",
+      "modified_time": "1708320145",
+      "name": "MilvusClient",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "DxvKfXmUolw51AdM5Mdcyr8Angh",
+      "token": "TUrSdmskuoGdFRxFT75c6xhinzc",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/TUrSdmskuoGdFRxFT75c6xhinzc"
+    }
+  ]
+}

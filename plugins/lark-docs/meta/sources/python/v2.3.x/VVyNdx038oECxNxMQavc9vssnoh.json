@@ -1,0 +1,789 @@
+{
+  "created_time": "1705998682",
+  "modified_time": "1707112357",
+  "name": "get_collection_stats()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
+  "token": "VVyNdx038oECxNxMQavc9vssnoh",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/VVyNdx038oECxNxMQavc9vssnoh",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "VVyNdx038oECxNxMQavc9vssnoh",
+        "block_type": 1,
+        "children": [
+          "EGaKdpsFkonZz9xTrMVcWQ3SnQx",
+          "TApWdieHAolTo0xaAxecYH3On5d",
+          "UQUcd0KlmoRsSfxpymqcZ7G3n0e",
+          "KPNidhtFgo3XEkxvSMnclt7snFg",
+          "CyQTdDrBaoFDEqxqCfGcyDJXncb",
+          "Zd1XdTch0oueMbxfqZ5cWHpXnGf",
+          "Bi6hdlN1NoFGKcxXLZpccRtXnbg",
+          "J4RAd6zfwoltD5xoTAZc3tJtnXe",
+          "UHG4dOHNooEeXIxdaNGcPLG2nPI",
+          "YudDdmtCAojiDtxqx7MceZ7fnnh",
+          "KkG2dSda0opaH3x6OQ8cVuY8ngg",
+          "Cwvdd5N0bo2qCYxxRxtcgGcqn4W",
+          "HHrsd2975oQTSlx1jRicpDo2nHd",
+          "PiHqddfIgo9Y5Bx8zRjcWScqn7g",
+          "Wkebdek55oYcgQxVvLfcFP48nWg",
+          "X1KldPp1KodLAXxpREecchJRngb"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "get_collection_stats()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "EGaKdpsFkonZz9xTrMVcWQ3SnQx",
+        "block_type": 2,
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation lists the statistics collected on a specific collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TApWdieHAolTo0xaAxecYH3On5d",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh"
+      },
+      {
+        "block_id": "UQUcd0KlmoRsSfxpymqcZ7G3n0e",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pymilvus.MilvusClient.get_collection_stats(\n    collection_name: str, \n    timeout: Optional[float] = None\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -> Dict",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh"
+      },
+      {
+        "block_id": "KPNidhtFgo3XEkxvSMnclt7snFg",
+        "block_type": 2,
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CyQTdDrBaoFDEqxqCfGcyDJXncb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection_name",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "CMwfdyEamoasSTxOfK5c5HW7n7f",
+          "W1XNdW4yporg7MxsSXfcH3VKnvb"
+        ],
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh"
+      },
+      {
+        "block_id": "CMwfdyEamoasSTxOfK5c5HW7n7f",
+        "block_type": 2,
+        "parent_id": "CyQTdDrBaoFDEqxqCfGcyDJXncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[REQUIRED]",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "W1XNdW4yporg7MxsSXfcH3VKnvb",
+        "block_type": 2,
+        "parent_id": "CyQTdDrBaoFDEqxqCfGcyDJXncb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of a collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Zd1XdTch0oueMbxfqZ5cWHpXnGf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "timeout",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "float",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " | ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "KLyYd9rbyoL2SSx1UwDcOIn5nEM"
+        ],
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh"
+      },
+      {
+        "block_id": "KLyYd9rbyoL2SSx1UwDcOIn5nEM",
+        "block_type": 2,
+        "parent_id": "Zd1XdTch0oueMbxfqZ5cWHpXnGf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The timeout duration for this operation. Setting this to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " indicates that this operation timeouts when any response returns or error occurs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Bi6hdlN1NoFGKcxXLZpccRtXnbg",
+        "block_type": 2,
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "J4RAd6zfwoltD5xoTAZc3tJtnXe",
+        "block_type": 2,
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "dict",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UHG4dOHNooEeXIxdaNGcPLG2nPI",
+        "block_type": 2,
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YudDdmtCAojiDtxqx7MceZ7fnnh",
+        "block_type": 2,
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A dictionary containing collected statistics on the specified collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KkG2dSda0opaH3x6OQ8cVuY8ngg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{\n    'row_count': 0\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh"
+      },
+      {
+        "block_id": "Cwvdd5N0bo2qCYxxRxtcgGcqn4W",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "OsDndHUUKotU7yxZg9fcCDc6nBe",
+          "MJv5drHcZoaTC3xjTfZc0OOnnQf",
+          "G5dbdoxxHognOOxcTUgcrnPZnCg"
+        ],
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh"
+      },
+      {
+        "block_id": "OsDndHUUKotU7yxZg9fcCDc6nBe",
+        "block_type": 2,
+        "parent_id": "Cwvdd5N0bo2qCYxxRxtcgGcqn4W",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Why doesn't the row count match the number of entities inserted?",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MJv5drHcZoaTC3xjTfZc0OOnnQf",
+        "block_type": 2,
+        "parent_id": "Cwvdd5N0bo2qCYxxRxtcgGcqn4W",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The data that you insert will go through a process before it is finally saved. Initially, it will flow in as data streams. Then, it will be stored in segments as entities. Milvus will select an appropriate growing segment to store the data in streams until the segment reaches its upper limit and becomes sealed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G5dbdoxxHognOOxcTUgcrnPZnCg",
+        "block_type": 2,
+        "parent_id": "Cwvdd5N0bo2qCYxxRxtcgGcqn4W",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "However, it's important to note that the row count displayed may not match the number of records that were inserted because data in streams is not taken into account.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HHrsd2975oQTSlx1jRicpDo2nHd",
+        "block_type": 2,
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PiHqddfIgo9Y5Bx8zRjcWScqn7g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusException",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "VwMjda4lbojlCpxDULWcLeEJnkd"
+        ],
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh"
+      },
+      {
+        "block_id": "VwMjda4lbojlCpxDULWcLeEJnkd",
+        "block_type": 2,
+        "parent_id": "PiHqddfIgo9Y5Bx8zRjcWScqn7g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when any error occurs during this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Wkebdek55oYcgQxVvLfcFP48nWg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh"
+      },
+      {
+        "block_id": "X1KldPp1KodLAXxpREecchJRngb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient\n\n# 1. Set up a milvus client\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\n# 3. Describe the collection\nclient.get_collection_stats(collection_name=\"test_collection\")\n\n# Output\n# \n# {\n#     'row_count': 0\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VVyNdx038oECxNxMQavc9vssnoh"
+      }
+    ],
+    "counts": 24
+  },
+  "slug": "Collections-get_collection_stats"
+}

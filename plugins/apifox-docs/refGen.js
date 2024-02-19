@@ -127,7 +127,7 @@ class refGen {
       const t = template.render({
         group_name,
         position,
-        slug,
+        slug: `restful/${slug}`,
         description
       })
 
