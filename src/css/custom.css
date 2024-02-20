@@ -19,18 +19,18 @@ body {
   --ifm-color-primary-lightest: #6a99ff;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-  --ifm-heading-font-family: "Roboto Condensed", sans-serif;
-  --ifm-font-family-monospace: "Ubuntu Mono", monospace;
   --ifm-code-font-size: 95%;
   --ifm-heading-font-weight: 700;
   --ifm-font-weight-semibold: 500;
   --ifm-list-paragraph-margin: 0.3rem;
   --ifm-paragraph-margin-bottom: 0.3rem;
   --ifm-tabs-padding-vertical: 0.5rem; 
+  --ifm-leading-desktop: 1.1;
 }
 
 .markdown {
-  --ifm-h2-vertical-rhythm-top: 1;
+  --ifm-h2-vertical-rhythm-top: 1.1;
+  --ifrm-h2-vertical-rhythm-bottom: 1.1;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
