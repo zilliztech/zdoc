@@ -6,8 +6,6 @@
 
 /* You can override the default Infima variables here. */
 body {
-  font-family: "Dosis", sans-serif;
-  font-size: 1.1rem;
   font-weight: 400;
 }
 
@@ -21,7 +19,7 @@ body {
   --ifm-color-primary-lightest: #6a99ff;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-  --ifm-heading-font-family: "Dosis", sans-serif;
+  --ifm-heading-font-family: "Roboto Condensed", sans-serif;
   --ifm-font-family-monospace: "Ubuntu Mono", monospace;
   --ifm-code-font-size: 95%;
   --ifm-heading-font-weight: 700;
