@@ -4,7 +4,7 @@ slug: /python/PyMilvusLegacy-Collection
 beta: false
 notebook: false
 token: ZGbAfWoUjl0Z3xdgyItc8wYXngf
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 # Collection
 
-A **Collection** instance represents a Milvus collection.
+A __Collection__ instance represents a Milvus collection.
 
 ```python
 class pymilvus.Collection
@@ -49,19 +49,19 @@ collection = Collection(
 ) 
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **name** (*string*) - 
+- __name__ (_string_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the collection to create.
 
-- **schema** (*CollectionSchema*) - 
+- __schema__ (_CollectionSchema_) - 
 
     The schema used to create the collection. 
 
-    The default value is **None**, indicating that a default schema is used.
+    The default value is __None__, indicating that a default schema is used.
 
     <Admonition type="info" icon="📘" title="What is a schema?">
 
@@ -69,17 +69,17 @@ collection = Collection(
 
     </Admonition>
 
-- **using** (*string*) - 
+- __using__ (_string_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **num_shards** (*int*) -
+- __num_shards__ (_int_) -
 
     The number of shards to create along with the creation of this collection. 
 
-    The value defaults to **2**, indicating that two shards are to be created along with this collection.
+    The value defaults to __2__, indicating that two shards are to be created along with this collection.
 
     <Admonition type="info" icon="📘" title="What is sharding?">
 
@@ -88,11 +88,11 @@ collection = Collection(
 
     </Admonition>
 
-- **consistency_level** (*int* | *str*)
+- __consistency_level__ (_int_ | _str_)
 
     The consistency level of the target collection.
 
-    The value defaults to **Bounded **(**1**) with options of **Strong **(**0**), **Bounded **(**1**), **Session **(**2**), and **Eventually **(**3**).
+    The value defaults to __Bounded __(__1__) with options of __Strong __(__0__), __Bounded __(__1__), __Session __(__2__), and __Eventually __(__3__).
 
     <Admonition type="info" icon="📘" title="What is the consistency level?">
 
@@ -105,21 +105,21 @@ collection = Collection(
 
     </Admonition>
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*Collection*
+_Collection_
 
-**RETURNS:**
+__RETURNS:__
 
 A collection object.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **SchemaNotReadyException**
+- __SchemaNotReadyException__
 
     This exception will be raised when the provided schema is invalid.
 

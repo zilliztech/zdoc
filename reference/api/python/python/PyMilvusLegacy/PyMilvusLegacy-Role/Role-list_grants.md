@@ -4,7 +4,7 @@ slug: /python/Role-list_grants
 beta: false
 notebook: false
 token: YRoGdgQmWoIEaJx84ICcHTILnMe
-sidebar_position: 6
+sidebar_position: 8
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,21 +45,21 @@ res=list_grant(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **db_name** (*str*)
+- __db_name__ (_str_)
 
     The name of a database in which Zilliz Cloud carries out this operation.
 
     If the specified database does not exist, an empty result returns.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*GrantInfo*
+_GrantInfo_
 
-**RETURNS:**
+__RETURNS:__
 
-A **GrantInfo** object that contains a list of **GrantItem** objects.
+A __GrantInfo__ object that contains a list of __GrantItem__ objects.
 
 ```python
 ├── GrantInfo
@@ -73,11 +73,11 @@ A **GrantInfo** object that contains a list of **GrantItem** objects.
 │           └── db_name
 ```
 
-The **GrantItem** objects contains the following fields:
+The __GrantItem__ objects contains the following fields:
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

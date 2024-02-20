@@ -4,7 +4,7 @@ slug: /python/Collection-drop
 beta: false
 notebook: false
 token: L8UTdDNkPoeew0x6LoDcfHx4nof
-sidebar_position: 25
+sidebar_position: 8
 ---
 
 import Admonition from '@theme/Admonition';
@@ -40,23 +40,23 @@ collection = Collection(name="string")
 collection.drop()
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

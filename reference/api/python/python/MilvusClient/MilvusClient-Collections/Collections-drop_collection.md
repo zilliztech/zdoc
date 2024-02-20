@@ -4,7 +4,7 @@ slug: /python/Collections-drop_collection
 beta: false
 notebook: false
 token: QNB4d2q2ZorIApxpnzqczW2HnL7
-sidebar_position: 4
+sidebar_position: 9
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,11 +20,11 @@ This operation drops a collection.
 pymilvus.MilvusClient.drop_collection(collection_name: str) -> None
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name** (*str*) -
+- __collection_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of an existing collection.
 

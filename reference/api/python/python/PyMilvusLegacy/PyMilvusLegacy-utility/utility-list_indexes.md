@@ -4,7 +4,7 @@ slug: /python/utility-list_indexes
 beta: false
 notebook: false
 token: XLepdUCcTow6rpx5vxxcbLXZnyb
-sidebar_position: 19
+sidebar_position: 25
 ---
 
 import Admonition from '@theme/Admonition';
@@ -50,45 +50,45 @@ utility.list_indexes(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name** (*str*) -
+- __collection_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of an existing collection.
 
-    Setting this to a non-existing collection leads to a **CollectionNotExistException**.
+    Setting this to a non-existing collection leads to a __CollectionNotExistException__.
 
-- **index_name** (*str*) -
+- __index_name__ (_str_) -
 
     The name of the target index of this operation.
 
     If left unspecified, the default index applies. If the collection has multiple indexes, this parameter is mandatory.
 
-    Setting this to a non-existing index leads to an **IndexNotExistException**.
+    Setting this to a non-existing index leads to an __IndexNotExistException__.
 
-- **using** (*str*) - 
+- __using__ (_str_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation times out when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation times out when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*list*
+_list_
 
-**RETURNS:**
+__RETURNS:__
 
 The names of all built indexes in a list.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **CollectionNotExistException**
+- __CollectionNotExistException__
 
     This exception will be raised if the specified collection does not exist.
 

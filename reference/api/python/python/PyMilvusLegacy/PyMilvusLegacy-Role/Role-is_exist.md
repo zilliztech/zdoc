@@ -4,7 +4,7 @@ slug: /python/Role-is_exist
 beta: false
 notebook: false
 token: F8WOdIoz4okn5OxMEymcXNuRnkb
-sidebar_position: 7
+sidebar_position: 6
 ---
 
 import Admonition from '@theme/Admonition';
@@ -42,21 +42,21 @@ role = Role(role_name="string")
 role.is_exist()
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
 N/A
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*bool*
+_bool_
 
-**RETURNS:**
+__RETURNS:__
 
 A boolean value indicating whether the current role exists or not
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-*None*
+_None_
 
 ## Examples{#examples}
 

@@ -4,7 +4,7 @@ slug: /python/Role-remove_user
 beta: false
 notebook: false
 token: SlmSdaD7rocMJsxThNHcOtEknVd
-sidebar_position: 5
+sidebar_position: 9
 ---
 
 import Admonition from '@theme/Admonition';
@@ -44,25 +44,25 @@ role = Role(role_name="string")
 role.remove_user(username="string")
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **username** (*str*) -
+- __username__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the user to remove from a role.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
-*None*
+_None_
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

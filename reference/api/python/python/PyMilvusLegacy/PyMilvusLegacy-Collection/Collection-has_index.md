@@ -4,7 +4,7 @@ slug: /python/Collection-has_index
 beta: false
 notebook: false
 token: WDk4dXY8IoV3SJxp9e7c3aq1nBh
-sidebar_position: 9
+sidebar_position: 15
 ---
 
 import Admonition from '@theme/Admonition';
@@ -46,23 +46,23 @@ collection = Collection(name="string")
 collection.has_index() # False
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*bool*
+_bool_
 
-**RETURNS:**
+__RETURNS:__
 
 A boolean value indicating whether the current collection has a built index or not.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

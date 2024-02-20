@@ -4,7 +4,7 @@ slug: /python/Connections-disconnect
 beta: false
 notebook: false
 token: IpSBdcabbosobvxQkAEcv6CvnJd
-sidebar_position: 6
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';
@@ -42,25 +42,25 @@ from pymilvus import connections
 connections.disconnect(alias="string")
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **alias** (*string*) -
+- __alias__ (_string_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     A connection alias.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
 None
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **ConnectionConfigException**
+- __ConnectionConfigException__
 
     This exception will be raised when the connection configuration is invalid.
 

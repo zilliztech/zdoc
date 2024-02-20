@@ -4,7 +4,7 @@ slug: /python/utility-list_aliases
 beta: false
 notebook: false
 token: XBwxdP96Go8ITyx7UuNcL7EonPd
-sidebar_position: 6
+sidebar_position: 22
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,39 +45,39 @@ list_aliases(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name **(*str*) -
+- __collection_name __(_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the collection whose aliases are to be listed.
 
-- **using** (*str*) - 
+- __using__ (_str_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation times out when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation times out when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*list*
+_list_
 
-**RETURNS:**
+__RETURNS:__
 
 A list of aliases for the specified collection. If the collection has no aliases, an empty list will be returned.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 
-- **BaseException**
+- __BaseException__
 
     This exception will be raised when this operation fails.
 

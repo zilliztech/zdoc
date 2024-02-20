@@ -4,7 +4,7 @@ slug: /python/PyMilvusLegacy-Partition
 beta: false
 notebook: false
 token: Ed0CftM6Mlb5e4dUYApc9syJnDb
-sidebar_position: 8
+sidebar_position: 6
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 # Partition
 
-A **Partition** instance represents a partition within a collection.
+A __Partition__ instance represents a partition within a collection.
 
 ```python
 class pymilvus.Partition
@@ -42,15 +42,15 @@ partition = Partition(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection** (*Collection* | *str*) - 
+- __collection__ (_Collection_ | _str_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The collection in which to create a partition. 
 
-    You can either reference a **Collection** object or its name.
+    You can either reference a __Collection__ object or its name.
 
     <Admonition type="info" icon="📘" title="What is a collection?">
 
@@ -59,27 +59,27 @@ partition = Partition(
 
     </Admonition>
 
-- **name** (*string*) - 
+- __name__ (_string_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the partition to create.
 
-- **description** (*string*) - 
+- __description__ (_string_) - 
 
     The description of the partition to create.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*Partition*
+_Partition_
 
-**RETURNS:**
+__RETURNS:__
 
-A **Partition** object.
+A __Partition__ object.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

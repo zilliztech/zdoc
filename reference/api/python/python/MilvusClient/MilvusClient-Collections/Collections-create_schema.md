@@ -4,7 +4,7 @@ slug: /python/Collections-create_schema
 beta: false
 notebook: false
 token: RxU7dBjGlop0e1xZShYcZ4qCnnh
-sidebar_position: 9
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';
@@ -26,21 +26,21 @@ This operation creates a collection schema.
 pymilvus.MilvusClient.create_schema(**kwargs) -> CollectionSchema
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **kwargs** -
+- __kwargs__ -
 
-    - **auto_id** (*bool*)
+    - __auto_id__ (_bool_)
 
         Whether allows the primary field to automatically increment.
 
-        Setting this to **True** makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
+        Setting this to __True__ makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
 
-    - **enable_dynamic_field** (*bool*)
+    - __enable_dynamic_field__ (_bool_)
 
         Whether allows Zilliz Cloud saves the values of undefined fields in a dynamic field if the data being inserted into the target collection includes fields that are not defined in the collection's schema.
 
-        When you set this to **True**,  and Zilliz Cloud will create a field called **$meta** to store any undefined fields and their values from the data that is inserted.
+        When you set this to __True__,  and Zilliz Cloud will create a field called __$meta__ to store any undefined fields and their values from the data that is inserted.
 
         <Admonition type="info" icon="📘" title="What is a dynamic field?">
 
@@ -48,23 +48,23 @@ pymilvus.MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
         </Admonition>
 
-    - **primary_field** (*str*)
+    - __primary_field__ (_str_)
 
         The name of the primary field.
 
-        The value should be the name of a field listed in **fields**.
+        The value should be the name of a field listed in __fields__.
 
-        As an alternative, you can set **is_primary** when creating a **FieldSchema** object.
+        As an alternative, you can set __is_primary__ when creating a __FieldSchema__ object.
 
-    - **partition_key_field** (*str*)
+    - __partition_key_field__ (_str_)
 
         The name of the field that serves as the partition key.
 
-        The value should be the name of a field listed in **fields**.
+        The value should be the name of a field listed in __fields__.
 
         Setting this makes Zilliz Cloud manage all partitions in the current collection.
 
-        As an alternative, you can set **is_partition_key** when creating a **FieldSchema** object.
+        As an alternative, you can set __is_partition_key__ when creating a __FieldSchema__ object.
 
         <Admonition type="info" icon="📘" title="What is a partition key?">
 
@@ -74,17 +74,17 @@ pymilvus.MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
         </Admonition>
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*CollectionSchema*
+_CollectionSchema_
 
-**RETURNS:**
+__RETURNS:__
 
-A **CollectionSchema** object.
+A __CollectionSchema__ object.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

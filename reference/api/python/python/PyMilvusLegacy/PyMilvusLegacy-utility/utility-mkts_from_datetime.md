@@ -4,7 +4,7 @@ slug: /python/utility-mkts_from_datetime
 beta: false
 notebook: false
 token: LCQTdebkConhUqxwnk7c3EbPnWh
-sidebar_position: 41
+sidebar_position: 34
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 # mkts_from_datetime()
 
-This operation makes a hybrid timestamp from a Python's **datetime.datetime** object.
+This operation makes a hybrid timestamp from a Python's __datetime.datetime__ object.
 
 ```python
 pymilvus.utility.mkts_from_datetime(
@@ -49,25 +49,25 @@ utility.mkts_from_datetime(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **d_time** (*datetime*) -
-**[REQUIRED]**
-A **datetime.datetime** object.
+- __d_time__ (_datetime_) -
+__[REQUIRED]__
+A __datetime.datetime__ object.
 
-- **milliseconds** (*float*) -
+- __milliseconds__ (_float_) -
 An incremental time interval in milliseconds.
 
-- **delta** (*Optional[timedelta]*) -
+- __delta__ (_Optional[timedelta]_) -
 
-    A **datetime.timedelta** object that represents the duration expressing the difference between two `date`, `time`, or `datetime` instances to microsecond resolution.
+    A __datetime.timedelta__ object that represents the duration expressing the difference between two `date`, `time`, or `datetime` instances to microsecond resolution.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*int*
+_int_
 
-**RETURNS:**
-A hybrid timestamp, which is a non-negative integer ranging from **0** to **18446744073709551615**.
+__RETURNS:__
+A hybrid timestamp, which is a non-negative integer ranging from __0__ to __18446744073709551615__.
 
 ## Examples{#examples}
 

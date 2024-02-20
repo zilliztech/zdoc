@@ -4,7 +4,7 @@ slug: /python/Collection-load
 beta: false
 notebook: false
 token: HQDndiGwloWKIexgPCUcEZGenOh
-sidebar_position: 6
+sidebar_position: 19
 ---
 
 import Admonition from '@theme/Admonition';
@@ -60,13 +60,13 @@ collection.load(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **partition_names** (*list(str)* | *None*) - 
+- __partition_names__ (_list(str)_ | _None_) - 
 
     The partitions of the current collection to load. If left unspecified, all partitions are to be loaded.
 
-- **replica_number** (*int*) -
+- __replica_number__ (_int_) -
 
     The number of replicas to create. The value defaults to 1 and ranges from 1 to the number of query nodes available. Setting this to `1` indicates that segments in the current collection or any specified partitions are to be loaded onto one query node.
 
@@ -77,13 +77,13 @@ collection.load(
 
     </Admonition>
 
-- **timeout** (*float *|* None*)  -
+- __timeout__ (_float _|_ None_)  -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-- **kwargs** - 
+- __kwargs__ - 
 
-    - **_resource_groups** (*list*) -
+    - ___resource_groups__ (_list_) -
 
         A specific set of resource groups into which the current collection is to be loaded.
 
@@ -96,17 +96,17 @@ collection.load(
 
         </Admonition>
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
-*None*
+_None_
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception is to be raised when any error occurs during this operation.
 

@@ -852,5 +852,5 @@
     ],
     "counts": 25
   },
-  "slug": "UsersRoles-revoke_role"
+  "slug": "Authentication-revoke_role"
 }

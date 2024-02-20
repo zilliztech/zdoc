@@ -4,7 +4,7 @@ slug: /python/utility-rename_collection
 beta: false
 notebook: false
 token: M0qRdF1cLokrxvxyrXScJ64FnEe
-sidebar_position: 4
+sidebar_position: 37
 ---
 
 import Admonition from '@theme/Admonition';
@@ -60,52 +60,52 @@ utility.rename_collection(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **old_collection_name** (*str*) -
+- __old_collection_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 The original name of the target collection.
 
-    Setting this to a non-existing collection results in a **MilvusException**.
+    Setting this to a non-existing collection results in a __MilvusException__.
 
-- **new_collection_name** (*str*) -
+- __new_collection_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the target collection after this operation.
 
-    Setting this to the value of **old_collection_name** results in a **MilvusException**.
+    Setting this to the value of __old_collection_name__ results in a __MilvusException__.
 
-- **new_db_name** (*str*) -
+- __new_db_name__ (_str_) -
 
     The name of the database to which the collection belongs after this operation.
 
-    The value defaults to **default**. Setting this to a database rather than the one the collection belongs to before this operation moves this collection to the specified database.
+    The value defaults to __default__. Setting this to a database rather than the one the collection belongs to before this operation moves this collection to the specified database.
 
-    Setting this to a non-existing database results in a **MilvusException**.
+    Setting this to a non-existing database results in a __MilvusException__.
 
-- **using** (*str*) - 
+- __using__ (_str_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
 

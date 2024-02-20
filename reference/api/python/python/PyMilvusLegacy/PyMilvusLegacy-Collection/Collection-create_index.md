@@ -4,7 +4,7 @@ slug: /python/Collection-create_index
 beta: false
 notebook: false
 token: J76vdPHNgoyp2wxAiTcceIVJnOe
-sidebar_position: 7
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';
@@ -69,49 +69,49 @@ collection.create_index(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **field_name** (*string*) -
+- __field_name__ (_string_) -
 
     The name of the field for which an index is to be created.
 
-- **index_params** (*dict*) - 
+- __index_params__ (_dict_) - 
 
     The parameters that apply to the index-building process.
 
-    - **index_type** (string) -
+    - __index_type__ (string) -
 
         The algorithm used to build the index.
 
-        You should always use **AUTOINDEX** as the index type. Read [AUTOINDEX Explained](./autoindex-explained) to get more.
+        You should always use __AUTOINDEX__ as the index type. Read [AUTOINDEX Explained](./autoindex-explained) to get more.
 
-    - **metric_type** (*string*) - 
+    - __metric_type__ (_string_) - 
 
         The similarity metric type used to build the index.
 
-        Possible values are **L2**, **IP**, and **COSINE**. Read [Similarity Metrics Explained](./search-metrics-explained) to get more.
+        Possible values are __L2__, __IP__, and __COSINE__. Read [Similarity Metrics Explained](./search-metrics-explained) to get more.
 
-    - **params** (*dict*) -
+    - __params__ (_dict_) -
 
         Index-building parameters corresponding to the selected index type.
 
         For details on applicable index-building parameters, refer to [AUTOINDEX Explained](./autoindex-explained).
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*Status*
+_Status_
 
-**RETURNS:**
+__RETURNS:__
 
-A **Status** object indicating whether this operation succeeds.
+A __Status__ object indicating whether this operation succeeds.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

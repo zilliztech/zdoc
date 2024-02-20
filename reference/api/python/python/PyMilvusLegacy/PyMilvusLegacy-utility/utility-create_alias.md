@@ -4,7 +4,7 @@ slug: /python/utility-create_alias
 beta: false
 notebook: false
 token: DthMdlg8Lozw89xNz4TcBv1LnOe
-sidebar_position: 7
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
@@ -46,17 +46,17 @@ create_alias(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name **(*str*) -
+- __collection_name __(_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the collection to create an alias for.
 
-- **alias **(*str*) -
+- __alias __(_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The alias of the collection. Before this operation, ensure that the alias does not already exist. If it does, exceptions will occur.
 
@@ -68,31 +68,31 @@ create_alias(
 
     </Admonition>
 
-- **using** (*str*) - 
+- __using__ (_str_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation, especially when you set `alias` to an existing alias.
 
-- **BaseException**
+- __BaseException__
 
     This exception will be raised when this operation fails.
 

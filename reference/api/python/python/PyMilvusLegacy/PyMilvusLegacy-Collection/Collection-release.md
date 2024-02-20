@@ -4,7 +4,7 @@ slug: /python/Collection-release
 beta: false
 notebook: false
 token: CBwkdDs7MoKkVKx0kJgcPUNxn6s
-sidebar_position: 19
+sidebar_position: 23
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,11 +45,11 @@ collection.load()
 collection.release()
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
 ## Examples{#examples}
 

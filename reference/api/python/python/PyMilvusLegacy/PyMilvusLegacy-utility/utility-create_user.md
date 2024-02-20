@@ -4,7 +4,7 @@ slug: /python/utility-create_user
 beta: false
 notebook: false
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
-sidebar_position: 9
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';
@@ -52,43 +52,43 @@ utility.create_user(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **user** (*string*) - 
+- __user__ (_string_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the new user to create. The value should start with a letter and can only contain underline, letters and numbers.
 
-- **password** (*string*) - 
+- __password__ (_string_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The corresponding password to the new user to create. 
 
     The password must be a string of 8 to 64 characters and must include at least three of the following character types: uppercase letters, lowercase letters, numbers, and special characters.
 
-- **using** (*string*) - 
+- __using__ (_string_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

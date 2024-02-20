@@ -4,7 +4,7 @@ slug: /python/Partition-query
 beta: false
 notebook: false
 token: N97pdfkjlo9j61xrtL2cbB79nKe
-sidebar_position: 6
+sidebar_position: 8
 ---
 
 import Admonition from '@theme/Admonition';
@@ -50,31 +50,31 @@ partition.query(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **expr** (*string*) -
+- __expr__ (_string_) -
 
-    **[REQUIRED] **
+    __[REQUIRED] __
 
     A boolean expression to filter the entity scalar fields.
 
-- **output_fields **(List[str] | *None*) -
+- __output_fields __(List[str] | _None_) -
 
-    A list of the names of fields that has to be contained in the output. Setting this to **None** indicates that this operation only outputs the primary key field.
+    A list of the names of fields that has to be contained in the output. Setting this to __None__ indicates that this operation only outputs the primary key field.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-- **kwargs**: 
+- __kwargs__: 
 
     Additional keyword arguments.
 
-    - **consistency_level** (*str* | *int*) -
+    - __consistency_level__ (_str_ | _int_) -
 
         The consistency level of the target collection.
 
-        The value defaults to the one specified when you create the current collection, with options of **Strong **(**0**), **Bounded **(**1**), **Session **(**2**), and **Eventually **(**3**).
+        The value defaults to the one specified when you create the current collection, with options of __Strong __(__0__), __Bounded __(__1__), __Session __(__2__), and __Eventually __(__3__).
 
         <Admonition type="info" icon="📘" title="What is the consistency level?">
 
@@ -87,7 +87,7 @@ partition.query(
 
         </Admonition>
 
-    - **guarantee_timestamp** (*int*) -
+    - __guarantee_timestamp__ (_int_) -
 
         A valid timestamp. 
 
@@ -99,11 +99,11 @@ partition.query(
 
         </Admonition>
 
-    - **graceful_time** (*int*) -
+    - __graceful_time__ (_int_) -
 
         A period of time in seconds.
 
-        The value defaults to **5**. If this parameter is set,  calculates the guarantee timestamp by subtracting this from the current timestamp.
+        The value defaults to __5__. If this parameter is set,  calculates the guarantee timestamp by subtracting this from the current timestamp.
 
         <Admonition type="info" icon="📘" title="Notes">
 
@@ -111,7 +111,7 @@ partition.query(
 
         </Admonition>
 
-    - **offset** (*int*) -
+    - __offset__ (_int_) -
 
         The number of records to skip in the query result. 
 
@@ -119,7 +119,7 @@ partition.query(
 
         The sum of this value and `limit` should be less than 16,384. 
 
-    - **limit** (*int*) -
+    - __limit__ (_int_) -
 
         The number of records to return in the query result.
 
@@ -127,17 +127,17 @@ partition.query(
 
         The sum of this value and `offset` should be less than 16,384. 
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*List*
+_List_
 
-**RETURNS:**
+__RETURNS:__
 
 A list of the query results.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This arises when any error occurs during this operation.
 

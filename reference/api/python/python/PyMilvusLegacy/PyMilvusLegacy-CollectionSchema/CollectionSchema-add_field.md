@@ -4,7 +4,7 @@ slug: /python/CollectionSchema-add_field
 beta: false
 notebook: false
 token: TG3Rd9aM5offvFxKy2CcKXn9nWc
-sidebar_position: 5
+sidebar_position: 1
 ---
 
 import Admonition from '@theme/Admonition';
@@ -58,37 +58,37 @@ schema.add_field(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **field_name** (*string*) - 
+- __field_name__ (_string_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the field.
 
-- **datatype** (*enum*) - 
+- __datatype__ (_enum_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The data type of the field.
 
     You can choose from the following options when selecting a data type for different fields:
 
-    - Primary key field: Use **DataType.INT64** or **DataType.VARCHAR**.
+    - Primary key field: Use __DataType.INT64__ or __DataType.VARCHAR__.
 
-    - Scalar fields: Choose from a variety of options, including **DataType.BOOL**, **DataType.INT8**, **DataType.INT16**, **DataType.INT32**, **DataType.INT64**, **DataType.FLOAT**, **DataType.DOUBLE**, **DataType.VARCHAR**, **DataType.JSON**, and **DataType.ARRAY**.
+    - Scalar fields: Choose from a variety of options, including __DataType.BOOL__, __DataType.INT8__, __DataType.INT16__, __DataType.INT32__, __DataType.INT64__, __DataType.FLOAT__, __DataType.DOUBLE__, __DataType.VARCHAR__, __DataType.JSON__, and __DataType.ARRAY__.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*CollectionSchema*
+_CollectionSchema_
 
-**RETURNS:**
+__RETURNS:__
 
-A **CollectionSchema** object containing the name of the field that has been added to the schema.
+A __CollectionSchema__ object containing the name of the field that has been added to the schema.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

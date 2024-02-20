@@ -4,7 +4,7 @@ slug: /python/PyMilvusLegacy-CollectionSchema
 beta: false
 notebook: false
 token: SeaffVvutlNtvTdpV17cy78un5T
-sidebar_position: 4
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 # CollectionSchema
 
-A **CollectionSchema** instance represents the schema of a collection. A schema sketches the structure of a collection.
+A __CollectionSchema__ instance represents the schema of a collection. A schema sketches the structure of a collection.
 
 ```python
 class pymilvus.CollectionSchema
@@ -45,13 +45,13 @@ schema = CollectionSchema(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **fields** (*list*) -
+- __fields__ (_list_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
-    A list of **FieldSchema** objects that define the fields in the collection schema.
+    A list of __FieldSchema__ objects that define the fields in the collection schema.
 
     <Admonition type="info" icon="📘" title="What is a field schema?">
 
@@ -59,25 +59,25 @@ schema = CollectionSchema(
 
     </Admonition>
 
-- **description** (*string*) -
+- __description__ (_string_) -
 
     The description of the schema.
 
     If a description is not provided, it will be set to an empty string.
 
-- **kwargs** -
+- __kwargs__ -
 
-    - **auto_id** (*bool*)
+    - __auto_id__ (_bool_)
 
         Whether allows the primary field to automatically increment.
 
-        Setting this to **True** makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
+        Setting this to __True__ makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
 
-    - **enable_dynamic_field** (*bool*)
+    - __enable_dynamic_field__ (_bool_)
 
         Whether allows Zilliz Cloud saves the values of undefined fields in a dynamic field if the data being inserted into the target collection includes fields that are not defined in the collection's schema.
 
-        When you set this to **True**,  and Zilliz Cloud will create a field called **$meta** to store any undefined fields and their values from the data that is inserted.
+        When you set this to __True__,  and Zilliz Cloud will create a field called __$meta__ to store any undefined fields and their values from the data that is inserted.
 
         <Admonition type="info" icon="📘" title="What is a dynamic field?">
 
@@ -85,23 +85,23 @@ schema = CollectionSchema(
 
         </Admonition>
 
-    - **primary_field** (*str*)
+    - __primary_field__ (_str_)
 
         The name of the primary field.
 
-        The value should be the name of a field listed in **fields**.
+        The value should be the name of a field listed in __fields__.
 
-        As an alternative, you can set **is_primary** when creating a **FieldSchema** object.
+        As an alternative, you can set __is_primary__ when creating a __FieldSchema__ object.
 
-    - **partition_key_field** (*str*)
+    - __partition_key_field__ (_str_)
 
         The name of the field that serves as the partition key.
 
-        The value should be the name of a field listed in **fields**.
+        The value should be the name of a field listed in __fields__.
 
         Setting this makes Zilliz Cloud manage all partitions in the current collection.
 
-        As an alternative, you can set **is_partition_key** when creating a **FieldSchema** object.
+        As an alternative, you can set __is_partition_key__ when creating a __FieldSchema__ object.
 
         <Admonition type="info" icon="📘" title="What is a partition key?">
 
@@ -111,43 +111,43 @@ schema = CollectionSchema(
 
         </Admonition>
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*CollectionSchema*
+_CollectionSchema_
 
-**RETURNS:**
+__RETURNS:__
 
-A **CollectionSchema** object.
+A __CollectionSchema__ object.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **FieldsTypeException**: 
+- __FieldsTypeException__: 
 
-    This exception will be raised when the **fields** parameter is not a list.
+    This exception will be raised when the __fields__ parameter is not a list.
 
-- **FieldTypeException**: 
+- __FieldTypeException__: 
 
-    This exception will be raised when a field in the **fields** list is not a **FieldSchema** object.
+    This exception will be raised when a field in the __fields__ list is not a __FieldSchema__ object.
 
-- **PrimaryKeyException:**
+- __PrimaryKeyException:__
 
     This exception will be raised if
 
-    - The **primary_field** parameter has been set but the value is not a string.
+    - The __primary_field__ parameter has been set but the value is not a string.
 
-    - The **primary_field** parameter has been set but the value is not the name of any listed fields.
+    - The __primary_field__ parameter has been set but the value is not the name of any listed fields.
 
-- **PartitionKeyException:**
+- __PartitionKeyException:__
 
     This exception will be raised if 
 
-    - The **partition_key_field** parameter has been set but the value is not a string.
+    - The __partition_key_field__ parameter has been set but the value is not a string.
 
-    - The **partition_key_field** parameter has been set but the value is not the name of any listed fields.
+    - The __partition_key_field__ parameter has been set but the value is not the name of any listed fields.
 
-- **AutoIDException:**
+- __AutoIDException:__
 
-    - This exception will be raised if the **auto_id** parameter has been set but the value is not a boolean.
+    - This exception will be raised if the __auto_id__ parameter has been set but the value is not a boolean.
 
 ## Examples{#examples}
 

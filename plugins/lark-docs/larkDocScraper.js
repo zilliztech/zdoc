@@ -216,7 +216,18 @@ class larkDocScraper {
         let jres = await res.json()
 
         if (jres.code == 0) {
-            this.docs.children = jres.data.files
+            this.docs.children = jres.data.files.sort((a, b) => {
+                const nameA = a.name.toUpperCase();
+                const nameB = b.name.toUpperCase();
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            })
+            
             this.docs.slug = await this.__slugify(this.docs.token, this.docs.name)
 
             if (jres.has_more) {

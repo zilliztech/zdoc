@@ -3,7 +3,7 @@
   "modified_time": "1704424480",
   "name": "BulkInsertState",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
-  "parent_token": "XttqffRjAlChI1dNjR8c8kZpnGe",
+  "parent_token": "BvYKfbpMUlczBxdyBvEc5Gb3nfb",
   "token": "Arn1dIKgwoISFoxT7xVc3UrBnAf",
   "type": "docx",
   "url": "https://zilliverse.feishu.cn/docx/Arn1dIKgwoISFoxT7xVc3UrBnAf",
@@ -552,5 +552,5 @@
     ],
     "counts": 17
   },
-  "slug": "Enum-BulkInsertState"
+  "slug": "utility-BulkInsertState"
 }

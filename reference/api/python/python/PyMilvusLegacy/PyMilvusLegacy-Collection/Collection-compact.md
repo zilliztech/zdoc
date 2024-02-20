@@ -4,7 +4,7 @@ slug: /python/Collection-compact
 beta: false
 notebook: false
 token: BHx6dnSmPoaqHAxKCvncbuk9nWb
-sidebar_position: 11
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
@@ -42,23 +42,23 @@ collection = Collection(name="string")
 collection.compact()
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation times out when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation times out when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

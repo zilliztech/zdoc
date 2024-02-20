@@ -4,7 +4,7 @@ slug: /python/utility-load_state
 beta: false
 notebook: false
 token: BJysdlj1MoksHZxNRxicHn9fnSh
-sidebar_position: 28
+sidebar_position: 33
 ---
 
 import Admonition from '@theme/Admonition';
@@ -48,60 +48,60 @@ res = utility.loading_state(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name** (*str*) -
+- __collection_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of a collection.
 
-- **partition_names** (*list[str]*) -
+- __partition_names__ (_list[str]_) -
 
     A list of partition names.
 
-    If any partition names are specified, releasing any of these partitions results in the return of a **NotLoad** state.
+    If any partition names are specified, releasing any of these partitions results in the return of a __NotLoad__ state.
 
-- **using** (*string*) - 
+- __using__ (_string_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*LoadState*
+_LoadState_
 
-**RETURNS:**
-A **LoadState** object that indicates the load status of the specified collection.
+__RETURNS:__
+A __LoadState__ object that indicates the load status of the specified collection.
 
 The possible states are as follows:
 
-- **Loaded**
+- __Loaded__
 
     Indicates that the specified collection is loaded.
 
-- **Loading**
+- __Loading__
 
     Indicates that the specified collection is being loaded.
 
-- **NotExist**
+- __NotExist__
 
     Indicates that the specified collection does not exist. 
 
-    Including a non-existing partition in **partition_names** results in a **MilvusException**.
+    Including a non-existing partition in __partition_names__ results in a __MilvusException__.
 
-- **NotLoad**
+- __NotLoad__
 
     Indicates that the specified collection is not loaded.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

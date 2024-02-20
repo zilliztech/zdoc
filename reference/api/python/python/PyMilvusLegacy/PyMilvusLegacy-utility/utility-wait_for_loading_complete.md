@@ -4,7 +4,7 @@ slug: /python/utility-wait_for_loading_complete
 beta: false
 notebook: false
 token: PLKXdUB1EoNX8gxKHruc9GcEnsg
-sidebar_position: 36
+sidebar_position: 43
 ---
 
 import Admonition from '@theme/Admonition';
@@ -48,36 +48,36 @@ utility.wait_for_loading_complete(
 )
 ```
 
-**PARAMETERS:**
-**collection_name** (*str*) -
+__PARAMETERS:__
+__collection_name__ (_str_) -
 
-- **partition_names** (*list[str]*) -
+- __partition_names__ (_list[str]_) -
 
     A list of partition names.
 
     If any partition names are specified, this operation blocks the current progress until the specified partitions have been loaded.
 
-- **using** (*string*) - 
+- __using__ (_string_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

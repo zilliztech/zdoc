@@ -4,7 +4,7 @@ slug: /python/Connections-has_connection
 beta: false
 notebook: false
 token: XeZwdeK64oGD8rx9DA3ciqNinnh
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 import Admonition from '@theme/Admonition';
@@ -42,19 +42,19 @@ from pymilvus import connections
 connections.has_connection(alias="string")
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **alias** (*string*) -
+- __alias__ (_string_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     A connection alias.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*Boolean*
+_Boolean_
 
-**RETURNS:**
+__RETURNS:__
 
 A Boolean value indicating whether the connection exists.
 
@@ -65,9 +65,9 @@ A Boolean value indicating whether the connection exists.
 
 </Admonition>
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **ConnectionConfigException**
+- __ConnectionConfigException__
 
     This exception will be raised when the connection configuration is invalid.
 

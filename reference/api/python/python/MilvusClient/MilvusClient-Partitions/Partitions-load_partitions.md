@@ -4,7 +4,7 @@ slug: /python/Partitions-load_partitions
 beta: false
 notebook: false
 token: DdQ1dBNagoBa08xhEiucxZrHnzc
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 import Admonition from '@theme/Admonition';
@@ -24,29 +24,29 @@ pymilvus.MilvusClient.load_partitions(
 ) -> None
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name **(*str*) -
+- __collection_name __(_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of an existing collection.
 
-- **partition_names** (*str | list[str]*) -
+- __partition_names__ (_str | list[str]_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     A list of the names of the partitions to load.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
@@ -56,9 +56,9 @@ None
 
 </Admonition>
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

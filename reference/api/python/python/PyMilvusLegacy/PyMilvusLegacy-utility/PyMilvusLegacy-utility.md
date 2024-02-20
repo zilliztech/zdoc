@@ -3,7 +3,7 @@ slug: /python/PyMilvusLegacy-utility
 beta: false
 notebook: false
 token: BvYKfbpMUlczBxdyBvEc5Gb3nfb
-sidebar_position: 1
+sidebar_position: 8
 displayed_sidebar: pythonSidebar
 ---
 

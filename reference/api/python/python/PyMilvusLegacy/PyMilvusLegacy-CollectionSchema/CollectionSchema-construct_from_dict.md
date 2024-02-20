@@ -4,7 +4,7 @@ slug: /python/CollectionSchema-construct_from_dict
 beta: false
 notebook: false
 token: DYuUdc503o1TANxuGozcXhCmnRN
-sidebar_position: 4
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 # construct_from_dict()
 
-This operation constructs a **CollectionSchema** object from a dictionary representation.
+This operation constructs a __CollectionSchema__ object from a dictionary representation.
 
 ```python
 pymilvus.CollectionSchema.construct_from_dict(
@@ -60,23 +60,23 @@ schema_dict = {
 schema = CollectionSchema.construct_from_dict(raw=schema_dict)  
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **raw** (*dict*)
+- __raw__ (_dict_)
 
     A dictionary containing the raw data to construct the collection schema.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*CollectionSchema*
+_CollectionSchema_
 
-**RETURNS:**
+__RETURNS:__
 
-A **CollectionSchema** object.
+A __CollectionSchema__ object.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

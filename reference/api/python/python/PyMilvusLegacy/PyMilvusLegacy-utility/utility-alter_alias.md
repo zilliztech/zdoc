@@ -4,7 +4,7 @@ slug: /python/utility-alter_alias
 beta: false
 notebook: false
 token: MfTsdrbGcoO9JqxjgPtcMZTvncc
-sidebar_position: 5
+sidebar_position: 1
 ---
 
 import Admonition from '@theme/Admonition';
@@ -46,17 +46,17 @@ alter_alias(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name **(*str*) -
+- __collection_name __(_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the target collection to reassign an alias to.
 
-- **alias **(*str*) -
+- __alias __(_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The alias of the collection. Note that the alias should exist beforehand.
 
@@ -78,27 +78,27 @@ alter_alias(
 
     </Admonition>
 
-- **using** (*str*) - 
+- __using__ (_str_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
  None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
 

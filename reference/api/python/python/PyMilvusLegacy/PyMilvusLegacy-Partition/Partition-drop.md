@@ -4,7 +4,7 @@ slug: /python/Partition-drop
 beta: false
 notebook: false
 token: D3sndK8DgoqDkUxaNGcctwcSnuE
-sidebar_position: 8
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,23 +45,23 @@ partition = Parition(collection, name="string")
 partition.drop()
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
-*None*
+_None_
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This arises when any error occurs during this operation.
 

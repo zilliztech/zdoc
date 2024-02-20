@@ -4,7 +4,7 @@ slug: /python/Connections-add_connection
 beta: false
 notebook: false
 token: C37ldNLbFog6ThxA23ScMldnnmb
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,45 +45,45 @@ connections.add_connection(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **kwargs** - 
+- __kwargs__ - 
 
-    When passing keyword arguments, the name of each argument will serve as a connection alias in the **connect()** method.
+    When passing keyword arguments, the name of each argument will serve as a connection alias in the __connect()__ method.
 
     The argument value should be a dictionary with one or more of these fields:
 
-    - **address** (*string*) -
+    - __address__ (_string_) -
 
-        The actual address to connect. Example address: **localhost:19530**.
+        The actual address to connect. Example address: __localhost:19530__.
 
-    - **uri** (*string*) -
+    - __uri__ (_string_) -
 
-        The URI of the Zilliz Cloud cluster. For example: **https://in01-*****************.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540**.
+        The URI of the Zilliz Cloud cluster. For example: __https://in01-*****************.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540__.
 
-    - **host** (*string*) -
+    - __host__ (_string_) -
 
-        The host of the Zilliz Cloud cluster. The value defaults to **localhost**, and PyMilvus will fill in the default host if only **port** is provided.
+        The host of the Zilliz Cloud cluster. The value defaults to __localhost__, and PyMilvus will fill in the default host if only __port__ is provided.
 
-    - **port** (*string | int*) -
+    - __port__ (_string | int_) -
 
-        The port that Zilliz Cloud cluster listens to. The value defaults to **19530**, and PyMilvus will fill in the default port if only **host** is provided.
+        The port that Zilliz Cloud cluster listens to. The value defaults to __19530__, and PyMilvus will fill in the default port if only __host__ is provided.
 
-    - **user** (*string*) -
+    - __user__ (_string_) -
 
         A valid username used to connect to the specified Zilliz Cloud cluster.
 
-        This should be used along with **password**.
+        This should be used along with __password__.
 
-    - **password** (*string*) -
+    - __password__ (_string_) -
 
         A valid password used to connect to the specified Zilliz Cloud cluster.
 
-        This should be used along with **user**.
+        This should be used along with __user__.
 
-    - **token** (string) -
+    - __token__ (string) -
 
-        A valid access token to access the specified Zilliz Cloud cluster. This can be used as an alternative to setting **user** and **password** separately.
+        A valid access token to access the specified Zilliz Cloud cluster. This can be used as an alternative to setting __user__ and __password__ separately.
 
         When setting this field, notice that:
 
@@ -114,17 +114,17 @@ connections.add_connection(
 
 </Admonition>
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
 None
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **ConnectionConfigException**
+- __ConnectionConfigException__
 
     This exception will be raised when the connection configuration is invalid.
 

@@ -4,7 +4,7 @@ slug: /python/Collection-partition
 beta: false
 notebook: false
 token: SvCrdEJIdosGQYxQZhrc2OAXnpd
-sidebar_position: 21
+sidebar_position: 20
 ---
 
 import Admonition from '@theme/Admonition';
@@ -48,25 +48,25 @@ partition = collection.partition(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **partition_name** (*str*) -
+- __partition_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the partition to get.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*Partition *| *NoneType*
+_Partition _| _NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
-A **Partition** object. If the current collection does not have a partition of the specified name, **None** is returned.
+A __Partition__ object. If the current collection does not have a partition of the specified name, __None__ is returned.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

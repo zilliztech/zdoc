@@ -3,7 +3,7 @@
   "modified_time": "1704423882",
   "name": "DataType",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
-  "parent_token": "XttqffRjAlChI1dNjR8c8kZpnGe",
+  "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
   "token": "JiN3dU8zwoPdgBxxpw6c0JkUnze",
   "type": "docx",
   "url": "https://zilliverse.feishu.cn/docx/JiN3dU8zwoPdgBxxpw6c0JkUnze",
@@ -1096,5 +1096,5 @@
     ],
     "counts": 20
   },
-  "slug": "Enum-DataType"
+  "slug": "Collections-DataType"
 }

@@ -4,7 +4,7 @@ slug: /python/PyMilvusLegacy-Connections
 beta: false
 notebook: false
 token: Jy4gf9SrBlUSnpdXg2VcTuwhn4g
-sidebar_position: 6
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 # Connections
 
-A **Connections** instance represents a pool of connections to your Zilliz Cloud clusters.
+A __Connections__ instance represents a pool of connections to your Zilliz Cloud clusters.
 
 ```python
 class pymilvus.Connections

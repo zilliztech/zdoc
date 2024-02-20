@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 # Role
 
-A **Role** instance represents a role with specific privileges to access your .
+A __Role__ instance represents a role with specific privileges to access your .
 
 ```python
 class pymilvus.Role
@@ -38,31 +38,31 @@ role = Role(
 
 </Admonition>
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **name** (*string*) - 
+- __name__ (_string_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the role to create.
 
-- **using** (*string*) - 
+- __using__ (_string_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*Role*
+_Role_
 
-**RETURNS:**
+__RETURNS:__
 
 A role object.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

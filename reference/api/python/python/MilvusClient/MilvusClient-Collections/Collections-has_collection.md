@@ -4,7 +4,7 @@ slug: /python/Collections-has_collection
 beta: false
 notebook: false
 token: SSQ6dFGdxouy7hxRwCOcatnEn0e
-sidebar_position: 8
+sidebar_position: 11
 ---
 
 import Admonition from '@theme/Admonition';
@@ -23,29 +23,29 @@ pymilvus.MilvusClient.has_collection(
 ) -> Bool
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name** (*str*) -
+- __collection_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of a collection.
 
-- **timeout** (*float* | *None*) -
+- __timeout__ (_float_ | _None_) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response returns or error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*bool*
+_bool_
 
-**RETURNS:**
+__RETURNS:__
 
 A boolean value indicating whether the specified collection exists.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

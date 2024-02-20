@@ -4,7 +4,7 @@ slug: /python/Partitions-drop_partition
 beta: false
 notebook: false
 token: EMI8dM8uooIAFPxVfffcoqRwnZf
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
@@ -30,35 +30,35 @@ pymilvus.MilvusClient.create_partition(
 ) -> None
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name **(*str*) -
+- __collection_name __(_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of an existing collection.
 
-- **partition_name** (*string*)
+- __partition_name__ (_string_)
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the partition to create.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

@@ -4,7 +4,7 @@ slug: /python/Collection-set_properties
 beta: false
 notebook: false
 token: ECmAdaYKboPTNlxqkLxcUEZ4nrh
-sidebar_position: 17
+sidebar_position: 26
 ---
 
 import Admonition from '@theme/Admonition';
@@ -44,25 +44,25 @@ collection.set_properties(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
 - properties (dict) -
 
     A set of collection properties in the form of a dictionary. Currently, you can set the following properties:
 
-    - **collection.ttl.seconds**
+    - __collection.ttl.seconds__
 
         Once this property is set, data in the current collection expires in the specified time. Expired data in the collection will be cleaned up and will not be involved in searches or queries.
 
-- **timeout** (*float*)  -
+- __timeout__ (_float_)  -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 

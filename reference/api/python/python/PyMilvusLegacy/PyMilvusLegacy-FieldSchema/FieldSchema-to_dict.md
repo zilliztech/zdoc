@@ -4,7 +4,7 @@ slug: /python/FieldSchema-to_dict
 beta: false
 notebook: false
 token: G1gsdGWwuoPOPrxJdABcfa76nUd
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
@@ -49,21 +49,21 @@ primary_key_dict = primary_key.to_dict()
 vector_dict = vector.to_dict()
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
 None
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*dict*
+_dict_
 
-**RETURNS:**
+__RETURNS:__
 
 The dictionary representation of the field schema.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

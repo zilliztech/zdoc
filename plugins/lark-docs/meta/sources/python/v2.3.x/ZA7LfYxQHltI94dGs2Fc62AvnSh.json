@@ -1,13 +1,13 @@
 {
   "created_time": "1708317839",
-  "modified_time": "1708318052",
-  "name": "Insert & Delete",
+  "modified_time": "1708397089",
+  "name": "Vector",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
-  "parent_token": "DxvKfXmUolw51AdM5Mdcyr8Angh",
+  "parent_token": "ICGwfi8ZClVQLHdLn9Hc3oeFn1d",
   "token": "ZA7LfYxQHltI94dGs2Fc62AvnSh",
   "type": "folder",
   "url": "https://zilliverse.feishu.cn/drive/folder/ZA7LfYxQHltI94dGs2Fc62AvnSh",
-  "slug": "MilvusClient-InsertDelete",
+  "slug": "MilvusClient-Vector",
   "children": [
     {
       "created_time": "1704884342",
@@ -20,6 +20,16 @@
       "url": "https://zilliverse.feishu.cn/docx/DWLXdSCYnoPT4ExktRKceEqLnAd"
     },
     {
+      "created_time": "1704883551",
+      "modified_time": "1705564286",
+      "name": "get()",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "ZA7LfYxQHltI94dGs2Fc62AvnSh",
+      "token": "TEUDde2xbo0JT7xtVvtcF53Nnub",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/TEUDde2xbo0JT7xtVvtcF53Nnub"
+    },
+    {
       "created_time": "1705028645",
       "modified_time": "1706598344",
       "name": "insert()",
@@ -28,6 +38,26 @@
       "token": "QI87dhVnioL9JLxnNKxcM8jWnkh",
       "type": "docx",
       "url": "https://zilliverse.feishu.cn/docx/QI87dhVnioL9JLxnNKxcM8jWnkh"
+    },
+    {
+      "created_time": "1704880581",
+      "modified_time": "1707112262",
+      "name": "query()",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "ZA7LfYxQHltI94dGs2Fc62AvnSh",
+      "token": "LkmSddW2NolgitxLhy9cx22Dnpe",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/LkmSddW2NolgitxLhy9cx22Dnpe"
+    },
+    {
+      "created_time": "1704956954",
+      "modified_time": "1707101360",
+      "name": "search()",
+      "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+      "parent_token": "ZA7LfYxQHltI94dGs2Fc62AvnSh",
+      "token": "D74JdcitKobd7cxNdDdcGAz6nuf",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/D74JdcitKobd7cxNdDdcGAz6nuf"
     },
     {
       "created_time": "1705563808",

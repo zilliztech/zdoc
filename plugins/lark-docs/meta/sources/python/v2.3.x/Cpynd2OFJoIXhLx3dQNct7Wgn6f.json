@@ -3,7 +3,7 @@
   "modified_time": "1706694479",
   "name": "list_aliases()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
-  "parent_token": "AbksfPuSAl0PWUdoFY0cWoBFngc",
+  "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
   "token": "Cpynd2OFJoIXhLx3dQNct7Wgn6f",
   "type": "docx",
   "url": "https://zilliverse.feishu.cn/docx/Cpynd2OFJoIXhLx3dQNct7Wgn6f",
@@ -710,5 +710,5 @@
     ],
     "counts": 21
   },
-  "slug": "CollectionAliases-list_aliases"
+  "slug": "Collections-list_aliases"
 }

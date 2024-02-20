@@ -4,7 +4,7 @@ slug: /python/CollectionSchema-to_dict
 beta: false
 notebook: false
 token: GfTadfqhAo64XDxc643ci4Zwnwb
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,21 +54,21 @@ schema = CollectionSchema(
 schema_dict = schema.to_dict()
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
 None
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*dict*
+_dict_
 
-**RETURNS:**
+__RETURNS:__
 
 The dictionary representation of the collection schema.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

@@ -4,7 +4,7 @@ slug: /python/utility-loading_progress
 beta: false
 notebook: false
 token: HQiHd82orov0XvxAzLWcl5xRnzc
-sidebar_position: 29
+sidebar_position: 31
 ---
 
 import Admonition from '@theme/Admonition';
@@ -48,47 +48,47 @@ res = utility.loading_progress(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name** (*str*) -
+- __collection_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of a collection.
 
-- **partition_names** (*list[str]*) -
+- __partition_names__ (_list[str]_) -
 
     A list of partition names.
 
-    If any partition names are specified, releasing any of these partitions results in the return of a **NotLoad** state.
+    If any partition names are specified, releasing any of these partitions results in the return of a __NotLoad__ state.
 
-- **using** (*string*) - 
+- __using__ (_string_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*dict*
+_dict_
 
-**RETURNS:**
+__RETURNS:__
 
 A dictionary that contains information about the index_building progress.
 
 The dictionary has the following keys:
 
-- **loading_progress** (*str*)
+- __loading_progress__ (_str_)
 
     The load progress of the specified collection.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

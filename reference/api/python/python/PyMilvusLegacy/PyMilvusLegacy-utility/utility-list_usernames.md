@@ -4,7 +4,7 @@ slug: /python/utility-list_usernames
 beta: false
 notebook: false
 token: RXi3dgtNYogU0cxmTsgcdT72nsc
-sidebar_position: 8
+sidebar_position: 29
 ---
 
 import Admonition from '@theme/Admonition';
@@ -46,29 +46,29 @@ from pymilvus import utility
 utility.list_usernames(using="default")
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **using** (*str*) - 
+- __using__ (_str_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*list*
+_list_
 
-**RETURNS:**
+__RETURNS:__
 
 A list that contains the names of all existing users.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

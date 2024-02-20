@@ -412,6 +412,7 @@ class larkDocWriter {
         if (result.length > 0) {
             return {
                 publish: true,
+                title: result[0]["fields"]["Docs"].text,
                 slug: result[0]["fields"]["Slug"],
                 beta: result[0]["fields"]["Beta"],
                 notebook: result[0]["fields"]["Notebook"],
@@ -906,32 +907,37 @@ class larkDocWriter {
                 content = this.__style_markdown(element, elements, 'inline_code', '`');
             } else {                
                 if (style['bold']) {
-                    content = this.__style_markdown(element, elements, 'bold', '**');
+                    content = this.__style_markdown(element, elements, 'bold', '__');
                 }
 
                 if (style['italic']) {
-                    content = this.__style_markdown(element, elements, 'italic', '*');
+                    content = this.__style_markdown(element, elements, 'italic', '_');
                 }
 
                 if (style['strikethrough']) {
                     content = this.__style_markdown(element, elements, 'strikethrough', '~~');
                 }
 
-                if (style['underline']) {
-                    content = this.__style_markdown(element, elements, 'underline', '__');
-                }
-
                 if ('link' in style) {
                     const url = await this.__convert_link(decodeURIComponent(style['link']['url']))
 
-                    var suffix = [...content.matchAll(/\*{1,2}$|~~$|__$/g)]
+                    var prefix = [...content.matchAll(/^\_{1,2}|^~~|^__/g)]
+                    var suffix = [...content.matchAll(/\_{1,2}$|~~$|__$/g)]
+
+                    if (prefix.length > 0) {
+                        prefix = content.slice(prefix[0]['index'])
+                    } else {
+                        prefix = ''
+                    }
 
                     if (suffix.length > 0) {
                         suffix = content.slice(suffix[0]['index'])
+                    } else {
+                        suffix = ''
                     }
 
                     if (url) {
-                        content = `[${content.replace(suffix, '')}](${url})${suffix}`;
+                        content = `${prefix}[${content.replace(prefix, '').replace(suffix, '')}](${url})${suffix}`;
                     } else {
                         console.log(`Cannot find ${content}`)
                     }
@@ -1040,7 +1046,20 @@ class larkDocWriter {
             }
         }
 
+        if (this.docs) {
+            paragraph = await this.__auto_link(paragraph, this.docs)
+        }
+
         return paragraph;
+    }
+
+    async __auto_link(paragraph, docs) {
+        console.log(docs)
+        for (let doc of docs) {
+            paragraph = paragraph.replace(doc, `[${doc.title}](${doc.slug})`)
+        }
+
+        return paragraph
     }
 
     async __fetch_sdk_versions (url) {

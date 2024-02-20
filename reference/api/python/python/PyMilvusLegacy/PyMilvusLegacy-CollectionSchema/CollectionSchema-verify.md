@@ -4,7 +4,7 @@ slug: /python/CollectionSchema-verify
 beta: false
 notebook: false
 token: KSECdBDcUoIkL7xI4KOc29Ukn1g
-sidebar_position: 2
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,21 +54,21 @@ schema = CollectionSchema(
 schema.verify()
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
 None
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
 None
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

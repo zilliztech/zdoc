@@ -4,7 +4,7 @@ slug: /python/Role-drop
 beta: false
 notebook: false
 token: KEzNdJPoDoHOjlx2FC8cNcHqngg
-sidebar_position: 9
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
@@ -40,21 +40,21 @@ role = Role(role_name="string")
 role.drop()
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
 N/A
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
-*None*
+_None_
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

@@ -4,7 +4,7 @@ slug: /python/utility-list_collections
 beta: false
 notebook: false
 token: QgxEdfBMSodYo6xCg24cH3hInr4
-sidebar_position: 37
+sidebar_position: 24
 ---
 
 import Admonition from '@theme/Admonition';
@@ -41,28 +41,28 @@ from pymilvus import utility
 res = utility.list_collections()
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-- **using** (*str*) - 
+- __using__ (_str_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*list*
+_list_
 
-**RETURNS:**
+__RETURNS:__
 A list of collection names.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
 

@@ -4,7 +4,7 @@ slug: /python/Collection-query
 beta: false
 notebook: false
 token: JzcYdBQ5zoU4KpxPqUHcPLQonKd
-sidebar_position: 4
+sidebar_position: 21
 ---
 
 import Admonition from '@theme/Admonition';
@@ -51,11 +51,11 @@ iterator = collection.query(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **expr **(*str*) -
+- __expr __(_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     A scalar filtering condition to filter matching entities. 
 
@@ -63,29 +63,29 @@ iterator = collection.query(
 
     To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
 
-- **output_fields** (*list*) -
+- __output_fields__ (_list_) -
 
     A list of field names to include in each entity in return.
 
-    The value defaults to **None**. If left unspecified, only the primary field is included.
+    The value defaults to __None__. If left unspecified, only the primary field is included.
 
-- **partition_names** (*list*)
+- __partition_names__ (_list_)
 
     A list of partition names.
 
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+    The value defaults to __None__. If specified, only the specified partitions are involved in queries.
 
-- **timeout** (*float*)  
+- __timeout__ (_float_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-- **kwargs**: 
+- __kwargs__: 
 
-    - **consistency_level** (*str* | *int*) -
+    - __consistency_level__ (_str_ | _int_) -
 
         The consistency level of the target collection.
 
-        The value defaults to the one specified when you create the current collection, with options of **Strong **(**0**), **Bounded **(**1**), **Session **(**2**), and **Eventually **(**3**).
+        The value defaults to the one specified when you create the current collection, with options of __Strong __(__0__), __Bounded __(__1__), __Session __(__2__), and __Eventually __(__3__).
 
         <Admonition type="info" icon="📘" title="What is the consistency level?">
 
@@ -98,7 +98,7 @@ iterator = collection.query(
 
         </Admonition>
 
-    - **guarantee_timestamp** (*int*) -
+    - __guarantee_timestamp__ (_int_) -
 
         A valid timestamp. 
 
@@ -110,11 +110,11 @@ iterator = collection.query(
 
         </Admonition>
 
-    - **graceful_time** (*int*) -
+    - __graceful_time__ (_int_) -
 
         A period of time in seconds.
 
-        The value defaults to **5**. If this parameter is set,  calculates the guarantee timestamp by subtracting this from the current timestamp.
+        The value defaults to __5__. If this parameter is set,  calculates the guarantee timestamp by subtracting this from the current timestamp.
 
         <Admonition type="info" icon="📘" title="Notes">
 
@@ -122,7 +122,7 @@ iterator = collection.query(
 
         </Admonition>
 
-    - **offset** (*int*) -
+    - __offset__ (_int_) -
 
         The number of records to skip in the query result. 
 
@@ -130,7 +130,7 @@ iterator = collection.query(
 
         The sum of this value and `limit` should be less than 16,384. 
 
-    - **limit** (*int*) -
+    - __limit__ (_int_) -
 
         The number of records to return in the query result.
 
@@ -138,21 +138,21 @@ iterator = collection.query(
 
         The sum of this value and `offset` should be less than 16,384. 
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*list[dict]*
+_list[dict]_
 
-**RETURNS:**
+__RETURNS:__
 
 A list of dictionaries with each dictionary representing a queried entity.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 
-- **DataTypeNotMatchException**
+- __DataTypeNotMatchException__
 
     This exception will be raised when a parameter value doesn't match the required data type.
 

@@ -4,7 +4,7 @@ slug: /python/FieldSchema-construct_from_dict
 beta: false
 notebook: false
 token: DCLUdOpVjohl8HxPUx1cGjokngf
-sidebar_position: 3
+sidebar_position: 1
 ---
 
 import Admonition from '@theme/Admonition';
@@ -48,23 +48,23 @@ field = FieldSchema.construct_from_dict(field_dict)
 print(field) 
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **raw** (*dict*)
+- __raw__ (_dict_)
 
     A dictionary containing the raw data to construct the field schema.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*FieldSchema*
+_FieldSchema_
 
-**RETURNS:**
+__RETURNS:__
 
 A FieldSchema object.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

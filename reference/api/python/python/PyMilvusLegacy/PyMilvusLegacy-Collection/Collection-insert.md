@@ -4,7 +4,7 @@ slug: /python/Collection-insert
 beta: false
 notebook: false
 token: CbCodEGY9o6pKuxowNdctUppn7d
-sidebar_position: 16
+sidebar_position: 18
 ---
 
 import Admonition from '@theme/Admonition';
@@ -55,11 +55,11 @@ collection.insert(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **data** (*list* | *dict* | *pandas.DataFrame*) -
+- __data__ (_list_ | _dict_ | _pandas.DataFrame_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The data to insert into the current collection.
 
@@ -82,9 +82,9 @@ collection.insert(
         ]
         ```
 
-    - A **pandas.DataFrame**
+    - A __pandas.DataFrame__
 
-        You can form a data frame in any way, as demonstrated in the **Example** section on [this page](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html).
+        You can form a data frame in any way, as demonstrated in the __Example__ section on [this page](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html).
 
         ```python
         data = pd.DataFrame({
@@ -117,63 +117,63 @@ collection.insert(
         data = {"id": 15, "vector": [0.3,0.1,-0.2,-0.6,-0.7]},
         ```
 
-- **partition_name** (*string *|* None*) -
+- __partition_name__ (_string _|_ None_) -
 
     The name of a partition in the current collection. 
 
     If specified, the data is to be inserted into the specified partition.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*MutationResult*
+_MutationResult_
 
-**RETURNS:**
+__RETURNS:__
 
-A **MutationResult** object that contains the following fields:
+A __MutationResult__ object that contains the following fields:
 
-- **insert_count** (*int*)
+- __insert_count__ (_int_)
 
     The count of inserted entities.
 
-- **delete_count** (*int*)
+- __delete_count__ (_int_)
 
     The count of deleted entities.
 
-- **upsert_count** (*int*)
+- __upsert_count__ (_int_)
 
     The count of upserted entities.
 
-- **succ_count** (*int*)
+- __succ_count__ (_int_)
 
     The count of successful executions during this operation.
 
-- **succ_index** (*list*)
+- __succ_index__ (_list_)
 
     A list of index numbers starting from 0, each indicating a successful operation.
 
-- **err_count** (*int*)
+- __err_count__ (_int_)
 
     The count of failed executions during this operation.
 
-- **err_index** (*list*)
+- __err_index__ (_list_)
 
     A list of index numbers starting from 0, each indicating a failed operation.
 
-- **primary_keys** (*list*)
+- __primary_keys__ (_list_)
 
     A list of primary keys for the inserted entities.
 
-- **timestamp** (*int*)
+- __timestamp__ (_int_)
 
     The timestamp at which this operation is completed.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

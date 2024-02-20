@@ -4,7 +4,7 @@ slug: /python/utility-mkts_from_unixtime
 beta: false
 notebook: false
 token: ZdKEd2ua6o9AHHxKq25ctNSdncb
-sidebar_position: 38
+sidebar_position: 36
 ---
 
 import Admonition from '@theme/Admonition';
@@ -46,31 +46,31 @@ utility.mkts_from_unixtime(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **epoch** (*float*) -
+- __epoch__ (_float_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     A UNIX epoch timestamp.
 
     A UNIX epoch timestamp is an integer that represents the time elapsed since January 1, 1970 (midnight UTC/GMT) in seconds.
 
-- **milliseconds** (*float*) -
+- __milliseconds__ (_float_) -
 An incremental time interval in milliseconds.
 
-- **delta** (*Optional[timedelta]*) -
+- __delta__ (_Optional[timedelta]_) -
 
-    A **datetime.timedelta** object that represents the duration expressing the difference between two `date`, `time`, or `datetime` instances to microsecond resolution.
+    A __datetime.timedelta__ object that represents the duration expressing the difference between two `date`, `time`, or `datetime` instances to microsecond resolution.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*int*
+_int_
 
-**RETURNS:**
-A hybrid timestamp, which is a non-negative integer ranging from **0** to **18446744073709551615**.
+__RETURNS:__
+A hybrid timestamp, which is a non-negative integer ranging from __0__ to __18446744073709551615__.
 
-## **Examples**{#examples}
+## __Examples__{#examples}
 
 ```python
 import time

@@ -4,7 +4,7 @@ slug: /python/Connections-connect
 beta: false
 notebook: false
 token: KzCXdTVVSoOmkbxuFjsccDlXnff
-sidebar_position: 7
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
@@ -53,11 +53,11 @@ connections.connect(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **alias** (*string*) -
+- __alias__ (_string_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     A connection alias.
 
@@ -70,25 +70,25 @@ connections.connect(
 
     </Admonition>
 
-- **user** (*string*) -
+- __user__ (_string_) -
 
     A valid username used to connect to the specified Zilliz Cloud cluster.
 
-    This should be used along with **password**.
+    This should be used along with __password__.
 
-- **password** (*string*) -
+- __password__ (_string_) -
 
     A valid password used to connect to the specified Zilliz Cloud cluster.
 
-    This should be used along with **user**.
+    This should be used along with __user__.
 
-- **db_name** (*string*) -
+- __db_name__ (_string_) -
 
     The name of the database to which the target Zilliz Cloud cluster belongs.
 
-- **token** (*string*) -
+- __token__ (_string_) -
 
-    A valid access token to access the specified Zilliz Cloud cluster. This can be used as an alternative to setting **user** and **password** separately.
+    A valid access token to access the specified Zilliz Cloud cluster. This can be used as an alternative to setting __user__ and __password__ separately.
 
     When setting this field, notice that:
 
@@ -98,89 +98,89 @@ connections.connect(
 
     - A pair of username and password used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
 
-- **kwargs** (*dict*) -
+- __kwargs__ (_dict_) -
 
     Keyword arguments for configuring the connection. The following keys are supported:
 
-    - **address** (*string*) -
+    - __address__ (_string_) -
 
-        The actual address to connect. Example address: **localhost:19530**.
+        The actual address to connect. Example address: __localhost:19530__.
 
-    - **uri** (*string*) -
+    - __uri__ (_string_) -
 
-        The URI of the Zilliz Cloud cluster. For example: **https://in01-*****************.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540**.
+        The URI of the Zilliz Cloud cluster. For example: __https://in01-*****************.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540__.
 
-    - **host** (*string*) -
+    - __host__ (_string_) -
 
-        The host of the Zilliz Cloud cluster. The value defaults to **localhost**, and PyMilvus will fill in the default host if only **port** is provided.
+        The host of the Zilliz Cloud cluster. The value defaults to __localhost__, and PyMilvus will fill in the default host if only __port__ is provided.
 
-    - **port** (*string | int*) -
+    - __port__ (_string | int_) -
 
-        The port that Zilliz Cloud cluster listens to. The value defaults to **19530**, and PyMilvus will fill in the default port if only **host** is provided.
+        The port that Zilliz Cloud cluster listens to. The value defaults to __19530__, and PyMilvus will fill in the default port if only __host__ is provided.
 
-    - **secure** (*bool*) -
+    - __secure__ (_bool_) -
 
         A boolean value indicating whether TLS is employed in the connection.
 
-    - **client_key_path** (*string*) -
+    - __client_key_path__ (_string_) -
 
-        A path to a valid **client.key** file for the TLS certificate verification on the client side.
-
-        This parameter is necessary when using a self-signed TLS certificate or a certificate signed by an unknown authority.
-
-        This parameter should work with **client_pem_path**,** ca_pem_path**,** server_pem_path**, and** server_name** if applicable.
-
-    - **client_pem_path** (*string*) -
-
-        A path to a valid **client.pem** file for the TLS certificate verification on the client side.
+        A path to a valid __client.key__ file for the TLS certificate verification on the client side.
 
         This parameter is necessary when using a self-signed TLS certificate or a certificate signed by an unknown authority.
 
-        This parameter should work with **client_key_path**,** ca_pem_path**,** server_pem_path**, and** server_name** if applicable.
+        This parameter should work with __client_pem_path__,__ ca_pem_path__,__ server_pem_path__, and__ server_name__ if applicable.
 
-    - **ca_pem_path** (*string*) -
+    - __client_pem_path__ (_string_) -
 
-        A path to a valid **ca.pem** file for the TLS certificate verification.
-
-        This parameter is necessary when using a self-signed TLS certificate or a certificate signed by an unknown authority.
-
-        This parameter should work with **client_key_path**,** client_pem_path**,** server_pem_path**, and** server_name** if applicable.
-
-    - **server_pem_path** (*string*) -
-
-        A path to a valid **server.pem** file for the TLS certificate verification on the server side.
+        A path to a valid __client.pem__ file for the TLS certificate verification on the client side.
 
         This parameter is necessary when using a self-signed TLS certificate or a certificate signed by an unknown authority.
 
-        This parameter should work with **client_key_path**,** client_pem_path**,** ca_pem_path**, and** server_name** if applicable.
+        This parameter should work with __client_key_path__,__ ca_pem_path__,__ server_pem_path__, and__ server_name__ if applicable.
 
-    - **server_name** (*string*) -
+    - __ca_pem_path__ (_string_) -
+
+        A path to a valid __ca.pem__ file for the TLS certificate verification.
+
+        This parameter is necessary when using a self-signed TLS certificate or a certificate signed by an unknown authority.
+
+        This parameter should work with __client_key_path__,__ client_pem_path__,__ server_pem_path__, and__ server_name__ if applicable.
+
+    - __server_pem_path__ (_string_) -
+
+        A path to a valid __server.pem__ file for the TLS certificate verification on the server side.
+
+        This parameter is necessary when using a self-signed TLS certificate or a certificate signed by an unknown authority.
+
+        This parameter should work with __client_key_path__,__ client_pem_path__,__ ca_pem_path__, and__ server_name__ if applicable.
+
+    - __server_name__ (_string_) -
 
         A path to a valid server name for the TLS certificate verification on the server side.
 
         This parameter is necessary when using a self-signed TLS certificate or a certificate signed by an unknown authority.
 
-        This parameter should work with **client_key_path**,** client_pem_path**,** ca_pem_path**, and** server_pem_path** if applicable.
+        This parameter should work with __client_key_path__,__ client_pem_path__,__ ca_pem_path__, and__ server_pem_path__ if applicable.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
 None
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
 ## Exceptions{#exceptions}
 
-- **NotImplementedError**:
+- __NotImplementedError__:
 
     This exception will be raised when the handler parameter value is not GRPC.
 
-- **ParamError**: 
+- __ParamError__: 
 
     This exception will be raised when an unsupported value is passed for the pool parameter.
 
-- **Exception**: 
+- __Exception__: 
 
     This exception will be raised when the server specified in the connection parameters is not reachable/ready and the client cannot connect to it.
 

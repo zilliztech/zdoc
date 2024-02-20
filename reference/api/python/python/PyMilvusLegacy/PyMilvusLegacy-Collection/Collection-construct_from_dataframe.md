@@ -4,7 +4,7 @@ slug: /python/Collection-construct_from_dataframe
 beta: false
 notebook: false
 token: ISZadjHwyopWr5xRdJ2cqxVanEg
-sidebar_position: 28
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,27 +45,27 @@ collection, results = Collection.construct_from_data_from(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **name** (*string*) -
+- __name__ (_string_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the collection to create.
 
-- **primary_field** (*string*) -
+- __primary_field__ (_string_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the primary field. It should be one of the column labels in the following dataframe.
 
-- **dataframe** (*pandas.DataFrame*) 
+- __dataframe__ (_pandas.DataFrame_) 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The dataframe containing the data to be inserted into the collection.
 
-    You can form a data frame in any way, as demonstrated in the **Example** section on [this page](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html).
+    You can form a data frame in any way, as demonstrated in the __Example__ section on [this page](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html).
 
     ```python
     dataframe = pd.DataFrame({
@@ -80,55 +80,55 @@ collection, results = Collection.construct_from_data_from(
     })
     ```
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*tuple (Collection, MutationResults)*
+_tuple (Collection, MutationResults)_
 
-**RETURNS:**
+__RETURNS:__
 
-A tuple containing the collection and a **MutationResult** object returned by the **insert()** operation.
+A tuple containing the collection and a __MutationResult__ object returned by the __insert()__ operation.
 
-A **MutationResult** object contains the following fields:
+A __MutationResult__ object contains the following fields:
 
-- **insert_count** (*int*)
+- __insert_count__ (_int_)
 
     The count of inserted entities.
 
-- **delete_count** (*int*)
+- __delete_count__ (_int_)
 
     The count of deleted entities.
 
-- **upsert_count** (*int*)
+- __upsert_count__ (_int_)
 
     The count of upserted entities.
 
-- **succ_count** (*int*)
+- __succ_count__ (_int_)
 
     The count of successful executions during this operation.
 
-- **succ_index** (*list*)
+- __succ_index__ (_list_)
 
     A list of index numbers starting from 0, each indicating a successful operation.
 
-- **err_count** (*int*)
+- __err_count__ (_int_)
 
     The count of failed executions during this operation.
 
-- **err_index** (*list*)
+- __err_index__ (_list_)
 
     A list of index numbers starting from 0, each indicating a failed operation.
 
-- **primary_keys** (*list*)
+- __primary_keys__ (_list_)
 
     A list of primary keys for the inserted entities.
 
-- **timestamp** (*int*)
+- __timestamp__ (_int_)
 
     The timestamp at which this operation is completed.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **SchemaNotReadyException**
+- __SchemaNotReadyException__
 
     This exception will be raised when the specified primary field is not valid.
 

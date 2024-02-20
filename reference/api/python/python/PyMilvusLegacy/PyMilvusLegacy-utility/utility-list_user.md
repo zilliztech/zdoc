@@ -4,7 +4,7 @@ slug: /python/utility-list_user
 beta: false
 notebook: false
 token: JeG6d5Sg2oPmXPxEhnyciq4snNd
-sidebar_position: 10
+sidebar_position: 28
 ---
 
 import Admonition from '@theme/Admonition';
@@ -52,37 +52,37 @@ user=utility.list_user(
 )
 ```
 
-**PARAMETERS**
+__PARAMETERS__
 
-- **username** (*string*) - 
+- __username__ (_string_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the user to list.
 
-- **include_role_info** (*bool*) - 
+- __include_role_info__ (_bool_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     Whether Zilliz Cloud lists the roles granted to the specified user.
 
-- **using** (*string*) - 
+- __using__ (_string_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*UserInfo*
+_UserInfo_
 
-**RETURNS:**
+__RETURNS:__
 
-A **UserInfo** object that contains contains the user information.
+A __UserInfo__ object that contains contains the user information.
 
 ```python
 ├── UserInfo
@@ -92,19 +92,19 @@ A **UserInfo** object that contains contains the user information.
 │           ├── roles
 ```
 
-A **UserItem** object contains the following fields:
+A __UserItem__ object contains the following fields:
 
-- **username** (*str*)
+- __username__ (_str_)
 
     The name of the user.
 
-- **roles** (*str*)
+- __roles__ (_str_)
 
     The roles assigned to the user.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

@@ -4,7 +4,7 @@ slug: /python/Collections-describe_collection
 beta: false
 notebook: false
 token: MCkjdiRNKo2HCCxzHReclrgAnbg
-sidebar_position: 1
+sidebar_position: 7
 ---
 
 import Admonition from '@theme/Admonition';
@@ -23,27 +23,27 @@ pymilvus.MilvusClient.describe_collection(
 ) -> Name
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name** (*str*) -
+- __collection_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of an existing collection.
 
-    Setting this to a non-existing collection results in **MilvusException**.
+    Setting this to a non-existing collection results in __MilvusException__.
 
-- **kwargs** -
+- __kwargs__ -
 
-    - **timeout** (*float *|* None*)  
+    - __timeout__ (_float _|_ None_)  
 
-        The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+        The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*dict*
+_dict_
 
-**RETURNS:**
+__RETURNS:__
 
 A dictionary that contains detailed information about the specified collection.
 
@@ -83,89 +83,89 @@ A dictionary that contains detailed information about the specified collection.
 }
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name** (*str*) -
+- __collection_name__ (_str_) -
 
     The name of the current collection.
 
-- **auto_id** (*bool*) -
+- __auto_id__ (_bool_) -
 
     Whether Zilliz Cloud automatically generates the primary key for the collection.
 
-- **num_shards** (*int*) -
+- __num_shards__ (_int_) -
 
     The number of shards the current collection has.
 
-- **description** (*str*)
+- __description__ (_str_)
 
     The description of the current collection.
 
-- **fields** (*list*)
+- __fields__ (_list_)
 
     A list of fields in the current collection.
 
-    - **field_id** (*int*)
+    - __field_id__ (_int_)
 
         The ID of the current field.
 
-    - **name** (*str*)
+    - __name__ (_str_)
 
         The name of the current field.
 
-    - **description** (*str*)
+    - __description__ (_str_)
 
         The description of the current field.
 
-    - **type** (*int*)
+    - __type__ (_int_)
 
         The type of the current field. For details, refer to DataType.
 
-    - **params** (*dict*)
+    - __params__ (_dict_)
 
         Additional attributes of the current fields.
 
-        - For VARCHAR fields, **max_length** (*int*) is a possible attribute, which determines the number of characters in the value of the current field.
+        - For VARCHAR fields, __max_length__ (_int_) is a possible attribute, which determines the number of characters in the value of the current field.
 
-        - For FLOAT_VECTOR fields, **dim** (*int*) is a possible attribute, which determines the number of vector embeddings in the value of the current field.
+        - For FLOAT_VECTOR fields, __dim__ (_int_) is a possible attribute, which determines the number of vector embeddings in the value of the current field.
 
-    - **element_type** (*int*)
+    - __element_type__ (_int_)
 
-    - **is_primary** (*bool*)
+    - __is_primary__ (_bool_)
 
         Whether the current field serves as the primary key of the collection.
 
-- **aliases** (*list*)      
+- __aliases__ (_list_)      
 
     A list of collection aliases. You can use any alias in the list to use the current collection.  
 
-- **collection_id** (*int*)
+- __collection_id__ (_int_)
 
     The ID of the current collection. Zilliz Cloud allocates an ID for each collection while creating it.
 
-- **consistency_level** (*int*)
+- __consistency_level__ (_int_)
 
     The consistency level of the current collection. For details, refer to ConsistencyLevel.
 
-- **properties** (*dict*)
+- __properties__ (_dict_)
 
     Additional properties of the current collection. Possible keys in the dictionary include:
 
-    - **collection.ttl.seconds** (*int*)
+    - __collection.ttl.seconds__ (_int_)
 
         The time-to-live (TTL) of a collection in seconds.
 
-- **num_partitions** (*int*) 
+- __num_partitions__ (_int_) 
 
     The number of partitions in the current collection.
 
-- **enable_dynamic_field** (*bool*)
+- __enable_dynamic_field__ (_bool_)
 
-    Whether to use the reserved JSON field **$meta** to save non-schema-defined fields and their values as key-value pairs.
+    Whether to use the reserved JSON field __$meta__ to save non-schema-defined fields and their values as key-value pairs.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **DescribeCollectionException**
+- __DescribeCollectionException__
 
     This arises when any error occurs during this operation.
 

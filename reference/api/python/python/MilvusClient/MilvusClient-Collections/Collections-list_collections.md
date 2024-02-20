@@ -4,7 +4,7 @@ slug: /python/Collections-list_collections
 beta: false
 notebook: false
 token: BHyidrVcyoPwxexHLrnceOSAnRe
-sidebar_position: 10
+sidebar_position: 14
 ---
 
 import Admonition from '@theme/Admonition';
@@ -18,25 +18,25 @@ This operation lists all existing collections.
 pymilvus.MilvusClient.list_collections(**kwargs) -> Name
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **kwargs** -
+- __kwargs__ -
 
-    - **timeout** (*float* | *None*) -
+    - __timeout__ (_float_ | _None_) -
 
-        The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+        The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response returns or error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*list*
+_list_
 
-**RETURNS:**
+__RETURNS:__
 
 A list of collection names.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
 

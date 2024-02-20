@@ -4,7 +4,7 @@ slug: /python/utility-index_building_progress
 beta: false
 notebook: false
 token: OVfodiKa6o3qTGxadYicI975nhh
-sidebar_position: 17
+sidebar_position: 21
 ---
 
 import Admonition from '@theme/Admonition';
@@ -52,65 +52,65 @@ res = utility.index_building_progress(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name** (*str*) -
+- __collection_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of an existing collection.
 
-    Setting this to a non-existing collection leads to a **CollectionNotExistException**.
+    Setting this to a non-existing collection leads to a __CollectionNotExistException__.
 
-- **index_name** (*str*) -
+- __index_name__ (_str_) -
 
     The name of the target index of this operation.
 
     If left unspecified, the default index applies. If the collection has multiple indexes, this parameter is mandatory.
 
-    Setting this to a non-existing index leads to an **IndexNotExistException**.
+    Setting this to a non-existing index leads to an __IndexNotExistException__.
 
-- **using** (*str*) - 
+- __using__ (_str_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation times out when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation times out when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*dict*
+_dict_
 
-**RETURNS:**
+__RETURNS:__
 A dictionary that contains the number of indexed entities as well as that of total entities in the specified collection.
 The dictionary has the following keys:
 
-- **total_rows** (*int*)
+- __total_rows__ (_int_)
 
     The total number of entities in the specified collection.
 
-- **indexed_rows** (*int*)
+- __indexed_rows__ (_int_)
 
     The number of indexed entities in the specified collection.
 
-- **pending_index_rows** (*int*)
+- __pending_index_rows__ (_int_)
 
     The number of entities that are pending to be indexed.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **CollectionNotExistException**
+- __CollectionNotExistException__
 
     This exception will be raised if the specified collection does not exist.
 
-- **IndexNotExistException**
+- __IndexNotExistException__
 
     This exception will be raised if the specified index does not exist.
 
-- **AmbiguousIndexName**
+- __AmbiguousIndexName__
 
     This exception will be raised if multiple indexes exist but the index name is left unspecified.
 

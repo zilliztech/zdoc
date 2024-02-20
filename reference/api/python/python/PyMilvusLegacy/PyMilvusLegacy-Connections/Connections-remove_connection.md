@@ -4,7 +4,7 @@ slug: /python/Connections-remove_connection
 beta: false
 notebook: false
 token: L4KSdOVTEotaiyxjTddcVRDhn3E
-sidebar_position: 3
+sidebar_position: 8
 ---
 
 import Admonition from '@theme/Admonition';
@@ -42,25 +42,25 @@ from pymilvus import connections
 connections.remove_connection(alias="string")
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **alias** (*string*) -
+- __alias__ (_string_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     A connection alias
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **ConnectionConfigException**
+- __ConnectionConfigException__
 
     This exception will be raised when the connection configuration is invalid.
 

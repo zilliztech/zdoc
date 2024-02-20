@@ -3,7 +3,7 @@
   "modified_time": "1704424069",
   "name": "BulkFileType",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
-  "parent_token": "XttqffRjAlChI1dNjR8c8kZpnGe",
+  "parent_token": "KdfofBXCwlWnxOdG5cLcbbLgnLf",
   "token": "CROadSmHNoV2CuxREnccTkaen0e",
   "type": "docx",
   "url": "https://zilliverse.feishu.cn/docx/CROadSmHNoV2CuxREnccTkaen0e",
@@ -451,5 +451,5 @@
     ],
     "counts": 8
   },
-  "slug": "Enum-BulkFileType"
+  "slug": "BulkImport-BulkFileType"
 }

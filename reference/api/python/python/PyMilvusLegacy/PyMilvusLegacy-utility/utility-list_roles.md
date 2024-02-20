@@ -4,7 +4,7 @@ slug: /python/utility-list_roles
 beta: false
 notebook: false
 token: ClLXdDs64oixJBxlIrCcEB2dngb
-sidebar_position: 12
+sidebar_position: 27
 ---
 
 import Admonition from '@theme/Admonition';
@@ -46,31 +46,31 @@ utility.list_roles(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **include_user_info** (*bool*) - 
+- __include_user_info__ (_bool_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     Whether Zilliz Cloud lists users associated with the listed roles.
 
-- **using** (*str*) - 
+- __using__ (_str_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*RoleInfo*
+_RoleInfo_
 
-**RETURNS:**
+__RETURNS:__
 
-A **RoleInfo** object that contains a list of **RoleItem** objects.
+A __RoleInfo__ object that contains a list of __RoleItem__ objects.
 
 ```python
 ├── RoleInfo
@@ -80,19 +80,19 @@ A **RoleInfo** object that contains a list of **RoleItem** objects.
 │           ├── users
 ```
 
-A **RoleItem** object contains the following fields:
+A __RoleItem__ object contains the following fields:
 
-- **role_name** (*str*)
+- __role_name__ (_str_)
 
     The name of the role.
 
-- **users** (*str*)
+- __users__ (_str_)
 
     The users to whom the role is granted to.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

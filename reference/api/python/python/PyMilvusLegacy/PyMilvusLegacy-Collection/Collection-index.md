@@ -4,7 +4,7 @@ slug: /python/Collection-index
 beta: false
 notebook: false
 token: RkQ8dnWDHo3DiDxiCVRcP1xPnob
-sidebar_position: 10
+sidebar_position: 17
 ---
 
 import Admonition from '@theme/Admonition';
@@ -52,33 +52,33 @@ collection = Collection(name="string")
 collection.index(index_name="string")
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **kwargs - **
+- __kwargs - __
 
     Additional keyword arguments.
 
-    - **index_name** (*str*) -
+    - __index_name__ (_str_) -
 
         The name of the index. If no index is specified, the default index name is used.
 
         A default index name is in the following format: `_default_idx_{field_id}`.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*Index*
+_Index_
 
-**RETURNS:**
+__RETURNS:__
 
 An Index object of the current collection.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **IndexNotExistException**
+- __IndexNotExistException__
 
     This exception will be raised when the specified index does not exist.
 
-- **AmbiguousIndexName**
+- __AmbiguousIndexName__
 
     This exception will be raised when multiple indexes exist but no index name has been specified. 
 

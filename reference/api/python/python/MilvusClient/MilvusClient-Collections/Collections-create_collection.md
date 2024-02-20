@@ -32,15 +32,15 @@ pymilvus.MilvusClient.create_collection(
 ) -> None
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name** (*str*) -
+- __collection_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the collection to create.
 
-- **dimension** (*int*) -
+- __dimension__ (_int_) -
 
     The dimension of the collection field to hold vector embeddings.
 
@@ -48,67 +48,67 @@ pymilvus.MilvusClient.create_collection(
 
      This is required to set up a collection with default settings. Skip this parameter if you need to set up a collection with a customized schema.
 
-- **primary_field_name** (*str*) -
+- __primary_field_name__ (_str_) -
 
     The name of the primary field in this collection.
 
-    The value defaults to **id**. You can use another name you see fit. Skip this parameter if you need to set up a collection with a customized schema.
+    The value defaults to __id__. You can use another name you see fit. Skip this parameter if you need to set up a collection with a customized schema.
 
-- **id_type** (*str*) -
+- __id_type__ (_str_) -
 
     The data type of the primary field in this collection.
 
-    The value defaults to **int**. Possible values are **int** and **str**. Skip this parameter if you need to set up a collection with a customized schema.
+    The value defaults to __int__. Possible values are __int__ and __str__. Skip this parameter if you need to set up a collection with a customized schema.
 
-- **vector_field_name** (*str*) -
+- __vector_field_name__ (_str_) -
 
     The name of the collection field to hold vector embeddings.
 
-    The value defaults to **vector**. You can use another name you see fit. Skip this parameter if you need to set up a collection with a customized schema.
+    The value defaults to __vector__. You can use another name you see fit. Skip this parameter if you need to set up a collection with a customized schema.
 
-- **metric_type** (*str*) -
+- __metric_type__ (_str_) -
 
     The algorithm used for this collection to measure similarities between vector embeddings.
 
-    The value defaults to **IP**. Possible values are **L2**, **IP**, and **COSINE**. For details on these metric types, refer to [Similarity Metrics Explained](./search-metrics-explained).
+    The value defaults to __IP__. Possible values are __L2__, __IP__, and __COSINE__. For details on these metric types, refer to [Similarity Metrics Explained](./search-metrics-explained).
 
     Skip this parameter if you need to set up a collection with a customized schema.
 
-- **auto_id** (*bool*) -
+- __auto_id__ (_bool_) -
 
     Whether the primary field automatically increments upon data insertions into this collection.
 
-    The value defaults to **False**. Setting this to **True** makes the primary field automatically increment. Skip this parameter if you need to set up a collection with a customized schema.
+    The value defaults to __False__. Setting this to __True__ makes the primary field automatically increment. Skip this parameter if you need to set up a collection with a customized schema.
 
-- **timeout** (*float* | *None*) -
+- __timeout__ (_float_ | _None_) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response returns or error occurs.
 
-- **schema** (*CollectionSchema* | *None*)
+- __schema__ (_CollectionSchema_ | _None_)
 
     The schema of this collection.
 
-    Setting this to **None** indicates this collection will be created with default settings. To set up a collection with a customized schema, you need to create a **CollectionSchema** object and reference it here.
+    Setting this to __None__ indicates this collection will be created with default settings. To set up a collection with a customized schema, you need to create a __CollectionSchema__ object and reference it here.
 
-- **index_params** (*IndexParams* | *None*)
+- __index_params__ (_IndexParams_ | _None_)
 
-    The parameters for building the index on the vector field in this collection. To set up a collection with a customized schema and automatically load the collection to memory, you need to create an **IndexParams** object and reference it here. 
+    The parameters for building the index on the vector field in this collection. To set up a collection with a customized schema and automatically load the collection to memory, you need to create an __IndexParams__ object and reference it here. 
 
     You should at least add an index for the vector field in this collection. You can also skip this parameter if you prefer to set up the index parameters later on.
 
-- **kwargs** -
+- __kwargs__ -
 
-    - **enable_dynamic_field** (*bool*) -
+    - __enable_dynamic_field__ (_bool_) -
 
-        Whether to use a reserved JSON field named **$meta** to store undefined fields and their values in key-value pairs.
+        Whether to use a reserved JSON field named __$meta__ to store undefined fields and their values in key-value pairs.
 
-        The value defaults to **True**, indicating that the meta field is used.
+        The value defaults to __True__, indicating that the meta field is used.
 
-    - **num_shards** (*int*) -
+    - __num_shards__ (_int_) -
 
         The number of shards to create along with the creation of this collection. 
 
-        The value defaults to **2**, indicating that two shards are to be created along with this collection.
+        The value defaults to __2__, indicating that two shards are to be created along with this collection.
 
         <Admonition type="info" icon="📘" title="What is sharding?">
 
@@ -117,11 +117,11 @@ pymilvus.MilvusClient.create_collection(
 
         </Admonition>
 
-    - **consistency_level** (*int* | *str*)
+    - __consistency_level__ (_int_ | _str_)
 
         The consistency level of the target collection.
 
-        The value defaults to **Bounded **(**1**) with options of **Strong **(**0**), **Bounded **(**1**), **Session **(**2**), and **Eventually **(**3**).
+        The value defaults to __Bounded __(__1__) with options of __Strong __(__0__), __Bounded __(__1__), __Session __(__2__), and __Eventually __(__3__).
 
         <Admonition type="info" icon="📘" title="What is the consistency level?">
 
@@ -134,21 +134,21 @@ pymilvus.MilvusClient.create_collection(
 
         </Admonition>
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **PrimaryKeyException**
+- __PrimaryKeyException__
 
     This exception will be raised if the data type of the primary field is not an integer or a string.
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 
@@ -169,7 +169,7 @@ client = MilvusClient(
 
 You can choose between a quick setup or a customized setup as follows:
 
-- **Quick setup**
+- __Quick setup__
 
     The quick setup collection has two fields: the primary and vector fields. It also allows the insertion of undefined fields and their values in key-value pairs in a dynamic field.
 
@@ -179,13 +179,13 @@ You can choose between a quick setup or a customized setup as follows:
 
     In the above setup, 
 
-    - The primary and vector fields use their default names (**id** and **vector**).
+    - The primary and vector fields use their default names (__id__ and __vector__).
 
-    - The metric type is also set to its default value (**IP**).
+    - The metric type is also set to its default value (__IP__).
 
     - The primary field accepts integers and does not automatically increments.
 
-    - The reserved JSON field named **$meta** is used to store non-schema-defined fields and their values.
+    - The reserved JSON field named __$meta__ is used to store non-schema-defined fields and their values.
 
     You can modify the names of the primary and vector fields and change the metric type. Additionally, the primary field can be set to increment automatically.
 
@@ -204,7 +204,7 @@ You can choose between a quick setup or a customized setup as follows:
 
     In the above code, the collection will be created and automatically loaded into memory.
 
-- **Customized setup with index parameters**
+- __Customized setup with index parameters__
 
     For a customized setup, create the schema and index parameters beforehand. 
 
@@ -245,7 +245,7 @@ You can choose between a quick setup or a customized setup as follows:
 
     In the above code, the collection will be created and automatically loaded into memory.
 
-- **Customized setup without index parameters**
+- __Customized setup without index parameters__
 
     ```python
     from pymilvus import MilvusClient, DataType

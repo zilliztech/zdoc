@@ -4,7 +4,7 @@ slug: /python/Role-get_users
 beta: false
 notebook: false
 token: CCOhd671iog6rRxu8aOcaPncnLK
-sidebar_position: 8
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';
@@ -40,15 +40,15 @@ role = Role(name="string")
 users = role.get_users()
 ```
 
-**PARAMETERS**
+__PARAMETERS__
 
 N/A
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*tuple*
+_tuple_
 
-**RETURNS:**
+__RETURNS:__
 
 A tuple that contains the names of all users added to the current role.
 

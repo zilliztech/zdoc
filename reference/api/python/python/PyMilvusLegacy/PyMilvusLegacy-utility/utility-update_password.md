@@ -4,7 +4,7 @@ slug: /python/utility-update_password
 beta: false
 notebook: false
 token: SGjed7w9toewDlxmXHKc7BFancf
-sidebar_position: 13
+sidebar_position: 41
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,51 +54,51 @@ utility.update_password(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **user** (*str*) - 
+- __user__ (_str_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The specific user whose password is to be reset.
 
-- **old_password** (*str*) - 
+- __old_password__ (_str_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The original password for the specified user.
 
-    Setting this to an incorrect password results in a **MilvusException**.
+    Setting this to an incorrect password results in a __MilvusException__.
 
-- **new_password** (*str*) - 
+- __new_password__ (_str_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The new password for the specified user. 
 
     The password must be a string of 8 to 64 characters and must include at least three of the following character types: uppercase letters, lowercase letters, numbers, and special characters.
 
-- **using** (*string*) - 
+- __using__ (_string_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

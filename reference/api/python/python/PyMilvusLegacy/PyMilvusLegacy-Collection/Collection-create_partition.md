@@ -4,7 +4,7 @@ slug: /python/Collection-create_partition
 beta: false
 notebook: false
 token: Sh7HdgJOIoJipXx5AoNcicjMnyd
-sidebar_position: 27
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';
@@ -50,29 +50,29 @@ partition = collection.create_partition(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **partition_name** (*string*)
+- __partition_name__ (_string_)
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the partition to create.
 
-- **description** (*string*)
+- __description__ (_string_)
 
     The description of this partition.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*Partition*
+_Partition_
 
-**RETURNS:**
+__RETURNS:__
 
 A partition object.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

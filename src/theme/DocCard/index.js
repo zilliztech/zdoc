@@ -56,7 +56,6 @@ function CardCategory({item}) {
   }
 
   var docId = findCategoryDocId(item);
-  console.log(docId);
 
   return (
     <CardLayout

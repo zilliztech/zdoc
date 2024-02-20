@@ -4,7 +4,7 @@ slug: /python/Role-add_user
 beta: false
 notebook: false
 token: W7GJdpYrYoYhSaxW6uzcVAZinYf
-sidebar_position: 11
+sidebar_position: 1
 ---
 
 import Admonition from '@theme/Admonition';
@@ -46,25 +46,25 @@ role = Role(role_name="string")
 role.add_user(username="string")
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **username** (*str*) -
+- __username__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the user to add to a role.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
-*None*
+_None_
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

@@ -4,7 +4,7 @@ slug: /python/Collections-load_collection
 beta: false
 notebook: false
 token: FLmWdFP9Zo3JcixOEgucU8JMnLc
-sidebar_position: 7
+sidebar_position: 15
 ---
 
 import Admonition from '@theme/Admonition';
@@ -29,29 +29,29 @@ pymilvus.MilvusClient.load_collection(
 ) -> None
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name** (*str*) -
+- __collection_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of a collection.
 
-- **timeout** (*float* | *None*) -
+- __timeout__ (_float_ | _None_) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response returns or error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

@@ -4,7 +4,7 @@ slug: /python/Connections-list_connections
 beta: false
 notebook: false
 token: DyPldeRNXo4nMqxQeE0cMnd2nEf
-sidebar_position: 4
+sidebar_position: 7
 ---
 
 import Admonition from '@theme/Admonition';
@@ -42,19 +42,19 @@ from pymilvus import connections
 connections.list_connections()
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
 None
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*List*
+_List_
 
-**RETURNS:**
+__RETURNS:__
 
 A list of all connection names and handler objects.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
 None
 

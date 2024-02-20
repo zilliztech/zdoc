@@ -4,7 +4,7 @@ slug: /python/Partition-get_replicas
 beta: false
 notebook: false
 token: YKwldu59qosZBsxdRdSc0l9Hnoe
-sidebar_position: 10
+sidebar_position: 4
 ---
 
 import Admonition from '@theme/Admonition';
@@ -41,45 +41,45 @@ partition = Partition(collection, name="string")
 partition.get_replicas()
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*Replica*
+_Replica_
 
-**RETURNS:**
+__RETURNS:__
 
-A **Replica** object that contains the following fields:
+A __Replica__ object that contains the following fields:
 
-- **groups** (*list*)
+- __groups__ (_list_)
 
-    A list of replica groups. Each **Group** objects that contains the following fields:
+    A list of replica groups. Each __Group__ objects that contains the following fields:
 
-    - **id** (*int*)
+    - __id__ (_int_)
 
         The group ID.
 
-    - **group_nodes** (*tuple*)
+    - __group_nodes__ (_tuple_)
 
         A tuple containing the IDs of the involved query nodes.
 
-    - **resource_group** (*str*)
+    - __resource_group__ (_str_)
 
         The name of the resource group to which the above query nodes belong.
 
-    - **shards** (*list*)  
+    - __shards__ (_list_)  
 
-        A list of **Shard** objects that contains the following fields:
+        A list of __Shard__ objects that contains the following fields:
 
-        - **channel_name** (*str*)
+        - __channel_name__ (_str_)
 
-        - **shard_leader** (*int*)
+        - __shard_leader__ (_int_)
 
-        - **shard_nodes** (*set*)
+        - __shard_nodes__ (_set_)
 
 <Admonition type="info" icon="📘" title="What is a replica?">
 
@@ -89,7 +89,7 @@ A **Replica** object that contains the following fields:
 
 </Admonition>
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
 None
 

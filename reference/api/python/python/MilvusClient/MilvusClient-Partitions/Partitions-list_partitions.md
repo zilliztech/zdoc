@@ -4,7 +4,7 @@ slug: /python/Partitions-list_partitions
 beta: false
 notebook: false
 token: Dxgqdvlk5o2VScxqmL1ctc1Inqb
-sidebar_position: 2
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';
@@ -23,29 +23,29 @@ pymilvus.MilvusClient.list_partitions(
 ) -> list
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name **(*str*) -
+- __collection_name __(_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of an existing collection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*list*
+_list_
 
-**RETURNS:**
+__RETURNS:__
 
 A list of partition names.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

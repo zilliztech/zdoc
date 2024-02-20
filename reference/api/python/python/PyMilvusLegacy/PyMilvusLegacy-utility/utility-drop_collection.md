@@ -4,7 +4,7 @@ slug: /python/utility-drop_collection
 beta: false
 notebook: false
 token: FHcYdN4apoI5TIx0LxScISvtn0f
-sidebar_position: 30
+sidebar_position: 10
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,33 +34,33 @@ utility.drop_collection(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name** (*str*) -
+- __collection_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of a collection to delete.
 
-- **timeout** (*float*)  
+- __timeout__ (_float_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-- **using** (*str*) - 
+- __using__ (_str_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
 N/A
 

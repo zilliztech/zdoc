@@ -39,27 +39,27 @@ connections.connect(...)
 server_version = utility.get_server_version()
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **using** (*str*) - 
+- __using__ (_str_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*str*
+_str_
 
-**RETURNS:**
+__RETURNS:__
 
 The server version.
 
-**EXAMPLE:**
+__EXAMPLE:__
 
 ```python
 from pymilvus import connections, utility

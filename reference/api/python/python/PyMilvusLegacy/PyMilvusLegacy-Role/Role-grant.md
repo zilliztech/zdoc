@@ -4,7 +4,7 @@ slug: /python/Role-grant
 beta: false
 notebook: false
 token: BapSdVXjQoQXnbxnRYScCagAn1f
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,27 +54,27 @@ role.grant(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **object** (*string*)
+- __object__ (_string_)
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The type of the object to grant the privilege.
 
     The value is case-sensitive. For details, refer to Users & Roles.
 
-- **object_name** (*string*)
+- __object_name__ (_string_)
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
-    The name of a target object of the type specified in **object**.
+    The name of a target object of the type specified in __object__.
 
     It can be a collection name, a user name, or a wild card (*).
 
-- **privilege** (*string*)
+- __privilege__ (_string_)
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the privilege to grant.
 
@@ -89,21 +89,21 @@ role.grant(
 
     </Admonition>
 
-- **db_name** (*string*)
+- __db_name__ (_string_)
 
     The name of a database the object belongs to. If left unspecified, the default database applies.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
-*None*
+_None_
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 

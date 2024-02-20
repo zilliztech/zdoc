@@ -4,7 +4,7 @@ slug: /python/Collections-rename_collection
 beta: false
 notebook: false
 token: IeiIdJ71Pox2OjxMiOzczUTenud
-sidebar_position: 2
+sidebar_position: 17
 ---
 
 import Admonition from '@theme/Admonition';
@@ -24,39 +24,39 @@ pymilvus.MilvusClient.rename_collection(
 ) -> None
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **old_name** (*str*) -
+- __old_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of an existing collection.
 
-    Setting this to a non-existing collection results in a **MilvusException**.
+    Setting this to a non-existing collection results in a __MilvusException__.
 
-- **new_name** (*str*) -
+- __new_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the target collection after this operation.
 
-    Setting this to the value of **old_name** results in a **MilvusException**.
+    Setting this to the value of __old_name__ results in a __MilvusException__.
 
-- **timeout** (*float* | *None*) -
+- __timeout__ (_float_ | _None_) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
 

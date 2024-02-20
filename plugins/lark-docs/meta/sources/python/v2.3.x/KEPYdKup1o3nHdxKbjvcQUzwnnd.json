@@ -811,5 +811,5 @@
     ],
     "counts": 24
   },
-  "slug": "IndexLoadRelease-get_load_state"
+  "slug": "Management-get_load_state"
 }

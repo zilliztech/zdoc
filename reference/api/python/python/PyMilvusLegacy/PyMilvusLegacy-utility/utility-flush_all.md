@@ -4,7 +4,7 @@ slug: /python/utility-flush_all
 beta: false
 notebook: false
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
-sidebar_position: 31
+sidebar_position: 12
 ---
 
 import Admonition from '@theme/Admonition';
@@ -33,27 +33,27 @@ utility.flush_all(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **using** (*str*) - 
+- __using__ (_str_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*NoneType*
+_NoneType_
 
-**RETURNS:**
+__RETURNS:__
 
 None
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
 N/A
 

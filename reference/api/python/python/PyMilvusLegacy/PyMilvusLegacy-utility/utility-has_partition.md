@@ -4,7 +4,7 @@ slug: /python/utility-has_partition
 beta: false
 notebook: false
 token: KsmadNcXRoElO2xJi5HcJO57nwb
-sidebar_position: 34
+sidebar_position: 18
 ---
 
 import Admonition from '@theme/Admonition';
@@ -52,40 +52,40 @@ utility.has_partition(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **collection_name** (*str*) -
+- __collection_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 The name of an existing collection.
 
-    Setting this to a non-existing collection results in a **MilvusException**.
+    Setting this to a non-existing collection results in a __MilvusException__.
 
-- **partition_name** (*str*) -
+- __partition_name__ (_str_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 The name of a partition.
 
-- **using** (*str*) - 
+- __using__ (_str_) - 
 
     The alias of the employed connection.
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    The default value is __default__, indicating that this operation employs the default connection.
 
-- **timeout** (*float *|* None*)  
+- __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*bool*
+_bool_
 
-**RETURNS:**
+__RETURNS:__
 A boolean value indicates whether the specified partition exists.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
 

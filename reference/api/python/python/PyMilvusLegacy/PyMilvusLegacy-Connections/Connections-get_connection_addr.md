@@ -4,7 +4,7 @@ slug: /python/Connections-get_connection_addr
 beta: false
 notebook: false
 token: H2zBdRHVtovNQGxvb0xcwpSKnBd
-sidebar_position: 8
+sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';
@@ -42,25 +42,25 @@ from pymilvus import connections
 connections.get_connection_addr(alias="string")
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **alias** (*string*) -
+- __alias__ (_string_) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     A connection alias.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*Dictionary*
+_Dictionary_
 
-**RETURNS:**
+__RETURNS:__
 
 A dictionary containing the connection configuration.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **ConnectionConfigException**
+- __ConnectionConfigException__
 
     This exception will be raised when the connection configuration is invalid.
 

@@ -1,6 +1,6 @@
 {
   "created_time": "1704444729",
-  "modified_time": "1708326701",
+  "modified_time": "1708356578",
   "name": "RemoteBulkWriter",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "Yhy1fHTMnlLKvydKzsIcnfPdnmb",
@@ -940,31 +940,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "How does ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "BulkWriter",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " segment my data?",
+                "content": "How does BulkWriter segment my data?",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1037,7 +1013,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "JSON_RB ",
+                "content": "JSON_RB",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -1049,7 +1025,7 @@
             },
             {
               "text_run": {
-                "content": "or",
+                "content": " or ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1061,7 +1037,7 @@
             },
             {
               "text_run": {
-                "content": " Parquet",
+                "content": "Parquet",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,

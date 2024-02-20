@@ -1,9 +1,9 @@
 {
   "created_time": "1704785712",
-  "modified_time": "1708320145",
+  "modified_time": "1708356123",
   "name": "MilvusClient",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
-  "parent_token": "DxvKfXmUolw51AdM5Mdcyr8Angh",
+  "parent_token": "M0pgf1TX3lTotndwA7Vc3gJsnAd",
   "token": "TUrSdmskuoGdFRxFT75c6xhinzc",
   "type": "docx",
   "url": "https://zilliverse.feishu.cn/docx/TUrSdmskuoGdFRxFT75c6xhinzc",
@@ -441,7 +441,7 @@
             },
             {
               "text_run": {
-                "content": "https://in01-*****************.",
+                "content": "https://in01-\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*.",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -1937,19 +1937,7 @@
             },
             {
               "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "to your cluster endpoint. The ",
+                "content": " to your cluster endpoint. The ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2215,5 +2203,5 @@
     ],
     "counts": 54
   },
-  "slug": "MilvusClient"
+  "slug": "Client-MilvusClient"
 }

@@ -4,7 +4,7 @@ slug: /python/Collection-search_iterator
 beta: false
 notebook: false
 token: HrnndnWtKoPuenxvsXBchF1wnnh
-sidebar_position: 18
+sidebar_position: 25
 ---
 
 import Admonition from '@theme/Admonition';
@@ -70,99 +70,99 @@ iterator = collection.search_iterator(
 )
 ```
 
-**PARAMETERS:**
+__PARAMETERS:__
 
-- **data** (*list[list[float]]*) - 
+- __data__ (_list[list[float]]_) - 
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     A list of vector embeddings.
 
     Zilliz Cloud searches for the most similar vector embeddings to the specified ones.
 
-- **anns_field** (str) -
+- __anns_field__ (str) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The name of the vector field in the current collection.
 
-- **param** (dict) -
+- __param__ (dict) -
 
-    **[REQUIRED]**
+    __[REQUIRED]__
 
     The parameter settings specific to this operation.
 
-    - **metric_type** (*str*) -
+    - __metric_type__ (_str_) -
 
         The metric type applied to this operation. This should be the same as the one used when you index the vector field specified above. 
 
-        Possible values are **L2**, **IP**, and **COSINE**.
+        Possible values are __L2__, __IP__, and __COSINE__.
 
-    - **params** (dict) -
+    - __params__ (dict) -
 
         Additional parameters
 
-        - **radius** (float) -
+        - __radius__ (float) -
 
-            Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
+            Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of __range_filter__. Otherwise, this value should be lower than that of __range_filter__. 
 
-        - **range_filter**  (float) -  
+        - __range_filter__  (float) -  
 
-            Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
+            Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of __radius__. Otherwise, this value should be lower than that of __radius__.
 
     For details on other applicable search parameters, read [AUTOINDEX Explained](./autoindex-explained) to get more.
 
-- **batch_size** (*int*) -
+- __batch_size__ (_int_) -
 
     The number of entities to return each time you call `next()` on the current iterator.
 
-    The value defaults to **1000**. Set it to a proper value to control the number of entities to return per iteration.
+    The value defaults to __1000__. Set it to a proper value to control the number of entities to return per iteration.
 
-- **limit** (*int*) -
+- __limit__ (_int_) -
 
     The total number of entities to return.
 
-    The value defaults to **-1**, indicating all matching entities will be in return.
+    The value defaults to __-1__, indicating all matching entities will be in return.
 
-- **expr** (*str*) -
+- __expr__ (_str_) -
 
     A scalar filtering condition to filter matching entities.
 
-    The value defaults to **None**, indicating that scalar filtering is ignored. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md).
+    The value defaults to __None__, indicating that scalar filtering is ignored. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md).
 
-- **output_fields** (*list*) -
+- __output_fields__ (_list_) -
 
     A list of field names to include in each entity in return.
 
-    The value defaults to **None**. If left unspecified, only the primary field is included.
+    The value defaults to __None__. If left unspecified, only the primary field is included.
 
-- **partition_names** (*list*) -
+- __partition_names__ (_list_) -
 
     A list of partition names.
 
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+    The value defaults to __None__. If specified, only the specified partitions are involved in queries.
 
-- **timeout** (*float*)  -
+- __timeout__ (_float_)  -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
-- **round_decimal** (int) -
+- __round_decimal__ (int) -
 
     The number of decimal places that Zilliz Cloud rounds the calculated distances to.
 
-    The value defaults to **-1**, indicating that Zilliz Cloud skips rounding the calculated distances and returns the raw value.
+    The value defaults to __-1__, indicating that Zilliz Cloud skips rounding the calculated distances and returns the raw value.
 
-**RETURN TYPE:**
+__RETURN TYPE:__
 
-*SearchIterator*
+_SearchIterator_
 
-**RETURNS:**
+__RETURNS:__
 
-A **SearchIterator** for you to iterate over the search result.
+A __SearchIterator__ for you to iterate over the search result.
 
-**EXCEPTIONS:**
+__EXCEPTIONS:__
 
-- **MilvusException**
+- __MilvusException__
 
     This exception will be raised when any error occurs during this operation.
 
