@@ -1,13 +1,16 @@
 import React from 'react';
-import Desktop from '@theme-original/DocItem/TOC/Desktop';
-
-export default function DesktopWrapper(props) {
+import {ThemeClassNames} from '@docusaurus/theme-common';
+import {useDoc} from '@docusaurus/theme-common/internal';
+import TOC from '@theme/TOC';
+export default function DocItemTOCDesktop() {
+  const {toc, frontMatter} = useDoc();
+  toc.splice(0,0, {value: 'ON THIS PAGE', id: '', level: 2})
   return (
-    <>
-      <div className="table-of-contents table-of-contents__left-border" style={{ paddingBottom: '0' }}>
-        <span style={{ fontSize: '0.9rem', marginLeft: '8px', marginBottom: '0', fontWeight: '600' }}>On this page</span>
-      </div>
-      <Desktop {...props} />
-    </>
+    <TOC
+      toc={toc}
+      minHeadingLevel={frontMatter.toc_min_heading_level}
+      maxHeadingLevel={frontMatter.toc_max_heading_level}
+      className={ThemeClassNames.docs.docTocDesktop}
+    />
   );
 }

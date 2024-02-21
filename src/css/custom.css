@@ -31,13 +31,15 @@ body {
   --ifm-list-left-padding: 1.5rem;
 }
 
-p {
-  margin-bottom: 0.25rem !important;
+ul.table-of-contents > li:first-child {
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
-ul.table-of-contents {
-  top: 0 !important;
-}
+ul.table-of-contents > li:first-child > a {
+  color: 000000 !important;
+  cursor: default;
+} 
 
 div.theme-doc-toc-desktop {
   padding-top: 0;
