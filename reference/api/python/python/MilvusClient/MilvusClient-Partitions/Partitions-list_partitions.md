@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation lists the partitions in a specified collection.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.list_partitions(
+list_partitions(
     collection_name: str,
     timeout: Optional[float] = None
 ) -> list
@@ -56,8 +56,8 @@ from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -76,4 +76,18 @@ client.list_partitions(
 
 # ['_default', 'partition_A']
 ```
+
+## Related methods{#related-methods}
+
+- [create_partition()](./Partitions-create_partition)
+
+- [drop_partition()](./Partitions-drop_partition)
+
+- [get_partition_stats()](./Partitions-get_partition_stats)
+
+- [has_partition()](./Partitions-has_partition)
+
+- [load_partitions()](./Partitions-load_partitions)
+
+- [release_partitions()](./Partitions-release_partitions)
 

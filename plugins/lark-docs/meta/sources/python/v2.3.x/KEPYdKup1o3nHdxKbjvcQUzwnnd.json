@@ -1,6 +1,6 @@
 {
   "created_time": "1706689147",
-  "modified_time": "1706690867",
+  "modified_time": "1708506649",
   "name": "get_load_state()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "IZKcfUEfClhhnWdFhk2co7krnAV",
@@ -28,7 +28,16 @@
           "ZuqrdikoIoeCYlxRmiEc7dIpnBc",
           "Pj6tdLwXIovyevxIV6HcGnk2nKg",
           "Tb3kdRT04o7PhixVaKIcAILxncg",
-          "LaIHdEHevouSB0xNvwHc3oA9n6d"
+          "NckidPnmaozAaMx5IS1c6urln9g",
+          "LaIHdEHevouSB0xNvwHc3oA9n6d",
+          "F92idQMeso7g2cxmat3c4Fzznzm",
+          "ZJBudzmDqo3EVWxt4rzcfaOfnLe",
+          "X8p1drH5hoZFT2xD8vrc2Q2NnRd",
+          "J6XHdQju6o2xt4xoUt2cxt5Kncd",
+          "EClKdSHVuos15qxN9r8ckG1en7R",
+          "MiEjdtjn0ojjSWx0OpZcb0ElnNh",
+          "ZKS4dhtZEoNgWtxRmgAcHF14n5e",
+          "KDItdt3cNot8NlxBXfxcn9k7n3g"
         ],
         "page": {
           "elements": [
@@ -83,7 +92,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Request Syntax",
+                "content": "Request syntax",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -108,7 +117,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "pymilvus.MilvusClient.get_load_state(\n    collection_name: str,\n    partition_name: Optional[str] = \"\",\n    timeout: Optional[float] = None\n",
+                "content": "get_load_state(\n    collection_name: str,\n    partition_name: Optional[str] = \"\",\n    timeout: Optional[float] = None\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -651,7 +660,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "A collection is in the loaded state only if all its partitions are loaded.",
+                "content": "A collection is in the loaded state if any or all of its partitions are loaded.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -772,6 +781,31 @@
         "parent_id": "KEPYdKup1o3nHdxKbjvcQUzwnnd"
       },
       {
+        "block_id": "NckidPnmaozAaMx5IS1c6urln9g",
+        "block_type": 2,
+        "parent_id": "KEPYdKup1o3nHdxKbjvcQUzwnnd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "LaIHdEHevouSB0xNvwHc3oA9n6d",
         "block_type": 14,
         "code": {
@@ -807,9 +841,230 @@
           }
         },
         "parent_id": "KEPYdKup1o3nHdxKbjvcQUzwnnd"
+      },
+      {
+        "block_id": "F92idQMeso7g2cxmat3c4Fzznzm",
+        "block_type": 2,
+        "parent_id": "KEPYdKup1o3nHdxKbjvcQUzwnnd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZJBudzmDqo3EVWxt4rzcfaOfnLe",
+        "block_type": 2,
+        "parent_id": "KEPYdKup1o3nHdxKbjvcQUzwnnd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X8p1drH5hoZFT2xD8vrc2Q2NnRd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient\n\n# 1. Set up a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"quick_setup\", dimension=5)\n\n# 3. Check the load status of the collection\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: Loaded>}\n\n# 4. Release the collection\nclient.release_collection(collection_name=\"quick_setup\")\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: NotLoad>}\n\n# 5. Create a partition\nclient.create_partition(\n    collection_name=\"quick_start\", \n    partition_name=\"partition_A\"\n)\n\n# 6. Load a partition\nclient.load_partitions(\n    collection_name=\"quick_start\",\n    partition_names=[\"partition_A\"]\n)\n\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: Loaded>}\n\nclient.get_load_state(\n    collection_name=\"quick_setup\",\n    partition_name=\"partition_A\"\n) \n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# {'state': <LoadState: Loaded>}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KEPYdKup1o3nHdxKbjvcQUzwnnd"
+      },
+      {
+        "block_id": "J6XHdQju6o2xt4xoUt2cxt5Kncd",
+        "block_type": 2,
+        "parent_id": "KEPYdKup1o3nHdxKbjvcQUzwnnd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EClKdSHVuos15qxN9r8ckG1en7R",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related methods",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KEPYdKup1o3nHdxKbjvcQUzwnnd"
+      },
+      {
+        "block_id": "MiEjdtjn0ojjSWx0OpZcb0ElnNh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "load_collection()",
+                "token": "FLmWdFP9Zo3JcixOEgucU8JMnLc",
+                "url": "https://zilliverse.feishu.cn/docx/FLmWdFP9Zo3JcixOEgucU8JMnLc"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KEPYdKup1o3nHdxKbjvcQUzwnnd"
+      },
+      {
+        "block_id": "ZKS4dhtZEoNgWtxRmgAcHF14n5e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "refresh_load()",
+                "token": "X3NXdtC2koiAxyxhcUBcv38Wnsh",
+                "url": "https://zilliverse.feishu.cn/docx/X3NXdtC2koiAxyxhcUBcv38Wnsh"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KEPYdKup1o3nHdxKbjvcQUzwnnd"
+      },
+      {
+        "block_id": "KDItdt3cNot8NlxBXfxcn9k7n3g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "release_collection()",
+                "token": "PRR7dRfi8o1s61xFRovccAdRnHe",
+                "url": "https://zilliverse.feishu.cn/docx/PRR7dRfi8o1s61xFRovccAdRnHe"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KEPYdKup1o3nHdxKbjvcQUzwnnd"
       }
     ],
-    "counts": 24
+    "counts": 33
   },
   "slug": "Management-get_load_state"
 }

@@ -14,26 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation appends records to the writer.
 
+## Request syntax{#request-syntax}
+
 ```python
-pymilvus.Collection.append_row(
+append_row(
     row: dict
 )
-```
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import CollectionSchema, RemoteBulkWriter, BulkFileType
-
-writer = RemoteBulkWriter(
-    schema=CollectionSchema(),
-    remote_path="string",
-    connect_param=RemoteBulkWriter.ConnectParam()
-    segment_size=512*1024*1024,
-    file_type=BulkFileType.NPY
-)
-
-writer.append_row(row=dict)
 ```
 
 __PARAMETERS:__
@@ -83,4 +69,12 @@ writer.append_row(
     {"id": 0, "vector": [0.1, 0.4, -0.8, -0.2, 0.4]}
 )
 ```
+
+## Related classes and methods{#related-classes-and-methods}
+
+- [commit()](./RemoteBulkWriter-commit)
+
+- [AzureConnectParam](./RemoteBulkWriter-AzureConnectParam)
+
+- [S3ConnectParam](./RemoteBulkWriter-S3ConnectParam)
 

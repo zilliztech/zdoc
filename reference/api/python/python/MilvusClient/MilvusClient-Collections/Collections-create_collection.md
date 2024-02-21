@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation creates a collection either with default or customized settings. 
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.create_collection(
+create_collection(
     collection_name: str,
     dimension: int,
     primary_field_name: str = "id",
@@ -160,8 +160,8 @@ __EXCEPTIONS:__
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 ```
 
@@ -174,7 +174,10 @@ You can choose between a quick setup or a customized setup as follows:
     The quick setup collection has two fields: the primary and vector fields. It also allows the insertion of undefined fields and their values in key-value pairs in a dynamic field.
 
     ```python
-    client.create_collection(collection_name="test_collection", dimension=5)
+    client.create_collection(
+        collection_name="test_collection", 
+        dimension=5
+    )
     ```
 
     In the above setup, 
@@ -271,9 +274,19 @@ You can choose between a quick setup or a customized setup as follows:
 
 ## Related methods{#related-methods}
 
-- fast_create_collection()
+- [create_schema()](./Collections-create_schema)
 
-- create_collection_with_schema()
+- [describe_collection()](./Collections-describe_collection)
 
-- create_schema()
+- [drop_collection()](./Collections-drop_collection)
+
+- [get_collection_stats()](./Collections-get_collection_stats)
+
+- [has_collection()](./Collections-has_collection)
+
+- [list_collections()](./Collections-list_collections)
+
+- [rename_collection()](./Collections-rename_collection)
+
+- [DataType](./Collections-DataType)
 

@@ -1,6 +1,6 @@
 {
   "created_time": "1704448312",
-  "modified_time": "1704448474",
+  "modified_time": "1708506779",
   "name": "commit()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "Yhy1fHTMnlLKvydKzsIcnfPdnmb",
@@ -14,14 +14,16 @@
         "block_type": 1,
         "children": [
           "GNt3dWrlkoEu3bx4QMOcKjYnnud",
-          "LZvtdjTlFoV0lgxFIb5cNLWCnIg",
           "JqYBdtA2Wo0240xzA3ZcB68JnRg",
-          "XuUmdMpjao2741xEjfPcC5UDnlh",
+          "LZvtdjTlFoV0lgxFIb5cNLWCnIg",
           "TtA5dMyGIoPbNJxgEgtc4B5pnRe",
           "BSHZdE8gcopqT0xcY7PcvVSNngk",
           "Uu5jd3aKcocymcxSlYIcLlZ3nlL",
           "JUHmdetIdotmEaxZCUhcBMLEnlb",
-          "NdzFdfNZyoJUt8xsByKcX4KbnQd"
+          "SefsduCpNotYeTx4Wshc8700neh",
+          "JhdjdoYmGoukFQxBLjCc3RMnn1d",
+          "NHP7dEclOo0MBFxQnqKc8dbcnWc",
+          "HMPadnkKgoFJI3xa0THcjoV8nIg"
         ],
         "page": {
           "elements": [
@@ -70,50 +72,13 @@
         }
       },
       {
-        "block_id": "LZvtdjTlFoV0lgxFIb5cNLWCnIg",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "pymilvus.RemoteBulkWriter.commit(\n    **kwargs\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ")",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
-      },
-      {
         "block_id": "JqYBdtA2Wo0240xzA3ZcB68JnRg",
         "block_type": 4,
         "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "Request Syntax",
+                "content": "Request syntax",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -132,13 +97,13 @@
         "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
       },
       {
-        "block_id": "XuUmdMpjao2741xEjfPcC5UDnlh",
+        "block_id": "LZvtdjTlFoV0lgxFIb5cNLWCnIg",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import CollectionSchema, RemoteBulkWriter, BulkFileType\n\nwriter = RemoteBulkWriter(\n    schema=CollectionSchema(),\n    remote_path=\"string\",\n    connect_param=RemoteBulkWriter.ConnectParam()\n    segment_size=512*1024*1024,\n    file_type=BulkFileType.NPY\n)\n\n",
+                "content": "commit(\n    **kwargs\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -150,7 +115,7 @@
             },
             {
               "text_run": {
-                "content": "writer.commit()",
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -411,14 +376,13 @@
         "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
       },
       {
-        "block_id": "NdzFdfNZyoJUt8xsByKcX4KbnQd",
-        "block_type": 2,
-        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf",
-        "text": {
+        "block_id": "SefsduCpNotYeTx4Wshc8700neh",
+        "block_type": 4,
+        "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "",
+                "content": "Related classes and methods",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -433,10 +397,95 @@
             "align": 1,
             "folded": false
           }
-        }
+        },
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
+      },
+      {
+        "block_id": "JhdjdoYmGoukFQxBLjCc3RMnn1d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "append_row()",
+                "token": "F1MFdP8VvoMu17x4Vg9cH6ztnqb",
+                "url": "https://zilliverse.feishu.cn/docx/F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
+      },
+      {
+        "block_id": "NHP7dEclOo0MBFxQnqKc8dbcnWc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "AzureConnectParam",
+                "token": "C2YSddNqZoDNmNxWqqEcuzhKn4f",
+                "url": "https://zilliverse.feishu.cn/docx/C2YSddNqZoDNmNxWqqEcuzhKn4f"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
+      },
+      {
+        "block_id": "HMPadnkKgoFJI3xa0THcjoV8nIg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "S3ConnectParam",
+                "token": "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
+                "url": "https://zilliverse.feishu.cn/docx/CSpOd0XgWoVAhzx5xbVcpCVfnPg"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VccVd4MTgoPzCixDVtgcEoKWnPf"
       }
     ],
-    "counts": 13
+    "counts": 15
   },
   "slug": "RemoteBulkWriter-commit"
 }

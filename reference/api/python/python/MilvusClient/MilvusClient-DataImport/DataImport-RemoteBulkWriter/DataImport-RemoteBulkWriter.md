@@ -42,7 +42,7 @@ writer = RemoteBulkWriter(
 
 __PARAMETERS:__
 
-- __schema__ (_CollectionSchema_) -
+- __schema__ (_CollectionSchema_[](./PyMilvusLegacy-CollectionSchema)_) -
 
     __[REQUIRED]__
 
@@ -54,7 +54,7 @@ __PARAMETERS:__
 
     The path to the directory that is to hold the rewritten data.
 
-- __connect_param__ (_ConnectParam_) -
+- __connect_param__ (_ConnectParam_[](./RemoteBulkWriter-S3ConnectParam)_) -
 
     The parameters used to connect to a remote bucket.
 

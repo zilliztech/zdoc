@@ -14,25 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation appends records to the writer.
 
+## Request syntax{#request-syntax}
+
 ```python
-pymilvus.Collection.append_row(
+append_row(
     row: dict
 )
-```
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import CollectionSchema, LocalBulkWriter, BulkFileType
-
-writer = LocalBulkWriter(
-    schema=CollectionSchema,
-    local_path="string",
-    segment_size=int,
-    file_type=BulkFileType,
-)
-
-writer.append_row(row=dict)
 ```
 
 __PARAMETERS:__
@@ -72,3 +59,8 @@ writer.append_row(
     {"id": 0, "vector": [0.1, 0.4, -0.8, -0.2, 0.4]}
 )
 ```
+
+## Related methods{#related-methods}
+
+- [commit()](./LocalBulkWriter-commit)
+

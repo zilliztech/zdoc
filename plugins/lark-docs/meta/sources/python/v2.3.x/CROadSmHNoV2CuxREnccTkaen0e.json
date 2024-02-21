@@ -451,5 +451,5 @@
     ],
     "counts": 8
   },
-  "slug": "BulkImport-BulkFileType"
+  "slug": "DataImport-BulkFileType"
 }

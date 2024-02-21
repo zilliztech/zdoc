@@ -1,6 +1,6 @@
 {
   "created_time": "1704448003",
-  "modified_time": "1704448279",
+  "modified_time": "1708506760",
   "name": "append_row()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "Yhy1fHTMnlLKvydKzsIcnfPdnmb",
@@ -14,14 +14,16 @@
         "block_type": 1,
         "children": [
           "AojudLx6zojYWhxojtDcAAWRnGe",
-          "DmoPdVFBKoeOASxNNjfcjLjInVe",
           "DO7Od4HXEoOzUYxirdkcnXn9n0c",
-          "BfgjdhVIGoVeygxvg2uc0ShinYd",
+          "DmoPdVFBKoeOASxNNjfcjLjInVe",
           "NvGfdBBE3oEeCZxrKfWcNgEsn3e",
           "DiSpdJ12To8ncfxjmOwcoBR9n1c",
           "SPuedGMYWohNMMx8Gc2cbvZTnYc",
           "XNkfd58nio3JTPxYylkcpHXpnfd",
-          "TEYxdRBw7ospPFx7WKYcPJxInNe"
+          "TEYxdRBw7ospPFx7WKYcPJxInNe",
+          "Vvw6dkiNno9GkVxiV7tcLncrnae",
+          "PVFxdXfJeoPgdAxxjgwcn1r4n4g",
+          "RHS7d9cmpo4y4jxCuGwcgHcHnGh"
         ],
         "page": {
           "elements": [
@@ -70,50 +72,13 @@
         }
       },
       {
-        "block_id": "DmoPdVFBKoeOASxNNjfcjLjInVe",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "pymilvus.Collection.append_row(\n    row: dict\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ")",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
-      },
-      {
         "block_id": "DO7Od4HXEoOzUYxirdkcnXn9n0c",
         "block_type": 4,
         "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "Request Syntax",
+                "content": "Request syntax",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -132,13 +97,13 @@
         "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
       },
       {
-        "block_id": "BfgjdhVIGoVeygxvg2uc0ShinYd",
+        "block_id": "DmoPdVFBKoeOASxNNjfcjLjInVe",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import CollectionSchema, RemoteBulkWriter, BulkFileType\n\nwriter = RemoteBulkWriter(\n    schema=CollectionSchema(),\n    remote_path=\"string\",\n    connect_param=RemoteBulkWriter.ConnectParam()\n    segment_size=512*1024*1024,\n    file_type=BulkFileType.NPY\n)\n\n",
+                "content": "append_row(\n    row: dict\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -150,7 +115,7 @@
             },
             {
               "text_run": {
-                "content": "writer.append_row(row=dict)",
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -396,13 +361,12 @@
       },
       {
         "block_id": "TEYxdRBw7ospPFx7WKYcPJxInNe",
-        "block_type": 2,
-        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb",
-        "text": {
+        "block_type": 4,
+        "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "",
+                "content": "Related classes and methods",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -417,10 +381,95 @@
             "align": 1,
             "folded": false
           }
-        }
+        },
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+      },
+      {
+        "block_id": "Vvw6dkiNno9GkVxiV7tcLncrnae",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "commit()",
+                "token": "VccVd4MTgoPzCixDVtgcEoKWnPf",
+                "url": "https://zilliverse.feishu.cn/docx/VccVd4MTgoPzCixDVtgcEoKWnPf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+      },
+      {
+        "block_id": "PVFxdXfJeoPgdAxxjgwcn1r4n4g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "AzureConnectParam",
+                "token": "C2YSddNqZoDNmNxWqqEcuzhKn4f",
+                "url": "https://zilliverse.feishu.cn/docx/C2YSddNqZoDNmNxWqqEcuzhKn4f"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
+      },
+      {
+        "block_id": "RHS7d9cmpo4y4jxCuGwcgHcHnGh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "S3ConnectParam",
+                "token": "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
+                "url": "https://zilliverse.feishu.cn/docx/CSpOd0XgWoVAhzx5xbVcpCVfnPg"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "F1MFdP8VvoMu17x4Vg9cH6ztnqb"
       }
     ],
-    "counts": 12
+    "counts": 14
   },
   "slug": "RemoteBulkWriter-append_row"
 }

@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation adds index parameters for a specific field in a collection.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.milvus_client.index.IndexParams.add_index(
+IndexParams.add_index(
     field_name: str,
     index_type: str,
     index_name: str
@@ -73,8 +73,7 @@ index_params = client.prepare_index_params()
 # 4. Add indexes
 # - For a scalar field
 index_params.add_index(
-    field_name="my_id",
-    index_type="AUTOINDEX"
+    field_name="my_id"
 )
 
 # - For a vector field
@@ -83,3 +82,16 @@ index_params.add_index(
     index_type="AUTOINDEX",
 )
 ```
+
+## Related methods{#related-methods}
+
+- [create_index()](./Management-create_index)
+
+- [describe_index()](./Management-describe_index)
+
+- [drop_index()](./Management-drop_index)
+
+- [list_indexes()](./Management-list_indexes)
+
+- [prepare_index_params()](./Management-prepare_index_params)
+

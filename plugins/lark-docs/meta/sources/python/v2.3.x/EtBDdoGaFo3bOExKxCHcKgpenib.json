@@ -1,6 +1,6 @@
 {
   "created_time": "1704427618",
-  "modified_time": "1704448492",
+  "modified_time": "1708506728",
   "name": "commit()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "SzykfW0E7lSK4sdsvhOcAhkan0b",
@@ -14,13 +14,14 @@
         "block_type": 1,
         "children": [
           "doxcnVOk5hZYD5gL6CaMAsBtcKg",
-          "doxcnPghTFwpJZ3nlzedOfrLS3c",
           "UWs9dS6M7oIbu7xRKhocfoeLnad",
-          "V7MxdryvHopiBrxwXUfcb4wNn8b",
+          "doxcnPghTFwpJZ3nlzedOfrLS3c",
           "doxcnHNAbV4nO3lexLY61v0dFnh",
           "doxcnjV7sMSY6v3co0ROkBhMMZb",
           "doxcnk3pECAgUQx051DRf4XWtJh",
-          "doxcnYsNAZaZM6DcaKTtVQe66he"
+          "doxcnYsNAZaZM6DcaKTtVQe66he",
+          "ZxGQdqEjFogfynxdg79cn4bKnNc",
+          "WkAhd0rUFopJd6xiXFrcjpL5n1b"
         ],
         "page": {
           "elements": [
@@ -69,6 +70,31 @@
         }
       },
       {
+        "block_id": "UWs9dS6M7oIbu7xRKhocfoeLnad",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib"
+      },
+      {
         "block_id": "doxcnPghTFwpJZ3nlzedOfrLS3c",
         "block_type": 14,
         "code": {
@@ -88,68 +114,6 @@
             {
               "text_run": {
                 "content": ")",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib"
-      },
-      {
-        "block_id": "UWs9dS6M7oIbu7xRKhocfoeLnad",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Request Syntax",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib"
-      },
-      {
-        "block_id": "V7MxdryvHopiBrxwXUfcb4wNn8b",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "from pymilvus import CollectionSchema, LocalBulkWriter, BulkFileType\n\nwriter = LocalBulkWriter(\n    schema=CollectionSchema,\n    local_path=\"string\",\n    segment_size=int,\n    file_type=BulkFileType,\n)\n\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "writer.commit()",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -408,9 +372,62 @@
           }
         },
         "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib"
+      },
+      {
+        "block_id": "ZxGQdqEjFogfynxdg79cn4bKnNc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related methods",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib"
+      },
+      {
+        "block_id": "WkAhd0rUFopJd6xiXFrcjpL5n1b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "append_row()",
+                "token": "WCxIdVwCpoIaMUxbabWcSRCkn2g",
+                "url": "https://zilliverse.feishu.cn/docx/WCxIdVwCpoIaMUxbabWcSRCkn2g"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EtBDdoGaFo3bOExKxCHcKgpenib"
       }
     ],
-    "counts": 12
+    "counts": 13
   },
   "slug": "LocalBulkWriter-commit"
 }

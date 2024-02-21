@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation drops an index from a specific collection.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.create_index(
+create_index(
     collection_name: str,
     index_name: str,
     timeout: Optional[float] = None,
@@ -63,8 +63,8 @@ __EXCEPTIONS:__
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 1. Create schema
@@ -83,8 +83,7 @@ index_params = Milvus.prepare_index_params()
 # 4. Add indexes
 # - For a scalar field
 index_params.add_index(
-    field_name="my_id",
-    index_type="TRIE"
+    field_name="my_id"
 )
 
 # - For a vector field
@@ -116,4 +115,16 @@ client.drop_index(
     index_name="_default_idx_100"
 )
 ```
+
+## Related methods{#related-methods}
+
+- [add_index()](./Management-add_index)
+
+- [create_index()](./Management-create_index)
+
+- [describe_index()](./Management-describe_index)
+
+- [list_indexes()](./Management-list_indexes)
+
+- [prepare_index_params()](./Management-prepare_index_params)
 

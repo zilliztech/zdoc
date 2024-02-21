@@ -1,6 +1,6 @@
 {
   "created_time": "1704423896",
-  "modified_time": "1704424187",
+  "modified_time": "1708485037",
   "name": "IndexType",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -23,9 +23,7 @@
           "doxcn5vcZEIAGOXFbSE7N0IILOm",
           "doxcnBpovLS8Lir7b6U4LeR5VDm",
           "doxcnle2wiE0ztuyEXCQgzagvUg",
-          "doxcnM4VhaoxKohmWAMxFYqEgFc",
-          "doxcneBikNiK33RZP52D5WDs6hm",
-          "Fh4Od3mTfok3oExRmQMcRhYvnMe"
+          "doxcnM4VhaoxKohmWAMxFYqEgFc"
         ],
         "page": {
           "elements": [
@@ -538,59 +536,9 @@
           }
         },
         "parent_id": "FdLUdaL43oIuqTxJVnbcHxgqnkh"
-      },
-      {
-        "block_id": "doxcneBikNiK33RZP52D5WDs6hm",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Examples",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "FdLUdaL43oIuqTxJVnbcHxgqnkh"
-      },
-      {
-        "block_id": "Fh4Od3mTfok3oExRmQMcRhYvnMe",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "FdLUdaL43oIuqTxJVnbcHxgqnkh"
       }
     ],
-    "counts": 14
+    "counts": 12
   },
   "slug": "Collections-IndexType"
 }

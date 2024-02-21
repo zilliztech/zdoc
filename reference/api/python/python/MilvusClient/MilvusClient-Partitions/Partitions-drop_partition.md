@@ -20,10 +20,10 @@ This operation drops a specified partition from the current collection.
 
 </Admonition>
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.create_partition(
+create_partition(
     collection_name: str,
     partition_name: str,
     timeout: Optional[float] = None
@@ -46,7 +46,9 @@ __PARAMETERS:__
 
 - __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. 
+
+    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
 __RETURN TYPE:__
 
@@ -69,8 +71,8 @@ from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -94,4 +96,18 @@ client.drop_partition(
     partition_name="partition_A"
 )
 ```
+
+## Related methods{#related-methods}
+
+- [create_partition()](./Partitions-create_partition)
+
+- [get_partition_stats()](./Partitions-get_partition_stats)
+
+- [has_partition()](./Partitions-has_partition)
+
+- [list_partitions()](./Partitions-list_partitions)
+
+- [load_partitions()](./Partitions-load_partitions)
+
+- [release_partitions()](./Partitions-release_partitions)
 

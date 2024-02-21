@@ -1,6 +1,6 @@
 {
   "created_time": "1704424634",
-  "modified_time": "1708326775",
+  "modified_time": "1708488367",
   "name": "LocalBulkWriter",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "SzykfW0E7lSK4sdsvhOcAhkan0b",
@@ -35,7 +35,8 @@
           "KNlLd87O0okpNHxO2KKcNssIn8g",
           "FHUEdGuRmoVptqxsg72ct2D8nyc",
           "doxcnHqkrNS6tfpBN5Z9e7cwldd",
-          "doxcnlyaUP0xPQEWjLiNOYezFze"
+          "doxcnlyaUP0xPQEWjLiNOYezFze",
+          "MT8Ud4VOLo9bh0xxFhIcRNrpn4d"
         ],
         "page": {
           "elements": [
@@ -344,6 +345,9 @@
                   "bold": false,
                   "inline_code": false,
                   "italic": true,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FWToudUwm4oVXeKxLg3jcj3IAnjh"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -663,7 +667,55 @@
           "elements": [
             {
               "text_run": {
-                "content": "The value defaults to 536,870,912 in bytes, which is 512 ",
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "536,870,912",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in bytes, which is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "512",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -728,31 +780,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "How does ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "BulkWriter",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " segment my data?",
+                "content": "How does BulkWriter segment my data?",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -825,7 +853,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "JSON_RB ",
+                "content": "JSON_RB",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -837,7 +865,7 @@
             },
             {
               "text_run": {
-                "content": "or",
+                "content": " or ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -849,7 +877,7 @@
             },
             {
               "text_run": {
-                "content": " Parquet",
+                "content": "Parquet",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -1032,6 +1060,9 @@
                   "bold": false,
                   "inline_code": false,
                   "italic": true,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FCROadSmHNoV2CuxREnccTkaen0e"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -1057,7 +1088,8 @@
         },
         "children": [
           "Wg5bdBcZeoAndgxgNyIcGcDRnuh",
-          "Mf71dvN7Qo4N7rxXWxrc0kgnnjd"
+          "Mf71dvN7Qo4N7rxXWxrc0kgnnjd",
+          "Hhg1dwSpao9zunxVpoYcA6YDnge"
         ],
         "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg"
       },
@@ -1118,7 +1150,32 @@
             },
             {
               "text_run": {
-                "content": ". Possible options are ",
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Hhg1dwSpao9zunxVpoYcA6YDnge",
+        "block_type": 2,
+        "parent_id": "OwCmdxmZhoY9PNxZkHXcjkmnn6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Possible options are ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1142,6 +1199,30 @@
             },
             {
               "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BulkFileType.JSON_RB",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
                 "content": " and ",
                 "text_element_style": {
                   "bold": false,
@@ -1154,7 +1235,7 @@
             },
             {
               "text_run": {
-                "content": "BulkFileType.JSON",
+                "content": "BulkFileType.PARQUET",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -1748,8 +1829,8 @@
               "text_run": {
                 "content": "LocalBulkWriter",
                 "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
+                  "bold": true,
+                  "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -1774,9 +1855,34 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "MT8Ud4VOLo9bh0xxFhIcRNrpn4d",
+        "block_type": 2,
+        "parent_id": "Tn2jd8OH1oMukFxJDsgcOSxCnrg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       }
     ],
-    "counts": 46
+    "counts": 48
   },
   "slug": "DataImport-LocalBulkWriter"
 }

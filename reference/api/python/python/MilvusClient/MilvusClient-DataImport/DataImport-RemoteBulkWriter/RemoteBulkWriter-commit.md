@@ -4,7 +4,7 @@ slug: /python/RemoteBulkWriter-commit
 beta: false
 notebook: false
 token: VccVd4MTgoPzCixDVtgcEoKWnPf
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 import Admonition from '@theme/Admonition';
@@ -14,26 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation commits the appended data.
 
+## Request syntax{#request-syntax}
+
 ```python
-pymilvus.RemoteBulkWriter.commit(
+commit(
     **kwargs
 )
-```
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import CollectionSchema, RemoteBulkWriter, BulkFileType
-
-writer = RemoteBulkWriter(
-    schema=CollectionSchema(),
-    remote_path="string",
-    connect_param=RemoteBulkWriter.ConnectParam()
-    segment_size=512*1024*1024,
-    file_type=BulkFileType.NPY
-)
-
-writer.commit()
 ```
 
 __PARAMETERS:__
@@ -91,4 +77,12 @@ def callback():
 
 writer.commit(call_back=callback)
 ```
+
+## Related classes and methods{#related-classes-and-methods}
+
+- [append_row()](./RemoteBulkWriter-append_row)
+
+- [AzureConnectParam](./RemoteBulkWriter-AzureConnectParam)
+
+- [S3ConnectParam](./RemoteBulkWriter-S3ConnectParam)
 

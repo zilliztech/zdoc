@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation describes a specific index.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.describe_index(
+describe_index(
     collection_name: str,
     index_name: str,
     timeout: Optional[float] = None
@@ -63,11 +63,13 @@ A dictionary that contains the details of the specified index.
 }
 ```
 
-PARAMETERS:
+__PARAMETERS:__
 
 - __index_type__ (_str_) -
 
-    The algorithm that is used to build the index. For details, refer to [In-memory Index](https://milvus.io/docs/index.md), [On-disk Index](https://milvus.io/docs/disk_index.md) and [Scalar Index](https://milvus.io/docs/scalar_index.md).
+    The algorithm that is used to build the index. 
+
+    On Zilliz Cloud, the value is always __AUTOINDEX__. For details, refer to [AUTOINDEX Explained](./autoindex-explained).
 
 - __metric_type__ (_str_) -
 
@@ -95,8 +97,8 @@ __EXCEPTIONS:__
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 1. Create schema
@@ -115,8 +117,7 @@ index_params = Milvus.prepare_index_params()
 # 4. Add indexes
 # - For a scalar field
 index_params.add_index(
-    field_name="my_id",
-    index_type="TRIE"
+    field_name="my_id"
 )
 
 # - For a vector field
@@ -162,4 +163,16 @@ client.describe_index(
 
 # {'field_name': 'my_id', 'index_name': 'my_id'}
 ```
+
+## Related methods{#related-methods}
+
+- [add_index()](./Management-add_index)
+
+- [create_index()](./Management-create_index)
+
+- [drop_index()](./Management-drop_index)
+
+- [list_indexes()](./Management-list_indexes)
+
+- [prepare_index_params()](./Management-prepare_index_params)
 

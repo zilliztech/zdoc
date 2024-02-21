@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation inserts or updates data in a specific collection.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.upsert(
+upsert(
     collection_name: str,
     data: Union[Dict, List[Dict]],
     timeout: Optional[float] = None,
@@ -116,8 +116,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -169,4 +169,16 @@ res = client.upsert(
 
 # {'upsert_count': 2}
 ```
+
+## Related methods{#related-methods}
+
+- [delete()](./Vector-delete)
+
+- [get()](./Vector-get)
+
+- [insert()](./Vector-insert)
+
+- [query()](./Vector-query)
+
+- [search()](./Vector-search)
 

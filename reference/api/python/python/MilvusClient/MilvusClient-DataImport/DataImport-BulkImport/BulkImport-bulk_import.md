@@ -12,10 +12,12 @@ import Admonition from '@theme/Admonition';
 
 # bulk_import()
 
-This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read [Prepare Data Import](./use-bulkwriter-for-data-import).
+This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read [Prepare Data Import](./prepare-data-import).
+
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.bulk_import(
+bulk_import(
     url: str,
     api_key: str,
     object_url: str,
@@ -24,34 +26,6 @@ pymilvus.bulk_import(
     cluster_id: str,
     collection_name: str,
     **kwargs,
-)
-```
-
-The following operations are related to `bulk_import()`:
-
-- get_import_progress()
-
-- list_import_jobs()
-
-- LocalBulkWriter
-
-- RemoteBulkWriter
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import bulk_import
-
-response = bulk_import(
-    url='string',
-    api_key='string',
-    object_url='string',
-    access_key='string',
-    secret_key='string',
-    cluster_id='string',
-    collection_name='string'
 )
 ```
 
@@ -147,6 +121,43 @@ None
 ## Examples{#examples}
 
 ```python
+from pymilvus import bulk_import
 
+CLOUD_REGION = ""    # Cloud region ID of the target Zilliz Cloud cluster
+API_KEY = ""         # A Zilliz Cloud API Key with sufficient permissions
+OBJECT_URL = ""      # URL of the data file to import in a remote bucket
+ACCESS_KEY = ""      # Access key used to access the remote bucket
+SECRET_KEY = ""      # Secure keys used to access the remote bucket
+CLUSTER_ID = ""      # ID of the Zilliz Cloud target cluster
+COLLECTION_NAME = "" # Name of the target collection in the specified Zilliz Cloud cluster
+
+res = bulk_import(
+    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
+    api_key=API_KEY,
+    object_url=OBJECT_URL,
+    access_key=ACCESS_KEY,
+    secret_key=SECRET_KEY,
+    cluster_id=CLUSTER_ID,
+    collection_name=COLLECTION_NAME
+)
+
+print(res.json())
+
+_# Output_
+_#_
+_# {_
+_#     "code": 200,_
+_#     "data": {_
+_#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a"_
+_#     }_
+_# }_
 ```
+
+For details, refer to [Import Data (SDK)](./import-data-via-sdks) in our user guides.
+
+## Related methods{#related-methods}
+
+- [get_import_progress()](./BulkImport-get_import_progress)
+
+- [list_import_jobs()](./BulkImport-list_import_jobs)
 

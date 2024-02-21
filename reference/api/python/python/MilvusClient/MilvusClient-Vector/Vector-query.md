@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation conducts a scalar filtering with a specified boolean expression.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.query(
+query(
     collection_name: str,
     filter: str,
     output_fields: Optional[List[str]] = None,
@@ -142,8 +142,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -216,4 +216,16 @@ res = client.query(
     graceful_time=6
 )
 ```
+
+## Related methods{#related-methods}
+
+- [delete()](./Vector-delete)
+
+- [get()](./Vector-get)
+
+- [insert()](./Vector-insert)
+
+- [search()](./Vector-search)
+
+- [upsert()](./Vector-upsert)
 

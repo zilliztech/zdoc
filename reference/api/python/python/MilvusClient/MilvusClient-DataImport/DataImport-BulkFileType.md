@@ -1,6 +1,6 @@
 ---
 displayed_sidbar: pythonSidebar
-slug: /python/BulkImport-BulkFileType
+slug: /python/DataImport-BulkFileType
 beta: false
 notebook: false
 token: CROadSmHNoV2CuxREnccTkaen0e

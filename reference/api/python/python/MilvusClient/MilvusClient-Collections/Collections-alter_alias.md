@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation reassigns the alias of one collection to another.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.alter_alias(
+alter_alias(
     collection_name: str,
     alias: str,
     timeout: float | None
@@ -41,7 +41,7 @@ __PARAMETERS:__
     <Admonition type="info" icon="📘" title="What is a collection alias?">
 
     <p>A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. </p>
-    <p>In Zilliz Cloud, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
+    <p>On Zilliz Cloud, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
     <p>Below is an example of reassigning the alias of one collection to another:</p>
     <p>Suppose there are two collections: <code>collection_1</code> and <code>collection_2</code>. There is also a collection alias named <code>bob</code>, which was originally assigned to <code>collection_1</code>:</p>
     <ul>
@@ -58,7 +58,9 @@ __PARAMETERS:__
 
 - __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. 
+
+    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
 __RETURN TYPE:__
 
@@ -81,8 +83,8 @@ from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create two collections
@@ -95,4 +97,14 @@ client.create_alias(collection_name="test_collection_1", alias="test")
 # 4. Reassign the alias to the other collection
 client.alter_alias(collection="test_collection_2", alias="test")
 ```
+
+## Related methods{#related-methods}
+
+- [create_alias()](./Collections-create_alias)
+
+- [describe_alias()](./Collections-describe_alias)
+
+- [drop_alias()](./Collections-drop_alias)
+
+- [list_aliases()](./Collections-list_aliases)
 

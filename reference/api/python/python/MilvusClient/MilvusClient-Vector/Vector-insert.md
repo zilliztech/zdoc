@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation inserts data into a specific collection.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.insert(
+insert(
     collection_name: str,
     data: Union[Dict, List[Dict]],
     timeout: Optional[float] = None,
@@ -83,7 +83,9 @@ __PARAMETERS:__
 
 - __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. 
+
+    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
 - __partition_name__ (_string _|_ None_) -
 
@@ -100,7 +102,7 @@ __RETURNS:__
 A dictionary contains information about the number of inserted entities.
 
 ```python
-{'insert_count': 10}
+{'insert_count': 0}
 ```
 
 __EXCEPTIONS:__
@@ -116,8 +118,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -169,4 +171,16 @@ res = client.insert(
 
 # {'insert_count': 2}
 ```
+
+## Related methods{#related-methods}
+
+- [delete()](./Vector-delete)
+
+- [get()](./Vector-get)
+
+- [query()](./Vector-query)
+
+- [search()](./Vector-search)
+
+- [upsert()](./Vector-upsert)
 

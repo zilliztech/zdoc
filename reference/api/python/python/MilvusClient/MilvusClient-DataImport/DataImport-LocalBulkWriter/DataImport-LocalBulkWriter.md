@@ -41,7 +41,7 @@ writer = LocalBulkWriter(
 
 __PARAMETERS:__
 
-- __schema__ (_CollectionSchema_) -
+- __schema__ (_CollectionSchema_[](./PyMilvusLegacy-CollectionSchema)_) -
 
     __[REQUIRED]__
 
@@ -59,13 +59,13 @@ __PARAMETERS:__
 
     While rewriting your raw data, Zilliz Cloud splits your raw data into segments.
 
-    The value defaults to 536,870,912 in bytes, which is 512 MB.
+    The value defaults to __536,870,912__ in bytes, which is __512__ MB.
 
-    <Admonition type="info" icon="📘" title="How does __BulkWriter__ segment my data?">
+    <Admonition type="info" icon="📘" title="How does BulkWriter segment my data?">
 
     <p>The way <strong>BulkWriter</strong> segments your data varies with the target file type.</p>
     <ul>
-    <li>_<em>JSON</em>RB _<em>or</em>_ Parquet__</li>
+    <li><strong>JSON_RB</strong> or <strong>Parquet</strong></li>
     </ul>
     <p>If the generated file exceeds the specified segment size, <strong>BulkWriter</strong> creates multiple files and names them in sequence numbers, each no larger than the segment size.</p>
     <ul>
@@ -75,11 +75,13 @@ __PARAMETERS:__
 
     </Admonition>
 
-- __file_type__ (_BulkFileType_) -
+- __file_type__ (_BulkFileType_[](./DataImport-BulkFileType)_) -
 
     The type of the output file.
 
-    The value defaults to __BulkFileType.NPY__. Possible options are __BulkFileType.NPY__ and __BulkFileType.JSON__.
+    The value defaults to __BulkFileType.NPY__. 
+
+    Possible options are __BulkFileType.NPY__, __BulkFileType.JSON_RB__ and __BulkFileType.PARQUET__.
 
 __RETURN TYPE:__
 
@@ -111,7 +113,9 @@ __EXCEPTIONS:__
 
 ## Methods{#methods}
 
-The following are the methods of the `LocalBulkWriter` class:
+The following are the methods of the __LocalBulkWriter__ class:
+
+
 
 import DocCardList from '@theme/DocCardList';
 

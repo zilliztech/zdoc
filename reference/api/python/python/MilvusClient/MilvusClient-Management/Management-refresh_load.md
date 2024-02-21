@@ -4,7 +4,7 @@ slug: /python/Management-refresh_load
 beta: false
 notebook: false
 token: X3NXdtC2koiAxyxhcUBcv38Wnsh
-sidebar_position: 8
+sidebar_position: 9
 ---
 
 import Admonition from '@theme/Admonition';
@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation refreshes the load status of an already loaded collection.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.refresh_load(
+refresh_load(
     collection_name: str,
     timeout: Optional[str] = None
 )
@@ -33,7 +33,9 @@ __PARAMETERS:__
 
 - __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. 
+
+    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
 __RETURN TYPE:__
 
@@ -56,8 +58,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -71,4 +73,12 @@ client.refresh_load(
     collection_name="test_collection"
 )
 ```
+
+## Related methods{#related-methods}
+
+- [get_load_state()](./Management-get_load_state)
+
+- [load_collection()](./Management-load_collection)
+
+- [release_collection()](./Management-release_collection)
 

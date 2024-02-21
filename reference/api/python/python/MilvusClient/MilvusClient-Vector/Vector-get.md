@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation gets specific entities by their IDs.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.get(
+get(
     collection_name: str,
     ids: Union[list, str, int],
     output_fields: Optional[List[str]] = None,
@@ -48,7 +48,9 @@ __PARAMETERS:__
 
 - __timeout__ (_float_ | _None_) -
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. 
+
+    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
 __RETURN TYPE:__
 
@@ -75,8 +77,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -113,4 +115,16 @@ res = client.get(
     ids=[2, 5, 8]
 )
 ```
+
+## Related methods{#related-methods}
+
+- [delete()](./Vector-delete)
+
+- [insert()](./Vector-insert)
+
+- [query()](./Vector-query)
+
+- [search()](./Vector-search)
+
+- [upsert()](./Vector-upsert)
 

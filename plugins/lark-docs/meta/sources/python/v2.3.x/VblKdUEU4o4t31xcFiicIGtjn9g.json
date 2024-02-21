@@ -1,6 +1,6 @@
 {
   "created_time": "1706696499",
-  "modified_time": "1707112199",
+  "modified_time": "1708506618",
   "name": "release_partitions()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "YpEjf83y1lvvzxd31BqcvQmknEd",
@@ -28,8 +28,19 @@
           "Mtqbd0zDYoW6UgxxG4scqwjxn3d",
           "NQzndmn48olzDoxRtUZcx5eHnWb",
           "Vcesdut3foQwCHx7A0hcHikInYe",
+          "NuqudjXxEorVzvx0I3xcN4XnnFe",
           "Tsvgdf1JWoAe8CxFWaBcj9LOntd",
-          "JzLbduDsUoa4PxxgD2wcDIyFnTc"
+          "JzLbduDsUoa4PxxgD2wcDIyFnTc",
+          "AoYJd798OoR74exsXrkcjyFHnjb",
+          "E4Aeds7ktoFqFnxBsAwc81E8n9d",
+          "J0hDdREMDo8QWwxFTjacKKWBnbf",
+          "BfJfdBU5xo6RPnxHD3zcKrVPnfg",
+          "Ii2fdTjNmo8IaoxTYejcSYRrnSf",
+          "KYqXdlRyPobslEx5B1kc59BinFI",
+          "U8vOd0hWDoVdSSxIbBJcDlvinec",
+          "KUrAdSh2KoJfDcx8p0IcZYZAnbh",
+          "DUzSdipoRoeMddxPqaxcwKZ1nbh",
+          "MlnPdedVqoFVsrxxLbFcVGSUnxh"
         ],
         "page": {
           "elements": [
@@ -84,7 +95,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Request Syntax",
+                "content": "Request syntax",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -109,7 +120,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "pymilvus.MilvusClient.release_partitions(\n    collection_name: str,\n    partition_names: str | List[str],\n    timeout: Optional[float] = None\n",
+                "content": "release_partitions(\n    collection_name: str,\n    partition_names: str | List[str],\n    timeout: Optional[float] = None\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -478,7 +489,8 @@
           }
         },
         "children": [
-          "E2C7d5k2DoUGqLxEMafcH3uHnLh"
+          "E2C7d5k2DoUGqLxEMafcH3uHnLh",
+          "RDWwdqKVroM71LxD2z6cJ881noh"
         ],
         "parent_id": "VblKdUEU4o4t31xcFiicIGtjn9g"
       },
@@ -490,7 +502,32 @@
           "elements": [
             {
               "text_run": {
-                "content": "The timeout duration for this operation. Setting this to ",
+                "content": "The timeout duration for this operation. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RDWwdqKVroM71LxD2z6cJ881noh",
+        "block_type": 2,
+        "parent_id": "ItZmdk0nmodfYBxhNaPcQArxnEb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Setting this to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -678,7 +715,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "A collection is in the loaded state only if all its partitions are loaded.",
+                "content": "A collection is in the loaded state only if any or all of its partitions are loaded.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -799,6 +836,31 @@
         "parent_id": "VblKdUEU4o4t31xcFiicIGtjn9g"
       },
       {
+        "block_id": "NuqudjXxEorVzvx0I3xcN4XnnFe",
+        "block_type": 2,
+        "parent_id": "VblKdUEU4o4t31xcFiicIGtjn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "Tsvgdf1JWoAe8CxFWaBcj9LOntd",
         "block_type": 14,
         "code": {
@@ -885,7 +947,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "",
+                "content": "</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -901,9 +963,289 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "AoYJd798OoR74exsXrkcjyFHnjb",
+        "block_type": 2,
+        "parent_id": "VblKdUEU4o4t31xcFiicIGtjn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "E4Aeds7ktoFqFnxBsAwc81E8n9d",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection and get its load status\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\nclient.get_load_state(\n    collection_name=\"test_collection\"\n)\n\n# {'state': <LoadState: Loaded>}\n\n# 3. Create a partition\nclient.create_partition(\n    collection_name=\"test_collection\", \n    partition_name=\"partition_A\"\n)\n\n# 4. Check the load status of the partition\nclient.get_load_state(\n    collection_name=\"test_collection\",\n    partition_names=[\"partition_A\"],\n)\n\n# {'state': <LoadState: Loaded>}\n\n# 5. Release the partition\nclient.release_partitions(\n    collection_name=\"test_collection\",\n    partition_names=[\"partition_A\"]\n)\n\n# 6. Check the load status\nclient.get_load_state(\n    collection_name=\"test_collection\",\n    partition_names=[\"partition_A\"]\n)\n\n# {'state': <LoadState: NotLoad>}\n\nclient.get_load_state(\n    collection_name=\"test_collection\"\n)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# {'state': <LoadState: NotLoad>}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VblKdUEU4o4t31xcFiicIGtjn9g"
+      },
+      {
+        "block_id": "J0hDdREMDo8QWwxFTjacKKWBnbf",
+        "block_type": 2,
+        "parent_id": "VblKdUEU4o4t31xcFiicIGtjn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BfJfdBU5xo6RPnxHD3zcKrVPnfg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related methods",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VblKdUEU4o4t31xcFiicIGtjn9g"
+      },
+      {
+        "block_id": "Ii2fdTjNmo8IaoxTYejcSYRrnSf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "create_partition()",
+                "token": "I6hvdlYUuoUaw3xWqSnce4Fin9g",
+                "url": "https://zilliverse.feishu.cn/docx/I6hvdlYUuoUaw3xWqSnce4Fin9g"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VblKdUEU4o4t31xcFiicIGtjn9g"
+      },
+      {
+        "block_id": "KYqXdlRyPobslEx5B1kc59BinFI",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "drop_partition()",
+                "token": "EMI8dM8uooIAFPxVfffcoqRwnZf",
+                "url": "https://zilliverse.feishu.cn/docx/EMI8dM8uooIAFPxVfffcoqRwnZf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VblKdUEU4o4t31xcFiicIGtjn9g"
+      },
+      {
+        "block_id": "U8vOd0hWDoVdSSxIbBJcDlvinec",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "get_partition_stats()",
+                "token": "Jjbsd2I8doQ9pBxBp57ckRdZnZd",
+                "url": "https://zilliverse.feishu.cn/docx/Jjbsd2I8doQ9pBxBp57ckRdZnZd"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VblKdUEU4o4t31xcFiicIGtjn9g"
+      },
+      {
+        "block_id": "KUrAdSh2KoJfDcx8p0IcZYZAnbh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "has_partition()",
+                "token": "MxTAd0haboKnRrxQvoOckGghn1T",
+                "url": "https://zilliverse.feishu.cn/docx/MxTAd0haboKnRrxQvoOckGghn1T"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VblKdUEU4o4t31xcFiicIGtjn9g"
+      },
+      {
+        "block_id": "DUzSdipoRoeMddxPqaxcwKZ1nbh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "list_partitions()",
+                "token": "Dxgqdvlk5o2VScxqmL1ctc1Inqb",
+                "url": "https://zilliverse.feishu.cn/docx/Dxgqdvlk5o2VScxqmL1ctc1Inqb"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VblKdUEU4o4t31xcFiicIGtjn9g"
+      },
+      {
+        "block_id": "MlnPdedVqoFVsrxxLbFcVGSUnxh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "load_partitions()",
+                "token": "DdQ1dBNagoBa08xhEiucxZrHnzc",
+                "url": "https://zilliverse.feishu.cn/docx/DdQ1dBNagoBa08xhEiucxZrHnzc"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VblKdUEU4o4t31xcFiicIGtjn9g"
       }
     ],
-    "counts": 26
+    "counts": 38
   },
   "slug": "Partitions-release_partitions"
 }

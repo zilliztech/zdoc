@@ -1,7 +1,7 @@
 {
   "created_time": "1704445630",
-  "modified_time": "1708326740",
-  "name": "ConnectParam",
+  "modified_time": "1708501892",
+  "name": "S3ConnectParam",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "Yhy1fHTMnlLKvydKzsIcnfPdnmb",
   "token": "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
@@ -35,15 +35,13 @@
           "LJzIdJIRKoj3wDxYZVmc848mnVe",
           "Tb6Wd2FwNoYmKkx8hqxcwjHOnth",
           "JLxudhOXZoHhBLx5PY3cg6tNnBc",
-          "MaSZdWRmpoaL69xqAJEcjCC8nbc",
-          "BMd8dzAI9oxVtfxRGk7c2uamn6c",
           "UQPxdAZSMoPzrKxQbUdc6fTFnHe"
         ],
         "page": {
           "elements": [
             {
               "text_run": {
-                "content": "ConnectParam",
+                "content": "S3ConnectParam",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -68,7 +66,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "A ",
+                "content": "An ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -80,7 +78,7 @@
             },
             {
               "text_run": {
-                "content": "ConnectParam",
+                "content": "S3ConnectParam",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -140,7 +138,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "class pymilvus.RemoteBulkWriter.ConnectParam",
+                "content": "class pymilvus.RemoteBulkWriter.S3ConnectParam",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -191,7 +189,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Constructs a ",
+                "content": "Constructs an ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -203,7 +201,7 @@
             },
             {
               "text_run": {
-                "content": "ConnectParam",
+                "content": "S3ConnectParam",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -352,7 +350,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "A ",
+                "content": "An ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -364,7 +362,7 @@
             },
             {
               "text_run": {
-                "content": "ConnectParam",
+                "content": "S3ConnectParam",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -449,7 +447,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from urllib3.poolmanager import PoolManager\nfrom minio.credentials import Provider\nfrom pymilvus.RemoteBulkWriter import ConnectParam\n\nconnect_param = ConnectParam(\n    bucket_name=\"string\",\n    endpoint=\"string\",\n    access_key=\"string\",\n    secret_key=\"string\",\n    secure=False,\n    session_token=\"string\",\n    region=\"str\",\n    http_client=PoolManager(),\n    credentials=Provider()\n",
+                "content": "from urllib3.poolmanager import PoolManager\nfrom minio.credentials import Provider\nfrom pymilvus.RemoteBulkWriter import S3ConnectParam\n\nconnect_param = S3ConnectParam(\n    bucket_name=\"string\",\n    endpoint=\"string\",\n    access_key=\"string\",\n    secret_key=\"string\",\n    secure=False,\n    session_token=\"string\",\n    region=\"str\",\n    http_client=PoolManager(),\n    credentials=Provider()\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1916,80 +1914,6 @@
         }
       },
       {
-        "block_id": "MaSZdWRmpoaL69xqAJEcjCC8nbc",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Methods",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "CSpOd0XgWoVAhzx5xbVcpCVfnPg"
-      },
-      {
-        "block_id": "BMd8dzAI9oxVtfxRGk7c2uamn6c",
-        "block_type": 2,
-        "parent_id": "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The following are the methods of the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ConnectParam",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " class:",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
         "block_id": "UQPxdAZSMoPzrKxQbUdc6fTFnHe",
         "block_type": 2,
         "parent_id": "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
@@ -2015,7 +1939,7 @@
         }
       }
     ],
-    "counts": 53
+    "counts": 51
   },
-  "slug": "RemoteBulkWriter-ConnectParam"
+  "slug": "RemoteBulkWriter-S3ConnectParam"
 }

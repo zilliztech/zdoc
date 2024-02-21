@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation displays whether a specified collection or partition is loaded or not.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.get_load_state(
+get_load_state(
     collection_name: str,
     partition_name: Optional[str] = "",
     timeout: Optional[float] = None
@@ -50,7 +50,7 @@ A dictionary that contains the status of the specified collection or partition.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A collection is in the loaded state only if all its partitions are loaded.</p>
+<p>A collection is in the loaded state if any or all of its partitions are loaded.</p>
 
 </Admonition>
 
@@ -67,8 +67,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -83,7 +83,7 @@ client.get_load_state(collection_name="quick_setup")
 client.release_collection(collection_name="quick_setup")
 client.get_load_state(collection_name="quick_setup") 
 
-# {'state': <LoadState: NotLoaded>}
+# {'state': <LoadState: NotLoad>}
 
 # 5. Create a partition
 client.create_partition(
@@ -99,7 +99,7 @@ client.load_partitions(
 
 client.get_load_state(collection_name="quick_setup") 
 
-# {'state': <LoadState: NotLoaded>}
+# {'state': <LoadState: Loaded>}
 
 client.get_load_state(
     collection_name="quick_setup",
@@ -108,3 +108,12 @@ client.get_load_state(
 
 # {'state': <LoadState: Loaded>}
 ```
+
+## Related methods{#related-methods}
+
+- [load_collection()](./Management-load_collection)
+
+- [refresh_load()](./Management-refresh_load)
+
+- [release_collection()](./Management-release_collection)
+

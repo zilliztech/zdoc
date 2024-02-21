@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation lists all indexes of a specific collection.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.list_indexes(
+list_indexes(
     collection_name: str,
     index_name: Optional[str],
     **kwargs,    
@@ -56,8 +56,8 @@ __EXCEPTIONS:__
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 1. Create schema
@@ -76,8 +76,7 @@ index_params = Milvus.prepare_index_params()
 # 4. Add indexes
 # - For a scalar field
 index_params.add_index(
-    field_name="my_id",
-    index_type="TRIE"
+    field_name="my_id"
 )
 
 # - For a vector field
@@ -103,4 +102,16 @@ client.list_indexes(collection_name="customized_setup")
 
 # ['_default_idx_101', '_default_idx_100']
 ```
+
+## Related methods{#related-methods}
+
+- [add_index()](./Management-add_index)
+
+- [create_index()](./Management-create_index)
+
+- [describe_index()](./Management-describe_index)
+
+- [drop_index()](./Management-drop_index)
+
+- [prepare_index_params()](./Management-prepare_index_params)
 

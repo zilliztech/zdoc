@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation loads a specific set of partitions in a specified collection into memory.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.load_partitions(
+load_partitions(
     collection_name: str,
     partition_names: str | List[str],
     timeout: Optional[float] = None
@@ -52,7 +52,7 @@ None
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A collection is in the loaded state only if all its partitions are loaded.</p>
+<p>A collection is in the loaded state only if any or all of its partitions are loaded.</p>
 
 </Admonition>
 
@@ -69,8 +69,8 @@ from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -94,7 +94,7 @@ client.load_partitions(
 # 6. Check the load status of the collection
 client.get_load_state(collection_name="test_collection") 
 
-# {'state': <LoadState: NotLoad>}
+# {'state': <LoadState: Loaded>}
 
 # 7. Check the load status of the partition
 client.get_load_state(
@@ -104,4 +104,18 @@ client.get_load_state(
 
 # {'state': <LoadState: Loaded>}
 ```
+
+## Related methods{#related-methods}
+
+- [create_partition()](./Partitions-create_partition)
+
+- [drop_partition()](./Partitions-drop_partition)
+
+- [get_partition_stats()](./Partitions-get_partition_stats)
+
+- [has_partition()](./Partitions-has_partition)
+
+- [list_partitions()](./Partitions-list_partitions)
+
+- [release_partitions()](./Partitions-release_partitions)
 

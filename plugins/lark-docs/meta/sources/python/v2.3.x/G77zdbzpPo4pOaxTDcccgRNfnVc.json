@@ -1,6 +1,6 @@
 {
   "created_time": "1704444729",
-  "modified_time": "1708356578",
+  "modified_time": "1708500474",
   "name": "RemoteBulkWriter",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "Yhy1fHTMnlLKvydKzsIcnfPdnmb",
@@ -467,6 +467,9 @@
                   "bold": false,
                   "inline_code": false,
                   "italic": true,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FWToudUwm4oVXeKxLg3jcj3IAnjh"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -697,6 +700,9 @@
                   "bold": false,
                   "inline_code": false,
                   "italic": true,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FCSpOd0XgWoVAhzx5xbVcpCVfnPg"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }

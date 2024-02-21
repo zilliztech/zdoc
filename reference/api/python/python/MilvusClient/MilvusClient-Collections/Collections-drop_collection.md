@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation drops a collection.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.drop_collection(collection_name: str) -> None
+drop_collection(collection_name: str) -> None
 ```
 
 __PARAMETERS:__
@@ -35,8 +35,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -54,4 +54,22 @@ client.drop_collection(collection_name="test_collection")
 # 5. List collections
 res = client.list_collections() # []
 ```
+
+## Related methods{#related-methods}
+
+- [create_collection()](./Collections-create_collection)
+
+- [create_schema()](./Collections-create_schema)
+
+- [describe_collection()](./Collections-describe_collection)
+
+- [get_collection_stats()](./Collections-get_collection_stats)
+
+- [has_collection()](./Collections-has_collection)
+
+- [list_collections()](./Collections-list_collections)
+
+- [rename_collection()](./Collections-rename_collection)
+
+- [DataType](./Collections-DataType)
 

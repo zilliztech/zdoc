@@ -1,6 +1,6 @@
 {
   "created_time": "1706692338",
-  "modified_time": "1708327016",
+  "modified_time": "1708480993",
   "name": "alter_alias()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -27,8 +27,17 @@
           "IYsLdS5OnoXWp4xQM69corHMnEf",
           "MDrvdXxdTo2rs1xzxumcfBE8nKd",
           "CjQednSrDoWkbsxfMd1cPVvmn1b",
+          "ESS8d47ppoiLmdxtYoFc4Spnnnd",
           "B8YLdA5JEop8Pkxpeedcz8nnnrd",
-          "IJaEdxHp7oqmjix0Ev8cNDconuf"
+          "IJaEdxHp7oqmjix0Ev8cNDconuf",
+          "NFVQdGRmXoZqQFxas4GcIHYZnVc",
+          "IKIOd4weAoS6QRxagC7cN64Pnmg",
+          "KzMDdwYbAobQKlxiKAMcVtAknuc",
+          "XaOadTXRgoPGVyxHQiZccRZUn8c",
+          "X3rfdtZytont4gx0kOWcTtGLnxh",
+          "LQ69dZlpRo21sgxhomvcFWHnn4e",
+          "FHTsdC8NTobuswxmEZ3cyl8DnBd",
+          "Azbcdw7QHo3rQdxPPuJcYPTznIy"
         ],
         "page": {
           "elements": [
@@ -83,7 +92,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Request Syntax",
+                "content": "Request syntax",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -108,7 +117,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "pymilvus.MilvusClient.alter_alias(\n    collection_name: str,\n    alias: str,\n    timeout: float | None\n",
+                "content": "alter_alias(\n    collection_name: str,\n    alias: str,\n    timeout: float | None\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -474,7 +483,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "In <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include>, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.",
+                "content": "<include target=\"milvus\">In Milvus</include><include target=\"zilliz\">On Zilliz Cloud</include>, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -918,7 +927,8 @@
           }
         },
         "children": [
-          "AhM1dmYOtoCbMkxgQJwcu9H8nUh"
+          "AhM1dmYOtoCbMkxgQJwcu9H8nUh",
+          "NIUWdy9ggobHkNxFtltcrB6znod"
         ],
         "parent_id": "CBc3d1mrdoYqmDxe4Kcc9zxAnzh"
       },
@@ -930,7 +940,32 @@
           "elements": [
             {
               "text_run": {
-                "content": "The timeout duration for this operation. Setting this to ",
+                "content": "The timeout duration for this operation. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NIUWdy9ggobHkNxFtltcrB6znod",
+        "block_type": 2,
+        "parent_id": "Wv7qdZHvVoh0oAxxYoPcdYE1nqf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Setting this to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1175,6 +1210,31 @@
         "parent_id": "CBc3d1mrdoYqmDxe4Kcc9zxAnzh"
       },
       {
+        "block_id": "ESS8d47ppoiLmdxtYoFc4Spnnnd",
+        "block_type": 2,
+        "parent_id": "CBc3d1mrdoYqmDxe4Kcc9zxAnzh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "B8YLdA5JEop8Pkxpeedcz8nnnrd",
         "block_type": 14,
         "code": {
@@ -1279,7 +1339,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "",
+                "content": "</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1295,9 +1355,233 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "NFVQdGRmXoZqQFxas4GcIHYZnVc",
+        "block_type": 2,
+        "parent_id": "CBc3d1mrdoYqmDxe4Kcc9zxAnzh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IKIOd4weAoS6QRxagC7cN64Pnmg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create two collections\nclient.create_collection(collection_name=\"test_collection_1\", dimension=5)\nclient.create_collection(collection_name=\"test_collection_2\", dimension=5)\n\n# 3. Create an alias for the collection\nclient.create_alias(collection_name=\"test_collection_1\", alias=\"test\")\n\n# 4. Reassign the alias to the other collection\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.alter_alias(collection=\"test_collection_2\", alias=\"test\")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "CBc3d1mrdoYqmDxe4Kcc9zxAnzh"
+      },
+      {
+        "block_id": "KzMDdwYbAobQKlxiKAMcVtAknuc",
+        "block_type": 2,
+        "parent_id": "CBc3d1mrdoYqmDxe4Kcc9zxAnzh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XaOadTXRgoPGVyxHQiZccRZUn8c",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related methods",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CBc3d1mrdoYqmDxe4Kcc9zxAnzh"
+      },
+      {
+        "block_id": "X3rfdtZytont4gx0kOWcTtGLnxh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "create_alias()",
+                "token": "Kqlodu0AWoefKvxczcxc1c36nlf",
+                "url": "https://zilliverse.feishu.cn/docx/Kqlodu0AWoefKvxczcxc1c36nlf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CBc3d1mrdoYqmDxe4Kcc9zxAnzh"
+      },
+      {
+        "block_id": "LQ69dZlpRo21sgxhomvcFWHnn4e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "describe_alias()",
+                "token": "HN7nddgueo3scIxmPXAcpjkFnDf",
+                "url": "https://zilliverse.feishu.cn/docx/HN7nddgueo3scIxmPXAcpjkFnDf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CBc3d1mrdoYqmDxe4Kcc9zxAnzh"
+      },
+      {
+        "block_id": "FHTsdC8NTobuswxmEZ3cyl8DnBd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "drop_alias()",
+                "token": "FpWXdmIuforYz9xUCsqclyCXnLe",
+                "url": "https://zilliverse.feishu.cn/docx/FpWXdmIuforYz9xUCsqclyCXnLe"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CBc3d1mrdoYqmDxe4Kcc9zxAnzh"
+      },
+      {
+        "block_id": "Azbcdw7QHo3rQdxPPuJcYPTznIy",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "list_aliases()",
+                "token": "Cpynd2OFJoIXhLx3dQNct7Wgn6f",
+                "url": "https://zilliverse.feishu.cn/docx/Cpynd2OFJoIXhLx3dQNct7Wgn6f"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "CBc3d1mrdoYqmDxe4Kcc9zxAnzh"
       }
     ],
-    "counts": 34
+    "counts": 44
   },
   "slug": "Collections-alter_alias"
 }

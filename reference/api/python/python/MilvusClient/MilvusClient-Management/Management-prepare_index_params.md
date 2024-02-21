@@ -4,7 +4,7 @@ slug: /python/Management-prepare_index_params
 beta: false
 notebook: false
 token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
-sidebar_position: 7
+sidebar_position: 8
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,7 +20,7 @@ This operation prepares index parameters build indexes for a specific collection
 
 </Admonition>
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
 pymilvus.MilvusClient.prepare_index_params() -> IndexParams
@@ -83,4 +83,14 @@ from pymilvus import MilvusClient
 
 index_params = MilvusClient.prepare_index_params()
 ```
+
+- [add_index()](./Management-add_index)
+
+- [create_index()](./Management-create_index)
+
+- [describe_index()](./Management-describe_index)
+
+- [drop_index()](./Management-drop_index)
+
+- [list_indexes()](./Management-list_indexes)
 

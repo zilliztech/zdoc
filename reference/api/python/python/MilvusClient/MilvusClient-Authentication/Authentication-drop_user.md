@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation drops a user.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.drop_user(
+drop_user(
     user_name: str,
     timeout: Optional[float] = None
 )
@@ -33,7 +33,9 @@ __PARAMETERS:__
 
 - __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. 
+
+    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
 __RETURN TYPE:__
 
@@ -60,8 +62,8 @@ from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a user
@@ -70,4 +72,14 @@ client.create_user(user_name="user_1", password="P@ssw0rd")
 # 3. Drop the user
 client.drop_user(user_name="user_1")
 ```
+
+## Related methods{#related-methods}
+
+- [create_user()](./Authentication-create_user)
+
+- [describe_user()](./Authentication-describe_user)
+
+- [list_users()](./Authentication-list_users)
+
+- [update_password()](./Authentication-update_password)
 

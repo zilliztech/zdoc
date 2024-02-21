@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation deletes entities by their IDs or with a boolean expression.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.delete(
+delete(
     collection_name: str,
     ids: Optional[Union[list, str, int]] = None,
     timeout: Optional[float] = None,
@@ -44,7 +44,9 @@ __PARAMETERS:__
 
 - __timeout__ (_float_ | _None_) -
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. 
+
+    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
 - __filter__ (_str_) -
 
@@ -89,8 +91,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -128,4 +130,16 @@ client.delete(
     filter="ids in [1, 8, 9] and color like 'b%'"
 )
 ```
+
+## Related methods{#related-methods}
+
+- [get()](./Vector-get)
+
+- [insert()](./Vector-insert)
+
+- [query()](./Vector-query)
+
+- [search()](./Vector-search)
+
+- [upsert()](./Vector-upsert)
 

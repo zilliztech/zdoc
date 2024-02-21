@@ -346,12 +346,36 @@ const config = {
     }],
     'docusaurus-theme-frontmatter',
   ],
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossorigin: 'true',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel:'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap'
+      }
+    }
+  ],
   scripts: [
     {
       src: '/js/cookieconsent.js',
       async: true,
     },
-    '/js/zilliz.js',
+    '/js/zilliz.js'
   ],
   stylesheets: ['/css/cookieconsent.css'],
 };

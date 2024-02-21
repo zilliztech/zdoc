@@ -1,6 +1,6 @@
 {
   "created_time": "1705563350",
-  "modified_time": "1706697724",
+  "modified_time": "1708503702",
   "name": "add_index()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "IZKcfUEfClhhnWdFhk2co7krnAV",
@@ -27,7 +27,18 @@
           "S9Q3dBrQfoZoVXx6O9kcHfq7nHh",
           "XqKZdVQfSoSKCUxNfaVc8iulnsc",
           "JfjDdi5lxokW1Sx8URLco7bInxe",
-          "JMJ0dUVydoluz5x3Ku2cP4jtnQd"
+          "Cc8Fdv3awocjwqxHpSyc9zpYntc",
+          "JMJ0dUVydoluz5x3Ku2cP4jtnQd",
+          "ETHLdAGKwoQ316xwfU3cEfpinPh",
+          "Xg1gdAh4doYq7cxiwipcGRaZn7e",
+          "UjrtdAp07oG2bRxXl4Ccyophn4d",
+          "F9oddzigDoWTkUx0EOJcV7Exndd",
+          "HW9qdPBJnoXG1jxYcaccYSzanXe",
+          "BGKGdLSkWo3l18x98z6calEmnAh",
+          "WQJmdPbx2ooSfZxNqP7cQfgZnpb",
+          "PHcMdBiEAoGC0OxjolocRp4Wn3e",
+          "A9o0deDKWoDQ55xoR6EcStt8njK",
+          "ZVTIdWbTBosfyAxbAD9c7EbInGb"
         ],
         "page": {
           "elements": [
@@ -82,7 +93,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Request Syntax",
+                "content": "Request syntax",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -107,7 +118,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "pymilvus.milvus_client.index.IndexParams.add_index(\n    field_name: str,\n    index_type: str,\n    index_name: str\n",
+                "content": "IndexParams.add_index(\n    field_name: str,\n    index_type: str,\n    index_name: str\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -738,13 +749,38 @@
         "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd"
       },
       {
+        "block_id": "Cc8Fdv3awocjwqxHpSyc9zpYntc",
+        "block_type": 2,
+        "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "JMJ0dUVydoluz5x3Ku2cP4jtnQd",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient, DataType\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\n# - For a scalar field\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"AUTOINDEX\"\n)\n\n# - For a vector field\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n",
+                "content": "from pymilvus import MilvusClient, DataType\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\n# - For a scalar field\nindex_params.add_index(\n    field_name=\"my_id\"\n)\n\n# - For a vector field\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -773,9 +809,286 @@
           }
         },
         "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd"
+      },
+      {
+        "block_id": "ETHLdAGKwoQ316xwfU3cEfpinPh",
+        "block_type": 2,
+        "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Xg1gdAh4doYq7cxiwipcGRaZn7e",
+        "block_type": 2,
+        "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UjrtdAp07oG2bRxXl4Ccyophn4d",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient, DataType\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\n# - For a scalar field\nindex_params.add_index(\n    field_name=\"my_id\"\n)\n\n# - For a vector field\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"IVF_FLAT\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd"
+      },
+      {
+        "block_id": "F9oddzigDoWTkUx0EOJcV7Exndd",
+        "block_type": 2,
+        "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HW9qdPBJnoXG1jxYcaccYSzanXe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related methods",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd"
+      },
+      {
+        "block_id": "BGKGdLSkWo3l18x98z6calEmnAh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "create_index()",
+                "token": "B3n3db0idoia02xXxJfcONK8nRh",
+                "url": "https://zilliverse.feishu.cn/docx/B3n3db0idoia02xXxJfcONK8nRh"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd"
+      },
+      {
+        "block_id": "WQJmdPbx2ooSfZxNqP7cQfgZnpb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "describe_index()",
+                "token": "WhsHdyIgyoFlsQxNJt9cFCTxnDe",
+                "url": "https://zilliverse.feishu.cn/docx/WhsHdyIgyoFlsQxNJt9cFCTxnDe"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd"
+      },
+      {
+        "block_id": "PHcMdBiEAoGC0OxjolocRp4Wn3e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "drop_index()",
+                "token": "NPnQdZCJ7oF002xTntecdI2ini8",
+                "url": "https://zilliverse.feishu.cn/docx/NPnQdZCJ7oF002xTntecdI2ini8"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd"
+      },
+      {
+        "block_id": "A9o0deDKWoDQ55xoR6EcStt8njK",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "list_indexes()",
+                "token": "ZqmudJWyFonUKGxAxXncYrLZn2e",
+                "url": "https://zilliverse.feishu.cn/docx/ZqmudJWyFonUKGxAxXncYrLZn2e"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd"
+      },
+      {
+        "block_id": "ZVTIdWbTBosfyAxbAD9c7EbInGb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "prepare_index_params()",
+                "token": "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
+                "url": "https://zilliverse.feishu.cn/docx/CAzpdAw3wo4ZqrxhjTLcEGBBn1S"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd"
       }
     ],
-    "counts": 20
+    "counts": 31
   },
   "slug": "Management-add_index"
 }

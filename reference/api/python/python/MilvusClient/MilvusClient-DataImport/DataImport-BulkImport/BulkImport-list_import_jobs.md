@@ -14,6 +14,8 @@ import Admonition from '@theme/Admonition';
 
 This operation lists all bulk-import jobs of a specific cluster.
 
+## Request syntax{#request-syntax}
+
 ```python
 list_import_jobs(
     url: str,
@@ -23,32 +25,6 @@ list_import_jobs(
     current_page: int,
     **kwargs,
 ) -> requests.Response
-```
-
-The following operations are related to `list_import_jobs()`:
-
-- bulk-import()
-
-- get_import_progress()
-
-- LocalBulkWriter
-
-- RemoteBulkWriter
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import list_import_jobs
-
-list_import_jobs(
-    url="string",
-    api_key="string",
-    cluster_id="string",
-    page_size=int,
-    current_page=int,
-)
 ```
 
 __PARAMETERS:__
@@ -162,5 +138,47 @@ None
 ## Examples{#examples}
 
 ```python
+from pymilvus import list_import_jobs
 
+res = list_import_jobs(
+    url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
+    api_key=API_KEY,
+    cluster_id=CLUSTER_ID,
+    page_size=10,
+    current_page=1,
+)
+
+print(res.json())
+
+_# Output_
+_#_
+_# {_
+_#     "code": 200,_
+_#     "data": {_
+_#         "tasks": [_
+_#             {_
+_#                 "collectionName": "medium_articles",_
+_#                 "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a",_
+_#                 "state": "ImportCompleted"_
+_#             },_
+_#             {_
+_#                 "collectionName": "medium_articles",_
+_#                 "jobId": "53632e6c-c078-4476-b840-10c4793d9c08",_
+_#                 "state": "ImportCompleted"_
+_#             },_
+_#         ],_
+_#         "count": 2,_
+_#         "currentPage": 1,_
+_#         "pageSize": 10_
+_#     }_
+_# }_
 ```
+
+For details, refer to [Import Data (SDK)](./import-data-via-sdks) in our user guides.
+
+## Related methods{#related-methods}
+
+- [bulk_import()](./BulkImport-bulk_import)
+
+- [get_import_progress()](./BulkImport-get_import_progress)
+

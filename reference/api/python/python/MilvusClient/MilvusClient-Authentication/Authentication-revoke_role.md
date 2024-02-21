@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation revokes the role assigned to a user.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.revoke_role(
+revoke_role(
     user_name: str,
     role_name: str,
     timeout: Optional[float] = None
@@ -40,7 +40,9 @@ __PARAMETERS:__
 
 - __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. 
+
+    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
 __RETURN TYPE:__
 
@@ -67,8 +69,8 @@ from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a role
@@ -83,4 +85,12 @@ client.grant_role(user_name="user_1", role_name="read_only")
 # 5. Revoke the role from the user
 client.revoke_role(user_name="user_1", role_name="read_only")
 ```
+
+## Related methods{#related-methods}
+
+- [describe_role()](./Authentication-describe_role)
+
+- [grant_role()](./Authentication-grant_role)
+
+- [list_roles()](./Authentication-list_roles)
 

@@ -998,7 +998,7 @@ class larkDocWriter {
             url = new URL(url);
             const token = url.pathname.split('/').pop();
             const header = url.hash.slice(1);
-            const key = url.pathname.split('/')[1] === 'wiki' ? 'origin_node_token' : 'obj_token';
+            const key = url.pathname.split('/')[1] === 'wiki' ? 'origin_node_token' : 'token'; // TODO
             const page = this.__fetch_doc_source(key, token);
 
             if (page) {

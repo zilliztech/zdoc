@@ -1,6 +1,6 @@
 {
   "created_time": "1706703537",
-  "modified_time": "1707112235",
+  "modified_time": "1708506675",
   "name": "refresh_load()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "IZKcfUEfClhhnWdFhk2co7krnAV",
@@ -26,8 +26,16 @@
           "ZQHEdUAbto8JemxRI7pcEWDMnlh",
           "DBA9dny9ZoOM5Lx0AvRcJjwlnBd",
           "CGiSdfxpcoHZSaxFXtHcUghgnaf",
+          "WpqZdSNHko13y2xz7CMcX1Vhn2b",
           "GGpvdqbZRotbZ4xQfljctbsNnKc",
-          "RxyndYNJqokEF7xIEdIckw5jnvg"
+          "RxyndYNJqokEF7xIEdIckw5jnvg",
+          "PoeOdn2XiozaGZxFt9xcz93cnqh",
+          "MH7MdJPhQowe49x6SHIc6O2HnTe",
+          "Bglld8Wl4oSlWBxAyvickveoned",
+          "PJ84d6haXoKHCIxq8NKcNYcQnuc",
+          "Ku86dLJZIoJXTRxLUjZcph24n3r",
+          "IaiIdYsAoo6PE9xHkLMcvGJRnsQ",
+          "Tz6PdRtwlo464vxy5QEcskDRnJb"
         ],
         "comment_ids": [
           "7330237905379524611"
@@ -88,7 +96,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Request Syntax",
+                "content": "Request syntax",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -113,7 +121,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "pymilvus.refresh_load(\n    collection_name: str,\n    timeout: Optional[str] = None\n",
+                "content": "refresh_load(\n    collection_name: str,\n    timeout: Optional[str] = None\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -367,7 +375,8 @@
           }
         },
         "children": [
-          "Wq5Pd0Yq4oocHexITNCc25LPnjb"
+          "Wq5Pd0Yq4oocHexITNCc25LPnjb",
+          "AxnJdqrLOoJx6Kxuibbcc6hAnkf"
         ],
         "parent_id": "X3NXdtC2koiAxyxhcUBcv38Wnsh"
       },
@@ -379,7 +388,32 @@
           "elements": [
             {
               "text_run": {
-                "content": "The timeout duration for this operation. Setting this to ",
+                "content": "The timeout duration for this operation. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AxnJdqrLOoJx6Kxuibbcc6hAnkf",
+        "block_type": 2,
+        "parent_id": "UhWEdKSfKotBzwxsJiPcM2fznIh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Setting this to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -624,6 +658,31 @@
         "parent_id": "X3NXdtC2koiAxyxhcUBcv38Wnsh"
       },
       {
+        "block_id": "WpqZdSNHko13y2xz7CMcX1Vhn2b",
+        "block_type": 2,
+        "parent_id": "X3NXdtC2koiAxyxhcUBcv38Wnsh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "GGpvdqbZRotbZ4xQfljctbsNnKc",
         "block_type": 14,
         "code": {
@@ -710,7 +769,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "",
+                "content": "</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -726,9 +785,205 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "PoeOdn2XiozaGZxFt9xcz93cnqh",
+        "block_type": 2,
+        "parent_id": "X3NXdtC2koiAxyxhcUBcv38Wnsh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MH7MdJPhQowe49x6SHIc6O2HnTe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient\n\n# 1. Set up a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection\nclient.create_collection(\n    collection_name=\"test_collection\",\n    dimension=5\n)\n\n# 3. Refresh the load status of the collection\nclient.refresh_load(\n    collection_name=\"test_collection\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "X3NXdtC2koiAxyxhcUBcv38Wnsh"
+      },
+      {
+        "block_id": "Bglld8Wl4oSlWBxAyvickveoned",
+        "block_type": 2,
+        "parent_id": "X3NXdtC2koiAxyxhcUBcv38Wnsh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PJ84d6haXoKHCIxq8NKcNYcQnuc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related methods",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "X3NXdtC2koiAxyxhcUBcv38Wnsh"
+      },
+      {
+        "block_id": "Ku86dLJZIoJXTRxLUjZcph24n3r",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "get_load_state()",
+                "token": "KEPYdKup1o3nHdxKbjvcQUzwnnd",
+                "url": "https://zilliverse.feishu.cn/docx/KEPYdKup1o3nHdxKbjvcQUzwnnd"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "X3NXdtC2koiAxyxhcUBcv38Wnsh"
+      },
+      {
+        "block_id": "IaiIdYsAoo6PE9xHkLMcvGJRnsQ",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "load_collection()",
+                "token": "FLmWdFP9Zo3JcixOEgucU8JMnLc",
+                "url": "https://zilliverse.feishu.cn/docx/FLmWdFP9Zo3JcixOEgucU8JMnLc"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "X3NXdtC2koiAxyxhcUBcv38Wnsh"
+      },
+      {
+        "block_id": "Tz6PdRtwlo464vxy5QEcskDRnJb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "release_collection()",
+                "token": "PRR7dRfi8o1s61xFRovccAdRnHe",
+                "url": "https://zilliverse.feishu.cn/docx/PRR7dRfi8o1s61xFRovccAdRnHe"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "X3NXdtC2koiAxyxhcUBcv38Wnsh"
       }
     ],
-    "counts": 20
+    "counts": 29
   },
   "slug": "Management-refresh_load"
 }

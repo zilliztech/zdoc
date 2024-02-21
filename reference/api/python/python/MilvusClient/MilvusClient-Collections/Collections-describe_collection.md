@@ -17,7 +17,7 @@ This operation lists detailed information about a specific collection.
 ## Request Syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.describe_collection(
+describe_collection(
     collection_name: str, 
     **kwargs
 ) -> Name
@@ -37,7 +37,9 @@ __PARAMETERS:__
 
     - __timeout__ (_float _|_ None_)  
 
-        The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+        The timeout duration for this operation. 
+
+        Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
 __RETURN TYPE:__
 
@@ -129,8 +131,6 @@ __PARAMETERS:__
 
         - For FLOAT_VECTOR fields, __dim__ (_int_) is a possible attribute, which determines the number of vector embeddings in the value of the current field.
 
-    - __element_type__ (_int_)
-
     - __is_primary__ (_bool_)
 
         Whether the current field serves as the primary key of the collection.
@@ -176,8 +176,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -221,3 +221,22 @@ client.describe_collection(collection_name="test_collection")
 #      'enable_dynamic_field': True
 # }
 ```
+
+## Related methods{#related-methods}
+
+- [create_collection()](./Collections-create_collection)
+
+- [create_schema()](./Collections-create_schema)
+
+- [drop_collection()](./Collections-drop_collection)
+
+- [get_collection_stats()](./Collections-get_collection_stats)
+
+- [has_collection()](./Collections-has_collection)
+
+- [list_collections()](./Collections-list_collections)
+
+- [rename_collection()](./Collections-rename_collection)
+
+- [DataType](./Collections-DataType)
+

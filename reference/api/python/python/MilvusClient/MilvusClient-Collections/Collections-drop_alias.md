@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation drops a specified collection alias. 
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.drop_alias(
+drop_alias(
     alias: str,
     timeout: float | None
 ) -> None
@@ -29,11 +29,15 @@ __PARAMETERS:__
 
     __[REQUIRED]__
 
-    The alias of a collection. Before this operation, ensure that the alias exists. Otherwise, exceptions will occur.
+    The alias of a collection. 
+
+    Before this operation, ensure that the alias exists. Otherwise, exceptions will occur.
 
 - __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. 
+
+    Setting this to __None__ indicates that this operation timeouts when any response arrives or any error occurs.
 
 __RETURN TYPE:__
 
@@ -60,8 +64,8 @@ from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -73,3 +77,14 @@ client.create_alias(collection_name="test_collection", alias="test")
 # 4. Drop the alias
 client.drop_alias(alias="test")
 ```
+
+## Related methods{#related-methods}
+
+- [alter_alias()](./Collections-alter_alias)
+
+- [create_alias()](./Collections-create_alias)
+
+- [describe_alias()](./Collections-describe_alias)
+
+- [list_aliases()](./Collections-list_aliases)
+

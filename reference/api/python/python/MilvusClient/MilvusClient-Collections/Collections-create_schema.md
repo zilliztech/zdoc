@@ -14,17 +14,17 @@ import Admonition from '@theme/Admonition';
 
 This operation creates a collection schema.
 
+## Request syntax{#request-syntax}
+
+```python
+MilvusClient.create_schema(**kwargs) -> CollectionSchema
+```
+
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>This is a class method. You should call this method like this: <code>MilvusClient.create_schema()</code>.</p>
 
 </Admonition>
-
-## Request Syntax{#request-syntax}
-
-```python
-pymilvus.MilvusClient.create_schema(**kwargs) -> CollectionSchema
-```
 
 __PARAMETERS:__
 
@@ -44,7 +44,7 @@ __PARAMETERS:__
 
         <Admonition type="info" icon="📘" title="What is a dynamic field?">
 
-        <p>If the data being inserted into the target collection includes fields that are not defined in the collection's schema, those fields will be saved in a dynamic field as key-value pairs.</p>
+        <p>If the data being inserted into the target collection includes fields that are not defined in the collection's schema, those fields will be saved in a reserved dynamic field named <strong>$meta</strong> as key-value pairs.</p>
 
         </Admonition>
 
@@ -52,35 +52,26 @@ __PARAMETERS:__
 
         The name of the primary field.
 
-        The value should be the name of a field listed in __fields__.
-
-        As an alternative, you can set __is_primary__ when creating a __FieldSchema__ object.
-
     - __partition_key_field__ (_str_)
 
         The name of the field that serves as the partition key.
 
-        The value should be the name of a field listed in __fields__.
-
         Setting this makes Zilliz Cloud manage all partitions in the current collection.
-
-        As an alternative, you can set __is_partition_key__ when creating a __FieldSchema__ object.
 
         <Admonition type="info" icon="📘" title="What is a partition key?">
 
         <p>Once a field is designated as the partition key, Zilliz Cloud automatically creates a partition for each unique value in this field and saves entities in these partitions accordingly.</p>
         <p>This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.</p>
-        <p>As an alternative, you can set <strong>partition<em>key</em>field</strong> when creating a <strong>CollectionSchema</strong> object.</p>
 
         </Admonition>
 
 __RETURN TYPE:__
 
-_CollectionSchema_
+_CollectionSchema_[](./PyMilvusLegacy-CollectionSchema)_
 
 __RETURNS:__
 
-A __CollectionSchema__ object.
+A __CollectionSchema__[](./PyMilvusLegacy-CollectionSchema)__ object.
 
 __EXCEPTIONS:__
 
@@ -106,9 +97,19 @@ schema.add_field(field_name="my_vector", datatype=DataType.FLOAT_VECTOR, dim=5)
 
 ## Related methods{#related-methods}
 
-- create_collection()
+- [create_collection()](./Collections-create_collection)
 
-- fast_create_collection()
+- [describe_collection()](./Collections-describe_collection)
 
-- create_schema()
+- [drop_collection()](./Collections-drop_collection)
+
+- [get_collection_stats()](./Collections-get_collection_stats)
+
+- [has_collection()](./Collections-has_collection)
+
+- [list_collections()](./Collections-list_collections)
+
+- [rename_collection()](./Collections-rename_collection)
+
+- [DataType](./Collections-DataType)
 

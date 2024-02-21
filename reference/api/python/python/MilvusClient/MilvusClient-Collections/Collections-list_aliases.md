@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation lists all existing aliases for a specific collection.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.list_aliases(
+list_aliases(
     collection_name: str,
     timeout: Optional[float] = None
 )
@@ -33,7 +33,9 @@ __PARAMETERS:__
 
 - __timeout__ (_float _|_ None_)  
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation times out when any response arrives or any error occurs.
+    The timeout duration for this operation. 
+
+    Setting this to __None__ indicates that this operation times out when any response arrives or any error occurs.
 
 __RETURN TYPE:__
 
@@ -60,8 +62,8 @@ from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -75,3 +77,14 @@ client.list_aliases(collection_name="test_collection")
 
 # ['test']
 ```
+
+## Related methods{#related-methods}
+
+- [alter_alias()](./Collections-alter_alias)
+
+- [create_alias()](./Collections-create_alias)
+
+- [describe_alias()](./Collections-describe_alias)
+
+- [drop_alias()](./Collections-drop_alias)
+

@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation closes the current Milvus client.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.close() -> None
+close() -> None
 ```
 
 __PARAMETERS:__
@@ -41,12 +41,13 @@ None
 ```python
 from pymilvus import MilvusClient
 
-# 1. Set up a milvus client
+# 1. Create a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Close the client
 client.close()
 ```
+

@@ -1,9 +1,9 @@
 {
   "created_time": "1706001449",
-  "modified_time": "1706002058",
+  "modified_time": "1708506663",
   "name": "load_collection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
-  "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
+  "parent_token": "IZKcfUEfClhhnWdFhk2co7krnAV",
   "token": "FLmWdFP9Zo3JcixOEgucU8JMnLc",
   "type": "docx",
   "url": "https://zilliverse.feishu.cn/docx/FLmWdFP9Zo3JcixOEgucU8JMnLc",
@@ -27,7 +27,16 @@
           "UJI3dcgbuo8IESxjV2lcnP1knMe",
           "MKgwdckwrozhXxxpMMcczRsnnSc",
           "M8YXd0zajonNkpxyCRjcCz80nKc",
-          "ZqDbdYNfioFbfNxInQwcPBNWn6f"
+          "VsqadRJcmoHe17xcHkgcXtOmnNh",
+          "ZqDbdYNfioFbfNxInQwcPBNWn6f",
+          "OifhdrH9go6D0SxwkLjci1VbnPd",
+          "VAqrd5rK2ovg7nxcsOCcUmbNn3d",
+          "BZuVdJyploxZVxxbrUucrXOSnGd",
+          "Jx4wdDJQmoKTZnxNiEtcKV5NnAd",
+          "DKCndnwwsoFLMbxywu8czlE5n8l",
+          "En4MdiDyooc83pxvL3FcVsEqnue",
+          "VW7Xdt1zVohJpcxMA2TcZIVTnDh",
+          "MIeEdtmKIoESaxx3zhTcmMs2nWf"
         ],
         "page": {
           "elements": [
@@ -122,7 +131,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "This operation is not required if you have created a collection in a quick-setup manner or a customized-setup manner with index parameters specified in the collection creation request.",
+                "content": "This operation is required only if the target collection is not loaded. A collection is in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "NotLoad",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " state only if you have released the collection or you have created the collection without any index parameters.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -146,7 +179,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Request Syntax",
+                "content": "Request syntax",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -171,7 +204,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "pymilvus.MilvusClient.load_collection(\n    collection_name: str, \n    timeout: Optional[float] = None\n",
+                "content": "load_collection(\n    collection_name: str, \n    timeout: Optional[float] = None\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -425,7 +458,8 @@
           }
         },
         "children": [
-          "WKoWds7OloDjjexqQRacdYumnRe"
+          "WKoWds7OloDjjexqQRacdYumnRe",
+          "Kt6qdyOFWoYc1PxhvTscco6Bnge"
         ],
         "parent_id": "FLmWdFP9Zo3JcixOEgucU8JMnLc"
       },
@@ -437,7 +471,32 @@
           "elements": [
             {
               "text_run": {
-                "content": "The timeout duration for this operation. Setting this to ",
+                "content": "The timeout duration for this operation. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Kt6qdyOFWoYc1PxhvTscco6Bnge",
+        "block_type": 2,
+        "parent_id": "BW1fdFVp6oDzBixmSZ5cUY0cnLd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Setting this to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -682,13 +741,38 @@
         "parent_id": "FLmWdFP9Zo3JcixOEgucU8JMnLc"
       },
       {
+        "block_id": "VsqadRJcmoHe17xcHkgcXtOmnNh",
+        "block_type": 2,
+        "parent_id": "FLmWdFP9Zo3JcixOEgucU8JMnLc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "ZqDbdYNfioFbfNxInQwcPBNWn6f",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient, DataType\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema\n)\n\n# 4. Prepare index parameters\nindex_params = client.prepare_index_params()\n\n# 5. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"AUTOINDEX\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n)\n\n# 6. Create indexes\nclient.create_index(\n    collection_name=\"customized_setup\",\n    index_params=index_params\n)\n\n# 7. Load indexes\nclient.load_collection(\n    collection_name=\"customized_setup\"\n",
+                "content": "from pymilvus import MilvusClient, DataType\n\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema\n)\n\n# 4. Prepare index parameters\nindex_params = client.prepare_index_params()\n\n# 5. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"IVF_FLAT\",\n)\n\n# 6. Create indexes\nclient.create_index(\n    collection_name=\"customized_setup\",\n    index_params=index_params\n)\n\n# 7. Load indexes\nclient.load_collection(\n    collection_name=\"customized_setup\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -717,9 +801,230 @@
           }
         },
         "parent_id": "FLmWdFP9Zo3JcixOEgucU8JMnLc"
+      },
+      {
+        "block_id": "OifhdrH9go6D0SxwkLjci1VbnPd",
+        "block_type": 2,
+        "parent_id": "FLmWdFP9Zo3JcixOEgucU8JMnLc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VAqrd5rK2ovg7nxcsOCcUmbNn3d",
+        "block_type": 2,
+        "parent_id": "FLmWdFP9Zo3JcixOEgucU8JMnLc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BZuVdJyploxZVxxbrUucrXOSnGd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient, DataType\n\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema\n)\n\n# 4. Prepare index parameters\nindex_params = client.prepare_index_params()\n\n# 5. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n)\n\n# 6. Create indexes\nclient.create_index(\n    collection_name=\"customized_setup\",\n    index_params=index_params\n)\n\n# 7. Load indexes\nclient.load_collection(\n    collection_name=\"customized_setup\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "FLmWdFP9Zo3JcixOEgucU8JMnLc"
+      },
+      {
+        "block_id": "Jx4wdDJQmoKTZnxNiEtcKV5NnAd",
+        "block_type": 2,
+        "parent_id": "FLmWdFP9Zo3JcixOEgucU8JMnLc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DKCndnwwsoFLMbxywu8czlE5n8l",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related methods",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FLmWdFP9Zo3JcixOEgucU8JMnLc"
+      },
+      {
+        "block_id": "En4MdiDyooc83pxvL3FcVsEqnue",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "get_load_state()",
+                "token": "KEPYdKup1o3nHdxKbjvcQUzwnnd",
+                "url": "https://zilliverse.feishu.cn/docx/KEPYdKup1o3nHdxKbjvcQUzwnnd"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FLmWdFP9Zo3JcixOEgucU8JMnLc"
+      },
+      {
+        "block_id": "VW7Xdt1zVohJpcxMA2TcZIVTnDh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "refresh_load()",
+                "token": "X3NXdtC2koiAxyxhcUBcv38Wnsh",
+                "url": "https://zilliverse.feishu.cn/docx/X3NXdtC2koiAxyxhcUBcv38Wnsh"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FLmWdFP9Zo3JcixOEgucU8JMnLc"
+      },
+      {
+        "block_id": "MIeEdtmKIoESaxx3zhTcmMs2nWf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "release_collection()",
+                "token": "PRR7dRfi8o1s61xFRovccAdRnHe",
+                "url": "https://zilliverse.feishu.cn/docx/PRR7dRfi8o1s61xFRovccAdRnHe"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "FLmWdFP9Zo3JcixOEgucU8JMnLc"
       }
     ],
-    "counts": 22
+    "counts": 32
   },
-  "slug": "Collections-load_collection"
+  "slug": "Management-load_collection"
 }

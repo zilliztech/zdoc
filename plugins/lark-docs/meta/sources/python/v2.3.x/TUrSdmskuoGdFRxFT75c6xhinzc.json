@@ -1,6 +1,6 @@
 {
   "created_time": "1704785712",
-  "modified_time": "1708356123",
+  "modified_time": "1708495725",
   "name": "MilvusClient",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "M0pgf1TX3lTotndwA7Vc3gJsnAd",
@@ -18,12 +18,19 @@
           "doxcnQDEwJVB3u20js7V6QBP4Rd",
           "KErbdDhgHoLILwxMzeDc98zqnhh",
           "JvBtdi3WroDX58xISFLc1vK4nof",
+          "QYWhdya3hoUVMsxfv7GcDNdJn9c",
           "doxcnfuOPYUXA8RfQFk5b6Yaxqh",
+          "C2tWdnyLxoMc1ZxF4w9cPXIInEd",
+          "Ue3odQBcqogbbyxFjKHcoXJYnGh",
+          "VylwdupN5okkAHxrScTcClhCniY",
+          "FgjTdwsyYox22mxmod1cH5zJnWb",
           "doxcnf12UpNEHJx2ZIX6HuNXyDb",
           "U8xvdMIiMoxS0zxCQSnceMfcnwh",
           "Kz24dKxhToVfk8x7UWRcNRsUnkR",
           "HgLEd3ZJ0ovbyKxXSdjcvYhjnNb",
+          "RNzndehMqoOYY2xSA0XcSEqinvA",
           "PvLldTyMNoNlDJx0IChcrkEfnIV",
+          "VbZfd3hmWosnaFxQrUUcUsdGnHh",
           "DxzpdGVe8oHrh3xzBEPcNYW4nuf",
           "QBhyd63ECoHJsxxNby2c3K0onZc",
           "HZevdFidsoNjhsxv1wVcviSOngg",
@@ -34,9 +41,9 @@
           "LQiWd63NroMJ5xx5cSPcXqLwn6J",
           "DRr7dR0nUo1EDZxYeXjcHLyGnWh",
           "Nah0dzdojoqE3axPNzIc6D79n6P",
-          "CLp2dYvwWofHj1x352Rc3Q1jn0g",
           "doxcnbn60WvV0NhKJngBgda6AJf",
-          "doxcnlu0vOMdRqbGd2XoU8sGVHb"
+          "doxcnlu0vOMdRqbGd2XoU8sGVHb",
+          "AePBdi26CoFgTBxtFRhcYUOnncb"
         ],
         "page": {
           "elements": [
@@ -166,7 +173,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Constructs a client for the common Milvus use cases.",
+                "content": "Constructs a client for common use cases.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -230,7 +237,32 @@
           "elements": [
             {
               "text_run": {
-                "content": "This client serves as an easy-to-use alternative for the current set of APIs that handles CRUD operations in Milvus.",
+                "content": "This client serves as an easy-to-use alternative for the current set of APIs that handles CRUD operations <include target=\"milvus\">in Milvus</include><include target=\"zilliz\">on Zilliz Cloud</include>.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QYWhdya3hoUVMsxfv7GcDNdJn9c",
+        "block_type": 2,
+        "parent_id": "TUrSdmskuoGdFRxFT75c6xhinzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -254,7 +286,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\nclient = MilvusClient(\n    uri: str,\n    user: str,\n    password: str,\n    db_name: str,\n    token: str,\n    timeout=None,\n    **kwargs\n",
+                "content": "MilvusClient(\n    uri: str,\n    user: str,\n    password: str,\n    db_name: str,\n    token: str,\n    timeout=None,\n    **kwargs\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -283,6 +315,118 @@
           }
         },
         "parent_id": "TUrSdmskuoGdFRxFT75c6xhinzc"
+      },
+      {
+        "block_id": "C2tWdnyLxoMc1ZxF4w9cPXIInEd",
+        "block_type": 2,
+        "parent_id": "TUrSdmskuoGdFRxFT75c6xhinzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ue3odQBcqogbbyxFjKHcoXJYnGh",
+        "block_type": 2,
+        "parent_id": "TUrSdmskuoGdFRxFT75c6xhinzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VylwdupN5okkAHxrScTcClhCniY",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusClient(\n    uri: str,\n    user: str,\n    password: str,\n    token: str,\n    timeout=None,\n    **kwargs\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TUrSdmskuoGdFRxFT75c6xhinzc"
+      },
+      {
+        "block_id": "FgjTdwsyYox22mxmod1cH5zJnWb",
+        "block_type": 2,
+        "parent_id": "TUrSdmskuoGdFRxFT75c6xhinzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "doxcnf12UpNEHJx2ZIX6HuNXyDb",
@@ -369,7 +513,14 @@
           }
         },
         "children": [
-          "PgK8dklg8oj24XxcvujclA9snQg"
+          "PgK8dklg8oj24XxcvujclA9snQg",
+          "T8dxdSlgYoySICxrRxLcupoEnFg",
+          "RONedIU58o8MCExyfmkcBqhpnwb",
+          "HV1kd4SwBoDNgvxRSRtcF61Snng",
+          "Lxx5d5ofHo0Td3xB2eYcXsRmnhe",
+          "ZE1Idmvikoqi0FxPioXcUCykneh",
+          "FGQOdmz87o9aGGxKIEqczb6vnSc",
+          "ErOGdEwV4ogFyPxKssWchQGjnag"
         ],
         "parent_id": "TUrSdmskuoGdFRxFT75c6xhinzc"
       },
@@ -405,7 +556,7 @@
             },
             {
               "text_run": {
-                "content": " of the <include target=\"milvus\">Milvus instance</include><include target=\"zilliz\">Zilliz Cloud cluster</include>. For example: <include target=\"milvus\">",
+                "content": " of the <include target=\"milvus\">Milvus instance</include><include target=\"zilliz\">Zilliz Cloud cluster</include>. For example: ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -414,22 +565,73 @@
                   "underline": false
                 }
               }
-            },
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T8dxdSlgYoySICxrRxLcupoEnFg",
+        "block_type": 2,
+        "parent_id": "U8xvdMIiMoxS0zxCQSnceMfcnwh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RONedIU58o8MCExyfmkcBqhpnwb",
+        "block_type": 14,
+        "code": {
+          "elements": [
             {
               "text_run": {
                 "content": "http://localhost:19530",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
                 }
               }
-            },
+            }
+          ],
+          "style": {
+            "language": 1,
+            "wrap": false
+          }
+        },
+        "parent_id": "U8xvdMIiMoxS0zxCQSnceMfcnwh"
+      },
+      {
+        "block_id": "HV1kd4SwBoDNgvxRSRtcF61Snng",
+        "block_type": 2,
+        "parent_id": "U8xvdMIiMoxS0zxCQSnceMfcnwh",
+        "text": {
+          "elements": [
             {
               "text_run": {
-                "content": "</include><include target=\"zilliz\">",
+                "content": "</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -438,12 +640,49 @@
                   "underline": false
                 }
               }
-            },
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Lxx5d5ofHo0Td3xB2eYcXsRmnhe",
+        "block_type": 2,
+        "parent_id": "U8xvdMIiMoxS0zxCQSnceMfcnwh",
+        "text": {
+          "elements": [
             {
               "text_run": {
-                "content": "https://in01-\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*.",
+                "content": "<include target=\"zilliz\">",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZE1Idmvikoqi0FxPioXcUCykneh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "https://inxx-xxxxxxxxxxxxxxxxx.",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -455,7 +694,33 @@
               "text_run": {
                 "content": "aws-us-west-2.vectordb-uat3.zillizcloud.com:19540",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 1,
+            "wrap": false
+          }
+        },
+        "parent_id": "U8xvdMIiMoxS0zxCQSnceMfcnwh"
+      },
+      {
+        "block_id": "FGQOdmz87o9aGGxKIEqczb6vnSc",
+        "block_type": 2,
+        "parent_id": "U8xvdMIiMoxS0zxCQSnceMfcnwh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For details on finding information on the Zilliz Cloud console, refer to ",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -465,7 +730,47 @@
             },
             {
               "text_run": {
-                "content": "</include>.",
+                "content": "On Zilliz Cloud Console",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fon-zilliz-cloud-console"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ErOGdEwV4ogFyPxKssWchQGjnag",
+        "block_type": 2,
+        "parent_id": "U8xvdMIiMoxS0zxCQSnceMfcnwh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -971,6 +1276,31 @@
         }
       },
       {
+        "block_id": "RNzndehMqoOYY2xSA0XcSEqinvA",
+        "block_type": 2,
+        "parent_id": "TUrSdmskuoGdFRxFT75c6xhinzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "PvLldTyMNoNlDJx0IChcrkEfnIV",
         "block_type": 12,
         "bullet": {
@@ -1042,7 +1372,32 @@
           "elements": [
             {
               "text_run": {
-                "content": "The name of the database to which the target <include target=\"milvus\">Milvus instance</include><include target=\"zilliz\">Zilliz Cloud cluster</include> belongs.",
+                "content": "The name of the database to which the target Milvus instance belongs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VbZfd3hmWosnaFxQrUUcUsdGnHh",
+        "block_type": 2,
+        "parent_id": "TUrSdmskuoGdFRxFT75c6xhinzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1120,6 +1475,7 @@
         },
         "children": [
           "EzvrdgF0doaKSmxactRcRTDKnxf",
+          "Y6GWdrJSNof2kjxAkoUcB2vuncd",
           "J7I0dwxRxovkZMxTxLHceZBunSe",
           "Nyfud99xroKuzOxmdTVcmeZFn7f",
           "P94IdY71voXexlxcbpLcRgwZntd",
@@ -1141,7 +1497,32 @@
           "elements": [
             {
               "text_run": {
-                "content": "A valid access token to access the specified <include target=\"milvus\">Milvus instance</include><include target=\"zilliz\">Zilliz Cloud cluster</include>. This can be used as a recommended alternative to setting ",
+                "content": "A valid access token to access the specified <include target=\"milvus\">Milvus instance</include><include target=\"zilliz\">Zilliz Cloud cluster</include>. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Y6GWdrJSNof2kjxAkoUcB2vuncd",
+        "block_type": 2,
+        "parent_id": "DxzpdGVe8oHrh3xzBEPcNYW4nuf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This can be used as a recommended alternative to setting ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1276,7 +1657,7 @@
             },
             {
               "text_run": {
-                "content": "username:p@ssw0rd",
+                "content": "root:Milvus",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -1288,7 +1669,7 @@
             },
             {
               "text_run": {
-                "content": ".",
+                "content": ", which is the default credential of the root user.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1456,6 +1837,9 @@
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fmanage-api-keys"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -1463,7 +1847,22 @@
             },
             {
               "text_run": {
-                "content": " key with sufficient permissions, or",
+                "content": " key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fmanage-api-keys"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " with sufficient permissions, or",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1488,7 +1887,34 @@
           "elements": [
             {
               "text_run": {
-                "content": "A pair of username and password used to access the target cluster, joined by a colon (:). For example, you can set this to ",
+                "content": "A pair of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "username and password ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fcluster-credentials-console"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "used to access the target cluster, joined by a colon (:). For example, you can set this to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1639,7 +2065,8 @@
           }
         },
         "children": [
-          "WQnod7UHUoyCkoxQuOacbA98nid"
+          "WQnod7UHUoyCkoxQuOacbA98nid",
+          "UzaSdxwCqo0iRTxDnTncouXlnkc"
         ],
         "parent_id": "TUrSdmskuoGdFRxFT75c6xhinzc"
       },
@@ -1651,7 +2078,32 @@
           "elements": [
             {
               "text_run": {
-                "content": "The timeout duration for this operation. Setting this to ",
+                "content": "The timeout duration for this operation. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UzaSdxwCqo0iRTxDnTncouXlnkc",
+        "block_type": 2,
+        "parent_id": "QBhyd63ECoHJsxxNby2c3K0onZc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Setting this to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1749,7 +2201,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# Authentication not enabled\nclient = MilvusClient(\"http://localhost:19530\")\n\n# Authentication enabled with the root user\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\",\n    db_name=\"default\"\n)\n\n# Authentication enabled with a non-root user\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"user:password\",\n    db_name=\"default\"\n",
+                "content": "from pymilvus import MilvusClient\n\n# Authentication not enabled\nclient = MilvusClient(\"http://localhost:19530\")\n\n# Authentication enabled with the root user\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\",\n    db_name=\"default\"\n)\n\n# Authentication enabled with a non-root user\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"user:password\", # replace this with your token\n    db_name=\"default\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1836,7 +2288,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# Authentication enabled with a non-root user\nclient = MilvusClient(\n    uri=\"Your-Cluster-Endpoint\",\n    token=\"Your-Token\",\n    db_name=\"default\"\n",
+                "content": "from pymilvus import MilvusClient\n\n# Authentication enabled with a cluster user\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\", # replace this with your token\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2046,13 +2498,16 @@
             },
             {
               "text_run": {
-                "content": "Find Information on Zilliz Cloud",
+                "content": "On Zilliz Cloud Console",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fon-zilliz-cloud-console"
+                  },
                   "strikethrough": false,
-                  "underline": true
+                  "underline": false
                 }
               }
             },
@@ -2102,38 +2557,13 @@
         }
       },
       {
-        "block_id": "CLp2dYvwWofHj1x352Rc3Q1jn0g",
-        "block_type": 2,
-        "parent_id": "TUrSdmskuoGdFRxFT75c6xhinzc",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
         "block_id": "doxcnbn60WvV0NhKJngBgda6AJf",
         "block_type": 4,
         "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "Methods",
+                "content": "Class members",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2159,7 +2589,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The following are the methods of the ",
+                "content": "Refer to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2174,8 +2604,11 @@
                 "content": "MilvusClient",
                 "text_element_style": {
                   "bold": false,
-                  "inline_code": true,
+                  "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdrive%2Ffolder%2FICGwfi8ZClVQLHdLn9Hc3oeFn1d"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -2183,7 +2616,32 @@
             },
             {
               "text_run": {
-                "content": " class:",
+                "content": " for a categorized list of class members.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AePBdi26CoFgTBxtFRhcYUOnncb",
+        "block_type": 2,
+        "parent_id": "TUrSdmskuoGdFRxFT75c6xhinzc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2201,7 +2659,7 @@
         }
       }
     ],
-    "counts": 54
+    "counts": 70
   },
   "slug": "Client-MilvusClient"
 }

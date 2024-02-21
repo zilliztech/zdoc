@@ -14,25 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation commits the appended data.
 
+## Request syntax{#request-syntax}
+
 ```python
 pymilvus.LocalBulkWriter.commit(
     **kwargs
 )
-```
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import CollectionSchema, LocalBulkWriter, BulkFileType
-
-writer = LocalBulkWriter(
-    schema=CollectionSchema,
-    local_path="string",
-    segment_size=int,
-    file_type=BulkFileType,
-)
-
-writer.commit()
 ```
 
 __PARAMETERS:__
@@ -80,3 +67,8 @@ def callback():
 
 writer.commit(call_back=callback)
 ```
+
+## Related methods{#related-methods}
+
+- [append_row()](./LocalBulkWriter-append_row)
+

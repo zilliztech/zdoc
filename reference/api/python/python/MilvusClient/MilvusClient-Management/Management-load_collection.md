@@ -1,23 +1,29 @@
 ---
 displayed_sidbar: pythonSidebar
-slug: /python/Collections-release_collection
+slug: /python/Management-load_collection
 beta: false
 notebook: false
-token: PRR7dRfi8o1s61xFRovccAdRnHe
-sidebar_position: 16
+token: FLmWdFP9Zo3JcixOEgucU8JMnLc
+sidebar_position: 7
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# release_collection()
+# load_collection()
 
-This operation releases the data of a specific collection from memory.
+This operation loads the data of a specific collection into memory.
 
-## Request Syntax{#request-syntax}
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>This operation is required only if the target collection is not loaded. A collection is in the <strong>NotLoad</strong> state only if you have released the collection or you have created the collection without any index parameters.</p>
+
+</Admonition>
+
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.release_collection(
+load_collection(
     collection_name: str, 
     timeout: Optional[float] = None
 ) -> None
@@ -33,7 +39,9 @@ __PARAMETERS:__
 
 - __timeout__ (_float_ | _None_) -
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response returns or error occurs.
+    The timeout duration for this operation. 
+
+    Setting this to __None__ indicates that this operation timeouts when any response returns or error occurs.
 
 __RETURN TYPE:__
 
@@ -53,6 +61,11 @@ __EXCEPTIONS:__
 
 ```python
 from pymilvus import MilvusClient, DataType
+
+client = MilvusClient(
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
+)
 
 # 1. Create schema
 schema = MilvusClient.create_schema(
@@ -75,8 +88,7 @@ index_params = client.prepare_index_params()
 
 # 5. Add indexes
 index_params.add_index(
-    field_name="my_id",
-    index_type="AUTOINDEX"
+    field_name="my_id"
 )
 
 index_params.add_index(
@@ -90,23 +102,17 @@ client.create_index(
     index_params=index_params
 )
 
-# 7. Load the collection
+# 7. Load indexes
 client.load_collection(
     collection_name="customized_setup"
 )
-
-# 8. Get load status
-client.get_load_state(
-    collection_name="customized_setup",
-) # Loaded
-
-# 9. Release the collection
-client.release_collection(
-    collection_name="customzied_setup"
-)
-
-# 10. Get load status
-client.get_load_state(
-    collection_name="customized_setup"
-) # Unloaded
 ```
+
+## Related methods{#related-methods}
+
+- [get_load_state()](./Management-get_load_state)
+
+- [refresh_load()](./Management-refresh_load)
+
+- [release_collection()](./Management-release_collection)
+

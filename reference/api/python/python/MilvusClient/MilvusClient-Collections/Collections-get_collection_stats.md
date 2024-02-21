@@ -14,10 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation lists the statistics collected on a specific collection.
 
-## Request Syntax{#request-syntax}
+## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.get_collection_stats(
+get_collection_stats(
     collection_name: str, 
     timeout: Optional[float] = None
 ) -> Dict
@@ -33,7 +33,9 @@ __PARAMETERS:__
 
 - __timeout__ (_float_ | _None_) -
 
-    The timeout duration for this operation. Setting this to __None__ indicates that this operation timeouts when any response returns or error occurs.
+    The timeout duration for this operation. 
+
+    Setting this to __None__ indicates that this operation timeouts when any response returns or error occurs.
 
 __RETURN TYPE:__
 
@@ -51,7 +53,7 @@ A dictionary containing collected statistics on the specified collection.
 
 <Admonition type="info" icon="📘" title="__Why doesn't the row count match the number of entities inserted?__">
 
-<p>The data that you insert will go through a process before it is finally saved. Initially, it will flow in as data streams. Then, it will be stored in segments as entities. Milvus will select an appropriate growing segment to store the data in streams until the segment reaches its upper limit and becomes sealed.</p>
+<p>The data that you insert will go through a process before it is finally saved: Initially, it will flow in as data streams. Then, it will be stored in segments as entities. Milvus will select an appropriate growing segment to store the data in streams until the segment reaches its upper limit and becomes sealed.</p>
 <p>However, it's important to note that the row count displayed may not match the number of records that were inserted because data in streams is not taken into account.</p>
 
 </Admonition>
@@ -69,8 +71,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
 # 2. Create a collection
@@ -85,3 +87,22 @@ client.get_collection_stats(collection_name="test_collection")
 #     'row_count': 0
 # }
 ```
+
+## Related methods{#related-methods}
+
+- [create_collection()](./Collections-create_collection)
+
+- [create_schema()](./Collections-create_schema)
+
+- [describe_collection()](./Collections-describe_collection)
+
+- [drop_collection()](./Collections-drop_collection)
+
+- [has_collection()](./Collections-has_collection)
+
+- [list_collections()](./Collections-list_collections)
+
+- [rename_collection()](./Collections-rename_collection)
+
+- [DataType](./Collections-DataType)
+
