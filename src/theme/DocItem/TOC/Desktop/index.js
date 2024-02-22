@@ -4,7 +4,10 @@ import {useDoc} from '@docusaurus/theme-common/internal';
 import TOC from '@theme/TOC';
 export default function DocItemTOCDesktop() {
   const {toc, frontMatter} = useDoc();
-  toc.splice(0,0, {value: 'ON THIS PAGE', id: '', level: 2})
+  if (toc[0].value !== 'ON THIS PAGE') {
+    toc.splice(0,0, {value: 'ON THIS PAGE', id: '', level: 2})
+  }
+
   return (
     <TOC
       toc={toc}
