@@ -14,37 +14,14 @@ import Admonition from '@theme/Admonition';
 
 This operation blocks the current process until the specified collection has been loaded.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.utility.wait_for_loading_complete(
+wait_for_loading_complete(
     collection_name: str,
     partition_names: list[str] | None,
     timeout: float | None,
     using: str = "default",
-)
-```
-
-The following operations are related to `wait_for_loading_complete()`:
-
-- Collection
-
-- Partition
-
-- load_state()
-
-- loading_progress()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import utility
-
-utility.wait_for_loading_complete(
-    collection_name="string",
-    partition_names=["string"],
-    timeout=None,
-    using="default",
 )
 ```
 
@@ -103,4 +80,18 @@ utility.wait_for_loading_complete(
     using="default",
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `wait_for_loading_complete()`:
+
+- [Partition](./PyMilvusLegacy-Partition)
+
+- [load()](./Collection-load)
+
+- [release()](./Collection-release)
+
+- [load_state()](./utility-load_state)
+
+- [loading_progress()](./utility-loading_progress)
 

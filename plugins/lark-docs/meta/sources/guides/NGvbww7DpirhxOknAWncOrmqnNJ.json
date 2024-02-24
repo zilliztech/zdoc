@@ -1,0 +1,2457 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1708765008",
+  "node_token": "NGvbww7DpirhxOknAWncOrmqnNJ",
+  "node_type": "origin",
+  "obj_create_time": "1708765008",
+  "obj_edit_time": "1708765028",
+  "obj_token": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+  "obj_type": "docx",
+  "origin_node_token": "NGvbww7DpirhxOknAWncOrmqnNJ",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "B10Owir21iSfZfkjsvgcnU6nnFc",
+  "space_id": "7167193056431783939",
+  "title": "Manage Cluster Credentials (SDK)",
+  "slug": "cluster-credentials-sdk",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "block_type": 1,
+        "children": [
+          "doxcntxZlugkOmOJ0YLNTipNw4f",
+          "doxcnOyHMGAVOwuyAg7v7SHFOkf",
+          "doxcnryQY0mthKL2UWNlaaEe6rd",
+          "doxcn0BJVw7v9gyGieSXyL4GgJc",
+          "doxcnyR5FWCJPM8itHG0QcKOmBu",
+          "doxcn7kfmL0VAyM0P1Do7XYnKwd",
+          "doxcnyqPRyG5i9OempF2vwSvqYm",
+          "doxcnZWOuzCxvIeEhLBa4U8yqtc",
+          "doxcnlhtvol64hcIBO1MB9eqshe",
+          "doxcnCmsfC9OqVf07HwHrLOyQ8G",
+          "doxcnHGr3XY4GTwTJ1bF3xtLWKc",
+          "doxcnPG9Lmkahjm9iktI9fyHpMh",
+          "doxcnZel9UwwVOJHUFqWUbtGr4c",
+          "doxcnytfowXYQTllZd60RaWNXSf",
+          "doxcnh3HhhpODDXFTnQOgh75sUd",
+          "doxcntrnuoT89F9giaVV8HCX8jf",
+          "doxcnG4FikSKf7DOdCERA5npqzf",
+          "doxcnvVMYs44jLxBgofKitWqZub",
+          "doxcnHSIb9nSGRRid5tl2HGJQxb",
+          "doxcnh7rAIgnDeKqlXRnD1ZF458",
+          "doxcnoiZ5k78fVJIoGbK6zfR7pd",
+          "doxcnQ6kcTvtl7ivr5UsSGOH9vc",
+          "doxcnkQMiuZsI1Vy9rpzJohaAde",
+          "doxcnYMp0awOEEVtpbastSRDnXc",
+          "doxcn6F0Vd08GxGbFpSvXJ1jWyh",
+          "doxcne2ogrkx4uijQkaAwUaQQZf",
+          "doxcn7OdUmN8Gh2GAx2FH2hIlqb",
+          "doxcnS8KHlC7aZu8cO56k0GXG6b",
+          "doxcn1uMCgPOjlEHfs700lDredf",
+          "doxcnnDlWJxk6UQYdqhT8IUZZeb",
+          "doxcnS1GstE8KWebaiAkg6LGp9f",
+          "doxcnqJPDvotzSzROKDkcICjVx4",
+          "doxcn82BgpBdNWT25HxjUObcI0e",
+          "doxcnVSgMMG3lM9CJKiree3Bgrd",
+          "doxcnkte5x5KTkWGdojxEl9fVbf",
+          "doxcnSkv0N4t8pv9p2FeDnEbVKe",
+          "doxcnKP4rqS8DmKsFU7HRonW9Th",
+          "doxcnbl4Ofd2b6cvDFOfQ3Wlowc",
+          "doxcnca7tpei3Z8dR7QYeFbljtc",
+          "doxcnoqi3lymB2FTBIiIsvtjByc",
+          "doxcngx9LHprMUtdnhY2qWeCSZb",
+          "doxcnUMARRDIJADNp9b2LxSHKPe",
+          "doxcnVaHQH5IdDy1fSfowzUwbJd",
+          "doxcni7jW56dLKCSsjy26OeWnwc",
+          "doxcnxb6ZeS2CMLdirnv68Oopic",
+          "doxcnjsy7K36xfZWug7B87liVRc",
+          "doxcnFmM43NRRVMsAdbgCt8ikgd",
+          "doxcneG1nX3xsSOFIerey8a7QCc",
+          "doxcn2gUyWyStvd6ivNEArxqVdg",
+          "doxcnmQGVSPvkfoZ6X0ES1WhdCf",
+          "doxcnoHBi27632l1vGc6uKPEARh",
+          "doxcnicpHB7gxkLDmxQOinYluif",
+          "doxcnjfNWtoyASx03RyEUn6BRAb",
+          "doxcn0Wn7oXlwDmAJKNZxBoDJvb",
+          "doxcnchuEU5rZFo4xA9qgAoW0lT",
+          "doxcnIsbBxnod0FJalTk6h5vNWS",
+          "doxcnMwxY39qcyL2AekBlgJc0td",
+          "doxcn41DYN98ASdf1kY8ZNpt0fP",
+          "doxcnDvydBfqcFtG7tNZofEW6og",
+          "doxcnIyU3Mp4PAGG8p0Q2FtVyRd",
+          "doxcnB69LUu8bZN6gZbgOmbEwcf",
+          "doxcnCVVmIrYFWpIu3Aq3eRnaze",
+          "doxcnLaDdS1CX5ZUlRHpXMKuIWd",
+          "doxcnwinefAEHxiQhc3K6bwM77b"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage Cluster Credentials (SDK)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcntxZlugkOmOJ0YLNTipNw4f",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In addition to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "managing cluster credentials on web UI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FHa8jwqxnniC8mDkXM4RcN4SFnKf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", Zilliz Cloud extends its functionality by offering SDKs for credential management. This integration enhances flexibility and provides more customization options than the web UI alone.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnOyHMGAVOwuyAg7v7SHFOkf",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the backend, there are three built-in role options:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnryQY0mthKL2UWNlaaEe6rd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "db_admin",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Full control over the cluster and associated resources.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcn0BJVw7v9gyGieSXyL4GgJc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "db_rw",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Permission to read, write, and manage collections and indexes within the cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnyR5FWCJPM8itHG0QcKOmBu",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "db_ro",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Viewing rights for most cluster resources, but no creation, modification, or deletion capabilities.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcn7kfmL0VAyM0P1Do7XYnKwd",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Explore ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Cluster Built-in Roles",
+                "token": "AFNZwDcXNiChK0ke5h5c65xZnje",
+                "url": "https://zilliverse.feishu.cn/wiki/AFNZwDcXNiChK0ke5h5c65xZnje"
+              }
+            },
+            {
+              "text_run": {
+                "content": " for details.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnyqPRyG5i9OempF2vwSvqYm",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnZWOuzCxvIeEhLBa4U8yqtc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have created a cluster. For details, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Create Cluster",
+                "token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
+                "url": "https://zilliverse.feishu.cn/wiki/KrbjwFhy3iojF3k97XmcvvXMnW7"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnlhtvol64hcIBO1MB9eqshe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have installed a Milvus ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " applicable to your use case. For details, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Install SDKs",
+                "token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
+                "url": "https://zilliverse.feishu.cn/wiki/J274wT61xiEM4fkYeL8cMb4Pnbd"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnCmsfC9OqVf07HwHrLOyQ8G",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a cluster user",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnHGr3XY4GTwTJ1bF3xtLWKc",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To create a cluster user, use the following code snippet:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnPG9Lmkahjm9iktI9fyHpMh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import json, os, time\nfrom pymilvus import MilvusClient\n\n# 0. Connect to cluster\n\nCLUSTER_ENDPOINT=\"YOUR_CLUSTER_ENDPOINT\" # Set your cluster endpoint\nTOKEN=\"YOUR_CLUSTER_TOKEN\" # Set your token\n\nclient= MilvusClient(\n    uri=CLUSTER_ENDPOINT,\n    token=TOKEN\n)\n\n# 1. Create user\n\nif not 'user1' in utility.list_usernames():\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    client.create_user(user_name='user1', password='P@ssw0rd!')",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnZel9UwwVOJHUFqWUbtGr4c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 1. Connect to the cluster\n\nconst client = new MilvusClient({address, token})\n\n// 2. Create user\n\nconst users1 = await client.listUsers()\n\nif (!users1.usernames.includes(\"user1\")) {\n    await client.createUser({\n        username: \"user1\",\n        password: \"P@ssw0rd!\",\n    })\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnytfowXYQTllZd60RaWNXSf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "String clusterEndpoint = \"YOUR_CLUSTER_ENDPOINT\";\nString token = \"YOUR_CLUSTER_TOKEN\";\n\n// 1. Connect to Zilliz Cloud cluster\n\nConnectParam connectParam = ConnectParam.newBuilder()\n    .withUri(clusterEndpoint)\n    .withToken(token)\n    .build();\n\nMilvusServiceClient client = new MilvusServiceClient(connectParam);\n\nSystem.out.println(\"Connected to Zilliz Cloud!\");\n\n// Output:\n// Connected to Zilliz Cloud!\n\n// 2. Create a user\n\nCreateCredentialParam createCredentialParam = CreateCredentialParam.newBuilder()\n    .withUsername(\"user1\")\n    .withPassword(\"P@ssw0rd!\")\n    .build();\n\nR<RpcStatus> res = client.createCredential(createCredentialParam);\n\nif (res.getException() != null) {\n    System.err.println(\"Failed to create user!\");\n    return;\n}\n\nSystem.out.println(\"User created!\");\n\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// User created!",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnh3HhhpODDXFTnQOgh75sUd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CLUSTER_ENDPOINT := \"YOUR_CLUSTER_ENDPOINT\"\nTOKEN := \"YOUR_CLUSTER_TOKEN\"\nUSERNAME := \"user1\"\nPASSWORD1 := \"P@ssw0rd!\"\nPASSWORD2 := \"P@ssw0rd!!\"\n\n// 1. Connect to cluster\n\nconnParams := client.Config{\n    Address: CLUSTER_ENDPOINT,\n    APIKey:  TOKEN,\n}\n\nconn, err := client.NewClient(context.Background(), connParams)\n\nif err != nil {\n    log.Fatal(\"Failed to connect to Zilliz Cloud:\", err.Error())\n}\n\n// 2. Create a user\n\nerr = conn.CreateCredential(\n    context.Background(), // context\n    USERNAME,             // username\n    PASSWORD1,            // password\n)\n\nif err != nil {\n    log.Fatal(\"Failed to create user:\", err.Error())\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcntrnuoT89F9giaVV8HCX8jf",
+        "block_type": 34,
+        "children": [
+          "doxcna88YWivDu1IsvpVzqJiGoh",
+          "doxcneEciwCfqC4CkomJiVR8Lqb"
+        ],
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "quote_container": {}
+      },
+      {
+        "block_id": "doxcna88YWivDu1IsvpVzqJiGoh",
+        "block_type": 2,
+        "parent_id": "doxcntrnuoT89F9giaVV8HCX8jf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcneEciwCfqC4CkomJiVR8Lqb",
+        "block_type": 2,
+        "parent_id": "doxcntrnuoT89F9giaVV8HCX8jf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The password will not be displayed again, so it's crucial to note it down and securely store it in an appropriate location.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnG4FikSKf7DOdCERA5npqzf",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Having created a cluster user, you can now connect to the cluster using its username and password. See ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Connect to Cluster",
+                "token": "IVFfws0lJi8gIVkRvrvc9aXvnNe",
+                "url": "https://zilliverse.feishu.cn/wiki/IVFfws0lJi8gIVkRvrvc9aXvnNe"
+              }
+            },
+            {
+              "text_run": {
+                "content": " to explore further details.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnvVMYs44jLxBgofKitWqZub",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Update a user credential",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnHSIb9nSGRRid5tl2HGJQxb",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To update a user's password, use the code below:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnh7rAIgnDeKqlXRnD1ZF458",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 2. Update a user credential\n\nclient.update_password(\n    user_name='user1',\n    old_password='P@ssw0rd!',\n    new_password='P@ssw0rd!!'\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnoiZ5k78fVJIoGbK6zfR7pd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 3. Update a user credential\n\nawait client.updateUser({\n        username: \"user1\",\n        oldPassword: \"P@ssw0rd!\",\n        newPassword: \"P@ssw0rd!!\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    })",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnQ6kcTvtl7ivr5UsSGOH9vc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 3. Update a user credential\n\nUpdateCredentialParam updateCredentialParam = UpdateCredentialParam.newBuilder()\n    .withUsername(\"user1\")\n    .withOldPassword(\"P@ssw0rd!\")\n    .withNewPassword(\"P@ssw0rd!!\")\n    .build();\n\nR<RpcStatus> updateCreRes = client.updateCredential(updateCredentialParam);\n\nif (updateCreRes.getException() != null) {\n    System.err.println(\"Failed to update user credential!\");\n    return;\n}\n\nSystem.out.println(\"User credential updated!\");\n\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// User credential updated!",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnkQMiuZsI1Vy9rpzJohaAde",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 2. Update a user credential\n\nerr = conn.UpdateCredential(\n    context.Background(), // context\n    USERNAME,             // username\n    PASSWORD1,            // old password\n    PASSWORD2,            // new password\n)\n\nif err != nil {\n    log.Fatal(\"Failed to update user credential:\", err.Error())\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnYMp0awOEEVtpbastSRDnXc",
+        "block_type": 34,
+        "children": [
+          "doxcnRrKuXeqsGYFcOWVX3mfRae",
+          "doxcnYQa6B5HAMtFk3V0IpF4nSc"
+        ],
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "quote_container": {}
+      },
+      {
+        "block_id": "doxcnRrKuXeqsGYFcOWVX3mfRae",
+        "block_type": 2,
+        "parent_id": "doxcnYMp0awOEEVtpbastSRDnXc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnYQa6B5HAMtFk3V0IpF4nSc",
+        "block_type": 2,
+        "parent_id": "doxcnYMp0awOEEVtpbastSRDnXc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The password will not be displayed again, so it's crucial to note it down and securely store it in an appropriate location.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn6F0Vd08GxGbFpSvXJ1jWyh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "List cluster users",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcne2ogrkx4uijQkaAwUaQQZf",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To list all cluster users:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn7OdUmN8Gh2GAx2FH2hIlqb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 3. List users\n\nusers = client.list_users())\n\nprint(users)\n\n# Output\n#\n# [\"db_admin\", \"user1\"]\n\nuserInfo = []\n\nfor user in users:\n    userInfo.append(client.describe_user(user_name=user))\n\nprint(userInfo)\n\n# Output\n#\n# [\n#     {\n#         \"user\": \"db_admin\",\n#         \"roles\": [\n#             \"db_admin\"\n#         ]\n#     },\n#     {\n#         \"user\": \"user1\",\n#         \"roles\": []\n#     }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnS8KHlC7aZu8cO56k0GXG6b",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 4. List users\n\nconst users = await client.listUsers()\n\nconsole.log(users.usernames)\n\n// Output\n// \n// [ 'db_admin', 'user1' ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcn1uMCgPOjlEHfs700lDredf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 4. List users\n\nListCredUsersParam listCredUsersParam = ListCredUsersParam.newBuilder()\n    .build();\n\nR<ListCredUsersResponse> listRes = client.listCredUsers(listCredUsersParam);\n\nif (listRes.getException() != null) {\n    System.err.println(\"Failed to list users!\");\n    return;\n}\n\nProtocolStringList usernames = listRes.getData().getUsernamesList();\n\nSystem.out.println(usernames);\n\n// Output:\n// [\n//     \"db_admin\",\n//     \"user1\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnnDlWJxk6UQYdqhT8IUZZeb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 3. List users\n\nusers1, err := conn.ListCredUsers(context.Background())\n\nif err != nil {\n    log.Fatal(\"Failed to list users:\", err.Error())\n}\n\nfmt.Println(\"Users:\", users1)\n\n// Output:\n//\n// Users: [db_admin user1]\n\n// Alternatively\n\nusers2, err := conn.ListUsers(context.Background())\n\nif err != nil {\n    log.Fatal(\"Failed to list users:\", err.Error())\n}\n\nuserList := make([]string, 0)\n\nfor _, user := range users2 {\n    userList = append(userList, user.Name)\n}\n\nfmt.Println(\"Users:\", userList)\n\n// Output: \n//\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// Users: [db_admin user1]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnS1GstE8KWebaiAkg6LGp9f",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Assign a role to a cluster user",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnqJPDvotzSzROKDkcICjVx4",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To assign the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "db_ro",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " role to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "user1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn82BgpBdNWT25HxjUObcI0e",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 4. Assign role\n\n<include target=\"milvus\">\nif \"db_ro\" not in client.list_roles():\n    client.create_role(role_name=\"db_ro\")\n</include>\n<include target=\"zilliz\">\n# Valid roles: \"db_admin\", \"db_rw\", \"db_ro\"\n</include>\n\nclient.grant_role(\n    user_name=\"user1\",\n    role_name=\"db_ro\"\n)\n\n# 5. Get users of a specific role\n\nusers = client.describe_role(role_name=\"db_ro\")\n\nprint(users)\n\n# Output\n#\n# [\"user1\"]\n\n# 6. List roles\n\nroles = client.list_roles()\n\nprint(roles)\n\nroleInfo = []\n\nfor role in roles:\n    roleInfo.append(client.describe_role(role_name=\"db_ro\"))\n\nprint(roleInfo)\n\n# Output\n#\n# [\n#     {\n#         \"role\": \"db_admin\",\n#         \"users\": [\n#             \"db_admin\"\n#         ]\n#     },\n#     {\n#         \"role\": \"db_ro\",\n#         \"users\": [\n#             \"user1\"\n#         ]\n#     },\n#     {\n#         \"role\": \"db_rw\",\n#         \"users\": []\n#     }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnVSgMMG3lM9CJKiree3Bgrd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 5. Assign role to user\n\nawait client.addUserToRole({\n    username: \"user1\",\n    rolename: \"db_ro\",\n})\n\n// 6. List roles\n\nconst roles = await client.listRoles()\n\nconsole.log(roles.results)\n\n// Output\n// \n// [\n//   { users: [ [Object] ], role: { name: 'db_admin' } },\n//   { users: [], role: { name: 'db_ro' } },\n//   { users: [], role: { name: 'db_rw' } },\n// ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnkte5x5KTkWGdojxEl9fVbf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 5. Assign role to user\n\nAddUserToRoleParam addUserToRoleParam = AddUserToRoleParam.newBuilder()\n    .withUserName(\"user1\")\n    .withRoleName(\"db_ro\")\n    .build();\n\nR<RpcStatus> addRes = client.addUserToRole(addUserToRoleParam);\n\nif (addRes.getException() != null) {\n    System.err.println(\"Failed to assign role to user!\");\n    return;\n}\n\nSystem.out.println(\"Role assigned to user!\");\n\n// Output:\n// Role assigned to user!\n\n// 6. Get users of a specific role\n\nSelectRoleParam selectRoleParam = SelectRoleParam.newBuilder()\n    .withRoleName(\"db_ro\")\n    .withIncludeUserInfo(true)\n    .build();\n\nR<SelectRoleResponse> selectRoleRes = client.selectRole(selectRoleParam);\n\nif (selectRoleRes.getException() != null) {\n    System.err.println(\"Failed to list roles!\");\n    return;\n}\n\nList<RoleResult> roles = selectRoleRes.getData().getResultsList();\nList<JSONObject> roleList = new ArrayList<>();\n\nfor (RoleResult role : roles) {\nrole.getAllFields().forEach((k, v) -> {\n    roleList.add(new JSONObject().fluentPut(k.getName(), v));\n});\n}\n\nSystem.out.println(roleList);\n\n// Output:\n// [\n//     {\"role\": {\"name\": \"db_ro\"}},\n//     {\"users\": [{\"name\": \"user1\"}]}\n// ]\n\n\n// 7. Get roles of a specific user\nSelectUserParam selectUserParam = SelectUserParam.newBuilder()\n    .withUserName(\"user1\")\n    .withIncludeRoleInfo(true)\n    .build();\n\nR<SelectUserResponse> selectUserRes = client.selectUser(selectUserParam);\n\nif (selectUserRes.getException() != null) {\n    System.err.println(\"Failed to list roles!\");\n    return;\n}\n\nList<UserResult> users = selectUserRes.getData().getResultsList();\nList<JSONObject> userList = new ArrayList<>();\n\nfor (UserResult user : users) {\nuser.getAllFields().forEach((k, v) -> {\n    userList.add(new JSONObject().fluentPut(k.getName(), v));\n});\n}\n\nSystem.out.println(userList);\n\n// Output:\n// [\n//     {\"user\": {\"name\": \"user1\"}},\n//     {\"roles\": [{\"name\": \"db_ro\"}]}\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// ]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnSkv0N4t8pv9p2FeDnEbVKe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 4. Assign role\n\nrolename := \"db_ro\"\n\nerr = conn.AddUserRole(\n    context.Background(), // context\n    USERNAME,             // username\n    rolename,             // role\n)\n\nif err != nil {\n    log.Fatal(\"Failed to assign role:\", err.Error())\n}\n\n// 5. List roles\n\nroles, err := conn.ListRoles(\n    context.Background(), // context\n)\n\nif err != nil {\n    log.Fatal(\"Failed to list roles:\", err.Error())\n}\n\nroleList := make([]interface{}, 0, 1)\nfor _, role := range roles {\n    roleList = append(roleList, role.Name)\n}\n\nfmt.Println(\"Roles:\", roleList)\n\n// Output: \n//\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// Roles: [db_admin db_ro db_rw]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnKP4rqS8DmKsFU7HRonW9Th",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Remove a role from a user",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnbl4Ofd2b6cvDFOfQ3Wlowc",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To remove a role from a user:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnca7tpei3Z8dR7QYeFbljtc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 7. Remove role from user\n\nclient.revoke_role(\n    user_name=\"user1\",\n    role_name=\"db_ro\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnoqi3lymB2FTBIiIsvtjByc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 7. Remove role from user\n\nawait client.removeUserFromRole({\n    username: \"user1\",\n    rolename: \"db_ro\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "})",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcngx9LHprMUtdnhY2qWeCSZb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 8. Remove role from user\n\nRemoveUserFromRoleParam removeUserFromRoleParam = RemoveUserFromRoleParam.newBuilder()\n    .withUserName(\"user1\")\n    .withRoleName(\"db_ro\")\n    .build();\n\nR<RpcStatus> removeRes = client.removeUserFromRole(removeUserFromRoleParam);\n\nif (removeRes.getException() != null) {\n    System.err.println(\"Failed to remove user from role!\");\n    return;\n}\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "System.out.println(\"User removed from role!\");",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnUMARRDIJADNp9b2LxSHKPe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 6. Remove role from user\n\nerr = conn.RemoveUserRole(\n    context.Background(), // context\n    USERNAME,             // username\n    rolename,             // role\n)\n\nif err != nil {\n    log.Fatal(\"Failed to remove user from role:\", err.Error())\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnVaHQH5IdDy1fSfowzUwbJd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Drop a user",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcni7jW56dLKCSsjy26OeWnwc",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If a user is no longer needed, drop it as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnxb6ZeS2CMLdirnv68Oopic",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 8. Drop a user\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.drop_user(user_name=\"user1\")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnjsy7K36xfZWug7B87liVRc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 8. Delete user\n\nawait client.deleteUser({\n        username: \"user1\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    })",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnFmM43NRRVMsAdbgCt8ikgd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 8. Delete user\n\nDeleteCredentialParam  deleteCredentialParam = DeleteCredentialParam.newBuilder()\n    .withUsername(\"user1\")\n    .build();\n\nR<RpcStatus> deleteRes = client.deleteCredential(deleteCredentialParam);\n\nif (deleteRes.getException() != null) {\n    System.err.println(\"Failed to delete user!\");\n    return;\n}\n\nSystem.out.println(\"User deleted!\");\n\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// User deleted!",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcneG1nX3xsSOFIerey8a7QCc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 7. Delete user\n\nerr = conn.DeleteCredential(\n    context.Background(), // context\n    USERNAME,             // username\n)\n\nif err != nil {\n    log.Fatal(\"Failed to delete user:\", err.Error())\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcn2gUyWyStvd6ivNEArxqVdg",
+        "block_type": 34,
+        "children": [
+          "doxcn9IqgI1wJJyZiWOL974lIUf",
+          "doxcnpd4IYTxFlWMOV1TT3e9lDf"
+        ],
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "quote_container": {}
+      },
+      {
+        "block_id": "doxcn9IqgI1wJJyZiWOL974lIUf",
+        "block_type": 2,
+        "parent_id": "doxcn2gUyWyStvd6ivNEArxqVdg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnpd4IYTxFlWMOV1TT3e9lDf",
+        "block_type": 2,
+        "parent_id": "doxcn2gUyWyStvd6ivNEArxqVdg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The default user ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "db_admin ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "cannot be dropped.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnmQGVSPvkfoZ6X0ES1WhdCf",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnoHBi27632l1vGc6uKPEARh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Drop a role",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnicpHB7gxkLDmxQOinYluif",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If a user is no longer needed, drop it as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnjfNWtoyASx03RyEUn6BRAb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 9. Drop a role\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client = client.drop(role_name=\"db_ro\")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcn0Wn7oXlwDmAJKNZxBoDJvb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 8. Drop a role\n\nawait client.dropRole({\n        role: \"db_ro\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    })",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnchuEU5rZFo4xA9qgAoW0lT",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 9. Drop a role\n\nDropRoleParam  dropRowParam = DropRoleParam.newBuilder()\n    .withRoleName(\"db_ro\")\n    .build();\n\nR<RpcStatus> deleteRes = client.dropRole(dropRoleParam);\n\nif (deleteRes.getException() != null) {\n    System.err.println(\"Failed to drop the role!\");\n    return;\n}\n\nSystem.out.println(\"Role dropped!\");\n\n// Output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// Role dropped!",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnIsbBxnod0FJalTk6h5vNWS",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// 7. Delete user\n\nerr = conn.DropRole(\n    context.Background(), // context\n    ROLENAME,             // username\n)\n\nif err != nil {\n    log.Fatal(\"Failed to delete user:\", err.Error())\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnMwxY39qcyL2AekBlgJc0td",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn41DYN98ASdf1kY8ZNpt0fP",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnDvydBfqcFtG7tNZofEW6og",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Connect to Cluster",
+                "token": "IVFfws0lJi8gIVkRvrvc9aXvnNe",
+                "url": "https://zilliverse.feishu.cn/wiki/IVFfws0lJi8gIVkRvrvc9aXvnNe"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnIyU3Mp4PAGG8p0Q2FtVyRd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "API Keys",
+                "token": "BRsZwqOUTiBbrPk9b5WcvFgTnze",
+                "url": "https://zilliverse.feishu.cn/wiki/BRsZwqOUTiBbrPk9b5WcvFgTnze"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnB69LUu8bZN6gZbgOmbEwcf",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "paas",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnCVVmIrYFWpIu3Aq3eRnaze",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Set up Whitelist",
+                "token": "FnS1wY0iuia4qgkMycVclZyHnOf",
+                "url": "https://zilliverse.feishu.cn/wiki/FnS1wY0iuia4qgkMycVclZyHnOf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnLaDdS1CX5ZUlRHpXMKuIWd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Set up a Private Link",
+                "token": "O5W3wHvmbiVSoLkzKgHcvB9XnUb",
+                "url": "https://zilliverse.feishu.cn/wiki/O5W3wHvmbiVSoLkzKgHcvB9XnUb"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e"
+      },
+      {
+        "block_id": "doxcnwinefAEHxiQhc3K6bwM77b",
+        "block_type": 2,
+        "parent_id": "I89fdcEsWoxwzmxRoNCcIkS3n6e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 71
+  }
+}

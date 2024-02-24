@@ -14,47 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation adds a field to the schema of a collection.
 
-```python
-pymilvus.CollectionSchema.add_field(
-    field_name: str,
-    datatype: DataType
-)
-```
-
-The following operations are related to `add_field()`:
-
-- FieldSchema
-
-- CollectionSchema
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import DataType, FieldSchema, CollectionSchema
-
-# Define fields to create a schema
-primary_key = FieldSchema(
-    name="string",
-    dtype=DataType.INT64,
-    is_primary=True
-)
-
-vector = FieldSchema(
-    name="string",
-    dtype=DataType.FLOAT_VECTOR,
-    dim=int
-)
-
-schema = CollectionSchema(
-    fields=[primary_key, vector]
-)
-
-# Add a Boolean field to the schema
-schema.add_field(
-    field_name="string",
-    datatype=DataType.BOOL
+add_field(
+    field_name: str,
+    datatype: DataType
 )
 ```
 
@@ -123,3 +88,18 @@ schema.add_field(
 # Output
 # {'auto_id': False, 'description': '', 'fields': [{'name': 'id', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': False}, {'name': 'vector', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 768}}, {'name': 'scalar_01', 'description': '', 'type': <DataType.INT32: 4>}]}
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `add_field()`:
+
+- [FieldSchema](./PyMilvusLegacy-FieldSchema)
+
+- [DataType](./Collections-DataType)
+
+- [construct_from_dict()](./CollectionSchema-construct_from_dict)
+
+- [to_dict()](./CollectionSchema-to_dict)
+
+- [verify()](./CollectionSchema-verify)
+

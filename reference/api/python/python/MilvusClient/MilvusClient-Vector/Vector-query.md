@@ -146,10 +146,15 @@ client = MilvusClient(
     token="user:password"
 )
 
-# 2. Create a collection
+# 2. Create a collection and a partition
 client.create_collection(
     collection_name="test_collection",
     dimension=5
+)
+
+client.create_partition(
+    collection_name="test_collection",
+    partition_name="partitionA"
 )
 
 # 3. Insert data

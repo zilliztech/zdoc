@@ -5,7 +5,7 @@
   "node_token": "MvgAwL4HIiuRRJkH0FwcJhxSnld",
   "node_type": "origin",
   "obj_create_time": "1697778473",
-  "obj_edit_time": "1704946258",
+  "obj_edit_time": "1708656329",
   "obj_token": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
   "obj_type": "docx",
   "origin_node_token": "MvgAwL4HIiuRRJkH0FwcJhxSnld",
@@ -103,7 +103,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "This guide helps you learn how to use our SDKs to import data into a collection with the bulk-writer and bulk-insert APIs.",
+                "content": "This guide helps you learn how to use our SDKs to import data into a collection with the bulk-writer and bulk-i",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "mport",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " APIs.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -464,7 +488,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from minio import Minio\n\nACCESS_KEY = \"YOUR_ACCESS_KEY\"\nSECRET_KEY = \"YOUR_SECRET_KEY\"\nBUCKET_NAME = \"YOUR_BUCKET_NAME\"\nREMOTE_PATH = \"YOUR_REMOTE_PATH\"\n\n",
+                "content": "from minio import Minio\n\n# Third-party constants\nYOUR_ACCESS_KEY = \"YOUR_ACCESS_KEY\"\nYOUR_SECRET_KEY = \"YOUR_SECRET_KEY\"\nYOUR_BUCKET_NAME = \"YOUR_BUCKET_NAME\"\nYOUR_REMOTE_PATH = \"YOUR_REMOTE_PATH\"\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -512,7 +536,79 @@
             },
             {
               "text_run": {
-                "content": "\n    access_key=ACCESS_KEY,\n    secret_key=SECRET_KEY,\n",
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    access_key=",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "YOUR_",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ACCESS_KEY,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    secret_key=",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "YOUR_",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SECRET_KEY,\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -548,7 +644,79 @@
             },
             {
               "text_run": {
-                "content": ")\n\nobjects = client.list_objects(\n    bucket_name=BUCKET_NAME,\n    prefix=REMOTE_PATH,\n    recursive=True\n)\n\nprint([obj.object_name for obj in objects])\n\n# Output\n#\n# [\n",
+                "content": ")\n\nobjects = client.list_objects(\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    bucket_name=",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "YOUR_",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BUCKET_NAME,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    prefix=",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "YOUR_",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "REMOTE_PATH,\n    recursive=True\n)\n\nprint([obj.object_name for obj in objects])\n\n# Output\n#\n# [\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1111,7 +1279,55 @@
           "elements": [
             {
               "text_run": {
-                "content": "# set up your collection\nCLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\"\nCLUSTER_TOKEN = \"YOUR_CLUSTER_TOKEN\"\nCOLLECTION_NAME = \"medium_articles\"\nAPI_KEY = \"YOUR_CLUSTER_TOKEN\"\n",
+                "content": "from pymilvus import MilvusClient, DataType\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# set up your collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "## Zilliz Cloud constants",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\nCLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\"\nCLUSTER_TOKEN = \"YOUR_CLUSTER_TOKEN\"\nCOLLECTION_NAME = \"medium_articles\"\nAPI_KEY = \"YOUR_CLUSTER_TOKEN\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1135,7 +1351,19 @@
             },
             {
               "text_run": {
-                "content": "\"YOUR_CLUSTER_ID\"",
+                "content": "\"YOUR_CLUSTER_ID\"\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "## Third-party constants",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1159,7 +1387,7 @@
             },
             {
               "text_run": {
-                "content": "CLOUD_REGION = ",
+                "content": "YOUR_OBJECT_URL = \"YOUR_OBJECT_URL\"\n\n# create a milvus client\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT,\n    token=CLUSTER_TOKEN\n)\n\n# prepare schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_schema=False\n)\n\nschema.add_field(field_name=\"id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"title\", datatype=DataType.VARCHAR, max_length=512)\nschema.add_field(field_name=\"vector\", datatype=DataType.FLOAT_VECTOR, dim=768)\nschema.add_field(field_name=\"link\", datatype=DataType.VARCHAR, max_length=512)\nschema.add_field(field_name=\"reading_time\", datatype=DataType.INT64)\nschema.add_field(field_name=\"publication\", datatype=DataType.VARCHAR, max_length=512)\nschema.add_field(field_name=\"claps\", datatype=DataType.INT64)\nschema.add_field(field_name=\"responses\", datatype=DataType.INT64)\n\n# prepare index parameters\nindex_params = MilvusClient.prepare_index_params()\n\nindex_params.add_index(\n    field_name=\"vector\",\n    index_type=\"AUTOINDEX\",\n    metric_type=\"L2\"\n)\n\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema,\n    index_params=index_params\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1171,31 +1399,7 @@
             },
             {
               "text_run": {
-                "content": "\"YOUR_CLOUD_REGION\"",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n\nif CLOUD_REGION is None:\n    raise Exception(\"Invalid cluster endpoint\")\nelif CLOUD_REGION.startswith(\"gcp\"):\n    OBJECT_URL = f\"gs://{BUCKET_NAME}/{REMOTE_PATH}/\"\nelif CLOUD_REGION.startswith(\"aws\"):\n    OBJECT_URL = f\"s3://{BUCKET_NAME}/{REMOTE_PATH}/\"\nelif CLOUD_REGION.startswith(\"ali\"):\n    OBJECT_URL = f\"oss://{BUCKET_NAME}/{REMOTE_PATH}/\"\n\nfields = [\n    FieldSchema(name=\"id\", dtype=DataType.INT64, is_primary=True),\n    FieldSchema(name=\"title\", dtype=DataType.VARCHAR, max_length=512),\n    FieldSchema(name=\"vector\", dtype=DataType.FLOAT_VECTOR, dim=768),\n    FieldSchema(name=\"link\", dtype=DataType.VARCHAR, max_length=512),\n    FieldSchema(name=\"reading_time\", dtype=DataType.INT64),\n    FieldSchema(name=\"publication\", dtype=DataType.VARCHAR, max_length=512),\n    FieldSchema(name=\"claps\", dtype=DataType.INT64),\n    FieldSchema(name=\"responses\", dtype=DataType.INT64)\n]\n\nschema = CollectionSchema(fields)\n\nconnections.connect(\n    uri=CLUSTER_ENDPOINT,\n    token=CLUSTER_TOKEN,\n    secure=True\n)\n\ncollection = Collection(COLLECTION_NAME, schema)\n\ncollection.create_index(\n    field_name=\"vector\",\n    index_params={\n        \"index_type\": \"AUTOINDEX\",\n        \"metric_type\": \"L2\"\n    }\n)\n\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "collection.load()",
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1270,7 +1474,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# Bulk-import your data from the prepared data files\n\nres = bulk_import(\n    url=f\"controller.api.{CLOUD_REGION}.zillizcloud.com\",\n    api_key=API_KEY,\n    object_url=OBJECT_URL,\n    access_key=ACCESS_KEY,\n    secret_key=SECRET_KEY,\n    cluster_id=CLUSTER_ID,\n    collection_name=COLLECTION_NAME\n)\n\nprint(res.json())\n\n# Output\n#\n# {\n#     \"code\": 200,\n#     \"data\": {\n#         \"jobId\": \"9d0bc230-6b99-4739-a872-0b91cfe2515a\"\n#     }\n",
+                "content": "from pymilvus import bulk_import\n\n# Bulk-import your data from the prepared data files\n\nres = bulk_import(\n    url=f\"controller.api.{CLOUD_REGION}.zillizcloud.com\",\n    api_key=API_KEY,\n    object_url=OBJECT_URL,\n    access_key=ACCESS_KEY,\n    secret_key=SECRET_KEY,\n    cluster_id=CLUSTER_ID,\n    collection_name=COLLECTION_NAME\n)\n\nprint(res.json())\n\n# Output\n#\n# {\n#     \"code\": 200,\n#     \"data\": {\n#         \"jobId\": \"9d0bc230-6b99-4739-a872-0b91cfe2515a\"\n#     }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1355,6 +1559,18 @@
         "block_type": 14,
         "code": {
           "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import get_import_progress\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "job_id = res.json()['data']['jobId']\nres = get_import_progress(\n    url=f\"controller.api.{CLOUD_REGION}.zillizcloud.com\",\n    api_key=API_KEY,\n    job_id=job_id,\n    cluster_id=CLUSTER_ID\n)\n\n# check the bulk-import progress\n\nwhile res.json()[\"data\"][\"readyPercentage\"] < 1:\n    time.sleep(5)\n\n    res = get_import_progress(\n        url=f\"controller.api.{CLOUD_REGION}.zillizcloud.com\",\n        api_key=API_KEY,\n        job_id=job_id,\n        cluster_id=CLUSTER_ID\n    )\n\nprint(res.json())\n\n# Output\n#\n# {\n#     \"code\": 200,\n#     \"data\": {\n#         \"collectionName\": \"medium_articles\",\n",
@@ -1538,6 +1754,18 @@
         "block_type": 14,
         "code": {
           "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import list_import_jobs\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
             {
               "text_run": {
                 "content": "# list bulk-import jobs\n\nres = list_import_jobs(\n    url=f\"controller.api.{CLOUD_REGION}.zillizcloud.com\",\n    api_key=API_KEY,\n    cluster_id=CLUSTER_ID,\n    page_size=10,\n    current_page=1,\n)\n\nprint(res.json())\n\n# Output\n#\n# {\n#     \"code\": 200,\n#     \"data\": {\n#         \"tasks\": [\n#             {\n#                 \"collectionName\": \"medium_articles\",\n#                 \"jobId\": \"9d0bc230-6b99-4739-a872-0b91cfe2515a\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#             {\n#                 \"collectionName\": \"medium_articles\",\n#                 \"jobId\": \"53632e6c-c078-4476-b840-10c4793d9c08\",\n#                 \"state\": \"ImportCompleted\"\n#             },\n#         ],\n",

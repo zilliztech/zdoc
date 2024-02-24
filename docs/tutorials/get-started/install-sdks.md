@@ -19,9 +19,10 @@ Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK opti
 
 <Admonition type="info" icon="📘" title="Notes">
 
-- Zilliz Cloud consistently upgrades clusters to ensure version compatibility. For details, visit the [Set up Maintenance Window](./setup-maintenance-window) page. If connection issues arise due to SDK version discrepancies, heed the provided prompts to revert to a compatible SDK version. We'll notify you post-maintenance, post which you can upgrade your SDK without concerns.
-
-- All SDKs below offer both a stable version and a beta version. The stable version is intended for common clusters, while the beta version corresponds to beta clusters. If you have upgraded your clusters to the beta version, ensure that you also upgraded your SDKs to the beta version.
+<ul>
+<li><p>Zilliz Cloud consistently upgrades clusters to ensure version compatibility. For details, visit the <a href="./setup-maintenance-window">Set up Maintenance Window</a> page. If connection issues arise due to SDK version discrepancies, heed the provided prompts to revert to a compatible SDK version. We'll notify you post-maintenance, post which you can upgrade your SDK without concerns.</p></li>
+<li><p>All SDKs below offer both a stable version and a beta version. The stable version is intended for common clusters, while the beta version corresponds to beta clusters. If you have upgraded your clusters to the beta version, ensure that you also upgraded your SDKs to the beta version.</p></li>
+</ul>
 
 </Admonition>
 
@@ -31,7 +32,7 @@ PyMilvus is Milvus's Python SDK. Access its [source code on GitHub](https://gith
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Ensure your **Python** version exceeds **3.7** prior to installation.
+<p>Ensure your <strong>Python</strong> version exceeds <strong>3.7</strong> prior to installation.</p>
 
 </Admonition>
 
@@ -51,11 +52,11 @@ python -m pip list | grep pymilvus
 
 ## Install Node.js SDK{#install-nodejs-sdk}
 
-For Milvus's Node.js SDK, employ **npm** or **yarn**. Access its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-node).
+For Milvus's Node.js SDK, employ __npm__ or __yarn__. Access its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-node).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Ensure your **Node.js** version is **14** or above prior to installation.
+<p>Ensure your <strong>Node.js</strong> version is <strong>14</strong> or above prior to installation.</p>
 
 </Admonition>
 
@@ -139,9 +140,9 @@ go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.2.8
 
 - [Create Cluster](./create-cluster)
 
-- [Create Collection](./create-collection)
+- [Manage Collections](./manage-collections)
 
-- [Insert Entities](./insert-entities)
+- [Insert, Upsert & Delete](./insert-update-delete)
 
-- [Search and Query](./search-query-and-get)
+- [Search, Query & Get](./search-query-get)
 

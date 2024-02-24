@@ -14,31 +14,13 @@ import Admonition from '@theme/Admonition';
 
 This operation lists all collections in the database used in the current connection.
 
-```python
-pymilvus.utility.list_collections(
-    timeout: float | None,
-    using: str = "default",
-)
-```
-
-The following operations are related to `list_collections()`:
-
-- rename_collection()
-
-- has_collection()
-
-- rename_collection()
-
-- flush_all()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import utility
-
-res = utility.list_collections()
+list_collections(
+    timeout: float | None,
+    using: str = "default",
+)
 ```
 
 __PARAMETERS:__
@@ -75,4 +57,18 @@ connections.connect()
 
 utility.list_collections()
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `list_collections()`:
+
+- [drop_collection()](./utility-drop_collection)
+
+- [flush_all()](./utility-flush_all)
+
+- [has_collection()](./utility-has_collection)
+
+- [has_partition()](./utility-has_partition)
+
+- [rename_collection()](./utility-rename_collection)
 

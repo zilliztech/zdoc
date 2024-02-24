@@ -14,43 +14,16 @@ import Admonition from '@theme/Admonition';
 
 This operation returns a Python iterator for you to iterate over the query results. It is useful especially when the query result contains a large volume of data.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.Collection.query_iterator(
+query_iterator(
     batch_size: int, 
     limit: int, 
     expr: str | None, 
     output_fields: list[str] | None, 
     partition_names: list[str] | None, 
     timeout: float | None
-)
-```
-
-The following operations are related to `query_iterator()`:
-
-- query()
-
-- search()
-
-- search_iterator()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Create a query iterator
-iterator = collection.query_iterator(
-    batch_size=1000,
-    limit=-1,
-    expr=None,
-    output_fields=None,
-    partition_names=None,
-    timeout=None
 )
 ```
 
@@ -155,4 +128,20 @@ while True:
         res.close()
         break
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `query_iterator()`:
+
+- [delete()](./Collection-delete)
+
+- [insert()](./Collection-insert)
+
+- [search()](./Collection-search)
+
+- [search_iterator()](./Collection-search_iterator)
+
+- [query()](./Collection-query)
+
+- [upsert()](./Collection-upsert)
 

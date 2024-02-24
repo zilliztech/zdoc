@@ -1,6 +1,6 @@
 {
   "created_time": "1703755561",
-  "modified_time": "1704872056",
+  "modified_time": "1708738902",
   "name": "describe()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "ZGbAfWoUjl0Z3xdgyItc8wYXngf",
@@ -14,12 +14,8 @@
         "block_type": 1,
         "children": [
           "doxcnxFdZAecWm8G4LG7MHLEwZf",
-          "doxcnHHbwKCXSitWDeFXOGjtI2m",
-          "doxcniflsTHy53yHJqn1XgZAj5f",
-          "N16Ld2Le5oj2zux3PYBc428xnUf",
-          "WESbdfSV0oVj2bxjyorc4tkqncf",
           "JT16dyF9YoHeE3xhy8JcqoPNnzg",
-          "Dg0TdTl4FoN3dQxaw8wc39G1nib",
+          "doxcnHHbwKCXSitWDeFXOGjtI2m",
           "R5K8dhaQyoSbnFxNL6oc7I7Unzb",
           "RbCwdeLzDotFQMxcHVicFz8wnhg",
           "SrSEdylV8obEepxmaNucy5ujnxc",
@@ -41,7 +37,12 @@
           "IdKMdeWSUoaRo3xsmuUcc00Qnzg",
           "KRsldzRSYoCYOsx0zucc649gnwJ",
           "N84PdCLjBodEwwxKe9dcCS4Vne5",
-          "MhAMdwmsMoLqDkxhq30cBH3onqe"
+          "MhAMdwmsMoLqDkxhq30cBH3onqe",
+          "EaGMdpizUomD8kxzlbYc4oOFnJh",
+          "MkIzd1IsZoxglVxhCqBcGu7fnMh",
+          "Xk7gdkrBOomITBxK5T5cb3ftnNf",
+          "GE1ldPJMXopFFjxPSnQcNE59nye",
+          "ASgndDbC5oDPn1xJ1uXcJhOgnHe"
         ],
         "page": {
           "elements": [
@@ -90,130 +91,6 @@
         }
       },
       {
-        "block_id": "doxcnHHbwKCXSitWDeFXOGjtI2m",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "pymilvus.Collection.describe(timeout: float | None)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "EZwsd887JojFjLxbMByckhW0nxg"
-      },
-      {
-        "block_id": "doxcniflsTHy53yHJqn1XgZAj5f",
-        "block_type": 2,
-        "parent_id": "EZwsd887JojFjLxbMByckhW0nxg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The following operations are related to ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "describe()",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ":",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "N16Ld2Le5oj2zux3PYBc428xnUf",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Collection",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "EZwsd887JojFjLxbMByckhW0nxg"
-      },
-      {
-        "block_id": "WESbdfSV0oVj2bxjyorc4tkqncf",
-        "block_type": 2,
-        "parent_id": "EZwsd887JojFjLxbMByckhW0nxg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "See also the Python SDK Reference.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
         "block_id": "JT16dyF9YoHeE3xhy8JcqoPNnzg",
         "block_type": 4,
         "heading2": {
@@ -239,25 +116,13 @@
         "parent_id": "EZwsd887JojFjLxbMByckhW0nxg"
       },
       {
-        "block_id": "Dg0TdTl4FoN3dQxaw8wc39G1nib",
+        "block_id": "doxcnHHbwKCXSitWDeFXOGjtI2m",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import Collection\n\n# Get an existing collection\ncollection = Collection(name=\"string\")\n\n# Get detailed information about the collection\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "collection.describe()",
+                "content": "describe(timeout: float | None)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2406,9 +2271,146 @@
           }
         },
         "parent_id": "EZwsd887JojFjLxbMByckhW0nxg"
+      },
+      {
+        "block_id": "EaGMdpizUomD8kxzlbYc4oOFnJh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related operations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZwsd887JojFjLxbMByckhW0nxg"
+      },
+      {
+        "block_id": "MkIzd1IsZoxglVxhCqBcGu7fnMh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "drop()",
+                "token": "L8UTdDNkPoeew0x6LoDcfHx4nof",
+                "url": "https://zilliverse.feishu.cn/docx/L8UTdDNkPoeew0x6LoDcfHx4nof"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZwsd887JojFjLxbMByckhW0nxg"
+      },
+      {
+        "block_id": "Xk7gdkrBOomITBxK5T5cb3ftnNf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "flush()",
+                "token": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ",
+                "url": "https://zilliverse.feishu.cn/docx/VdiwdqQ9iofbkoxcc8Kcqk5gnhZ"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZwsd887JojFjLxbMByckhW0nxg"
+      },
+      {
+        "block_id": "GE1ldPJMXopFFjxPSnQcNE59nye",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "get_replicas()",
+                "token": "BQKPdDd5xo8OPgxoXorcMxk0nVb",
+                "url": "https://zilliverse.feishu.cn/docx/BQKPdDd5xo8OPgxoXorcMxk0nVb"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZwsd887JojFjLxbMByckhW0nxg"
+      },
+      {
+        "block_id": "ASgndDbC5oDPn1xJ1uXcJhOgnHe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "set_properties()",
+                "token": "ECmAdaYKboPTNlxqkLxcUEZ4nrh",
+                "url": "https://zilliverse.feishu.cn/docx/ECmAdaYKboPTNlxqkLxcUEZ4nrh"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZwsd887JojFjLxbMByckhW0nxg"
       }
     ],
-    "counts": 58
+    "counts": 59
   },
   "slug": "Collection-describe"
 }

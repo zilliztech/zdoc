@@ -14,35 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation gets the current compaction plans.
 
-```python
-pymilvus.Collection.get_compaction_plans(
-    timeout: float | None
-)
-```
-
-The following operations are related to `get_compaction_plans()`:
-
-- compact()
-
-- get_compaction_state()
-
-- wait_for_compaction_completed()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Call the compact method
-collection.compact()
-
-# Get the compaction state
-collection.get_compaction_plans()
+get_compaction_plans(
+    timeout: float | None
+)
 ```
 
 __PARAMETERS:__
@@ -92,3 +69,14 @@ collection.get_compaction_plans()
 #  - state: Completed
 #  - plans: []
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `get_compaction_plans()`:
+
+- [compact()](./Collection-compact)
+
+- [get_compaction_state()](./Collection-get_compaction_state)
+
+- [wait_for_compaction_completed()](./Collection-wait_for_compaction_completed)
+

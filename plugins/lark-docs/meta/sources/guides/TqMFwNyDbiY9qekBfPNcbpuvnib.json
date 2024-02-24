@@ -5,7 +5,7 @@
   "node_token": "TqMFwNyDbiY9qekBfPNcbpuvnib",
   "node_type": "origin",
   "obj_create_time": "1689055599",
-  "obj_edit_time": "1702871753",
+  "obj_edit_time": "1708781406",
   "obj_token": "F3jWdRGdmoHc41xczChcVS1Vnob",
   "obj_type": "docx",
   "origin_node_token": "TqMFwNyDbiY9qekBfPNcbpuvnib",
@@ -54,8 +54,7 @@
           "BuGNdnMtYoFjOpxl3CAcnBI3nGf",
           "YjoKdqc6Jo9F9nxLgwtcI7mnnrc",
           "SDYHdyjckofUSbxwqk0ck7vanSe",
-          "PqQgdQTbQodNA9xdIaUcSwbvnAh",
-          "AnHTdPiwGoBavSxBLMPcT8kEnRh"
+          "PqQgdQTbQodNA9xdIaUcSwbvnAh"
         ],
         "page": {
           "elements": [
@@ -2556,7 +2555,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FH04VwNGoaimjcLkxoH4cs5TQnNd"
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FDzxkwMyxzifAFxkXZiqcErjtnke"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -2611,21 +2610,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Create Collection",
-                "token": "QnKCw0v4TiFkITkneCmcy0mZnre",
-                "url": "https://zilliverse.feishu.cn/wiki/QnKCw0v4TiFkITkneCmcy0mZnre"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
+                "title": "Manage Collections",
+                "token": "XzguwvYt9ipFpkkNdNzcgMnOnJe",
+                "url": "https://zilliverse.feishu.cn/wiki/XzguwvYt9ipFpkkNdNzcgMnOnJe"
               }
             }
           ],
@@ -2651,67 +2638,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Enable Dynamic Schema",
-                "token": "Bb7lwOvwHiJlOgk3RURc3Hi7nrc",
-                "url": "https://zilliverse.feishu.cn/wiki/Bb7lwOvwHiJlOgk3RURc3Hi7nrc"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FEnable-Dynamic-Schema-353bcaa305154240aa15baad91e7549f%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
-      },
-      {
-        "block_id": "AnHTdPiwGoBavSxBLMPcT8kEnRh",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "JavaScript Object Notation (JSON)",
-                "token": "H04VwNGoaimjcLkxoH4cs5TQnNd",
-                "url": "https://zilliverse.feishu.cn/wiki/H04VwNGoaimjcLkxoH4cs5TQnNd"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FJavaScript-Object-Notation-JSON-5ba1d65c243d4c5c8ff08f7188efeb25%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
+                "title": "Enable Dynamic Field",
+                "token": "DzxkwMyxzifAFxkXZiqcErjtnke",
+                "url": "https://zilliverse.feishu.cn/wiki/DzxkwMyxzifAFxkXZiqcErjtnke"
               }
             }
           ],
@@ -2723,6 +2652,6 @@
         "parent_id": "F3jWdRGdmoHc41xczChcVS1Vnob"
       }
     ],
-    "counts": 79
+    "counts": 78
   }
 }

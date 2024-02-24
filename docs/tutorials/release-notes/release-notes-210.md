@@ -11,15 +11,15 @@ import Admonition from '@theme/Admonition';
 
 # Release Notes (Aug 16, 2023)
 
-We are excited to announce the launch of Zilliz Cloud. This release includes a variety of enhancements and features. [__Learn more__](./release-notes-210).
+We are excited to announce the launch of Zilliz Cloud. This release includes a variety of enhancements and features. [Learn more](/docs/release-notes-210).
 
 ## Milvus Compatibility{#milvus-compatibility}
 
-This release is compatible with **Milvus 2.1.x**.
+This release is compatible with __Milvus 2.1.x__.
 
 ## Expanded Regional Support{#expanded-regional-support}
 
-Zilliz Cloud has expanded its services to include public cloud regions in Singapore, specifically **ap-southeast-1** of AWS and **asia-southeast-1** of GCP. This expansion ensures that our users in Southeast Asia have a broader reach and better performance.
+Zilliz Cloud has expanded its services to include public cloud regions in Singapore, specifically __ap-southeast-1__ of AWS and __asia-southeast-1__ of GCP. This expansion ensures that our users in Southeast Asia have a broader reach and better performance.
 
 For all supported public cloud regions, refer to [Cloud Providers & Regions](./cloud-providers-and-regions).
 
@@ -41,9 +41,9 @@ For details, refer to [Manage Cluster](./manage-cluster).
 
 - Bulk Insert
 
-    To streamline the data ingestion process, we have introduced a new RESTful API that is specifically designed for bulk data imports. This feature aims to significantly reduce the time and complexity of data uploads. For details, see the [__API reference__](https://docs.zilliz.com/reference/import-operations).
+    To streamline the data ingestion process, we have introduced a new RESTful API that is specifically designed for bulk data imports. This feature aims to significantly reduce the time and complexity of data uploads. For details, see the [API reference](/reference/restful/import-operations).
 
 - Dedicated Cluster Access
 
-    To provide users with wider control and flexibility, dedicated clusters can now be accessed and managed via RESTful API, making integrations and automation more straightforward. For details, see the [__API reference__](https://docs.zilliz.com/reference/cloud-meta).
+    To provide users with wider control and flexibility, dedicated clusters can now be accessed and managed via RESTful API, making integrations and automation more straightforward. For details, see the [API reference](/reference/restful/cloud-meta).
 

@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Imports data from files stored in a specified object storage bucket. Note that the bucket should be in the same cloud as the target cluster of the import.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/vector/collections/import" />
+<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import" />
 
 ---
 
@@ -25,8 +25,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/vector/collections/import" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{

@@ -5,7 +5,7 @@
   "node_token": "KfI3wa2ZCiEJyzkkvKSc5FennId",
   "node_type": "origin",
   "obj_create_time": "1689055369",
-  "obj_edit_time": "1702027959",
+  "obj_edit_time": "1708777005",
   "obj_token": "J16ndYKnsoIIIEx4jLdcvvC4nSe",
   "obj_type": "docx",
   "origin_node_token": "KfI3wa2ZCiEJyzkkvKSc5FennId",
@@ -388,7 +388,46 @@
           "elements": [
             {
               "text_run": {
-                "content": "After determining the CU type, you must also specify its size. Note that the number of collections a cluster can hold varies based on its CU size. A cluster with less than 8 CUs can hold no more than 32 collections, while a cluster with more than 8 CUs can hold as many as 256 collections.",
+                "content": "After determining the CU type, you must also specify its size. Note that the number of collections a cluster can hold varies based on its CU size. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster. For more information on limits, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Zilliz Cloud Limits",
+                "token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
+                "url": "https://zilliverse.feishu.cn/wiki/PuxkwMWvbiHxvTkHsVkcMZP9n5f"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1078,7 +1117,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FH04VwNGoaimjcLkxoH4cs5TQnNd"
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FLTa6we6DziWCb9kmpm5cIRL0nld"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -1424,9 +1463,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Use Partitions",
-                "token": "RnqlwR30LiIrOwk4GWYcT7xvnLb",
-                "url": "https://zilliverse.feishu.cn/wiki/RnqlwR30LiIrOwk4GWYcT7xvnLb"
+                "title": "Manage Partitions",
+                "token": "LcEdwc5sWiMMzdke2UWcQ105nqd",
+                "url": "https://zilliverse.feishu.cn/wiki/LcEdwc5sWiMMzdke2UWcQ105nqd"
               }
             },
             {
@@ -1574,9 +1613,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Search and Query",
-                "token": "YfMEwLHzeisARCk4VZ3cVhJmnjd",
-                "url": "https://zilliverse.feishu.cn/wiki/YfMEwLHzeisARCk4VZ3cVhJmnjd"
+                "title": "Search, Query & Get",
+                "token": "AAJnwIbLViyZzgk6el3c3DERnpf",
+                "url": "https://zilliverse.feishu.cn/wiki/AAJnwIbLViyZzgk6el3c3DERnpf"
               }
             },
             {

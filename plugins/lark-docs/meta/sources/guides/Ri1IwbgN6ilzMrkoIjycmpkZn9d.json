@@ -1,0 +1,5107 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1708764329",
+  "node_token": "Ri1IwbgN6ilzMrkoIjycmpkZn9d",
+  "node_type": "origin",
+  "obj_create_time": "1708764329",
+  "obj_edit_time": "1708771180",
+  "obj_token": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+  "obj_type": "docx",
+  "origin_node_token": "Ri1IwbgN6ilzMrkoIjycmpkZn9d",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "AAJnwIbLViyZzgk6el3c3DERnpf",
+  "space_id": "7167193056431783939",
+  "title": "Single-Vector Search",
+  "slug": "single-vector-search",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "block_type": 1,
+        "children": [
+          "doxcndiQ6ZYp7jVUpp0p34RFJMg",
+          "doxcnGPJbpKYflJuuxTWaYesCge",
+          "doxcn9EZdg8NSXJQ0lenNeAti5e",
+          "doxcnEZR2MXXRNudNYSOAzWyGEg",
+          "doxcn3hJX2UdZF55aOvEjR9tyTf",
+          "doxcnaQn3N53fMMcE2AG3T0IT2e",
+          "doxcntUXKi8cRwYIDw1CvO4TEcf",
+          "doxcn0iat6SX0SGEF1qZOyLQdYe",
+          "doxcnZrtTBGD4rg25ZnYS0QFKIc",
+          "doxcnjEjcI6pGiwhdlrTbOaV8lc",
+          "doxcn4fMk8q3s1ZE9c4NpviCKfd",
+          "doxcnYNDekwSGmqoNIwN9L6ertg",
+          "doxcn8d1NqLF6wg3OqgCRkFr3tf",
+          "doxcnsVKloC5655KksPGL6OECEb",
+          "doxcnh6mKHMz0ZaF1G0Luhybz1d",
+          "doxcnK1lzYaATE9smW49SBP6Dng",
+          "doxcn2PIlbi2K5KNzgYK0qFGOwg",
+          "doxcnIgtdcduL4OuGT7l9nJPI3v",
+          "doxcngCIUIVoKcUT4OylP67llzg",
+          "doxcnElNBo6ELImIqmP3AGI2JJd",
+          "doxcnLKV7zXqrNcqYuR8kQ0yWZd",
+          "doxcnouE4UIa12BtCHXuf4HKwld",
+          "doxcnlgSHFSuXzItrIRkdLiXJQf",
+          "doxcn6miCrW8XY97v6hpy60b9Y8",
+          "doxcnHla1zMEvzq1rtGvNI1koOg",
+          "doxcng1F5QRYhZ09lZODoPjaZff",
+          "doxcnuIyH97VMRvu7J22gGXUhVe",
+          "doxcnVagPfhAEGgm14V6rS8Xwob",
+          "doxcnSod4jnkQNeiXLdbwdlq0zg",
+          "doxcn42pi1n3xlnWL9ImVe6RBWg",
+          "doxcnWGumJSqv2RiYB683VIJ1o4",
+          "doxcnyglECB0GKUVNSuSuiAmQcd",
+          "doxcnPA9XjW2gX1HDtnRlRhMXCg",
+          "doxcn05QIZNOZHfOepGozDtnMYe",
+          "doxcnZTpLKbUF4Tf2OMr60bb2ic",
+          "doxcnIyuSKn8eL3nCHIXDFPjOrc",
+          "doxcnQQSSe5xfuqQzCbh41PUBzd",
+          "doxcnXDq2noeG400QvjihZYYWBd",
+          "doxcnfKayZiXSsOKOFSIkkQGAJe",
+          "doxcn1T7Cx299QyhXpRW7g7eS6f",
+          "doxcnnWyhfYkFRl2KfAaOIWTpfb",
+          "doxcnwM4WUpqrCv2A0kp3AYbRGf",
+          "doxcnXk27zWGpFZ5IqGi8MIDg7f",
+          "doxcnJGCYcJ6CpI6kmX672PlGNd",
+          "doxcnn3njmpZDyk0grn4XkE5IBc",
+          "doxcnApSxei7Xrrk6ahFQzRkFNb",
+          "doxcn83JvXsdCWjELRngYHJjpPe",
+          "doxcnyTdk67KBePCNayRqfEp3hb",
+          "doxcnozdHamCTU9OeCYHAXzjVQe",
+          "doxcnoeBdMGka5Hd8O1hUDAD21g",
+          "doxcnoAmae4vPIU7uyUn0syiG4g",
+          "doxcnVVpZCK90OPrFeXiLg1MiEh",
+          "doxcnF6wO9DBDhYfbZL0a9PC7vd",
+          "doxcncbpWFzaf96khnJJmN1XPVb",
+          "doxcn0OyWUG5yLL7k2HY2r37U0f",
+          "doxcnW9fdhrsLlwxoBVgfDEfcmf",
+          "doxcn6Gj7O2XfZz8toPpzBJ8a6d",
+          "doxcnNs2fldseDTaxQC9eRyArLh",
+          "doxcnCKy2z35uoqxWPaiIdIUyxj",
+          "doxcni72buoqgFXtJhxAtmlXUlb",
+          "doxcn9IbSbw5dHKPjHUEQ6Sc50e",
+          "doxcna0EnAkFeH8NbIEcyrep6Od",
+          "doxcnSxcxK7zDyXLul5C2T3syMc",
+          "doxcnR08mBnH5qHlkzZLwC1woWL",
+          "doxcnx81kv5i7A4KaKDBTIAKJed",
+          "doxcnF6b5S8k3EdaGAbfp7z7JSf",
+          "doxcnh4VmHKYr7OjCk0LtIUXUGf",
+          "doxcn7UdEA3LEfE5uJbeHvTZMUd",
+          "doxcnls5PIWg65t8ErMYi7x8pmh",
+          "doxcnOqwXT9xrjuyedYpfhpW8Hf",
+          "doxcnzAPwTLvSkYuJJTrZGqF4fc",
+          "doxcnSOXF0mrz4McoaupS4PRrhc",
+          "doxcnsWxVvyBEnRbHWF7gf76Fcf",
+          "doxcnzs3ud73GbZwz7RVlPIIzGb",
+          "doxcnlnR1zguvv4Hlwt04MEN1wc",
+          "doxcnsj9OtrwABtyDQs40rb2YGd",
+          "doxcnUGEtIrk2tPxC2BzVak21Ob",
+          "doxcnkExPdGFv1gHQeWhLoZD41g",
+          "doxcnox3GyrdmpRpnwFDXkKlkAc",
+          "doxcn6gStiC8UAI951xipIWVq2L",
+          "doxcnS5zzlrJtY7ETyP5k4zLv1c",
+          "doxcnbfxJVc6gPeDvHetmg5W6Bf",
+          "doxcn82RIT1oOx8tlGRWVfMP7ic",
+          "doxcnjdwmWJTfWdoqWxd8DdKNdl",
+          "doxcncixZa8WklBm23Rvv0dQarl",
+          "doxcnaVEae2AS8WRVwGRPoZmtBe",
+          "doxcnSP1Y2vQG7yw318zBpeDP8g",
+          "doxcnem7G1QKrcPeG6o3DQi9wRu",
+          "doxcnN4m62RgrBAwuZjyeLrWxFc"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Single-Vector Search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcndiQ6ZYp7jVUpp0p34RFJMg",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After your data is inserted, the next step is to send a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " request to search for vectors that are similar to your query vector. A single-vector search compares your query vector against the existing vectors in your collection to find the most similar entities, returning their IDs and the distances between them. This process can optionally return the vector values and metadata of the results.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnGPJbpKYflJuuxTWaYesCge",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcn9EZdg8NSXJQ0lenNeAti5e",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "There are a variety of search types to meet different requirements:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnEZR2MXXRNudNYSOAzWyGEg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Basic search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FRi1IwbgN6ilzMrkoIjycmpkZn9d%23doxcn8d1NqLF6wg3OqgCRkFr3tf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Includes single-vector search, batch-vector search, partition search, and search with specified output fields.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcn3hJX2UdZF55aOvEjR9tyTf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filtered search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FRi1IwbgN6ilzMrkoIjycmpkZn9d%23doxcnVVpZCK90OPrFeXiLg1MiEh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Applies filtering criteria based on scalar fields to refine search results.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnaQn3N53fMMcE2AG3T0IT2e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Range search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FRi1IwbgN6ilzMrkoIjycmpkZn9d%23doxcnCKy2z35uoqxWPaiIdIUyxj"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Finds vectors within a specific distance range from the query vector.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcntUXKi8cRwYIDw1CvO4TEcf",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn0iat6SX0SGEF1qZOyLQdYe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Grouping search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FRi1IwbgN6ilzMrkoIjycmpkZn9d%23doxcnzAPwTLvSkYuJJTrZGqF4fc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Groups search results based on a specific field to ensure diversity in the results.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnZrtTBGD4rg25ZnYS0QFKIc",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnjEjcI6pGiwhdlrTbOaV8lc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Preparations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcn4fMk8q3s1ZE9c4NpviCKfd",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The code snippet below repurposes the existing code to establish a connection to a Zilliz Cloud cluster and quickly set up a collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnYNDekwSGmqoNIwN9L6ertg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient\n\nCLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\"\nTOKEN = \"YOUR_CLUSTER_TOKEN\"\n\n# 1. Set up a Milvus client\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT,\n    token=TOKEN \n)\n\n# 2. Insert randomly generated vectors \ncolors = [\"green\", \"blue\", \"yellow\", \"red\", \"black\", \"white\", \"purple\", \"pink\", \"orange\", \"brown\", \"grey\"]\ndata = [ {\"id\": i, \"vector\": [ random.uniform(-1, 1) for _ in range(5) ], \"color\": f\"{random.choice(colors)}_{str(random.randint(1000, 9999))}\" } for i in range(1000) ]\n\nres = client.insert(\n    collection_name=\"quick_setup\",\n    data=data\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"insert_count\": 1000\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcn8d1NqLF6wg3OqgCRkFr3tf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Basic ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "s",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "earch",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnsVKloC5655KksPGL6OECEb",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When sending a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " request, you can provide one or more vector values representing your query embeddings and a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "limit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " value indicating the number of results to return.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnh6mKHMz0ZaF1G0Luhybz1d",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Depending on your data and your query vector, you may get fewer than ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "limit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " results. This happens when ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "limit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is larger than the number of possible matching vectors for your query.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnK1lzYaATE9smW49SBP6Dng",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Single-vector search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcn2PIlbi2K5KNzgYK0qFGOwg",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Single-vector search is the simplest form of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " operations in <exclude target=\"zilliz\">Milvus</exclude><include target=\"zilliz\">Zilliz Cloud</include>, designed to find the most similar vectors to a given query vector.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnIgtdcduL4OuGT7l9nJPI3v",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To perform a single-vector search, specify the target collection name, the query vector, and the desired number of results (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "limit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "). This operation returns a result set comprising the most similar vectors, their IDs, and distances from the query vector.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcngCIUIVoKcUT4OylP67llzg",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Here is an example of searching for the top 5 entities that are most similar to the query vector:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnElNBo6ELImIqmP3AGI2JJd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Single vector search\nres = client.search(\n    collection_name=\"test_collection\", # Replace with the actual name of your collection\n    # Replace with your query vector\n    data=[[0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]],\n    limit=5, # Max. number of search results to return\n    search_params={\"metric_type\": \"IP\", \"params\": {}} # Search parameters\n)\n\n# Convert the output to a formatted JSON string\nresult = json.dumps(res, indent=4)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(result)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnLKV7zXqrNcqYuR8kQ0yWZd",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output is similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnouE4UIa12BtCHXuf4HKwld",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[\n    [\n        {\n            \"id\": 0,\n            \"distance\": 1.4093276262283325,\n            \"entity\": {}\n        },\n        {\n            \"id\": 4,\n            \"distance\": 0.9902134537696838,\n            \"entity\": {}\n        },\n        {\n            \"id\": 1,\n            \"distance\": 0.8519943356513977,\n            \"entity\": {}\n        },\n        {\n            \"id\": 5,\n            \"distance\": 0.7972343564033508,\n            \"entity\": {}\n        },\n        {\n            \"id\": 2,\n            \"distance\": 0.5928734540939331,\n            \"entity\": {}\n        }\n    ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnlgSHFSuXzItrIRkdLiXJQf",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output showcases the top 5 neighbors nearest to your query vector, including their unique IDs and the calculated distances.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn6miCrW8XY97v6hpy60b9Y8",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Batch-vector search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnHla1zMEvzq1rtGvNI1koOg",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A batch-vector search extends the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "single-vector search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FRi1IwbgN6ilzMrkoIjycmpkZn9d%23doxcnK1lzYaATE9smW49SBP6Dng"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " concept by allowing multiple query vectors to be searched in a single request. This type of search is ideal for scenarios where you need to find similar vectors for a set of query vectors, significantly reducing the time and computational resources required.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcng1F5QRYhZ09lZODoPjaZff",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In a batch-vector search, you can include several query vectors in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "data",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field. The system processes these vectors in parallel, returning a separate result set for each query vector, each set containing the closest matches found within the collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnuIyH97VMRvu7J22gGXUhVe",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Here is an example of searching for two distinct sets of the most similar entities from two query vectors:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnVagPfhAEGgm14V6rS8Xwob",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Batch-vector search\nres = client.search(\n    collection_name=\"test_collection\", # Replace with the actual name of your collection\n    data=[\n        [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104],\n        [0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345]\n    ], # Replace with your query vectors\n    limit=2, # Max. number of search results to return\n    search_params={\"metric_type\": \"IP\", \"params\": {}} # Search parameters\n)\n\nresult = json.dumps(res, indent=4)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(result)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnSod4jnkQNeiXLdbwdlq0zg",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output is similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn42pi1n3xlnWL9ImVe6RBWg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[\n    [\n        {\n            \"id\": 1,\n            \"distance\": 1.3017789125442505,\n            \"entity\": {}\n        },\n        {\n            \"id\": 7,\n            \"distance\": 1.2419954538345337,\n            \"entity\": {}\n        }\n    ], # Result set 1\n    [\n        {\n            \"id\": 3,\n            \"distance\": 2.3358664512634277,\n            \"entity\": {}\n        },\n        {\n            \"id\": 8,\n            \"distance\": 0.5642921924591064,\n            \"entity\": {}\n        }\n    ] # Result set 2\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnWGumJSqv2RiYB683VIJ1o4",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The results include two sets of nearest neighbors, one for each query vector, showcasing the efficiency of batch-vector searches in handling multiple query vectors at once.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnyglECB0GKUVNSuSuiAmQcd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Partition search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnPA9XjW2gX1HDtnRlRhMXCg",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Partition search narrows the scope of your search to a specific subset or partition of your collection. This is particularly useful for organized datasets where data is segmented into logical or categorical divisions, allowing for faster search operations by reducing the volume of data to scan.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn05QIZNOZHfOepGozDtnMYe",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To conduct a partition search, simply include the name of the target partition in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "partition_names",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " of your search request. This specifies that the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " operation only considers vectors within the specified partition.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnZTpLKbUF4Tf2OMr60bb2ic",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Here is an example of searching for entities in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "partition_1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnIyuSKn8eL3nCHIXDFPjOrc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Search in partition_1\nres = client.search(\n    collection_name=\"test_collection\", # Replace with the actual name of your collection\n    data=[[0.02174828545444263, 0.058611125483182924, 0.6168633415965343, -0.7944160935612321, 0.5554828317581426]],\n    limit=5, # Max. number of search results to return\n    search_params={\"metric_type\": \"IP\", \"params\": {}}, # Search parameters\n    partition_names=[\"partition_1\"] # Partition names to search in\n)\n\nresult = json.dumps(res, indent=4)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(result)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnQQSSe5xfuqQzCbh41PUBzd",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output is similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnXDq2noeG400QvjihZYYWBd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[\n    [\n        {\n            \"id\": 16,\n            \"distance\": 0.9200337529182434,\n            \"entity\": {}\n        },\n        {\n            \"id\": 14,\n            \"distance\": 0.4505271911621094,\n            \"entity\": {}\n        },\n        {\n            \"id\": 15,\n            \"distance\": 0.19924677908420563,\n            \"entity\": {}\n        },\n        {\n            \"id\": 17,\n            \"distance\": 0.0075093843042850494,\n            \"entity\": {}\n        },\n        {\n            \"id\": 13,\n            \"distance\": -0.14609718322753906,\n            \"entity\": {}\n        }\n    ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnfKayZiXSsOKOFSIkkQGAJe",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Then, search for entities in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "partition_2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn1T7Cx299QyhXpRW7g7eS6f",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Create a MilvusClient instance\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n)\n\n# Search in partition_2\nres = client.search(\n    collection_name=\"test_collection\", # Replace with the actual name of your collection\n    data=[[-0.2798451532635784, 0.9486592746891414, -0.9311928407781922, 0.1830057032090473, 0.6962886429672028]],\n    limit=5, # Max. number of search results to return\n    search_params={\"metric_type\": \"IP\", \"params\": {}}, # Search parameters\n    partition_names=[\"partition_2\"] # Partition names to search in\n)\n\nresult = json.dumps(res, indent=4)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(result)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnnWyhfYkFRl2KfAaOIWTpfb",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output is similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnwM4WUpqrCv2A0kp3AYbRGf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[\n    [\n        {\n            \"id\": 20,\n            \"distance\": 2.363696813583374,\n            \"entity\": {}\n        },\n        {\n            \"id\": 26,\n            \"distance\": 1.0665391683578491,\n            \"entity\": {}\n        },\n        {\n            \"id\": 23,\n            \"distance\": 1.066049575805664,\n            \"entity\": {}\n        },\n        {\n            \"id\": 29,\n            \"distance\": 0.8353596925735474,\n            \"entity\": {}\n        },\n        {\n            \"id\": 28,\n            \"distance\": 0.7484277486801147,\n            \"entity\": {}\n        }\n    ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnXk27zWGpFZ5IqGi8MIDg7f",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The data in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "partition_1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " differs from that in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "partition_2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Therefore, the search results will be constrained to the specified partition, reflecting the unique characteristics and data distribution of that subset.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnJGCYcJ6CpI6kmX672PlGNd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search with output fields",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnn3njmpZDyk0grn4XkE5IBc",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search with output fields allows you to specify which attributes or fields of the matched vectors should be included in the search results.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnApSxei7Xrrk6ahFQzRkFNb",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can specify ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "output_fields",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in a request to return results with specific fields.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn83JvXsdCWjELRngYHJjpPe",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Here is an example of returning results with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "color",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " attribute values:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnyTdk67KBePCNayRqfEp3hb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Search with output fields\nres = client.search(\n    collection_name=\"test_collection\", # Replace with the actual name of your collection\n    data=[[0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]],\n    limit=5, # Max. number of search results to return\n    search_params={\"metric_type\": \"IP\", \"params\": {}}, # Search parameters\n    output_fields=[\"color\"] # Output fields to return\n)\n\nresult = json.dumps(res, indent=4)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(result)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnozdHamCTU9OeCYHAXzjVQe",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output is similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnoeBdMGka5Hd8O1hUDAD21g",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[\n    [\n        {\n            \"id\": 0,\n            \"distance\": 1.4093276262283325,\n            \"entity\": {\n                \"color\": \"pink_8682\"\n            }\n        },\n        {\n            \"id\": 16,\n            \"distance\": 1.0159327983856201,\n            \"entity\": {\n                \"color\": \"yellow_1496\"\n            }\n        },\n        {\n            \"id\": 4,\n            \"distance\": 0.9902134537696838,\n            \"entity\": {\n                \"color\": \"red_4794\"\n            }\n        },\n        {\n            \"id\": 14,\n            \"distance\": 0.9803846478462219,\n            \"entity\": {\n                \"color\": \"green_2899\"\n            }\n        },\n        {\n            \"id\": 1,\n            \"distance\": 0.8519943356513977,\n            \"entity\": {\n                \"color\": \"red_7025\"\n            }\n        }\n    ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnoAmae4vPIU7uyUn0syiG4g",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Alongside the nearest neighbors, the search results will include the specified field ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "color",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", providing a richer set of information for each matching vector.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnVVpZCK90OPrFeXiLg1MiEh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ed search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnF6wO9DBDhYfbZL0a9PC7vd",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filtered search introduces the ability to apply scalar filters to your search query, allowing you to refine the search results based on specific criteria.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcncbpWFzaf96khnJJmN1XPVb",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Here is an example of returning results whose ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "color",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " values are prefixed with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "red",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn0OyWUG5yLL7k2HY2r37U0f",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Search with filter\nres = client.search(\n    collection_name=\"test_collection\", # Replace with the actual name of your collection\n    data=[[0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]],\n    limit=5, # Max. number of search results to return\n    search_params={\"metric_type\": \"IP\", \"params\": {}}, # Search parameters\n    output_fields=[\"color\"], # Output fields to return\n    filter='color like \"red%\"'\n)\n\nresult = json.dumps(res, indent=4)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(result)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnW9fdhrsLlwxoBVgfDEfcmf",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output is similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn6Gj7O2XfZz8toPpzBJ8a6d",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[\n    [\n        {\n            \"id\": 4,\n            \"distance\": 0.9902134537696838,\n            \"entity\": {\n                \"color\": \"red_4794\"\n            }\n        },\n        {\n            \"id\": 1,\n            \"distance\": 0.8519943356513977,\n            \"entity\": {\n                \"color\": \"red_7025\"\n            }\n        },\n        {\n            \"id\": 6,\n            \"distance\": -0.4113418459892273,\n            \"entity\": {\n                \"color\": \"red_9392\"\n            }\n        }\n    ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnNs2fldseDTaxQC9eRyArLh",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can find more about filter expressions in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Boolean Expression Rules",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fboolean.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and examples in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Get & Scalar Query",
+                "token": "RCBVwuDlyiHDFwkg4UWcO8gOnqb",
+                "url": "https://zilliverse.feishu.cn/wiki/RCBVwuDlyiHDFwkg4UWcO8gOnqb"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnCKy2z35uoqxWPaiIdIUyxj",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Range search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcni72buoqgFXtJhxAtmlXUlb",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Range search allows you to find vectors that lie within a specified distance range from your query vector.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn9IbSbw5dHKPjHUEQ6Sc50e",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "By setting ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "radius",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and optionally ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "range_filter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you can adjust the breadth of your search to include vectors that are somewhat similar to the query vector, providing a more comprehensive view of potential matches.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcna0EnAkFeH8NbIEcyrep6Od",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "radius",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Defines the outer boundary of your search space. Only vectors that are within this distance from the query vector are considered potential matches.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnSxcxK7zDyXLul5C2T3syMc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "range_filter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": While ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "radius",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " sets the outer limit of the search, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "range_filter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " can be optionally used to define an inner boundary, creating a distance range within which vectors must fall to be considered matches.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnR08mBnH5qHlkzZLwC1woWL",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Conduct a range search\nsearch_params = {\n    \"metric_type\": \"IP\",\n    \"params\": {\n        \"radius\": 0.8, # Radius of the search circle\n        \"range_filter\": 1.0 # Range filter to filter out vectors that are not within the search circle\n    }\n}\n\nres = client.search(\n    collection_name=\"test_collection\", # Replace with the actual name of your collection\n    data=[[0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]],\n    limit=3, # Max. number of search results to return\n    search_params=search_params, # Search parameters\n    output_fields=[\"color\"], # Output fields to return\n)\n\nresult = json.dumps(res, indent=4)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(result)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnx81kv5i7A4KaKDBTIAKJed",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output is similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnF6b5S8k3EdaGAbfp7z7JSf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[\n    [\n        {\n            \"id\": 4,\n            \"distance\": 0.9902134537696838,\n            \"entity\": {\n                \"color\": \"red_4794\"\n            }\n        },\n        {\n            \"id\": 14,\n            \"distance\": 0.9803846478462219,\n            \"entity\": {\n                \"color\": \"green_2899\"\n            }\n        },\n        {\n            \"id\": 1,\n            \"distance\": 0.8519943356513977,\n            \"entity\": {\n                \"color\": \"red_7025\"\n            }\n        }\n    ]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnh4VmHKYr7OjCk0LtIUXUGf",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You will observe that all the entities returned have a distance that falls within the range of 0.8 to 1.0 from the query vector.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn7UdEA3LEfE5uJbeHvTZMUd",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The parameter settings for ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "radius",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "range_filter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " vary with the metric type in use.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnls5PIWg65t8ErMYi7x8pmh",
+        "block_type": 31,
+        "children": [
+          "doxcnHy9JIEEd8L3GTTWPANtEFg",
+          "doxcnRtTK4nzNTeOdz45zRsstKh",
+          "doxcnGRKbczkIkY4GNCf0EL8zLf",
+          "doxcntZWaic6KsAHepHN4nfwWwf",
+          "doxcnUgY4lcems7H1yNGuIZcHdh",
+          "doxcnqPqdiGdoeICUduDSHqgLIo",
+          "doxcn2JP6CF20LsxLTe7CoIq9Gh",
+          "doxcn7egLWzrZn0n05yfGG00U1b",
+          "doxcnA2J6xVY2RwfekJBG5yzrPd"
+        ],
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "table": {
+          "cells": [
+            "doxcnHy9JIEEd8L3GTTWPANtEFg",
+            "doxcnRtTK4nzNTeOdz45zRsstKh",
+            "doxcnGRKbczkIkY4GNCf0EL8zLf",
+            "doxcntZWaic6KsAHepHN4nfwWwf",
+            "doxcnUgY4lcems7H1yNGuIZcHdh",
+            "doxcnqPqdiGdoeICUduDSHqgLIo",
+            "doxcn2JP6CF20LsxLTe7CoIq9Gh",
+            "doxcn7egLWzrZn0n05yfGG00U1b",
+            "doxcnA2J6xVY2RwfekJBG5yzrPd"
+          ],
+          "property": {
+            "column_size": 3,
+            "column_width": [
+              108,
+              274,
+              440
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 3
+          }
+        }
+      },
+      {
+        "block_id": "doxcnHy9JIEEd8L3GTTWPANtEFg",
+        "block_type": 32,
+        "children": [
+          "doxcnjCZPHLkfFu5MCKllxfO6Zc"
+        ],
+        "parent_id": "doxcnls5PIWg65t8ErMYi7x8pmh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnjCZPHLkfFu5MCKllxfO6Zc",
+        "block_type": 2,
+        "parent_id": "doxcnHy9JIEEd8L3GTTWPANtEFg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Metric Type",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnRtTK4nzNTeOdz45zRsstKh",
+        "block_type": 32,
+        "children": [
+          "doxcn8z9Bfc687qmo3fLqETYk5d"
+        ],
+        "parent_id": "doxcnls5PIWg65t8ErMYi7x8pmh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn8z9Bfc687qmo3fLqETYk5d",
+        "block_type": 2,
+        "parent_id": "doxcnRtTK4nzNTeOdz45zRsstKh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Charactericstics",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnGRKbczkIkY4GNCf0EL8zLf",
+        "block_type": 32,
+        "children": [
+          "doxcneIVP6HILQ5xPunYVynk3ic"
+        ],
+        "parent_id": "doxcnls5PIWg65t8ErMYi7x8pmh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcneIVP6HILQ5xPunYVynk3ic",
+        "block_type": 2,
+        "parent_id": "doxcnGRKbczkIkY4GNCf0EL8zLf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Range Search Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcntZWaic6KsAHepHN4nfwWwf",
+        "block_type": 32,
+        "children": [
+          "doxcnmPEk62gQ8aLHX9zB1s0I5G"
+        ],
+        "parent_id": "doxcnls5PIWg65t8ErMYi7x8pmh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnmPEk62gQ8aLHX9zB1s0I5G",
+        "block_type": 2,
+        "parent_id": "doxcntZWaic6KsAHepHN4nfwWwf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "L2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnUgY4lcems7H1yNGuIZcHdh",
+        "block_type": 32,
+        "children": [
+          "doxcnFpYQEoaOFFL3HJxcoahsse"
+        ],
+        "parent_id": "doxcnls5PIWg65t8ErMYi7x8pmh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnFpYQEoaOFFL3HJxcoahsse",
+        "block_type": 2,
+        "parent_id": "doxcnUgY4lcems7H1yNGuIZcHdh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Smaller L2 distances indicate higher similarity.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnqPqdiGdoeICUduDSHqgLIo",
+        "block_type": 32,
+        "children": [
+          "doxcnP8QFela0SQyl0Bg9ZYpcLc",
+          "doxcnnF8vUl61gy1sM5zle4wDEe"
+        ],
+        "parent_id": "doxcnls5PIWg65t8ErMYi7x8pmh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnP8QFela0SQyl0Bg9ZYpcLc",
+        "block_type": 2,
+        "parent_id": "doxcnqPqdiGdoeICUduDSHqgLIo",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To exclude the closest vectors from results, ensure that:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnnF8vUl61gy1sM5zle4wDEe",
+        "block_type": 2,
+        "parent_id": "doxcnqPqdiGdoeICUduDSHqgLIo",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "range_filter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " <= distance < ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "radius",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn2JP6CF20LsxLTe7CoIq9Gh",
+        "block_type": 32,
+        "children": [
+          "doxcnNZt9aZjTnrYGckVdcLfGjd"
+        ],
+        "parent_id": "doxcnls5PIWg65t8ErMYi7x8pmh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnNZt9aZjTnrYGckVdcLfGjd",
+        "block_type": 2,
+        "parent_id": "doxcn2JP6CF20LsxLTe7CoIq9Gh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "IP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn7egLWzrZn0n05yfGG00U1b",
+        "block_type": 32,
+        "children": [
+          "doxcnHoRiLnOwD161dcnE23s4Ub"
+        ],
+        "parent_id": "doxcnls5PIWg65t8ErMYi7x8pmh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnHoRiLnOwD161dcnE23s4Ub",
+        "block_type": 2,
+        "parent_id": "doxcn7egLWzrZn0n05yfGG00U1b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Larger IP distances indicate higher similarity.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnA2J6xVY2RwfekJBG5yzrPd",
+        "block_type": 32,
+        "children": [
+          "doxcnwVXCmcybmFFMmxwkQajpSg",
+          "doxcnJRKdRlJHMpZeNLCBxu2boh"
+        ],
+        "parent_id": "doxcnls5PIWg65t8ErMYi7x8pmh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnwVXCmcybmFFMmxwkQajpSg",
+        "block_type": 2,
+        "parent_id": "doxcnA2J6xVY2RwfekJBG5yzrPd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To exclude the closest vectors from results, ensure that:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnJRKdRlJHMpZeNLCBxu2boh",
+        "block_type": 2,
+        "parent_id": "doxcnA2J6xVY2RwfekJBG5yzrPd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "radius",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " < distance <= ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "range_filter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnOqwXT9xrjuyedYpfhpW8Hf",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnzAPwTLvSkYuJJTrZGqF4fc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Group",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ing",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnSOXF0mrz4McoaupS4PRrhc",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In Milvus, grouping search by a specific field can",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " avoid redundancy of the same field item in the results. You can get a varied set of results for the specific field.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnsWxVvyBEnRbHWF7gf76Fcf",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Consider a collection of documents, each",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " document",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " split",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "s",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " into various passages. Each passage is represented by ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "one",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " vector embedding",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and belongs to one document",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". To find ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "relevant ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "documents",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " instead of similar passages",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "you",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " can include the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "group_by_field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " argument in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "search()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " opeartion to group results by the document ID. This helps return the most relevant and unique documents, rather than separate passages from the same document.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnzs3ud73GbZwz7RVlPIIzGb",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Here is the example code to achieve this:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnlnR1zguvv4Hlwt04MEN1wc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Get existing collection\ncollection = Collection(name='group_search') # Replace with the actual name of your collection\n\n# Group search results\nresults = collection.search(\n    # Replace with your query vector\n    data=[[0.596255488017676, 0.803331289393417, 0.7889329600288849, 0.37180880411949024, 0.508569977301849]],\n    anns_field=\"passage_vector_field\", # Query vector field name\n    param={\"metric_type\": \"L2\", \"params\": {\"nprobe\": 10}}, # Search parameters\n    limit=10, # Max. number of search results to return\n    group_by_field=\"doc_id\", # Group results by document ID\n    output_fields=[\"doc_id\", \"passage_id\"]\n)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(results)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnsj9OtrwABtyDQs40rb2YGd",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output is similar to the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnUGEtIrk2tPxC2BzVak21Ob",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[\n    {\"id\": 1, \"distance\": 0.0, \"entity\": {\"doc_id\": 1, \"passage_id\": 1}},\n    {\"id\": 3109, \"distance\": 0.012906046584248543, \"entity\": {\"doc_id\": 9, \"passage_id\": 3109}},\n    {\"id\": 2226, \"distance\": 0.01377844251692295, \"entity\": {\"doc_id\": 6, \"passage_id\": 2226}},\n    {\"id\": 2105, \"distance\": 0.028072306886315346, \"entity\": {\"doc_id\": 5, \"passage_id\": 2105}},\n    {\"id\": 187, \"distance\": 0.03216659277677536, \"entity\": {\"doc_id\": 7, \"passage_id\": 187}},\n    {\"id\": 4890, \"distance\": 0.03625018149614334, \"entity\": {\"doc_id\": 10, \"passage_id\": 4890}},\n    {\"id\": 1448, \"distance\": 0.0372919924557209, \"entity\": {\"doc_id\": 8, \"passage_id\": 1448}},\n    {\"id\": 2103, \"distance\": 0.0395108163356781, \"entity\": {\"doc_id\": 3, \"passage_id\": 2103}},\n    {\"id\": 4504, \"distance\": 0.04037190228700638, \"entity\": {\"doc_id\": 4, \"passage_id\": 4504}},\n    {\"id\": 592, \"distance\": 0.05172017961740494, \"entity\": {\"doc_id\": 2, \"passage_id\": 592}}\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnkExPdGFv1gHQeWhLoZD41g",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Limitations",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnox3GyrdmpRpnwFDXkKlkAc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Indexing Requirement",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": This grouping feature works only for collections that are indexed with the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "HNSW",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IVF-FLAT",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " type. For more information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "In-memory Index",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Findex.md%23HNSW"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcn6gStiC8UAI951xipIWVq2L",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Performance Impact",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Be mindful that grouping based on a field with a limited range of unique values within a segment can slow down the process. This is because it involves scanning the entire segment for duplicate values.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcnS5zzlrJtY7ETyP5k4zLv1c",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnbfxJVc6gPeDvHetmg5W6Bf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "p",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "arameters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcn82RIT1oOx8tlGRWVfMP7ic",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the above searches except the range search, the default search parameters apply. In normal cases, you do not need to manually set search parameters. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnjdwmWJTfWdoqWxd8DdKNdl",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# In normal cases, you do not need to set search parameters manually\n# Except for range searches.\nsearch_parameters = {\n    'metric_type': 'L2',\n    'params': {\n        'nprobe': 10,\n        'level': 1，\n        'radius': 1.0\n        'range_filter': 0.8\n    }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c"
+      },
+      {
+        "block_id": "doxcncixZa8WklBm23Rvv0dQarl",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following table lists all possible settings in the search parameters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnaVEae2AS8WRVwGRPoZmtBe",
+        "block_type": 31,
+        "children": [
+          "doxcnMwwzK7RjFW0w9ym5iEYmZg",
+          "doxcnmLRwhdiLNcJ1uhDcti3mfg",
+          "doxcnfvk1q8n1LnGGu6BNcAPGWg",
+          "doxcnigp8hDKQCFc5oB9crCymMe",
+          "doxcnxy834BCJ1RhdbE5DTfdevf",
+          "doxcnFtmtJ7GoIdLAcZU8rlDJce",
+          "doxcnXXNNoyVw09Rfl6uSfVhgsd",
+          "doxcn2fKbcP7nzdLzJ5RcvYccCe",
+          "doxcnaT85XeL4IHy9Yv2JQ49mlh",
+          "doxcnmx0RmjGdWCUt7bhgEZIffe",
+          "doxcnAWO5QcII7d3Su8DrcwfoKc",
+          "doxcnV1qAXKaaei3pgmRpYRTLmd"
+        ],
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "table": {
+          "cells": [
+            "doxcnMwwzK7RjFW0w9ym5iEYmZg",
+            "doxcnmLRwhdiLNcJ1uhDcti3mfg",
+            "doxcnfvk1q8n1LnGGu6BNcAPGWg",
+            "doxcnigp8hDKQCFc5oB9crCymMe",
+            "doxcnxy834BCJ1RhdbE5DTfdevf",
+            "doxcnFtmtJ7GoIdLAcZU8rlDJce",
+            "doxcnXXNNoyVw09Rfl6uSfVhgsd",
+            "doxcn2fKbcP7nzdLzJ5RcvYccCe",
+            "doxcnaT85XeL4IHy9Yv2JQ49mlh",
+            "doxcnmx0RmjGdWCUt7bhgEZIffe",
+            "doxcnAWO5QcII7d3Su8DrcwfoKc",
+            "doxcnV1qAXKaaei3pgmRpYRTLmd"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              236,
+              584
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 6
+          }
+        }
+      },
+      {
+        "block_id": "doxcnMwwzK7RjFW0w9ym5iEYmZg",
+        "block_type": 32,
+        "children": [
+          "doxcnHMV9KZqZpQOflc3aPkR5tc"
+        ],
+        "parent_id": "doxcnaVEae2AS8WRVwGRPoZmtBe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnHMV9KZqZpQOflc3aPkR5tc",
+        "block_type": 2,
+        "parent_id": "doxcnMwwzK7RjFW0w9ym5iEYmZg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameter Name",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnmLRwhdiLNcJ1uhDcti3mfg",
+        "block_type": 32,
+        "children": [
+          "doxcnzg9k5bGUEN2CvAsst1Zhyc"
+        ],
+        "parent_id": "doxcnaVEae2AS8WRVwGRPoZmtBe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnzg9k5bGUEN2CvAsst1Zhyc",
+        "block_type": 2,
+        "parent_id": "doxcnmLRwhdiLNcJ1uhDcti3mfg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameter Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnfvk1q8n1LnGGu6BNcAPGWg",
+        "block_type": 32,
+        "children": [
+          "doxcnQhhy8WwxdYJ5pwYN8ZuLfc"
+        ],
+        "parent_id": "doxcnaVEae2AS8WRVwGRPoZmtBe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnQhhy8WwxdYJ5pwYN8ZuLfc",
+        "block_type": 2,
+        "parent_id": "doxcnfvk1q8n1LnGGu6BNcAPGWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "metric_type",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnigp8hDKQCFc5oB9crCymMe",
+        "block_type": 32,
+        "children": [
+          "doxcnPPSKlciTIfCyhfZNCl2zad",
+          "doxcnXywYksiRZtXEEuVRh48b0e"
+        ],
+        "parent_id": "doxcnaVEae2AS8WRVwGRPoZmtBe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnPPSKlciTIfCyhfZNCl2zad",
+        "block_type": 2,
+        "parent_id": "doxcnigp8hDKQCFc5oB9crCymMe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "How to measure similarity between vector embeddings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnXywYksiRZtXEEuVRh48b0e",
+        "block_type": 2,
+        "parent_id": "doxcnigp8hDKQCFc5oB9crCymMe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Possible values are ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "L2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "COSINE",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and defaults to that of the loaded index file.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnxy834BCJ1RhdbE5DTfdevf",
+        "block_type": 32,
+        "children": [
+          "doxcnysj8wrSn0idML1xZZSVaae"
+        ],
+        "parent_id": "doxcnaVEae2AS8WRVwGRPoZmtBe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnysj8wrSn0idML1xZZSVaae",
+        "block_type": 2,
+        "parent_id": "doxcnxy834BCJ1RhdbE5DTfdevf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "params.nprobe",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnFtmtJ7GoIdLAcZU8rlDJce",
+        "block_type": 32,
+        "children": [
+          "doxcnKoY1QEiCqEObVzqkfg5B5e",
+          "doxcn77hMPFJkAHf0QjeqXPtH9c"
+        ],
+        "parent_id": "doxcnaVEae2AS8WRVwGRPoZmtBe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnKoY1QEiCqEObVzqkfg5B5e",
+        "block_type": 2,
+        "parent_id": "doxcnFtmtJ7GoIdLAcZU8rlDJce",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Number of units to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " during the search.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn77hMPFJkAHf0QjeqXPtH9c",
+        "block_type": 2,
+        "parent_id": "doxcnFtmtJ7GoIdLAcZU8rlDJce",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value falls in the range [1, nlist<sub>[1]</sub>].",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnXXNNoyVw09Rfl6uSfVhgsd",
+        "block_type": 32,
+        "children": [
+          "doxcnYRGKtc8xjy4y6T2VkPqPOf"
+        ],
+        "parent_id": "doxcnaVEae2AS8WRVwGRPoZmtBe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnYRGKtc8xjy4y6T2VkPqPOf",
+        "block_type": 2,
+        "parent_id": "doxcnXXNNoyVw09Rfl6uSfVhgsd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "params.level",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn2fKbcP7nzdLzJ5RcvYccCe",
+        "block_type": 32,
+        "children": [
+          "doxcn9ug7K2Bflli2LJl5L2XeQd",
+          "doxcnwwDaiPSD9lJBVmAWpS4Srb"
+        ],
+        "parent_id": "doxcnaVEae2AS8WRVwGRPoZmtBe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn9ug7K2Bflli2LJl5L2XeQd",
+        "block_type": 2,
+        "parent_id": "doxcn2fKbcP7nzdLzJ5RcvYccCe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search precision level.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnwwDaiPSD9lJBVmAWpS4Srb",
+        "block_type": 2,
+        "parent_id": "doxcn2fKbcP7nzdLzJ5RcvYccCe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Possible values are ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "3",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Higher values yield more accurate results but slower performance. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnaT85XeL4IHy9Yv2JQ49mlh",
+        "block_type": 32,
+        "children": [
+          "doxcnWfhvwQgRQJZmUXkukJwuDB"
+        ],
+        "parent_id": "doxcnaVEae2AS8WRVwGRPoZmtBe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnWfhvwQgRQJZmUXkukJwuDB",
+        "block_type": 2,
+        "parent_id": "doxcnaT85XeL4IHy9Yv2JQ49mlh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "params.radius",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnmx0RmjGdWCUt7bhgEZIffe",
+        "block_type": 32,
+        "children": [
+          "doxcnzsj6RCXSR52bUe4XSVfM2e",
+          "doxcnump3QRISrtcQAiE24GSY3f"
+        ],
+        "parent_id": "doxcnaVEae2AS8WRVwGRPoZmtBe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnzsj6RCXSR52bUe4XSVfM2e",
+        "block_type": 2,
+        "parent_id": "doxcnmx0RmjGdWCUt7bhgEZIffe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Minimum similarity between the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " vector and candidate vectors.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnump3QRISrtcQAiE24GSY3f",
+        "block_type": 2,
+        "parent_id": "doxcnmx0RmjGdWCUt7bhgEZIffe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value falls in the range [1, nlist<sub>[1]</sub>].",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnAWO5QcII7d3Su8DrcwfoKc",
+        "block_type": 32,
+        "children": [
+          "doxcn7pptNTmFzW73HFpdNPlm8c"
+        ],
+        "parent_id": "doxcnaVEae2AS8WRVwGRPoZmtBe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn7pptNTmFzW73HFpdNPlm8c",
+        "block_type": 2,
+        "parent_id": "doxcnAWO5QcII7d3Su8DrcwfoKc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "params.range_filter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnV1qAXKaaei3pgmRpYRTLmd",
+        "block_type": 32,
+        "children": [
+          "doxcnrPjHKAXjIDXuAZPpk8d39g",
+          "doxcnWAXtXQKJ1HUHmk72VC7YLd"
+        ],
+        "parent_id": "doxcnaVEae2AS8WRVwGRPoZmtBe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnrPjHKAXjIDXuAZPpk8d39g",
+        "block_type": 2,
+        "parent_id": "doxcnV1qAXKaaei3pgmRpYRTLmd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A similarity range, optionally refining the search for vectors that fall in the range.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnWAXtXQKJ1HUHmk72VC7YLd",
+        "block_type": 2,
+        "parent_id": "doxcnV1qAXKaaei3pgmRpYRTLmd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value falls in the range [top-K<sub>[2]</sub>, ∞].",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnSP1Y2vQG7yw318zBpeDP8g",
+        "block_type": 34,
+        "children": [
+          "doxcntqBYzP2b6NCVtVeLeHWEde",
+          "doxcnTlLSf4pe2yhbb5XV1WA7Ad",
+          "doxcnKsS5MCwwwkt7PktA4eGj0f"
+        ],
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "quote_container": {}
+      },
+      {
+        "block_id": "doxcntqBYzP2b6NCVtVeLeHWEde",
+        "block_type": 2,
+        "parent_id": "doxcnSP1Y2vQG7yw318zBpeDP8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnTlLSf4pe2yhbb5XV1WA7Ad",
+        "block_type": 2,
+        "parent_id": "doxcnSP1Y2vQG7yw318zBpeDP8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[1] Number of cluster units after indexing. When indexing a collection, Zilliz Cloud sub-divides the vector data into multiple cluster units, the number of which varies with the actual index settings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnKsS5MCwwwkt7PktA4eGj0f",
+        "block_type": 2,
+        "parent_id": "doxcnSP1Y2vQG7yw318zBpeDP8g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[2] Number of entities to return in a search.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnem7G1QKrcPeG6o3DQi9wRu",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnN4m62RgrBAwuZjyeLrWxFc",
+        "block_type": 2,
+        "parent_id": "TPH1dhbUHojZPtxdYUrchx5Fn5c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 142
+  }
+}

@@ -95,7 +95,7 @@ client.create_collection(collection_name="test_collection_2", dimension=5)
 client.create_alias(collection_name="test_collection_1", alias="test")
 
 # 4. Reassign the alias to the other collection
-client.alter_alias(collection="test_collection_2", alias="test")
+client.alter_alias(collection_name="test_collection_2", alias="test")
 ```
 
 ## Related methods{#related-methods}

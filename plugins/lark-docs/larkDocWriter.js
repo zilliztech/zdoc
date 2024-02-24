@@ -145,6 +145,13 @@ class larkDocWriter {
     __fetch_doc_source (type, value) {
         const file = fs.readdirSync(this.docSourceDir).filter(file => {
             const page = JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, {encoding: 'utf-8', flag: 'r'}))
+            
+            try {
+                type = type instanceof Array ? type.filter(t => Object.keys(page).includes(t))[0] : type
+            } catch (error) {
+                throw new Error(`Cannot find ${type} in ${this.docSourceDir}/${file}`)
+            }
+            
             return page[type] === value
         })
 
@@ -169,7 +176,7 @@ class larkDocWriter {
             const children = node.children.filter(child => child.obj_type != 'bitable' && child != undefined)
             await forEachAsync(children, async (child, index) => {
                 if (child.has_child) {
-                    const meta = await this.__is_to_publish(child.title) 
+                    const meta = await this.__is_to_publish(child.title, child.slug) 
                     if (meta['publish']) {
                         const token = child.node_token
                         const slug = child.slug
@@ -208,7 +215,7 @@ class larkDocWriter {
                             await this.write_faqs(`${current_path}/faqs`)
                             break;
                         default:
-                            const meta = await this.__is_to_publish(child.title)
+                            const meta = await this.__is_to_publish(child.title, child.slug)
                             if (meta['publish']) {
                                 const token = child.node_token
                                 const slug = child.slug
@@ -392,13 +399,14 @@ class larkDocWriter {
         })).json()).data.items
     }
 
-    async __is_to_publish (title) {
+    async __is_to_publish (title, slug) {
         if (!this.records) {
             await this.__listed_docs()
         }
 
         const result = this.records.filter(record => {
-            if (record["fields"]["Docs"] && record["fields"]["Docs"]["text"] === title && record["fields"]["Targets"] &&
+            const record_slug = record["fields"]["Slug"] instanceof Array ? record["fields"]["Slug"][0].text : record["fields"]["Slug"]
+            if (record["fields"]["Docs"] && record["fields"]["Docs"]["text"] === title && record_slug == slug && record["fields"]["Targets"] &&
                 record["fields"]["Progress"] && (record["fields"]["Progress"] === "Draft" || record["fields"]["Progress"] === "Publish")) {
 
                 const targets = record["fields"]["Targets"].map(item => item.trim().toLowerCase())
@@ -998,7 +1006,7 @@ class larkDocWriter {
             url = new URL(url);
             const token = url.pathname.split('/').pop();
             const header = url.hash.slice(1);
-            const key = url.pathname.split('/')[1] === 'wiki' ? 'origin_node_token' : 'token'; // TODO
+            const key = url.pathname.split('/')[1] === 'wiki' ? 'origin_node_token' : ['token', 'obj_token']; // TODO
             const page = this.__fetch_doc_source(key, token);
 
             if (page) {
@@ -1028,8 +1036,8 @@ class larkDocWriter {
             }
         }
 
-        if (url.startsWith('https://docs.zilliz.com/docs/')) {
-            url = url.replace('https://docs.zilliz.com/docs/', './');
+        if (url.startsWith('https://docs.zilliz.com/')) {
+            url = url.replace('https://docs.zilliz.com/', '/');
         }
             
         return url;

@@ -5,7 +5,7 @@
   "node_token": "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
   "node_type": "origin",
   "obj_create_time": "1693363951",
-  "obj_edit_time": "1707032963",
+  "obj_edit_time": "1708776170",
   "obj_token": "LCR9dQcdKojgN1x9GSKcu8lJnch",
   "obj_type": "docx",
   "origin_node_token": "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
@@ -1670,9 +1670,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Enable Dynamic Schema",
-                "token": "Bb7lwOvwHiJlOgk3RURc3Hi7nrc",
-                "url": "https://zilliverse.feishu.cn/wiki/Bb7lwOvwHiJlOgk3RURc3Hi7nrc"
+                "title": "Enable Dynamic Field",
+                "token": "DzxkwMyxzifAFxkXZiqcErjtnke",
+                "url": "https://zilliverse.feishu.cn/wiki/DzxkwMyxzifAFxkXZiqcErjtnke"
               }
             },
             {
@@ -3104,9 +3104,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Search and Query",
-                "token": "YfMEwLHzeisARCk4VZ3cVhJmnjd",
-                "url": "https://zilliverse.feishu.cn/wiki/YfMEwLHzeisARCk4VZ3cVhJmnjd"
+                "title": "Search, Query & Get",
+                "token": "AAJnwIbLViyZzgk6el3c3DERnpf",
+                "url": "https://zilliverse.feishu.cn/wiki/AAJnwIbLViyZzgk6el3c3DERnpf"
               }
             }
           ],
@@ -3132,9 +3132,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Insert Entities",
-                "token": "HBZTwCHa6iTDE0kqNqZc5OJ8nqg",
-                "url": "https://zilliverse.feishu.cn/wiki/HBZTwCHa6iTDE0kqNqZc5OJ8nqg"
+                "title": "Insert, Upsert & Delete",
+                "token": "Zn0MwWVCVibCPHkD063cNfOkn8d",
+                "url": "https://zilliverse.feishu.cn/wiki/Zn0MwWVCVibCPHkD063cNfOkn8d"
               }
             }
           ],

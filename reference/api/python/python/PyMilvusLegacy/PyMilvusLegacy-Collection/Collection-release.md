@@ -14,35 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation releases the data of the current collection from memory.
 
-```python
-pymilvus.Collection.release(
-    timeout=None,
-)
-```
-
-The following operations are related to `release()`:
-
-- Collection
-
-- Partition
-
-- load()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Load the collection data
-collection.load()
-
-# Release the collection data
-collection.release()
+release(
+    timeout=None,
+)
 ```
 
 __PARAMETERS:__
@@ -73,4 +50,18 @@ collection.load()
 # Release the entire collection data
 collection.release()
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `release()`:
+
+- [Partition](./PyMilvusLegacy-Partition)
+
+- [load()](./Collection-load)
+
+- [load_state()](./utility-load_state)
+
+- [loading_progress()](./utility-loading_progress)
+
+- [wait_for_loading_complete()](./utility-wait_for_loading_complete)
 

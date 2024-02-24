@@ -14,41 +14,14 @@ import Admonition from '@theme/Admonition';
 
 This operation blocks the current process until the specified index has been built.
 
+## Request syntax{#request-syntax}
+
 ```python
-pymilvus.utility.wait_for_index_building_complete(
+wait_for_index_building_complete(
     collection_name: str,
     index_name: str = "",
     timeout: float | None,
     using: str = "default",
-)
-```
-
-The following operations are related to `wait_for_index_building_complete()`
-
-- Collection.create_index()
-
-- Collection.drop_index()
-
-- Collection.has_index()
-
-- Collection.index()
-
-- index_building_progress()
-
-- list_indexes()
-
-See also the Python SDK Reference.
-
-## Request syntax{#request-syntax}
-
-```python
-from pymilvus import utility
-
-utility.wait_for_index_building_complete(
-    collection_name="string",
-    index_name="string",
-    using="default",
-    timeout=None
 )
 ```
 
@@ -158,4 +131,20 @@ utility.wait_for_index_building_complete(
     index_name="_default_idx_100",
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `wait_for_index_building_complete()`
+
+- [create_index()](./Collection-create_index)
+
+- [drop_index()](./Collection-drop_index)
+
+- [has_index()](./Collection-has_index)
+
+- [index()](./Collection-index)
+
+- [index_building_progress()](./utility-index_building_progress)
+
+- [list_indexes()](./utility-list_indexes)
 

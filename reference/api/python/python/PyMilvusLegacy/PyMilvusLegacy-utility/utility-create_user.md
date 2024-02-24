@@ -8,38 +8,23 @@ sidebar_position: 5
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # create_user()
 
 This operation creates a new user with a corresponding password.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.utility.create_user(
+create_user(
     user: str,
     password: str,
     using: str,
     timeout: float | None
 )
 ```
-
-The following operations are related to `create_user()`
-
-- update_password()
-
-- reset_password()
-
-- list_user()
-
-- list_users()
-
-- list_usernames()
-
-- delete_user()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
 
 ```python
 from pymilvus import utility
@@ -103,4 +88,24 @@ connections.connect()
 # Create a user
 user = utility.create_user(user="admin", password="123456")
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `create_user()`
+
+- [Role](./PyMilvusLegacy-Role)
+
+- [delete_user()](./utility-delete_user)
+
+- [list_roles()](./utility-list_roles)
+
+- [list_user()](./utility-list_user)
+
+- [list_users()](./utility-list_users)
+
+- [list_usernames()](./utility-list_usernames)
+
+- [reset_password()](./utility-reset_password)
+
+- [update_password()](./utility-update_password)
 

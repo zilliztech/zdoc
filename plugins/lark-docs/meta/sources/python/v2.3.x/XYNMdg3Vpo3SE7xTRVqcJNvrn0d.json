@@ -1,6 +1,6 @@
 {
   "created_time": "1704782065",
-  "modified_time": "1704783966",
+  "modified_time": "1708756900",
   "name": "load_balance()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "BvYKfbpMUlczBxdyBvEc5Gb3nfb",
@@ -14,9 +14,8 @@
         "block_type": 1,
         "children": [
           "doxcnZUjz4hv5tW9cr7colvA7oc",
-          "doxcnwOirlLU1gZVvTxIONXbZhc",
           "NJKMdGbRsoghbtx14O3cPT12nQu",
-          "M9dcdPiUHompdDxmqlDcQuXlnDc",
+          "doxcnwOirlLU1gZVvTxIONXbZhc",
           "doxcnSFPTQHEGKleH7UYEVfcucd",
           "JsA8dHsUnoa4OfxO1dgcxywDnTD",
           "J7k9db9ieo54lrxMf5TcpBHWnYd",
@@ -104,43 +103,6 @@
         }
       },
       {
-        "block_id": "doxcnwOirlLU1gZVvTxIONXbZhc",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "pymilvus.utility.load_balance(\n    collection_name: str,\n    src_node_id: int,\n    dst_node_ids: list[int] | None,\n    sealed_segment_ids: list[int] | None,\n    timeout: float | None,\n    using: str = \"default\",\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ")",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "XYNMdg3Vpo3SE7xTRVqcJNvrn0d"
-      },
-      {
         "block_id": "NJKMdGbRsoghbtx14O3cPT12nQu",
         "block_type": 4,
         "heading2": {
@@ -166,13 +128,13 @@
         "parent_id": "XYNMdg3Vpo3SE7xTRVqcJNvrn0d"
       },
       {
-        "block_id": "M9dcdPiUHompdDxmqlDcQuXlnDc",
+        "block_id": "doxcnwOirlLU1gZVvTxIONXbZhc",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import utility\n\nutility.load_balance(\n    collection_name=\"string\",\n    src_node_id=446781855410073001,\n    dst_node_ids=[478798283048914039],\n    sealed_segment_ids=None,\n    timeout=None,\n    using=\"default\"\n",
+                "content": "load_balance(\n    collection_name: str,\n    src_node_id: int,\n    dst_node_ids: list[int] | None,\n    sealed_segment_ids: list[int] | None,\n    timeout: float | None,\n    using: str = \"default\",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1192,7 +1154,7 @@
         }
       }
     ],
-    "counts": 27
+    "counts": 26
   },
   "slug": "utility-load_balance"
 }

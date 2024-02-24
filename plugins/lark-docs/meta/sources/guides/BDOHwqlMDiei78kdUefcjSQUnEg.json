@@ -5,7 +5,7 @@
   "node_token": "BDOHwqlMDiei78kdUefcjSQUnEg",
   "node_type": "origin",
   "obj_create_time": "1698025415",
-  "obj_edit_time": "1707100868",
+  "obj_edit_time": "1708757956",
   "obj_token": "YS4udtW7BolGMmxWqDTcEoYCn2c",
   "obj_type": "docx",
   "origin_node_token": "BDOHwqlMDiei78kdUefcjSQUnEg",
@@ -22,7 +22,6 @@
         "block_type": 1,
         "children": [
           "KnOrdd0tuoKUGixItUFcXHimnLf",
-          "DXd2dADUxodckZx2fz6cm6klnxe",
           "HvwcdkUKvojYEExz61wc2A77nRh"
         ],
         "page": {
@@ -72,31 +71,6 @@
         }
       },
       {
-        "block_id": "DXd2dADUxodckZx2fz6cm6klnxe",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Contents",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "YS4udtW7BolGMmxWqDTcEoYCn2c"
-      },
-      {
         "block_id": "HvwcdkUKvojYEExz61wc2A77nRh",
         "block_type": 2,
         "parent_id": "YS4udtW7BolGMmxWqDTcEoYCn2c",
@@ -122,7 +96,7 @@
         }
       }
     ],
-    "counts": 4
+    "counts": 3
   },
   "children": [
     {
@@ -146,19 +120,19 @@
     {
       "creator": "ou_8554528ee6e965bad56710acde1c7847",
       "has_child": false,
-      "node_create_time": "1689044516",
-      "node_token": "IoFmw0VkNiJ7jBksjYKcR191nxd",
+      "node_create_time": "1708764162",
+      "node_token": "GQN0wDCrni4n36kyeVQcF41Lned",
       "node_type": "origin",
-      "obj_create_time": "1689044516",
-      "obj_edit_time": "1707030582",
-      "obj_token": "W33idSXytoVYC5xQrDdcAjt7npe",
+      "obj_create_time": "1708764162",
+      "obj_edit_time": "1708776408",
+      "obj_token": "KaFedwfsXoaRXCx9S9Gc7NPSnph",
       "obj_type": "docx",
-      "origin_node_token": "IoFmw0VkNiJ7jBksjYKcR191nxd",
+      "origin_node_token": "GQN0wDCrni4n36kyeVQcF41Lned",
       "origin_space_id": "7167193056431783939",
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "BDOHwqlMDiei78kdUefcjSQUnEg",
       "space_id": "7167193056431783939",
-      "title": "Quick Start",
+      "title": "Quickstart",
       "slug": "quick-start"
     },
     {
@@ -168,7 +142,7 @@
       "node_token": "YVxQwnj23iS9sNkUTcmcPKzNnQh",
       "node_type": "origin",
       "obj_create_time": "1704535470",
-      "obj_edit_time": "1707100876",
+      "obj_edit_time": "1708757960",
       "obj_token": "FyNxdopCeoySvIxzDhBcRudPniv",
       "obj_type": "docx",
       "origin_node_token": "YVxQwnj23iS9sNkUTcmcPKzNnQh",
@@ -204,7 +178,7 @@
       "node_token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
       "node_type": "origin",
       "obj_create_time": "1689046022",
-      "obj_edit_time": "1705454430",
+      "obj_edit_time": "1708776106",
       "obj_token": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
       "obj_type": "docx",
       "origin_node_token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
@@ -222,7 +196,7 @@
       "node_token": "FCgWwFVtQiUy9GkDlQNcA0xZnPa",
       "node_type": "origin",
       "obj_create_time": "1689046047",
-      "obj_edit_time": "1704940855",
+      "obj_edit_time": "1708775875",
       "obj_token": "J2SgdAeRAoN5pUxoyc5caWSZnwh",
       "obj_type": "docx",
       "origin_node_token": "FCgWwFVtQiUy9GkDlQNcA0xZnPa",

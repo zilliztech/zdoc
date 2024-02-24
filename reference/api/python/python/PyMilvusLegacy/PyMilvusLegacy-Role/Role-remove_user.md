@@ -14,34 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation removes a user from the current role. Once removed, the user will lose the permissions allowed for the current role.
 
-```python
-pymilvus.Role.remove_user(
-    username: str
-)
-```
-
-The following operations are related to `add_user()`:
-
-- Role
-
-- add_user()
-
-- create()
-
-- grant()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Role
-
-# Get an existing role
-role = Role(role_name="string")
-
-# Remove a user from the existing role
-role.remove_user(username="string")
+remove_user(
+    username: str
+)
 ```
 
 __PARAMETERS:__
@@ -80,4 +58,18 @@ role.remove_user(username)
 # List all users of the current role
 users = role.get_users()
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `add_user()`:
+
+- [add_user()](./Role-add_user)
+
+- [get_users()](./Role-get_users)
+
+- [is_exist()](./Role-is_exist)
+
+- [list_grant()](./Role-list_grant)
+
+- [list_grants()](./Role-list_grants)
 

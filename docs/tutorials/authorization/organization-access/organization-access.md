@@ -13,8 +13,6 @@ import Admonition from '@theme/Admonition';
 
 Learn about how to manage organizations, organization users, and organization settings.
 
-## Contents{#contents}
-
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

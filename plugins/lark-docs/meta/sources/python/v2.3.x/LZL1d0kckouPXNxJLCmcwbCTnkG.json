@@ -1,6 +1,6 @@
 {
   "created_time": "1704192718",
-  "modified_time": "1708320029",
+  "modified_time": "1708754271",
   "name": "Role",
   "owner_id": "ou_fbc044d19930afd389d5c369466c38b1",
   "parent_token": "O8YAfe5P0lZ0TZdUOqNcDHEunCe",
@@ -198,7 +198,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import Role\n\n# Create a role\n",
+                "content": "Role(\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -210,7 +210,7 @@
             },
             {
               "text_run": {
-                "content": "role = ",
+                "content": "    name",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -222,7 +222,55 @@
             },
             {
               "text_run": {
-                "content": "Role(\n    name=\"string\",\n    using=\"default\"\n",
+                "content": ": str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    using",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -829,7 +877,67 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import Role\n\n# Create a role\nrole=Role(\n    name=\"admin\",\n",
+                "content": "from pymilvus import Role\n\n# Create a role\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "role",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "=",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Role(\n    name=\"admin\",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

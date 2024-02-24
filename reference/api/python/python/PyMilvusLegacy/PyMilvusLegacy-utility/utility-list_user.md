@@ -14,41 +14,14 @@ import Admonition from '@theme/Admonition';
 
 This operation lists the information of a specific user.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.utility.list_user(
+list_user(
     username: str,
     include_role_info: bool,
     using: str,
     timeout: float | None
-)
-```
-
-The following operations are related to `list_user()`:
-
-- update_password()
-
-- reset_password()
-
-- create_user()
-
-- list_users()
-
-- list_usernames()
-
-- delete_user()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import utility
-
-# List the information of a specific user
-user=utility.list_user(
-    username="string",
-    include_role_info=bool,
-    using="default"
 )
 ```
 
@@ -126,4 +99,24 @@ users = utility.list_user(
 # UserInfo groups:
 # - UserItem: <username:admin>, <roles:('admin',)>
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `list_user()`:
+
+- [Role](./PyMilvusLegacy-Role)
+
+- [create_user()](./utility-create_user)
+
+- [delete_user()](./utility-delete_user)
+
+- [list_roles()](./utility-list_roles)
+
+- [list_users()](./utility-list_users)
+
+- [list_usernames()](./utility-list_usernames)
+
+- [reset_password()](./utility-reset_password)
+
+- [update_password()](./utility-update_password)
 

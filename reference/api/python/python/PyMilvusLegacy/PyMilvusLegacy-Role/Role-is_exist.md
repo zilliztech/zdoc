@@ -14,32 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation checks whether the current role exists.
 
-```python
-pymilvus.Role.is_exist()
-```
-
-The following operations are related to `is_exist()`:
-
-- Role
-
-- create()
-
-- grant()
-
-- drop()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Role
-
-# Specify role name
-role = Role(role_name="string")
-
-# Check if this role exists
-role.is_exist()
+is_exist()
 ```
 
 __PARAMETERS:__
@@ -69,4 +47,18 @@ role = Role(name="test")
 # Check whether the role exists
 role.is_exist()
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `is_exist()`:
+
+- [add_user()](./Role-add_user)
+
+- [get_users()](./Role-get_users)
+
+- [list_grant()](./Role-list_grant)
+
+- [list_grants()](./Role-list_grants)
+
+- [remove_user()](./Role-remove_user)
 

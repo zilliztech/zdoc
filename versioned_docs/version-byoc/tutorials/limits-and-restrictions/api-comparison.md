@@ -17,7 +17,7 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 
 ## Scenario-specific privileges{#scenario-specific-privileges}
 
-|                                   |  **API**                       |  **Ops on GUI** |  **BYOC** |
+|                                   |  __API__                       |  __Ops on GUI__ |  __BYOC__ |
 | --------------------------------- | ------------------------------ | --------------- | --------- |
 |  Alias                            |  alterAlias()                  |  ✘              |  ✘        |
 |                                   |  createAlias()                 |  ✘              |  ✘        |

@@ -14,30 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation drops the current collection. 
 
-```python
-pymilvus.Collection.drop(
-    timeout: float | None
-)
-```
-
-The following operations are related to `drop()`:
-
-- Collection
-
-- utility.drop_collection()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# drop the collection
-collection.drop()
+drop(
+    timeout: float | None
+)
 ```
 
 __PARAMETERS:__
@@ -79,4 +61,16 @@ collection = Collection(
 # Drop the collection
 collection.drop()
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `drop()`:
+
+- [describe()](./Collection-describe)
+
+- [flush()](./Collection-flush)
+
+- [get_replicas()](./Collection-get_replicas)
+
+- [set_properties()](./Collection-set_properties)
 

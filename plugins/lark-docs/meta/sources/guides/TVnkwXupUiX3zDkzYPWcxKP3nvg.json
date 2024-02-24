@@ -5,7 +5,7 @@
   "node_token": "TVnkwXupUiX3zDkzYPWcxKP3nvg",
   "node_type": "origin",
   "obj_create_time": "1689062648",
-  "obj_edit_time": "1705454960",
+  "obj_edit_time": "1708422952",
   "obj_token": "Ugd9dlygComG36xn2rWcJADrn4b",
   "obj_type": "docx",
   "origin_node_token": "TVnkwXupUiX3zDkzYPWcxKP3nvg",
@@ -190,7 +190,7 @@
             },
             {
               "text_run": {
-                "content": " Zilliz Cloud currently accepts credit cards issued in the United States (USA), China, Hong Kong SAR, Macau SAR, and Taiwan. If your credit card is from a different country or region, please consider ",
+                "content": " Zilliz Cloud currently accepts credit cards issued in the United States (USA), China, Hong Kong SAR, Macau SAR, Taiwan, and Canada. If your credit card is from a different country or region, please consider ",
                 "text_element_style": {
                   "background_color": 3,
                   "bold": false,

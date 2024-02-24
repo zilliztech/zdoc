@@ -24,7 +24,7 @@ Make sure the following conditions are met:
 
     For details on how to prepare your data, refer to [Prepare Source Data](./prepare-source-data). You can also refer to the end-to-end notebook [Data Import from Zero to Hero](./data-import-zero-to-hero) to get more.
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Example Dataset](./example-dataset) and [Create Collection](./create-collection).
+- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Example Dataset](./example-dataset) and [Manage Collections](./manage-collections).
 
 ## Import data on the web UI{#import-data-on-the-web-ui}
 
@@ -32,13 +32,13 @@ Once data files are ready, you can import them directly from your local drive or
 
 <Admonition type="info" icon="📘" title="Notes">
 
-For successful data import, ensure that the object storage bucket you use is located in the same cloud as your cluster.
+<p>For successful data import, ensure that the object storage bucket you use is located in the same cloud as your cluster.</p>
 
 </Admonition>
 
 ### Local JSON file{#local-json-file}
 
-To import data, you can either drag and drop a local file into the upload area, or click **upload a file** and select the file.
+To import data, you can either drag and drop a local file into the upload area, or click __upload a file__ and select the file.
 
 ![data-import-on-console](/img/data-import-on-console.png)
 
@@ -58,25 +58,25 @@ The following table lists applicable remote bucket URIs and some quick examples 
 
 <TabItem value="aws">
 
-- **Object access URIs**
+- __Object access URIs__
 
-    |  **URI Style**                            |  **URI Format**                                                 |
+    |  __URI Style__                            |  __URI Format__                                                 |
     | ----------------------------------------- | --------------------------------------------------------------- |
-    |  **AWS S3 URI**                           |  `s3://bucket-name/object-name`                                 |
-    |  **AWS Object URL, virtual-hosted–style** |  `https://bucket-name.s3.region-code.amazonaws.com/object-name` |
-    |  **AWS Object URL, path-style**           |  `https://s3.region-code.amazonaws.com/bucket-name/object-name` |
+    |  __AWS S3 URI__                           |  `s3://bucket-name/object-name`                                 |
+    |  __AWS Object URL, virtual-hosted–style__ |  `https://bucket-name.s3.region-code.amazonaws.com/object-name` |
+    |  __AWS Object URL, path-style__           |  `https://s3.region-code.amazonaws.com/bucket-name/object-name` |
 
     For more details, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
 
-- **Quick examples**
+- __Quick examples__
 
-    |  **File Type** |  **Quick Examples**                                                                        |
+    |  __File Type__ |  __Quick Examples__                                                                        |
     | -------------- | ------------------------------------------------------------------------------------------ |
-    |  **JSON**      |  `s3://bucket-name/json-folder/`<br/> `s3://bucket-name/json-folder/data.json`          |
-    |  **NumPy**     |  `s3://bucket-name/numpy_folder/`<br/> `s3://bucket-name/folder/*.npy`                  |
-    |  **Parquet**   |  `s3://bucket-name/parquet-folder/`<br/> `s3://bucket-name/parquet-folder/data.parquet` |
+    |  __JSON__      |  `s3://bucket-name/json-folder/`<br/> `s3://bucket-name/json-folder/data.json`          |
+    |  __NumPy__     |  `s3://bucket-name/numpy_folder/`<br/> `s3://bucket-name/folder/*.npy`                  |
+    |  __Parquet__   |  `s3://bucket-name/parquet-folder/`<br/> `s3://bucket-name/parquet-folder/data.parquet` |
 
-- **Required permissions**
+- __Required permissions__
 
     - `s3:GetObject`
 
@@ -88,24 +88,24 @@ The following table lists applicable remote bucket URIs and some quick examples 
 
 <TabItem value="gcs">
 
-- **Object access URIs**
+- __Object access URIs__
 
-    |  **URI Style**      |  **URI Format**                                           |
+    |  __URI Style__      |  __URI Format__                                           |
     | ------------------- | --------------------------------------------------------- |
-    |  **GSC public URL** |  `https://storage.googleapis.com/bucket_name/object_name` |
-    |  **GSC gsutil URI** |  `gs://bucket_name/object_name`                           |
+    |  __GSC public URL__ |  `https://storage.googleapis.com/bucket_name/object_name` |
+    |  __GSC gsutil URI__ |  `gs://bucket_name/object_name`                           |
 
     For more details, see [Share the object](https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object).
 
-- **Quick examples**
+- __Quick examples__
 
-    |  **File Type** |  **Quick Examples**                                                                        |
+    |  __File Type__ |  __Quick Examples__                                                                        |
     | -------------- | ------------------------------------------------------------------------------------------ |
-    |  **JSON**      |  `gs://bucket-name/json-folder/`<br/> `gs://bucket-name/json-folder/data.json`          |
-    |  **NumPy**     |  `gs://bucket-name/numpy-folder/`<br/> `gs://bucket-name/numpy-folder/*.npy`            |
-    |  **Parquet**   |  `gs://bucket-name/parquet-folder/`<br/> `gs://bucket-name/parquet-folder/data.parquet` |
+    |  __JSON__      |  `gs://bucket-name/json-folder/`<br/> `gs://bucket-name/json-folder/data.json`          |
+    |  __NumPy__     |  `gs://bucket-name/numpy-folder/`<br/> `gs://bucket-name/numpy-folder/*.npy`            |
+    |  __Parquet__   |  `gs://bucket-name/parquet-folder/`<br/> `gs://bucket-name/parquet-folder/data.parquet` |
 
-- **Required permissions**
+- __Required permissions__
 
     - `storage.objects.get`
 
@@ -115,21 +115,21 @@ The following table lists applicable remote bucket URIs and some quick examples 
 
 <TabItem value="azure">
 
-- **Object access URIs**
+- __Object access URIs__
 
-    |  **URI Style**              |  **URI Format**                                           |
+    |  __URI Style__              |  __URI Format__                                           |
     | --------------------------- | --------------------------------------------------------- |
-    |  **Azure storage blob URI** |  `https://storage.googleapis.com/bucket_name/object_name` |
+    |  __Azure storage blob URI__ |  `https://storage.googleapis.com/bucket_name/object_name` |
 
     For more details, see [Resource URI Syntax](https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata#resource-uri-syntax).
 
-- **Quick examples**
+- __Quick examples__
 
-    |  **File Type** |  **Quick Examples**                                                                                                                                              |
+    |  __File Type__ |  __Quick Examples__                                                                                                                                              |
     | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    |  **JSON**      |  `https://myaccount.blob.core.windows.net/bucket-name/json-folder/`<br/> `https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json`          |
-    |  **NumPy**     |  `https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/`<br/> `https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/*.npy`            |
-    |  **Parquet**   |  `https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/`<br/> `https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet` |
+    |  __JSON__      |  `https://myaccount.blob.core.windows.net/bucket-name/json-folder/`<br/> `https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json`          |
+    |  __NumPy__     |  `https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/`<br/> `https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/*.npy`            |
+    |  __Parquet__   |  `https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/`<br/> `https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet` |
 
 </TabItem>
 

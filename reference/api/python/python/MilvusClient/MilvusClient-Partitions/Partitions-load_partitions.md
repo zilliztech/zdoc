@@ -99,7 +99,7 @@ client.get_load_state(collection_name="test_collection")
 # 7. Check the load status of the partition
 client.get_load_state(
     collection_name="test_collection",
-    partition_names=["partition_A"],
+    partition_name=["partition_A"],
 )
 
 # {'state': <LoadState: Loaded>}

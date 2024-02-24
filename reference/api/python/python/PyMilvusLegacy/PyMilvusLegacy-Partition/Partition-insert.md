@@ -20,47 +20,12 @@ This operation inserts data into the current partition.
 
 </Admonition>
 
-```python
-pymilvus.Partition.insert(
-    data: List | pandas.DataFrame | Dict, 
-    timeout: float | None
-)
-```
-
-The following operations are related to `insert()`:
-
-- Partition
-
-- upsert()
-
-- delete()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-import pandas as pd
-from pymilvus import Collection, Partition
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Get an existing partition
-partition = Partition(name="string")
-
-# Prepare your data
-data = ...
-
-# Insert data into partition
-partition.insert(
-    data=data
-)
-
-# Insert data into a specific partition
-collection.insert(
-    data=data,
-    partition_name="string"
+insert(
+    data: List | pandas.DataFrame | Dict, 
+    timeout: float | None
 )
 ```
 
@@ -216,4 +181,18 @@ res = partition.insert(data)
 res.insert_count
 10
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `insert()`:
+
+- [delete()](./Partition-delete)
+
+- [flush()](./Partition-flush)
+
+- [query()](./Partition-query)
+
+- [search()](./Partition-search)
+
+- [upsert()](./Partition-upsert)
 

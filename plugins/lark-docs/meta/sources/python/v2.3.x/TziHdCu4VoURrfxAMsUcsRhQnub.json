@@ -1,6 +1,6 @@
 {
   "created_time": "1704790733",
-  "modified_time": "1708485502",
+  "modified_time": "1708757306",
   "name": "create_collection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -4305,7 +4305,7 @@
             },
             {
               "text_run": {
-                "content": "\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Prepare index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"TRIE\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n)\n\n# 5. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema,\n    index_params=index_params\n",
+                "content": "\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Prepare index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n)\n\n# 5. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema,\n    index_params=index_params\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

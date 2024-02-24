@@ -14,6 +14,8 @@ import Admonition from '@theme/Admonition';
 
 This operation returns the load status of a specific collection.
 
+## Request syntax{#request-syntax}
+
 ```python
 load_state(
     collection_name: str,
@@ -21,31 +23,6 @@ load_state(
     using: str = "default",
     timeout: float | None
 ) -> LoadState
-```
-
-The following operations are related to `load_state()`:
-
-- Collection
-
-- Partition
-
-- loading_progress()
-
-- wait_for_loading_complete()
-
-See also the Python SDK Reference.
-
-## Request syntax{#request-syntax}
-
-```python
-from pymilvus import utility
-
-res = utility.loading_state(
-    collection_name="string",
-    partition_names=["string", "string"],
-    using="default",
-    timeout=None
-)
 ```
 
 __PARAMETERS:__
@@ -170,3 +147,18 @@ utility.load_state(
     partition_names=["partition1", "partition2"],
 ) # <LoadState: NotLoad>
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `load_state()`:
+
+- [Partition](./PyMilvusLegacy-Partition)
+
+- [load()](./Collection-load)
+
+- [release()](./Collection-release)
+
+- [loading_progress()](./utility-loading_progress)
+
+- [wait_for_loading_complete()](./utility-wait_for_loading_complete)
+

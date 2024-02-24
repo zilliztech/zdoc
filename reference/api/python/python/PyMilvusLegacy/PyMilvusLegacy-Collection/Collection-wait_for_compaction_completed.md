@@ -14,37 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation blocks the current session until the compaction request is completed.
 
-```python
-pymilvus.Collection.wait_for_compaction_completed(
-    timeout: float | None
-)
-```
-
-The following operations are related to `wait_for_compaction_completed()`:
-
-- compact()
-
-- get_compaction_plans()
-
-- get_compaction_state()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Call the compact method
-collection.compact()
-
-# Block the current session
-collection.wait_for_compaction_completed()
+wait_for_compaction_completed(
+    timeout: float | None
+)
 ```
 
 __PARAMETERS:__
@@ -89,3 +64,14 @@ collection.compact()
 # Check the compaction state
 collection.wait_for_compaction_completed()
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `wait_for_compaction_completed()`:
+
+- [compact()](./Collection-compact)
+
+- [get_compaction_plans()](./Collection-get_compaction_plans)
+
+- [get_compaction_state()](./Collection-get_compaction_state)
+

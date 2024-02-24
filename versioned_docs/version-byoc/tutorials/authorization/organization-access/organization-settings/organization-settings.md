@@ -13,8 +13,6 @@ import Admonition from '@theme/Admonition';
 
 Everything on Zilliz Cloud is managed within your organization. Learn about how to set up your organization to fit your needs.
 
-## Contents{#contents}
-
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

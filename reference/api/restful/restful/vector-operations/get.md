@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Gets entities by the specified IDs. You can set an ID in string or integer or set a set of IDs in a list of strings or a list of integers as shown in the four types of request bodies below.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/get" />
+<RestHeader method="post" endpoint="https://{CLUSTER_ENDPOINT}/v1/vector/get" />
 
 ---
 

@@ -42,7 +42,7 @@ __PARAMETERS:__
 
     __[REQUIRED]__
 
-    The name of the partition to create.
+    The name of the partition to drop.
 
 - __timeout__ (_float _|_ None_)  
 
@@ -85,7 +85,7 @@ client.create_partition(
 )
 
 # 4. Release partition
-client.release_partition(
+client.release_partitions(
     collection_name="test_collection",
     partition_name="partition_A"
 )

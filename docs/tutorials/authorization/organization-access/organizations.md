@@ -19,7 +19,7 @@ This guide will walk you through the steps of managing organizations.
 
 After logging into the [Zilliz Cloud console](https://cloud.zilliz.com/login), you'll land on the page listing the organizations you're part of. You can check out and enter these organizations.
 
-For a quick view of all the organizations you've joined, just click **All Organizations** in the top left corner.
+For a quick view of all the organizations you've joined, just click __All Organizations__ in the top left corner.
 
 ![view-organizations](/img/view-organizations.png)
 
@@ -33,7 +33,7 @@ You can rename an organization in either of the following ways:
 
     ![rename-organization](/img/rename-organization.png)
 
-- Enter an organization and rename it on the **System Settings** page:
+- Enter an organization and rename it on the __System Settings__ page:
 
     ![edit-organization-name](/img/edit-organization-name.png)
 
@@ -45,7 +45,7 @@ Each organization must have at least one organization owner. If you are the only
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-Once you leave an organization, your access to the organization and associated resources will be revoked.
+<p>Once you leave an organization, your access to the organization and associated resources will be revoked.</p>
 
 </Admonition>
 
@@ -55,7 +55,7 @@ You can leave an organization in either of the following ways:
 
     ![leave-organization](/img/leave-organization.png)
 
-- Enter an organization and leave it on the **Organization Members** page:
+- Enter an organization and leave it on the __Organization Members__ page:
 
     ![leave-organization](/img/leave-organization.png)
 

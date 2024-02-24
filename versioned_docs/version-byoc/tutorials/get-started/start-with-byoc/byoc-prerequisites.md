@@ -27,7 +27,7 @@ Upon subscribing to a BYOC license, you will receive a welcome email with your s
 
 ## Set up your environment{#set-up-your-environment}
 
-1. **Operating System Compatibility**: Ensure that your machine operates on one of the following systems:
+1. __Operating System Compatibility__: Ensure that your machine operates on one of the following systems:
 
     - Linux
 
@@ -35,7 +35,7 @@ Upon subscribing to a BYOC license, you will receive a welcome email with your s
 
     - Windows
 
-1. **Terraform Installation**: Zilliz Cloud utilizes Terraform for managing the cloud infrastructure required for BYOC deployment. 
+1. __Terraform Installation__: Zilliz Cloud utilizes Terraform for managing the cloud infrastructure required for BYOC deployment. 
 
     - macOS
 
@@ -44,22 +44,23 @@ Upon subscribing to a BYOC license, you will receive a welcome email with your s
         brew install hashicorp/tap/terraform
         ```
 
-    - Linux
+    - CentOS/RHEL
 
         ```shell
-        brew tap hashicorp/tap
-        brew install hashicorp/tap/terraform
+        sudo yum install -y yum-utils
+        sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+        sudo yum -y install terraform
         ```
 
-    If you use Windows or Linux distributions, refer to [Terraform official documentation](https://developer.hashicorp.com/terraform/install?product_intent=terraform) for installation.
+    If you use Windows or other Linux distributions, refer to [Terraform official documentation](https://developer.hashicorp.com/terraform/install?product_intent=terraform) for installation.
 
 ## Prepare your accounts{#prepare-your-accounts}
 
 Activation requires two accounts:
 
-1. **AWS Account**: Your Zilliz Cloud BYOC deployment will be hosted within your AWS account. If you do not have an AWS account, create one following the [AWS Account Creation Guide](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html). The Zilliz Cloud BYOC solution currently supports the AWS **us-west-2** region. For other cloud providers or regions, contact [our sales team](https://zilliz.com/contact-sales).
+1. __AWS Account__: Your Zilliz Cloud BYOC deployment will be hosted within your AWS account. If you do not have an AWS account, create one following the [AWS Account Creation Guide](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html). The Zilliz Cloud BYOC solution currently supports the AWS __us-west-2__ region. For other cloud providers or regions, contact [our sales team](https://zilliz.com/contact-sales).
 
-1. **Zilliz Cloud Account**: Use the account you provided to Zilliz Cloud technical support during the contract signing process.
+1. __Zilliz Cloud Account__: Use the account you provided to Zilliz Cloud technical support during the contract signing process.
 
 ## Create temporary security credentials{#create-temporary-security-credentials}
 
@@ -67,11 +68,11 @@ To activate your BYOC license using Terraform scripts, you'll need to provide te
 
 Here's how to create temporary security credentials:
 
-1. Sign in to the [__IAM console__](https://console.aws.amazon.com/iam) using your AWS account ID and password.
+1. Sign in to the [IAM console](https://console.aws.amazon.com/iam) using your AWS account ID and password.
 
-1. Go to the **Access keys** section and click **Create access key**.
+1. Go to the __Access keys__ section and click __Create access key__.
 
-1. On the **Retrieve access keys** page, choose either **Show** to reveal the value of your user's secret access key, or **Download .csv file**. This is your only opportunity to save your secret access key. After you've saved your secret access key in a secure location, choose **Done**.
+1. On the __Retrieve access keys__ page, choose either __Show__ to reveal the value of your user's secret access key, or __Download .csv file__. This is your only opportunity to save your secret access key. After you've saved your secret access key in a secure location, choose __Done__.
 
 For detailed instructions, refer to [AWS official documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey).
 
@@ -87,13 +88,13 @@ Refer to the table below for the necessary cloud resources and services for Zill
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Cloud administrators can monitor resource usage and quotas in the cloud quota dashboard. For details, refer to [AWS service quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html).
+<p>Cloud administrators can monitor resource usage and quotas in the cloud quota dashboard. For details, refer to <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">AWS service quotas</a>.</p>
 
 </Admonition>
 
-|  **Resource Type**        |  **Instance**<br/>  |  Min. Config<br/>                                                                                              |
+|  __Resource Type__        |  __Instance__<br/>  |  Min. Config<br/>                                                                                              |
 | ------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------- |
-|  Virtual Machine<br/>  |  EC2<br/>           |  - (m6i.xlarge) * 4<br/> - (m6i.2xlarge) * 4<br/> - (r6id.8xlarge) * 1<br/> **Total**: 80 vCPUs, 448 GiB |
+|  Virtual Machine<br/>  |  EC2<br/>           |  - (m6i.xlarge) * 4<br/> - (m6i.2xlarge) * 4<br/> - (r6id.8xlarge) * 1<br/> __Total__: 80 vCPUs, 448 GiB |
 |  Object Storage           |  S3                    |  1.3 TB                                                                                                           |
 |  Block Storage            |  EBS                   |  550 GB                                                                                                           |
 |  Public IP                |  EIP                   |  1                                                                                                                |
@@ -108,21 +109,21 @@ Terraform scripts used in activating Zilliz Cloud BYOC require specific AWS poli
 
 The table below summarizes the policies and roles Terraform will create for BYOC license activation.
 
-In the table, the **Terraform Resource Identifier** column lists the internal names used in Terraform scripts, while the **IAM Policy / Role** column shows the actual names as they will appear in your AWS account.
+In the table, the __Terraform Resource Identifier__ column lists the internal names used in Terraform scripts, while the __IAM Policy / Role__ column shows the actual names as they will appear in your AWS account.
 
-|  Terraform Resource Identifier                                    |  IAM Policy / Role                     |  **Description**                                                                                                                                                                                                                   |
+|  Terraform Resource Identifier                                    |  IAM Policy / Role                     |  __Description__                                                                                                                                                                                                                   |
 | ----------------------------------------------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  **aws_iam_policy.aws_lb_irsa_policy**                            |  **zilliz-aws-lb-irsa-policy**         |  Manages various aspects of ELB, including creation, modification, and deletion of load balancers and target groups, as well as associated security and tagging permissions, with specific conditions applied to certain actions.  |
-|  **aws_iam_policy.bootstrap_policy**                              |  **zilliz-bootstrap-policy**           |  Grants permissions for managing AWS resources including EKS, EC2, S3, and Route 53, with specific restrictions and conditions.                                                                                                    |
-|  **aws_iam_policy.cluster_autoscaler_irsa_policy**                |  **zilliz-ca-irsa-policy**             |  Allows for managing auto-scaling and EC2 instance operations in AWS, specifically for scaling and termination actions.                                                                                                            |
-|  **aws_iam_policy.ebs_csi_irsa_policy**                           |  **zilliz-ebs-csi-irsa-policy**        |  Manages EC2 volumes and snapshots, including creation, attachment, detachment, and deletion, with specific conditions for tagging and cluster association.                                                                        |
-|  **aws_iam_policy.management_policy**                             |  **zilliz-management-policy**          |  Allows for managing S3 buckets and objects, creating and tagging IAM policies, scaling EKS node groups, and handling various Elastic Load Balancing (ELB) resources, with restrictions based on specific resource tags and paths. |
-|  **aws_iam_policy.permission_boundary**                           |  **zilliz-permission-boundary-policy** |  Allows actions across various AWS services like ACM, AutoScaling, EC2, EKS, ELB, IAM, Logs, Route 53, S3, and SSM.                                                                                                                |
-|  **aws_iam_policy.zilliz_business_irsa_policy**                   |  **zilliz-business-irsa-policy**       |  Allows specific S3 actions, such as reading, writing, listing, and deleting objects in buckets prefixed with **zilliz-byoc**, reflecting targeted S3 access for business-related operations.                                      |
-|  **aws_iam_role.bootstrap_role**                                  |  **zilliz-bootstrap-role**             |  Secures role assumption with specific conditions, including external ID verification, primarily intended for controlled access within the **zilliz-byoc** framework.                                                              |
-|  **aws_iam_role.management_role**                                 |  **zilliz-management-role**            |  Secures role assumption, featuring conditions like external ID verification, and is specifically geared for management tasks within the **zilliz-byoc** framework.                                                                |
-|  **aws_iam_role_policy_attachment.bootstrap_attachment**<br/>  |  **zilliz-bootstrap-role**             |  Attaches a specific policy to the role **zilliz-bootstrap-role**, enabling the assignment of predefined permissions to this role.                                                                                                 |
-|  **aws_iam_role_policy_attachment.management_attachment**         |  **zilliz-management-role**            |  Attaches a specific policy to the role **zilliz-management-role**, facilitating the application of predefined permissions to this role.                                                                                           |
+|  __aws_iam_policy.aws_lb_irsa_policy__                            |  __zilliz-aws-lb-irsa-policy__         |  Manages various aspects of ELB, including creation, modification, and deletion of load balancers and target groups, as well as associated security and tagging permissions, with specific conditions applied to certain actions.  |
+|  __aws_iam_policy.bootstrap_policy__                              |  __zilliz-bootstrap-policy__           |  Grants permissions for managing AWS resources including EKS, EC2, S3, and Route 53, with specific restrictions and conditions.                                                                                                    |
+|  __aws_iam_policy.cluster_autoscaler_irsa_policy__                |  __zilliz-ca-irsa-policy__             |  Allows for managing auto-scaling and EC2 instance operations in AWS, specifically for scaling and termination actions.                                                                                                            |
+|  __aws_iam_policy.ebs_csi_irsa_policy__                           |  __zilliz-ebs-csi-irsa-policy__        |  Manages EC2 volumes and snapshots, including creation, attachment, detachment, and deletion, with specific conditions for tagging and cluster association.                                                                        |
+|  __aws_iam_policy.management_policy__                             |  __zilliz-management-policy__          |  Allows for managing S3 buckets and objects, creating and tagging IAM policies, scaling EKS node groups, and handling various Elastic Load Balancing (ELB) resources, with restrictions based on specific resource tags and paths. |
+|  __aws_iam_policy.permission_boundary__                           |  __zilliz-permission-boundary-policy__ |  Allows actions across various AWS services like ACM, AutoScaling, EC2, EKS, ELB, IAM, Logs, Route 53, S3, and SSM.                                                                                                                |
+|  __aws_iam_policy.zilliz_business_irsa_policy__                   |  __zilliz-business-irsa-policy__       |  Allows specific S3 actions, such as reading, writing, listing, and deleting objects in buckets prefixed with __zilliz-byoc__, reflecting targeted S3 access for business-related operations.                                      |
+|  __aws_iam_role.bootstrap_role__                                  |  __zilliz-bootstrap-role__             |  Secures role assumption with specific conditions, including external ID verification, primarily intended for controlled access within the __zilliz-byoc__ framework.                                                              |
+|  __aws_iam_role.management_role__                                 |  __zilliz-management-role__            |  Secures role assumption, featuring conditions like external ID verification, and is specifically geared for management tasks within the __zilliz-byoc__ framework.                                                                |
+|  __aws_iam_role_policy_attachment.bootstrap_attachment__<br/>  |  __zilliz-bootstrap-role__             |  Attaches a specific policy to the role __zilliz-bootstrap-role__, enabling the assignment of predefined permissions to this role.                                                                                                 |
+|  __aws_iam_role_policy_attachment.management_attachment__         |  __zilliz-management-role__            |  Attaches a specific policy to the role __zilliz-management-role__, facilitating the application of predefined permissions to this role.                                                                                           |
 
 For a comprehensive understanding of AWS policies and permissions, visit [Policies and Permissions in IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html).
 

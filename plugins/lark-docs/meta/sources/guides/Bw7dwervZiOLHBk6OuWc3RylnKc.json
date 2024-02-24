@@ -5,7 +5,7 @@
   "node_token": "Bw7dwervZiOLHBk6OuWc3RylnKc",
   "node_type": "origin",
   "obj_create_time": "1704534553",
-  "obj_edit_time": "1706183863",
+  "obj_edit_time": "1708221705",
   "obj_token": "ONfGdhNU6oGRLaxkLvjcenzUnbg",
   "obj_type": "docx",
   "origin_node_token": "Bw7dwervZiOLHBk6OuWc3RylnKc",
@@ -509,7 +509,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Linux",
+                "content": "CentOS/RHEL",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -526,18 +526,18 @@
           }
         },
         "children": [
-          "G2BUdLjeGod7wux3vysc2mhtn4b"
+          "JfgxdodiRoJ47kxLTqTcuxzNnzb"
         ],
         "parent_id": "Pb6GdFHwlox27nxiD8xcpivwn8e"
       },
       {
-        "block_id": "G2BUdLjeGod7wux3vysc2mhtn4b",
+        "block_id": "JfgxdodiRoJ47kxLTqTcuxzNnzb",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "brew tap hashicorp/tap\n",
+                "content": "sudo yum install -y yum-utils\nsudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -549,7 +549,7 @@
             },
             {
               "text_run": {
-                "content": "brew install hashicorp/tap/terraform",
+                "content": "sudo yum -y install terraform",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -575,7 +575,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "If you use Windows or Linux distributions, refer to ",
+                "content": "If you use Windows or other Linux distributions, refer to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

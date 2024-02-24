@@ -1,6 +1,6 @@
 {
   "created_time": "1706695515",
-  "modified_time": "1708506587",
+  "modified_time": "1708757454",
   "name": "drop_partition()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "YpEjf83y1lvvzxd31BqcvQmknEd",
@@ -452,7 +452,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "The name of the partition to create.",
+                "content": "The name of the partition to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "drop",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -867,7 +891,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\n# 3. Create a partition\nclient.create_partition(\n    collection_name=\"test_collection\", \n    partition_name=\"partition_A\"\n)\n\n# 4. Release partition\nclient.release_partition(\n    collection_name=\"test_collection\",\n    partition_name=\"partition_A\"\n)\n\n# 4. Drop the partition\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\n# 3. Create a partition\nclient.create_partition(\n    collection_name=\"test_collection\", \n    partition_name=\"partition_A\"\n)\n\n# 4. Release partition\nclient.release_partitions(\n    collection_name=\"test_collection\",\n    partition_name=\"partition_A\"\n)\n\n# 4. Drop the partition\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -996,7 +1020,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\n# 3. Create a partition\nclient.create_partition(\n    collection_name=\"test_collection\", \n    partition_name=\"partition_A\"\n)\n\n# 4. Release partition\nclient.release_partition(\n    collection_name=\"test_collection\",\n    partition_name=\"partition_A\"\n)\n\n# 4. Drop the partition\nclient.drop_partition(\n    collection_name=\"test_collection\", \n    partition_name=\"partition_A\"\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\n# 3. Create a partition\nclient.create_partition(\n    collection_name=\"test_collection\", \n    partition_name=\"partition_A\"\n)\n\n# 4. Release partition\nclient.release_partitions(\n    collection_name=\"test_collection\",\n    partition_name=\"partition_A\"\n)\n\n# 4. Drop the partition\nclient.drop_partition(\n    collection_name=\"test_collection\", \n    partition_name=\"partition_A\"\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

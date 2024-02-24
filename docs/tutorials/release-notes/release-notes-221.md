@@ -15,7 +15,7 @@ We are excited to announce the launch of Zilliz Cloud. With this release, we are
 
 ## Milvus Compatibility{#milvus-compatibility}
 
-This release is compatible with **Milvus 2.2.x**.
+This release is compatible with __Milvus 2.2.x__.
 
 ## Cluster Enhancements - Increased Flexibility with a New CU Size Option{#cluster-enhancements-increased-flexibility-with-a-new-cu-size-option}
 
@@ -25,7 +25,7 @@ Cluster management has become more flexible with a new cluster size option - 6 C
 
 We now offer support for advance payments. This feature is specifically designed for our offline contract users who prefer to pay in advance for the services they will consume. By providing this option, we aim to streamline internal financial and procurement processes and minimize risk for our valued customers.
 
-If you or your organization have specific requirements or would like to learn more about advance payment options, please don't hesitate to [__contact us__](https://zilliz.com/contact-sales).
+If you or your organization have specific requirements or would like to learn more about advance payment options, please don't hesitate to [contact us](https://zilliz.com/contact-sales).
 
 ## More AWS Regions{#more-aws-regions}
 

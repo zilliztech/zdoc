@@ -14,34 +14,13 @@ import Admonition from '@theme/Admonition';
 
 This operation adds connections to multiple Zilliz Cloud clusters for different purposes in a batch. 
 
-```python
-pymilvus.Connections.add_connection(**kwargs)
-```
-
-The following operations are related to `add_connection()`:
-
-- `connect()`
-
-- `disconnect()`
-
-- `get_connection_addr()`
-
-- `has_connection()`
-
-- `list_connections()`
-
-- `remove_connection()`
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import connections
-
-connections.add_connection(
-    default={"address": "string"},
-    test={"uri": "string"}
+add_connection(
+    default: dict,
+    # add other connections
+    # your_conn_name: dict
 )
 ```
 
@@ -111,6 +90,7 @@ __PARAMETERS:__
 <li>A pair of username and password to access the cluster, joined by a colon (<strong>:</strong>).</li>
 </ul>
 <p>You can use the cluster credentials specified when the cluster has been created on the Zilliz Cloud console, or those of any existing cluster users.</p>
+<p>For details, refer to <a href="/docs/on-zilliz-cloud-console">On Zilliz Cloud Console</a> for more information.</p>
 
 </Admonition>
 
@@ -144,4 +124,20 @@ connections.add_connection(
   dedicated={"uri": DEDICATED_ENDPOINT, "user": DEDICATED_USER, "password": DEDICATED_PASS}
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `add_connection()`:
+
+- [connect()](./Connections-connect)
+
+- [disconnect()](./Connections-disconnect)
+
+- [get_connection_addr()](./Connections-get_connection_addr)
+
+- [has_connection()](./Connections-has_connection)
+
+- [list_connections()](./Connections-list_connections)
+
+- [remove_connection()](./Connections-remove_connection)
 

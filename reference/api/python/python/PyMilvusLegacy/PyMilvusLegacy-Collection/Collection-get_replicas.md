@@ -14,28 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation gets information about the current loaded replica.
 
-```python
-pymilvus.Collection.get_replicas(
-    timeout: float | None
-)
-```
-
-The following operations are related to `get_replicas()`:
-
-- Collection
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Call the get_replicas method
-collection.get_replicas()
+get_replicas(
+    timeout: float | None
+)
 ```
 
 __PARAMETERS:__
@@ -111,3 +95,16 @@ collection = Collection(
 # Get the currently loaded replicas
 collection.get_replicas()
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `get_replicas()`:
+
+- [describe()](./Collection-describe)
+
+- [drop()](./Collection-drop)
+
+- [flush()](./Collection-flush)
+
+- [set_properties()](./Collection-set_properties)
+

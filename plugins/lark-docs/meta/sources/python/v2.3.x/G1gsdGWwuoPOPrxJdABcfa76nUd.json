@@ -1,6 +1,6 @@
 {
   "created_time": "1704348290",
-  "modified_time": "1704440801",
+  "modified_time": "1708751561",
   "name": "to_dict()",
   "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_token": "RV1nfeylFlUftwd2w4Wc40TYn6d",
@@ -14,13 +14,8 @@
         "block_type": 1,
         "children": [
           "K1UsdwIhLoIlzFxdUVtcFnSWnAf",
-          "doxcnaEvYjg2l60ZqBtKIs7m5Vd",
-          "Ic8DdGEG1owaimxiubzctvJUnFd",
-          "JX9rdRjUqo89ZNxiEg9caBuenzb",
-          "JTc1dw8GhoK4fYxvTqbcGVP1nxh",
-          "EwJQdG3A8oSlEMxNm3fcFjN7nif",
           "MXfxdR2A3oka13xH3hbcD68Onrd",
-          "FR2VdJ37JoFlzAx4ksfcgv9fnhb",
+          "doxcnaEvYjg2l60ZqBtKIs7m5Vd",
           "IrHDdtc1ToK1jLxxKrqczTUGnxf",
           "X6h9deOHMoPLuPxWxETcTwgFnge",
           "K4wrdI9enonkyQxf3ECcwIJunG2",
@@ -30,7 +25,10 @@
           "BPiFdY51SoZJ02xpC9kcngQInFd",
           "OKjgd5muyo2kf5x46aPcQ9qPnPd",
           "doxcnTIQ3i0Jeco3RBfpQgKT8vg",
-          "doxcnd8XTTSdemlOWFjIXcZsGRc"
+          "doxcnd8XTTSdemlOWFjIXcZsGRc",
+          "SCdxdypg2o1corxwDYEcQHwnnUd",
+          "Nbs3d9Ppmo1dIjxG885cajmJnnc",
+          "BqJLd4R47oOP4CxQs0lcHMh9nGh"
         ],
         "page": {
           "elements": [
@@ -79,155 +77,6 @@
         }
       },
       {
-        "block_id": "doxcnaEvYjg2l60ZqBtKIs7m5Vd",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "pymilvus.FieldSchema.to_dict()",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "G1gsdGWwuoPOPrxJdABcfa76nUd"
-      },
-      {
-        "block_id": "Ic8DdGEG1owaimxiubzctvJUnFd",
-        "block_type": 2,
-        "parent_id": "G1gsdGWwuoPOPrxJdABcfa76nUd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The following operations are related to ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "to_dict()",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ":",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "JX9rdRjUqo89ZNxiEg9caBuenzb",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "FieldSchema",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "G1gsdGWwuoPOPrxJdABcfa76nUd"
-      },
-      {
-        "block_id": "JTc1dw8GhoK4fYxvTqbcGVP1nxh",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "CollectionSchema",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "G1gsdGWwuoPOPrxJdABcfa76nUd"
-      },
-      {
-        "block_id": "EwJQdG3A8oSlEMxNm3fcFjN7nif",
-        "block_type": 2,
-        "parent_id": "G1gsdGWwuoPOPrxJdABcfa76nUd",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "See also the Python SDK Reference.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
         "block_id": "MXfxdR2A3oka13xH3hbcD68Onrd",
         "block_type": 4,
         "heading2": {
@@ -253,25 +102,13 @@
         "parent_id": "G1gsdGWwuoPOPrxJdABcfa76nUd"
       },
       {
-        "block_id": "FR2VdJ37JoFlzAx4ksfcgv9fnhb",
+        "block_id": "doxcnaEvYjg2l60ZqBtKIs7m5Vd",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import CollectionSchema, FieldSchema, DataType\n\n# Create field schemas  \nprimary_key = FieldSchema(\n    name=\"string\",\n    dtype=DataType,\n    is_primary=True,\n)\n \nvector = FieldSchema(\n    name=\"string\", \n    dtype=DataType,\n    dim=int\n)\n\n# Get dictionary representation\nprimary_key_dict = primary_key.to_dict()\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "vector_dict = vector.to_dict()",
+                "content": "to_dict()",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -578,9 +415,111 @@
           }
         },
         "parent_id": "G1gsdGWwuoPOPrxJdABcfa76nUd"
+      },
+      {
+        "block_id": "SCdxdypg2o1corxwDYEcQHwnnUd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related operations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G1gsdGWwuoPOPrxJdABcfa76nUd"
+      },
+      {
+        "block_id": "Nbs3d9Ppmo1dIjxG885cajmJnnc",
+        "block_type": 2,
+        "parent_id": "G1gsdGWwuoPOPrxJdABcfa76nUd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following operations are related to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "to_dict()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BqJLd4R47oOP4CxQs0lcHMh9nGh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "construct_from_dict()",
+                "token": "DCLUdOpVjohl8HxPUx1cGjokngf",
+                "url": "https://zilliverse.feishu.cn/docx/DCLUdOpVjohl8HxPUx1cGjokngf"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "G1gsdGWwuoPOPrxJdABcfa76nUd"
       }
     ],
-    "counts": 20
+    "counts": 18
   },
   "slug": "FieldSchema-to_dict"
 }

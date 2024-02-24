@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 # prepare_index_params()
 
-This operation prepares index parameters build indexes for a specific collection.
+This operation prepares index parameters to build indexes for a specific collection.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -62,11 +62,11 @@ An __IndexParams__ contains a list of __IndexParam__ objects.
 
     - __field_name__ (_str_)
 
-        The name of the target file to apply this object applies.
+        The name of the target field to apply this object applies.
 
     - __index_name__ (_str_)
 
-        The name of the index file generated after this object has been applied.
+        The name of the index field generated after this object has been applied.
 
     - __index_type__ (_str_)
 

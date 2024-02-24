@@ -15,7 +15,7 @@ After creating an Ingestion pipeline, you can run it to convert unstructured dat
 
 ## On web UI{#on-web-ui}
 
-1. Click the "▶︎" button next to your Ingestion pipeline. Alternatively, you can also click on the **Run Pipelines** tab.
+1. Click the "▶︎" button next to your Ingestion pipeline. Alternatively, you can also click on the __Run Pipelines__ tab.
 
 ![run-pipeline](/img/run-pipeline.png)
 
@@ -25,7 +25,7 @@ After creating an Ingestion pipeline, you can run it to convert unstructured dat
 
         ![run-ingestion-pipeline-url](/img/run-ingestion-pipeline-url.png)
 
-    - If you need to upload a local filed, click **Attach File**. In the dialog popup, upload your local file. The file should be no more than 10 MB. Supported file formats include `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`,` .docx`, `.xls`, `.xlsx`, `.ppt`, `.pptx`. Once the upload is successful, click **Attach**. If you have added a preserve function to this Ingestion pipeline, please configure the `data` field. 
+    - If you need to upload a local filed, click __Attach File__. In the dialog popup, upload your local file. The file should be no more than 10 MB. Supported file formats include `.txt`, `.pdf`, `.md`, `.html`, `.epub`, `.csv`, `.doc`,` .docx`, `.xls`, `.xlsx`, `.ppt`, `.pptx`. Once the upload is successful, click __Attach__. If you have added a preserve function to this Ingestion pipeline, please configure the `data` field. 
 
         ![run-ingestion-pipeline-attach-file](/img/run-ingestion-pipeline-attach-file.png)
 
@@ -56,13 +56,13 @@ curl --request POST \
 
 The parameters in the above code are described as follows:
 
-- `YOUR_CLUSTER_TOKEN`: The token used to authenticate API requests. This token can be an [API key](./manage-api-keys) or a [cluster credential](./cluster-credentials) that consists of a username and password pair.
+- `YOUR_CLUSTER_TOKEN`: The token used to authenticate API requests. This token can be an [API key](/docs/manage-api-keys) or a [cluster credential](/docs/cluster-credentials) that consists of a username and password pair.
 
 - `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
 
 - `doc_url`: The URL of the document stored on an object storage. You should use a URL that is either not encoded or encoded in UTF-8. Ensure that the URL remains valid for at least one hour.
 
-- Metadata field (optional): The metadata field to preserve. The input field name should be consistent with what you defined when [creating the Ingestion pipeline](./create-ingestion-piplines) and adding the **PRESERVE** function. The value of this field should also follow the predefined field type.
+- Metadata field (optional): The metadata field to preserve. The input field name should be consistent with what you defined when [creating the Ingestion pipeline](./create-ingestion-piplines) and adding the __PRESERVE__ function. The value of this field should also follow the predefined field type.
 
 Below is an example response.
 
@@ -80,7 +80,7 @@ Below is an example response.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The `doc_name` field in the output  will play a crucial role. If identical documents are assigned different `doc_name` values, they will be ingested as separate entities. This means the same content could be stored twice in the database.
+<p>The <code>doc_name</code> field in the output  will play a crucial role. If identical documents are assigned different <code>doc_name</code> values, they will be ingested as separate entities. This means the same content could be stored twice in the database.</p>
 
 </Admonition>
 
@@ -92,5 +92,5 @@ The `doc_name` field in the output  will play a crucial role. If identical docum
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 
-- [FAQs](./faq-pipelines)
+- [FAQs](/docs/faq-pipelines)
 

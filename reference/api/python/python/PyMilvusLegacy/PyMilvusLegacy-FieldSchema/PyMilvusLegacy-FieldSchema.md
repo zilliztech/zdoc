@@ -23,18 +23,10 @@ class pymilvus.FieldSchema
 Constructs the schema of a field by defining the field name, data type, and other parameters.
 
 ```python
-from pymilvus import FieldSchema, DataType
-
-primary_key = FieldSchema(
-    name="string",
-    dtype=DataType.INT64,
-    is_primary=True,
-)
- 
-vector = FieldSchema(
-    name="string",
-    dtype=DataType.FLOAT_VECTOR,
-    dim=int,
+FieldSchema(
+    name: str,
+    dtype: DataType,
+    **kwargs,
 )
 ```
 
@@ -46,7 +38,7 @@ __PARAMETERS:__
 
     Name of the field.
 
-- __dtype__ (_DataType_) -
+- __dtype__ (_DataType_[](./Collections-DataType)_) -
 
     __[REQUIRED]__
 

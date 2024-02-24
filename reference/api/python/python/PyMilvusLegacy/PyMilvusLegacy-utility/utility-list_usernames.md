@@ -14,36 +14,13 @@ import Admonition from '@theme/Admonition';
 
 This operation lists the names of all existing users.
 
-```python
-pymilvus.utility.list_usernames(
-    using: str,
-    timeout: float | None
-)
-```
-
-The following operations are related to `list_usernames()`
-
-- update_password()
-
-- reset_password()
-
-- create_user()
-
-- list_user()
-
-- list_users()
-
-- delete_user()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import utility
-
-# List all existing usernames
-utility.list_usernames(using="default")
+list_usernames(
+    using: str,
+    timeout: float | None
+)
 ```
 
 __PARAMETERS:__
@@ -83,4 +60,24 @@ connections.connect()
 # List all existing usernames
 users = utility.list_usernames()
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `list_usernames()`
+
+- [Role](./PyMilvusLegacy-Role)
+
+- [create_user()](./utility-create_user)
+
+- [delete_user()](./utility-delete_user)
+
+- [list_roles()](./utility-list_roles)
+
+- [list_user()](./utility-list_user)
+
+- [list_users()](./utility-list_users)
+
+- [reset_password()](./utility-reset_password)
+
+- [update_password()](./utility-update_password)
 

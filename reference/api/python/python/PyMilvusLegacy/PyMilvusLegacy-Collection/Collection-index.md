@@ -14,42 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation gets the specified index of the current collection.
 
-```python
-pymilvus.Collection.index(
-    **kwargs
-)
-```
-
-The following operations are related to `index()`
-
-- create_index()
-
-- drop_index()
-
-- has_index()
-
-- index()
-
-- utility.index_building_progress()
-
-- utility.wait_for_index_building_complete()
-
-- utility.list_indexes()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Get all indexes
-collection.index(index_name="string")
+index(
+    **kwargs
+)
 ```
 
 __PARAMETERS:__
@@ -125,4 +95,20 @@ collection.index(index_name="_default_idex_101")
 
 # <pymilvus.orm.index.Index at 0x1205b8690>
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `index()`
+
+- [create_index()](./Collection-create_index)
+
+- [drop_index()](./Collection-drop_index)
+
+- [has_index()](./Collection-has_index)
+
+- [index_building_progress()](./utility-index_building_progress)
+
+- [wait_for_index_building_complete()](./utility-wait_for_index_building_complete)
+
+- [list_indexes()](./utility-list_indexes)
 

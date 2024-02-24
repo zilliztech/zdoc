@@ -8,32 +8,23 @@ sidebar_position: 1
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # alter_alias()
 
 This operation reassigns the alias of one collection to another.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.utility.alter_alias(
+alter_alias(
     collection_name: str,
     alias: str,
     using: str,
     timeout: float | None
 )
 ```
-
-The following operations are related to `alter_alias()`:
-
-- create_alias()
-
-- drop_alias()
-
-- list_aliases()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
 
 ```python
 from pymilvus import utility
@@ -129,4 +120,13 @@ utility.list_aliases(collection_name="collection_1") # []
 utility.list_aliases(collection_name="collection_2") # ['bob']
 ```
 
-     
+## Related operations{#related-operations}
+
+The following operations are related to `alter_alias()`:
+
+- [create_alias()](./utility-create_alias)
+
+- [drop_alias()](./utility-drop_alias)
+
+- [list_aliases()](./utility-list_aliases)
+

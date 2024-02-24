@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Deletes a cluster. This operation moves your cluster to the recycle bin. All clusters in the recycle bin are pending permanent deletion in 30 days.
 
-<RestHeader method="delete" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters/{clusterId}/drop" />
+<RestHeader method="delete" endpoint="https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/{clusterId}/drop" />
 
 ---
 
@@ -24,8 +24,8 @@ Deletes a cluster. This operation moves your cluster to the recycle bin. All clu
 
 ```shell
 curl --request DELETE \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/drop" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/${clusterId}/drop" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```

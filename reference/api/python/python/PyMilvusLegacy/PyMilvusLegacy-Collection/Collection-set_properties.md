@@ -14,33 +14,13 @@ import Admonition from '@theme/Admonition';
 
 This operation sets properties for the collection.
 
-```python
-pymilvus.Collection.set_properties(
-    properties: dict, 
-    timeout: float | None, 
-    kwargs
-)
-```
-
-The following operations are related to `insert()`:
-
-- Collection
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Set the properties
-collection.set_properties(
-    properties={
-        "collection.ttl.seconds": 60
-    }
+set_properties(
+    properties: dict, 
+    timeout: float | None, 
+    kwargs
 )
 ```
 
@@ -89,4 +69,16 @@ collection.set_properties(
     }
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `insert()`:
+
+- [describe()](./Collection-describe)
+
+- [drop()](./Collection-drop)
+
+- [flush()](./Collection-flush)
+
+- [get_replicas()](./Collection-get_replicas)
 

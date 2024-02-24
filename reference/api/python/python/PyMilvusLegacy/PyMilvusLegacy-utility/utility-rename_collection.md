@@ -20,43 +20,15 @@ This operation renames an existing collection and optionally moves the collectio
 
 </Admonition>
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.utility.rename_collection(
+rename_collection(
     old_collection_name: str,
     new_collection_name: str,
     new_db_name: str = "default",
     timeout: float | None,
     using: str = "default",
-)
-```
-
-The following operations are related to `rename_collection()`:
-
-- Collection
-
-- db
-
-- list_collections()
-
-- has_collection()
-
-- rename_collection()
-
-- flush_all()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import utility
-
-utility.rename_collection(
-    old_collection_name="string",
-    new_collection_name="string",
-    new_db_name="string",
-    timeout=None,
-    using="default",
 )
 ```
 
@@ -130,3 +102,18 @@ utility.rename_collection(
     new_db_name="new_database"
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `rename_collection()`:
+
+- [drop_collection()](./utility-drop_collection)
+
+- [flush_all()](./utility-flush_all)
+
+- [has_collection()](./utility-has_collection)
+
+- [has_partition()](./utility-has_partition)
+
+- [list_collections()](./utility-list_collections)
+

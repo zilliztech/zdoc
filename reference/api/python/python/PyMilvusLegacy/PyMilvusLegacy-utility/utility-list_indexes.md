@@ -14,39 +14,13 @@ import Admonition from '@theme/Admonition';
 
 This operation lists all indexes of a specific collection.
 
-```python
-pymilvus.utility.list_indexes(
-    collection_name: str,
-    using: str = "default",
-    timeout: float | None,
-)
-```
-
-The following operations are related to `list_indexes()`
-
-- Collection.create_index()
-
-- Collection.drop_index()
-
-- Collection.has_index()
-
-- Collection.index()
-
-- index_building_progress()
-
-- wait_for_index_building_complete()
-
-See also the Python SDK Reference.
-
 ## Request syntax{#request-syntax}
 
 ```python
-from pymilvus import utility
-
-utility.list_indexes(
-    collection_name="string",
-    using="default",
-    timeout=None
+list_indexes(
+    collection_name: str,
+    using: str = "default",
+    timeout: float | None,
 )
 ```
 
@@ -143,4 +117,20 @@ utility.list_indexes(
 ) # ['_default_idx_101', '_default_idx_100']
 
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `list_indexes()`
+
+- [create_index()](./Collection-create_index)
+
+- [drop_index()](./Collection-drop_index)
+
+- [has_index()](./Collection-has_index)
+
+- [index()](./Collection-index)
+
+- [index_building_progress()](./utility-index_building_progress)
+
+- [wait_for_index_building_complete()](./utility-wait_for_index_building_complete)
 

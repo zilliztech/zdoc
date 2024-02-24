@@ -1,6 +1,6 @@
 {
   "created_time": "1705561165",
-  "modified_time": "1708506669",
+  "modified_time": "1708590871",
   "name": "prepare_index_params()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "IZKcfUEfClhhnWdFhk2co7krnAV",
@@ -64,7 +64,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "This operation prepares index parameters build indexes for a specific collection.",
+                "content": "This operation prepares index parameters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " build indexes for a specific collection.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -748,7 +772,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "The name of the target file to apply this object applies.",
+                "content": "The name of the target ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to apply this object applies.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -837,7 +885,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "The name of the index file generated after this object has been applied.",
+                "content": "The name of the index ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " generated after this object has been applied.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

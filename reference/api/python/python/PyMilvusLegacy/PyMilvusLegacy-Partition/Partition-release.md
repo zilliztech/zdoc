@@ -14,36 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation releases the data of the current partition from memory.
 
-```python
-pymilvus.Partition.release(
-    timeout: float | None
-)
-```
-
-The following operations are related to `release()`:
-
-- Partition
-
-- load()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection, Partition
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Get an existing partition
-partition = Partition(collection, name="string")
-
-# Load the partition data
-partition.load()
-
-# Release the partition data
-partition.release()
+release(
+    timeout: float | None
+)
 ```
 
 __PARAMETERS:__
@@ -91,4 +67,14 @@ partition.load()
 # Release the partition data
 partition.release()
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `release()`:
+
+- [drop()](./Partition-drop)
+
+- [get_replicas()](./Partition-get_replicas)
+
+- [load()](./Partition-load)
 

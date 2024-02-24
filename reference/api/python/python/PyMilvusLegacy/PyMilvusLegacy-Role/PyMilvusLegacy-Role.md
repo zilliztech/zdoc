@@ -23,12 +23,9 @@ class pymilvus.Role
 Constructs a role by name and other parameters.
 
 ```python
-from pymilvus import Role
-
-# Create a role
-role = Role(
-    name="string",
-    using="default"
+Role(
+    name: str,
+    using: str
 )
 ```
 
@@ -72,7 +69,7 @@ __EXCEPTIONS:__
 from pymilvus import Role
 
 # Create a role
-role=Role(
+role = Role(
     name="admin",
 )
 ```

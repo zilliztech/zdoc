@@ -25,7 +25,7 @@ Enter the email addresses of the users you wish to invite. They will receive an 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Each time you can invite one or more users with the same role to the organization. Each organization can have up to 1,000 members.
+<p>Each time you can invite one or more users with the same role to the organization. Each organization can have up to 1,000 members.</p>
 
 </Admonition>
 

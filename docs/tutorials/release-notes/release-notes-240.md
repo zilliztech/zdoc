@@ -15,33 +15,33 @@ Now Zilliz Cloud services are available on Azure, starting with the East US regi
 
 ## Milvus Compatibility{#milvus-compatibility}
 
-This release is compatible with **Milvus 2.2.x** and **Milvus 2.3.x (Beta)**.
+This release is compatible with __Milvus 2.2.x__ and __Milvus 2.3.x (Beta)__.
 
 ## Zilliz Cloud on Azure{#zilliz-cloud-on-azure}
 
-We're excited to announce a significant expansion in our offerings: Zilliz Cloud services are now accessible on Azure, starting with the East US region. This marks a key milestone as our platform now seamlessly integrates with the three major public clouds: AWS, GCP, and Azure, ensuring a consistent and unified user experience across multiple environments. If your business requirements necessitate deployment in regions beyond Azure East US, please [__contact us__](https://support.zilliz.com/hc/en-us) for further support.
+We're excited to announce a significant expansion in our offerings: Zilliz Cloud services are now accessible on Azure, starting with the East US region. This marks a key milestone as our platform now seamlessly integrates with the three major public clouds: AWS, GCP, and Azure, ensuring a consistent and unified user experience across multiple environments. If your business requirements necessitate deployment in regions beyond Azure East US, please [contact us](https://support.zilliz.com/hc/en-us) for further support.
 
 ## Pipelines{#pipelines}
 
-Today, we are thrilled to introduce Zilliz Cloud Pipelines (Beta), a new addition to Zilliz Cloud. Pipelines is designed to unlock the potential of unstructured data by seamlessly transforming it into vector embeddings and ingesting them into Zilliz Cloud for storage and retrieval. This solution simplifies data workflows by consolidating processes like embedding, ingestion, storage, and retrieval, providing a welcome relief for developers who would otherwise grapple with integrating multiple stacks when building modern search applications, such as the cutting-edge [__Retrieval Augmented Generation (RAG)__](https://zilliz.com/use-cases/llm-retrieval-augmented-generation).
+Today, we are thrilled to introduce Zilliz Cloud Pipelines (Beta), a new addition to Zilliz Cloud. Pipelines is designed to unlock the potential of unstructured data by seamlessly transforming it into vector embeddings and ingesting them into Zilliz Cloud for storage and retrieval. This solution simplifies data workflows by consolidating processes like embedding, ingestion, storage, and retrieval, providing a welcome relief for developers who would otherwise grapple with integrating multiple stacks when building modern search applications, such as the cutting-edge [Retrieval Augmented Generation (RAG)](https://zilliz.com/use-cases/llm-retrieval-augmented-generation).
 
 Zilliz Cloud Pipelines consists of three specific pipelines: Ingestion, Search, and Deletion.
 
-- **Ingestion pipeline** is the workhorse that processes unstructured data, transforming it into searchable vector embeddings and ingesting them into Zilliz Vector Database for storage and retrieval.
+- __Ingestion pipeline__ is the workhorse that processes unstructured data, transforming it into searchable vector embeddings and ingesting them into Zilliz Vector Database for storage and retrieval.
 
-- **Search pipelines** facilitate semantic search by converting a query string into vector embeddings and sending them into Zilliz Cloud for retrieving the top-K most similar vectors.
+- __Search pipelines__ facilitate semantic search by converting a query string into vector embeddings and sending them into Zilliz Cloud for retrieving the top-K most similar vectors.
 
-- **Deletion Pipeline** allows you to remove all chunks in a specified document from a Zilliz Cloud collection, offering you full control over your own data and releasing the storage capacity of your Zilliz collections.
+- __Deletion Pipeline__ allows you to remove all chunks in a specified document from a Zilliz Cloud collection, offering you full control over your own data and releasing the storage capacity of your Zilliz collections.
 
-To learn more information, please refer to this [__documentation__](./understanding-pipelines).
+To learn more information, please refer to this [documentation](/docs/understanding-pipelines).
 
 ## RBAC and Credential Management in Your Clusters{#rbac-and-credential-management-in-your-clusters}
 
-In this release, we introduce enhanced functionality for managing RBAC (Role-Based Access Control) and credentials within each Cluster. This streamlined approach allows users to efficiently administer Cluster users. To access these features, navigate to the 'Clusters' section, select 'your_cluster', and then proceed to the 'Users' tab. This release includes three predefined roles for simplified user management: 'admin', 'read-write', and 'read-only', each tailored to suit different levels of access and control needs. For more comprehensive details and guidance on utilizing these new capabilities, see the [__documentation__](./user-roles).
+In this release, we introduce enhanced functionality for managing RBAC (Role-Based Access Control) and credentials within each Cluster. This streamlined approach allows users to efficiently administer Cluster users. To access these features, navigate to the 'Clusters' section, select 'your_cluster', and then proceed to the 'Users' tab. This release includes three predefined roles for simplified user management: 'admin', 'read-write', and 'read-only', each tailored to suit different levels of access and control needs. For more comprehensive details and guidance on utilizing these new capabilities, see the [documentation](./user-roles).
 
 ## New Cluster Manipulation API Endpoints{#new-cluster-manipulation-api-endpoints}
 
-In this release, we also introduced a set of new RESTful API endpoints for you to create, modify, and drop clusters as well as another API endpoint for you to list projects. For details, see the [reference documents](https://docs.zilliz.com/reference/cluster-operations) here.
+In this release, we also introduced a set of new RESTful API endpoints for you to create, modify, and drop clusters as well as another API endpoint for you to list projects. For details, see the [reference documents](/reference/restful/cluster-operations) here.
 
 ## Enhancements{#enhancements}
 

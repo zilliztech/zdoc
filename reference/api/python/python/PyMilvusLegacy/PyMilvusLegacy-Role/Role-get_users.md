@@ -14,30 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation lists all users associated with the current role.
 
-```python
-pymilvus.Role.get_users()
-```
-
-The following operations are related to `get_users()`:
-
-- Role
-
-- add_user()
-
-- remove_user()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Role
-
-# Get an existing role
-role = Role(name="string")
-
-# List all users associated with the current role
-users = role.get_users()
+get_users()
 ```
 
 __PARAMETERS__
@@ -63,4 +43,18 @@ role = Role(name="admin")
 # List all users associated with the current role
 users = role.get_users() # (admin, )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `get_users()`:
+
+- [add_user()](./Role-add_user)
+
+- [is_exist()](./Role-is_exist)
+
+- [list_grant()](./Role-list_grant)
+
+- [list_grants()](./Role-list_grants)
+
+- [remove_user()](./Role-remove_user)
 

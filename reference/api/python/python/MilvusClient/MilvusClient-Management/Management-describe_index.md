@@ -69,7 +69,7 @@ __PARAMETERS:__
 
     The algorithm that is used to build the index. 
 
-    On Zilliz Cloud, the value is always __AUTOINDEX__. For details, refer to [AUTOINDEX Explained](./autoindex-explained).
+    On Zilliz Cloud, the value is always __AUTOINDEX__. For details, refer to [AUTOINDEX Explained](/docs/autoindex-explained).
 
 - __metric_type__ (_str_) -
 

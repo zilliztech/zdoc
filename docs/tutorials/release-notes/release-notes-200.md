@@ -15,7 +15,7 @@ The release of Zilliz Cloud sets a new standard in vector database management. I
 
 ## Milvus Compatibility{#milvus-compatibility}
 
-This release is compatible with **Milvus 2.1.x**.
+This release is compatible with __Milvus 2.1.x__.
 
 ## Zilliz Cloud Serverless Vector Database Service Launch{#zilliz-cloud-serverless-vector-database-service-launch}
 
@@ -63,7 +63,7 @@ We are excited to announce that Zilliz Cloud now supports Dynamic Schema startin
 
 For advanced users, we have incorporated a hybrid approach to collection creation by blending Dynamic and Static Schema. This allows users to designate "required" fields in the schema design and activate advanced indexing optimizations. Meanwhile, "optional" fields are supported by the dynamic schema mechanism. This novel approach boosts query performance while maintaining schema flexibility.
 
-Explore this feature in Zilliz Cloud 2.0.0 and witness a significant uplift in your database schema's adaptability. [Learn more about this feature](./enable-dynamic-schema).
+Explore this feature in Zilliz Cloud 2.0.0 and witness a significant uplift in your database schema's adaptability. [Learn more about this feature](./enable-dynamic-field).
 
 ## JSON Type Support{#json-type-support}
 
@@ -73,4 +73,4 @@ JSON, or JavaScript Object Notation, is a crucial data interchange format that h
 
 The real power lies in the innovative coupling of this with our existing ANN Search feature. This combination means you can now perform complex queries that combine the flexibility of JSON data structure with the precision of ANN search, offering a significant leap forward in database querying capabilities.
 
-Experience the synergistic benefits of these two powerful technologies in one place, and unlock a new level of efficiency and precision in your data management and querying tasks. Step into the future of database technology with Zilliz Cloud today. [Learn more about this feature](./javascript-object-notation-json).
+Experience the synergistic benefits of these two powerful technologies in one place, and unlock a new level of efficiency and precision in your data management and querying tasks. Step into the future of database technology with Zilliz Cloud today. [Learn more about this feature](./use-json-fields).

@@ -43,6 +43,7 @@ ul.table-of-contents > li:first-child > a {
 
 div.theme-doc-toc-desktop {
   padding-top: 0;
+  top: 16.5rem !important;
 }
 
 .menu__caret::before {
@@ -207,4 +208,18 @@ nav.pagination-nav > a {
 
 nav.pagination-nav .pagination-nav__sublabel {
   display: none;
+}
+
+#edit-this-page {
+  position: sticky;
+  top: 7rem;
+}
+
+#edit-this-page a {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+#edit-this-page a:hover {
+  color: var(--ifm-color-primary-light);
+  text-decoration: none;
 }

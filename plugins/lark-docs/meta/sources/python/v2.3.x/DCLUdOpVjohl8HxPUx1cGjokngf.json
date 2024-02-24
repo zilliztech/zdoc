@@ -1,6 +1,6 @@
 {
   "created_time": "1704339666",
-  "modified_time": "1704440786",
+  "modified_time": "1708751518",
   "name": "construct_from_dict()",
   "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_token": "RV1nfeylFlUftwd2w4Wc40TYn6d",
@@ -14,14 +14,9 @@
         "block_type": 1,
         "children": [
           "IOz3dSB88oW7A7xQDHXcHa4NnIh",
-          "doxcnFG1xdw46qdVlHfbNUErFvg",
-          "IJeddym9OoeIzgxt7WscoDRznGg",
-          "WGKgdBxMdo2Fezx43uMcEuN6nkg",
-          "XWGldKujRoh6foxhNjxcaiunnDU",
-          "F6HpdDGdKoY6XmxBNVCcY4w8n4d",
-          "TPmidRemPoE8Xux5oH8ckW1Bnnh",
           "QiXKdiD0zojF4nx7CdicEfSYnUh",
-          "KQOXdHMOpoiyUbxu6RXcLt3bnIh",
+          "doxcnFG1xdw46qdVlHfbNUErFvg",
+          "JWHcdzk7Bo0f4DxSyx8cbzgRnRh",
           "doxcnAsVmH3O1WNJgdpzbIz9Jhg",
           "HdtXdMRNsoHr38xhhkwc3fj9n4d",
           "S2jwd4Whlo6m9ax5tmlcafrMnEh",
@@ -31,7 +26,10 @@
           "Ki4jd1Xn1ouOHQx1z9UcD5Wlnsf",
           "M7Cqd6NCeoHhfCxVhQHcUw0hnAf",
           "doxcnlwRKYy6xWnsx52Z8uPNpLd",
-          "doxcnPFrdyNtQ5S9Z0D7gs5CVGe"
+          "doxcnPFrdyNtQ5S9Z0D7gs5CVGe",
+          "NCD2d524coUfWjx4c1Gc6MXynQd",
+          "ROyXd7ZY7o594Ex6B4kcge52n4e",
+          "GR2ddoUVKodOxOxudvicdsTpnv0"
         ],
         "page": {
           "elements": [
@@ -80,13 +78,38 @@
         }
       },
       {
+        "block_id": "QiXKdiD0zojF4nx7CdicEfSYnUh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DCLUdOpVjohl8HxPUx1cGjokngf"
+      },
+      {
         "block_id": "doxcnFG1xdw46qdVlHfbNUErFvg",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "pymilvus.FieldSchema.construct_from_dict(\n    raw: dict\n",
+                "content": "construct_from_dict(\n    raw: dict\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -117,14 +140,29 @@
         "parent_id": "DCLUdOpVjohl8HxPUx1cGjokngf"
       },
       {
-        "block_id": "IJeddym9OoeIzgxt7WscoDRznGg",
+        "block_id": "JWHcdzk7Bo0f4DxSyx8cbzgRnRh",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "Y3qJdy4B9ohU2jxkIrVcImmynBc",
+          "AmgDd0zdaor9Fdx3DV9c8wjFncf",
+          "SqvfdmbgHooT9dx1GcccmvAVnKD"
+        ],
+        "parent_id": "DCLUdOpVjohl8HxPUx1cGjokngf"
+      },
+      {
+        "block_id": "Y3qJdy4B9ohU2jxkIrVcImmynBc",
         "block_type": 2,
-        "parent_id": "DCLUdOpVjohl8HxPUx1cGjokngf",
+        "parent_id": "JWHcdzk7Bo0f4DxSyx8cbzgRnRh",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "The following operations are related to ",
+                "content": "Notes",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -133,10 +171,48 @@
                   "underline": false
                 }
               }
-            },
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AmgDd0zdaor9Fdx3DV9c8wjFncf",
+        "block_type": 2,
+        "parent_id": "JWHcdzk7Bo0f4DxSyx8cbzgRnRh",
+        "text": {
+          "elements": [
             {
               "text_run": {
-                "content": "construct_from_dict()",
+                "content": "This is a class method. You should call it from the class instead of an instance of the class as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SqvfdmbgHooT9dx1GcccmvAVnKD",
+        "block_type": 2,
+        "parent_id": "JWHcdzk7Bo0f4DxSyx8cbzgRnRh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "FieldSchema.construct_from_dict()",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -145,18 +221,6 @@
                   "underline": false
                 }
               }
-            },
-            {
-              "text_run": {
-                "content": ":",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
             }
           ],
           "style": {
@@ -164,168 +228,6 @@
             "folded": false
           }
         }
-      },
-      {
-        "block_id": "WGKgdBxMdo2Fezx43uMcEuN6nkg",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "FieldSchema",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "DCLUdOpVjohl8HxPUx1cGjokngf"
-      },
-      {
-        "block_id": "XWGldKujRoh6foxhNjxcaiunnDU",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "CollectionSchema",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "DCLUdOpVjohl8HxPUx1cGjokngf"
-      },
-      {
-        "block_id": "F6HpdDGdKoY6XmxBNVCcY4w8n4d",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "to_dict()",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "DCLUdOpVjohl8HxPUx1cGjokngf"
-      },
-      {
-        "block_id": "TPmidRemPoE8Xux5oH8ckW1Bnnh",
-        "block_type": 2,
-        "parent_id": "DCLUdOpVjohl8HxPUx1cGjokngf",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "See also the Python SDK Reference.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "QiXKdiD0zojF4nx7CdicEfSYnUh",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Request Syntax",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "DCLUdOpVjohl8HxPUx1cGjokngf"
-      },
-      {
-        "block_id": "KQOXdHMOpoiyUbxu6RXcLt3bnIh",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "from pymilvus import FieldSchema, DataType  \n\n# Create a dictionary to pass to construct_from_dict \nfield_dict = {   \n    \"name\": \"string\",    \n    \"type\": DataType,   \n    \"description\": \"string\"\n}  \n\n# Construct a FieldSchema object from the dictionary\nfield = FieldSchema.construct_from_dict(field_dict)  \n\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "print(field) ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "DCLUdOpVjohl8HxPUx1cGjokngf"
       },
       {
         "block_id": "doxcnAsVmH3O1WNJgdpzbIz9Jhg",
@@ -680,9 +582,111 @@
           }
         },
         "parent_id": "DCLUdOpVjohl8HxPUx1cGjokngf"
+      },
+      {
+        "block_id": "NCD2d524coUfWjx4c1Gc6MXynQd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related operations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DCLUdOpVjohl8HxPUx1cGjokngf"
+      },
+      {
+        "block_id": "ROyXd7ZY7o594Ex6B4kcge52n4e",
+        "block_type": 2,
+        "parent_id": "DCLUdOpVjohl8HxPUx1cGjokngf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following operations are related to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "construct_from_dict()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GR2ddoUVKodOxOxudvicdsTpnv0",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "to_dict()",
+                "token": "G1gsdGWwuoPOPrxJdABcfa76nUd",
+                "url": "https://zilliverse.feishu.cn/docx/G1gsdGWwuoPOPrxJdABcfa76nUd"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "DCLUdOpVjohl8HxPUx1cGjokngf"
       }
     ],
-    "counts": 22
+    "counts": 23
   },
   "slug": "FieldSchema-construct_from_dict"
 }

@@ -27,26 +27,26 @@ Ensure the following prerequisites are met before proceeding:
 
 1. Navigate to the specific organization and project where the whitelist is to be configured.
 
-1. In the left-side navigation pane, choose **Security** > **+ Add IP Address**.
+1. In the left-side navigation pane, choose __Security__ > __+ Add IP Address__.
 
-1. In the dialog box that appears, specify **IP Address (CIDR)** and **Description**.
+1. In the dialog box that appears, specify __IP Address (CIDR)__ and __Description__.
 
     The following table describes the fields.
 
-    |  **Field**         |  **Description**                                                                                                                        |
+    |  __Field__         |  __Description__                                                                                                                        |
     | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
     |  IP Address (CIDR) |  The IP addresses or CIDR block that you want to add to the whitelist. Up to 20 CIDR blocks are allowed. Example value: 192.168.1.1/20. |
     |  Description       |  The description of the whitelisted IP addresses or CIDR block.                                                                         |
 
-1. Click **Add**.
+1. Click __Add__.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-- Without any entries in the whitelist, Zilliz Cloud allows access from any IP address.
-
-- Upon adding a CIDR block, cluster access is exclusively limited to the IP addresses within that block.
-
-- Adding 0.0.0.0/0 equates to having an empty whitelist.
+<ul>
+<li><p>Without any entries in the whitelist, Zilliz Cloud allows access from any IP address.</p></li>
+<li><p>Upon adding a CIDR block, cluster access is exclusively limited to the IP addresses within that block.</p></li>
+<li><p>Adding 0.0.0.0/0 equates to having an empty whitelist.</p></li>
+</ul>
 
 </Admonition>
 

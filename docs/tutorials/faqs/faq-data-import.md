@@ -12,23 +12,22 @@ This topic lists the possible issues that you may encounter while you import dat
 
 ## Contents
 
-- [Can I bulk insert data into the Zilliz Cloud vector databases?](#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases)
-- [What can I do if I receive `ECONNRESET` errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
+
 
 ## FAQs
 
 
 
 
-### Can I bulk insert data into the Zilliz Cloud vector databases?{#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases}
+__Can I bulk insert data into the Zilliz Cloud vector databases?__
 
 Yes. But currently, you can only bulk insert data into the vector databases by using the Zilliz Cloud UI. Please refer to [Import Data on Web UI](./import-data-on-web-ui) for more information.
 
-### What can I do if I receive `ECONNRESET` errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
+__What can I do if I receive `ECONNRESET` errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?__
 
 To solve this problem, please follow the steps below.
 
-1. Upgrade to the latest version of Milvus NodeJS SDK which supports **channelOptions**.
+1. Upgrade to the latest version of Milvus NodeJS SDK which supports __channelOptions__.
 
 1. Add channelOptions manually.
 

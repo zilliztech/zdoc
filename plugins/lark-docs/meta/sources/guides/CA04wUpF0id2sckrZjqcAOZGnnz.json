@@ -5,7 +5,7 @@
   "node_token": "CA04wUpF0id2sckrZjqcAOZGnnz",
   "node_type": "origin",
   "obj_create_time": "1698024383",
-  "obj_edit_time": "1705459351",
+  "obj_edit_time": "1708692350",
   "obj_token": "D81Rd5CdKoTXXNxfLwHcfX3AnAc",
   "obj_type": "docx",
   "origin_node_token": "CA04wUpF0id2sckrZjqcAOZGnnz",
@@ -469,7 +469,19 @@
             },
             {
               "text_run": {
-                "content": ", ",
+                "content": ",",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -487,7 +499,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FBZyrwZqAViYxsJk0fOhcJFbynAe%3Ffrom%3Dfrom_copylink"
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FUfqGwAVleiNu7FkH28JcnlgOnpf"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -497,6 +509,18 @@
             {
               "text_run": {
                 "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

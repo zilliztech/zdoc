@@ -1,6 +1,6 @@
 {
   "created_time": "1706695639",
-  "modified_time": "1708506597",
+  "modified_time": "1708594139",
   "name": "has_partition()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "YpEjf83y1lvvzxd31BqcvQmknEd",
@@ -387,7 +387,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "The name of the partition to create.",
+                "content": "The name of the partition to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "check",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

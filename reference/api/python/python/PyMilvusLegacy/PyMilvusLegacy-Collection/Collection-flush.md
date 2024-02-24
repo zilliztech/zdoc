@@ -14,28 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation seals all segments in the collection. Any insertions after this operation will generate a new segment.
 
-```python
-pymilvus.Collection.flush(
-    timeout: float | None
-)   
-```
-
-The following operations are related to `drop()`:
-
-- insert()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# flush the data
-collection.flush()
+flush(
+    timeout: float | None
+)   
 ```
 
 <Admonition type="info" icon="📘" title="Can I call `flush()` after every data insertion?">
@@ -104,4 +88,16 @@ collection.flush()
 # Check the number of flushed entities in the collection 
 collection.num_entities # 5
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `flush()`:
+
+- [describe()](./Collection-describe)
+
+- [drop()](./Collection-drop)
+
+- [get_replicas()](./Collection-get_replicas)
+
+- [set_properties()](./Collection-set_properties)
 

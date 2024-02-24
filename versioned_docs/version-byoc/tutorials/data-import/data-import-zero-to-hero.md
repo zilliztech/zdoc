@@ -17,7 +17,7 @@ This is a fast-track course to help you quickly start importing data on Zilliz C
 
 - How to define a schema and set up a target collection
 
-- How to prepare source data using **BulkWriter** and write it to a remote storage bucket
+- How to prepare source data using __BulkWriter__ and write it to a remote storage bucket
 
 - How to import data by calling bulk-import APIs
 
@@ -29,11 +29,11 @@ To ensure a smooth experience, make sure you have completed the following setups
 
 - If you have not already, [create a cluster](./create-cluster).
 
-- Gather these details: **Cluster Endpoint**, **API Key**, **Cluster ID**, and **Cloud Region**. You can find these cluster values on the [Zilliz Cloud console](./on-zilliz-cloud-console).
+- Gather these details: __Cluster Endpoint__, __API Key__, __Cluster ID__, and __Cloud Region__. You can find these cluster values on the [Zilliz Cloud console](./on-zilliz-cloud-console).
 
 ### Install dependencies{#install-dependencies}
 
-Run the following command in your terminal to install **pymilvus** and **minio** or upgrade them to the latest version.
+Run the following command in your terminal to install __pymilvus__ and __minio__ or upgrade them to the latest version.
 
 ```shell
 python3 -m pip install --upgrade pymilvus minio
@@ -43,7 +43,7 @@ python3 -m pip install --upgrade pymilvus minio
 
 - Set up a remote bucket using AWS S3. Ensure the bucket is hosted on the same cloud as your Zilliz Cloud cluster.
 
-- Note down the **Access Key**, **Secret Key**, and **Bucket Name**. These details are available in the console of the cloud provider where your bucket is hosted.
+- Note down the __Access Key__, __Secret Key__, and __Bucket Name__. These details are available in the console of the cloud provider where your bucket is hosted.
 
 To enhance the usage of the example code, we recommend you use variables to store the configuration details:
 
@@ -58,9 +58,9 @@ CLOUD_API_ENDPOINT="controller.api.{0}.zillizcloud.com".format(CLOUD_REGION)
 COLLECTION_NAME=""
 
 # Configs for remote bucket
-ACCESS_KEY=""
-SECRET_KEY=""
-BUCKET_NAME=""
+YOUR_ACCESS_KEY=""
+YOUR_SECRET_KEY=""
+YOUR_BUCKET_NAME=""
 ```
 
 ## Download example dataset{#download-example-dataset}
@@ -82,7 +82,7 @@ The output is similar to the following. If you prefer to download from the brows
 
  The following table lists the data structure of the data and the values in the first row.
 
-|  **Field Name** |  **Type**     |  **Attributes**  |  **Sample Value**                                  |
+|  __Field Name__ |  __Type__     |  __Attributes__  |  __Sample Value__                                  |
 | --------------- | ------------- | ---------------- | -------------------------------------------------- |
 |  id             |  INT64        |  N/A             |  0                                                 |
 |  title_vector   |  FLOAT_VECTOR |  Dimension: 768  |  [0.041732933, 0.013779674, -0.027564144, -0.01... |
@@ -102,19 +102,18 @@ Based on the output above, we can work out a schema for our target collection.
 In the following demo, we will include the first four fields in the pre-defined schema and use the other four as dynamic fields.
 
 ```python
-from pymilvus import FieldSchema, CollectionSchema, DataType
+from pymilvus import MilvusClient, DataType
 
-schema = CollectionSchema(
-    fields=[
-        FieldSchema(name='id', dtype=DataType.INT64, is_primary=True),
-        FieldSchema(name='title_vector', dtype=DataType.FLOAT_VECTOR, dim=768),
-        FieldSchema(name='title', dtype=DataType.VARCHAR, max_length=512),
-        FieldSchema(name='link', dtype=DataType.VARCHAR, max_length=512),
-    ],
-    description="A series of articles from medium.com",
+# You need to work out a collection schema out of your dataset.
+schema = MilvusClient.create_schema(
     auto_id=False,
     enable_dynamic_field=True
 )
+
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+schema.add_field(field_name="title_vector", datatype=DataType.FLOAT_VECTOR, dim=768)
+schema.add_field(field_name="title", datatype=DataType.VARCHAR, max_length=512)
+schema.add_field(field_name="link", datatype=DataType.VARCHAR, max_length=512)
 ```
 
 The parameters in the above code are described as follows: 
@@ -129,49 +128,52 @@ The parameters in the above code are described as follows:
 
 - `auto_id=False`
 
-    This is the default value. Setting this to **True** prevents **BulkWriter** from including the primary field in generated files. 
+    This is the default value. Setting this to __True__ prevents __BulkWriter__ from including the primary field in generated files. 
 
 - `enable_dynamic_field=True`
 
-    The value defaults to **False**. Setting this to **True** allows **BulkWriter** to include undefined fields and their values from the generated files as key-value pairs and place them in a reserved JSON field named **$meta**. 
+    The value defaults to __False__. Setting this to __True__ allows __BulkWriter__ to include undefined fields and their values from the generated files as key-value pairs and place them in a reserved JSON field named __$meta__. 
 
 Once the schema is set, you can create the target collection as follows:
 
 ```python
-from pymilvus import connections, Collection
+from pymilvus import MilvusClient
 
-# 1. Set up a connection
-connections.connect(
-        uri=CLUSTER_ENDPOINT,
-        token=TOKEN
-)
-# 2. Create collection
-collection = Collection(name=COLLECTION_NAME, schema=schema)
+# Zilliz Cloud constants
+CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
+TOKEN = "YOUR_TOKEN"
+COLLECTION_NAME = "YOUR_COLLECTION_NAME"
 
-# 3. Set index parameters
-index_params = {
-    "index_type": "AUTOINDEX",
-    "metric_type": "IP",
-    "params": {}
-}
-
-# 4. Create index
-collection.create_index(
-        field_name="title_vector",
-        index_params=index_params,
+# 1. Set up a Milvus client
+client = MilvusClient(
+    uri=CLUSTER_ENDPOINT,
+    token=TOKEN
 )
 
-# 5. Load the collection
-collection.load()
+# 2. Set index parameters
+index_params = MilvusClient.prepare_index_params()
+
+index_params.add_index(
+    field_name="title_vector",
+    index_type="AUTOINDEX",
+    metric_type="IP"
+)
+
+# 3. Create collection
+client.create_collection(
+    collection_name=COLLECTION_NAME,
+    schema=schema,
+    index_params=index_params
+)
 ```
 
 ## Prepare source data{#prepare-source-data}
 
-**BulkWriter** can rewrite your dataset into JSON, Parquet, or NumPy files. We will create a **RemoteBulkWriter** and use the writer to rewrite your data into these formats.
+__BulkWriter__ can rewrite your dataset into JSON, Parquet, or NumPy files. We will create a __RemoteBulkWriter__ and use the writer to rewrite your data into these formats.
 
 ### Create RemoteBulkWriter{#create-remotebulkwriter}
 
-Once the schema is ready, you can use the schema to create a **RemoteBulkWriter**. A **RemoteBulkWriter** asks for permission to access a remote bucket. You should set up connection parameters to access the remote bucket in a **ConnectParam** object and reference it in the **RemoteBulkWriter**.
+Once the schema is ready, you can use the schema to create a __RemoteBulkWriter__. A __RemoteBulkWriter__ asks for permission to access a remote bucket. You should set up connection parameters to access the remote bucket in a __ConnectParam__ object and reference it in the __RemoteBulkWriter__.
 
 <Tabs groupId="python" defaultValue='python' values={[{"label":"AWS S3/GCS","value":"python"},{"label":"Microsoft Azure","value":"python_1"}]}>
 <TabItem value='python'>
@@ -180,8 +182,13 @@ Once the schema is ready, you can use the schema to create a **RemoteBulkWriter*
 
 from pymilvus import RemoteBulkWriter, BulkFileType
 
+# Third-party constants
+YOUR_ACCESS_KEY = "YOUR_ACCESS_KEY"
+YOUR_SECRET_KEY = "YOUR_SECRET_KEY"
+YOUR_BUCKET_NAME = "YOUR_BUCKET_NAME"
+
 # Connections parameters to access the remote bucket
-conn = RemoteBulkWriter.ConnectParam(
+conn = RemoteBulkWriter.S3ConnectParam(
     endpoint="storage.googleapis.com", # Use "s3.amazonaws.com" for AWS S3
     access_key=ACCESS_KEY,
     secret_key=SECRET_KEY,
@@ -195,6 +202,7 @@ conn = RemoteBulkWriter.ConnectParam(
 <TabItem value='python_1'>
 
 ```python
+# Third-party constants
 AZURE_CONNECT_STRING = ""
 
 conn = RemoteBulkWriter.AzureConnectParam(
@@ -204,6 +212,7 @@ conn = RemoteBulkWriter.AzureConnectParam(
 
 # or
 
+# Thrid-party constants
 AZURE_ACCOUNT_URL = ""
 AZURE_CREDENTIAL = ""
 
@@ -219,13 +228,12 @@ conn = RemoteBulkWriter.AzureConnectParam(
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The **endpoint** parameter determines the location of the generated files. Ensure that you use the same cloud providers for the source data and target collection.
-
-For applicable endpoints, refer to [Prepare Data Import](./prepare-source-data).
+<p>The <strong>endpoint</strong> parameter determines the location of the generated files. Ensure that you use the same cloud providers for the source data and target collection.</p>
+<p>For applicable endpoints, refer to <a href="./prepare-source-data">Prepare Data Import</a>.</p>
 
 </Admonition>
 
-Then, you can reference the connection parameters in the **RemoteBulkWriter** as follows:
+Then, you can reference the connection parameters in the __RemoteBulkWriter__ as follows:
 
 ```python
 writer = RemoteBulkWriter(
@@ -248,21 +256,21 @@ The above writer generates files in JSON format and uploads them to the root fol
 
     This determines the output path of the generated files in the remote bucket. 
 
-    Setting it to `"/"` makes the **RemoteBulkWriter** place the generated files in the root folder of the remote bucket. To use other paths, set it to a path relative to the remote bucket root.
+    Setting it to `"/"` makes the __RemoteBulkWriter__ place the generated files in the root folder of the remote bucket. To use other paths, set it to a path relative to the remote bucket root.
 
 - `file_type=BulkFileType.PARQUET`
 
     This determines the type of generated files. Possible values are as follows:
 
-    - **BulkFileType.JSON_RB**
+    - __BulkFileType.JSON_RB__
 
-    - **BulkFileType.PARQUET**
+    - __BulkFileType.PARQUET__
 
-    - **BulkFileType.NPY**
+    - __BulkFileType.NPY__
 
 - `segment_size=512*1024*1024`
 
-    This determines whether **BulkWriter** segments the generated files. The value defaults to 512 MB (512 * 1024 * 1024). If your dataset contains a great number of records, you are advised to segment your data by setting **segment_size** to a proper value.
+    This determines whether __BulkWriter__ segments the generated files. The value defaults to 512 MB (512 * 1024 * 1024). If your dataset contains a great number of records, you are advised to segment your data by setting __segment_size__ to a proper value.
 
 ### Use the writer{#use-the-writer}
 
@@ -281,19 +289,19 @@ for i in range(len(df)):
     writer.append_row(row)
 ```
 
-The **append_row()** method of the writer accepts a row dictionary. 
+The __append_row()__ method of the writer accepts a row dictionary. 
 
 A row dictionary should contain all schema-defined fields as keys. If dynamic fields are allowed, it can also include undefined fields. For details, refer to [Use BulkWriter](./use-bulkwriter#dynamic-schema-support).
 
-**BulkWriter** generates files only after you call its **commit()** method.
+__BulkWriter__ generates files only after you call its __commit()__ method.
 
 ```python
 writer.commit()
 ```
 
-Till now, **BulkWriter** has prepared the source data for you in the specified remote bucket.
+Till now, __BulkWriter__ has prepared the source data for you in the specified remote bucket.
 
-To check the generated files, you can get the actual output path by printing the **data_path** property of the writer.
+To check the generated files, you can get the actual output path by printing the __data_path__ property of the writer.
 
 ```python
 print(writer.data_path)
@@ -303,7 +311,7 @@ print(writer.data_path)
 
 <Admonition type="info" icon="📘" title="Notes">
 
-**BulkWriter** generates a UUID, creates a sub-folder using the UUID in the provided output directory, and places all generated files in the sub-folder.
+<p><strong>BulkWriter</strong> generates a UUID, creates a sub-folder using the UUID in the provided output directory, and places all generated files in the sub-folder.</p>
 
 </Admonition>
 
@@ -315,7 +323,7 @@ Before this step, ensure that the source data and target collection are hosted b
 
 ### Start importing{#start-importing}
 
-To import the prepared source data, you need to call the **bulk_import()** function as follows:
+To import the prepared source data, you need to call the __bulk_import()__ function as follows:
 
 ```python
 from pymilvus import bulk_import
@@ -346,9 +354,8 @@ print(res.json())
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The **object_url** should be a valid URL to a file or folder in the remote bucket. In the code provided, the **format()** method is used to combine the bucket name and the data path returned by the writer to create a valid object URL.
-
-If the data and target collection are hosted by Google Cloud, the object URL should be similar to **gs://remote-bucket/file-path**.  For applicable URI to prefix the data path returned by the writer, please refer to [Prepare Source Data](./prepare-source-data).
+<p>The <strong>object_url</strong> should be a valid URL to a file or folder in the remote bucket. In the code provided, the <strong>format()</strong> method is used to combine the bucket name and the data path returned by the writer to create a valid object URL.</p>
+<p>If the data and target collection are hosted by Google Cloud, the object URL should be similar to <strong>gs://remote-bucket/file-path</strong>.  For applicable URI to prefix the data path returned by the writer, please refer to <a href="./prepare-source-data">Prepare Source Data</a>.</p>
 
 </Admonition>
 
@@ -394,7 +401,7 @@ while res.json()["data"]["readyPercentage"] < 1:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Replace **url** in the **get_import_progress()** with the one corresponding to the cloud region of the target collection.
+<p>Replace <strong>url</strong> in the <strong>get<em>import</em>progress()</strong> with the one corresponding to the cloud region of the target collection.</p>
 
 </Admonition>
 
@@ -439,11 +446,11 @@ In this course, we have covered the entire process of importing data, and here a
 
 - Before the data import, ensure that your cluster and remote object storage bucket are hosted on the same cloud.
 
-- When using **BulkWriter**, note the following:
+- When using __BulkWriter__, note the following:
 
     - Include all schema-defined fields as keys in each row to append. If dynamic fields are allowed, include also applicable undefined fields.
 
-    - Do not forget to call **commit()** after appending all rows.
+    - Do not forget to call __commit()__ after appending all rows.
 
-- When using **bulk_import()**, build the object URL by concatenating the endpoint of the cloud provider hosting the prepared data and the data path returned by the writer.
+- When using __bulk_import()__, build the object URL by concatenating the endpoint of the cloud provider hosting the prepared data and the data path returned by the writer.
 

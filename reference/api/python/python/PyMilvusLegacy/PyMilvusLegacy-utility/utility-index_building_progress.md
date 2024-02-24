@@ -14,41 +14,14 @@ import Admonition from '@theme/Admonition';
 
 This operation returns the progress of the index-building process.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.utility.index_building_progress(
+index_building_progress(
     collection_name: str,
     index_name: str = "",
     using: str = "default",
     timeout: float | None,
-)
-```
-
-The following operations are related to `index_building_progress()`
-
-- Collection.create_index()
-
-- Collection.drop_index()
-
-- Collection.has_index()
-
-- Collection.index()
-
-- wait_for_index_building_complete()
-
-- list_indexes()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from utility import pymilvus
-
-res = utility.index_building_progress(
-    collection_name="string",
-    index_name="string",
-    using="default",
-    timeout=None
 )
 ```
 
@@ -170,4 +143,20 @@ utility.index_building_progress(
     index_name="_default_idx_101"
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `index_building_progress()`
+
+- [create_index()](./Collection-create_index)
+
+- [drop_index()](./Collection-drop_index)
+
+- [has_index()](./Collection-has_index)
+
+- [index()](./Collection-index)
+
+- [wait_for_index_building_complete()](./utility-wait_for_index_building_complete)
+
+- [list_indexes()](./utility-list_indexes)
 

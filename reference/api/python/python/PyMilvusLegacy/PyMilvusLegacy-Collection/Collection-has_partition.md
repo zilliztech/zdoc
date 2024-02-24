@@ -14,37 +14,13 @@ import Admonition from '@theme/Admonition';
 
 This operation checks whether the specified partition exists in the current collection.
 
-```python
-pymilvus.Collection.has_partition(
-    partition_name: str, 
-    timeout: float | None,
-)
-```
-
-The following operations are related to `has_collection()`:
-
-- Collection
-
-- Partition
-
-- partition()
-
-- create_partition()
-
-- drop_partition()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Check whether the specified partition exists
-collection.has_partition(partition_name="string")
+has_partition(
+    partition_name: str, 
+    timeout: float | None,
+)
 ```
 
 __PARAMETERS:__
@@ -99,3 +75,18 @@ collection.drop_partition("test_partition")
 # Check whether the partition exists
 collection.has_partition("test_partition") # False
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `has_collection()`:
+
+- [Collection](./PyMilvusLegacy-Collection)
+
+- [Partition](./PyMilvusLegacy-Partition)
+
+- [create_partition()](./Collection-create_partition)
+
+- [partition()](./Collection-partition)
+
+- [drop_partition()](./Collection-drop_partition)
+

@@ -108,7 +108,7 @@ client.get_load_state(
 
 # 9. Release the collection
 client.release_collection(
-    collection_name="customzied_setup"
+    collection_name="customized_setup"
 )
 
 # 10. Get load status

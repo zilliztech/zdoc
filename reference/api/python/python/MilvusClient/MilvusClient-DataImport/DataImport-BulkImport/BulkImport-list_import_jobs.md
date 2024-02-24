@@ -174,7 +174,7 @@ _#     }_
 _# }_
 ```
 
-For details, refer to [Import Data (SDK)](./import-data-via-sdks) in our user guides.
+For details, refer to [Import Data (SDK)](/docs/import-data-via-sdks) in our user guides.
 
 ## Related methods{#related-methods}
 

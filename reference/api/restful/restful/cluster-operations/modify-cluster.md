@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Modify the configuration of a specified cluster. Currently, you can use this API to change the size of the CU associated with your cluster.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters/{clusterId}/modify" />
+<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/{clusterId}/modify" />
 
 ---
 
@@ -24,8 +24,8 @@ Modify the configuration of a specified cluster. Currently, you can use this API
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/modify" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/${clusterId}/modify" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     --data-raw '{

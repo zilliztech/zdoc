@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Deletes one or more entities from a collection.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/delete" />
+<RestHeader method="post" endpoint="https://{CLUSTER_ENDPOINT}/v1/vector/delete" />
 
 ---
 

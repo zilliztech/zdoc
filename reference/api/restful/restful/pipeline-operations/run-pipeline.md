@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Trigger a specific pipeline.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/pipeline/{PIPELINE_ID}/run" />
+<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/pipeline/{PIPELINE_ID}/run" />
 
 ---
 
@@ -28,7 +28,7 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --header "Authorization: Bearer ${API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487/run" \
         -d '{
             "data": {
@@ -56,7 +56,7 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --header "Authorization: Bearer ${API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-26a18a66ffc8c0edfdb874/run" \
         -d '{
             "data": {
@@ -96,7 +96,7 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --header "Authorization: Bearer ${API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-7227d0729d73e63002ed46/run" \
         -d '{
             "data": {

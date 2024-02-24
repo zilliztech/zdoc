@@ -14,42 +14,16 @@ import Admonition from '@theme/Admonition';
 
 This operation establishes a connection to a Zilliz Cloud cluster using the provided alias, address, and authentication parameters.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.connections.connect(
+connect(
     alias: str,
     user: str | "",
     password: str | "",
     db_name: str | "default",
     token: str | "",
     **kwargs
-)
-```
-
-The following operations are related to `connect()`:
-
-- `add_connection()`
-
-- `disconnect()`
-
-- `get_connection_addr()`
-
-- `has_connection()`
-
-- `list_connections()`
-
-- `remove_connection()`
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import connections
-
-connections.connect(
-  alias="string", 
-  uri="string",
-  token="string"
 )
 ```
 
@@ -214,3 +188,20 @@ connections.connect()
 # Ensure the specified database exists.
 connections.connect(db_name="books")
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `connect()`:
+
+- [add_connection()](./Connections-add_connection)
+
+- [disconnect()](./Connections-disconnect)
+
+- [get_connection_addr()](./Connections-get_connection_addr)
+
+- [has_connection()](./Connections-has_connection)
+
+- [list_connections()](./Connections-list_connections)
+
+- [remove_connection()](./Connections-remove_connection)
+

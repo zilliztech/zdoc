@@ -5,7 +5,7 @@
   "node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
   "node_type": "origin",
   "obj_create_time": "1706249835",
-  "obj_edit_time": "1707132068",
+  "obj_edit_time": "1708499043",
   "obj_token": "Fyg6dFS6foYW2ixcQyKcnltOnIe",
   "obj_type": "docx",
   "origin_node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
@@ -4043,7 +4043,8 @@
         "block_id": "MC0wd5pFYobdMpxx6gwckrxAnyh",
         "block_type": 13,
         "children": [
-          "UQZ1dJ2kCoorh1xojNHcOd6yn2g"
+          "UQZ1dJ2kCoorh1xojNHcOd6yn2g",
+          "WgmvdmWS6o0ufQxX1v3cGGrmnnd"
         ],
         "ordered": {
           "elements": [
@@ -4134,6 +4135,153 @@
           }
         },
         "parent_id": "MC0wd5pFYobdMpxx6gwckrxAnyh"
+      },
+      {
+        "block_id": "WgmvdmWS6o0ufQxX1v3cGGrmnnd",
+        "block_type": 34,
+        "children": [
+          "UzO2dQOTcocV6pxdNbRcxFG8nUe",
+          "JxE9dRG5woMROKxyY7EcvTjHnPc"
+        ],
+        "parent_id": "MC0wd5pFYobdMpxx6gwckrxAnyh",
+        "quote_container": {}
+      },
+      {
+        "block_id": "UzO2dQOTcocV6pxdNbRcxFG8nUe",
+        "block_type": 2,
+        "comment_ids": [
+          "7337947392248987652"
+        ],
+        "parent_id": "WgmvdmWS6o0ufQxX1v3cGGrmnnd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337947392248987652"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JxE9dRG5woMROKxyY7EcvTjHnPc",
+        "block_type": 2,
+        "comment_ids": [
+          "7337947392248987652"
+        ],
+        "parent_id": "WgmvdmWS6o0ufQxX1v3cGGrmnnd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "By default, the reranker feature is disabled in the auto-configured ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337947392248987652"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "search pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337947392248987652"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". If you need to enable reranker, please manually ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337947392248987652"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "create a new search pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337947392248987652"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FTQnswMmIpiTmUSkf1iscU05Lnfb"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337947392248987652"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "TaZpda9qKoRHAIxInZ2cQUQSnCb",
@@ -8701,6 +8849,6 @@
         }
       }
     ],
-    "counts": 237
+    "counts": 240
   }
 }

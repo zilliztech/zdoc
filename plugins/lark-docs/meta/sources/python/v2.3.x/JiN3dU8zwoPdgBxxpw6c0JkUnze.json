@@ -855,7 +855,22 @@
           "elements": [
             {
               "text_run": {
-                "content": "BINARY_VECTOR = 100\n",
+                "content": "BINARY_VECTOR = 100",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7338324719127298051"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -870,6 +885,9 @@
                 "content": "Sets the data type to ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7338324719127298051"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -882,6 +900,9 @@
                 "content": "Binary Vector",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7338324719127298051"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -894,6 +915,9 @@
                 "content": ".",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7338324719127298051"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -907,6 +931,9 @@
             "folded": false
           }
         },
+        "comment_ids": [
+          "7338324719127298051"
+        ],
         "parent_id": "JiN3dU8zwoPdgBxxpw6c0JkUnze"
       },
       {
@@ -916,7 +943,22 @@
           "elements": [
             {
               "text_run": {
-                "content": "FLOAT_VECTOR = 101\n",
+                "content": "FLOAT_VECTOR = 101",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7338324719127298051"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -931,6 +973,9 @@
                 "content": "Sets the data type to ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7338324719127298051"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -943,6 +988,9 @@
                 "content": "Float Vector",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7338324719127298051"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -955,6 +1003,9 @@
                 "content": ".",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7338324719127298051"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -968,6 +1019,9 @@
             "folded": false
           }
         },
+        "comment_ids": [
+          "7338324719127298051"
+        ],
         "parent_id": "JiN3dU8zwoPdgBxxpw6c0JkUnze"
       },
       {

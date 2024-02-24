@@ -33,15 +33,15 @@ Make sure the following conditions are met:
 
 1. Enter the organization that you want to delete.
 
-1. In the left-side navigation pane, click **Settings**.
+1. In the left-side navigation pane, click __Settings__.
 
-1. On the **System Settings** page, find the **Delete Organization** area and click the button.
+1. On the __System Settings__ page, find the __Delete Organization__ area and click the button.
 
 1. Follow the instructions in the pop-up window and click the button to complete deleting the organization.
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-The action of deleting an organization cannot be undone. Please take extra caution with this action.
+<p>The action of deleting an organization cannot be undone. Please take extra caution with this action.</p>
 
 </Admonition>
 

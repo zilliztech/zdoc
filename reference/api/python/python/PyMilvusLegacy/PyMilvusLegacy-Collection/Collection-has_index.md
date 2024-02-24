@@ -14,36 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation checks whether the current collection has a built index.
 
-```python
-pymilvus.Collection.has_index(timeout: float | None)
-```
-
-The following operations are related to `has_index()`:
-
-- create_index()
-
-- drop_index()
-
-- index()
-
-- utility.index_building_progress()
-
-- utility.wait_for_index_building_complete()
-
-- utility.list_indexes()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# check whether the current collection has a built index
-collection.has_index() # False
+has_index(timeout: float | None)
 ```
 
 __PARAMETERS:__
@@ -107,4 +81,20 @@ collection.drop_index()
 # Check the index
 collection.has_index() # False
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `has_index()`:
+
+- [create_index()](./Collection-create_index)
+
+- [drop_index()](./Collection-drop_index)
+
+- [index()](./Collection-index)
+
+- [index_building_progress()](./utility-index_building_progress)
+
+- [wait_for_index_building_complete()](./utility-wait_for_index_building_complete)
+
+- [list_indexes()](./utility-list_indexes)
 

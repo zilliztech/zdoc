@@ -14,40 +14,15 @@ import Admonition from '@theme/Admonition';
 
 This operation conducts a scalar filtering with a specified boolean expression.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.Collection.query(
+query(
     expr: str, 
     output_fields: list[str] | None, 
     partition_names: list[str] | None, 
     timeout: float | None
     **kwargs
-)
-```
-
-The following operations are related to `query()`:
-
-- query_iterator()
-
-- search()
-
-- search_iterator()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Create a query iterator
-iterator = collection.query(
-    expr=None,
-    output_fields=None,
-    partition_names=None,
-    timeout=None,
 )
 ```
 
@@ -230,4 +205,20 @@ res = collection.query(
     graceful_time=6
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `query()`:
+
+- [delete()](./Collection-delete)
+
+- [insert()](./Collection-insert)
+
+- [search()](./Collection-search)
+
+- [search_iterator()](./Collection-search_iterator)
+
+- [query_iterator()](./Collection-query_iterator)
+
+- [upsert()](./Collection-upsert)
 

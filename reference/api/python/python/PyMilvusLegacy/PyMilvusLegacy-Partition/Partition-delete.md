@@ -20,40 +20,12 @@ This operation deletes entities from a partition with a boolean expression.
 
 </Admonition>
 
-```python
-pymilvus.Partition.delete(
-    expr: str, 
-    timeout: float | None
-)
-```
-
-The following operations are related to `delete()`:
-
-- insert()
-
-- search()
-
-- query()
-
-- upsert()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection, Partition
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Get an existing partition
-partition = Partition(collection, name="string")
-
-# Delete a set of entities that match the boolean expression
-response = partition.delete(
-    expr="string",
-    timeout=None
+delete(
+    expr: str, 
+    timeout: float | None
 )
 ```
 
@@ -157,4 +129,18 @@ partition.insert(
 # Delete two entities
 res = partition.delete("id in [ 0, 1 ]")
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `delete()`:
+
+- [flush()](./Partition-flush)
+
+- [insert()](./Partition-insert)
+
+- [query()](./Partition-query)
+
+- [search()](./Partition-search)
+
+- [upsert()](./Partition-upsert)
 

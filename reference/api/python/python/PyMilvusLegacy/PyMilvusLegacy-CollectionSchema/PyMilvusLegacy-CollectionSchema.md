@@ -23,25 +23,9 @@ class pymilvus.CollectionSchema
 Constructs the schema of a collection by defining fields, data types, and other parameters.
 
 ```python
-from pymilvus import CollectionSchema, FieldSchema, DataType
-
-# Define fields in a schema
-primary_key = FieldSchema(
-    name="string",
-    dtype=DataType.INT64,
-    is_primary=True,
-)
-
-vector = FieldSchema(
-    name="string",
-    dtype=DataType.FLOAT_VECTOR,
-    dim=int
-)
-
-# Construct a schema with the predefined fields
-schema = CollectionSchema(
-    fields=[primary_key, vector],
-    description="string"
+CollectionSchema(
+    fields: list,
+    description: str
 )
 ```
 

@@ -3,7 +3,7 @@ slug: /use-bulkwriter
 beta: FALSE
 notebook: 06_use_remote-bulk-writer.ipynb
 token: QyjpwAaKuihAeJkNBUJcdFesn9e
-sidebar_position: 4
+sidebar_position: 2
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,15 +12,15 @@ import TabItem from '@theme/TabItem';
 
 # Use BulkWriter
 
-If your data format does not meet the requirements on [Prepare Source Data](./prepare-source-data), you can use **BulkWriter**, a data processing tool in pymilvus, to prepare your data.
+If your data format does not meet the requirements on [Prepare Source Data](./prepare-source-data), you can use __BulkWriter__, a data processing tool in pymilvus, to prepare your data.
 
 ## Overview{#overview}
 
-**BulkWriter** in PyMilvus is a script designed to convert raw datasets into a format suitable for importing via various methods such as the Zilliz Cloud console, the **BulkInsert** APIs of Milvus SDKs, or the **Import** API in RESTful flavor. It offers two types of writers:
+__BulkWriter__ in PyMilvus is a script designed to convert raw datasets into a format suitable for importing via various methods such as the Zilliz Cloud console, the __BulkInsert__ APIs of Milvus SDKs, or the __Import__ API in RESTful flavor. It offers two types of writers:
 
-- **LocalBulkWriter**: Reads the designated dataset and transforms it into an easy-to-use format.
+- __LocalBulkWriter__: Reads the designated dataset and transforms it into an easy-to-use format.
 
-- **RemoteBulkWriter**: Performs the same task as the **LocalBulkWriter** but additionally transfers the converted data files to a specified remote object storage bucket.
+- __RemoteBulkWriter__: Performs the same task as the __LocalBulkWriter__ but additionally transfers the converted data files to a specified remote object storage bucket.
 
 ## Procedure{#procedure}
 
@@ -36,37 +36,32 @@ pip install --upgrade pymilvus
 
 Decide on the schema for the collection you wish to import your dataset into. This involves selecting which fields to include from the dataset.
 
-The following code creates a collection schema with four fields: **id**, **vector**, **scalar_1**, **and scalar_2**. The first one is the primary field, the second one is the vector field to store 768-dimensional vector embeddings, and the rest two are scalar fields.
+The following code creates a collection schema with four fields: __id__, __vector__, __scalar_1__, __and scalar_2__. The first one is the primary field, the second one is the vector field to store 768-dimensional vector embeddings, and the rest two are scalar fields.
 
 In addition, the schema disables the primary field from automatically incrementing and enables dynamic fields.
 
 ```python
-from pymilvus import (
-    FieldSchema,
-    CollectionSchema,
-    DataType
-)
+from pymilvus import MilvusClient, DataType
 
 # You need to work out a collection schema out of your dataset.
-schema = CollectionSchema(
-    fields=[
-        FieldSchema(name="id", dtype=DataType.INT64, is_priamry=True),
-        FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=768),
-        FieldSchema(name="scalar_1", dtype=DataType.VARCHAR, max_length=512),
-        FieldSchema(name="scalar_2", dtype=DataType.INT64)
-    ],
+schema = MilvusClient.create_schema(
     auto_id=False,
-    enable_dynamic_field=True,
+    enable_dynamic_field=True
 )
+
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+schema.add_field(field_name="vector", datatype=DataType.FLOAT_VECTOR, dim=768)
+schema.add_field(field_name="scalar_1", datatype=DataType.VARCHAR, max_length=512)
+schema.add_field(field_name="scalar_2", datatype=DataType.INT64)
 ```
 
 ### Create a BulkWriter{#create-a-bulkwriter}
 
-There are two types of **BulkWriter**s available.
+There are two types of __BulkWriter__s available.
 
-- **LocalBulkWriter**
+- __LocalBulkWriter__
 
-    A **LocalBulkWriter** appends rows from the source dataset and commits them to a local file of the specified format.
+    A __LocalBulkWriter__ appends rows from the source dataset and commits them to a local file of the specified format.
 
     ```python
     from pymilvus import LocalBulkWriter, BulkFileType
@@ -79,29 +74,28 @@ There are two types of **BulkWriter**s available.
     )
     ```
 
-    When creating a **LocalBulkWriter**, you should:
+    When creating a __LocalBulkWriter__, you should:
 
-    - Reference the created schema in **schema**.
+    - Reference the created schema in __schema__.
 
-    - Set **local_path **to the output directory.
+    - Set __local_path __to the output directory.
 
-    - Set **file_type **to the output file type.
+    - Set __file_type __to the output file type.
 
-    - If your dataset contains a large number of records, you are advised to segment your data by setting **segment_size** to a proper value.
+    - If your dataset contains a large number of records, you are advised to segment your data by setting __segment_size__ to a proper value.
 
-    For details on parameter settings, refer to **LocalBulkWriter** in the SDK reference.
+    For details on parameter settings, refer to __LocalBulkWriter__ in the SDK reference.
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    Only JSON files generated using **LocalBulkWriter** can be directly imported into Zilliz Cloud.     
-    
-    For files of other types, upload them to one of your buckets in the same cloud region as that of your target cluster before the import.
+    <p>Only JSON files generated using <strong>LocalBulkWriter</strong> can be directly imported into Zilliz Cloud. </p>
+    <p>For files of other types, upload them to one of your buckets in the same cloud region as that of your target cluster before the import.</p>
 
     </Admonition>
 
-- **RemoteBulkWriter**
+- __RemoteBulkWriter__
 
-    Instead of committing appended data to a local file, a **RemoteBulkWriter** commits them to a remote bucket. Therefore, you should set up a **ConnectParam** object before creating a **RemoteBulkWriter**.
+    Instead of committing appended data to a local file, a __RemoteBulkWriter__ commits them to a remote bucket. Therefore, you should set up a __ConnectParam__ object before creating a __RemoteBulkWriter__.
 
     <Tabs groupId="python" defaultValue='python' values={[{"label":"AWS S3/GCS","value":"python"},{"label":"Azure Blog Storage","value":"python_1"}]}>
     <TabItem value='python'>
@@ -110,12 +104,17 @@ There are two types of **BulkWriter**s available.
     
     from pymilvus import RemoteBulkWriter
     
+    # Third-party constants
+    YOUR_ACCESS_KEY="YOUR_ACCESS_KEY"
+    YOUR_SECRET_KEY="YOUR_SECRET_KEY"
+    YOUR_BUCKET_NAME="YOUR_BUCKET_NAME"
+    
     # Connections parameters to access the remote bucket
-    conn = RemoteBulkWriter.ConnectParam(
+    conn = RemoteBulkWriter.S3ConnectParam(
         endpoint="storage.googleapis.com", # Use "s3.amazonaws.com" for AWS S3
-        access_key=ACCESS_KEY,
-        secret_key=SECRET_KEY,
-        bucket_name=BUCKET_NAME, # Use a bucket hosted in the same cloud as the target cluster
+        access_key=YOUR_ACCESS_KEY,
+        secret_key=YOUR_SECRET_KEY,
+        bucket_name=YOUR_BUCKET_NAME, # Use a bucket hosted in the same cloud as the target cluster
         secure=True
     )
     
@@ -125,6 +124,7 @@ There are two types of **BulkWriter**s available.
     <TabItem value='python_1'>
 
     ```python
+    # Third-party constants
     AZURE_CONNECT_STRING = ""
     
     conn = RemoteBulkWriter.AzureConnectParam(
@@ -134,6 +134,7 @@ There are two types of **BulkWriter**s available.
     
     # or
     
+    # Third-party constants
     AZURE_ACCOUNT_URL = ""
     AZURE_CREDENTIAL = ""
     
@@ -147,7 +148,7 @@ There are two types of **BulkWriter**s available.
     </TabItem>
     </Tabs>
 
-    Once the connection parameters are ready, you can reference it in the **RemoteBulkWriter** as follows:
+    Once the connection parameters are ready, you can reference it in the __RemoteBulkWriter__ as follows:
 
     ```python
     from pymilvus import BulkFileType
@@ -160,11 +161,11 @@ There are two types of **BulkWriter**s available.
     )
     ```
 
-    The parameters for creating a **RemoteBulkWriter** are barely the same as those for a **LocalBulkWriter**, except **connect_param**.  For details on parameter settings, refer to **RemoteBulkWriter** and **ConnectParam** in the SDK reference.
+    The parameters for creating a __RemoteBulkWriter__ are barely the same as those for a __LocalBulkWriter__, except __connect_param__.  For details on parameter settings, refer to __RemoteBulkWriter__ and __ConnectParam__ in the SDK reference.
 
 ### Start writing {#start-writing}
 
-A **BulkWriter** has two methods: **append_row()** adds a row from a source dataset, and **commit()** commits added rows to a local file or a remote bucket.
+A __BulkWriter__ has two methods: __append_row()__ adds a row from a source dataset, and __commit()__ commits added rows to a local file or a remote bucket.
 
 For demonstration purposes, the following code appends randomly generated data.
 
@@ -220,7 +221,7 @@ writer.commit()
 
 ## Verify the result{#verify-the-result}
 
-To check the results, you can get the actual output path by printing the **data_path** property of the writer.
+To check the results, you can get the actual output path by printing the __data_path__ property of the writer.
 
 ```python
 print(writer.data_path)
@@ -259,11 +260,11 @@ Possible folder structures are as follows:
     │       └── $meta.npy 
     ```
 
-    |  **File Type** |  **Valid Import Paths**                                                                                                                                           |
+    |  __File Type__ |  __Valid Import Paths__                                                                                                                                           |
     | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    |  **JSON**      |  - *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/> - *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json*<br/>    |
-    |  **Parquet**   |  - *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/> - *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet*<br/> |
-    |  **NumPy**     |  - *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/> - *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/\*.npy*<br/>    |
+    |  __JSON__      |  - _s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/_<br/> - _s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json_<br/>    |
+    |  __Parquet__   |  - _s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/_<br/> - _s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet_<br/> |
+    |  __NumPy__     |  - _s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/_<br/> - _s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/\*.npy_<br/>    |
 
 - If the generated file exceeds the specified segment size
 
@@ -299,11 +300,11 @@ Possible folder structures are as follows:
     │           └── $meta.npy  
     ```
 
-    |  **File Type** |  **Valid Import Paths**                                                                                                                                        |
+    |  __File Type__ |  __Valid Import Paths__                                                                                                                                        |
     | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    |  **JSON**      |  - *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/>                                                                                   |
-    |  **Parquet**   |  - *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/>                                                                                   |
-    |  **NumPy**     |  - *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/> - *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/\*.npy*<br/> |
+    |  __JSON__      |  - _s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/_<br/>                                                                                   |
+    |  __Parquet__   |  - _s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/_<br/>                                                                                   |
+    |  __NumPy__     |  - _s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/_<br/> - _s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/\*.npy_<br/> |
 
 ## Related topics{#related-topics}
 

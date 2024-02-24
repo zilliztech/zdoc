@@ -1,6 +1,6 @@
 {
   "created_time": "1704184690",
-  "modified_time": "1708319931",
+  "modified_time": "1708677474",
   "name": "Partition",
   "owner_id": "ou_fbc044d19930afd389d5c369466c38b1",
   "parent_token": "Ed0CftM6Mlb5e4dUYApc9syJnDb",
@@ -299,7 +299,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import Collection, Partition\n\n# Get an existing collection\ncollection = Collection(name=\"string\")\n\n# Create a partition in the collection\npartition = Partition(\n",
+                "content": "Partition(\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1193,7 +1193,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Methods",
+                "content": "Members",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1219,7 +1219,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "The following are the methods of the ",
+                "content": "The following are the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "members",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " of the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

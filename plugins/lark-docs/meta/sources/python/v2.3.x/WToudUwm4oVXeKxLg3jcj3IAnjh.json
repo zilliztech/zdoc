@@ -1,6 +1,6 @@
 {
   "created_time": "1704248712",
-  "modified_time": "1708319736",
+  "modified_time": "1708739535",
   "name": "CollectionSchema",
   "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_token": "SeaffVvutlNtvTdpV17cy78un5T",
@@ -190,7 +190,79 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import CollectionSchema, FieldSchema, DataType\n\n# Define fields in a schema\nprimary_key = FieldSchema(\n    name=\"string\",\n    dtype=DataType.INT64,\n    is_primary=True,\n)\n\nvector = FieldSchema(\n    name=\"string\",\n    dtype=DataType.FLOAT_VECTOR,\n    dim=int\n)\n\n# Construct a schema with the predefined fields\nschema = CollectionSchema(\n    fields=[primary_key, vector],\n    description=\"string\"\n",
+                "content": "CollectionSchema(\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    fields",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": list",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    description",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -70,7 +70,7 @@ __PARAMETERS:__
 
     The algorithm used for this collection to measure similarities between vector embeddings.
 
-    The value defaults to __IP__. Possible values are __L2__, __IP__, and __COSINE__. For details on these metric types, refer to [Similarity Metrics Explained](./search-metrics-explained).
+    The value defaults to __IP__. Possible values are __L2__, __IP__, and __COSINE__. For details on these metric types, refer to [Similarity Metrics Explained](/docs/search-metrics-explained).
 
     Skip this parameter if you need to set up a collection with a customized schema.
 
@@ -230,7 +230,7 @@ You can choose between a quick setup or a customized setup as follows:
     # 4. Add indexes
     index_params.add_index(
         field_name="my_id",
-        index_type="TRIE"
+        index_type="STL_SORT"
     )
     
     index_params.add_index(

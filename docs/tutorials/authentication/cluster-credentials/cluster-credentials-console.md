@@ -35,7 +35,7 @@ To add a cluster user, you must be an [Organization Owner](./resource-hierarchy)
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The password will not be displayed again, so it's crucial to note it down and securely store it in an appropriate location.
+<p>The password will not be displayed again, so it's crucial to note it down and securely store it in an appropriate location.</p>
 
 </Admonition>
 
@@ -51,11 +51,11 @@ To edit the role of a cluster user, you must be an [Organization Owner](./resour
 
 ## Reset the password of a cluster user{#reset-the-password-of-a-cluster-user}
 
-To reset the password of a cluster user, navigate to the cluster details page and access the **Users** tab.
+To reset the password of a cluster user, navigate to the cluster details page and access the __Users__ tab.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The password will not be displayed again, so it's crucial to note it down and securely store it in an appropriate location.
+<p>The password will not be displayed again, so it's crucial to note it down and securely store it in an appropriate location.</p>
 
 </Admonition>
 
@@ -67,7 +67,7 @@ To drop a cluster user, you must be an [Organization Owner](./resource-hierarchy
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The default user **db_admin **cannot be dropped.
+<p>The default user _<em>db</em>admin __cannot be dropped.</p>
 
 </Admonition>
 

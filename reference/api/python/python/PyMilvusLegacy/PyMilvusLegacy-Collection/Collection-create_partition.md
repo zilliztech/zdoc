@@ -14,39 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation creates a partition in the target collection.
 
-```python
-pymilvus.Collection.create_partition(
-    partition_name: str, 
-    description: str | None, 
-)
-```
-
-The following operations are related to `create_partition()`:
-
-- Collection
-
-- Partition
-
-- partition()
-
-- drop_partition()
-
-- has_partition()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Create a partition
-partition = collection.create_partition(
-    partition_name="string" 
-    description="string"
+create_partition(
+    partition_name: str, 
+    description: str | None, 
 )
 ```
 
@@ -98,3 +71,18 @@ partition = collection.create_partition(partition_name="test_partition")
 # Output
 # {"name":"test_partition","collection_name":"test_collection","description":""}
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `create_partition()`:
+
+- [Collection](./PyMilvusLegacy-Collection)
+
+- [Partition](./PyMilvusLegacy-Partition)
+
+- [partition()](./Collection-partition)
+
+- [drop_partition()](./Collection-drop_partition)
+
+- [has_partition()](./Collection-has_partition)
+

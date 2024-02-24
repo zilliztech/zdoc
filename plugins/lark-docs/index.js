@@ -169,7 +169,7 @@ module.exports = function (context, options) {
                             }
     
                             // const writer = new docWriter(root, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
-                            const meta = await writer.__is_to_publish(opts.docTitle)
+                            const meta = await writer.__is_to_publish(opts.docTitle, source.slug)
 
                             var file_path = outputDir + '/' + utils.determine_file_path(token, outputDir)
 

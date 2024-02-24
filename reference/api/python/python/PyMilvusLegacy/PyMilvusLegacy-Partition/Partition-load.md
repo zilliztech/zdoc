@@ -20,36 +20,12 @@ This operation loads the data of the current partition into memory.
 
 </Admonition>
 
-```python
-pymilvus.Partition.load(
-    replica_number: int,
-    timeout: float | None
-)
-```
-
-The following operations are related to `load()`:
-
-- Partition
-
-- release()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection, Partition
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Get an existing partition
-partition = Partition(collection, name="string")
-
-# Load the partition
-partition.load(
-    replica_number=1,
-    timeout=None
+load(
+    replica_number: int,
+    timeout: float | None
 )
 ```
 
@@ -122,4 +98,14 @@ partition.load(
     replica_number=2
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `load()`:
+
+- [drop()](./Partition-drop)
+
+- [get_replicas()](./Partition-get_replicas)
+
+- [release()](./Partition-release)
 

@@ -14,32 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation disconnects the client from the specified connection.
 
-```python
-pymilvus.connections.disconnect(alias: str)
-```
-
-The following operations are related to `disconnect()`:
-
-- `connect()`
-
-- `add_connection()`
-
-- `get_connection_addr()`
-
-- `has_connection()`
-
-- `list_connections()`
-
-- `remove_connection()`
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import connections
-
-connections.disconnect(alias="string")
+disconnect(alias: str)
 ```
 
 __PARAMETERS:__
@@ -71,3 +49,20 @@ from pymilvus import connections
 
 connections.disconnect(alias="default")
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `disconnect()`:
+
+- [add_connection()](./Connections-add_connection)
+
+- [connect()](./Connections-connect)
+
+- [get_connection_addr()](./Connections-get_connection_addr)
+
+- [has_connection()](./Connections-has_connection)
+
+- [list_connections()](./Connections-list_connections)
+
+- [remove_connection()](./Connections-remove_connection)
+

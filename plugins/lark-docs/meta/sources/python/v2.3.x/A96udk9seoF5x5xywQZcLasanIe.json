@@ -1,6 +1,6 @@
 {
   "created_time": "1704278464",
-  "modified_time": "1708320431",
+  "modified_time": "1708740141",
   "name": "Connections",
   "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_token": "Jy4gf9SrBlUSnpdXg2VcTuwhn4g",
@@ -391,7 +391,7 @@
             },
             {
               "text_run": {
-                "content": "    ",
+                "content": "    uri",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -403,7 +403,55 @@
             },
             {
               "text_run": {
-                "content": "host=\"localhost\", ",
+                "content": "=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "http://",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "localhost",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":19530",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\", ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -427,7 +475,7 @@
             },
             {
               "text_run": {
-                "content": "    ",
+                "content": "    token",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -439,7 +487,31 @@
             },
             {
               "text_run": {
-                "content": "port=\"19530\"",
+                "content": "=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "root:Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -538,7 +610,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import connections    \n\n# Establish a connection\nconnections.connect(\n    uri=\"cluster-endpoint\",\n    token=\"token\",\n",
+                "content": "from pymilvus import connections    \n\nCLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\"\nTOKEN = \"YOUR_TOKEN\"\n\n# Establish a connection\nconnections.connect(\n    uri=CLUSTER_ENDPOINT,\n    token=TOKEN,\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -12,46 +12,38 @@ This topic lists the possible issues that you may encounter while planning your 
 
 ## Contents
 
-- [What is a Compute Unit (CU)?](#what-is-a-compute-unit-cu)
-- [How can I avoid expenses on unused clusters?](#how-can-i-avoid-expenses-on-unused-clusters)
-- [How can I estimate the cost of using Zilliz Cloud?](#how-can-i-estimate-the-cost-of-using-zilliz-cloud)
-- [Does Zilliz Cloud support deployment on Azure?](#does-zilliz-cloud-support-deployment-on-azure)
-- [How can I know which plan I am on?](#how-can-i-know-which-plan-i-am-on)
-- [How many CUs do I need for a given collection?](#how-many-cus-do-i-need-for-a-given-collection)
-- [What's the difference between Performance-optimized CU, Capacity-optimized CU, and Cost-optimized CU?](#whats-the-difference-between-performance-optimized-cu-capacity-optimized-cu-and-cost-optimized-cu)
-- [How can I downgrade from Enterprise plan to Standard plan?](#how-can-i-downgrade-from-enterprise-plan-to-standard-plan)
-- [How can I save costs on using Zilliz Cloud if I have a limited budget?](#how-can-i-save-costs-on-using-zilliz-cloud-if-i-have-a-limited-budget)
+
 
 ## FAQs
 
 
 
 
-### What is a Compute Unit (CU)?{#what-is-a-compute-unit-cu}
+__What is a Compute Unit (CU)?__
 
 A compute unit (CU) is a group of hardware resources for serving your indexes and search requests. You can simply consider a CU as a fully-managed physical node for deploying search service.
 
 For more details, see [Select the Right CU](./cu-types-explained).
 
-### How can I avoid expenses on unused clusters?{#how-can-i-avoid-expenses-on-unused-clusters}
+__How can I avoid expenses on unused clusters?__
 
 We recommend suspending unused clusters to save computing costs. You can resume them later when necessary.
 
-### How can I estimate the cost of using Zilliz Cloud?{#how-can-i-estimate-the-cost-of-using-zilliz-cloud}
+__How can I estimate the cost of using Zilliz Cloud?__
 
 You can use our [calculator](https://zilliz.com/pricing) to get a cost estimate.
 
-### Does Zilliz Cloud support deployment on Azure?{#does-zilliz-cloud-support-deployment-on-azure}
+__Does Zilliz Cloud support deployment on Azure?__
 
 Yes. Zilliz Cloud now supports deployment on Azure. This feature is in beta version now.
 
-### How can I know which plan I am on?{#how-can-i-know-which-plan-i-am-on}
+__How can I know which plan I am on?__
 
-To view your plan, choose a specific cluster under a project. Navigate to the **Cluster Details** tab, and you can find the plan detail under the **Summary** section.
+To view your plan, choose a specific cluster under a project. Navigate to the __Cluster Details__ tab, and you can find the plan detail under the __Summary__ section.
 
 ![cluster_plan](/img/cluster_plan.png)
 
-### How many CUs do I need for a given collection?{#how-many-cus-do-i-need-for-a-given-collection}
+__How many CUs do I need for a given collection?__
 
 A Performance-optimized CU can serve 5 million 128-dimensional vectors.
 
@@ -61,7 +53,7 @@ A Cost-optimized CU can serve 25 million 128-dimensional vectors or 5 million 76
 
 Since your collection's schema may differ from the ones in the simple guide above, we highly recommend you test the actual requirements against different CU types.
 
-### What's the difference between Performance-optimized CU, Capacity-optimized CU, and Cost-optimized CU?{#whats-the-difference-between-performance-optimized-cu-capacity-optimized-cu-and-cost-optimized-cu}
+__What's the difference between Performance-optimized CU, Capacity-optimized CU, and Cost-optimized CU?__
 
 The "Performance-optimized Compute Unit" suits low latency or high throughput similarity searches. This option works best for high-search performance scenarios.
 
@@ -71,12 +63,12 @@ The "Cost-optimized Compute Unit" provides the same large capacity as the "Capac
 
 For more details, see [Select the Right CU](./cu-types-explained).
 
-### How can I downgrade from Enterprise plan to Standard plan?{#how-can-i-downgrade-from-enterprise-plan-to-standard-plan}
+__How can I downgrade from Enterprise plan to Standard plan?__
 
 You can downgrade your plan by deleting your enterprise plan clusters and creating new clusters in the standard plan.
 
 If you want to ensure a smooth transition between plans with data retained, you can[ submit a request](https://support.zilliz.com/hc/en-us). We can downgrade the plan for you as well.
 
-### How can I save costs on using Zilliz Cloud if I have a limited budget?{#how-can-i-save-costs-on-using-zilliz-cloud-if-i-have-a-limited-budget}
+__How can I save costs on using Zilliz Cloud if I have a limited budget?__
 
 To reduce cost, we suggest trying our cost-optimized CU type. This type of CU provides the same large capacity as the "Capacity-optimized" option, but at a lower cost with slightly reduced search performance. Refer to [Select the Right CU](./cu-types-explained) for more details.

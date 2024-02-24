@@ -15,7 +15,7 @@ The cost of running pipelines is measured by tokens. Similar to Large Language M
 
 <Admonition type="info" icon="📘" title="Notes">
 
-This tool uses a Byte-Pair Encoding (BPE) tokenizer and the estimated usage may vary by 30% based on different processing strategy. Therefore, you should only use the estimated usage as a reference. For actual usage, please refer to the [Pipelines list](./manage-pipelines#view-pipeline).
+<p>This tool uses a Byte-Pair Encoding (BPE) tokenizer and the estimated usage may vary by 30% based on different processing strategy. Therefore, you should only use the estimated usage as a reference. For actual usage, please refer to the <a href="./manage-pipelines#view-pipeline">Pipelines list</a>.</p>
 
 </Admonition>
 
@@ -59,17 +59,17 @@ To help easily understand the cost implication of any pipeline run, we offer a w
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        You can only input a maximum of 100,000 characters.
+        <p>You can only input a maximum of 100,000 characters.</p>
 
         </Admonition>
 
-1. Click **Calculate**.
+1. Click __Calculate__.
 
     ![estimate-piplines-usage](/img/estimate-piplines-usage.png)
 
 1. Check the estimated token count of your file.
 
-1. Click **Reset** to upload another local file.
+1. Click __Reset__ to upload another local file.
 
 ## Related topics{#related-topics}
 
@@ -77,5 +77,5 @@ To help easily understand the cost implication of any pipeline run, we offer a w
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 
-- [FAQs](./faq-pipelines)
+- [FAQs](/docs/faq-pipelines)
 

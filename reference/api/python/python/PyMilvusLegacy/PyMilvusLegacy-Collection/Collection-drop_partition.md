@@ -15,25 +15,11 @@ import Admonition from '@theme/Admonition';
 This operation drops a specified partition from the current collection.
 
 ```python
-pymilvus.Collection.drop_partition(
+drop_partition(
     partition_name: str
     timeout: float | None
 )
 ```
-
-The following operations are related to `drop_collection()`:
-
-- Collection
-
-- Partition
-
-- partition()
-
-- create_partition()
-
-- has_partition()
-
-See also the Python SDK Reference.
 
 ## Request Syntax{#request-syntax}
 
@@ -101,4 +87,18 @@ collection.drop_partition("test_partition")
 # Check whether the partition exists
 collection.has_partition("test_partition") # False
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `drop_collection()`:
+
+- [Collection](./PyMilvusLegacy-Collection)
+
+- [Partition](./PyMilvusLegacy-Partition)
+
+- [create_partition()](./Collection-create_partition)
+
+- [partition()](./Collection-partition)
+
+- [has_partition()](./Collection-has_partition)
 

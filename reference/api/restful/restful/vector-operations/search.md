@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Conducts a similarity search on the vector field in a collection. 
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/search" />
+<RestHeader method="post" endpoint="https://{CLUSTER_ENDPOINT}/v1/vector/search" />
 
 ---
 

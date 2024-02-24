@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Describes the details of a collection.
 
-<RestHeader method="get" endpoint="https://{cluster-endpoint}/v1/vector/collections/describe" />
+<RestHeader method="get" endpoint="https://{CLUSTER_ENDPOINT}/v1/vector/collections/describe" />
 
 ---
 

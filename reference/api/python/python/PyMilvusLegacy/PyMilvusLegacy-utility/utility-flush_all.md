@@ -14,22 +14,13 @@ import Admonition from '@theme/Admonition';
 
 This operation seals all segments.
 
-```python
-pymilvus.utility.flush_all(
-    using: str = "default",
-    timeout: float | None,
-    **kwargs,
-)
-```
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import utility
-
-utility.flush_all(
-    using="default",
-    timeout=None
+flush_all(
+    using: str = "default",
+    timeout: float | None,
+    **kwargs,
 )
 ```
 
@@ -90,3 +81,18 @@ utility.flush_all(_async=False) # synchronized flush_all
 future = utility.flush_all(_async=True)
 future.done() # flush_all finished
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to the `flush_all()` method:
+
+- [drop_collection()](./utility-drop_collection)
+
+- [has_collection()](./utility-has_collection)
+
+- [has_partition()](./utility-has_partition)
+
+- [list_collections()](./utility-list_collections)
+
+- [rename_collection()](./utility-rename_collection)
+

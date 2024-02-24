@@ -15,11 +15,11 @@ After creating a Search pipeline, you can run it to perform a semantic search.
 
 ## On web UI{#on-web-ui}
 
-1. Click the "▶︎" button next to your Search pipeline. Alternatively, you can also click on the **Run Pipelines** tab.
+1. Click the "▶︎" button next to your Search pipeline. Alternatively, you can also click on the __Run Pipelines__ tab.
 
 ![run-pipeline](/img/run-pipeline.png)
 
-1. Configure the required parameters. Click **Run**.
+1. Configure the required parameters. Click __Run__.
 
     ![run-search-pipeline-playground](/img/run-search-pipeline-playground.png)
 
@@ -50,22 +50,22 @@ curl --request POST \
 
 The parameters in the above code are described as follows:
 
-- `YOUR_CLUSTER_TOKEN`: The token used to authenticate API requests. This token can be an [API key](./manage-api-keys) or a [cluster credential](./cluster-credentials) that consists of a username and password pair.
+- `YOUR_CLUSTER_TOKEN`: The token used to authenticate API requests. This token can be an [API key](/docs/manage-api-keys) or a [cluster credential](/docs/cluster-credentials) that consists of a username and password pair.
 
 - `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
 
-- Query input field: The name should be consistent with what you defined when [adding the ](./create-search-piplines#via-restful-api)[**SEARCH_DOC_CHUNK**](./create-search-piplines#via-restful-api)[ function](./create-search-piplines#via-restful-api). Input the text string you want to query in the value of this field.
+- Query input field: The name should be consistent with what you defined when [adding the ](./create-search-piplines#via-restful-api)__SEARCH_DOC_CHUNK__[](./create-search-piplines#via-restful-api)__[ function](./create-search-piplines#via-restful-api). Input the text string you want to query in the value of this field.
 
 - `params`: The search parameters to configure.
 
-    - `limit`: The maximum number of entities to return. The value should be an integer ranging from **1** to **100**. The sum of this value of that of `offset` should be less than **1024**.
+    - `limit`: The maximum number of entities to return. The value should be an integer ranging from __1__ to __100__. The sum of this value of that of `offset` should be less than __1024__.
 
     - `offset`: The number of entities to skip in the search results.
-The sum of this value and that of `limit` should not be greater than **1024**.The maximum value is **1024**.
+The sum of this value and that of `limit` should not be greater than __1024__.The maximum value is __1024__.
 
     - `outputFields`: An array of fields to return along with the search results.
 
-    - `filter`: The [filter](./search-query-and-get#search-with-filters) in boolean expression used to find matches for the search
+    - `filter`: The [filter](/docs/search-query-and-get#search-with-filters) in boolean expression used to find matches for the search
 
 Below is an example response.
 
@@ -95,5 +95,5 @@ Below is an example response.
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 
-- [FAQs](./faq-pipelines)
+- [FAQs](/docs/faq-pipelines)
 

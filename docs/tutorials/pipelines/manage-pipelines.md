@@ -17,7 +17,7 @@ This guide walks you through how to manage your created pipelines.
 
 ### On web UI{#on-web-ui}
 
-Click **Pipelines** on the left navigation. Choose the **Pipelines** tab. You will see all the available pipelines, their detailed information, and the token usage of each pipeline. 
+Click __Pipelines__ on the left navigation. Choose the __Pipelines__ tab. You will see all the available pipelines, their detailed information, and the token usage of each pipeline. 
 
 ![view-pipelines-on-web-ui](/img/view-pipelines-on-web-ui.png)
 
@@ -25,7 +25,7 @@ Click **Pipelines** on the left navigation. Choose the **Pipelines** tab. You wi
 
 You can call the API to list all existing pipelines or view the details of a particular pipeline.
 
-- **View all existing pipelines**
+- __View all existing pipelines__
 
     Follow the example below and specify your `projectId`.  Learn more about [how to obtain the project ID](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID-).
 
@@ -106,7 +106,7 @@ You can call the API to list all existing pipelines or view the details of a par
     }
     ```
 
-- **View the details of a specific pipeline**
+- __View the details of a specific pipeline__
 
     Follow the example below to view the details of a pipeline. Replace the value of `pipelineId`(`pipe-6ca5dd1b4672659d3c3487`) with your own pipeline ID.
 
@@ -158,15 +158,16 @@ If you no longer need a pipeline, you can drop it.  Note that dropping a pipelin
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-- Dropped pipelines cannot be recovered. Please be cautious with the action.
-
-- Dropping a data-ingestion pipeline does not affect the collection created along with the pipeline. Your data is safe.
+<ul>
+<li><p>Dropped pipelines cannot be recovered. Please be cautious with the action.</p></li>
+<li><p>Dropping a data-ingestion pipeline does not affect the collection created along with the pipeline. Your data is safe.</p></li>
+</ul>
 
 </Admonition>
 
 ### On web UI{#on-web-ui}
 
-To drop a pipeline on the web UI, click the **...** button under the **Actions** column. Then click **Drop**.
+To drop a pipeline on the web UI, click the __...__ button under the __Actions__ column. Then click __Drop__.
 
 ![delete-pipeline](/img/delete-pipeline.png)
 
@@ -228,5 +229,5 @@ The following is an example output.
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 
-- [FAQs](./faq-pipelines)
+- [FAQs](/docs/faq-pipelines)
 

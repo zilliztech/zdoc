@@ -14,37 +14,13 @@ import Admonition from '@theme/Admonition';
 
 This operation lists the relationship between the current role and the specified object.
 
-```python
-pymilvus.Role.list_grant(
-    object: str,
-    object_name: str,
-    db_name: str
-)
-```
-
-The following operations are related to `get_replicas()`:
-
-- Role
-
-- grant()
-
-- list_grants()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Role
-
-# Get an existing role
-role=Role(name="string")
-
-# List the relationship between the current role and the specified object.
-res=list_grant(
-    object="string",
-    object_name="string",
-    db_name="str"
+list_grant(
+    object: str,
+    object_name: str,
+    db_name: str
 )
 ```
 
@@ -137,4 +113,18 @@ res = list_grant(
     db_name="test_db"
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `get_replicas()`:
+
+- [add_user()](./Role-add_user)
+
+- [get_users()](./Role-get_users)
+
+- [is_exist()](./Role-is_exist)
+
+- [list_grants()](./Role-list_grants)
+
+- [remove_user()](./Role-remove_user)
 

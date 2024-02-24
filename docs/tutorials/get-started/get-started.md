@@ -16,8 +16,6 @@ import Admonition from '@theme/Admonition';
 
 A comprehensive quick start guide and related topics to help you build your apps on Zilliz Cloud.
 
-## Contents{#contents}
-
 
 
 import DocCardList from '@theme/DocCardList';

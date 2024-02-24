@@ -14,50 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation constructs a __CollectionSchema__ object from a dictionary representation.
 
-```python
-pymilvus.CollectionSchema.construct_from_dict(
-    raw: dict
-)
-```
-
-The following operations are related to `construct_from_dict()`:
-
-- FieldSchema
-
-- CollectionSchema
-
-- to_dict()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import CollectionSchema, FieldSchema, DataType  
-
-# Define field schemas  
-primary_key = FieldSchema(
-    name="string",
-    dtype=DataType.INT64,
-    is_primary=True,
+construct_from_dict(
+    raw: dict
 )
- 
-vector = FieldSchema(
-    name="string",
-    dtype=DataType.FLOAT_VECTOR,
-    dim=int,
-) 
-
-# Create dictionary representation 
-schema_dict = {
-    "fields": [     
-        primary_key.to_dict(),
-        vector.to_dict()                
-    ]
-}  
-
-# Reconstruct schema from dictionary 
-schema = CollectionSchema.construct_from_dict(raw=schema_dict)  
 ```
 
 __PARAMETERS:__
@@ -114,3 +76,18 @@ print(schema)
 # Output
 # {'auto_id': False, 'description': '', 'fields': [{'name': 'id', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': False}, {'name': 'vector', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 768}}]}
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `construct_from_dict()`:
+
+- [FieldSchema](./PyMilvusLegacy-FieldSchema)
+
+- [DataType](./Collections-DataType)
+
+- [add_field()](./CollectionSchema-add_field)
+
+- [to_dict()](./CollectionSchema-to_dict)
+
+- [verify()](./CollectionSchema-verify)
+

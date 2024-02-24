@@ -14,8 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation returns a Python iterator for you to iterate over the search results. It is useful especially when the search result contains a large volume of data.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymivus.Collection.search_iterator(
+search_iterator(
     data: list[list[float]], 
     anns_field: str, 
     param: dict, 
@@ -26,47 +28,6 @@ pymivus.Collection.search_iterator(
     output_fields: list[str] | None, 
     timeout: float | None, 
     round_decimal: int,
-)
-```
-
-The following operations are related to `search_iterator()`:
-
-- query()
-
-- query_iterator()
-
-- search()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-param = {
-    "metric_type": "COSINE",
-    "params": {
-        "radius": 0.8,
-        "range_filter": 1.0
-    }
-}
-
-# Create a query iterator
-iterator = collection.search_iterator(
-    data=[[0.1,0.2,-0.3,-0.4,0.5]],
-    anns_field="vector",
-    param=param,
-    batch_size=1000,
-    limit=-1,
-    expr=None,
-    output_fields=None,
-    partition_names=None,
-    timeout=None,
-    round_decimal=-1
 )
 ```
 
@@ -110,7 +71,7 @@ __PARAMETERS:__
 
             Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of __radius__. Otherwise, this value should be lower than that of __radius__.
 
-    For details on other applicable search parameters, read [AUTOINDEX Explained](./autoindex-explained) to get more.
+    For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
 
 - __batch_size__ (_int_) -
 
@@ -238,3 +199,20 @@ while True:
         break
 
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `search_iterator()`:
+
+- [delete()](./Collection-delete)
+
+- [insert()](./Collection-insert)
+
+- [search()](./Collection-search)
+
+- [query()](./Collection-query)
+
+- [query_iterator()](./Collection-query_iterator)
+
+- [upsert()](./Collection-upsert)
+

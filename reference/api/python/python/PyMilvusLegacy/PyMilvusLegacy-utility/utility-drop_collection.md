@@ -14,23 +14,13 @@ import Admonition from '@theme/Admonition';
 
 This operation drops a specific collection.
 
-```python
-pymilvus.utility.drop_collection(
-    collection_name: str,
-    timeout: float | None,
-    using: str = "default",
-)
-```
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import utility
-
-utility.drop_collection(
-    collection_name="string",
-    timeout=None,
-    using="default"
+drop_collection(
+    collection_name: str,
+    timeout: float | None,
+    using: str = "default",
 )
 ```
 
@@ -77,4 +67,18 @@ utility.drop_collection(
     collection_name="test_collection",
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to the `drop_collection()` method:
+
+- [flush_all()](./utility-flush_all)
+
+- [has_collection()](./utility-has_collection)
+
+- [has_partition()](./utility-has_partition)
+
+- [list_collections()](./utility-list_collections)
+
+- [rename_collection()](./utility-rename_collection)
 

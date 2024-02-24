@@ -5,7 +5,7 @@
   "node_token": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
   "node_type": "origin",
   "obj_create_time": "1693553299",
-  "obj_edit_time": "1705402475",
+  "obj_edit_time": "1708692314",
   "obj_token": "FNlcdU22Loec6BxE8uEcjFK9npd",
   "obj_type": "docx",
   "origin_node_token": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
@@ -72,7 +72,7 @@
           "S1oIdNjKAozFJ0xeO0NcLkAjnZc",
           "CW7ZdGOrioWqIfxiirRc4hRPnr8",
           "M9widwDdRofmHXxu0y4c29UXnle",
-          "QHZLdEGrdoDWW2xQlEUcdedrnTh"
+          "JFRqdrHcGoOBHAxSGIbcs3k6ndd"
         ],
         "page": {
           "elements": [
@@ -2292,7 +2292,7 @@
         }
       },
       {
-        "block_id": "QHZLdEGrdoDWW2xQlEUcdedrnTh",
+        "block_id": "JFRqdrHcGoOBHAxSGIbcs3k6ndd",
         "block_type": 12,
         "bullet": {
           "elements": [
@@ -2307,20 +2307,8 @@
                   "underline": false
                 },
                 "title": "View Activities",
-                "token": "BZyrwZqAViYxsJk0fOhcJFbynAe",
-                "url": "https://zilliverse.feishu.cn/wiki/BZyrwZqAViYxsJk0fOhcJFbynAe"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
+                "token": "UfqGwAVleiNu7FkH28JcnlgOnpf",
+                "url": "https://zilliverse.feishu.cn/wiki/UfqGwAVleiNu7FkH28JcnlgOnpf"
               }
             }
           ],

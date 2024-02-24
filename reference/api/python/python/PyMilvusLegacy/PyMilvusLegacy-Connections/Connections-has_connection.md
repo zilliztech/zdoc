@@ -14,32 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation checks if a connection with the given alias has already been established.
 
-```python
-pymilvus.connections.has_connection(alias: str)
-```
-
-The following operations are related to `has_connection()`:
-
-- `connect()`
-
-- `add_connection()`
-
-- `disconnect()`
-
-- `get_connection_addr()`
-
-- `list_connections()`
-
-- `remove_connection()`
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import connections
-
-connections.has_connection(alias="string")
+has_connection(alias: str)
 ```
 
 __PARAMETERS:__
@@ -81,3 +59,20 @@ connections.has_connection(alias="default")
 # Output
 # True
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `has_connection()`:
+
+- [add_connection()](./Connections-add_connection)
+
+- [connect()](./Connections-connect)
+
+- [disconnect()](./Connections-disconnect)
+
+- [get_connection_addr()](./Connections-get_connection_addr)
+
+- [list_connections()](./Connections-list_connections)
+
+- [remove_connection()](./Connections-remove_connection)
+

@@ -14,39 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation converts a FieldSchema object to a dictionary representation.
 
-```python
-pymilvus.FieldSchema.to_dict()
-```
-
-The following operations are related to `to_dict()`:
-
-- FieldSchema
-
-- CollectionSchema
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import CollectionSchema, FieldSchema, DataType
-
-# Create field schemas  
-primary_key = FieldSchema(
-    name="string",
-    dtype=DataType,
-    is_primary=True,
-)
- 
-vector = FieldSchema(
-    name="string", 
-    dtype=DataType,
-    dim=int
-)
-
-# Get dictionary representation
-primary_key_dict = primary_key.to_dict()
-vector_dict = vector.to_dict()
+to_dict()
 ```
 
 __PARAMETERS:__
@@ -96,3 +67,10 @@ print(vector_dict)
 # {'name': 'id', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': False}
 # {'name': 'vector', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 768}}
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `to_dict()`:
+
+- [construct_from_dict()](./FieldSchema-construct_from_dict)
+

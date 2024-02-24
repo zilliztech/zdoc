@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Describe a specific pipeline by its name.
 
-<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/{PIPELINE_ID}" />
+<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/pipelines/{PIPELINE_ID}" />
 
 ---
 
@@ -26,7 +26,7 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-**********************"
 ```
 

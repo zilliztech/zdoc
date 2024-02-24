@@ -14,39 +14,14 @@ import Admonition from '@theme/Admonition';
 
 This operation conducts a query on the entity scalar field(s) with a boolean expression.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.Partition.query(
+query(
     expr: str, 
     output_fields: List[str] | None, 
     timeout: float | None,
     **kwargs
-)
-```
-
-The following operations are related to `query()`:
-
-- search()
-
-- load()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import Collection, Partition
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Get an existing partition
-partition = Partition(collection, name="string")
-
-# Conduct a query on the entity scalar fields with a boolean expression
-partition.query(
-    expr="string"，
-    output_fields=None,
-    timeout=None
 )
 ```
 
@@ -212,4 +187,18 @@ res = partition.query(
     graceful_time=6
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `query()`:
+
+- [delete()](./Partition-delete)
+
+- [flush()](./Partition-flush)
+
+- [insert()](./Partition-insert)
+
+- [search()](./Partition-search)
+
+- [upsert()](./Partition-upsert)
 

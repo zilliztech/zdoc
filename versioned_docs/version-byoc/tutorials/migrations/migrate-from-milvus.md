@@ -64,9 +64,9 @@ Zilliz Cloud allows data migration from Milvus 0.9.x and later versions. As a pr
 
 To prepare migration data for Milvus 2.x, do as follows:
 
-1. Download [**milvus-backup**](https://github.com/zilliztech/milvus-backup/releases). Always use the latest release.
+1. Download __milvus-backup__[](https://github.com/zilliztech/milvus-backup/releases)__. Always use the latest release.
 
-1. Create a **configs** folder side by side with the downloaded binary, and download [**backup.yaml**](https://raw.githubusercontent.com/zilliztech/milvus-backup/master/configs/backup.yaml) into the **configs** folder.
+1. Create a __configs__ folder side by side with the downloaded binary, and download __backup.yaml__[](https://raw.githubusercontent.com/zilliztech/milvus-backup/master/configs/backup.yaml)__ into the __configs__ folder.
 
     Once the step is done, the structure of your workspace folder should look like this:
 
@@ -77,7 +77,7 @@ To prepare migration data for Milvus 2.x, do as follows:
          └── backup.yaml
     ```
 
-1. Customize **backup.yaml**.
+1. Customize __backup.yaml__.
 
     In normal cases, you do not need to customize this file. But before going on, check whether the following configuration items are correct:
 
@@ -97,9 +97,10 @@ To prepare migration data for Milvus 2.x, do as follows:
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    - For a Milvus instance installed using Docker Compose, `minio.bucketName` defaults to `a-bucket` and `rootPath` defaults to `files`.    
-    
-    - For a Milvus instance installed on Kubernetes, `minio.bucketName` defaults to `milvus-bucket` and `rootPath` defaults to `file`.
+    <ul>
+    <li><p>For a Milvus instance installed using Docker Compose, <code>minio.bucketName</code> defaults to <code>a-bucket</code> and <code>rootPath</code> defaults to <code>files</code>.</p></li>
+    <li><p>For a Milvus instance installed on Kubernetes, <code>minio.bucketName</code> defaults to <code>milvus-bucket</code> and <code>rootPath</code> defaults to <code>file</code>.</p></li>
+    </ul>
 
     </Admonition>
 
@@ -119,11 +120,11 @@ To prepare migration data for Milvus 2.x, do as follows:
 
     - If you set `minio.address` and `minio.port` to an S3 bucket, your backup file are already in the S3 bucket.
 
-    - If you set `minio.address` and `minio.port` to a Minio bucket, you can download them using Minio Console or the **mc** client. 
+    - If you set `minio.address` and `minio.port` to a Minio bucket, you can download them using Minio Console or the __mc__ client. 
 
-        - To download from [Minio Console](https://min.io/docs/minio/kubernetes/upstream/administration/minio-console.html), log into Minio Console, locate the bucket specified in `minio.address`, select the files in the bucket, and click **Download** to download them.
+        - To download from [Minio Console](https://min.io/docs/minio/kubernetes/upstream/administration/minio-console.html), log into Minio Console, locate the bucket specified in `minio.address`, select the files in the bucket, and click __Download__ to download them.
 
-        - If you prefer [the ](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)[**mc**](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)[ client](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install), do as follows:
+        - If you prefer [the ](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)__mc__[](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)__[ client](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install), do as follows:
 
             ```plaintext
             # configure a Minio host
@@ -136,7 +137,7 @@ To prepare migration data for Milvus 2.x, do as follows:
             mc cp --recursive my_minio/<your-bucket-path> <local_dir_path>
             ```
 
-1. Decompress the downloaded archive and upload only the content of the **backup** folder to Zilliz Cloud.
+1. Decompress the downloaded archive and upload only the content of the __backup__ folder to Zilliz Cloud.
 
 </TabItem>
 
@@ -152,7 +153,7 @@ Upload the prepared migration data to a personal S3 block storage bucket and fil
 
 ## Verify the migration results{#verify-the-migration-results}
 
-Once the migration job status switches from **MIGRATING** to **SUCCESSFUL**, the migration is complete.
+Once the migration job status switches from __MIGRATING__ to __SUCCESSFUL__, the migration is complete.
 
 ![verify_collection](/byoc/verify_collection.png)
 

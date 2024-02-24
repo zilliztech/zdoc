@@ -15,11 +15,11 @@ The Zilliz Cloud web UI provides a simplified and intuitive way of creating pipe
 
 <Admonition type="info" icon="📘" title="Notes">
 
-- Currently, pipelines only work with collections in a [serverless cluster](./create-cluster#set-up-a-serverless-cluster) or a dedicated cluster deployed on GCP us-west1.
-
-- You must [create an ](./create-ingestion-piplines)[Ingestion pipeline](./create-ingestion-piplines) first before creating a Search pipeline.
-
-- In one project, you can only create up to 10 pipelines of the same type.
+<ul>
+<li><p>Currently, pipelines only work with collections in a <a href="./create-cluster#set-up-a-serverless-cluster">serverless cluster</a> or a dedicated cluster deployed on GCP us-west1.</p></li>
+<li><p>You must <a href="./create-ingestion-piplines">create an </a><a href="./create-ingestion-piplines">Ingestion pipeline</a> first before creating a Search pipeline.</p></li>
+<li><p>In one project, you can only create up to 10 pipelines of the same type.</p></li>
+</ul>
 
 </Admonition>
 
@@ -27,34 +27,34 @@ The Zilliz Cloud web UI provides a simplified and intuitive way of creating pipe
 
 1. Navigate to your project.
 
-1. Click on **Pipelines** from the navigation panel. Then click** + Pipeline**.
+1. Click on __Pipelines__ from the navigation panel. Then click__ + Pipeline__.
 
-1. Choose the type of pipeline to create. Click on **+ Pipeline **button in the **Deletion Pipeline **column.
+1. Choose the type of pipeline to create. Click on __+ Pipeline __button in the __Deletion Pipeline __column.
 
     ![create-deletion-pipeline](/img/create-deletion-pipeline.png)
 
 1. Configure the Deletion pipeline you wish to create.
 
-    |  **Parameters**         |  **Description**                                                                                            |
+    |  __Parameters__         |  __Description__                                                                                            |
     | ----------------------- | ----------------------------------------------------------------------------------------------------------- |
     |  Pipeline Name          |  The name of the new Deletion pipeline. It should only contain lowercase letters, numbers, and underscores. |
     |  Description (Optional) |  The description of the new Deletion pipeline.                                                              |
 
     ![configure-deletion-pipeline](/img/configure-deletion-pipeline.png)
 
-1. Add a function to the Deletion pipeline. You can add exactly one **PURGE_DOC_INDEX** function.
+1. Add a function to the Deletion pipeline. You can add exactly one __PURGE_DOC_INDEX__ function.
 
     1. Enter function name.
 
     1. The input field name must be doc_name.
 
-    1. Click **Add** to save your function.
+    1. Click __Add__ to save your function.
 
-1. Click** Create Deletion Pipeline**.
+1. Click__ Create Deletion Pipeline__.
 
 ## Via RESTful API{#via-restful-api}
 
-The example below creates a Deletion pipeline named `my_doc_deletion_pipeline` with a **PURGE_DOC_INDEX** function added. 
+The example below creates a Deletion pipeline named `my_doc_deletion_pipeline` with a __PURGE_DOC_INDEX__ function added. 
 
 ```bash
 curl --request POST \
@@ -81,7 +81,7 @@ curl --request POST \
 
 The parameters in the above code are described as follows:
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](./manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
 
 - `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
 
@@ -93,7 +93,7 @@ The parameters in the above code are described as follows:
 
 - `type`: The type of the pipeline to create. Currently, available pipeline types include `INGESTION`, `SEARCH`, and `DELETION`.
 
-- `functions`: The function(s) to add in the pipeline. **A Deletion pipeline can only have one function.**
+- `functions`: The function(s) to add in the pipeline. __A Deletion pipeline can only have one function.__
 
     - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
 
@@ -137,5 +137,5 @@ Below is an example output.
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 
-- [FAQs](./faq-pipelines)
+- [FAQs](/docs/faq-pipelines)
 

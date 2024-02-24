@@ -14,35 +14,14 @@ import Admonition from '@theme/Admonition';
 
 This operation creates an alias for an existing collection.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.utility.create_alias(
+create_alias(
     collection_name: str,
     alias: str,
     using: str,
     timeout: float | None
-)
-```
-
-The following operations are related to `create_alias()`:
-
-- create_alias()
-
-- drop_alias()
-
-- list_aliases()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import utility
-
-# Create a collection alias
-create_alias(
-    collection_name="string",
-    alias="string",
-    using="default"
 )
 ```
 
@@ -119,4 +98,14 @@ utility.create_alias(collection_name="collection_1", alias="tom")
 # List aliases for the collection
 utility.list_aliases(collection_name="collection_1") # ['bob', 'tom']
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `create_alias()`:
+
+- [alter_alias()](./utility-alter_alias)
+
+- [drop_alias()](./utility-drop_alias)
+
+- [list_aliases()](./utility-list_aliases)
 

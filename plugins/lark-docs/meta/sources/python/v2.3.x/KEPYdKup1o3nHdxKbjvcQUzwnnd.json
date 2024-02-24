@@ -1,6 +1,6 @@
 {
   "created_time": "1706689147",
-  "modified_time": "1708506649",
+  "modified_time": "1708757383",
   "name": "get_load_state()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "IZKcfUEfClhhnWdFhk2co7krnAV",
@@ -812,7 +812,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Set up a milvus client\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"quick_setup\", dimension=5)\n\n# 3. Check the load status of the collection\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: Loaded>}\n\n# 4. Release the collection\nclient.release_collection(collection_name=\"quick_setup\")\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: NotLoaded>}\n\n# 5. Create a partition\nclient.create_partition(\n    collection_name=\"quick_start\", \n    partition_name=\"partition_A\"\n)\n\n# 6. Load a partition\nclient.load_partitions(\n    collection_name=\"quick_start\",\n    partition_names=[\"partition_A\"]\n)\n\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: NotLoaded>}\n\nclient.get_load_state(\n    collection_name=\"quick_setup\",\n    partition_name=\"partition_A\"\n) \n\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Set up a milvus client\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"quick_setup\", dimension=5)\n\n# 3. Check the load status of the collection\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: Loaded>}\n\n# 4. Release the collection\nclient.release_collection(collection_name=\"quick_setup\")\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: NotLoaded>}\n\n# 5. Create a partition\nclient.create_partition(\n    collection_name=\"quick_setup\", \n    partition_name=\"partition_A\"\n)\n\n# 6. Load a partition\nclient.load_partitions(\n    collection_name=\"quick_setup\",\n    partition_names=[\"partition_A\"]\n)\n\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: NotLoaded>}\n\nclient.get_load_state(\n    collection_name=\"quick_setup\",\n    partition_name=\"partition_A\"\n) \n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -899,7 +899,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Set up a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"quick_setup\", dimension=5)\n\n# 3. Check the load status of the collection\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: Loaded>}\n\n# 4. Release the collection\nclient.release_collection(collection_name=\"quick_setup\")\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: NotLoad>}\n\n# 5. Create a partition\nclient.create_partition(\n    collection_name=\"quick_start\", \n    partition_name=\"partition_A\"\n)\n\n# 6. Load a partition\nclient.load_partitions(\n    collection_name=\"quick_start\",\n    partition_names=[\"partition_A\"]\n)\n\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: Loaded>}\n\nclient.get_load_state(\n    collection_name=\"quick_setup\",\n    partition_name=\"partition_A\"\n) \n\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Set up a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"quick_setup\", dimension=5)\n\n# 3. Check the load status of the collection\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: Loaded>}\n\n# 4. Release the collection\nclient.release_collection(collection_name=\"quick_setup\")\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: NotLoad>}\n\n# 5. Create a partition\nclient.create_partition(\n    collection_name=\"quick_setup\", \n    partition_name=\"partition_A\"\n)\n\n# 6. Load a partition\nclient.load_partitions(\n    collection_name=\"quick_setup\",\n    partition_names=[\"partition_A\"]\n)\n\nclient.get_load_state(collection_name=\"quick_setup\") \n\n# {'state': <LoadState: Loaded>}\n\nclient.get_load_state(\n    collection_name=\"quick_setup\",\n    partition_name=\"partition_A\"\n) \n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

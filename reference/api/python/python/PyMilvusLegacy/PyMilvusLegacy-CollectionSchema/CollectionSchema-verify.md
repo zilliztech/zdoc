@@ -14,44 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation performs final validation checks on the CollectionSchema to detect any obvious problems.
 
-```python
-pymilvus.CollectionSchema.verify()
-```
-
-The following operations are related to `verify()`:
-
-- FieldSchema
-
-- CollectionSchema
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import CollectionSchema, FieldSchema, DataType  
-
-# Create field schemas
-
-primary_key = FieldSchema(
-    name="string",
-    dtype=DataType.INT64,
-    is_primary=True,
-)
- 
-vector = FieldSchema(
-    name="string",
-    dtype=DataType.FLOAT_VECTOR,
-    dim=int,
-)
-
-# Create a CollectionSchema with field schemas
-schema = CollectionSchema(
-    fields = [primary_key, vector]
-)
-
-# Call verify() to validate the schema 
-schema.verify()
+verify()
 ```
 
 __PARAMETERS:__
@@ -99,3 +65,18 @@ schema = CollectionSchema(
 # Call verify() to validate the schema 
 schema.verify()
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `verify()`:
+
+- [FieldSchema](./PyMilvusLegacy-FieldSchema)
+
+- [DataType](./Collections-DataType)
+
+- [add_field()](./CollectionSchema-add_field)
+
+- [construct_from_dict()](./CollectionSchema-construct_from_dict)
+
+- [to_dict()](./CollectionSchema-to_dict)
+

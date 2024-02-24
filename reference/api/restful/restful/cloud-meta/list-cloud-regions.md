@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Lists all available cloud regions of a specific cloud provider.
 
-<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/regions" />
+<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/regions" />
 
 ---
 
@@ -24,8 +24,8 @@ Lists all available cloud regions of a specific cloud provider.
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/regions?cloudId=gcp" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/regions?cloudId=gcp" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```

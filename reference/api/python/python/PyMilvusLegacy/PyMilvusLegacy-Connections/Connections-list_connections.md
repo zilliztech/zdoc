@@ -14,32 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation returns a list of all connection names and handler objects.
 
-```python
-pymilvus.connections.list_connections()
-```
-
-The following operations are related to `list_connections()`:
-
-- `connect()`
-
-- `add_connection()`
-
-- `disconnect()`
-
-- `get_connection_addr()`
-
-- `has_connection()`
-
-- `remove_connection()`
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import connections
-
-connections.list_connections()
+list_connections()
 ```
 
 __PARAMETERS:__
@@ -72,4 +50,20 @@ connections.list_connections()
 # Output
 # [('default', <pymilvus.client.grpc_handler.GrpcHandler at 0x14713b940>)]
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `list_connections()`:
+
+- [add_connection()](./Connections-add_connection)
+
+- [connect()](./Connections-connect)
+
+- [disconnect()](./Connections-disconnect)
+
+- [get_connection_addr()](./Connections-get_connection_addr)
+
+- [has_connection()](./Connections-has_connection)
+
+- [remove_connection()](./Connections-remove_connection)
 

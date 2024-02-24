@@ -14,35 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation drops the current partition. 
 
-```python
-pymilvus.Partition.drop(
-    timeout: float | None
-)
-```
-
-The following operations are related to `drop()`:
-
-- Partition
-
-- Collection
-
-- utility.drop_partition()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection, Partition
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Get an existing partition
-partition = Parition(collection, name="string")
-
-# Drop the partition
-partition.drop()
+drop(
+    timeout: float | None
+)
 ```
 
 __PARAMETERS:__
@@ -90,4 +67,14 @@ partition = Partition(
 # Drop the partition
 partition.drop()
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `drop()`:
+
+- [get_replicas()](./Partition-get_replicas)
+
+- [load()](./Partition-load)
+
+- [release()](./Partition-release)
 

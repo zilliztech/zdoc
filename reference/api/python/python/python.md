@@ -13,8 +13,6 @@ import Admonition from '@theme/Admonition';
 
 Welcome to the Python SDK Reference!
 
-## Contents
-
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

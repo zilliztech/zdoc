@@ -25,7 +25,7 @@ To create a project, you must be an [Organization Owner](./resource-hierarchy).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-When you create a project, you are also a [Project Owner](./resource-hierarchy) for the project.
+<p>When you create a project, you are also a <a href="./resource-hierarchy">Project Owner</a> for the project.</p>
 
 </Admonition>
 
@@ -37,7 +37,7 @@ To rename a project, you must be an [Organization Owner](./resource-hierarchy).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Each organization contains a default project. The name of the default project cannot be modified.
+<p>Each organization contains a default project. The name of the default project cannot be modified.</p>
 
 </Admonition>
 
@@ -49,7 +49,7 @@ To delete a project, you must be an [Organization Owner](./resource-hierarchy).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Each organization contains a default project. The default project cannot be deleted.
+<p>Each organization contains a default project. The default project cannot be deleted.</p>
 
 </Admonition>
 

@@ -16,13 +16,12 @@ Selecting the right Compute Unit (CU) is a crucial step when creating a cluster 
 
 ## Understand CU types{#understand-cu-types}
 
-Zilliz Cloud offers these CU types: **Performance-optimized**, **Capacity-optimized**.
+Zilliz Cloud offers these CU types: __Performance-optimized__, __Capacity-optimized__.
 
 |  CU Type                                             |  Latency                                        |  Throughput                                    |  Capacity                              |
 | ---------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------- | -------------------------------------- |
-|  **Performance-optimized**                           |  Low                                            |  High                                          |  Low                                   |
-|  **Capacity-optimized**                              |  Medium                                         |  Medium                                        |  High                                  |
-|   |  <br/>  |  <br/>  |   |
+|  __Performance-optimized__                           |  Low                                            |  High                                          |  Low                                   |
+|  __Capacity-optimized__                              |  Medium                                         |  Medium                                        |  High                                  |
 
 ### Performance-optimized CU{#performance-optimized-cu}
 
@@ -54,7 +53,7 @@ The table below illustrates the load capacity for each CU type, taking into acco
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The above metrics are based on tests considering only primary keys and vectors. If your dataset has extra scalar fields (e.g., id, label, keywords), the actual capacity may deviate. It's prudent to conduct personal tests for a precise evaluation.
+<p>The above metrics are based on tests considering only primary keys and vectors. If your dataset has extra scalar fields (e.g., id, label, keywords), the actual capacity may deviate. It's prudent to conduct personal tests for a precise evaluation.</p>
 
 </Admonition>
 
@@ -86,11 +85,11 @@ Suppose you are building an image recommendation application with a library of 1
 
 To select the right CU for this requirement, follow these steps:
 
-1. **Evaluate Latency**: The Performance-optimized CU is the only type that meets the 30-millisecond latency requirement.
+1. __Evaluate Latency__: The Performance-optimized CU is the only type that meets the 30-millisecond latency requirement.
 
-1. **Assess Capacity**: A single Performance-optimized CU accommodates 1.2 million 768-dimensional vectors. To store all 10 million vectors, you would need at least nine CUs.
+1. __Assess Capacity__: A single Performance-optimized CU accommodates 1.2 million 768-dimensional vectors. To store all 10 million vectors, you would need at least nine CUs.
 
-1. **Check Throughput**: With a `top-k` setting of 100, the Performance-optimized CU can achieve a QPS of 440. To sustain a consistent 1,000 QPS, you would need to triple the number of replicas.
+1. __Check Throughput__: With a `top-k` setting of 100, the Performance-optimized CU can achieve a QPS of 440. To sustain a consistent 1,000 QPS, you would need to triple the number of replicas.
 
 In conclusion, for this scenario, the Performance-optimized CU is your best bet. A configuration of three replicas, with each replica consisting of nine CUs, should serve you perfectly.
 

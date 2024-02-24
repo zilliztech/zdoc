@@ -29,13 +29,7 @@ Constructs a partition in a collection by name, description, and other parameter
 </Admonition>
 
 ```python
-from pymilvus import Collection, Partition
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Create a partition in the collection
-partition = Partition(
+Partition(
     collection=collection, 
     name="string",
     description="string",
@@ -95,9 +89,9 @@ collection = Collection("book")
 partition = Partition(collection, "novel", "")
 ```
 
-## Methods{#methods}
+## Members{#members}
 
-The following are the methods of the `Partition` class:
+The following are the members of the `Partition` class:
 
 
 

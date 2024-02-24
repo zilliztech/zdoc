@@ -15,15 +15,15 @@ Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of e
 
 ## Prerequisites{#prerequisites}
 
-To restore a cluster in the recycle bin, you need to [add a payment method](./payment-billing). 
+To restore a cluster in the recycle bin, you need to [add a payment method](/docs/payment-billing). 
 
 ## Restore a dropped cluster in the recycle bin{#restore-a-dropped-cluster-in-the-recycle-bin}
 
 1. Navigate to the organization the dropped cluster belongs to.
 
-1. Access the **Recycle Bin** via the left navigation menu or the top navigation icon.
+1. Access the __Recycle Bin__ via the left navigation menu or the top navigation icon.
 
-1. Locate the cluster to restore. From the **Actions** dropdown, select **Restore Cluster**.
+1. Locate the cluster to restore. From the __Actions__ dropdown, select __Restore Cluster__.
 
 1. Configure the restored cluster.
 
@@ -33,11 +33,11 @@ To restore a cluster in the recycle bin, you need to [add a payment method](./pa
 
     1. You can rename the cluster and reset its size and password for connection.
 
-1. Click **Restore**. Zilliz Cloud will start creating the cluster with the specified attributes and restore your data to the created cluster.
+1. Click __Restore__. Zilliz Cloud will start creating the cluster with the specified attributes and restore your data to the created cluster.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-During restoration, the status of your cluster will change from **CREATING** to **RESTORING** and finally **RUNNING**. When the cluster is running, all your deleted data are restored.
+<p>During restoration, the status of your cluster will change from <strong>CREATING</strong> to <strong>RESTORING</strong> and finally <strong>RUNNING</strong>. When the cluster is running, all your deleted data are restored.</p>
 
 </Admonition>
 

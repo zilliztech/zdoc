@@ -1,9 +1,9 @@
 ---
 slug: /use-partition-key
 beta: FALSE
-notebook: 03_use_partition_key.ipynb
-token: UzY9wHHcIiDJAUkkFSzcBUk9n4o
-sidebar_position: 12
+notebook: FALSE
+token: SbP2wIzHIiRFxwkmojHc02zknsk
+sidebar_position: 7
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,9 +12,13 @@ import TabItem from '@theme/TabItem';
 
 # Use Partition Key
 
-This guide walks you through using partition key to accelerate data retrieval from your collection.
+This guide walks you through using the partition key to accelerate data retrieval from your collection.
 
-Partition key enables Zilliz Cloud to store entities into different partitions based on their key values. This way, you can group entities with the same key together and avoid scanning irrelevant partitions when filtering by the key field. Partition keys can greatly speed up query performance compared to traditional filtering methods.
+## Overview{#overview}
+
+The partition key in Zilliz Cloud allows for the distribution of incoming entities into different partitions based on their respective partition key values. This allows entities with the same key value to be grouped together in a partition, which in turn accelerates search performance by avoiding the need to scan irrelevant partitions when filtering by the key field. Compared to traditional filtering methods, the partition key can greatly enhance query performance.
+
+You can use the partition key to implement multi-tenancy. For details on multi-tenancy, read [Multi-tenancy](https://milvus.io/docs/multi_tenancy.md) for more.
 
 ## Before you start{#before-you-start}
 
@@ -26,11 +30,9 @@ Before creating a collection, ensure that
 
 - You have downloaded the example dataset. For details, see [Example Dataset](./example-dataset).
 
-## Create collection with partition key enabled{#create-collection-with-partition-key-enabled}
+## Enable partition key{#enable-partition-key}
 
-To demonstrate the use of partition keys, we will continue to use the example dataset that contains over 5,000 articles, and `publication` will serve as the partition key.
-
-The schema of the collection to be created is similar to the one specified in [Create Collection](./create-collection) except for the settings of the `publication` field.
+To demonstrate the use of partition keys, we will continue to use the example dataset that contains over 5,000 articles, and the __publication__ field will serve as the partition key. 
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
@@ -44,26 +46,26 @@ TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
 COLLECTION_NAME="medium_articles_2020" # Set your collection name
 DATASET_PATH="{}/../medium_articles_2020_dpr.json".format(os.path.dirname(__file__)) # Set your dataset path
 
-connections.connect(
-  alias='default', 
-  #  Public endpoint obtained from Zilliz Cloud
-  uri=CLUSTER_ENDPOINT,
-  # API key or a colon-separated cluster username and password
-  token=TOKEN, 
+# 1. Connect to cluster
+client = MilvusClient(
+    uri=CLUSTER_ENDPOINT,
+    token=TOKEN
 )
 
-# 1. Define fields
-fields = [
-    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
-    FieldSchema(name="title", dtype=DataType.VARCHAR, max_length=512),   
-    FieldSchema(name="title_vector", dtype=DataType.FLOAT_VECTOR, dim=768),
-    FieldSchema(name="link", dtype=DataType.VARCHAR, max_length=512),
-    FieldSchema(name="reading_time", dtype=DataType.INT64),
-    # The field "publication" acts as the partition key.
-    FieldSchema(name="publication", dtype=DataType.VARCHAR, max_length=512, is_partition_key=True),
-    FieldSchema(name="claps", dtype=DataType.INT64),
-    FieldSchema(name="responses", dtype=DataType.INT64)
-]
+# 2. Define collection schema
+schema = MilvusClient.create_schema(
+    auto_id=True,
+    partition_key_field="publication"
+)
+
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+schema.add_field(field_name="title", datatype=DataType.VARCHAR, max_length=512)
+schema.add_field(field_name="title_vector", datatype=DataType.FLOAT_VECTOR, dim=768)
+schema.add_field(field_name="link", datatype=DataType.VARCHAR, max_length=512)
+schema.add_field(field_name="reading_time", datatype=DataType.INT64)
+schema.add_field(field_name="publication", datatype=DataType.VARCHAR, max_length=512)
+schema.add_field(field_name="claps", datatype=DataType.INT64)
+schema.add_field(field_name="responses", datatype=DataType.INT64)
 ```
 
 </TabItem>
@@ -274,18 +276,19 @@ responses := entity.NewField().
 </TabItem>
 </Tabs>
 
-After you have defined the fields, create a schema for the collection.
+After you have defined the fields, set other necessary parameters.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
-# 2. Build the schema
-schema = CollectionSchema(
-    fields,
-    description="Schema of Medium articles",
-    # As an alternative, you can set the partition key by its name in the collection schema
-    # partition_key_field="publication"
+# 3. Define index parameters
+index_params = MilvusClient.prepare_index_params()
+
+index_params.add_index(
+    field_name="title_vector",
+    index_type="AUTOINDEX",
+    metric_type="L2"
 )
 ```
 
@@ -353,58 +356,18 @@ schema := &entity.Schema{
 </TabItem>
 </Tabs>
 
-Finally, you can create a collection using the collection schema just defined.
+Finally, you can create a collection.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
-# 3. Create collection
-collection = Collection(
-    name=COLLECTION_NAME, 
-    description="Medium articles published between Jan and August in 2020 in prominent publications",
-    schema=schema
+# 4. Create a collection
+client.create_collection(
+    collection_name=COLLECTION_NAME,
+    schema=schema,
+    index_params=index_params
 )
-
-print("Collection created successfully")
-
-# Output
-#
-# Collection created successfully
-
-# 4. Index collection
-# 'index_type' defines the index algorithm to be used.
-#    AUTOINDEX is the only option.
-#
-# 'metric_type' defines the way to measure the distance 
-#    between vectors. Possible values are L2, IP, and Cosine,
-#    and defaults to Cosine.
-index_params = {
-    "index_type": "AUTOINDEX",
-    "metric_type": "L2",
-    "params": {}
-}
-
-# To name the index, do as follows:
-collection.create_index(
-  field_name="title_vector", 
-  index_params=index_params,
-  index_name='title_vector_index'
-)
-
-# 5. Load collection
-collection.load()
-
-# Get loading progress
-progress = utility.loading_progress(COLLECTION_NAME)
-
-print(progress)
-
-# Output
-#
-# {
-#     "loading_progress": "100%"
-# }
 ```
 
 </TabItem>
@@ -554,91 +517,288 @@ fmt.Println("Loading progress:", progress)
 </TabItem>
 </Tabs>
 
-## Conduct ANN search using partition key{#conduct-ann-search-using-partition-key}
+## Insert data{#insert-data}
 
-Once you have indexed and loaded the collection as well as inserted data as described in [Create Collection](./create-collection), you can conduct an ANN search using the partition key. 
+Once the collection is ready, start inserting data as follows:
 
-To conduct an ANN search using the partition key, you should include either of the following in the boolean expression of the search request:
-
-- `expr='<partition_key>=="xxxx"'`
-
-- `expr='<partition_key> in ["xxx", "xxx"]'`
-
-Do replace `<partition_key>` with the name of the field that is designated as the partition key.
+### Prepare data{#prepare-data}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
-# 8. Search data
-# Metric type should be the same as
-# that defined in the index parameters 
-# used to create the index.
-search_params = {
-    "metric_type": "L2"
+with open(DATASET_PATH) as f:
+    data = json.load(f)
+    list_of_rows = data['rows']
+
+    data_rows = []
+    for row in list_of_rows:
+        # Remove the id field because the primary key has auto_id enabled.
+        del row['id']
+        # Other keys except the title and title_vector fields in the row 
+        # will be treated as dynamic fields.
+        data_rows.append(row)
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// You should include the following in the async function declaration
+
+// 5. prepare data
+const data = JSON.parse(fs.readFileSync(data_file, {encoding: "utf-8"}))
+
+// read rows
+const rows = data["rows"]
+const row = rows[0]
+
+console.log(Object.keys(row))
+
+// Output
+// 
+// [
+//   'id',
+//   'title',
+//   'title_vector',
+//   'link',
+//   'reading_time',
+//   'publication',
+//   'claps',
+//   'responses'
+// ]
+// 
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// You should include the following in the main function
+
+// 5. prepare data
+String content;
+
+// read a local file
+Path file = Path.of(data_file);
+try {
+    content = Files.readString(file);
+} catch (Exception e) {
+    System.err.println("Failed to read file: " + e.getMessage());
+    return;
 }
 
-results = collection.search(
-    data=[rows[0]['title_vector']],
-    anns_field="title_vector",
-    param=search_params,
-    # When conducting searches and queries, include the partition key in the bolean expression
-    expr="claps > 30 and reading_time < 10 and publication in ['Towards Data Science', 'Personal Growth']",
-    output_fields=["title", "link"],
-    limit=5
+System.out.println("Successfully read file");
+
+// Output:
+// Successfully read file
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// You should include the following in the main function
+
+// 6. Read the dataset
+file, err := os.ReadFile(DATA_FILE)
+if err != nil {
+    log.Fatal("Failed to read file:", err.Error())
+}
+
+var data Dataset
+
+if err := json.Unmarshal(file, &data); err != nil {
+    log.Fatal(err.Error())
+}
+
+fmt.Println("Dataset loaded, row number: ", len(data.Rows))
+
+// Output: 
+//
+// Dataset loaded, row number:  5979
+```
+
+</TabItem>
+</Tabs>
+
+### Insert data{#insert-data}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<TabItem value='python'>
+
+```python
+# 7. Insert data
+res = client.insert(
+    collection_name=COLLECTION_NAME,
+    data=data_rows,
 )
 
-# Get all returned IDs
-# results[0] indicates the result 
-# of the first query vector in the 'data' list
-ids = results[0].ids
-
-print(ids)
-
 # Output
 #
-# [5641, 938, 842, 70, 3954]
+# {
+#     "insert_count": 5979
+# }
 
-# Get the distance from 
-# all returned vectors to the query vector.
-distances = results[0].distances
+time.sleep(5000)
+```
 
-print(distances)
+</TabItem>
 
-# Output
-#
-# [0.37674015760421753, 0.436093807220459, 0.49443870782852173, 0.4948430061340332, 0.5028785467147827]
+<TabItem value='javascript'>
 
-# Get the values of the output fields
-# specified in the search request
-entities = [ x.entity.to_dict()["entity"] for x in results[0]]
+```javascript
+// You should include the following in the async function declaration
 
-print(entities)
+// 6. insert data
+res = await client.insert({
+    collection_name: collectionName,
+    data: rows
+})
 
-# Output
-#
-# [
-#     {
-#         "title": "Why The Coronavirus Mortality Rate is Misleading",
-#         "link": "https://towardsdatascience.com/why-the-coronavirus-mortality-rate-is-misleading-cc63f571b6a6"
-#     },
-#     {
-#         "title": "Mortality Rate As an Indicator of an Epidemic Outbreak",
-#         "link": "https://towardsdatascience.com/mortality-rate-as-an-indicator-of-an-epidemic-outbreak-704592f3bb39"
-#     },
-#     {
-#         "title": "Choosing the right performance metrics can save lives against Coronavirus",
-#         "link": "https://towardsdatascience.com/choosing-the-right-performance-metrics-can-save-lives-against-coronavirus-2f27492f6638"
-#     },
-#     {
-#         "title": "How bad will the Coronavirus Outbreak get? \u2014 Predicting the outbreak figures",
-#         "link": "https://towardsdatascience.com/how-bad-will-the-coronavirus-outbreak-get-predicting-the-outbreak-figures-f0b8e8b61991"
-#     },
-#     {
-#         "title": "How similar is COVID-19 to previously discovered Coronaviruses",
-#         "link": "https://towardsdatascience.com/how-similar-is-covid-19-to-previously-discovered-coronaviruses-c3d9f25840f7"
-#     }
-# ]
+console.log(res)
+
+// Output
+// 
+// {
+//   succ_index: [
+//      0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11,
+//     12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+//     24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
+//     36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
+//     48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
+//     60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71,
+//     72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83,
+//     84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95,
+//     96, 97, 98, 99,
+//     ... 5879 more items
+//   ],
+//   err_index: [],
+//   status: { error_code: 'Success', reason: '', code: 0 },
+//   IDs: { int_id: { data: [Array] }, id_field: 'int_id' },
+//   acknowledged: false,
+//   insert_cnt: '5979',
+//   delete_cnt: '0',
+//   upsert_cnt: '0',
+//   timestamp: '445316728739856387'
+// }
+// 
+
+await sleep(5000)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// You should include the following in the main function
+
+// Load dataset
+JSONObject dataset = JSON.parseObject(content);
+
+// Insert your data in rows, all the fields not pre-defined in the schema 
+// are recognized as pre-defined schema
+List<JSONObject> rows = getRows(dataset.getJSONArray("rows"), 1000);
+
+InsertParam insertParam = InsertParam.newBuilder()
+    .withCollectionName(collectionName)
+    .withRows(rows)
+    .build();
+
+R<MutationResult> insertResponse = client.insert(insertParam);
+
+if (insertResponse.getStatus() != R.Status.Success.getCode()) {
+    System.err.println(insertResponse.getMessage());
+}
+
+MutationResultWrapper mutationResultWrapper = new MutationResultWrapper(insertResponse.getData());
+
+System.out.println("Successfully insert entities: " + mutationResultWrapper.getInsertCount());  
+
+// Output:
+// Successfully insert entities: 1000
+
+// wait for a while
+try {
+    // pause execution for 5 seconds
+    Thread.sleep(5000);
+} catch (InterruptedException e) {
+    // handle the exception
+    Thread.currentThread().interrupt();
+} 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// You should include the following in the main function
+
+// 6. Insert data
+fmt.Println("Start inserting ...")
+
+// Output: 
+//
+// Start inserting ...
+
+rows := make([]interface{}, 0, 1)
+
+for i := 0; i < len(data.Rows); i++ {
+    rows = append(rows, data.Rows[i])
+}
+
+col, err := conn.InsertRows(context.Background(), COLLNAME, "", rows)
+
+if err != nil {
+    log.Fatal("Failed to insert rows:", err.Error())
+}
+
+fmt.Println("Inserted entities: ", col.Len())
+
+// Output: 
+//
+// Inserted entities:  5979
+
+time.Sleep(5 * time.Second)
+```
+
+</TabItem>
+</Tabs>
+
+## Use partition key{#use-partition-key}
+
+Once you have indexed and loaded the collection as well as inserted data, you can conduct a similarity search using the partition key. 
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>To conduct a similarity search using the partition key, you should include either of the following in the boolean expression of the search request:</p>
+<ul>
+<li><p><code>expr='&lt;partition_key&gt;=="xxxx"'</code></p></li>
+<li><p><code>expr='&lt;partition_key&gt; in ["xxx", "xxx"]'</code></p></li>
+</ul>
+<p>Do replace <code>&lt;partition_key&gt;</code> with the name of the field that is designated as the partition key.</p>
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
+<TabItem value='python'>
+
+```python
+res = client.search(
+    collection_name=COLLECTION_NAME,
+    data=[data_rows[0]['title_vector']],
+    filter='claps > 30 and reading_time < 10',
+    limit=3,
+    output_fields=["title", "reading_time", "claps"],
+    search_params={"metric_type": "L2", "params": {}}
+)
+
+print(result)
 ```
 
 </TabItem>
@@ -919,17 +1079,7 @@ fmt.Println(resultsToJSON(res))
 </TabItem>
 </Tabs>
 
-## Typical use cases{#typical-use-cases}
+## Use cases{#use-cases}
 
-You can use the partition key feature to achieve multi-tenancy with better search performance.
-
-To do this, you can assign a tenant-specific value as the partition key field for each entity. Then, when you search or query the collection, you can include the partition key field in the boolean expression to filter entities by the tenant-specific value. This way, you can implement data isolation by tenants and avoid scanning unnecessary partitions.
-
-## Related topics{#related-topics}
-
-- [Create Collection](./create-collection)
-
-- [Enable Dynamic Schema](./enable-dynamic-schema)
-
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json)
+To achieve better search performance and enable multi-tenancy, you can utilize the partition key feature. This can be done by assigning a tenant-specific value as the partition key field for each entity. When searching or querying the collection, you can filter entities by the tenant-specific value by including the partition key field in the boolean expression. This approach ensures data isolation by tenants and avoids scanning unnecessary partitions.
 

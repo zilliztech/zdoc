@@ -13,8 +13,6 @@ import Admonition from '@theme/Admonition';
 
 Learn about how to manage projects and project users.
 
-## Contents{#contents}
-
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

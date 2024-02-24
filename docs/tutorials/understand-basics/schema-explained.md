@@ -17,19 +17,19 @@ Defining a data schema is the process of creating a clear and organized data str
 
 In a Zilliz Cloud cluster, collections may have schemas that represent different data structures. It's essential to define the data schema properly to represent the structure of your dataset. To define a data schema, you need to consider the following components:
 
-- **Entity**
+- __Entity__
 
     An entity in a collection is similar to a row in a tabular database. Each property of an entity corresponds to a column in that tabular database. When determining the dataset to be inserted into a collection, identify the entities and the properties that are shared among them.
 
     For example, a book can be an entity in a collection, and its properties can include title, author, ISBN, and language.
 
-- **Data types**
+- __Data types__
 
     Each property of an entity has its own data type. Set an appropriate data type to define a property.
 
-    For instance, the data type for title should be **VarChar**.
+    For instance, the data type for title should be __VarChar__.
 
-- **Constraints on entity property values**
+- __Constraints on entity property values__
 
     Different data types may have their own constraints. For example, a vector field has a constraint on the number of dimensions, and a VarChar field has a constraint on the maximum number of characters.
 
@@ -39,7 +39,7 @@ The data schema for a collection is sometimes time-consuming, especially when th
 
 A collection can have one primary key field and one vector field. You can create a collection using dynamic fields without manually defining the properties of the entities in your dataset. Simply give it a name and the number of dimensions for the vector field. Zilliz Cloud will infer the data types and constraints from the data inserted later on.
 
-For example, the following code snippet creates a collection named **medium_articles** without providing it a fixed schema.
+For example, the following code snippet creates a collection named __medium_articles__ without providing it a fixed schema.
 
 ```python
 # Connect using a MilvusClient object
@@ -82,7 +82,7 @@ client.insert(
 
 The inferred schema according to the above piece of data should be similar to the following:
 
-|  **Field name** |  **Inferred data type** |
+|  __Field name__ |  __Inferred data type__ |
 | --------------- | ----------------------- |
 |  id             |  Int64                  |
 |  title          |  VarChar(512)           |
@@ -95,7 +95,7 @@ The inferred schema according to the above piece of data should be similar to th
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Dynamic data fields may not always be the preferred method, especially when the inserted data is complex and difficult to parse. In such cases, consider using fixed data fields instead, especially when dynamic data fields fail to produce the expected results.
+<p>Dynamic data fields may not always be the preferred method, especially when the inserted data is complex and difficult to parse. In such cases, consider using fixed data fields instead, especially when dynamic data fields fail to produce the expected results.</p>
 
 </Admonition>
 
@@ -152,13 +152,11 @@ For your reference, Zilliz Cloud supports the following field data types:
 
 - Variable character (VARCHAR)
 
-- [JSON](./javascript-object-notation-json)
+- [JSON](./enable-dynamic-field)
 
 ## What’s next{#whats-next}
 
-- [Create Collection](./create-collection)
+- [Manage Collections](./manage-collections)
 
-- [Enable Dynamic Schema](./enable-dynamic-schema)
-
-- [JavaScript Object Notation (JSON)](./javascript-object-notation-json) 
+- [Enable Dynamic Field](./enable-dynamic-field)
 

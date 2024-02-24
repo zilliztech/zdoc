@@ -11,15 +11,11 @@ import Admonition from '@theme/Admonition';
 
 # View Activities
 
-The Zilliz Cloud **Activities** feature provides a comprehensive view of events associated with a specific Zilliz Cloud organization, encompassing both billing and access events, and delivering insightful details about the status of your clusters.
+The Zilliz Cloud __Activities__ feature provides a comprehensive view of events associated with a specific Zilliz Cloud organization, encompassing billing and  access events.
 
 ## View activities{#view-activities}
 
-You can access and review the activities at the organization level through the following steps:
-
-1. Navigate into the desired organization.
-
-1. Click on **Activities** in the left navigation pane. Here, you will be able to see a summary of activities, the precise time each activity took place, and the identity of the operator involved in a specific activity.
+On the organization page, click __Activities__ in the left navigation pane. Here, you can view a summary of activities, the time when each activity took place, and the identity of the operator involved in a specific activity.
 
 ![view-activities-saas](/img/view-activities-saas.png)
 
@@ -27,23 +23,23 @@ You can access and review the activities at the organization level through the f
 
 To enhance your control and ease in navigating through the organization activities, you can apply filters by type and time range. Utilizing a combination of these filtering conditions provides a more tailored view of the activity list.
 
-- **Filter by time range**
+- __Filter by time range__
 
-    Choose a start and end date to display activities occurring within a specific time frame. After setting your desired time range, click **Apply** to view all activities within this period.
+    Choose a start and end date to display activities occurring within a specific time frame. After setting your desired time range, click __Apply__ to view all activities within this period.
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    Ensure that the time span between your chosen start date and end date does not exceed 30 days.
+    <p>Ensure that the time span between your chosen start date and end date does not exceed 30 days.</p>
 
     </Admonition>
 
     ![filter-by-time-range](/img/filter-by-time-range.png)
 
-- **Filter by activity type**
+- __Filter by activity type__
 
-    Select your preferred activity type from the activity list. Zilliz Cloud categorizes activities into three types: **Info**, **Warning**, and **Error**.
+    Select your preferred activity type from the activity list. Zilliz Cloud categorizes activities into three types: __Info__, __Warning__, and __Error__.
 
-    |  **Activity Type** |  **Description**                                                                                                                                                                                |
+    |  __Activity Type__ |  __Description__                                                                                                                                                                                |
     | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
     |  Info              |  General information related to clusters, access, or billing. <br/> Eg. Cluster in01-xxxxxxxxxxxxxxx was created.                                                                            |
     |  Warning           |  Updates regarding resource states that necessitate your attention.<br/>  E.g., "Cluster in01-xxxxxxxxxxxxxxx was deleted."                                                                  |

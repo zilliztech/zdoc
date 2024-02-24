@@ -23,7 +23,7 @@ Make sure the following conditions are met:
 
     For details on how to prepare your data, refer to [Prepare Source Data](./prepare-source-data). You can also refer to the end-to-end notebook [Data Import from Zero to Hero](./data-import-zero-to-hero) to get more.
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Example Dataset](./example-dataset) and [Create Collection](./create-collection).
+- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details, see [Example Dataset](./example-dataset) and [Manage Collections](./manage-collections).
 
 ## Import data using the RESTful API{#import-data-using-the-restful-api}
 
@@ -31,7 +31,7 @@ To import data from files using the RESTful API, you must first upload the files
 
 <Admonition type="info" icon="📘" title="Notes">
 
-For successful data import, you should upload your data to a bucket hosted on the same cloud as your cluster.
+<p>For successful data import, you should upload your data to a bucket hosted on the same cloud as your cluster.</p>
 
 </Admonition>
 
@@ -67,31 +67,31 @@ curl --request GET \\
      --header "content-type: application/json" \\
 ```
 
-For details, see [Import](https://docs.zilliz.com/reference/import) and [Get Import Progress](https://docs.zilliz.com/reference/get-import-progress).
+For details, see [Import](/reference/import) and [Get Import Progress](/reference/get-import-progress).
 
 ### Supported object paths{#supported-object-paths}
 
 The following table lists applicable remote bucket URIs and some quick examples for you to build a valid import path.
 
-- **Object access URIs**
+- __Object access URIs__
 
-    |  **URI Style**                            |  **URI Format**                                                 |
+    |  __URI Style__                            |  __URI Format__                                                 |
     | ----------------------------------------- | --------------------------------------------------------------- |
-    |  **AWS S3 URI**                           |  `s3://bucket-name/object-name`                                 |
-    |  **AWS Object URL, virtual-hosted–style** |  `https://bucket-name.s3.region-code.amazonaws.com/object-name` |
-    |  **AWS Object URL, path-style**           |  `https://s3.region-code.amazonaws.com/bucket-name/object-name` |
+    |  __AWS S3 URI__                           |  `s3://bucket-name/object-name`                                 |
+    |  __AWS Object URL, virtual-hosted–style__ |  `https://bucket-name.s3.region-code.amazonaws.com/object-name` |
+    |  __AWS Object URL, path-style__           |  `https://s3.region-code.amazonaws.com/bucket-name/object-name` |
 
     For more details, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
 
-- **Quick examples**
+- __Quick examples__
 
-    |  **File Type** |  **Quick Examples**                                                                        |
+    |  __File Type__ |  __Quick Examples__                                                                        |
     | -------------- | ------------------------------------------------------------------------------------------ |
-    |  **JSON**      |  `s3://bucket-name/json-folder/`<br/> `s3://bucket-name/json-folder/data.json`          |
-    |  **NumPy**     |  `s3://bucket-name/numpy_folder/`<br/> `s3://bucket-name/folder/*.npy`                  |
-    |  **Parquet**   |  `s3://bucket-name/parquet-folder/`<br/> `s3://bucket-name/parquet-folder/data.parquet` |
+    |  __JSON__      |  `s3://bucket-name/json-folder/`<br/> `s3://bucket-name/json-folder/data.json`          |
+    |  __NumPy__     |  `s3://bucket-name/numpy_folder/`<br/> `s3://bucket-name/folder/*.npy`                  |
+    |  __Parquet__   |  `s3://bucket-name/parquet-folder/`<br/> `s3://bucket-name/parquet-folder/data.parquet` |
 
-- **Required permissions**
+- __Required permissions__
 
     - `s3:GetObject`
 
@@ -112,7 +112,7 @@ If the command output is similar as follows, the data is imported successfully:
 }
 ```
 
-You can also call RESTful APIs to [get the progress of the current import job](https://docs.zilliz.com/reference/get-import-progress) and [list all import jobs](https://docs.zilliz.com/reference/list-import-jobs) to get more. As an alternative, you can also go to the Zilliz Cloud console to view the result and job details:
+You can also call RESTful APIs to [get the progress of the current import job](/reference/get-import-progress) and [list all import jobs](/reference/list-import-jobs) to get more. As an alternative, you can also go to the Zilliz Cloud console to view the result and job details:
 
 ![data_import_complete_restful](/byoc/data_import_complete_restful.png)
 

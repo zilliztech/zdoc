@@ -14,32 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation compacts and merges small segments in the current collection.
 
-```python
-pymilvus.Collection.compact(
-    timeout: float | None
-)
-```
-
-The following operations are related to `compact()`:
-
-- get_compaction_plans()
-
-- get_compaction_state()
-
-- wait_for_compaction_completed()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Call the compact method
-collection.compact()
+compact(
+    timeout: float | None
+)
 ```
 
 __PARAMETERS:__
@@ -81,3 +61,14 @@ collection = Collection(
 # Compact small segments
 collection.compact()
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `compact()`:
+
+- [get_compaction_plans()](./Collection-get_compaction_plans)
+
+- [get_compaction_state()](./Collection-get_compaction_state)
+
+- [wait_for_compaction_completed()](./Collection-wait_for_compaction_completed)
+

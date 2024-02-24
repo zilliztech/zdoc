@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Drops a collection. This operation erases your collection data. Exercise caution when performing this operation.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/collections/drop" />
+<RestHeader method="post" endpoint="https://{CLUSTER_ENDPOINT}/v1/vector/collections/drop" />
 
 ---
 

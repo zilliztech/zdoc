@@ -36,7 +36,7 @@ __PARAMETERS:__
 
     __[REQUIRED]__
 
-    The name of the partition to create.
+    The name of the partition to check.
 
 - __timeout__ (_float _|_ None_)  
 

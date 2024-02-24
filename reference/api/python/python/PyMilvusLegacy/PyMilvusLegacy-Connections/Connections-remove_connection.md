@@ -14,32 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation removes the connection from the registry by the given alias and disconnects if connected.
 
-```python
-pymilvus.connections.remove_connection(alias: str)
-```
-
-The following operations are related to `remove_connection()`:
-
-- `connect()`
-
-- `add_connection()`
-
-- `disconnect()`
-
-- `get_connection_addr()`
-
-- `has_connection()`
-
-- `list_connections()`
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import connections
-
-connections.remove_connection(alias="string")
+remove_connection(alias: str)
 ```
 
 __PARAMETERS:__
@@ -71,3 +49,20 @@ from pymilvus import connections
 
 connections.remove_connection(alias="default")
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `remove_connection()`:
+
+- [add_connection()](./Connections-add_connection)
+
+- [connect()](./Connections-connect)
+
+- [disconnect()](./Connections-disconnect)
+
+- [get_connection_addr()](./Connections-get_connection_addr)
+
+- [has_connection()](./Connections-has_connection)
+
+- [list_connections()](./Connections-list_connections)
+

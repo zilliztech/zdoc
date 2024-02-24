@@ -14,37 +14,14 @@ import Admonition from '@theme/Admonition';
 
 This operation returns the load progress of a specific collection.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.utility.loading_progress(
+loading_progress(
     collection_name: str,
     partition_names: list[str] | None,
     using: str = "default",
     timeout: float | None,
-)
-```
-
-The following operations are related to `load_progress()`:
-
-- Collection
-
-- Partition
-
-- load_state()
-
-- wait_for_loading_complete()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import utility
-
-res = utility.loading_progress(
-    collection_name="string",
-    partition_names=["string", "string"],
-    using="default",
-    timeout=None
 )
 ```
 
@@ -140,4 +117,18 @@ utility.loading_progress(
     collection_name="test_collection",
 ) # {loading_progress: '100%' }
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `loading_progress()`:
+
+- [Partition](./PyMilvusLegacy-Partition)
+
+- [load()](./Collection-load)
+
+- [release()](./Collection-release)
+
+- [load_state()](./utility-load_state)
+
+- [wait_for_loading_complete()](./utility-wait_for_loading_complete)
 

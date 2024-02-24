@@ -1,6 +1,6 @@
 {
   "created_time": "1704340195",
-  "modified_time": "1708319900",
+  "modified_time": "1708751341",
   "name": "FieldSchema",
   "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_token": "RV1nfeylFlUftwd2w4Wc40TYn6d",
@@ -188,7 +188,115 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import FieldSchema, DataType\n\nprimary_key = FieldSchema(\n    name=\"string\",\n    dtype=DataType.INT64,\n    is_primary=True,\n)\n \nvector = FieldSchema(\n    name=\"string\",\n    dtype=DataType.FLOAT_VECTOR,\n    dim=int,\n",
+                "content": "FieldSchema(\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    dtype",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": DataType",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "**kwargs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -394,6 +502,9 @@
                   "bold": false,
                   "inline_code": false,
                   "italic": true,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FJiN3dU8zwoPdgBxxpw6c0JkUnze"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }

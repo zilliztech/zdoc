@@ -87,13 +87,13 @@ client.get_load_state(collection_name="quick_setup")
 
 # 5. Create a partition
 client.create_partition(
-    collection_name="quick_start", 
+    collection_name="quick_setup", 
     partition_name="partition_A"
 )
 
 # 6. Load a partition
 client.load_partitions(
-    collection_name="quick_start",
+    collection_name="quick_setup",
     partition_names=["partition_A"]
 )
 

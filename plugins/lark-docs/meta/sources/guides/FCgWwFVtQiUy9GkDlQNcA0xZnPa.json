@@ -5,7 +5,7 @@
   "node_token": "FCgWwFVtQiUy9GkDlQNcA0xZnPa",
   "node_type": "origin",
   "obj_create_time": "1689046047",
-  "obj_edit_time": "1704940855",
+  "obj_edit_time": "1708775875",
   "obj_token": "J2SgdAeRAoN5pUxoyc5caWSZnwh",
   "obj_type": "docx",
   "origin_node_token": "FCgWwFVtQiUy9GkDlQNcA0xZnPa",
@@ -35,10 +35,8 @@
           "P9oAdff7ZovFQWxexKecbE1VnQg",
           "Fc0sdDmf9oZ2cpxc0sfcFCGjn2b",
           "ZLK7dBSkcoiaqwxdAcUcv7mcnRd",
-          "Q19AdzCC6oSpDTxKdZzc9Xgdnje",
           "RGd7dOLSFoYO4nxgdlucDvORnn4",
-          "Fq9ZdLOqQoH9XQxfouDc3PUInzg",
-          "XB1ndlXCkokq8Dxe7PBcBfK6nre"
+          "Fq9ZdLOqQoH9XQxfouDc3PUInzg"
         ],
         "page": {
           "elements": [
@@ -1613,67 +1611,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Connect to Cluster",
-                "token": "IVFfws0lJi8gIVkRvrvc9aXvnNe",
-                "url": "https://zilliverse.feishu.cn/wiki/IVFfws0lJi8gIVkRvrvc9aXvnNe"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2F6b8f0f0e96234400ad9dce8781eb94f4%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "J2SgdAeRAoN5pUxoyc5caWSZnwh"
-      },
-      {
-        "block_id": "Q19AdzCC6oSpDTxKdZzc9Xgdnje",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Create Collection",
-                "token": "QnKCw0v4TiFkITkneCmcy0mZnre",
-                "url": "https://zilliverse.feishu.cn/wiki/QnKCw0v4TiFkITkneCmcy0mZnre"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2FCreate-Collection-e3b47847e3cd463ba141fba47e7c2603%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
+                "title": "Manage Collections",
+                "token": "XzguwvYt9ipFpkkNdNzcgMnOnJe",
+                "url": "https://zilliverse.feishu.cn/wiki/XzguwvYt9ipFpkkNdNzcgMnOnJe"
               }
             }
           ],
@@ -1699,24 +1639,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Insert Entities",
-                "token": "HBZTwCHa6iTDE0kqNqZc5OJ8nqg",
-                "url": "https://zilliverse.feishu.cn/wiki/HBZTwCHa6iTDE0kqNqZc5OJ8nqg"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2F523172cacd21488c9910e759287f5604%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
+                "title": "Insert, Upsert & Delete",
+                "token": "Zn0MwWVCVibCPHkD063cNfOkn8d",
+                "url": "https://zilliverse.feishu.cn/wiki/Zn0MwWVCVibCPHkD063cNfOkn8d"
               }
             }
           ],
@@ -1742,67 +1667,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Search and Query",
-                "token": "YfMEwLHzeisARCk4VZ3cVhJmnjd",
-                "url": "https://zilliverse.feishu.cn/wiki/YfMEwLHzeisARCk4VZ3cVhJmnjd"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2F375dd098632d4a5297617a51c69c7967%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "J2SgdAeRAoN5pUxoyc5caWSZnwh"
-      },
-      {
-        "block_id": "XB1ndlXCkokq8Dxe7PBcBfK6nre",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 16,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "Drop Collection",
-                "token": "KxK7wHZrciDa0skHrW1c6nkWn5f",
-                "url": "https://zilliverse.feishu.cn/wiki/KxK7wHZrciDa0skHrW1c6nkWn5f"
-              }
-            },
-            {
-              "text_run": {
-                "content": " ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fwww.notion.so%2F40930370867642c6b8b65249cfb58c5b%3Fpvs%3D21"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
+                "title": "Search, Query & Get",
+                "token": "AAJnwIbLViyZzgk6el3c3DERnpf",
+                "url": "https://zilliverse.feishu.cn/wiki/AAJnwIbLViyZzgk6el3c3DERnpf"
               }
             }
           ],
@@ -1814,6 +1681,6 @@
         "parent_id": "J2SgdAeRAoN5pUxoyc5caWSZnwh"
       }
     ],
-    "counts": 73
+    "counts": 71
   }
 }

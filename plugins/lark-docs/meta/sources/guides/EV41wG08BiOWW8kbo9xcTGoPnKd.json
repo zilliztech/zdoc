@@ -5,7 +5,7 @@
   "node_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
   "node_type": "origin",
   "obj_create_time": "1689062914",
-  "obj_edit_time": "1707652394",
+  "obj_edit_time": "1708781300",
   "obj_token": "Ly6BdqdNooKWDhxejD8ckxaZnah",
   "obj_type": "docx",
   "origin_node_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
@@ -53,15 +53,22 @@
           "BNu4dbTh8omSFMxgyIzcE0FKngy",
           "HdqsdKEJKo8QpgxxC0XchVNanKg",
           "K9jzdnChyo5CNvx4gGickJ6onHb",
+          "GYoydVScNolGsQxqwJHc0BU3nFf",
           "W2Fcd4qWZoTnusxiHurcC8hcnyx",
           "FxBPdXY8PoWnR3xHHzGcuYcgnah",
           "PKNedQFv3oYWDGxBeRhcz5panFm",
           "Jigqd4S7Ko7y6JxqKxlcCXtsnZc",
-          "TMm8d7MmootPcyx66wRcIJykn7d",
+          "QqTwdS644oXpwIxf7LkcnDjSnsc",
+          "FM6mdW9S9oDV3zxcvD9cLa5RnIe",
           "YFlFdjGx0oQI8wxbH6qc89aKnIc",
           "LxqKdQL4io1qOoxsZmEcaSo9nhb",
+          "EsiCdnCL9oyBGcxphlCcj5tyn5b",
           "Xp1UdrJY8oQAlFxCMFwc0ucPnne",
           "K5xgdXSWMoFWGHxNkOxcLSjKnIL",
+          "CLqkdBY8ZoBX2SxHXjRcxdpXnbb",
+          "Ke0OdbJu4oHLEExgTgAcDl5FnSf",
+          "FLYodIzuBotTK9xZdu4cQjGjnge",
+          "NB1dd9oH4oft9AxKrD6cVZZznvM",
           "ZTODd1jMro5v9lxK539cMd9dnWc",
           "DRlydeY1EouQ9WxP1Adc5DKEnsD",
           "Tdold1VTxo2oPKxdB8Dc2oJ5nNe",
@@ -1505,7 +1512,7 @@
         }
       },
       {
-        "block_id": "W2Fcd4qWZoTnusxiHurcC8hcnyx",
+        "block_id": "GYoydVScNolGsQxqwJHc0BU3nFf",
         "block_type": 2,
         "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
         "text": {
@@ -1513,6 +1520,31 @@
             {
               "text_run": {
                 "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "W2Fcd4qWZoTnusxiHurcC8hcnyx",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"saas\">",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1707,7 +1739,32 @@
         }
       },
       {
-        "block_id": "TMm8d7MmootPcyx66wRcIJykn7d",
+        "block_id": "QqTwdS644oXpwIxf7LkcnDjSnsc",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FM6mdW9S9oDV3zxcvD9cLa5RnIe",
         "block_type": 2,
         "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
         "text": {
@@ -1809,6 +1866,31 @@
                   "comment_ids": [
                     "7332383884518326276"
                   ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EsiCdnCL9oyBGcxphlCcj5tyn5b",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"saas\">",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1953,6 +2035,133 @@
           "7332383884518326276"
         ],
         "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah"
+      },
+      {
+        "block_id": "CLqkdBY8ZoBX2SxHXjRcxdpXnbb",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ke0OdbJu4oHLEExgTgAcDl5FnSf",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"paas\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FLYodIzuBotTK9xZdu4cQjGjnge",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In such a case, you are advised to  ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "scale up your cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FPharwAysCiBzvgkuqqecmNzunQf%23doxcnxTxiGThSTNfYx7Rg9DH1qc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " by increasing the CU size.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NB1dd9oH4oft9AxKrD6cVZZznvM",
+        "block_type": 2,
+        "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "ZTODd1jMro5v9lxK539cMd9dnWc",
@@ -3013,9 +3222,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Enable Dynamic Schema",
-                "token": "Bb7lwOvwHiJlOgk3RURc3Hi7nrc",
-                "url": "https://zilliverse.feishu.cn/wiki/Bb7lwOvwHiJlOgk3RURc3Hi7nrc"
+                "title": "Enable Dynamic Field",
+                "token": "DzxkwMyxzifAFxkXZiqcErjtnke",
+                "url": "https://zilliverse.feishu.cn/wiki/DzxkwMyxzifAFxkXZiqcErjtnke"
               }
             },
             {
@@ -4387,9 +4596,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Create Collection",
-                "token": "QnKCw0v4TiFkITkneCmcy0mZnre",
-                "url": "https://zilliverse.feishu.cn/wiki/QnKCw0v4TiFkITkneCmcy0mZnre?chunked=false#Z9hBdFLWVofNznxeM11cNPNkn3c"
+                "title": "Zilliz Cloud Limits",
+                "token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
+                "url": "https://zilliverse.feishu.cn/wiki/PuxkwMWvbiHxvTkHsVkcMZP9n5f"
               }
             },
             {
@@ -4501,7 +4710,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FKxK7wHZrciDa0skHrW1c6nkWn5f%3Fchunked%3Dfalse"
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FUSQ2w6yj0i3WN1k3eEYciscinkc%23doxcnk2zHpu3OfLc7adR2NIxdVd"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -4553,7 +4762,7 @@
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FUzY9wHHcIiDJAUkkFSzcBUk9n4o%3Fchunked%3Dfalse"
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FLcEdwc5sWiMMzdke2UWcQ105nqd"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -4682,9 +4891,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Enable Dynamic Schema",
-                "token": "Bb7lwOvwHiJlOgk3RURc3Hi7nrc",
-                "url": "https://zilliverse.feishu.cn/wiki/Bb7lwOvwHiJlOgk3RURc3Hi7nrc"
+                "title": "Enable Dynamic Field",
+                "token": "DzxkwMyxzifAFxkXZiqcErjtnke",
+                "url": "https://zilliverse.feishu.cn/wiki/DzxkwMyxzifAFxkXZiqcErjtnke"
               }
             },
             {
@@ -4795,9 +5004,9 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "Enable Dynamic Schema",
-                "token": "Bb7lwOvwHiJlOgk3RURc3Hi7nrc",
-                "url": "https://zilliverse.feishu.cn/wiki/Bb7lwOvwHiJlOgk3RURc3Hi7nrc"
+                "title": "Enable Dynamic Field",
+                "token": "DzxkwMyxzifAFxkXZiqcErjtnke",
+                "url": "https://zilliverse.feishu.cn/wiki/DzxkwMyxzifAFxkXZiqcErjtnke"
               }
             },
             {
@@ -6241,7 +6450,6 @@
               "text_run": {
                 "content": "Which Zilliz Cloud Product Tiers are Pipelines available in?",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": true,
                   "inline_code": false,
                   "italic": false,
@@ -6267,7 +6475,6 @@
               "text_run": {
                 "content": "Zilliz Cloud Pipeline is available on all tiers as long as you have created a cluster on GCP us-west1. ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6293,7 +6500,6 @@
               "text_run": {
                 "content": "Which embedding model does Zilliz Cloud Pipelines use?",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": true,
                   "inline_code": false,
                   "italic": false,
@@ -6319,7 +6525,6 @@
               "text_run": {
                 "content": "The text doc ingestion and search pipelines support various embedding models.",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6344,7 +6549,6 @@
               "text_run": {
                 "content": "For English:",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": true,
                   "inline_code": false,
                   "italic": false,
@@ -6377,7 +6581,6 @@
               "text_run": {
                 "content": "zilliz/bge-base-en-v1.5",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6407,7 +6610,6 @@
               "text_run": {
                 "content": "Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model.",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6432,7 +6634,6 @@
               "text_run": {
                 "content": "voyageai/voyage-2",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6462,7 +6663,6 @@
               "text_run": {
                 "content": "Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard.",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6487,7 +6687,6 @@
               "text_run": {
                 "content": "voyageai/voyage-code-2",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6517,7 +6716,6 @@
               "text_run": {
                 "content": "Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks.",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6542,7 +6740,6 @@
               "text_run": {
                 "content": "openai/text-embedding-3-small ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6572,7 +6769,6 @@
               "text_run": {
                 "content": "Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality.",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6597,7 +6793,6 @@
               "text_run": {
                 "content": "openai/text-embedding-3-large",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6627,7 +6822,6 @@
               "text_run": {
                 "content": "Hosted by OpenAI. This is OpenAI's best performing model. Compared to ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6640,7 +6834,6 @@
               "text_run": {
                 "content": "text-embedding-ada-002",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -6653,7 +6846,6 @@
               "text_run": {
                 "content": ", the MTEB score has increased from 61.0% to 64.6%.",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6678,7 +6870,6 @@
               "text_run": {
                 "content": "For Chinese:",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": true,
                   "inline_code": false,
                   "italic": false,
@@ -6707,7 +6898,6 @@
               "text_run": {
                 "content": "zilliz/bge-base-zh-v1.5 ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6737,7 +6927,6 @@
               "text_run": {
                 "content": "Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model.",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6856,6 +7045,9 @@
       {
         "block_id": "JjS6dQ9c9oG7ELxKzJOcPAFVnec",
         "block_type": 2,
+        "comment_ids": [
+          "7337953359105376259"
+        ],
         "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
         "text": {
           "elements": [
@@ -6864,6 +7056,9 @@
                 "content": "What data sources are supported by Ingestion Pipelines?",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7337953359105376259"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -6881,14 +7076,20 @@
       {
         "block_id": "My1jdPs9Io6O2IxmPy5cm7sYnTT",
         "block_type": 2,
+        "comment_ids": [
+          "7337953359105376259"
+        ],
         "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Currently, Ingestion Pipelines support files stored on AWS S3 and Google Cloud Storage. We are actively working to expand support for additional data sources in the future.",
+                "content": "Currently, Ingestion Pipelines support local files and files stored on AWS S3 and Google Cloud Storage. We are actively working to expand support for additional data sources in the future.",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7337953359105376259"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -6913,7 +7114,6 @@
               "text_run": {
                 "content": "What document file formats are supported by Pipelines?",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": true,
                   "inline_code": false,
                   "italic": false,
@@ -6942,7 +7142,6 @@
               "text_run": {
                 "content": "Supported file formats include ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6955,7 +7154,6 @@
               "text_run": {
                 "content": ".txt",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -6968,7 +7166,6 @@
               "text_run": {
                 "content": ", ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -6981,7 +7178,6 @@
               "text_run": {
                 "content": ".pdf",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -6994,7 +7190,6 @@
               "text_run": {
                 "content": ", ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -7007,7 +7202,6 @@
               "text_run": {
                 "content": ".md",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -7020,7 +7214,6 @@
               "text_run": {
                 "content": ", ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -7033,7 +7226,6 @@
               "text_run": {
                 "content": ".html",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -7046,7 +7238,6 @@
               "text_run": {
                 "content": ", ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -7059,7 +7250,6 @@
               "text_run": {
                 "content": ".epub",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -7072,7 +7262,6 @@
               "text_run": {
                 "content": ", ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -7085,7 +7274,6 @@
               "text_run": {
                 "content": ".csv",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -7098,7 +7286,6 @@
               "text_run": {
                 "content": ", ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -7111,7 +7298,6 @@
               "text_run": {
                 "content": ".doc",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -7124,7 +7310,6 @@
               "text_run": {
                 "content": ", ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -7137,7 +7322,6 @@
               "text_run": {
                 "content": ".docx",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -7150,7 +7334,6 @@
               "text_run": {
                 "content": ", ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -7163,7 +7346,6 @@
               "text_run": {
                 "content": ".xls",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -7176,7 +7358,6 @@
               "text_run": {
                 "content": ", ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -7189,7 +7370,6 @@
               "text_run": {
                 "content": ".xlsx",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -7202,7 +7382,6 @@
               "text_run": {
                 "content": ", ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -7215,7 +7394,6 @@
               "text_run": {
                 "content": ".ppt",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -7228,7 +7406,6 @@
               "text_run": {
                 "content": ", ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -7241,7 +7418,6 @@
               "text_run": {
                 "content": ".pptx",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": true,
                   "italic": false,
@@ -7254,7 +7430,6 @@
               "text_run": {
                 "content": ". ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
@@ -7267,7 +7442,6 @@
               "text_run": {
                 "content": "When ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "comment_ids": [
                     "7330220086567714819"
@@ -7283,7 +7457,6 @@
               "text_run": {
                 "content": "running an Ingestion pipeline",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "comment_ids": [
                     "7330220086567714819"
@@ -7302,7 +7475,6 @@
               "text_run": {
                 "content": ", you can either upload a local file or use an ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "comment_ids": [
                     "7330220086567714819"
@@ -7318,7 +7490,6 @@
               "text_run": {
                 "content": "S3 presigned URL",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "comment_ids": [
                     "7330220086567714819"
@@ -7334,7 +7505,6 @@
               "text_run": {
                 "content": " or a ",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "comment_ids": [
                     "7330220086567714819"
@@ -7350,7 +7520,6 @@
               "text_run": {
                 "content": "GCS signed URL",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "comment_ids": [
                     "7330220086567714819"
@@ -7366,7 +7535,6 @@
               "text_run": {
                 "content": ".",
                 "text_element_style": {
-                  "background_color": 1,
                   "bold": false,
                   "comment_ids": [
                     "7330220086567714819"
@@ -12503,6 +12671,6 @@
         }
       }
     ],
-    "counts": 362
+    "counts": 369
   }
 }

@@ -1,6 +1,6 @@
 {
   "created_time": "1706696499",
-  "modified_time": "1708506618",
+  "modified_time": "1708757506",
   "name": "release_partitions()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "YpEjf83y1lvvzxd31BqcvQmknEd",
@@ -906,7 +906,7 @@
             },
             {
               "text_run": {
-                "content": "\n    collection_name=\"test_collection\",\n    partition_names=[\"partition_A\"]\n)\n\n# 6. Check the load status\nclient.get_load_state(\n    collection_name=\"test_collection\",\n    partition_names=[\"partition_A\"]\n)\n\n# {'state': <LoadState: NotLoad>}\n\nclient.get_load_state(\n    collection_name=\"test_collection\"\n)\n\n",
+                "content": "\n    collection_name=\"test_collection\",\n    partition_names=[\"partition_A\"]\n)\n\n# 6. Check the load status\nclient.get_load_state(\n    collection_name=\"test_collection\",\n    partition_name=[\"partition_A\"]\n)\n\n# {'state': <LoadState: NotLoad>}\n\nclient.get_load_state(\n    collection_name=\"test_collection\"\n)\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -972,7 +972,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "<include target=\"milvus\">",
+                "content": "<include target=\"zilliz\">",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -996,7 +996,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection and get its load status\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\nclient.get_load_state(\n    collection_name=\"test_collection\"\n)\n\n# {'state': <LoadState: Loaded>}\n\n# 3. Create a partition\nclient.create_partition(\n    collection_name=\"test_collection\", \n    partition_name=\"partition_A\"\n)\n\n# 4. Check the load status of the partition\nclient.get_load_state(\n    collection_name=\"test_collection\",\n    partition_names=[\"partition_A\"],\n)\n\n# {'state': <LoadState: Loaded>}\n\n# 5. Release the partition\nclient.release_partitions(\n    collection_name=\"test_collection\",\n    partition_names=[\"partition_A\"]\n)\n\n# 6. Check the load status\nclient.get_load_state(\n    collection_name=\"test_collection\",\n    partition_names=[\"partition_A\"]\n)\n\n# {'state': <LoadState: NotLoad>}\n\nclient.get_load_state(\n    collection_name=\"test_collection\"\n)\n\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection and get its load status\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\nclient.get_load_state(\n    collection_name=\"test_collection\"\n)\n\n# {'state': <LoadState: Loaded>}\n\n# 3. Create a partition\nclient.create_partition(\n    collection_name=\"test_collection\", \n    partition_name=\"partition_A\"\n)\n\n# 4. Check the load status of the partition\nclient.get_load_state(\n    collection_name=\"test_collection\",\n    partition_names=[\"partition_A\"],\n)\n\n# {'state': <LoadState: Loaded>}\n\n# 5. Release the partition\nclient.release_partitions(\n    collection_name=\"test_collection\",\n    partition_names=[\"partition_A\"]\n)\n\n# 6. Check the load status\nclient.get_load_state(\n    collection_name=\"test_collection\",\n    partition_name=[\"partition_A\"]\n)\n\n# {'state': <LoadState: NotLoad>}\n\nclient.get_load_state(\n    collection_name=\"test_collection\"\n)\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

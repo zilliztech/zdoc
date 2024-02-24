@@ -5,7 +5,7 @@
   "node_token": "TQnswMmIpiTmUSkf1iscU05Lnfb",
   "node_type": "origin",
   "obj_create_time": "1706249857",
-  "obj_edit_time": "1707132203",
+  "obj_edit_time": "1708498828",
   "obj_token": "YukudPBOKoO40RxXcmecNSynnV9",
   "obj_type": "docx",
   "origin_node_token": "TQnswMmIpiTmUSkf1iscU05Lnfb",
@@ -877,6 +877,7 @@
           "H3gpdRbsSo4pw4x6T5DcRJl8nPc",
           "LlsNdirlxoNeBlxX6FTcsxbcnHh",
           "GS80dUMI1oy52BxoGfocmzrIn2f",
+          "HYSDdqmDdosXxrx8LV6cMRmsndg",
           "EZUqdVy3pofRlFxAZLyc7vrWnbb"
         ],
         "ordered": {
@@ -1133,6 +1134,271 @@
           }
         },
         "parent_id": "PAQUdGhjwo77lrx9I6Wcc9AenAd"
+      },
+      {
+        "block_id": "HYSDdqmDdosXxrx8LV6cMRmsndg",
+        "block_type": 13,
+        "children": [
+          "WmcodiqQcoVS5uxpKPSc72OZnug",
+          "FrEVddNwJoNI5TxAqESc2XbonRb"
+        ],
+        "comment_ids": [
+          "7337946656044695555",
+          "7337939862162571267"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "(Optional) Enable reranker if you want to reorder or rank a set of candidate outputs to improve the quality of the search results. By default, this feature is disabled. Once enabled, you can choose the model service used for reranking. Currently, only ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337939862162571267",
+                    "7337946656044695555"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "zilliz/bge-reranker-base",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7337939862162571267",
+                    "7337946656044695555"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is available.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337939862162571267",
+                    "7337946656044695555"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "PAQUdGhjwo77lrx9I6Wcc9AenAd"
+      },
+      {
+        "block_id": "WmcodiqQcoVS5uxpKPSc72OZnug",
+        "block_type": 31,
+        "children": [
+          "Z0YfdhwJooLQdOxnESRc6RannCf",
+          "XgP3dyIA6o3XJmxOuTucclTmnKh",
+          "BT6hdAYlsoTWIgxFV5jcnINJnVe",
+          "YHNgdbilXonXAaxlMhOcQeHVnjh"
+        ],
+        "parent_id": "HYSDdqmDdosXxrx8LV6cMRmsndg",
+        "table": {
+          "cells": [
+            "Z0YfdhwJooLQdOxnESRc6RannCf",
+            "XgP3dyIA6o3XJmxOuTucclTmnKh",
+            "BT6hdAYlsoTWIgxFV5jcnINJnVe",
+            "YHNgdbilXonXAaxlMhOcQeHVnjh"
+          ],
+          "property": {
+            "column_size": 2,
+            "column_width": [
+              214,
+              260
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 2
+          }
+        }
+      },
+      {
+        "block_id": "Z0YfdhwJooLQdOxnESRc6RannCf",
+        "block_type": 32,
+        "children": [
+          "VhtSdKf1ioPIX8xjN28cnG9pn8d"
+        ],
+        "parent_id": "WmcodiqQcoVS5uxpKPSc72OZnug",
+        "table_cell": {}
+      },
+      {
+        "block_id": "VhtSdKf1ioPIX8xjN28cnG9pn8d",
+        "block_type": 2,
+        "parent_id": "Z0YfdhwJooLQdOxnESRc6RannCf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Reranker Mode Service",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XgP3dyIA6o3XJmxOuTucclTmnKh",
+        "block_type": 32,
+        "children": [
+          "QGYddnXDeo7S4cxdY5Zc5dY8nj8"
+        ],
+        "parent_id": "WmcodiqQcoVS5uxpKPSc72OZnug",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QGYddnXDeo7S4cxdY5Zc5dY8nj8",
+        "block_type": 2,
+        "parent_id": "XgP3dyIA6o3XJmxOuTucclTmnKh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BT6hdAYlsoTWIgxFV5jcnINJnVe",
+        "block_type": 32,
+        "children": [
+          "QjvGdQXDBoRfa2xOk4BcM9yyneJ"
+        ],
+        "parent_id": "WmcodiqQcoVS5uxpKPSc72OZnug",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QjvGdQXDBoRfa2xOk4BcM9yyneJ",
+        "block_type": 2,
+        "parent_id": "BT6hdAYlsoTWIgxFV5jcnINJnVe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "zilliz/bge-reranker-base",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YHNgdbilXonXAaxlMhOcQeHVnjh",
+        "block_type": 32,
+        "children": [
+          "PcOHdzXGvouC6ixBJX9cGXVNnBe"
+        ],
+        "parent_id": "WmcodiqQcoVS5uxpKPSc72OZnug",
+        "table_cell": {}
+      },
+      {
+        "block_id": "PcOHdzXGvouC6ixBJX9cGXVNnBe",
+        "block_type": 2,
+        "parent_id": "YHNgdbilXonXAaxlMhOcQeHVnjh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Open-source reranker model published by BAAI. This model is hosted on Zilliz Cloud and co-located with other Zilliz services, thus has the best latency. One of the best performers according to MTEB leaderboard.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FrEVddNwJoNI5TxAqESc2XbonRb",
+        "block_type": 26,
+        "comment_ids": [
+          "7337946656044695555",
+          "7337939862162571267"
+        ],
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D39309-1180%26mode%3Ddesign%26t%3DJwNw3ufDtfY5CmiK-4"
+          }
+        },
+        "parent_id": "HYSDdqmDdosXxrx8LV6cMRmsndg"
       },
       {
         "block_id": "EZUqdVy3pofRlFxAZLyc7vrWnbb",
@@ -1397,7 +1663,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "curl --request POST \\\n    --header \"Content-Type: application/json\" \\\n    --header \"Authorization: Bearer ${YOUR_API_KEY}\" \\\n    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines\" \\\n    -d '{\n        \"projectId\": \"proj-xxxx\",       \n        \"name\": \"my_text_search_pipeline\",\n        \"description\": \"A pipeline that receives text and search for semantically similar doc chunks\",\n        \"type\": \"SEARCH\",\n        \"functions\": [\n            {\n                \"name\": \"search_chunk_text_and_title\",\n                \"action\": \"SEARCH_DOC_CHUNK\",\n                \"inputField\": \"query_text\",\n                \"clusterId\": \"${CLUSTER_ID}\",\n                \"collectionName\": \"my_new_collection\"\n            }\n        ]\n",
+                "content": "curl --request POST \\\n    --header \"Content-Type: application/json\" \\\n    --header \"Authorization: Bearer ${YOUR_API_KEY}\" \\\n    --url \"https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines\" \\\n    -d '{\n        \"projectId\": \"proj-xxxx\",       \n        \"name\": \"my_text_search_pipeline\",\n        \"description\": \"A pipeline that receives text and search for semantically similar doc chunks\",\n        \"type\": \"SEARCH\",\n        \"functions\": [\n            {\n                \"name\": \"search_chunk_text_and_title\",\n                \"action\": \"SEARCH_DOC_CHUNK\",\n                \"inputField\": \"query_text\",\n                \"clusterId\": \"${CLUSTER_ID}\",\n                \"collectionName\": \"my_new_collection\",\n                \"reranker\": \"zilliz/bge-reranker-base\"\n            }\n        ]\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1864,7 +2130,8 @@
           "Gk7gdYlftoFE4Nx6pn9cQuoyneg",
           "L3OGdtHpEoY6fFx1gjrccam3nFh",
           "NalJdpdtvoOIq6xOLc4cpSqcnNb",
-          "JtEGdEWhpoTxK4xOhXoclOS4n8j"
+          "JtEGdEWhpoTxK4xOhXoclOS4n8j",
+          "MCqmdqGyzo4aWfxkR6fcrX7PnZz"
         ],
         "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
       },
@@ -2168,6 +2435,82 @@
         "parent_id": "PoFWdQMR0ovQkOxWybgcj4JBnmb"
       },
       {
+        "block_id": "MCqmdqGyzo4aWfxkR6fcrX7PnZz",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "reranker",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337945979953840132"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(Optional): This is an optional parameter for those who want to reorder or rank a set of candidate outputs to improve the quality of the search results. If you do not need the reranker, you can omit this parameter. Currently, only ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337945979953840132"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "zilliz/bge-reranker-base",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337945979953840132"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is available as the parameter value.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337945979953840132"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7337945979953840132"
+        ],
+        "parent_id": "PoFWdQMR0ovQkOxWybgcj4JBnmb"
+      },
+      {
         "block_id": "YgwadLmzIoa90RxvkTHc6HLPnJh",
         "block_type": 2,
         "comment_ids": [
@@ -2229,7 +2572,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "{\n  \"code\": 200,\n  \"data\": {\n    \"pipelineId\": \"pipe-84e6d9dba930e035150972\",\n    \"name\": \"my_text_search_pipeline\",\n    \"type\": \"SEARCH\",\n    \"description\": \"A pipeline that receives text and search for semantically similar doc chunks\",\n    \"status\": \"SERVING\",\n    \"functions\": [\n      {\n        \"action\": \"SEARCH_DOC_CHUNK\",\n        \"name\": \"search_chunk_text_and_title\",\n        \"inputField\": \"query_text\",\n        \"clusterId\": \"in03-***************\",\n        \"collectionName\": \"my_new_collection\",\n        \"embedding\": \"zilliz/bge-base-en-v1.5\"\n      }\n    ],\n    \"totalTokenUsage\": 0\n  }\n",
+                "content": "{\n  \"code\": 200,\n  \"data\": {\n    \"pipelineId\": \"pipe-84e6d9dba930e035150972\",\n    \"name\": \"my_text_search_pipeline\",\n    \"type\": \"SEARCH\",\n    \"description\": \"A pipeline that receives text and search for semantically similar doc chunks\",\n    \"status\": \"SERVING\",\n    \"functions\": [\n      {\n        \"action\": \"SEARCH_DOC_CHUNK\",\n        \"name\": \"search_chunk_text_and_title\",\n        \"inputField\": \"query_text\",\n        \"clusterId\": \"in03-***************\",\n        \"collectionName\": \"my_new_collection\",\n        \"embedding\": \"zilliz/bge-base-en-v1.5\",\n        \"reranker\": \"zilliz/bge-reranker-base\"\n      }\n    ],\n    \"totalTokenUsage\": 0\n  }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2449,6 +2792,6 @@
         "parent_id": "YukudPBOKoO40RxXcmecNSynnV9"
       }
     ],
-    "counts": 65
+    "counts": 77
   }
 }

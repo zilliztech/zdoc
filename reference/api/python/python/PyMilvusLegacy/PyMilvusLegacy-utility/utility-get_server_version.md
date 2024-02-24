@@ -8,26 +8,21 @@ sidebar_position: 16
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # get_server_version()
 
 This operation checks the version of the Zilliz Cloud cluster.
 
+## Request syntax{#request-syntax}
+
 ```python
-pymilvus.utility.get_server_version(
+get_server_version(
     using: str = "default",
     timeout: float | None
 )
 ```
-
-The following operations are related to `get_server_version()`:
-
-- get_server_type()
-
-See also the Python SDK Reference.
-
-## Request syntax{#request-syntax}
 
 ```python
 from pymilvus import connections, utility
@@ -70,4 +65,10 @@ connections.connect()
 # Check the server version
 server_version = utility.get_server_version()
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `get_server_version()`:
+
+- [get_server_type()](./utility-get_server_type)
 

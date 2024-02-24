@@ -14,37 +14,11 @@ import Admonition from '@theme/Admonition';
 
 This operation gets the specified partition in the current collection.
 
-```python
-pymilvus.Collection.partition(
-    partition_name: str
-)
-```
-
-The following operations are related to `partition()`:
-
-- Collection
-
-- Partition
-
-- create_partition()
-
-- drop_partition()
-
-- has_partition()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Get a specified partition
-partition = collection.partition(
-    partition_name="string"
+partition(
+    partition_name: str
 )
 ```
 
@@ -89,4 +63,18 @@ collection = Collection(
 # Create a partition
 partition = collection.partition(partition_name="test_partition")
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `partition()`:
+
+- [Collection](./PyMilvusLegacy-Collection)
+
+- [Partition](./PyMilvusLegacy-Partition)
+
+- [create_partition()](./Collection-create_partition)
+
+- [drop_partition()](./Collection-drop_partition)
+
+- [has_partition()](./Collection-has_partition)
 

@@ -35,25 +35,25 @@ Maintain consistency with your chosen registration method for login purposes. If
 
 Follow the steps below to create a Zilliz Cloud account using your work email and password:
 
-1. Enter your work email address in the **Work Email** field.
+1. Enter your work email address in the __Work Email__ field.
 
-1. Enter a password in the **Password** field.
+1. Enter a password in the __Password__ field.
 
     Ensure that your password does not exceed 128 characters and includes at least one uppercase letter, one lowercase letter, one numeral, and one special character.
 
-1. Check the box next to **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy**](https://zilliz.com/privacy-policy).
+1. Check the box next to __I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)__.
 
     We encourage you to read through our [Terms of Service](https://chat.openai.com/c/0b1274aa-d87a-4104-9a5f-b0daeb3fee59#) and [Privacy Policy](https://chat.openai.com/c/0b1274aa-d87a-4104-9a5f-b0daeb3fee59#) before proceeding.
 
-1. Click **Continue**. A confirmation code will be sent to the provided email address.
+1. Click __Continue__. A confirmation code will be sent to the provided email address.
 
-1. Input the received confirmation code in the dialog box, then click **Verify**.
+1. Input the received confirmation code in the dialog box, then click __Verify__.
 
-    If the confirmation code is not received, click **Resend Code** to attempt again.
+    If the confirmation code is not received, click __Resend Code__ to attempt again.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-On your first login, we will ask for more information to better tailor our services to your needs.
+<p>On your first login, we will ask for more information to better tailor our services to your needs.</p>
 
 </Admonition>
 
@@ -63,7 +63,7 @@ To link your Google account with Zilliz Cloud, follow the steps below.
 
 1. Click the Google logo button.
 
-1. Select the checkbox for **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy**](https://zilliz.com/privacy-policy) and click **Submit**.
+1. Select the checkbox for __I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)__ and click __Submit__.
 
 1. You will be redirected to [Google Account login page](https://accounts.google.com/). Enter the email address or phone number and the corresponding password associated with your Google account,
 
@@ -71,7 +71,7 @@ To link your Google account with Zilliz Cloud, follow the steps below.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-[Disable your Google-managed MFA](https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP) before linking to ensure a smooth registration.
+<p><a href="https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP">Disable your Google-managed MFA</a> before linking to ensure a smooth registration.</p>
 
 </Admonition>
 
@@ -81,15 +81,15 @@ To link your Google account with Zilliz Cloud, follow the steps below.
 
 If you try to register with Github, you must have a public email address associated with your GitHub account. Follow the steps below to set your email address public on GitHub:
 
-1. Log into GitHub, click **Settings** on your profile menu.
+1. Log into GitHub, click __Settings__ on your profile menu.
 
-1. Click **Emails** from the left side navigation.
+1. Click __Emails__ from the left side navigation.
 
-1. Untick the **Keep my email addresses private** box.
+1. Untick the __Keep my email addresses private__ box.
 
-1. Click **Public Profile** on the left side navigation and select the email address you just set public from the **Public email** dropdown.
+1. Click __Public Profile__ on the left side navigation and select the email address you just set public from the __Public email__ dropdown.
 
-1. Click **Update profile** to save the changes.
+1. Click __Update profile__ to save the changes.
 
 #### Procedures{#procedures}
 
@@ -97,7 +97,7 @@ To link your GitHub account with us, follow the steps below.
 
 1. Click the GitHub logo button.
 
-1. Select the checkbox for **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy**](https://zilliz.com/privacy-policy) and click **Submit**.
+1. Select the checkbox for __I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)__ and click __Submit__.
 
 1. You will be redirected to [GitHub sign in page](https://github.com/login). Enter your username or email address and the corresponding password associated with your GitHub account.
 
@@ -105,7 +105,7 @@ To link your GitHub account with us, follow the steps below.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-[Disable your GitHub-managed MFA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account) before linking to ensure a smooth registration.
+<p><a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account">Disable your GitHub-managed MFA</a> before linking to ensure a smooth registration.</p>
 
 </Admonition>
 

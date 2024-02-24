@@ -49,7 +49,7 @@ __PARAMETERS:__
     https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
     ```
 
-    For details on finding information on the Zilliz Cloud console, refer to [On Zilliz Cloud Console](./on-zilliz-cloud-console).
+    For details on finding information on the Zilliz Cloud console, refer to [On Zilliz Cloud Console](/docs/on-zilliz-cloud-console).
 
 - __user__ (_string_) -
 
@@ -73,9 +73,9 @@ __PARAMETERS:__
 
     A valid token should be either
 
-    - An [API](./manage-api-keys)[ key](./manage-api-keys) with sufficient permissions, or
+    - An [API](/docs/manage-api-keys)[ key](/docs/manage-api-keys) with sufficient permissions, or
 
-    - A pair of [username and password ](./cluster-credentials-console)used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
+    - A pair of [username and password ](/docs/cluster-credentials-console)used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
 
 - __timeout__ (_float _|_ None_)  
 
@@ -99,7 +99,7 @@ client = MilvusClient(
 
 <ul>
 <li><p>Set <strong>uri</strong> to your cluster endpoint. The <strong>token</strong> parameter can be a Zilliz Cloud API key with sufficient permissions or the credentials of a cluster user in the format of <code>username:p@ssw0rd</code>.</p></li>
-<li><p>To find the above information, refer to <a href="./on-zilliz-cloud-console">On Zilliz Cloud Console</a>.</p></li>
+<li><p>To find the above information, refer to <a href="/docs/on-zilliz-cloud-console">On Zilliz Cloud Console</a>.</p></li>
 </ul>
 
 </Admonition>

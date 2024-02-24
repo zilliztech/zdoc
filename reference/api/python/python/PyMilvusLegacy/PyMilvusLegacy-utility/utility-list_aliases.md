@@ -14,34 +14,13 @@ import Admonition from '@theme/Admonition';
 
 This operation lists all existing aliases for a specific collection.
 
-```python
-pymilvus.utility.list_aliases(
-    collection_name: str,
-    using: str,
-    timeout: float | None
-)
-```
-
-The following operations are related to `drop_alias()`:
-
-- create_alias()
-
-- alter_alias()
-
-- drop_alias()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import utility
-
-# List all existing aliases for a specific collection
-
 list_aliases(
-    collection_name="string",
-    using="default"
+    collection_name: str,
+    using: str,
+    timeout: float | None
 )
 ```
 
@@ -104,3 +83,14 @@ utility.create_alias(collection_name="collection_1", alias="tom")
 # List aliases for the collection
 utility.list_aliases(collection_name="collection_1") # ['bob', 'tom']
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `drop_alias()`:
+
+- [alter_alias()](./utility-alter_alias)
+
+- [create_alias()](./utility-create_alias)
+
+- [drop_alias()](./utility-drop_alias)
+

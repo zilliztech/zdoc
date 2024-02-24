@@ -1,6 +1,6 @@
 {
   "created_time": "1706692338",
-  "modified_time": "1708480993",
+  "modified_time": "1708757282",
   "name": "alter_alias()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -1307,7 +1307,7 @@
             },
             {
               "text_run": {
-                "content": "client.alter_alias(collection=\"test_collection_2\", alias=\"test\")",
+                "content": "client.alter_alias(collection_name=\"test_collection_2\", alias=\"test\")",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -1400,7 +1400,7 @@
             },
             {
               "text_run": {
-                "content": "client.alter_alias(collection=\"test_collection_2\", alias=\"test\")",
+                "content": "client.alter_alias(collection_name=\"test_collection_2\", alias=\"test\")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

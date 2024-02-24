@@ -20,43 +20,15 @@ This operation resets the password for a specific user.
 
 </Admonition>
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.utility.reset_password(
+reset_password(
     user: str,
     old_password: str,
     new_password: str,
     using: str,
     timeout: float | None
-)
-```
-
-The following operations are related to `reset_password()`
-
-- update_password()
-
-- create_user()
-
-- list_user()
-
-- list_users()
-
-- list_usernames()
-
-- delete_user()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import utility
-
-# Reset the password for a specific user.
-utility.reset_password(
-    user="string",
-    old_password="string",
-    new_password="string",
-    using="default"
 )
 ```
 
@@ -127,4 +99,24 @@ reset_password(
     using="default"
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `reset_password()`
+
+- [Role](./PyMilvusLegacy-Role)
+
+- [create_user()](./utility-create_user)
+
+- [delete_user()](./utility-delete_user)
+
+- [list_roles()](./utility-list_roles)
+
+- [list_user()](./utility-list_user)
+
+- [list_users()](./utility-list_users)
+
+- [list_usernames()](./utility-list_usernames)
+
+- [update_password()](./utility-update_password)
 

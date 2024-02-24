@@ -14,39 +14,20 @@ import Admonition from '@theme/Admonition';
 
 This operation constructs a FieldSchema object from a dictionary representation.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.FieldSchema.construct_from_dict(
+construct_from_dict(
     raw: dict
 )
 ```
 
-The following operations are related to `construct_from_dict()`:
+<Admonition type="info" icon="📘" title="Notes">
 
-- FieldSchema
+<p>This is a class method. You should call it from the class instead of an instance of the class as follows:</p>
+<p><code>FieldSchema.construct_from_dict()</code></p>
 
-- CollectionSchema
-
-- to_dict()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import FieldSchema, DataType  
-
-# Create a dictionary to pass to construct_from_dict 
-field_dict = {   
-    "name": "string",    
-    "type": DataType,   
-    "description": "string"
-}  
-
-# Construct a FieldSchema object from the dictionary
-field = FieldSchema.construct_from_dict(field_dict)  
-
-print(field) 
-```
+</Admonition>
 
 __PARAMETERS:__
 
@@ -88,3 +69,10 @@ print(field)
 # Output
 # {'name': 'primary_key', 'description': 'test_field_schema', 'type': <DataType.INT64: 5>}
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `construct_from_dict()`:
+
+- [to_dict()](./FieldSchema-to_dict)
+

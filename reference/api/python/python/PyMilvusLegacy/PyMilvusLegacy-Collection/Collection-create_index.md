@@ -16,56 +16,17 @@ This creates a named index for a target field, which can either be a vector fiel
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This operation is non-blocking. You can call <code>utility.wait_for_index_building_complete</code> to block the current process.</p>
+<p>This operation is non-blocking. You can call <code>utility.wait_for_index_building_complete()</code> to block the current process.</p>
 
 </Admonition>
-
-```python
-pymilvus.Collection.create_index(
-    field_name: str, 
-    index_params: dict | None, 
-    timeout: float | None
-)
-```
-
-The following operations are related to `create_index()`
-
-- drop_index()
-
-- has_index()
-
-- index()
-
-- utility.index_building_progress()
-
-- utility.wait_for_index_building_complete()
-
-- utility.list_indexes()
-
-See also the Python SDK Reference.
 
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Set the index parameters
-index_params = {
-    "index_type": "AUTOINDEX",
-    "metric_type": "COSINE",
-    "params": {
-        "nprobe": 10
-    }
-}
-
-# Create an index
-collection.create_index(
-    field_name="string", 
-    index_params=index_params, 
-    timeout=None
+create_index(
+    field_name: str, 
+    index_params: dict | None, 
+    timeout: float | None
 )
 ```
 
@@ -83,19 +44,19 @@ __PARAMETERS:__
 
         The algorithm used to build the index.
 
-        You should always use __AUTOINDEX__ as the index type. Read [AUTOINDEX Explained](./autoindex-explained) to get more.
+        You should always use __AUTOINDEX__ as the index type. Read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
 
     - __metric_type__ (_string_) - 
 
         The similarity metric type used to build the index.
 
-        Possible values are __L2__, __IP__, and __COSINE__. Read [Similarity Metrics Explained](./search-metrics-explained) to get more.
+        Possible values are __L2__, __IP__, and __COSINE__. Read [Similarity Metrics Explained](/docs/search-metrics-explained) to get more.
 
     - __params__ (_dict_) -
 
         Index-building parameters corresponding to the selected index type.
 
-        For details on applicable index-building parameters, refer to [AUTOINDEX Explained](./autoindex-explained).
+        For details on applicable index-building parameters, refer to [AUTOINDEX Explained](/docs/autoindex-explained).
 
 - __timeout__ (_float _|_ None_)  
 
@@ -155,4 +116,20 @@ collection.create_index(
 # Check the index
 collection.has_index() # True
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `create_index()`
+
+- [drop_index()](./Collection-drop_index)
+
+- [has_index()](./Collection-has_index)
+
+- [index()](./Collection-index)
+
+- [index_building_progress()](./utility-index_building_progress)
+
+- [wait_for_index_building_complete()](./utility-wait_for_index_building_complete)
+
+- [list_indexes()](./utility-list_indexes)
 

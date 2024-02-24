@@ -57,7 +57,7 @@ To safeguard data integrity, Zilliz Cloud offers reliable backup and restoration
 
 The platform features a recycle bin functionality with a maximum retention period of 30 days, allowing you to recover accidentally deleted data. Furthermore, you can schedule automatic backups to ensure regular and secure data backups.
 
-For details, see [Backup & Restore](./backup-and-restore).
+For details, see [Backup & Restore](/docs/backup-and-restore).
 
 ## Summary{#summary}
 

@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Inserts one or more entities into a collection.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/upsert" />
+<RestHeader method="post" endpoint="https://{CLUSTER_ENDPOINT}/v1/vector/upsert" />
 
 ---
 

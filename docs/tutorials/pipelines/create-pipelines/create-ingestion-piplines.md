@@ -19,9 +19,10 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
 <Admonition type="info" icon="📘" title="Notes">
 
-- Currently, pipelines only work with collections in a [serverless cluster](./create-cluster#set-up-a-serverless-cluster) or a dedicated cluster deployed on GCP us-west1.
-
-- In one project, you can only create up to 10 pipelines of the same type.
+<ul>
+<li><p>Currently, pipelines only work with collections in a <a href="./create-cluster#set-up-a-serverless-cluster">serverless cluster</a> or a dedicated cluster deployed on GCP us-west1.</p></li>
+<li><p>In one project, you can only create up to 10 pipelines of the same type.</p></li>
+</ul>
 
 </Admonition>
 
@@ -29,15 +30,15 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
 1. Navigate to your project.
 
-1. Click on **Pipelines** from the navigation panel. Then click** + Pipeline**.
+1. Click on __Pipelines__ from the navigation panel. Then click__ + Pipeline__.
 
     ![create-pipeline](/img/create-pipeline.png)
 
-1. Choose the type of pipeline to create. Click on **+ Pipeline **button in the **Ingestion Pipeline **column.
+1. Choose the type of pipeline to create. Click on __+ Pipeline __button in the __Ingestion Pipeline __column.
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    You must create an Ingestion pipeline first before creating Search and Deletion pipelines.
+    <p>You must create an Ingestion pipeline first before creating Search and Deletion pipelines.</p>
 
     </Admonition>
 
@@ -45,7 +46,7 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
 1. Configure the Ingestion pipeline you wish to create.
 
-    |  **Parameters**         |  **Description**                                                                                                                                                                                  |
+    |  __Parameters__         |  __Description__                                                                                                                                                                                  |
     | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
     |  Target Cluster         |  The cluster where a new collection will be automatically created with this Ingestion pipeline. Currently, this can only be a serverless cluster or a dedicated cluster deployed on GCP us-west1. |
     |  Collection Name        |  The name of the auto-created collection.                                                                                                                                                         |
@@ -54,17 +55,17 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
     ![configure-ingestion-pipeline](/img/configure-ingestion-pipeline.png)
 
-1. Add a function to the Ingestion pipeline. For each Ingestion pipeline, you can add exactly one **INDEX_DOC** function and up to five **PRESERVE** functions.
+1. Add a function to the Ingestion pipeline. For each Ingestion pipeline, you can add exactly one __INDEX_DOC__ function and up to five __PRESERVE__ functions.
 
-    - Add an **INDEX_DOC** function.
+    - Add an __INDEX_DOC__ function.
 
-        An **INDEX_DOC** function splits your document into multiple smaller chunks, vectorizes each of them, and saves the generated vector embeddings into the collection. 
+        An __INDEX_DOC__ function splits your document into multiple smaller chunks, vectorizes each of them, and saves the generated vector embeddings into the collection. 
 
         1. Enter function name.
 
-        1. Choose the embedding model used to generate vector embeddings. Different document languages have distinct embedding models. Currently, there are 5 available models for the English language: **zilliz/bge-base-en-v1.5**, **voyageai/voyage-2**,** voyageai/voyage-code-2**,** openai/text-embedding-3-small**, and **openai/text-embedding-3-large**. For the Chinese language, only **zilliz/bge-base-zh-v1.5** is available. The following chart briefly introduces each embedding model.
+        1. Choose the embedding model used to generate vector embeddings. Different document languages have distinct embedding models. Currently, there are 5 available models for the English language: __zilliz/bge-base-en-v1.5__, __voyageai/voyage-2__,__ voyageai/voyage-code-2__,__ openai/text-embedding-3-small__, and __openai/text-embedding-3-large__. For the Chinese language, only __zilliz/bge-base-zh-v1.5__ is available. The following chart briefly introduces each embedding model.
 
-            |  **Embedding Model **           |  **Description**                                                                                                                                                                                                                                                          |
+            |  __Embedding Model __           |  __Description__                                                                                                                                                                                                                                                          |
             | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
             |  zilliz/bge-base-en-v1.5        |  Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when `language` is `ENGLISH`.                             |
             |  voyageai/voyage-2              |  Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when `language` is `ENGLISH`. |
@@ -77,7 +78,7 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
             The following table lists the mapping relationship between applicable models and their corresponding chunk sizes.
 
-            |  **Model**                     |  **Chunk Size Range (tokens)** |
+            |  __Model__                     |  __Chunk Size Range (tokens)__ |
             | ------------------------------ | ------------------------------ |
             |  zilliz/bge-base-en-v1.5       |  20-500 tokens                 |
             |  zilliz/bge-base-zh-v1.5       |  20-500 tokens                 |
@@ -88,37 +89,43 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
             ![customize-chunk-size](/img/customize-chunk-size.png)
 
-        1. Click **Add** to save your function.
+        1. Click __Add__ to save your function.
 
-    - Add a **PRESERVE** function.
+    - Add a __PRESERVE__ function.
 
-        A **PRESERVE** function adds additional scalar fields to the collection along with data ingestion.
+        A __PRESERVE__ function adds additional scalar fields to the collection along with data ingestion.
 
         1. Enter function name.
 
-        1. Configure the input field name and type. Supported input field types include **Bool**, **Int8**, **Int16**, **Int32**, **Int64**, **Float**, **Double**, and **VarChar**.
+        1. Configure the input field name and type. Supported input field types include __Bool__, __Int8__, __Int16__, __Int32__, __Int64__, __Float__, __Double__, and __VarChar__.
 
             <Admonition type="info" icon="📘" title="Notes">
 
-            - Currently, the output field name must be identical to the input field name. The input field name defines the field name used when running the Ingestion pipeline. The output field name defines the field name in the vector collection schema where the preserved value is kept.            
-            
-            - For **VarChar** fields, the value should be a string with a maximum length of **4,000** alphanumeric characters.            
-            
-            - When storing date-time in scalar fields, it is recommended to use the **Int16** data type for year data, and **Int32** for timestamps.
+            <ul>
+            <li><p>Currently, the output field name must be identical to the input field name. The input field name defines the field name used when running the Ingestion pipeline. The output field name defines the field name in the vector collection schema where the preserved value is kept.</p></li>
+            <li><p>For <strong>VarChar</strong> fields, the value should be a string with a maximum length of <strong>4,000</strong> alphanumeric characters.</p></li>
+            <li><p>When storing date-time in scalar fields, it is recommended to use the <strong>Int16</strong> data type for year data, and <strong>Int32</strong> for timestamps.</p></li>
+            </ul>
 
             </Admonition>
 
-        1. Click **Add** to save your function.
+        1. Click __Add__ to save your function.
 
-1. Click** Create Ingestion Pipeline**.
+1. Click__ Create Ingestion Pipeline__.
 
 1. Continue creating a [Search pipeline ](./understanding-pipelines#search-pipelines)and a [Deletion pipeline](./understanding-pipelines#deletion-pipelines) that is auto-configured to be compatible with the just-created Ingestion pipeline. 
 
     ![ingestion-pipeline-created-successfully](/img/ingestion-pipeline-created-successfully.png)
 
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>By default, the reranker feature is disabled in the auto-configured search pipeline. If you need to enable reranker, please manually <a href="./create-search-piplines">create a new search pipeline</a>.</p>
+
+    </Admonition>
+
 ## Via RESTful API{#via-restful-api}
 
-The following example creates an Ingestion pipeline named `my_doc_ingestion_pipeline` with an **INDEX_DOC** function and a **PRESERVE** function added. 
+The following example creates an Ingestion pipeline named `my_doc_ingestion_pipeline` with an __INDEX_DOC__ function and a __PRESERVE__ function added. 
 
 ```bash
 curl --request POST \
@@ -154,7 +161,7 @@ curl --request POST \
 
 The parameters in the above code are described as follows:
 
-- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](./manage-api-keys#view-api-keys).
+- `YOUR_API_KEY`: The credential used to authenticate API requests. Learn more about how to [View API Keys](/docs/manage-api-keys#view-api-keys).
 
 - `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
 
@@ -166,7 +173,7 @@ The parameters in the above code are described as follows:
 
 - `type`: The type of the pipeline to create. Currently, available pipeline types include `INGESTION`, `SEARCH`, and `DELETION`.
 
-- `functions`: The function(s) to add in the pipeline. **An Ingestion pipeline can have only one INDEX_DOC function and up to five PRESERVE functions.**
+- `functions`: The function(s) to add in the pipeline. __An Ingestion pipeline can have only one INDEX_DOC function and up to five PRESERVE functions.__
 
     - `name`: The name of the function. The function name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
 
@@ -174,11 +181,11 @@ The parameters in the above code are described as follows:
 
     - `inputField`: The name of the `inputField`. For the `INDEX_DOC` function, the value should be `doc_url`. For the `PRESERVE` function, the you can customize the value but it should be identical with the `outputField`.
 
-    - `language`: The language of your document to ingest. Possible values include `ENGLISH` and `CHINESE`. *(This parameter is only used in the `INDEX_DOC` function.)*
+    - `language`: The language of your document to ingest. Possible values include `ENGLISH` and `CHINESE`. _(This parameter is only used in the `INDEX_DOC` function.)_
 
-    - `embedding` (optional): The embedding model used to generate vector embeddings for your document. Available options are as follows. If not specified, **zilliz/bge-base-en-v1.5** will be used for **English** documents and **zilliz/bge-base-zh-v1.5** will be used for **Chinese** documents. *(This parameter is only used in the `INDEX_DOC` function.)*
+    - `embedding` (optional): The embedding model used to generate vector embeddings for your document. Available options are as follows. If not specified, __zilliz/bge-base-en-v1.5__ will be used for __English__ documents and __zilliz/bge-base-zh-v1.5__ will be used for __Chinese__ documents. _(This parameter is only used in the `INDEX_DOC` function.)_
 
-        |  **Embedding Model **           |  **Description**                                                                                                                                                                                                                                                          |
+        |  __Embedding Model __           |  __Description__                                                                                                                                                                                                                                                          |
         | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
         |  zilliz/bge-base-en-v1.5        |  Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when `language` is `ENGLISH`.                             |
         |  voyageai/voyage-2              |  Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when `language` is `ENGLISH`. |
@@ -187,11 +194,11 @@ The parameters in the above code are described as follows:
         |  openai/text-embedding-3-large  |  Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when `language` is `ENGLISH`.                                                               |
         |  zilliz/bge-base-zh-v1.5        |  Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when `language` is `CHINESE`.                             |
 
-    - `chunkSize` (optional): The INDEX_DOC function segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size for custom chunking strategies. Moreover, for markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size. *(This parameter is only used in the `INDEX_DOC` function.)*
+    - `chunkSize` (optional): The INDEX_DOC function segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size for custom chunking strategies. Moreover, for markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size. _(This parameter is only used in the `INDEX_DOC` function.)_
 
         The following table lists the mapping relationship between applicable models and their corresponding chunk sizes.
 
-        |  **Model**                     |  **Chunk Size Range (tokens)** |
+        |  __Model__                     |  __Chunk Size Range (tokens)__ |
         | ------------------------------ | ------------------------------ |
         |  zilliz/bge-base-en-v1.5       |  20-500 tokens                 |
         |  zilliz/bge-base-zh-v1.5       |  20-500 tokens                 |
@@ -200,15 +207,14 @@ The parameters in the above code are described as follows:
         |  openai/text-embedding-3-small |  250-8,191 tokens              |
         |  openai/text-embedding-3-large |  250-8,191 tokens              |
 
-    - `outputField`: The name of the output field which will be used in the collection schema. Currently, the output field name must be identical to the input field name. *(This parameter is only used in the `PRESERVE` function.)*
+    - `outputField`: The name of the output field which will be used in the collection schema. Currently, the output field name must be identical to the input field name. _(This parameter is only used in the `PRESERVE` function.)_
 
-    - `fieldType`: The data type of the input and output fields. Possible values include `Bool`, `Int8`, `Int16`, `Int32`, `Int64`, `Float`, `Double`, and `VarChar`. *(This parameter is only used in the `PRESERVE` function.)*
+    - `fieldType`: The data type of the input and output fields. Possible values include `Bool`, `Int8`, `Int16`, `Int32`, `Int64`, `Float`, `Double`, and `VarChar`. _(This parameter is only used in the `PRESERVE` function.)_
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        When storing date-time in scalar fields, it is recommended to use the **Int16** data type for year data, and **Int32** for timestamps.        
-        
-        For `VarChar` field type, the `max_length` of the data in this field cannot exceed 4,000.
+        <p>When storing date-time in scalar fields, it is recommended to use the <strong>Int16</strong> data type for year data, and <strong>Int32</strong> for timestamps.</p>
+        <p>For <code>VarChar</code> field type, the <code>max_length</code> of the data in this field cannot exceed 4,000.</p>
 
         </Admonition>
 
@@ -253,7 +259,7 @@ Below is an example output.
 
 When the Ingestion pipeline is created, a collection named `my_new_collection` is automatically created.
 
-This collection contains six fields: one ID field that is automatically generated, four output fields of the **INDEX_DOC** function, and one output field for each **PRESERVE** function. The collection schema is as follows.
+This collection contains six fields: one ID field that is automatically generated, four output fields of the __INDEX_DOC__ function, and one output field for each __PRESERVE__ function. The collection schema is as follows.
 
 |  id<br/> (Data Type: Int64) |  doc_name<br/> (Data type: VarChar) |  chunk_id<br/> (Data type: Int64) |  chunk_text<br/> (Data type: VarChar) |  embedding<br/> (Data type: FLOAT_VECTOR) |  publish_year<br/> (Data type: Int16) |
 | ------------------------------ | -------------------------------------- | ------------------------------------ | ---------------------------------------- | -------------------------------------------- | ---------------------------------------- |
@@ -268,5 +274,5 @@ This collection contains six fields: one ID field that is automatically generate
 
 - [Zilliz Cloud Limits](./limits#pipelines)
 
-- [FAQs](./faq-pipelines)
+- [FAQs](/docs/faq-pipelines)
 

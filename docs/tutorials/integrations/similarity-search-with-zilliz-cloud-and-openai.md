@@ -14,7 +14,7 @@ import Admonition from '@theme/Admonition';
 
 This page discusses integrating vector databases with OpenAI's embedding API.
 
-We will demonstrate how to use [OpenAI's Embedding API](https://beta.openai.com/docs/guides/embeddings) with our vector database to search for book titles. Many existing book search solutions, such as those used by public libraries, rely on keyword matching rather than a semantic understanding of the title's meaning. Using a trained model to represent the input data is known as *semantic search* and can be applied to a variety of different text-based use cases, including anomaly detection and document search.
+We will demonstrate how to use [OpenAI's Embedding API](https://beta.openai.com/docs/guides/embeddings) with our vector database to search for book titles. Many existing book search solutions, such as those used by public libraries, rely on keyword matching rather than a semantic understanding of the title's meaning. Using a trained model to represent the input data is known as _semantic search_ and can be applied to a variety of different text-based use cases, including anomaly detection and document search.
 
 ## Get started{#get-started}
 
@@ -40,7 +40,7 @@ def csv_load(file):
 
 With this, we're ready to move on to generating embeddings.
 
-## **Searching book titles**{#searching-book-titles}
+## __Searching book titles__{#searching-book-titles}
 
 Here we can find the main parameters that need to be modified for running with your own accounts. Beside each is a description of what it is.
 
@@ -68,7 +68,7 @@ openai.api_key = 'YOUR_OPENAI_API_KEY'  # Use your own Open AI API Key here
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Since the embedding process for a free OpenAI account can be time-consuming, we use a small dataset to balance the execution time of the script and the precision of the search results. You can adjust the value of the `COUNT` constant to your liking.
+<p>Since the embedding process for a free OpenAI account can be time-consuming, we use a small dataset to balance the execution time of the script and the precision of the search results. You can adjust the value of the <code>COUNT</code> constant to your liking.</p>
 
 </Admonition>
 

@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Resume a suspended cluster.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters/{clusterId}/resume" />
+<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/{clusterId}/resume" />
 
 ---
 
@@ -25,8 +25,8 @@ Resume a suspended cluster.
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/resume" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/${clusterId}/resume" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```

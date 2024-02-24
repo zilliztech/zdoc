@@ -66,6 +66,59 @@ __EXCEPTIONS:__
 
 ## Example{#example}
 
+```python
+from pymilvus import MilvusClient
+
+# 1. Create a milvus client
+client = MilvusClient(
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
+)
+
+# 2. Create a collection and get its load status
+client.create_collection(collection_name="test_collection", dimension=5)
+
+client.get_load_state(
+    collection_name="test_collection"
+)
+
+# {'state': <LoadState: Loaded>}
+
+# 3. Create a partition
+client.create_partition(
+    collection_name="test_collection", 
+    partition_name="partition_A"
+)
+
+# 4. Check the load status of the partition
+client.get_load_state(
+    collection_name="test_collection",
+    partition_names=["partition_A"],
+)
+
+# {'state': <LoadState: Loaded>}
+
+# 5. Release the partition
+client.release_partitions(
+    collection_name="test_collection",
+    partition_names=["partition_A"]
+)
+
+# 6. Check the load status
+client.get_load_state(
+    collection_name="test_collection",
+    partition_name=["partition_A"]
+)
+
+# {'state': <LoadState: NotLoad>}
+
+client.get_load_state(
+    collection_name="test_collection"
+)
+
+# {'state': <LoadState: NotLoad>}
+```
+
 ## Related methods{#related-methods}
 
 - [create_partition()](./Partitions-create_partition)

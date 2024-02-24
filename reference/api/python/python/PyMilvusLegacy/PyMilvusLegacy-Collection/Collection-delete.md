@@ -14,37 +14,13 @@ import Admonition from '@theme/Admonition';
 
 This operation deletes entities with a boolean expression.
 
-```python
-pymilvus.Collection.delete(
-    expr: str, 
-    partition_name: str | None, 
-    timeout: float | None
-)
-```
-
-The following operations are related to `delete()`:
-
-- insert()
-
-- search()
-
-- query()
-
-- upsert()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Delete a set of entities that match the boolean expression
-response = collection.delete(
-    expr="string"
+delete(
+    expr: str, 
+    partition_name: str | None, 
+    timeout: float | None
 )
 ```
 
@@ -150,3 +126,20 @@ collection.insert(
 res = collection.delete("id in [ 0, 1 ]")
 
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `delete()`:
+
+- [insert()](./Collection-insert)
+
+- [search()](./Collection-search)
+
+- [search_iterator()](./Collection-search_iterator)
+
+- [query()](./Collection-query)
+
+- [query_iterator()](./Collection-query_iterator)
+
+- [upsert()](./Collection-upsert)
+

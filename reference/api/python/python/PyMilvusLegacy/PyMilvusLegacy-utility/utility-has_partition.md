@@ -14,41 +14,14 @@ import Admonition from '@theme/Admonition';
 
 This operation checks whether a partition exists.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.utility.has_partition(
+has_partition(
     collection_name: str,
     partition_name: str,
     using: str = "default",
     timeout: float | None,
-)
-```
-
-The following operations are related to `has_partition()`:
-
-- Collection
-
-- Partition
-
-- list_collections()
-
-- has_collection()
-
-- rename_collection()
-
-- flush_all()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import utility
-
-utility.has_partition(
-    collection_name="string",
-    partition_name="string",
-    using="default",
-    timeout=None
 )
 ```
 
@@ -106,4 +79,18 @@ collection.has_partition(
     partition_name="test_partition",
 ) # True
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `has_partition()`:
+
+- [drop_collection()](./utility-drop_collection)
+
+- [flush_all()](./utility-flush_all)
+
+- [has_collection()](./utility-has_collection)
+
+- [list_collections()](./utility-list_collections)
+
+- [rename_collection()](./utility-rename_collection)
 

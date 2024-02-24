@@ -14,34 +14,14 @@ import Admonition from '@theme/Admonition';
 
 This operation drops a specified collection alias. 
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.utility.drop_alias(
+drop_alias(
     collection_name: str,
     alias: str,
     using: str,
     timeout: float | None
-)
-```
-
-The following operations are related to `drop_alias()`:
-
-- create_alias()
-
-- alter_alias()
-
-- list_aliases()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import utility
-
-# Drop a collection alias
-drop_alias(
-    alias="string",
-    using="default"
 )
 ```
 
@@ -116,4 +96,14 @@ utility.drop_alise(alias="bob")
 # List aliases for the collection
 utility.list_aliases(collection_name="collection_1") # ['tom']
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `drop_alias()`:
+
+- [alter_alias()](./utility-alter_alias)
+
+- [create_alias()](./utility-create_alias)
+
+- [list_aliases()](./utility-list_aliases)
 

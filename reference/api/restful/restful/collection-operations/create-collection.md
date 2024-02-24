@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Creates a collection in a cluster.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/collections/create" />
+<RestHeader method="post" endpoint="https://{CLUSTER_ENDPOINT}/v1/vector/collections/create" />
 
 ---
 
@@ -23,7 +23,8 @@ You can use either of the following ways to authorize:
 - An [API Key](/docs/manage-api-keys) with appropriate permissions.
 - A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
 
-Currently, data of the JSON and Array types are not supported in RESTful API requests..
+Currently, data of the JSON and Array types are not supported in RESTful API requests.
+
 :::
 
 ```shell

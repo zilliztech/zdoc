@@ -11,13 +11,13 @@ import Admonition from '@theme/Admonition';
 
 # Import Data (SDK)
 
-This guide helps you learn how to use our SDKs to import data into a collection with the bulk-writer and bulk-insert APIs.
+This guide helps you learn how to use our SDKs to import data into a collection with the bulk-writer and bulk-import APIs.
 
 Alternatively, you can also refer to [our fast-track end-to-end course](./data-import-zero-to-hero) which covers both data preparations and data import to Zilliz Cloud collections.
 
 ## Install dependencies{#install-dependencies}
 
-Run the following command in your terminal to install **pymilvus** and **minio** or upgrade them to the latest version.
+Run the following command in your terminal to install __pymilvus__ and __minio__ or upgrade them to the latest version.
 
 ```shell
 python3 -m pip install --upgrade pymilvus minio
@@ -32,21 +32,22 @@ To check whether they are ready, do as follows:
 ```python
 from minio import Minio
 
-ACCESS_KEY = "YOUR_ACCESS_KEY"
-SECRET_KEY = "YOUR_SECRET_KEY"
-BUCKET_NAME = "YOUR_BUCKET_NAME"
-REMOTE_PATH = "YOUR_REMOTE_PATH"
+# Third-party constants
+YOUR_ACCESS_KEY = "YOUR_ACCESS_KEY"
+YOUR_SECRET_KEY = "YOUR_SECRET_KEY"
+YOUR_BUCKET_NAME = "YOUR_BUCKET_NAME"
+YOUR_REMOTE_PATH = "YOUR_REMOTE_PATH"
 
 client = Minio(
     endpoint="storage.googleapis.com", # use 's3.amazonaws.com' for AWS S3
-    access_key=ACCESS_KEY,
-    secret_key=SECRET_KEY,
+    access_key=YOUR_ACCESS_KEY,
+    secret_key=YOUR_SECRET_KEY,
     secure=True
 )
 
 objects = client.list_objects(
-    bucket_name=BUCKET_NAME,
-    prefix=REMOTE_PATH,
+    bucket_name=YOUR_BUCKET_NAME,
+    prefix=YOUR_REMOTE_PATH,
     recursive=True
 )
 
@@ -75,58 +76,60 @@ For details on required information, refer to [On Zilliz Cloud Console](./on-zil
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Zilliz Cloud does not allow cross-cloud data transmission. You must create your cluster on the same public cloud that houses your prepared dataset. 
+<p>Zilliz Cloud does not allow cross-cloud data transmission. You must create your cluster on the same public cloud that houses your prepared dataset. </p>
 
 </Admonition>
 
 ```python
+from pymilvus import MilvusClient, DataType
+
 # set up your collection
+
+## Zilliz Cloud constants
 CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
 CLUSTER_TOKEN = "YOUR_CLUSTER_TOKEN"
 COLLECTION_NAME = "medium_articles"
 API_KEY = "YOUR_CLUSTER_TOKEN"
 CLUSTER_ID = "YOUR_CLUSTER_ID"
-CLOUD_REGION = "YOUR_CLOUD_REGION"
 
-if CLOUD_REGION is None:
-    raise Exception("Invalid cluster endpoint")
-elif CLOUD_REGION.startswith("gcp"):
-    OBJECT_URL = f"gs://{BUCKET_NAME}/{REMOTE_PATH}/"
-elif CLOUD_REGION.startswith("aws"):
-    OBJECT_URL = f"s3://{BUCKET_NAME}/{REMOTE_PATH}/"
-elif CLOUD_REGION.startswith("ali"):
-    OBJECT_URL = f"oss://{BUCKET_NAME}/{REMOTE_PATH}/"
+## Third-party constants
+YOUR_OBJECT_URL = "YOUR_OBJECT_URL"
 
-fields = [
-    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
-    FieldSchema(name="title", dtype=DataType.VARCHAR, max_length=512),
-    FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=768),
-    FieldSchema(name="link", dtype=DataType.VARCHAR, max_length=512),
-    FieldSchema(name="reading_time", dtype=DataType.INT64),
-    FieldSchema(name="publication", dtype=DataType.VARCHAR, max_length=512),
-    FieldSchema(name="claps", dtype=DataType.INT64),
-    FieldSchema(name="responses", dtype=DataType.INT64)
-]
-
-schema = CollectionSchema(fields)
-
-connections.connect(
+# create a milvus client
+client = MilvusClient(
     uri=CLUSTER_ENDPOINT,
-    token=CLUSTER_TOKEN,
-    secure=True
+    token=CLUSTER_TOKEN
 )
 
-collection = Collection(COLLECTION_NAME, schema)
+# prepare schema
+schema = MilvusClient.create_schema(
+    auto_id=False,
+    enable_dynamic_schema=False
+)
 
-collection.create_index(
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+schema.add_field(field_name="title", datatype=DataType.VARCHAR, max_length=512)
+schema.add_field(field_name="vector", datatype=DataType.FLOAT_VECTOR, dim=768)
+schema.add_field(field_name="link", datatype=DataType.VARCHAR, max_length=512)
+schema.add_field(field_name="reading_time", datatype=DataType.INT64)
+schema.add_field(field_name="publication", datatype=DataType.VARCHAR, max_length=512)
+schema.add_field(field_name="claps", datatype=DataType.INT64)
+schema.add_field(field_name="responses", datatype=DataType.INT64)
+
+# prepare index parameters
+index_params = MilvusClient.prepare_index_params()
+
+index_params.add_index(
     field_name="vector",
-    index_params={
-        "index_type": "AUTOINDEX",
-        "metric_type": "L2"
-    }
+    index_type="AUTOINDEX",
+    metric_type="L2"
 )
 
-collection.load()
+client.create_collection(
+    collection_name="customized_setup",
+    schema=schema,
+    index_params=index_params
+)
 ```
 
 ## Import data{#import-data}
@@ -134,6 +137,8 @@ collection.load()
 Once your data and collection are ready, you can start the import process as follows:
 
 ```python
+from pymilvus import bulk_import
+
 # Bulk-import your data from the prepared data files
 
 res = bulk_import(
@@ -163,6 +168,8 @@ print(res.json())
 You can check the progress of a specified bulk-import job.
 
 ```python
+from pymilvus import get_import_progress
+
 job_id = res.json()['data']['jobId']
 res = get_import_progress(
     url=f"controller.api.{CLOUD_REGION}.zillizcloud.com",
@@ -215,6 +222,8 @@ print(res.json())
 If you also want to know about all bulk-import tasks, you can call the list-import-jobs API as follows:
 
 ```python
+from pymilvus import list_import_jobs
+
 # list bulk-import jobs
 
 res = list_import_jobs(

@@ -14,34 +14,13 @@ import Admonition from '@theme/Admonition';
 
 This operation creates a collection with the specified dataframe. 
 
-```python
-pymilvus.Collection.construct_from_dataframe(
-    name: str, 
-    primary_field: str,
-    dataframe: pandas.DataFrame
-)
-```
-
-The following operations are related to `construct_from_dataframe()`:
-
-- Collection
-
-- insert()
-
--
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-import pandas as pd
-from pymilvus import Collection
-
-collection, results = Collection.construct_from_data_from(
-    name="string",
-    primary_field="string",
-    dataframe=pd.DataFrame,
+construct_from_dataframe(
+    name: str, 
+    primary_field: str,
+    dataframe: pandas.DataFrame
 )
 ```
 
@@ -153,3 +132,14 @@ collection, results = Collection.construct_from_dataframe(
     }),
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `construct_from_dataframe()`:
+
+- [Collection](./PyMilvusLegacy-Collection)
+
+- [CollectionSchema](./PyMilvusLegacy-CollectionSchema)
+
+- [FieldSchema](./PyMilvusLegacy-FieldSchema)
+

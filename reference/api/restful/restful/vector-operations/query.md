@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Conducts a query on scalar fields in a collection.
 
-<RestHeader method="post" endpoint="https://{cluster-endpoint}/v1/vector/query" />
+<RestHeader method="post" endpoint="https://{CLUSTER_ENDPOINT}/v1/vector/query" />
 
 ---
 

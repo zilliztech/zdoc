@@ -28,7 +28,7 @@ class larkDriveWriter extends larkDocWriter {
                 
                     if (source.children) {
                         console.log(source.token)
-                        const meta = await this.__is_to_publish(source.name)
+                        const meta = await this.__is_to_publish(source.name, source.slug)
                         if (meta['publish']) {
                             const token = source.token
                             const slug = source.slug instanceof Array? source.slug[0].text : source.slug
@@ -59,7 +59,7 @@ class larkDriveWriter extends larkDocWriter {
                     }
 
                     if (source.blocks) {
-                        const meta = await this.__is_to_publish(source.name)
+                        const meta = await this.__is_to_publish(source.name, source.slug)
                         if (meta['publish']) {
                             const token = source.token
                             const slug = source.slug instanceof Array? source.slug[0].text : source.slug

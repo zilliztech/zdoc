@@ -17,7 +17,7 @@ This page provides information about limits on the Zilliz Cloud platform as well
 
 The following table lists the limits on the maximum number of organizations and projects allowed for a single user.
 
-|  **Item**                                      |  **Max number**                              |  **Remarks**                                                                                             |
+|  __Item__                                      |  __Max number__                              |  __Remarks__                                                                                             |
 | ---------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 |  Organization member                           |  100                                         |  An organization can hold up to 100 members. A user can belong to multiple organizations.                |
 |  Project                                       |  10                                          |  Each user can create 10 projects.                                                                       |
@@ -25,13 +25,13 @@ The following table lists the limits on the maximum number of organizations and 
 
 ## Collections{#collections}
 
-|  **Cluster Type**                                    |  **Max Number**                              |  **Remarks**                                                                                                               |
+|  __Cluster Type__                                    |  __Max Number__                              |  __Remarks__                                                                                                               |
 | ---------------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 |  Dedicated cluster<br/>                           |  64 per CU, and <= 4096                      |  You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster. |
 
 In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following table lists the limits on the general capacity of a cluster.
 
-|  **Number of CUs** |  **General Capacity**            |
+|  __Number of CUs__ |  __General Capacity__            |
 | ------------------ | -------------------------------- |
 |  1-8 CUs           |  <= 4,096                        |
 |  12 CUs and more   |  Min(512 x Number of CUs, 65536) |
@@ -40,58 +40,53 @@ The consumed capacity should be less than the general capacity available.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The following explains how Zilliz Cloud calculates the consumed capacity and general capacity of a cluster.
-
-- **Calculating the consumed capacity in a cluster**
-
-    For instance, let's assume that you have created **50** collections in a cluster; each of the first **20** collections has **2** partitions and **4** shards, while each of the remaining **30** collections has **1** partition and **12** shards. The consumed capacity of the cluster can be calculated as follows:
-
-    **20 (collections) x 2 (partitions) x 4 (shards) + 30 (collections) x 1 (partitions) x 12 (shards) = 160 + 360 = 520**
-
-    Based on the above calculation, Zilliz Cloud regards the cluster has a consumed capacity of **520**.
-
-- **Calculating the general capacity of a cluster**
-
-    The general capacity can be determined using the following formula:
-
-    **Min(512 x Number of CUs, 65536)**
-
-    For instance, 
-
-    - In a cluster of **2** CUs, you can create a maximum of **128** collections with a general capacity of **1,024**.
-
-    - In a cluster of **12** CUs, you can create a maximum of **768** collections with a general capacity of **6,144**.
-
-    - In a cluster of **32** CUs or more, you can create a maximum of **4,096** collections with a general capacity of **65,536**.
+<p>The following explains how Zilliz Cloud calculates the consumed capacity and general capacity of a cluster.</p>
+<ul>
+<li><strong>Calculating the consumed capacity in a cluster</strong></li>
+</ul>
+<p>For instance, let's assume that you have created <strong>50</strong> collections in a cluster; each of the first <strong>20</strong> collections has <strong>2</strong> partitions and <strong>4</strong> shards, while each of the remaining <strong>30</strong> collections has <strong>1</strong> partition and <strong>12</strong> shards. The consumed capacity of the cluster can be calculated as follows:</p>
+<p><strong>20 (collections) x 2 (partitions) x 4 (shards) + 30 (collections) x 1 (partitions) x 12 (shards) = 160 + 360 = 520</strong></p>
+<p>Based on the above calculation, Zilliz Cloud regards the cluster has a consumed capacity of <strong>520</strong>.</p>
+<ul>
+<li><strong>Calculating the general capacity of a cluster</strong></li>
+</ul>
+<p>The general capacity can be determined using the following formula:</p>
+<p><strong>Min(512 x Number of CUs, 65536)</strong></p>
+<p>For instance, </p>
+<ul>
+<li><p>In a cluster of <strong>2</strong> CUs, you can create a maximum of <strong>128</strong> collections with a general capacity of <strong>1,024</strong>.</p></li>
+<li><p>In a cluster of <strong>12</strong> CUs, you can create a maximum of <strong>768</strong> collections with a general capacity of <strong>6,144</strong>.</p></li>
+<li><p>In a cluster of <strong>32</strong> CUs or more, you can create a maximum of <strong>4,096</strong> collections with a general capacity of <strong>65,536</strong>. </p></li>
+</ul>
 
 </Admonition>
 
-Additionally, the rate limit for creating collections is **1 **collection/s per cluster.
+Additionally, the rate limit for creating collections is __1 __collection/s per cluster.
 
 ### Partitions{#partitions}
 
-|  **Cluster Type**                                    |  **Max number (Per collection)**              |  **Remarks**                                                                                                 |
+|  __Cluster Type__                                    |  __Max number (Per collection)__              |  __Remarks__                                                                                                 |
 | ---------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 |  Dedicated cluster<br/>                           |  4,096                                        |  You can create up to 4,096 partitions per collection in a dedicated cluster.                                |
 
-When calculating the consumed and general capacity, refer to the notes in [Collections](./limits#collections). Additionally, the rate limit for creating partitions is **1** partition/s per cluster.
+When calculating the consumed and general capacity, refer to the notes in [Collections](./limits#collections). Additionally, the rate limit for creating partitions is __1__ partition/s per cluster.
 
 ### Shards{#shards}
 
-When creating a collection, you can create up to **8** shards for the collection. If not specified, a collection has a shard by default.
+When creating a collection, you can create up to __8__ shards for the collection. If not specified, a collection has a shard by default.
 
-|  **Item**        |  **Max Number** |
+|  __Item__        |  __Max Number__ |
 | ---------------- | --------------- |
 |   1-8 CUs        |  2              |
 |  12 CUs and more |  8              |
 
-You are advised to keep the default settings for the shard number when creating collections, especially for clusters using no more than **24** CUs.
+You are advised to keep the default settings for the shard number when creating collections, especially for clusters using no more than __24__ CUs.
 
 When calculating the consumed and general capacity, refer to the notes in [Collections](./limits#collections). 
 
 ### Fields{#fields}
 
-|  **Item**                     |  **Max Number** |  **Remarks**                                            |
+|  __Item__                     |  __Max Number__ |  __Remarks__                                            |
 | ----------------------------- | --------------- | ------------------------------------------------------- |
 |  Fields per collection        |  64             |  N/A                                                    |
 |  Vector fields per collection |  1              |  The support for multiple vector fields is coming soon. |
@@ -104,7 +99,7 @@ Other limits on fields:
 
 ### Dimensions{#dimensions}
 
-The maximum number of dimensions of a vector field is **32,768**.
+The maximum number of dimensions of a vector field is __32,768__.
 
 ## Operations{#operations}
 
@@ -112,7 +107,7 @@ This section focuses on the rate limit for common data operations in Zilliz Clou
 
 ### Insert{#insert}
 
-Each insert request/response should be no greater than **64** MB.
+Each insert request/response should be no greater than __64__ MB.
 
 The rate limit that applies varies with the cluster types and the number of CUs in use. The following table lists the rate limits for insert operations.
 
@@ -125,11 +120,11 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 
 When inserting data, include all schema-defined fields. Exclude the primary key if the collection has AutoID enabled.
 
-To make inserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to **Strong**. Read [Consistency Level](./consistency-level) for more.
+To make inserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to __Strong__. Read [Consistency Level](./consistency-level) for more.
 
 ### Upsert{#upsert}
 
-Each upsert request/response should be no greater than **64** MB.
+Each upsert request/response should be no greater than __64__ MB.
 
 The rate limit that applies varies with the cluster types and the number of CUs in use. The following table lists the rate limits for upsert operations.
 
@@ -142,13 +137,13 @@ The rate limit that applies varies with the cluster types and the number of CUs 
 
 When upserting data, include all schema-defined fields. 
 
-To make upserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to **Strong**. Read [Consistency Level](./consistency-level) for more.
+To make upserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to __Strong__. Read [Consistency Level](./consistency-level) for more.
 
 ### Index{#index}
 
 Index types vary with field types. The following table lists the indexable field types and the corresponding index types.
 
-|  **Field Type** |  **Index Type** |  **Metric Type**    |
+|  __Field Type__ |  __Index Type__ |  __Metric Type__    |
 | --------------- | --------------- | ------------------- |
 |  Vector Field   |  AUTOINDEX      |  L2, IP, and COSINE |
 |  VarChar Field  |  TRIE           |  N/A                |
@@ -157,47 +152,47 @@ Index types vary with field types. The following table lists the indexable field
 
 ### Flush{#flush}
 
-The rate limit for flush requests is **1** req/s per cluster.
+The rate limit for flush requests is __1__ req/s per cluster.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-You are not advised to perform flush operations manually. Zilliz Cloud clusters handle it gracefully for you.
+<p>You are not advised to perform flush operations manually. Zilliz Cloud clusters handle it gracefully for you.</p>
 
 </Admonition>
 
 ### Load{#load}
 
-The rate limit for load requests is **1** req/s per cluster.
+The rate limit for load requests is __1__ req/s per cluster.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-You do not need to perform the load collection for collections that are already loaded, even if new data is coming into these collections.
+<p>You do not need to perform the load collection for collections that are already loaded, even if new data is coming into these collections.</p>
 
 </Admonition>
 
 ### Search{#search}
 
-Each search request/response should be no greater than **64** MB.
+Each search request/response should be no greater than __64__ MB.
 
-Each search request carries no more than** 16,384** query vectors (usually known as **nq**).
+Each search request carries no more than__ 16,384__ query vectors (usually known as __nq__).
 
-Each search response carries no more than 16,384 entities in return (usually known as **topK**).
+Each search response carries no more than 16,384 entities in return (usually known as __topK__).
 
 ### Query{#query}
 
-Each query request/response should be no greater than **64** MB.
+Each query request/response should be no greater than __64__ MB.
 
-Each query response carries no more than 16,384 entities in return (usually known as **topK**).
+Each query response carries no more than 16,384 entities in return (usually known as __topK__).
 
 ### Delete{#delete}
 
-Each delete request/response should be no greater than **64** MB.
+Each delete request/response should be no greater than __64__ MB.
 
-The rate limit for delete requests is **0.5** MB/s per cluster.
+The rate limit for delete requests is __0.5__ MB/s per cluster.
 
 ### Drop{#drop}
 
-The rate limit for drop requests is **1** req/s per cluster.
+The rate limit for drop requests is __1__ req/s per cluster.
 
 ## CU Capacity{#cu-capacity}
 

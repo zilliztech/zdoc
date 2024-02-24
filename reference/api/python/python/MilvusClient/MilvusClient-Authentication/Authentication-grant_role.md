@@ -89,7 +89,5 @@ client.grant_role(user_name="user_1", role_name="read_only")
 
 - [list_roles()](./Authentication-list_roles)
 
-- [revoke_privileges()](./Authentication-revoke_privileges)
-
 - [revoke_role()](./Authentication-revoke_role)
 

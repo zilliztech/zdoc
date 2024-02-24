@@ -14,31 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation gets information about the current loaded replica.
 
-```python
-pymilvus.Partition.get_replicas(
-    timeout: float | None
-)
-```
-
-The following operations are related to `get_replicas()`:
-
-- Partition
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Partition
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Get an existing partition
-partition = Partition(collection, name="string")
-
-# Call the get replicas method
-partition.get_replicas()
+get_replicas(
+    timeout: float | None
+)
 ```
 
 __PARAMETERS:__
@@ -106,4 +87,14 @@ partition = Partition(collection, name="test_partition")
 # Get the information about the current loaded replicas
 partition.get_replicas()
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `get_replicas()`:
+
+- [drop()](./Partition-drop)
+
+- [load()](./Partition-load)
+
+- [release()](./Partition-release)
 

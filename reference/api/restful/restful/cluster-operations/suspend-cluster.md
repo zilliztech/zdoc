@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Suspend a specified cluster. This operation will only stop the cluster and your data will remain intact.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters/{clusterId}/suspend" />
+<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/{clusterId}/suspend" />
 
 ---
 
@@ -24,8 +24,8 @@ Suspend a specified cluster. This operation will only stop the cluster and your 
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/suspend" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/${clusterId}/suspend" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```

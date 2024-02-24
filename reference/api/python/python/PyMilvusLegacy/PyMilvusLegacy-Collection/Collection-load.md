@@ -14,51 +14,21 @@ import Admonition from '@theme/Admonition';
 
 This operation loads the data of the current collection into memory. 
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This operation is non-blocking. You can call <code>utility.wait_for_loading_complete()</code> to block the current process.</p>
-
-</Admonition>
+## Request Syntax{#request-syntax}
 
 ```python
-pymilvus.Collection.load(
+load(
     partition_names: list[str] | None, 
     replica_number: int, 
     timeout: float | None, 
 )
 ```
 
-The following operations are related to `load()`:
+<Admonition type="info" icon="📘" title="Notes">
 
-- Collection
+<p>This operation is non-blocking. You can call <code>utility.wait_for_loading_complete()</code> to block the current process.</p>
 
-- Partition
-
-- release()
-
-- utility.load_state()
-
-- utility.load_progress()
-
-- utility.wait_for_load_complete()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Load the collection data into memory
-collection.load(
-    partition_names=["string01", "string02"],
-    replica_number=1,
-    timeout=None
-)
-```
+</Admonition>
 
 __PARAMETERS:__
 
@@ -162,4 +132,18 @@ collection.load(
     replica_number=2
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `load()`:
+
+- [Partition](./PyMilvusLegacy-Partition)
+
+- [release()](./Collection-release)
+
+- [load_state()](./utility-load_state)
+
+- [loading_progress()](./utility-loading_progress)
+
+- [wait_for_loading_complete()](./utility-wait_for_loading_complete)
 

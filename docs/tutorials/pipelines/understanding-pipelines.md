@@ -87,5 +87,5 @@ For a collection managed by Ingestion pipeline, deleting all entities (each with
 
 - [Create Deletion Pipeline](./create-deletion-pipelines)
 
-- [FAQs](./faq-pipelines)
+- [FAQs](/docs/faq-pipelines)
 

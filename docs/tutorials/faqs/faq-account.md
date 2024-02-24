@@ -12,19 +12,14 @@ This topic lists the possible issues about accounts that you may encounter on Zi
 
 ## Contents
 
-- [How can I change my account email address?](#how-can-i-change-my-account-email-address)
-- [Why is my account locked and how to unlock it?](#why-is-my-account-locked-and-how-to-unlock-it)
-- [How to unlink my account from Google?](#how-to-unlink-my-account-from-google)
-- [How to delete my account?](#how-to-delete-my-account)
-- [Why is my organization frozen?](#why-is-my-organization-frozen)
-- [How can I unfreeze my organization?](#how-can-i-unfreeze-my-organization)
+
 
 ## FAQs
 
 
 
 
-### How can I change my account email address?{#how-can-i-change-my-account-email-address}
+__How can I change my account email address?__
 
 Currently, Zilliz Cloud does not support changing your account email address directly. However, you can try the following workaround plan.
 
@@ -38,7 +33,7 @@ Currently, Zilliz Cloud does not support changing your account email address dir
 
 1. Follow the instructions and log in to Zilliz Cloud with your new email address.
 
-### Why is my account locked and how to unlock it?{#why-is-my-account-locked-and-how-to-unlock-it}
+__Why is my account locked and how to unlock it?__
 
 Your account will be locked after three failed login attempts.
 
@@ -50,31 +45,31 @@ To unlock your account, you can choose one of the following methods.
 
 1. [Submit a request](https://support.zilliz.com/hc/en-us) to unlock your account.
 
-### How to unlink my account from Google?{#how-to-unlink-my-account-from-google}
+__How to unlink my account from Google?__
 
 To unlink your Zilliz Cloud account from Google, please
 
-1. Go to **Account Settings** on Zilliz Cloud and click the button to unlink from Google.
+1. Go to __Account Settings__ on Zilliz Cloud and click the button to unlink from Google.
 
     ![faq-unlink-from-google-1](/img/faq-unlink-from-google-1.png)
 
-1. Click **Confirm** to continue.
+1. Click __Confirm__ to continue.
 
     ![faq-unlink-from-google-2](/img/faq-unlink-from-google-2.png)
 
 1. Check your email inbox for detailed instructions on how to unlink from Google and set up your new Zilliz Cloud account.
 
-### How to delete my account?{#how-to-delete-my-account}
+__How to delete my account?__
 
 Zilliz Cloud supports deleting account on the web console. For more information, see [Manage Your Account](./email-accounts#delete-your-account).
 
-### Why is my organization frozen?{#why-is-my-organization-frozen}
+__Why is my organization frozen?__
 
 If you are a free-trial user, your organization can be frozen due to insufficient or expired free credits. 
 
 If you already added a payment method, your organization can be frozen due to overdue payments.
 
-### How can I unfreeze my organization?{#how-can-i-unfreeze-my-organization}
+__How can I unfreeze my organization?__
 
 If you are an organization member, you can only contact your organization owner to perform the operations and unfreeze the organization.
 

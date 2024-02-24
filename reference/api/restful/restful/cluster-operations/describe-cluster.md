@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Describe a cluster in detail.
 
-<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters/{clusterId}" />
+<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/{clusterId}" />
 
 ---
 
@@ -24,8 +24,8 @@ Describe a cluster in detail.
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/${clusterId}" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```

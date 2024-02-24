@@ -23,29 +23,10 @@ class pymilvus.Collection
 Constructs a collection by name, schema, and other parameters.
 
 ```python
-from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
-
-# Define the schema and create a collection
-primary_key = FieldSchema(
-    name="string",
-    dtype=DataType.INT64,
-    is_primary=True,
-)
-
-vector = FieldSchema(
-    name="string",
-    dtype=DataType.FLOAT_VECTOR,
-    dim=int
-)
-
-schema = CollectionSchema(
-    fields = [primary_key, vector]
-)
-
-collection = Collection(
-    name="string",
-    schema=schema,
-    using="default"
+Collection(
+    name: str,
+    schema: CollectionSchema,
+    using: str
 ) 
 ```
 
@@ -57,7 +38,7 @@ __PARAMETERS:__
 
     The name of the collection to create.
 
-- __schema__ (_CollectionSchema_) - 
+- __schema__ (_CollectionSchema_[](./PyMilvusLegacy-CollectionSchema)_) - 
 
     The schema used to create the collection. 
 
@@ -152,9 +133,9 @@ collection = Collection(
 )
 ```
 
-## Methods{#methods}
+## Members{#members}
 
-The following are the methods of the `Collection` class:
+The following are the members of the `Collection` class:
 
 
 

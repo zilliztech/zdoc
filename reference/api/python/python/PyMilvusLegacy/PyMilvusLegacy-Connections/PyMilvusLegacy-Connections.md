@@ -33,10 +33,13 @@ Constructs a singleton instance to manage all connections.
 ```python
 from pymilvus import connections    
 
+CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
+TOKEN = "YOUR_TOKEN"
+
 # Establish a connection
 connections.connect(
-    uri="cluster-endpoint",
-    token="token",
+    uri=CLUSTER_ENDPOINT,
+    token=TOKEN,
 ) 
 ```
 

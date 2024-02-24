@@ -63,7 +63,7 @@ The acquired dataset is in JSON format, with a structure resembling:
 
 Each record in the dataset possesses eight attributes. Familiarize yourself with this structure as it will guide you when establishing the schema for your collection.
 
-|  **Field Name** |  **Type**     |  **Attributes**  |
+|  __Field Name__ |  __Type__     |  __Attributes__  |
 | --------------- | ------------- | ---------------- |
 |  id             |  INT64        |  N/A             |
 |  title_vector   |  FLOAT_VECTOR |  Dimension: 768  |
@@ -76,13 +76,9 @@ Each record in the dataset possesses eight attributes. Familiarize yourself with
 
 ## Related topics{#related-topics}
 
-- [Connect to Cluster](./connect-to-cluster)
+- [Manage Collections](./manage-collections)
 
-- [Create Collection](./create-collection)
+- [Insert, Upsert & Delete](./insert-update-delete)
 
-- [Insert Entities](./insert-entities)
-
-- [Search and Query](./search-query-and-get)
-
-- [Drop Collection](./drop-collection) 
+- [Search, Query & Get](./search-query-get)
 

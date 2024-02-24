@@ -5,7 +5,7 @@
   "node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
   "node_type": "origin",
   "obj_create_time": "1704332777",
-  "obj_edit_time": "1706962997",
+  "obj_edit_time": "1708656990",
   "obj_token": "TXlrdXzlPokEQ5xnA30c93SLnMc",
   "obj_type": "docx",
   "origin_node_token": "BjHZwBkk0iFScik49QMc1Wwjndb",
@@ -1245,7 +1245,67 @@
             },
             {
               "text_run": {
-                "content": "\n\n# Configs for remote bucket\nACCESS_KEY=\"\"\nSECRET_KEY=\"\"\n",
+                "content": "\n\n# Configs for remote bucket\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "YOUR_",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ACCESS_KEY=\"\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "YOUR_",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SECRET_KEY=\"\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "YOUR_",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3253,7 +3313,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import FieldSchema, CollectionSchema, DataType\n\nschema = CollectionSchema(\n    fields=[\n        FieldSchema(name='id', dtype=DataType.INT64, is_primary=True),\n        FieldSchema(name='title_vector', dtype=DataType.FLOAT_VECTOR, dim=768),\n        FieldSchema(name='title', dtype=DataType.VARCHAR, max_length=512),\n        FieldSchema(name='link', dtype=DataType.VARCHAR, max_length=512),\n    ],\n    description=\"A series of articles from medium.com\",\n    auto_id=False,\n    enable_dynamic_field=True\n",
+                "content": "from pymilvus import MilvusClient, DataType\n\n# You need to work out a collection schema out of your dataset.\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=True\n)\n\nschema.add_field(field_name=\"id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"title_vector\", datatype=DataType.FLOAT_VECTOR, dim=768)\nschema.add_field(field_name=\"title\", datatype=DataType.VARCHAR, max_length=512)\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3265,7 +3325,7 @@
             },
             {
               "text_run": {
-                "content": ")",
+                "content": "schema.add_field(field_name=\"link\", datatype=DataType.VARCHAR, max_length=512)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3809,7 +3869,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import connections, Collection",
+                "content": "from pymilvus import MilvusClient",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -3824,7 +3884,7 @@
             },
             {
               "text_run": {
-                "content": "\n\n# 1. Set up a connection\nconnections.connect(\n        uri=CLUSTER_ENDPOINT,\n        token=TOKEN\n)\n# 2. Create collection\ncollection = Collection(name=COLLECTION_NAME, schema=schema)\n\n# 3. Set index parameters\nindex_params = {\n    \"index_type\": \"AUTOINDEX\",\n    \"metric_type\": \"IP\",\n    \"params\": {}\n}\n\n# 4. Create index\ncollection.create_index(\n        field_name=\"title_vector\",\n        index_params=index_params,\n)\n\n# 5. Load the collection\n",
+                "content": "\n\n# Zilliz Cloud constants\nCLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\"\nTOKEN = \"YOUR_TOKEN\"\nCOLLECTION_NAME = \"YOUR_COLLECTION_NAME\"\n\n# 1. Set up a Milvus client\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT,\n    token=TOKEN\n)\n\n# 2. Set index parameters\nindex_params = MilvusClient.prepare_index_params()\n\nindex_params.add_index(\n    field_name=\"title_vector\",\n    index_type=\"AUTOINDEX\",\n    metric_type=\"IP\"\n)\n\n# 3. Create collection\nclient.create_collection(\n    collection_name=COLLECTION_NAME,\n    schema=schema,\n    index_params=index_params\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3836,7 +3896,7 @@
             },
             {
               "text_run": {
-                "content": "collection.load()",
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4165,7 +4225,7 @@
             },
             {
               "text_run": {
-                "content": "\n\n",
+                "content": "\n\n# Third-party constants\nYOUR_ACCESS_KEY = \"YOUR_ACCESS_KEY\"\nYOUR_SECRET_KEY = \"YOUR_SECRET_KEY\"\nYOUR_BUCKET_NAME = \"YOUR_BUCKET_NAME\"\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4204,7 +4264,7 @@
             },
             {
               "text_run": {
-                "content": "conn = RemoteBulkWriter.ConnectParam(",
+                "content": "conn = RemoteBulkWriter.S3ConnectParam(",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -4558,7 +4618,7 @@
             },
             {
               "text_run": {
-                "content": "\n\n# ======\n# Microsoft Azure\n\nAZURE_CONNECT_STRING = \"\"\n\nconn = RemoteBulkWriter.AzureConnectParam(\n    conn_str=AZURE_CONNECT_STRING,\n    container_name=BUCKET_NAME\n)\n\n# or\n\nAZURE_ACCOUNT_URL = \"\"\nAZURE_CREDENTIAL = \"\"\n\nconn = RemoteBulkWriter.AzureConnectParam(\n    account_url=AZURE_ACCOUNT_URL,\n    credential=AZURE_CREDENTIAL,\n    container_name=BUCKET_NAME\n",
+                "content": "\n\n# ======\n# Microsoft Azure\n\n# Third-party constants\nAZURE_CONNECT_STRING = \"\"\n\nconn = RemoteBulkWriter.AzureConnectParam(\n    conn_str=AZURE_CONNECT_STRING,\n    container_name=BUCKET_NAME\n)\n\n# or\n\n# Thrid-party constants\nAZURE_ACCOUNT_URL = \"\"\nAZURE_CREDENTIAL = \"\"\n\nconn = RemoteBulkWriter.AzureConnectParam(\n    account_url=AZURE_ACCOUNT_URL,\n    credential=AZURE_CREDENTIAL,\n    container_name=BUCKET_NAME\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

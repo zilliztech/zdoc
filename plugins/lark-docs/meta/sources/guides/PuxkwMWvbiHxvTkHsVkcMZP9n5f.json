@@ -11237,6 +11237,9 @@
       {
         "block_id": "WstDdDsnAoxi4vx5IrncdWCQn6e",
         "block_type": 5,
+        "comment_ids": [
+          "7337615043892592644"
+        ],
         "heading3": {
           "elements": [
             {
@@ -11244,6 +11247,9 @@
                 "content": "Delete",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7337615043892592644"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -11360,6 +11366,9 @@
       {
         "block_id": "UyE8dgp7noeQqZxKmE0cDOyvndz",
         "block_type": 5,
+        "comment_ids": [
+          "7337614893352239107"
+        ],
         "heading3": {
           "elements": [
             {
@@ -11367,6 +11376,9 @@
                 "content": "Drop",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7337614893352239107"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,

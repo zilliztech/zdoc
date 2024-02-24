@@ -14,32 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation retrieves the configuration of the specified connection by alias.
 
-```python
-pymilvus.connections.get_connection_addr(alias: str)
-```
-
-The following operations are related to `get_connection_addr()`:
-
-- `connect()`
-
-- `add_connection()`
-
-- `disconnect()`
-
-- `has_connection()`
-
-- `list_connections()`
-
-- `remove_connection()`
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import connections
-
-connections.get_connection_addr(alias="string")
+get_connection_addr(alias: str)
 ```
 
 __PARAMETERS:__
@@ -74,4 +52,20 @@ connections.get_connection_addr(alias="default")
 # Output
 # {'address': 'in03-**************.api.gcp-us-west1.cloud-uat3.zilliz.com:443', 'user': ''}
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `get_connection_addr()`:
+
+- [add_connection()](./Connections-add_connection)
+
+- [connect()](./Connections-connect)
+
+- [disconnect()](./Connections-disconnect)
+
+- [has_connection()](./Connections-has_connection)
+
+- [list_connections()](./Connections-list_connections)
+
+- [remove_connection()](./Connections-remove_connection)
 

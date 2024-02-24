@@ -14,26 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation describes the current collection.
 
-```python
-pymilvus.Collection.describe(timeout: float | None)
-```
-
-The following operations are related to `describe()`:
-
-- Collection
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Get detailed information about the collection
-collection.describe()
+describe(timeout: float | None)
 ```
 
 __PARAMETERS:__
@@ -214,3 +198,14 @@ collection.describe()
 #      'num_partitions': 1
 # }
 ```
+
+## Related operations{#related-operations}
+
+- [drop()](./Collection-drop)
+
+- [flush()](./Collection-flush)
+
+- [get_replicas()](./Collection-get_replicas)
+
+- [set_properties()](./Collection-set_properties)
+

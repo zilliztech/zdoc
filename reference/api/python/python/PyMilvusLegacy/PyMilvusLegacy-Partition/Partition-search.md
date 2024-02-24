@@ -14,8 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation conducts a vector similarity search with an optional scalar filtering expression.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.Partition.search(
+search(
     data: list[list[float]], 
     anns_field: str, 
     param: dict, 
@@ -25,40 +27,6 @@ pymilvus.Partition.search(
     output_fields: list[str] | None, 
     timeout: float | None, 
     round_decimal: int
-)
-```
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import Collection, Partition
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Get an existing partition
-partition = Partition(name="string")
-
-param = {
-    "metric_type": "COSINE",
-    "params": {
-        "offset": 0,
-        "radius": 0.8,
-        "range_filter": 1.0
-    }
-}
-
-# Create a query iterator
-res = partition.search(
-    data=[[0.1,0.2,-0.3,-0.4,0.5]],
-    anns_field="vector",
-    param=param,
-    limit=-1,
-    expr=None,
-    output_fields=None,
-    partition_names=None,
-    timeout=None,
-    round_decimal=-1,
 )
 ```
 
@@ -110,7 +78,7 @@ __PARAMETERS:__
 
             Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of __radius__. Otherwise, this value should be lower than that of __radius__.
 
-    For details on other applicable search parameters, read [AUTOINDEX Explained](./autoindex-explained) to get more.
+    For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
 
 - __limit__ (_int_) -
 
@@ -267,3 +235,18 @@ for hits in res:
         hit.get("vector")
         
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `search()`:
+
+- [delete()](./Partition-delete)
+
+- [flush()](./Partition-flush)
+
+- [insert()](./Partition-insert)
+
+- [query()](./Partition-query)
+
+- [upsert()](./Partition-upsert)
+

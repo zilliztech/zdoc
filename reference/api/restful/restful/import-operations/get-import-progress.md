@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Retrieves the progress of a specified import task.
 
-<RestHeader method="get" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/vector/collections/import/get" />
+<RestHeader method="get" endpoint="https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import/get" />
 
 ---
 
@@ -25,8 +25,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOBID}&clusterId=${CLUSTERID}" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOBID}&clusterId=${CLUSTERID}" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
 ```

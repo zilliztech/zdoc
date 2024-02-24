@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Lists all projects in the specified cloud region.
 
-<RestHeader method="get" endpoint="https://{cluster-endpoint}/v1/projects" />
+<RestHeader method="get" endpoint="https://{CLUSTER_ENDPOINT}/v1/projects" />
 
 ---
 
@@ -24,8 +24,8 @@ Lists all projects in the specified cloud region.
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/projects" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/projects" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```

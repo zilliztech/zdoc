@@ -3,7 +3,7 @@ slug: /metrics-and-alerts
 beta: FALSE
 notebook: FALSE
 token: Xma9w6Ne9ihcsZkFkSmcHidEnZg
-sidebar_position: 12
+sidebar_position: 13
 ---
 
 import Admonition from '@theme/Admonition';
@@ -12,8 +12,6 @@ import Admonition from '@theme/Admonition';
 # Metrics & Alerts
 
 Zilliz Cloud provides handy metric charts and alerts for you to know what is happening in your organization and clusters.
-
-## Contents{#contents}
 
 import DocCardList from '@theme/DocCardList';
 

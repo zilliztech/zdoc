@@ -14,36 +14,12 @@ import Admonition from '@theme/Admonition';
 
 This operation adds an existing user to the current role. Once added, the user gets permissions allowed for the current role and can perform certain operations.
 
-```python
-pymilvus.Role.add_user(
-    username: str
-)
-```
-
-The following operations are related to `add_user()`:
-
-- Role
-
-- remove_user()
-
-- creat()
-
-- grant()
-
-- utility.create_user()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Role
-
-# Get an existing role
-role = Role(role_name="string")
-
-# Add a user to the existing role
-role.add_user(username="string")
+add_user(
+    username: str
+)
 ```
 
 __PARAMETERS:__
@@ -93,3 +69,18 @@ utility.list_roles(include_user_info=True)
 # - RoleItem: <role_name:admin>, <users:('admin',)>
 # - RoleItem: <role_name:public>, <users:()>
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `add_user()`:
+
+- [get_users()](./Role-get_users)
+
+- [is_exist()](./Role-is_exist)
+
+- [list_grant()](./Role-list_grant)
+
+- [list_grants()](./Role-list_grants)
+
+- [remove_user()](./Role-remove_user)
+

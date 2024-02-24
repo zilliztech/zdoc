@@ -20,44 +20,13 @@ This operation inserts new records into the database or updates existing ones.
 
 </Admonition>
 
-```python
-pymilvus.Collection.upsert(
-    data: List | pandas.DataFrame | Dict, 
-    partition_name: str | None, 
-    timeout: float, 
-)
-```
-
-The following operations are related to `insert()`:
-
-- Collection
-
-- upsert()
-
-- delete()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Collection
-
-# Get an existing collection
-collection = Collection(name="string")
-
-# Prepare your data
-data = ...
-
-# Upsert data into collection
-collection.upsert(
-    data=data
-)
-
-# Upsert data into a specific partition
-collection.upsert(
-    data=data,
-    partition_name="string"
+upsert(
+    data: List | pandas.DataFrame | Dict, 
+    partition_name: str | None, 
+    timeout: float, 
 )
 ```
 
@@ -245,4 +214,20 @@ res = collection.upsert(
     data={"id": 16, "vector": [0.3,0.1,-0.2,-0.6,-0.7]},
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `insert()`:
+
+- [delete()](./Collection-delete)
+
+- [insert()](./Collection-insert)
+
+- [search()](./Collection-search)
+
+- [search_iterator()](./Collection-search_iterator)
+
+- [query()](./Collection-query)
+
+- [query_iterator()](./Collection-query_iterator)
 

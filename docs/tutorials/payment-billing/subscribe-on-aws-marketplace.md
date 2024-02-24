@@ -28,17 +28,17 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribing to Zilliz Cloud as follows:
 
-1. Search for **Zilliz Cloud** in the search box, or [click here](https://aws.amazon.com/marketplace/search/results?searchTerms=zilliz+cloud) to view Zilliz Cloud on AWS.
+1. Search for __Zilliz Cloud__ in the search box, or [click here](https://aws.amazon.com/marketplace/search/results?searchTerms=zilliz+cloud) to view Zilliz Cloud on AWS.
 
     ![search_for_zilliz_on_aws](/img/search_for_zilliz_on_aws.png)
 
-1. Click **Zilliz Cloud**.
+1. Click __Zilliz Cloud__.
 
     Familiarize yourself with the services and pricing.
 
     ![view_purchase_options](/img/view_purchase_options.png)
 
-1. Click **View purchase options**, then **Subscribe**. Follow the prompt to **Set up your account** on Zilliz Cloud.
+1. Click __View purchase options__, then __Subscribe__. Follow the prompt to __Set up your account__ on Zilliz Cloud.
 
     ![aws_flash_message](/img/aws_flash_message.png)
 
@@ -46,11 +46,11 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    AWS Marketplace uses query strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.
+    <p>AWS Marketplace uses query strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.</p>
 
     </Admonition>
 
-1. Go to **Billing** to ensure your AWS Marketplace subscription is set as your payment method.
+1. Go to __Billing__ to ensure your AWS Marketplace subscription is set as your payment method.
 
     ![aws-marketplace-success](/img/aws-marketplace-success.png)
 
@@ -66,7 +66,7 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    It takes a few minutes for AWS Marketplace to complete the cancellation process.
+    <p>It takes a few minutes for AWS Marketplace to complete the cancellation process.</p>
 
     </Admonition>
 
@@ -84,7 +84,7 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    It takes a few minutes for AWS Marketplace to complete the cancellation process.
+    <p>It takes a few minutes for AWS Marketplace to complete the cancellation process.</p>
 
     </Admonition>
 
@@ -100,7 +100,7 @@ To cancel your AWS Marketplace subscription, you need to open the AWS Marketplac
 
 - Zilliz Cloud Standard Plan
 
-    |  **Units**                                           |  **Cost**      |
+    |  __Units__                                           |  __Cost__      |
     | ---------------------------------------------------- | -------------- |
     |  1 AWS performance-optimized CU per hour as one unit |  $0.159 / unit |
     |  1 AWS capacity-optimized CU per hour as one unit    |  $0.159 / unit |
@@ -115,7 +115,7 @@ To cancel your AWS Marketplace subscription, you need to open the AWS Marketplac
 
 - Zilliz Cloud Enterprise Plan
 
-    |  **Units**                                           |  **Cost**      |
+    |  __Units__                                           |  __Cost__      |
     | ---------------------------------------------------- | -------------- |
     |  1 AWS performance-optimized CU per hour as one unit |  $0.248 / unit |
     |  1 AWS capacity-optimized CU per hour as one unit    |  $0.248 / unit |
@@ -128,7 +128,7 @@ To cancel your AWS Marketplace subscription, you need to open the AWS Marketplac
     |  1 GB for storage on GCP per month as one unit       |  $0.02 / unit  |
     |  1 GB for backup service on GCP as one unit          |  $0.02 / unit  |
 
-Using the above table, if you have deployed a vector database in the **Standard Plan** on Zilliz Cloud with one performance-optimized CU on AWS, you will be charged 159 units per hour, that is $0.159/hour.
+Using the above table, if you have deployed a vector database in the __Standard Plan__ on Zilliz Cloud with one performance-optimized CU on AWS, you will be charged 159 units per hour, that is $0.159/hour.
 
 To subscribe to Zilliz Cloud, please visit us on [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?sr=0-1&ref_=beagle&applicationId=AWSMPContessa).
 

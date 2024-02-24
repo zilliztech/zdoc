@@ -9,7 +9,7 @@ import RestHeader from '@site/src/components/RestHeader';
 
 Creates a serverless cluster.
 
-<RestHeader method="post" endpoint="https://controller.api.{cloud-region}.zillizcloud.com/v1/clusters/createServerless" />
+<RestHeader method="post" endpoint="https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/createServerless" />
 
 ---
 
@@ -25,8 +25,8 @@ Creates a serverless cluster.
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/createServerless" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/createServerless" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     --data-raw '{

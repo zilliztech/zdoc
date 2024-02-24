@@ -8,7 +8,8 @@ sidebar_position: 11
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # upsert()
 
@@ -20,24 +21,14 @@ This operation inserts new records into the database or updates existing ones.
 
 </Admonition>
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.Partition.upsert(
+upsert(
     data: List | pandas.DataFrame | Dict,, 
     timeout=float | None
 )
 ```
-
-The following operations are related to `upsert()`:
-
-- Partition
-
-- insert()
-
-- delete()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
 
 ```python
 from pymilvus import Collection, Partition
@@ -177,5 +168,45 @@ __EXCEPTIONS:__
 ## Examples{#examples}
 
 ```python
+from pymilvus import Collection, Partition, FieldSchema, CollectionSchema, DataType
 
+# Define collection schema    
+schema = CollectionSchema([
+    FieldSchema("film_id", DataType.INT64, is_primary=True),
+    FieldSchema("films", dtype=DataType.FLOAT_VECTOR, dim=2)
+])
+
+# Get an existing collection
+collection = Collection("test_partition_insert", schema)
+
+# Get an existing partition in the current collection
+partition = Partition(collection, "comedy", "comedy films")
+
+# Prepare the data to insert
+data = [
+    [i for i in range(10)],
+    [[float(i) for i in range(2)] for _ in range(10)]
+]
+
+# Upsert data
+res = partition.upsert(data)
+
+# Return the count of upserted entities
+res.upsert_count
+10
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `upsert()`:
+
+- [delete()](./Partition-delete)
+
+- [flush()](./Partition-flush)
+
+- [insert()](./Partition-insert)
+
+- [query()](./Partition-query)
+
+- [search()](./Partition-search)
+

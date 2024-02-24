@@ -27,11 +27,11 @@ You will receive another notification after a maintenance event has finished. Zi
 
 ## View current window hours{#view-current-window-hours}
 
-To view the current time zone, choose **Settings** from the left navigation pane and find the currently applied maintenance window hours under **Window Hours** in the **System Maintenance Window** area.
+To view the current time zone, choose __Settings__ from the left navigation pane and find the currently applied maintenance window hours under __Window Hours__ in the __System Maintenance Window__ area.
 
 ## Edit current window hours{#edit-current-window-hours}
 
-To change the system maintenance window hours, click **Edit** to open the **Maintenance Window Settings** dialog box, and select a time window from the **Window Hours** drop-down list.
+To change the system maintenance window hours, click __Edit__ to open the __Maintenance Window Settings__ dialog box, and select a time window from the __Window Hours__ drop-down list.
 
 ## Related topics{#related-topics}
 

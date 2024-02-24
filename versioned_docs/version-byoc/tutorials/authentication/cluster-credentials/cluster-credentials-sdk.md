@@ -2,7 +2,7 @@
 slug: /cluster-credentials-sdk
 beta: FALSE
 notebook: FALSE
-token: ZAp4w4SWaiJal2kaMhjcItyvnJh
+token: NGvbww7DpirhxOknAWncOrmqnNJ
 sidebar_position: 2
 ---
 
@@ -39,25 +39,22 @@ To create a cluster user, use the following code snippet:
 
 ```python
 import json, os, time
-from pymilvus import connections, Role, utility
+from pymilvus import MilvusClient
 
 # 0. Connect to cluster
 
 CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" # Set your cluster endpoint
 TOKEN="YOUR_CLUSTER_TOKEN" # Set your token
 
-connections.connect(
-    alias='default', 
-    #  Public endpoint obtained from Zilliz Cloud
+client= MilvusClient(
     uri=CLUSTER_ENDPOINT,
-    # a colon-separated cluster username and password
-    token=TOKEN, 
+    token=TOKEN
 )
 
 # 1. Create user
 
 if not 'user1' in utility.list_usernames():
-    utility.create_user(user='user1', password='P@ssw0rd!')
+    client.create_user(user_name='user1', password='P@ssw0rd!')
 ```
 
 </TabItem>
@@ -165,7 +162,7 @@ if err != nil {
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The password will not be displayed again, so it's crucial to note it down and securely store it in an appropriate location.
+<p>The password will not be displayed again, so it's crucial to note it down and securely store it in an appropriate location.</p>
 
 </Admonition>
 
@@ -181,8 +178,8 @@ To update a user's password, use the code below:
 ```python
 # 2. Update a user credential
 
-utility.update_password(
-    user='user1',
+client.update_password(
+    user_name='user1',
     old_password='P@ssw0rd!',
     new_password='P@ssw0rd!!'
 )
@@ -252,7 +249,7 @@ if err != nil {
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The password will not be displayed again, so it's crucial to note it down and securely store it in an appropriate location.
+<p>The password will not be displayed again, so it's crucial to note it down and securely store it in an appropriate location.</p>
 
 </Admonition>
 
@@ -266,17 +263,20 @@ To list all cluster users:
 ```python
 # 3. List users
 
-print(utility.list_usernames())
+users = client.list_users())
+
+print(users)
 
 # Output
 #
 # ["db_admin", "user1"]
 
-userInfo = utility.list_users(include_role_info=True)
+userInfo = []
 
-users = [ { "user": u.username, "roles": list(u.roles) } for u in userInfo.groups ]
+for user in users:
+    userInfo.append(client.describe_user(user_name=user))
 
-print(users)
+print(userInfo)
 
 # Output
 #
@@ -392,13 +392,16 @@ To assign the `db_ro` role to `user1`:
 ```python
 # 4. Assign role
 
-role = Role("db_ro") # Valid values: "db_admin", "db_rw", "db_ro"
+# Valid roles: "db_admin", "db_rw", "db_ro"
 
-role.add_user("user1")
+client.grant_role(
+    user_name="user1",
+    role_name="db_ro"
+)
 
 # 5. Get users of a specific role
 
-users = list(role.get_users())
+users = client.describe_role(role_name="db_ro")
 
 print(users)
 
@@ -408,11 +411,16 @@ print(users)
 
 # 6. List roles
 
-roleInfo = utility.list_roles(include_user_info=True)
-
-roles = [ { "role": g.role_name, "users": list(g.users) } for g in roleInfo.groups ]
+roles = client.list_roles()
 
 print(roles)
+
+roleInfo = []
+
+for role in roles:
+    roleInfo.append(client.describe_role(role_name="db_ro"))
+
+print(roleInfo)
 
 # Output
 #
@@ -604,7 +612,10 @@ To remove a role from a user:
 ```python
 # 7. Remove role from user
 
-role.remove_user("user1")
+client.revoke_role(
+    user_name="user1",
+    role_name="db_ro"
+)
 ```
 
 </TabItem>
@@ -663,17 +674,17 @@ if err != nil {
 </TabItem>
 </Tabs>
 
-## Delete a user{#delete-a-user}
+## Drop a user{#drop-a-user}
 
-If a user is no longer needed, delete it as follows:
+If a user is no longer needed, drop it as follows:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"Java","value":"java"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
-# 8. Delete user
+# 8. Drop a user
 
-utility.delete_user('user1')
+client.drop_user(user_name="user1")
 ```
 
 </TabItem>
@@ -734,7 +745,7 @@ if err != nil {
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The default user **db_admin **cannot be dropped.
+<p>The default user _<em>db</em>admin __cannot be dropped.</p>
 
 </Admonition>
 

@@ -14,33 +14,10 @@ import Admonition from '@theme/Admonition';
 
 This operation lists all privileges granted to the current role.
 
-```python
-pymilvus.Role.list_grants(
-    db_name: str
-)
-```
-
-The following operations are related to `get_replicas()`:
-
-- Role
-
-- grant()
-
-- list_grant()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import Role
-
-# Get an existing role
-role=Role(name="string")
-
-# List all privileges granted to the current role.
-
-res=list_grant(
+list_grants(
     db_name: str
 )
 ```
@@ -94,3 +71,18 @@ res = list_grants(
     db_name="test_db"
 )
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `get_replicas()`:
+
+- [add_user()](./Role-add_user)
+
+- [get_users()](./Role-get_users)
+
+- [is_exist()](./Role-is_exist)
+
+- [list_grant()](./Role-list_grant)
+
+- [remove_user()](./Role-remove_user)
+

@@ -1,6 +1,6 @@
 {
   "created_time": "1703746176",
-  "modified_time": "1708319670",
+  "modified_time": "1708739568",
   "name": "Collection",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "ZGbAfWoUjl0Z3xdgyItc8wYXngf",
@@ -190,7 +190,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import Collection, CollectionSchema, FieldSchema, DataType\n\n# Define the schema and create a collection\nprimary_key = FieldSchema(\n    name=\"string\",\n    dtype=DataType.INT64,\n    is_primary=True,\n)\n\nvector = FieldSchema(\n    name=\"string\",\n    dtype=DataType.FLOAT_VECTOR,\n    dim=int\n)\n\nschema = CollectionSchema(\n    fields = [primary_key, vector]\n)\n\ncollection = Collection(\n    name=\"string\",\n    schema=schema,\n    using=\"default\"\n",
+                "content": "Collection(\n    name: str,\n    schema: CollectionSchema,\n    using: str\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -396,6 +396,9 @@
                   "bold": false,
                   "inline_code": false,
                   "italic": true,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FWToudUwm4oVXeKxLg3jcj3IAnjh"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
@@ -2189,7 +2192,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Methods",
+                "content": "Members",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2215,7 +2218,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The following are the methods of the ",
+                "content": "The following are the members of the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

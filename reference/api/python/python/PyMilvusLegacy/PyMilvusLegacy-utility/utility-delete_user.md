@@ -14,41 +14,14 @@ import Admonition from '@theme/Admonition';
 
 This operation deletes an existing user.
 
+## Request Syntax{#request-syntax}
+
 ```python
-pymilvus.utility.delete_user(
+delete_user(
     user: str,
     password: str,
     using: str,
     timeout: float | None
-)
-```
-
-The following operations are related to `delete_user()`
-
-- update_password()
-
-- reset_password()
-
-- create_user()
-
-- list_user()
-
-- list_users()
-
-- list_usernames()
-
-See also the Python SDK Reference.
-
-## Request Syntax{#request-syntax}
-
-```python
-from pymilvus import utility
-
-# Delete an existing user
-delete_user(
-    user="string",
-    password="string",
-    using="default"
 )
 ```
 
@@ -103,4 +76,24 @@ connections.connect()
 # Delete an existing user
 user = utility.delete_user(user="admin", password="123456")
 ```
+
+## Related operations{#related-operations}
+
+The following operations are related to `delete_user()`
+
+- [Role](./PyMilvusLegacy-Role)
+
+- [create_user()](./utility-create_user)
+
+- [list_roles()](./utility-list_roles)
+
+- [list_user()](./utility-list_user)
+
+- [list_users()](./utility-list_users)
+
+- [list_usernames()](./utility-list_usernames)
+
+- [reset_password()](./utility-reset_password)
+
+- [update_password()](./utility-update_password)
 

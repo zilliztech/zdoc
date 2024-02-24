@@ -26,33 +26,33 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://console.cloud.google.com/marketplace) and start subscribing to Zilliz Cloud as follows:
 
-1. Search for **Zilliz Cloud** in the search box, or click [here](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1) to view Zilliz Cloud on GCP.
+1. Search for __Zilliz Cloud__ in the search box, or click [here](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1) to view Zilliz Cloud on GCP.
 
     ![search_for_zilliz_on_gcp](/img/search_for_zilliz_on_gcp.png)
 
-1. Click **Zilliz Cloud**.
+1. Click __Zilliz Cloud__.
 
     Familiarize yourself with the services and pricing.
 
-1. Select the project for subscription and click **Subscribe**. 
+1. Select the project for subscription and click __Subscribe__. 
 
     ![click_subscribe_on_gcp](/img/click_subscribe_on_gcp.png)
 
-1. On the **New Zilliz Cloud subscription** page, complete the following steps:
+1. On the __New Zilliz Cloud subscription__ page, complete the following steps:
 
-    1. Select your billing account from the dropdown in the **Purchase details** section.
+    1. Select your billing account from the dropdown in the __Purchase details__ section.
 
-    1. Review and accept the **Terms**.
+    1. Review and accept the __Terms__.
 
-    1. Click **Subscribe**.
+    1. Click __Subscribe__.
 
     ![new_zilliz_cloud_subscription_on_gcp](/img/new_zilliz_cloud_subscription_on_gcp.png)
 
-1. In the pop-up window, click **SIGN UP WITH ZILLIZ**.
+1. In the pop-up window, click __SIGN UP WITH ZILLIZ__.
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    If you are unable to complete the signup process, you can retry by navigating to [**Your Orders**](https://console.cloud.google.com/marketplace/orders) page in the GCP Marketplace.
+    <p>If you are unable to complete the signup process, you can retry by navigating to <strong>Your Orders</strong><a href="https://console.cloud.google.com/marketplace/orders"></a>__ page in the GCP Marketplace.</p>
 
     </Admonition>
 
@@ -68,7 +68,7 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
     ![gcp_link_subscription_with_account](/img/gcp_link_subscription_with_account.png)
 
-1. Go to **Billing** to ensure your GCP Marketplace subscription is set as your payment method.
+1. Go to __Billing__ to ensure your GCP Marketplace subscription is set as your payment method.
 
 ## Update GCP Marketplace subscription{#update-gcp-marketplace-subscription}
 
@@ -82,7 +82,7 @@ After successfully subscribing from GCP Marketplace, you can always update your 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    It takes a few minutes for GCP Marketplace to complete the cancellation process.
+    <p>It takes a few minutes for GCP Marketplace to complete the cancellation process.</p>
 
     </Admonition>
 
@@ -100,7 +100,7 @@ After successfully subscribing from GCP Marketplace, you can always update your 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    It takes a few minutes for GCP Marketplace to complete the cancellation process.
+    <p>It takes a few minutes for GCP Marketplace to complete the cancellation process.</p>
 
     </Admonition>
 
@@ -116,7 +116,7 @@ To cancel your GCP Marketplace subscription, you need to open the GCP Marketplac
 
 - Zilliz Cloud Standard Plan
 
-    |  **Count**                                            |  **Cost**       |
+    |  __Count__                                            |  __Cost__       |
     | ----------------------------------------------------- | --------------- |
     |  1 GCP performance-optimized CU per hour as one count |  $0.137 / count |
     |  1 GCP capacity-optimized CU per hour as one count    |  $0.137 / count |
@@ -131,7 +131,7 @@ To cancel your GCP Marketplace subscription, you need to open the GCP Marketplac
 
 - Zilliz Cloud Enterprise Plan
 
-    |  **Count**                                            |  **Cost**       |
+    |  __Count__                                            |  __Cost__       |
     | ----------------------------------------------------- | --------------- |
     |  1 GCP performance-optimized CU per hour as one count |  $0.215 / count |
     |  1 GCP capacity-optimized CU per hour as one count    |  $0.215 / count |
@@ -144,7 +144,7 @@ To cancel your GCP Marketplace subscription, you need to open the GCP Marketplac
     |  1 GB for storage on AWS per month as one count       |  $0.025 / count |
     |  1 GB for backup service on AWS as one count          |  $0.025 / count |
 
-Using the above table, if you have deployed a vector database in the **Standard Plan** on Zilliz Cloud with one performance-optimized CU on GCP, you will be charged 215 count per hour, that is $0.215/hour.
+Using the above table, if you have deployed a vector database in the __Standard Plan__ on Zilliz Cloud with one performance-optimized CU on GCP, you will be charged 215 count per hour, that is $0.215/hour.
 
 To subscribe to Zilliz Cloud, please visit us on [GCP Marketplace](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1&flow=gcp).
 

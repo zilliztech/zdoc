@@ -10,8 +10,8 @@
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clouds" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clouds" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -44,8 +44,8 @@ Success response:
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/regions?cloudId=gcp" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/regions?cloudId=gcp" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -77,8 +77,8 @@ Success response:
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/projects" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/projects" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -109,8 +109,8 @@ Success response:
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/createServerless" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/createServerless" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     --data-raw '{
@@ -157,8 +157,8 @@ You can obtain the project ID in either of the following ways:
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/create" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/create" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     --data-raw '{
@@ -207,8 +207,8 @@ You can obtain the project ID in either of the following ways:
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/${clusterId}" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -246,8 +246,8 @@ Success response:
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/modify" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/${clusterId}/modify" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     --data-raw '{
@@ -277,8 +277,8 @@ Success response:
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/suspend" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/${clusterId}/suspend" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -306,8 +306,8 @@ Success response:
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/resume" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/${clusterId}/resume" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -334,8 +334,8 @@ Success response:
 
 ```shell
 curl --request DELETE \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters/${clusterId}/drop" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters/${clusterId}/drop" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -362,8 +362,8 @@ Success response:
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/clusters?pageSize=&current=" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/clusters?pageSize=&current=" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json"
 ```
@@ -391,7 +391,8 @@ You can use either of the following ways to authorize:
 - An [API Key](/docs/manage-api-keys) with appropriate permissions.
 - A colon-joined username and password of the target cluster. For example, `username:p@ssw0rd`.
 
-Currently, data of the JSON and Array types are not supported in RESTful API requests..
+Currently, data of the JSON and Array types are not supported in RESTful API requests.
+
 :::
 
 ```shell
@@ -870,8 +871,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 
 ```shell
 curl --request POST \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/vector/collections/import" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
     -d '{
@@ -907,8 +908,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOBID}&clusterId=${CLUSTERID}" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import/get?jobId=${JOBID}&clusterId=${CLUSTERID}" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
 ```
@@ -924,8 +925,8 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 
 ```shell
 curl --request GET \
-    --url "https://controller.api.${cloud-region}.zillizcloud.com/v1/vector/collections/import/list?clusterId=${CLUSTERID}" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --url "https://controller.api.${CLOUD_REGION_ID}.zillizcloud.com/v1/vector/collections/import/list?clusterId=${CLUSTERID}" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --header "accept: application/json" \
     --header "content-type: application/json" \
 ```
@@ -944,7 +945,7 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --header "Authorization: Bearer ${API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
         -d '{
             "projectId": "proj-**********************",
@@ -1011,7 +1012,7 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --header "Authorization: Bearer ${API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
         -d '{
             "name": "my_text_search_pipeline",
@@ -1058,7 +1059,7 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --header "Authorization: Bearer ${API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines" \
         -d '{
             "name": "my_doc_deletion_pipeline",
@@ -1113,7 +1114,7 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-**********************"
 ```
 
@@ -1164,7 +1165,7 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-**********************"
 ```
 
@@ -1213,7 +1214,7 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
 ```shell
 curl --request GET \
     --header "Content-Type: application/json" \
-    --header "Authorization: Bearer ${YOUR_API_KEY}" \
+    --header "Authorization: Bearer ${API_KEY}" \
     --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines?projectId=proj-**********************"
 ```
 
@@ -1299,7 +1300,7 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --header "Authorization: Bearer ${API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-6ca5dd1b4672659d3c3487/run" \
         -d '{
             "data": {
@@ -1327,7 +1328,7 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --header "Authorization: Bearer ${API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-26a18a66ffc8c0edfdb874/run" \
         -d '{
             "data": {
@@ -1367,7 +1368,7 @@ Currently, data of the JSON and Array types are not supported in RESTful API req
     ```shell
     curl --request POST \
         --header "Content-Type: application/json" \
-        --header "Authorization: Bearer ${YOUR_API_KEY}" \
+        --header "Authorization: Bearer ${API_KEY}" \
         --url "https://controller.api.{cloud-region}.zillizcloud.com/v1/pipelines/pipe-7227d0729d73e63002ed46/run" \
         -d '{
             "data": {

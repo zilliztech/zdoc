@@ -14,37 +14,13 @@ import Admonition from '@theme/Admonition';
 
 This operation checks whether a collection exists.
 
-```python
-pymilvus.utility.has_collection(
-    collection_name: str,
-    using: str = "default",
-    timeout: float | None,
-)
-```
-
-The following operations are related to `has_collection()`:
-
-- Collection
-
-- list_collections()
-
-- has_partition()
-
-- rename_collection()
-
-- flush_all()
-
-See also the Python SDK Reference.
-
 ## Request Syntax{#request-syntax}
 
 ```python
-from pymilvus import utility
-
-utility.has_collection(
-    collection_name="string",
-    using="default",
-    timeout=None
+has_collection(
+    collection_name: str,
+    using: str = "default",
+    timeout: float | None,
 )
 ```
 
@@ -91,4 +67,16 @@ collection.has_collection(
     collection_name="test_collection",
 ) # True
 ```
+
+## Related operations{#related-operations}
+
+- [drop_collection()](./utility-drop_collection)
+
+- [flush_all()](./utility-flush_all)
+
+- [has_partition()](./utility-has_partition)
+
+- [list_collections()](./utility-list_collections)
+
+- [rename_collection()](./utility-rename_collection)
 

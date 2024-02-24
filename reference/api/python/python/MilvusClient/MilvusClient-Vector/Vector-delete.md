@@ -116,7 +116,6 @@ client.insert(
         {"id": 8, "vector": [0.12, 0.16, 0.25, 0.2, 0.16], "color": "pink"},
         {"id": 9, "vector": [0.07, 0.38, 0.36, 0.03, 0.47], "color": "brown"}
     ]
-),
 )
 
 # 4. Delete entities

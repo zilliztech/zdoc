@@ -17,7 +17,7 @@ The Zilliz Cloud Bring Your Own Cloud (BYOC) solution offers a subscription mode
 
 The calculation method for the Zilliz Cloud BYOC solution involves distinguishing between the control plane and the data plane.
 
-- **Control Plane**:
+- __Control Plane__:
 
     - Hosted on Zilliz Cloud
 
@@ -25,7 +25,7 @@ The calculation method for the Zilliz Cloud BYOC solution involves distinguishin
 
     - CPU cores consumed at the control plane are not deducted from the cores subscribed in the BYOC license
 
-- **Data Plane**:
+- __Data Plane__:
 
     - Deployed in your own VPC
 
@@ -47,29 +47,29 @@ The following table summarizes the calculation of CPU cores for a BYOC license.
 
 As the [Organization Owner](./resource-hierarchy), you can access and review detailed license information:
 
-- **License ID**: A distinct code that identifies your organization's license.
+- __License ID__: A distinct code that identifies your organization's license.
 
-- **Cloud Provider**: Your cloud service provider powering Zilliz Cloud BYOC services.
+- __Cloud Provider__: Your cloud service provider powering Zilliz Cloud BYOC services.
 
-- **License Term**: Start and end dates indicating the active period of your license.
+- __License Term__: Start and end dates indicating the active period of your license.
 
-- **Usage**: Current CPU core usage as a percentage of the total cores included in your license.
+- __Usage__: Current CPU core usage as a percentage of the total cores included in your license.
 
 For more details on resource consumption:
 
-Click **View Details** to see CPU core usage by each service and cluster, along with the cloud region where they are deployed.
+Click __View Details__ to see CPU core usage by each service and cluster, along with the cloud region where they are deployed.
 
 ![view-license-info](/byoc/view-license-info.png)
 
 ## Monitor license usage{#monitor-license-usage}
 
-Check out the **Usage** progress bar on the **License Information** page, which offers a visual guide showing how you're using your license. Please take the appropriate action based on the color indicators:
+Check out the __Usage__ progress bar on the __License Information__ page, which offers a visual guide showing how you're using your license. Please take the appropriate action based on the color indicators:
 
-- **Green**: Your license usage is comfortably within limits, with core usage below 70% and over 60 days of validity remaining. Keep monitoring to ensure it stays in this range.
+- __Green__: Your license usage is comfortably within limits, with core usage below 70% and over 60 days of validity remaining. Keep monitoring to ensure it stays in this range.
 
-- **Yellow**: A nudge to start thinking about renewing or upgrading your license, with core usage between 70-99% or validity under 60 days. Time to assess your future needs and prepare for action.
+- __Yellow__: A nudge to start thinking about renewing or upgrading your license, with core usage between 70-99% or validity under 60 days. Time to assess your future needs and prepare for action.
 
-- **Red**: A clear signal that immediate action is required, with core usage over 100% or license expiration. Critical to renew or upgrade now to avoid operational disruptions.
+- __Red__: A clear signal that immediate action is required, with core usage over 100% or license expiration. Critical to renew or upgrade now to avoid operational disruptions.
 
 Contact our sales for help if you are in the yellow or red zone. We recommend you renew or upgrade your license before it expires or reaches its limit to avoid restrictions like the inability to create new clusters or scale up.
 
@@ -79,19 +79,19 @@ Contact our sales for help if you are in the yellow or red zone. We recommend yo
 
 To prevent service disruptions, renew or upgrade your license if it is approaching expiration or nearing the core usage limit. Zilliz Cloud's flexible approach to fluctuating business needs includes:
 
-- **Core Usage Overuse**: Exceeding your core quota won't impact existing clusters, but you may be restricted from creating new clusters, scaling up, or activating new cloud regions.
+- __Core Usage Overuse__: Exceeding your core quota won't impact existing clusters, but you may be restricted from creating new clusters, scaling up, or activating new cloud regions.
 
-- **Expiration**: A __one-month__ grace period follows subscription expiration, allowing continued access to Zilliz Cloud services. This period is intended for subscription renewal or upgrade.
+- __Expiration__: A one-month grace period follows subscription expiration, allowing continued access to Zilliz Cloud services. This period is intended for subscription renewal or upgrade.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Zilliz Cloud simultaneously keeps track of your license's validity period and core usage, and applies restrictions accordingly if your license expires while cores are overused.
+<p>Zilliz Cloud simultaneously keeps track of your license's validity period and core usage, and applies restrictions accordingly if your license expires while cores are overused.</p>
 
 </Admonition>
 
 ## Potential consequences of failing to renew or upgrade{#potential-consequences-of-failing-to-renew-or-upgrade}
 
-Failing to renew or upgrade within the __one-month__ grace period results in your Zilliz Cloud account being frozen and service access revoked. The following operations are prohibited once frozen:
+Failing to renew or upgrade within the one-month grace period results in your Zilliz Cloud account being frozen and service access revoked. The following operations are prohibited once frozen:
 
 - Creating, restarting, stopping, or scaling clusters
 

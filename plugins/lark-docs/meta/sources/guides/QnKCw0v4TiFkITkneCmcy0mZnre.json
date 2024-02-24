@@ -5,7 +5,7 @@
   "node_token": "QnKCw0v4TiFkITkneCmcy0mZnre",
   "node_type": "origin",
   "obj_create_time": "1689055127",
-  "obj_edit_time": "1706174881",
+  "obj_edit_time": "1708424904",
   "obj_token": "UbeSdMepfoUxSaxAehMcA6N3nIg",
   "obj_type": "docx",
   "origin_node_token": "QnKCw0v4TiFkITkneCmcy0mZnre",
@@ -42,14 +42,8 @@
           "BSVJdx1muoSNNVx2EG1clwCTnAf",
           "UiCIdIm8log5MzxeTdxcFgVenKh",
           "Z9hBdFLWVofNznxeM11cNPNkn3c",
-          "HUwydl6Y2ogwtZxBeLkcD1wInlb",
-          "SmqHd0wLBolJcZxYNdbc5xGynhd",
-          "OzLFdLY7pom8TnxfScSc6VxmnQd",
-          "B5wnd5sMko0JRixwZZdcIMm2nlb",
-          "XJzxd0j4UoWH0fxXTp5clPdxnYc",
-          "EEvIdU0muorLZ6xBD5Kc4z3FnRh",
-          "KwXSdqxNgoFVJjxxZ43cl3Q1nh8",
-          "VkZMdPGHIom28DxzLUscS3qrneh",
+          "DfdsdK26lo9VKXxuV8TcSd1Mnmh",
+          "I4URdzTlSoK011x0mvec4GfxnCe",
           "AJBLdwEvvoXR0ExsRwGcUzwTnAe",
           "UEZFd6rADoxjyuxI1pfcU2sonwf",
           "JopWd7GhuoG2BbxCqqic7We3nJe",
@@ -1014,109 +1008,38 @@
         "parent_id": "UbeSdMepfoUxSaxAehMcA6N3nIg"
       },
       {
-        "block_id": "HUwydl6Y2ogwtZxBeLkcD1wInlb",
-        "block_type": 2,
-        "parent_id": "UbeSdMepfoUxSaxAehMcA6N3nIg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "<exclude target=\"",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "paas",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\">",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "SmqHd0wLBolJcZxYNdbc5xGynhd",
-        "block_type": 2,
-        "parent_id": "UbeSdMepfoUxSaxAehMcA6N3nIg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "For a serverless cluster, you can create up to two collections. For a dedicated cluster, the number of collections you can create varies with the CU that your cluster uses.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "OzLFdLY7pom8TnxfScSc6VxmnQd",
+        "block_id": "DfdsdK26lo9VKXxuV8TcSd1Mnmh",
         "block_type": 31,
         "children": [
-          "Uarqd0PEFor0HIxlxSccZAEFnMc",
-          "Ppbddi4qiobVscxP6Zvc4eiRnlf",
-          "U80Lduos6oWBWOxnbNYcc1OHnQc",
-          "FNy2dqEEQoUcxjxydNqct65pnof",
-          "VsVuduJtqoeU7BxgwlScpwb6n3c",
-          "Tfqad6VTzoiN8TxvwAlcUXoLnye",
-          "Vjm4dMwgTol5ILxd1X3cMhLUnje",
-          "MJAUdmdGIoOBzNx8DI0cuuz9nIe"
+          "VbtMdRvy7oehvRxVq0GcHrqrnyc",
+          "KMi9dzeFzoOOh8xhs95cuVUPnbg",
+          "GEp6dwD24oa3DVxDc1dcJja0nTe",
+          "GkDFdrLgfoVdhJxn33PclpuKnPN",
+          "EE0FdJaUfoBmjLxCrTccXtEenRh",
+          "F0Q3dvBywo6atqxs8FmcAMULngS",
+          "LG2zddmizoV2vjxAbIicTdoAnCh",
+          "GZapdFajYopEXkx7rWucRXVLn1g",
+          "P7trd27CnoPiFHxOgUucupPun5d"
         ],
         "parent_id": "UbeSdMepfoUxSaxAehMcA6N3nIg",
         "table": {
           "cells": [
-            "Uarqd0PEFor0HIxlxSccZAEFnMc",
-            "Ppbddi4qiobVscxP6Zvc4eiRnlf",
-            "U80Lduos6oWBWOxnbNYcc1OHnQc",
-            "FNy2dqEEQoUcxjxydNqct65pnof",
-            "VsVuduJtqoeU7BxgwlScpwb6n3c",
-            "Tfqad6VTzoiN8TxvwAlcUXoLnye",
-            "Vjm4dMwgTol5ILxd1X3cMhLUnje",
-            "MJAUdmdGIoOBzNx8DI0cuuz9nIe"
+            "VbtMdRvy7oehvRxVq0GcHrqrnyc",
+            "KMi9dzeFzoOOh8xhs95cuVUPnbg",
+            "GEp6dwD24oa3DVxDc1dcJja0nTe",
+            "GkDFdrLgfoVdhJxn33PclpuKnPN",
+            "EE0FdJaUfoBmjLxCrTccXtEenRh",
+            "F0Q3dvBywo6atqxs8FmcAMULngS",
+            "LG2zddmizoV2vjxAbIicTdoAnCh",
+            "GZapdFajYopEXkx7rWucRXVLn1g",
+            "P7trd27CnoPiFHxOgUucupPun5d"
           ],
           "property": {
-            "column_size": 2,
+            "column_size": 3,
             "column_width": [
-              273,
-              437
+              136,
+              199,
+              319
             ],
             "merge_info": [
               {
@@ -1131,430 +1054,6 @@
                 "col_span": 1,
                 "row_span": 1
               },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              },
-              {
-                "col_span": 1,
-                "row_span": 1
-              }
-            ],
-            "row_size": 4
-          }
-        }
-      },
-      {
-        "block_id": "Uarqd0PEFor0HIxlxSccZAEFnMc",
-        "block_type": 32,
-        "children": [
-          "NU9BdG1ZloOdOzxxlf5cVszgnfb"
-        ],
-        "parent_id": "OzLFdLY7pom8TnxfScSc6VxmnQd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "NU9BdG1ZloOdOzxxlf5cVszgnfb",
-        "block_type": 2,
-        "parent_id": "Uarqd0PEFor0HIxlxSccZAEFnMc",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Ppbddi4qiobVscxP6Zvc4eiRnlf",
-        "block_type": 32,
-        "children": [
-          "BN5LdTh5aodNmKxtdjwcNEmWnbh"
-        ],
-        "parent_id": "OzLFdLY7pom8TnxfScSc6VxmnQd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "BN5LdTh5aodNmKxtdjwcNEmWnbh",
-        "block_type": 2,
-        "parent_id": "Ppbddi4qiobVscxP6Zvc4eiRnlf",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Maximum number of collections",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "U80Lduos6oWBWOxnbNYcc1OHnQc",
-        "block_type": 32,
-        "children": [
-          "CjhJdTDUsokzO0xaN62cLjrCnZb"
-        ],
-        "parent_id": "OzLFdLY7pom8TnxfScSc6VxmnQd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "CjhJdTDUsokzO0xaN62cLjrCnZb",
-        "block_type": 2,
-        "parent_id": "U80Lduos6oWBWOxnbNYcc1OHnQc",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Serverless cluster",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "FNy2dqEEQoUcxjxydNqct65pnof",
-        "block_type": 32,
-        "children": [
-          "T5sDdWPlLoswWYx0ZJXclRDBn57"
-        ],
-        "parent_id": "OzLFdLY7pom8TnxfScSc6VxmnQd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "T5sDdWPlLoswWYx0ZJXclRDBn57",
-        "block_type": 2,
-        "parent_id": "FNy2dqEEQoUcxjxydNqct65pnof",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "2",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "VsVuduJtqoeU7BxgwlScpwb6n3c",
-        "block_type": 32,
-        "children": [
-          "PFoUdxTSTo2GzRxRBeWcrqOxnPo"
-        ],
-        "parent_id": "OzLFdLY7pom8TnxfScSc6VxmnQd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "PFoUdxTSTo2GzRxRBeWcrqOxnPo",
-        "block_type": 2,
-        "parent_id": "VsVuduJtqoeU7BxgwlScpwb6n3c",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Dedicated cluster (8 CUs and less)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Tfqad6VTzoiN8TxvwAlcUXoLnye",
-        "block_type": 32,
-        "children": [
-          "GhuEdWm8yoFznYxPhHJc1Q2En8c"
-        ],
-        "parent_id": "OzLFdLY7pom8TnxfScSc6VxmnQd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "GhuEdWm8yoFznYxPhHJc1Q2En8c",
-        "block_type": 2,
-        "parent_id": "Tfqad6VTzoiN8TxvwAlcUXoLnye",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "32",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Vjm4dMwgTol5ILxd1X3cMhLUnje",
-        "block_type": 32,
-        "children": [
-          "MAGjdNUokoPeu9xt9mpcgPcAnre"
-        ],
-        "parent_id": "OzLFdLY7pom8TnxfScSc6VxmnQd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "MAGjdNUokoPeu9xt9mpcgPcAnre",
-        "block_type": 2,
-        "parent_id": "Vjm4dMwgTol5ILxd1X3cMhLUnje",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Dedicated cluster (More than 8 CUs)",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "MJAUdmdGIoOBzNx8DI0cuuz9nIe",
-        "block_type": 32,
-        "children": [
-          "GUaLdGuHxogUh6xdXeWcAhTDnSb"
-        ],
-        "parent_id": "OzLFdLY7pom8TnxfScSc6VxmnQd",
-        "table_cell": {}
-      },
-      {
-        "block_id": "GUaLdGuHxogUh6xdXeWcAhTDnSb",
-        "block_type": 2,
-        "parent_id": "MJAUdmdGIoOBzNx8DI0cuuz9nIe",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "256",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "B5wnd5sMko0JRixwZZdcIMm2nlb",
-        "block_type": 2,
-        "parent_id": "UbeSdMepfoUxSaxAehMcA6N3nIg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "</exclude>",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "XJzxd0j4UoWH0fxXTp5clPdxnYc",
-        "block_type": 2,
-        "parent_id": "UbeSdMepfoUxSaxAehMcA6N3nIg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "<include target=\"",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "paas",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\">",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "EEvIdU0muorLZ6xBD5Kc4z3FnRh",
-        "block_type": 2,
-        "parent_id": "UbeSdMepfoUxSaxAehMcA6N3nIg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "The number of collections you can create varies with the CU that your cluster uses.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "KwXSdqxNgoFVJjxxZ43cl3Q1nh8",
-        "block_type": 31,
-        "children": [
-          "WrTsdcv2FolfwnxY30RcmAYZnQe",
-          "CJpbdWQWCo5xMvxtajDc59tXnVe",
-          "UMcGdAfUYoTQPHxJIbocuW8tnle",
-          "EpK7d8GRtowtolx17qRcQnWvnwc",
-          "AFB3dFtv3oJSZfxbUOxcztvBnvc",
-          "ZLsEd1c1OoSlGlx3qfbckBwCn3g"
-        ],
-        "parent_id": "UbeSdMepfoUxSaxAehMcA6N3nIg",
-        "table": {
-          "cells": [
-            "WrTsdcv2FolfwnxY30RcmAYZnQe",
-            "CJpbdWQWCo5xMvxtajDc59tXnVe",
-            "UMcGdAfUYoTQPHxJIbocuW8tnle",
-            "EpK7d8GRtowtolx17qRcQnWvnwc",
-            "AFB3dFtv3oJSZfxbUOxcztvBnvc",
-            "ZLsEd1c1OoSlGlx3qfbckBwCn3g"
-          ],
-          "property": {
-            "column_size": 2,
-            "column_width": [
-              273,
-              437
-            ],
-            "merge_info": [
               {
                 "col_span": 1,
                 "row_span": 1
@@ -1585,18 +1084,180 @@
         }
       },
       {
-        "block_id": "WrTsdcv2FolfwnxY30RcmAYZnQe",
+        "block_id": "VbtMdRvy7oehvRxVq0GcHrqrnyc",
         "block_type": 32,
         "children": [
-          "Qf24ddYN5oB9JHxi7vuc7SQgnbf"
+          "JqhrdN756oBgMZxPOJ4cTzyqnOh"
         ],
-        "parent_id": "KwXSdqxNgoFVJjxxZ43cl3Q1nh8",
+        "parent_id": "DfdsdK26lo9VKXxuV8TcSd1Mnmh",
         "table_cell": {}
       },
       {
-        "block_id": "Qf24ddYN5oB9JHxi7vuc7SQgnbf",
+        "block_id": "JqhrdN756oBgMZxPOJ4cTzyqnOh",
         "block_type": 2,
-        "parent_id": "WrTsdcv2FolfwnxY30RcmAYZnQe",
+        "parent_id": "VbtMdRvy7oehvRxVq0GcHrqrnyc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cluster Type",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KMi9dzeFzoOOh8xhs95cuVUPnbg",
+        "block_type": 32,
+        "children": [
+          "QMHOd7MtGoZ0A8xsMQGcyRpQnvd"
+        ],
+        "parent_id": "DfdsdK26lo9VKXxuV8TcSd1Mnmh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QMHOd7MtGoZ0A8xsMQGcyRpQnvd",
+        "block_type": 2,
+        "parent_id": "KMi9dzeFzoOOh8xhs95cuVUPnbg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Max Number",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GEp6dwD24oa3DVxDc1dcJja0nTe",
+        "block_type": 32,
+        "children": [
+          "SH1mdg4bPoT5NXxnHn3cKG04nAb"
+        ],
+        "parent_id": "DfdsdK26lo9VKXxuV8TcSd1Mnmh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SH1mdg4bPoT5NXxnHn3cKG04nAb",
+        "block_type": 2,
+        "parent_id": "GEp6dwD24oa3DVxDc1dcJja0nTe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Remarks",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 2,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GkDFdrLgfoVdhJxn33PclpuKnPN",
+        "block_type": 32,
+        "children": [
+          "GWdBd6R33ovUyTxPSJ1cNqxdnvh"
+        ],
+        "parent_id": "DfdsdK26lo9VKXxuV8TcSd1Mnmh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "GWdBd6R33ovUyTxPSJ1cNqxdnvh",
+        "block_type": 2,
+        "parent_id": "GkDFdrLgfoVdhJxn33PclpuKnPN",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"paas\">Serverless cluster</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EE0FdJaUfoBmjLxCrTccXtEenRh",
+        "block_type": 32,
+        "children": [
+          "CHmHdPX2Aodk2rxJHkFcVotXnze",
+          "GSDKdMDwMocR8cx21QhckTksnp6"
+        ],
+        "parent_id": "DfdsdK26lo9VKXxuV8TcSd1Mnmh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "CHmHdPX2Aodk2rxJHkFcVotXnze",
+        "block_type": 2,
+        "parent_id": "EE0FdJaUfoBmjLxCrTccXtEenRh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<exclude target=\"paas\">2</exclude>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GSDKdMDwMocR8cx21QhckTksnp6",
+        "block_type": 2,
+        "parent_id": "EE0FdJaUfoBmjLxCrTccXtEenRh",
         "text": {
           "elements": [
             {
@@ -1619,23 +1280,23 @@
         }
       },
       {
-        "block_id": "CJpbdWQWCo5xMvxtajDc59tXnVe",
+        "block_id": "F0Q3dvBywo6atqxs8FmcAMULngS",
         "block_type": 32,
         "children": [
-          "UFpEddq8DoMjk2xKgbWclMWmn2b"
+          "CAN8dJGp1oSRpnx0XMtcZTg5nrg"
         ],
-        "parent_id": "KwXSdqxNgoFVJjxxZ43cl3Q1nh8",
+        "parent_id": "DfdsdK26lo9VKXxuV8TcSd1Mnmh",
         "table_cell": {}
       },
       {
-        "block_id": "UFpEddq8DoMjk2xKgbWclMWmn2b",
+        "block_id": "CAN8dJGp1oSRpnx0XMtcZTg5nrg",
         "block_type": 2,
-        "parent_id": "CJpbdWQWCo5xMvxtajDc59tXnVe",
+        "parent_id": "F0Q3dvBywo6atqxs8FmcAMULngS",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Maximum number of collections",
+                "content": "<exclude target=\"paas\">You can create up to 2 serverless collections.</exclude>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1653,23 +1314,23 @@
         }
       },
       {
-        "block_id": "UMcGdAfUYoTQPHxJIbocuW8tnle",
+        "block_id": "LG2zddmizoV2vjxAbIicTdoAnCh",
         "block_type": 32,
         "children": [
-          "XZLTd35CroRp4RxQQl5cg4yznXa"
+          "THJhdEqPmok29WxZRXYc1UA8n8g"
         ],
-        "parent_id": "KwXSdqxNgoFVJjxxZ43cl3Q1nh8",
+        "parent_id": "DfdsdK26lo9VKXxuV8TcSd1Mnmh",
         "table_cell": {}
       },
       {
-        "block_id": "XZLTd35CroRp4RxQQl5cg4yznXa",
+        "block_id": "THJhdEqPmok29WxZRXYc1UA8n8g",
         "block_type": 2,
-        "parent_id": "UMcGdAfUYoTQPHxJIbocuW8tnle",
+        "parent_id": "LG2zddmizoV2vjxAbIicTdoAnCh",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "8 CUs and less",
+                "content": "Dedicated cluster",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1687,57 +1348,23 @@
         }
       },
       {
-        "block_id": "EpK7d8GRtowtolx17qRcQnWvnwc",
+        "block_id": "GZapdFajYopEXkx7rWucRXVLn1g",
         "block_type": 32,
         "children": [
-          "UZ2sdHBQKojdpwxlhd2c3kZGnfq"
+          "TrXddJg7loaM4MxchCScjwoGnsc"
         ],
-        "parent_id": "KwXSdqxNgoFVJjxxZ43cl3Q1nh8",
+        "parent_id": "DfdsdK26lo9VKXxuV8TcSd1Mnmh",
         "table_cell": {}
       },
       {
-        "block_id": "UZ2sdHBQKojdpwxlhd2c3kZGnfq",
+        "block_id": "TrXddJg7loaM4MxchCScjwoGnsc",
         "block_type": 2,
-        "parent_id": "EpK7d8GRtowtolx17qRcQnWvnwc",
+        "parent_id": "GZapdFajYopEXkx7rWucRXVLn1g",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "32",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "AFB3dFtv3oJSZfxbUOxcztvBnvc",
-        "block_type": 32,
-        "children": [
-          "EXZpd0VDUo21YdxbA9tcvajxnrd"
-        ],
-        "parent_id": "KwXSdqxNgoFVJjxxZ43cl3Q1nh8",
-        "table_cell": {}
-      },
-      {
-        "block_id": "EXZpd0VDUo21YdxbA9tcvajxnrd",
-        "block_type": 2,
-        "parent_id": "AFB3dFtv3oJSZfxbUOxcztvBnvc",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "More than 8 CUs",
+                "content": "64 per CU, and <= 4096",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1755,25 +1382,25 @@
         }
       },
       {
-        "block_id": "ZLsEd1c1OoSlGlx3qfbckBwCn3g",
+        "block_id": "P7trd27CnoPiFHxOgUucupPun5d",
         "block_type": 32,
         "children": [
-          "AWDVdNJ0QorYqRx1iu3c7gBenFc"
+          "Us4jdfMWCoSSgrxim9FcyBnfn1b"
         ],
-        "parent_id": "KwXSdqxNgoFVJjxxZ43cl3Q1nh8",
+        "parent_id": "DfdsdK26lo9VKXxuV8TcSd1Mnmh",
         "table_cell": {}
       },
       {
-        "block_id": "AWDVdNJ0QorYqRx1iu3c7gBenFc",
+        "block_id": "Us4jdfMWCoSSgrxim9FcyBnfn1b",
         "block_type": 2,
-        "parent_id": "ZLsEd1c1OoSlGlx3qfbckBwCn3g",
+        "parent_id": "P7trd27CnoPiFHxOgUucupPun5d",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "256",
+                "content": "You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1789,14 +1416,41 @@
         }
       },
       {
-        "block_id": "VkZMdPGHIom28DxzLUscS3qrneh",
+        "block_id": "I4URdzTlSoK011x0mvec4GfxnCe",
         "block_type": 2,
         "parent_id": "UbeSdMepfoUxSaxAehMcA6N3nIg",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "</include>",
+                "content": "For more information, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Zilliz Cloud Limits",
+                "token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
+                "url": "https://zilliverse.feishu.cn/wiki/PuxkwMWvbiHxvTkHsVkcMZP9n5f"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2054,6 +1708,6 @@
         "parent_id": "UbeSdMepfoUxSaxAehMcA6N3nIg"
       }
     ],
-    "counts": 66
+    "counts": 51
   }
 }
