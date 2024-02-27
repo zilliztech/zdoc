@@ -5,7 +5,7 @@
   "node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
   "node_type": "origin",
   "obj_create_time": "1704710624",
-  "obj_edit_time": "1706083303",
+  "obj_edit_time": "1709017275",
   "obj_token": "DK0cd2Ix8oQD0rxWUBYcW57snLd",
   "obj_type": "docx",
   "origin_node_token": "AYoywCl7yiAcrHkSVogcfyPLn7m",
@@ -14,7 +14,6 @@
   "parent_node_token": "YNbGwiEjAinaQfkSdNlcTehwn8I",
   "space_id": "7167193056431783939",
   "title": "Prepare Source Data",
-  "slug": "prepare-source-data",
   "blocks": {
     "items": [
       {
@@ -556,7 +555,8 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": false,
+            "indentation_level": "NoIndent"
           }
         }
       },
@@ -831,7 +831,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import CollectionSchema, FieldSchema, DataType\n\nschema = CollectionSchema(\n    fields=[\n        FieldSchema(name=\"id\", dtype=DataType.INT64, is_primary=True),\n        FieldSchema(name=\"vector\", dtype=DataType.FLOAT_VECTOR, dim=768),\n        FieldSchema(name=\"scalar_1\", dtype=DataType.VARCHAR, max_length=512),\n        FieldSchema(name=\"scalar_2\", dtype=DataType.INT64)\n    ],\n    auto_id=False,\n    enable_dynamic_field=True,\n",
+                "content": "from pymilvus import MilvusClient, DataType\n\n# You need to work out a collection schema out of your dataset.\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=True\n)\n\nschema.add_field(field_name=\"id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"vector\", datatype=DataType.FLOAT_VECTOR, dim=768)\nschema.add_field(field_name=\"scalar_1\", datatype=DataType.VARCHAR, max_length=512)\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -843,7 +843,7 @@
             },
             {
               "text_run": {
-                "content": ")",
+                "content": "schema.add_field(field_name=\"scalar_2\", datatype=DataType.INT64)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1577,6 +1577,9 @@
       {
         "block_id": "KswudYzaoolytkxaOehca67inNh",
         "block_type": 2,
+        "comment_ids": [
+          "7338741839316434947"
+        ],
         "parent_id": "RCVEdYSekoeaTxxHxPOcIlpcnTd",
         "text": {
           "elements": [
@@ -1585,6 +1588,9 @@
                 "content": "Local and remote files",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7338741839316434947"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3615,7 +3621,8 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": false,
+            "indentation_level": "NoIndent"
           }
         }
       },
@@ -6775,7 +6782,19 @@
           "elements": [
             {
               "text_run": {
-                "content": "https://storage.googleapis.com/bucket_name/object_name",
+                "content": "https://myaccount.blob.core.windows.net/bucket-name",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "/object_name",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -7065,7 +7084,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
-                  "italic": true,
+                  "italic": false,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -7077,7 +7096,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
-                  "italic": true,
+                  "italic": false,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -7108,7 +7127,7 @@
                     "7322736017713332252"
                   ],
                   "inline_code": true,
-                  "italic": true,
+                  "italic": false,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -7123,7 +7142,7 @@
                     "7322736017713332252"
                   ],
                   "inline_code": true,
-                  "italic": true,
+                  "italic": false,
                   "strikethrough": false,
                   "underline": false
                 }

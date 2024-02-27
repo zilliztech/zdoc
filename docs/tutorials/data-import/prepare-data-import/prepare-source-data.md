@@ -208,7 +208,7 @@ The bucket and the target cluster of this import should reside on the same publi
 
     |  **URI Style**              |  **URI Format**                                           |
     | --------------------------- | --------------------------------------------------------- |
-    |  **Azure storage blob URI** |  `https://storage.googleapis.com/bucket_name/object_name` |
+    |  **Azure storage blob URI** |  `https://myaccount.blob.core.windows.net/bucket-name/object_name` |
 
     For more details, see [Resource URI Syntax](https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata#resource-uri-syntax).
 
