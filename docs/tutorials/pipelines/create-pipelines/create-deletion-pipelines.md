@@ -2,6 +2,7 @@
 slug: /create-deletion-pipelines
 beta: TRUE
 notebook: FALSE
+type: origin
 token: PPAbwMvgdiGvS2kRyrLc7bJvn9e
 sidebar_position: 3
 ---

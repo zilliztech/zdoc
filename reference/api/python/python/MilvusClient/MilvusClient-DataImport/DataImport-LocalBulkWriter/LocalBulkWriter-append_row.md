@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/LocalBulkWriter-append_row
 beta: false
 notebook: false
+type: docx
 token: WCxIdVwCpoIaMUxbabWcSRCkn2g
 sidebar_position: 1
 ---

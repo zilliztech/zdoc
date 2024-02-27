@@ -2,6 +2,7 @@
 slug: /import-data-on-web-ui
 beta: FALSE
 notebook: FALSE
+type: origin
 token: KkdswLx2bi4bgCkY6bEc7Do9neh
 sidebar_position: 1
 ---

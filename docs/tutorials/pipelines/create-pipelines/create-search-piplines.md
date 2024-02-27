@@ -2,6 +2,7 @@
 slug: /create-search-piplines
 beta: TRUE
 notebook: FALSE
+type: origin
 token: TQnswMmIpiTmUSkf1iscU05Lnfb
 sidebar_position: 2
 ---

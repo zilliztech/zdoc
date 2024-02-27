@@ -1,6 +1,6 @@
 {
   "created_time": "1706699320",
-  "modified_time": "1708480286",
+  "modified_time": "1709000046",
   "name": "list_users()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "W9SBfQfXUlZAXDdK6nTcop4rnFd",
@@ -634,7 +634,7 @@
             },
             {
               "text_run": {
-                "content": "# ['admin', 'ro",
+                "content": "# ['ro",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -739,9 +739,12 @@
             },
             {
               "text_run": {
-                "content": "# ['admin', 'root', 'user_1']",
+                "content": "# ['db_admin', 'user_1']",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340088435392315395"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -755,6 +758,9 @@
             "wrap": false
           }
         },
+        "comment_ids": [
+          "7340088435392315395"
+        ],
         "parent_id": "EZ2YdBHoDoRTlxx91tscffm1nSb"
       },
       {

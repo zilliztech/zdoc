@@ -2,6 +2,7 @@
 slug: /schedule-automatic-backups
 beta: FALSE
 notebook: FALSE
+type: origin
 token: HDmKwGeGLi2P67kGdNXcigXDn3e
 sidebar_position: 2
 ---

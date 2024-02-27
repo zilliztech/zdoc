@@ -2,6 +2,7 @@
 slug: /byoc-components
 beta: FALSE
 notebook: FALSE
+type: origin
 token: RK4EwHdo7iu3RAk2pmOcnpRSnob
 sidebar_position: 8
 ---

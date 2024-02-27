@@ -2,6 +2,7 @@
 slug: /setup-whitelist
 beta: FALSE
 notebook: FALSE
+type: origin
 token: FnS1wY0iuia4qgkMycVclZyHnOf
 sidebar_position: 1
 ---

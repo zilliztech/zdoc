@@ -2,6 +2,7 @@
 slug: /setup-maintenance-window
 beta: FALSE
 notebook: FALSE
+type: origin
 token: FUtxwSaoSiDKFikcDw8cKngKn1f
 sidebar_position: 4
 ---

@@ -2,6 +2,7 @@
 slug: /release-notes
 beta: FALSE
 notebook: FALSE
+type: origin
 token: NOYvw884PigqIhk1gwLcw1OYnfe
 sidebar_position: 20
 ---

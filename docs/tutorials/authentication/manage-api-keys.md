@@ -2,6 +2,7 @@
 slug: /manage-api-keys
 beta: FALSE
 notebook: FALSE
+type: origin
 token: BRsZwqOUTiBbrPk9b5WcvFgTnze
 sidebar_position: 2
 ---

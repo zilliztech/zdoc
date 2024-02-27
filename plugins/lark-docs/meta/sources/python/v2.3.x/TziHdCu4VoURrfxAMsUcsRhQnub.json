@@ -1,6 +1,6 @@
 {
   "created_time": "1704790733",
-  "modified_time": "1708757306",
+  "modified_time": "1709003776",
   "name": "create_collection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -1591,7 +1591,8 @@
         },
         "children": [
           "SYwjd33CwogcyXxwTyHcku5in3d",
-          "RA73dDt4VoI3UPxdRdWcniLtnD7"
+          "RA73dDt4VoI3UPxdRdWcniLtnD7",
+          "KL4Odp1XRoEvMGx80hGcbHTKnAb"
         ],
         "parent_id": "TziHdCu4VoURrfxAMsUcsRhQnub"
       },
@@ -1623,6 +1624,9 @@
       {
         "block_id": "RA73dDt4VoI3UPxdRdWcniLtnD7",
         "block_type": 2,
+        "comment_ids": [
+          "7340110734938816515"
+        ],
         "parent_id": "W7ljd1Pt6oPNSZxxnzVcimpOnlh",
         "text": {
           "elements": [
@@ -1631,6 +1635,9 @@
                 "content": "Setting this to ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340110734938816515"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1643,6 +1650,9 @@
                 "content": "None",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7340110734938816515"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1652,9 +1662,43 @@
             },
             {
               "text_run": {
-                "content": " indicates this collection will be created with default settings. To set up a collection with a customized schema, you need to create a ",
+                "content": " indicates this collection will be created with default settings. ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340110734938816515"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KL4Odp1XRoEvMGx80hGcbHTKnAb",
+        "block_type": 2,
+        "comment_ids": [
+          "7340110734938816515"
+        ],
+        "parent_id": "W7ljd1Pt6oPNSZxxnzVcimpOnlh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To set up a collection with a customized schema, you need to create a ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340110734938816515"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1667,6 +1711,9 @@
                 "content": "CollectionSchema",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7340110734938816515"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1676,9 +1723,12 @@
             },
             {
               "text_run": {
-                "content": " object and reference it here.",
+                "content": " object and reference it here. In this case, <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> ignores all other schema-related settings carried in the request.",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340110734938816515"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3730,7 +3780,8 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": false,
+            "indentation_level": "NoIndent"
           }
         }
       },
@@ -4075,7 +4126,8 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": false,
+            "indentation_level": "NoIndent"
           }
         }
       },
@@ -4359,7 +4411,8 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": false,
+            "indentation_level": "NoIndent"
           }
         }
       },
@@ -4450,7 +4503,8 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": false,
+            "indentation_level": "NoIndent"
           }
         }
       },
@@ -4782,7 +4836,7 @@
         "parent_id": "TziHdCu4VoURrfxAMsUcsRhQnub"
       }
     ],
-    "counts": 109
+    "counts": 110
   },
   "slug": "Collections-create_collection"
 }

@@ -2,6 +2,7 @@
 slug: /insert-update-delete
 beta: FALSE
 notebook: FALSE
+type: origin
 token: Zn0MwWVCVibCPHkD063cNfOkn8d
 sidebar_position: 4
 ---

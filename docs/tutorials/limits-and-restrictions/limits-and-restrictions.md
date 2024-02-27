@@ -2,6 +2,7 @@
 slug: /limits-and-restrictions
 beta: FALSE
 notebook: FALSE
+type: origin
 token: Tve5wxmTHio0LPk50jgcKHe1nWg
 sidebar_position: 18
 ---

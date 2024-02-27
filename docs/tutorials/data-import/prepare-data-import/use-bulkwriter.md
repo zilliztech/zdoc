@@ -2,6 +2,7 @@
 slug: /use-bulkwriter
 beta: FALSE
 notebook: 06_use_remote-bulk-writer.ipynb
+type: origin
 token: QyjpwAaKuihAeJkNBUJcdFesn9e
 sidebar_position: 2
 ---

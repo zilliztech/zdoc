@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Authentication-update_password
 beta: false
 notebook: false
+type: docx
 token: WGDod7Qehou4GWx4Co2cJ34VnKb
 sidebar_position: 13
 ---

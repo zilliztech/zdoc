@@ -2,6 +2,7 @@
 slug: /cluster
 beta: FALSE
 notebook: FALSE
+type: origin
 token: BIy4we6qXiq8NpkHfXgcxuONngb
 sidebar_position: 3
 ---

@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Management-list_indexes
 beta: false
 notebook: false
+type: docx
 token: ZqmudJWyFonUKGxAxXncYrLZn2e
 sidebar_position: 6
 ---

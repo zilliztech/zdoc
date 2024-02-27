@@ -932,12 +932,42 @@
       {
         "block_id": "ZWicd2o8Ro6Ojhx3dKPcNCRQnWc",
         "block_type": 2,
+        "comment_ids": [
+          "7340112807260274692"
+        ],
         "parent_id": "M2DzddsALovwwXxtRercrCXBnUI",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Once a field is designated as the partition key, <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> automatically creates a partition for each unique value in this field and saves entities in these partitions accordingly.",
+                "content": "Once a field is designated as the partition key, <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> automatically ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "creates a partition for each unique value in this field ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340112807260274692"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "and saves entities in these partitions accordingly.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

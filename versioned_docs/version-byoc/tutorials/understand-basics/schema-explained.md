@@ -2,6 +2,7 @@
 slug: /schema-explained
 beta: FALSE
 notebook: FALSE
+type: origin
 token: TqMFwNyDbiY9qekBfPNcbpuvnib
 sidebar_position: 3
 ---
@@ -152,13 +153,11 @@ For your reference, Zilliz Cloud supports the following field data types:
 
 - Variable character (VARCHAR)
 
-- [JSON](./use-json-fields)
+- [JSON](./enable-dynamic-field)
 
 ## What’s next{#whats-next}
 
 - [Manage Collections](./manage-collections)
 
 - [Enable Dynamic Field](./enable-dynamic-field)
-
-- [Use JSON Fields](./use-json-fields)
 

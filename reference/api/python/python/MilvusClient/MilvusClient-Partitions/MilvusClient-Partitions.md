@@ -2,6 +2,7 @@
 slug: /python/MilvusClient-Partitions
 beta: false
 notebook: false
+type: folder
 token: YpEjf83y1lvvzxd31BqcvQmknEd
 sidebar_position: 6
 displayed_sidebar: pythonSidebar

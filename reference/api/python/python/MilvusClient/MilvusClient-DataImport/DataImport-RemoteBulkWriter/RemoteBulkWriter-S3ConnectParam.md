@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/RemoteBulkWriter-S3ConnectParam
 beta: false
 notebook: false
+type: docx
 token: CSpOd0XgWoVAhzx5xbVcpCVfnPg
 sidebar_position: 5
 ---

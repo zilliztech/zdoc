@@ -2,6 +2,7 @@
 slug: /release-notes-250
 beta: FALSE
 notebook: FALSE
+type: origin
 token: VbjiwU5RYi4bWdkC48Jceltnnpd
 sidebar_position: 1
 ---
@@ -33,7 +34,7 @@ For more details of Zilliz Cloud BYOC, see _Ensuring Vector Data Security with Z
 
 ## Data Import{#data-import}
 
-We are excited to announce support for the Parquet data format in our latest release. To enhance user experience, we've introduced the PyMilvus writer utility, a powerful tool designed to assist our users in effortlessly creating files in JSON or Parquet formats for seamless data import. Dive into the details and explore the new possibilities _here_[](./data-import)_.
+We are excited to announce support for the Parquet data format in our latest release. To enhance user experience, we've introduced the PyMilvus writer utility, a powerful tool designed to assist our users in effortlessly creating files in JSON or Parquet formats for seamless data import. Dive into the details and explore the new possibilities _[here](./data-import)_.
 
 ## API Key{#api-key}
 

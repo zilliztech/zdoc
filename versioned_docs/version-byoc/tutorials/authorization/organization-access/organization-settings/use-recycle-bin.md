@@ -2,6 +2,7 @@
 slug: /use-recycle-bin
 beta: FALSE
 notebook: FALSE
+type: origin
 token: Tr5lwpgrCiETZzkaFSYcBTDjnlz
 sidebar_position: 6
 ---

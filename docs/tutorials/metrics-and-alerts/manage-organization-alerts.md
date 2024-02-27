@@ -2,6 +2,7 @@
 slug: /manage-organization-alerts
 beta: FALSE
 notebook: FALSE
+type: origin
 token: UPg7wiU71ioeELk8I8KcLDYqncb
 sidebar_position: 3
 ---

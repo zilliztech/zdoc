@@ -2,6 +2,7 @@
 slug: /use-partition-key
 beta: FALSE
 notebook: FALSE
+type: origin
 token: SbP2wIzHIiRFxwkmojHc02zknsk
 sidebar_position: 7
 ---

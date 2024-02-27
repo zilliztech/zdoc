@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Client-MilvusClient
 beta: false
 notebook: false
+type: docx
 token: TUrSdmskuoGdFRxFT75c6xhinzc
 sidebar_position: 2
 ---

@@ -2,6 +2,7 @@
 slug: /organization-access
 beta: FALSE
 notebook: FALSE
+type: origin
 token: SkFxwYKdfirHv3k0g6zcXLPtnWD
 sidebar_position: 3
 ---

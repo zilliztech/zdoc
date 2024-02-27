@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Role-get_users
 beta: false
 notebook: false
+type: docx
 token: CCOhd671iog6rRxu8aOcaPncnLK
 sidebar_position: 4
 ---

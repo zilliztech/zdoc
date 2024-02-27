@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/LocalBulkWriter-commit
 beta: false
 notebook: false
+type: docx
 token: EtBDdoGaFo3bOExKxCHcKgpenib
 sidebar_position: 2
 ---

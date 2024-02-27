@@ -2,6 +2,7 @@
 slug: /api-comparison
 beta: FALSE
 notebook: FALSE
+type: origin
 token: DAk8w3GCJiuUTTkms6IcMtnAnMf
 sidebar_position: 2
 ---

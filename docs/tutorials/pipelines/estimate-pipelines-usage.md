@@ -2,6 +2,7 @@
 slug: /estimate-pipelines-usage
 beta: TRUE
 notebook: FALSE
+type: origin
 token: WbQZwNrsIiqw1bkkP7zctG6knXf
 sidebar_position: 5
 ---

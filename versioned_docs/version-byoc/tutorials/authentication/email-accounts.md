@@ -2,6 +2,7 @@
 slug: /email-accounts
 beta: FALSE
 notebook: FALSE
+type: origin
 token: GMdhwQQCRi2QaLkimNOcc3qNnbh
 sidebar_position: 1
 ---

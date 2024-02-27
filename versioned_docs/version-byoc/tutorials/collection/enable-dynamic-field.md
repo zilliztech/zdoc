@@ -2,6 +2,7 @@
 slug: /enable-dynamic-field
 beta: FALSE
 notebook: FALSE
+type: origin
 token: DzxkwMyxzifAFxkXZiqcErjtnke
 sidebar_position: 6
 ---

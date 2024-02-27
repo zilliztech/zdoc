@@ -2,6 +2,7 @@
 slug: /import-data-via-sdks
 beta: FALSE
 notebook: 05_use_local-bulk-writer.ipynb,06_use_remote-bulk-writer.ipynb,07_use_bulk_import.ipynb
+type: origin
 token: MvgAwL4HIiuRRJkH0FwcJhxSnld
 sidebar_position: 3
 ---

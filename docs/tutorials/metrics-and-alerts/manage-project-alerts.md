@@ -2,6 +2,7 @@
 slug: /manage-project-alerts
 beta: FALSE
 notebook: FALSE
+type: origin
 token: NvDLw4kFji0xeWkc4Hpc9wUfnRh
 sidebar_position: 4
 ---

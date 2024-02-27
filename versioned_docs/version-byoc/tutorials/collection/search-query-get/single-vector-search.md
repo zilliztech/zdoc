@@ -2,6 +2,7 @@
 slug: /single-vector-search
 beta: FALSE
 notebook: FALSE
+type: origin
 token: Ri1IwbgN6ilzMrkoIjycmpkZn9d
 sidebar_position: 1
 ---
@@ -23,7 +24,49 @@ There are a variety of search types to meet different requirements:
 
 - [Range search](./single-vector-search#range-search): Finds vectors within a specific distance range from the query vector.
 
-, designed to find the most similar vectors to a given query vector.
+## Preparations{#preparations}
+
+The code snippet below repurposes the existing code to establish a connection to a Zilliz Cloud cluster and quickly set up a collection.
+
+```python
+from pymilvus import MilvusClient
+
+CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
+TOKEN = "YOUR_CLUSTER_TOKEN"
+
+# 1. Set up a Milvus client
+client = MilvusClient(
+    uri=CLUSTER_ENDPOINT,
+    token=TOKEN 
+)
+
+# 2. Insert randomly generated vectors 
+colors = ["green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"]
+data = [ {"id": i, "vector": [ random.uniform(-1, 1) for _ in range(5) ], "color": f"{random.choice(colors)}_{str(random.randint(1000, 9999))}" } for i in range(1000) ]
+
+res = client.insert(
+    collection_name="quick_setup",
+    data=data
+)
+
+print(res)
+
+# Output
+#
+# {
+#     "insert_count": 1000
+# }
+```
+
+## Basic search{#basic-search}
+
+When sending a `search` request, you can provide one or more vector values representing your query embeddings and a `limit` value indicating the number of results to return.
+
+Depending on your data and your query vector, you may get fewer than `limit` results. This happens when `limit` is larger than the number of possible matching vectors for your query.
+
+### Single-vector search{#single-vector-search}
+
+Single-vector search is the simplest form of `search` operations in Zilliz Cloud, designed to find the most similar vectors to a given query vector.
 
 To perform a single-vector search, specify the target collection name, the query vector, and the desired number of results (`limit`). This operation returns a result set comprising the most similar vectors, their IDs, and distances from the query vector.
 

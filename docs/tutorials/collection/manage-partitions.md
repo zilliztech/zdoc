@@ -2,6 +2,7 @@
 slug: /manage-partitions
 beta: FALSE
 notebook: FALSE
+type: origin
 token: LcEdwc5sWiMMzdke2UWcQ105nqd
 sidebar_position: 3
 ---

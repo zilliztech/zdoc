@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Partitions-load_partitions
 beta: false
 notebook: false
+type: docx
 token: DdQ1dBNagoBa08xhEiucxZrHnzc
 sidebar_position: 6
 ---

@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Authentication-describe_role
 beta: false
 notebook: false
+type: docx
 token: JJz3dFrE2oJP3AxySWYcJlf4nMh
 sidebar_position: 3
 ---
@@ -66,11 +67,52 @@ client = MilvusClient(
     token="user:password"
 )
 
-# 2. Create a role
-client.create_role(role_name="read_only")
+# 2. Describe the role
+client.describe_role(role_name="db_ro")
 
-# 3. Describe the role
-client.describe_role(role_name="read_only")
+# [
+#     {
+#         "object_type": "Collection",
+#         "object_name": "*",
+#         "db_name": "default",
+#         "role_name": "db_ro",
+#         "privilege": "GetLoadState",
+#         "grantor_name": "zcloud_root"
+#     },
+#     {
+#         "object_type": "Collection",
+#         "object_name": "*",
+#         "db_name": "default",
+#         "role_name": "db_ro",
+#         "privilege": "GetLoadingProgress",
+#         "grantor_name": "zcloud_root"
+#     },
+#     {
+#         "object_type": "Collection",
+#         "object_name": "*",
+#         "db_name": "default",
+#         "role_name": "db_ro",
+#         "privilege": "IndexDetail",
+#         "grantor_name": "zcloud_root"
+#     },
+#     ...
+#     {
+#         "object_type": "Global",
+#         "object_name": "*",
+#         "db_name": "default",
+#         "role_name": "db_ro",
+#         "privilege": "ListDatabases",
+#         "grantor_name": "zcloud_root"
+#     },
+#     {
+#         "object_type": "Global",
+#         "object_name": "*",
+#         "db_name": "default",
+#         "role_name": "db_ro",
+#         "privilege": "ShowCollections",
+#         "grantor_name": "zcloud_root"
+#     }
+# ]
 ```
 
 ## Related methods{#related-methods}

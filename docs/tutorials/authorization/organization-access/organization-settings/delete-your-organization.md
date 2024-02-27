@@ -2,6 +2,7 @@
 slug: /delete-your-organization
 beta: FALSE
 notebook: FALSE
+type: origin
 token: OCc5wCndbipOkzk8tkUc9IuJnle
 sidebar_position: 5
 ---

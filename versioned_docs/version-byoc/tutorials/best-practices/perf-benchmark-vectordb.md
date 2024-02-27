@@ -3,6 +3,7 @@ slug: /perf-benchmark-vectordb
 sidebar_label: Use VectorDBBench
 beta: FALSE
 notebook: FALSE
+type: origin
 token: Za3QwAcfjiSSvxk8UzUcTPmfnmb
 sidebar_position: 1
 ---

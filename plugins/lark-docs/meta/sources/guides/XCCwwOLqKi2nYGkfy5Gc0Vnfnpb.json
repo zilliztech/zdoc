@@ -5,7 +5,7 @@
   "node_token": "XCCwwOLqKi2nYGkfy5Gc0Vnfnpb",
   "node_type": "origin",
   "obj_create_time": "1708764325",
-  "obj_edit_time": "1708764325",
+  "obj_edit_time": "1708916508",
   "obj_token": "JWt0dxAUhoijWaxtaslcrorSnZg",
   "obj_type": "docx",
   "origin_node_token": "XCCwwOLqKi2nYGkfy5Gc0Vnfnpb",
@@ -74,7 +74,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "In Milvus, scalar fields, which refer to single numbers or strings, can be efficiently indexed for improved query performance.",
+                "content": "<include target=\"milvus\">In Milvus</include><include target=\"zilliz\">On Zilliz Cloud</include>, scalar fields, which refer to single numbers or strings, can be efficiently indexed for improved query performance.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

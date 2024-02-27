@@ -2,6 +2,7 @@
 slug: /pricing-calculator
 beta: FALSE
 notebook: FALSE
+type: origin
 token: N985w1llIi7z1SkhTH5cAoKcnKb
 sidebar_position: 5
 ---

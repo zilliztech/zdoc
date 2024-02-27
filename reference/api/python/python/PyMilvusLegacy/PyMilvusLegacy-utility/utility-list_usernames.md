@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/utility-list_usernames
 beta: false
 notebook: false
+type: docx
 token: RXi3dgtNYogU0cxmTsgcdT72nsc
 sidebar_position: 29
 ---

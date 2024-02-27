@@ -2,6 +2,7 @@
 slug: /create-snapshot
 beta: FALSE
 notebook: FALSE
+type: origin
 token: HHXewT7wTiM1zqkySjHcMNX5n9b
 sidebar_position: 1
 ---

@@ -2,6 +2,7 @@
 slug: /run-search-pipelines
 beta: TRUE
 notebook: FALSE
+type: origin
 token: JQDDwqHi3i47jAkybnCcgNt6nSe
 sidebar_position: 2
 ---
@@ -54,7 +55,7 @@ The parameters in the above code are described as follows:
 
 - `cloud-region`: The ID of the cloud region where your cluster exists. Currently, only `gcp-us-west1` is supported.
 
-- Query input field: The name should be consistent with what you defined when [adding the ](./create-search-piplines#via-restful-api)__SEARCH_DOC_CHUNK__[](./create-search-piplines#via-restful-api)__[ function](./create-search-piplines#via-restful-api). Input the text string you want to query in the value of this field.
+- Query input field: The name should be consistent with what you defined when [adding the ](./create-search-piplines#via-restful-api)__[SEARCH_DOC_CHUNK](./create-search-piplines#via-restful-api)__[ function](./create-search-piplines#via-restful-api). Input the text string you want to query in the value of this field.
 
 - `params`: The search parameters to configure.
 

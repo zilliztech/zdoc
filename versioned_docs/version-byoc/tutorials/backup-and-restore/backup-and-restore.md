@@ -2,6 +2,7 @@
 slug: /backup-and-restore
 beta: FALSE
 notebook: FALSE
+type: origin
 token: VvikwOKc9iZ5vBkgMnycrXKmnId
 sidebar_position: 10
 ---

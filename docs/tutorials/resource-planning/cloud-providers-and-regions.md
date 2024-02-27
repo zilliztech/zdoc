@@ -2,6 +2,7 @@
 slug: /cloud-providers-and-regions
 beta: FALSE
 notebook: FALSE
+type: origin
 token: CPLrwghdWiSvGBkdeEecGjgLnSb
 sidebar_position: 7
 ---

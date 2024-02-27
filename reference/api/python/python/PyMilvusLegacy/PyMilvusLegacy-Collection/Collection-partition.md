@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Collection-partition
 beta: false
 notebook: false
+type: docx
 token: SvCrdEJIdosGQYxQZhrc2OAXnpd
 sidebar_position: 20
 ---

@@ -2,6 +2,7 @@
 slug: /migrate-between-clusters
 beta: FALSE
 notebook: FALSE
+type: origin
 token: MTqjwwUKhiyns4kGV7Lc7PRlnwb
 sidebar_position: 3
 ---

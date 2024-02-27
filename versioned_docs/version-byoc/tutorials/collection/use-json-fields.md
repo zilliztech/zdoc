@@ -2,6 +2,7 @@
 slug: /use-json-fields
 beta: FALSE
 notebook: FALSE
+type: origin
 token: LTa6we6DziWCb9kmpm5cIRL0nld
 sidebar_position: 8
 ---

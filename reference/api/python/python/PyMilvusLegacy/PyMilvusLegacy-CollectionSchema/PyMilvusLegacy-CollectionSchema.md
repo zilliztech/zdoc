@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/PyMilvusLegacy-CollectionSchema
 beta: false
 notebook: false
+type: folder
 token: SeaffVvutlNtvTdpV17cy78un5T
 sidebar_position: 2
 ---

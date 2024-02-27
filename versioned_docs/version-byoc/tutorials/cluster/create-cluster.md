@@ -2,6 +2,7 @@
 slug: /create-cluster
 beta: FALSE
 notebook: FALSE
+type: origin
 token: KrbjwFhy3iojF3k97XmcvvXMnW7
 sidebar_position: 1
 ---

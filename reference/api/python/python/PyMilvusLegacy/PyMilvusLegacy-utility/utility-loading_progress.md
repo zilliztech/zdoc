@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/utility-loading_progress
 beta: false
 notebook: false
+type: docx
 token: HQiHd82orov0XvxAzLWcl5xRnzc
 sidebar_position: 31
 ---

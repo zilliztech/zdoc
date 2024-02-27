@@ -2,6 +2,7 @@
 slug: /get-started
 beta: FALSE
 notebook: FALSE
+type: origin
 token: BDOHwqlMDiei78kdUefcjSQUnEg
 sidebar_position: 1
 keywords: 

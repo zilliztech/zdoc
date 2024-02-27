@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Connections-connect
 beta: false
 notebook: false
+type: docx
 token: KzCXdTVVSoOmkbxuFjsccDlXnff
 sidebar_position: 2
 ---

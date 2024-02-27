@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Vector-delete
 beta: false
 notebook: false
+type: docx
 token: DWLXdSCYnoPT4ExktRKceEqLnAd
 sidebar_position: 1
 ---

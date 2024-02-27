@@ -2,6 +2,7 @@
 slug: /payment-billing
 beta: FALSE
 notebook: FALSE
+type: origin
 token: FmkCwm1QHitB7uk9U9ncLnHrnse
 sidebar_position: 15
 ---

@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Role-add_user
 beta: false
 notebook: false
+type: docx
 token: W7GJdpYrYoYhSaxW6uzcVAZinYf
 sidebar_position: 1
 ---

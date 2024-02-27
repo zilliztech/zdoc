@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/BulkImport-get_import_progress
 beta: false
 notebook: false
+type: docx
 token: MkWNdU1tvoqlBRxI05Rcu09cnEc
 sidebar_position: 2
 ---

@@ -2,6 +2,7 @@
 slug: /migrate-from-elasticsearch
 beta: FALSE
 notebook: FALSE
+type: origin
 token: Y8nwwbi0KiwtVZkMaSQcsPcwnkf
 sidebar_position: 2
 ---

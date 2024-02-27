@@ -2,6 +2,7 @@
 slug: /manage-collections-console
 beta: FALSE
 notebook: FALSE
+type: origin
 token: CmR5wFcybi3iMokOJBxcXDQcntg
 sidebar_position: 1
 ---
@@ -17,11 +18,11 @@ This guide provides step-by-step instructions for creating and managing collecti
 
 Zilliz Cloud offers three methods to create a collection, each catering to different needs:
 
-- __Use Your Own Data__[](./manage-collections-console#method-1-use-your-own-data)__: Ideal for users who desire full control. You'll have the autonomy to define the schema and the index parameters according to your dataset and specific needs.
+- __[Use Your Own Data](./manage-collections-console#method-1-use-your-own-data)__: Ideal for users who desire full control. You'll have the autonomy to define the schema and the index parameters according to your dataset and specific needs.
 
-- __Use Example Data__[](./manage-collections-console#method-2-use-example-data)__: Ideal for users who are new to Zilliz Cloud seeking a quick setup. Zilliz Cloud offers a sample collection with a schema matching the [example dataset](./example-dataset). This method is hassle-free, but it does not allow configuration modifications.
+- __[Use Example Data](./manage-collections-console#method-2-use-example-data)__: Ideal for users who are new to Zilliz Cloud seeking a quick setup. Zilliz Cloud offers a sample collection with a schema matching the [example dataset](./example-dataset). This method is hassle-free, but it does not allow configuration modifications.
 
-- __Copy Existing Collection__[](./manage-collections-console#method-3-copy-existing-collection)__: Suitable for duplicating existing collections, saving time and effort in setup.
+- __[Copy Existing Collection](./manage-collections-console#method-3-copy-existing-collection)__: Suitable for duplicating existing collections, saving time and effort in setup.
 
 ### Method 1: Use your own data{#method-1-use-your-own-data}
 

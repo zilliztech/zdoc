@@ -5,7 +5,26 @@ import TOC from '@theme/TOC';
 
 function EditThisPage() {
 
-  const {metadata} = useDoc();
+  const {frontMatter, metadata} = useDoc();
+  const source = metadata.source.replace('\@site\/', '')
+
+  var editUrl = `https://github.com/zilliztech/zdoc/blob/master/` + source
+
+  if (Object.keys(frontMatter).includes('type') && Object.keys(frontMatter).includes('token')) {
+    switch (frontMatter.type) {
+      case 'docx':
+        editUrl = 'https://zilliverse.feishu.cn/docx/' + frontMatter.token
+        break;
+      case 'folder':
+        editUrl = 'https://zilliverse.feishu.cn/drive/folder/' + frontMatter.token
+        break;
+      case 'origin':
+        editUrl = 'https://zilliverse.feishu.cn/wiki/' + frontMatter.token
+        break;
+      default:
+        editUrl = `https://github.com/zilliztech/zdoc/blob/master/` + source
+    }
+  }
 
   return ( 
     <div id="edit-this-page" style={{marginTop: '3rem', marginBottom: '3rem', fontSize: '0.8rem'}}>
@@ -14,7 +33,7 @@ function EditThisPage() {
           <span className="material-symbols-outlined">edit</span>
         </i>
         <span style={{ display: 'inline-block', minHeight: '2rem', verticalAlign: 'top', fontWeight: 'bold' }}>
-          <a href="#">EDIT THIS PAGE</a>
+          <a href={editUrl} target="_blank" rel="noopener noreferrer">EDIT THIS PAGE</a>
         </span>
       </div> 
       <div style={{ marginBottom: '0.25rem' }}>
@@ -22,7 +41,7 @@ function EditThisPage() {
           <span className="material-symbols-outlined">bug_report</span>
         </i>
         <span style={{ display: 'inline-block', minHeight: '2rem', verticalAlign: 'top', fontWeight: 'bold' }}>
-          <a href="#">REPORT A BUG</a>
+          <a href="https://zilliz.atlassian.net/jira/software/projects/CD/boards/59" target="_blank" rel="noopener noreferrer">REPORT A BUG</a>
         </span>
       </div>   
       <div style={{ marginBottom: '0.25rem' }}>
@@ -30,7 +49,7 @@ function EditThisPage() {
           <span className="material-symbols-outlined">lightbulb</span>
         </i>
         <span style={{ display: 'inline-block', minHeight: '2rem', verticalAlign: 'top', fontWeight: 'bold' }}>
-          <a href="#">REQUEST A CHANGE</a>
+          <a href="https://zilliz.atlassian.net/jira/software/projects/CD/boards/59" target="_blank" rel="noopener noreferrer">REQUEST A CHANGE</a>
         </span>
       </div>   
     </div>

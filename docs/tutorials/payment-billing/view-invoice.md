@@ -3,6 +3,7 @@ slug: /view-invoice
 sidebar_label: Invoice
 beta: FALSE
 notebook: FALSE
+type: origin
 token: PBEbwjRu9iyyaFkZnuzcINHCnke
 sidebar_position: 5
 ---

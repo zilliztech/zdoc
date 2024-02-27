@@ -2,6 +2,7 @@
 slug: /manage-indexes
 beta: FALSE
 notebook: FALSE
+type: origin
 token: NDLBwtFIuihc5wkq37KchzqLnrc
 sidebar_position: 2
 ---

@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Management-load_collection
 beta: false
 notebook: false
+type: docx
 token: FLmWdFP9Zo3JcixOEgucU8JMnLc
 sidebar_position: 7
 ---

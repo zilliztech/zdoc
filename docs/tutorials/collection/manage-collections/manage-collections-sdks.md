@@ -2,6 +2,7 @@
 slug: /manage-collections-sdks
 beta: FALSE
 notebook: FALSE
+type: origin
 token: USQ2w6yj0i3WN1k3eEYciscinkc
 sidebar_position: 2
 ---
@@ -419,4 +420,3 @@ For a serverless cluster, you can create up to two collections. For a dedicated 
 |  Dedicated cluster (8 CUs and less)  |  __32__                        |
 |  Dedicated cluster (More than 8 CUs) |  __256__                       |
 
-To implement multi-tenancy, you are advised to 

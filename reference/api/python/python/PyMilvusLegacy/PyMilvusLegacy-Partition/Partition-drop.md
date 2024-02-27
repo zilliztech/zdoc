@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Partition-drop
 beta: false
 notebook: false
+type: docx
 token: D3sndK8DgoqDkUxaNGcctwcSnuE
 sidebar_position: 2
 ---

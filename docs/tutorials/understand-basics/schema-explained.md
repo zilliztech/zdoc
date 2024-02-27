@@ -2,6 +2,7 @@
 slug: /schema-explained
 beta: FALSE
 notebook: FALSE
+type: origin
 token: TqMFwNyDbiY9qekBfPNcbpuvnib
 sidebar_position: 3
 ---

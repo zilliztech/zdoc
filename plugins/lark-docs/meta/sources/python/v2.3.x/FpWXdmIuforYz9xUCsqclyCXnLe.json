@@ -1,6 +1,6 @@
 {
   "created_time": "1706694502",
-  "modified_time": "1708481173",
+  "modified_time": "1709000183",
   "name": "drop_alias()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -632,14 +632,32 @@
       {
         "block_id": "JIhLdbw23oazmnx4gL2ci2ean4d",
         "block_type": 2,
+        "comment_ids": [
+          "7340083833215664132"
+        ],
         "parent_id": "S4VwdM1NBo2HEsxrF7Lcm3w4nAh",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "This exception will be raised when any error occurs during this operation, especially when you set ",
+                "content": "This exception will be raised when any error occurs during this operation, ",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "especially when you set ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340083833215664132"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -652,6 +670,9 @@
                 "content": "alias",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340083833215664132"
+                  ],
                   "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
@@ -661,9 +682,12 @@
             },
             {
               "text_run": {
-                "content": " to an existing alias.",
+                "content": " to a non-existing alias.",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340083833215664132"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,

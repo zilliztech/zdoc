@@ -2,6 +2,7 @@
 slug: /index-vector-fields
 beta: FALSE
 notebook: FALSE
+type: origin
 token: Qc0SwFomWiEXvMkDAH9cMAhlnIh
 sidebar_position: 1
 ---

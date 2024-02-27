@@ -2,6 +2,7 @@
 slug: /user-roles
 beta: FALSE
 notebook: FALSE
+type: origin
 token: AFNZwDcXNiChK0ke5h5c65xZnje
 sidebar_position: 1
 ---

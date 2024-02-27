@@ -2,6 +2,7 @@
 slug: /faq-monitors-and-metrics
 beta: null
 notebook: null
+type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 9
 ---

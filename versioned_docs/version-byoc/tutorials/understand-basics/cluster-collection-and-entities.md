@@ -2,6 +2,7 @@
 slug: /cluster-collection-and-entities
 beta: FALSE
 notebook: FALSE
+type: origin
 token: KfI3wa2ZCiEJyzkkvKSc5FennId
 sidebar_position: 2
 ---

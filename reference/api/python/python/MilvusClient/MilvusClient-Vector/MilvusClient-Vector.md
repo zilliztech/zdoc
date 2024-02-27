@@ -2,6 +2,7 @@
 slug: /python/MilvusClient-Vector
 beta: false
 notebook: false
+type: folder
 token: ZA7LfYxQHltI94dGs2Fc62AvnSh
 sidebar_position: 7
 displayed_sidebar: pythonSidebar

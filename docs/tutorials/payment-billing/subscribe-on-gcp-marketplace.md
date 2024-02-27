@@ -3,6 +3,7 @@ slug: /subscribe-on-gcp-marketplace
 sidebar_label: GCP Marketplace
 beta: FALSE
 notebook: FALSE
+type: origin
 token: MIqTw7iJ4iQAtVkYKiEc98a7nsh
 sidebar_position: 3
 ---
@@ -52,7 +53,7 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>If you are unable to complete the signup process, you can retry by navigating to <strong>Your Orders</strong><a href="https://console.cloud.google.com/marketplace/orders"></a>__ page in the GCP Marketplace.</p>
+    <p>If you are unable to complete the signup process, you can retry by navigating to <strong><a href="https://console.cloud.google.com/marketplace/orders">Your Orders</a></strong> page in the GCP Marketplace.</p>
 
     </Admonition>
 

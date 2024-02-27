@@ -2,6 +2,7 @@
 slug: /manage-timezone
 beta: FALSE
 notebook: FALSE
+type: origin
 token: MLIRwRbrtiawJgkMEdOcPQnRnVf
 sidebar_position: 3
 ---

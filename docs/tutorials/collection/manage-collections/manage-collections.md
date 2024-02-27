@@ -2,6 +2,7 @@
 slug: /manage-collections
 beta: FALSE
 notebook: FALSE
+type: origin
 token: XzguwvYt9ipFpkkNdNzcgMnOnJe
 sidebar_position: 1
 ---

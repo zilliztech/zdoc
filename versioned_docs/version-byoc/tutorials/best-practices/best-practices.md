@@ -2,6 +2,7 @@
 slug: /best-practices
 beta: FALSE
 notebook: FALSE
+type: origin
 token: HWzCwbjfci51HHk4BvTcfbiHn1d
 sidebar_position: 17
 ---

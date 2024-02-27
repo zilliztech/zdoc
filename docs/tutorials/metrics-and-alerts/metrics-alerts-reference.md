@@ -2,6 +2,7 @@
 slug: /metrics-alerts-reference
 beta: FALSE
 notebook: FALSE
+type: origin
 token: KnnBwce9JifxvXkd070cvgUPnag
 sidebar_position: 1
 ---

@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Collection-insert
 beta: false
 notebook: false
+type: docx
 token: CbCodEGY9o6pKuxowNdctUppn7d
 sidebar_position: 18
 ---

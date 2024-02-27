@@ -2,6 +2,7 @@
 slug: /multi-factor-auth
 beta: FALSE
 notebook: FALSE
+type: origin
 token: KHAMwm0HUiU6qdkH2LOcu0FFnug
 sidebar_position: 4
 ---

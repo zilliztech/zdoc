@@ -3,6 +3,7 @@ slug: /documentation-qa-using-zilliz-cloud-and-llamaindex
 sidebar_label: With LlamaIndex
 beta: FALSE
 notebook: 85_integrations_llamaindex.ipynb
+type: origin
 token: MejAw3lkkiA6uhkxcAqcMxOSnEb
 sidebar_position: 6
 ---

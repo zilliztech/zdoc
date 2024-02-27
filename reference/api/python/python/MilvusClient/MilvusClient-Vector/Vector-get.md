@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Vector-get
 beta: false
 notebook: false
+type: docx
 token: TEUDde2xbo0JT7xtVvtcF53Nnub
 sidebar_position: 2
 ---

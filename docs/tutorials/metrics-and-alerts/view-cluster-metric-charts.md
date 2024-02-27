@@ -2,6 +2,7 @@
 slug: /view-cluster-metric-charts
 beta: FALSE
 notebook: FALSE
+type: origin
 token: DbPIw4jLOiEabCk5uptc6EZ1nbf
 sidebar_position: 2
 ---

@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Authentication-create_user
 beta: false
 notebook: false
+type: docx
 token: BDupd28JqoNY9HxVOTfcv86enRe
 sidebar_position: 2
 ---

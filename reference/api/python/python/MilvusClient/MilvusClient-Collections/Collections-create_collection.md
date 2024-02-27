@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Collections-create_collection
 beta: false
 notebook: false
+type: docx
 token: TziHdCu4VoURrfxAMsUcsRhQnub
 sidebar_position: 3
 ---
@@ -88,7 +89,9 @@ __PARAMETERS:__
 
     The schema of this collection.
 
-    Setting this to __None__ indicates this collection will be created with default settings. To set up a collection with a customized schema, you need to create a __CollectionSchema__ object and reference it here.
+    Setting this to __None__ indicates this collection will be created with default settings. 
+
+    To set up a collection with a customized schema, you need to create a __CollectionSchema__ object and reference it here. In this case, Zilliz Cloud ignores all other schema-related settings carried in the request.
 
 - __index_params__ (_IndexParams_ | _None_)
 

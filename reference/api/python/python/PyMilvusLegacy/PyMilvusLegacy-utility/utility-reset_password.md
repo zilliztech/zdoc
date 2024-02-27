@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/utility-reset_password
 beta: false
 notebook: false
+type: docx
 token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38
 ---

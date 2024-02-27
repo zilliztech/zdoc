@@ -2,6 +2,7 @@
 slug: /free-trials
 beta: FALSE
 notebook: FALSE
+type: origin
 token: LMfdwRwKIiJtywkwbHVcGnOFnRf
 sidebar_position: 4
 ---

@@ -2,6 +2,7 @@
 slug: /run-ingestion-pipelines
 beta: TRUE
 notebook: FALSE
+type: origin
 token: IEoHwfIsBioVCRkHU7AcJdANn9c
 sidebar_position: 1
 ---

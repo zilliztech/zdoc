@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Partition-upsert
 beta: false
 notebook: false
+type: docx
 token: MQMzddDnao5Zz0xmSRncZM2nn5b
 sidebar_position: 11
 ---

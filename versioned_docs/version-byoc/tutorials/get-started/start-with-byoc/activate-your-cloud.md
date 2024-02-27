@@ -2,6 +2,7 @@
 slug: /activate-your-cloud
 beta: FALSE
 notebook: FALSE
+type: origin
 token: X08WweRsXiz0MPk4DIbcXYaInjc
 sidebar_position: 2
 ---
@@ -90,7 +91,7 @@ With your ARNs in hand, proceed to activate your cloud region in the Zilliz Clou
 
 - __Netmask__: Select a subnet mask for BYOC deployment under your preferred VPC. Zilliz will create a new VPC under your AWS account for BYOC deployment. We recommend you select a suitable network segment based on the size of the BYOC cluster and long-term business plans.
 
-- __Active Cloud Region__: Ensure the region matches the __aws_region__[](./activate-your-cloud)__ in your Terraform configuration.
+- __Active Cloud Region__: Ensure the region matches the __[aws_region](./activate-your-cloud)__ in your Terraform configuration.
 
 ![activate-your-cloud-3](/byoc/activate-your-cloud-3.png)
 

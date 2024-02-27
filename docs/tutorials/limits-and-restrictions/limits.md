@@ -2,6 +2,7 @@
 slug: /limits
 beta: FALSE
 notebook: FALSE
+type: origin
 token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
 sidebar_position: 1
 ---

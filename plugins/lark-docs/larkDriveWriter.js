@@ -31,6 +31,7 @@ class larkDriveWriter extends larkDocWriter {
                         const meta = await this.__is_to_publish(source.name, source.slug)
                         if (meta['publish']) {
                             const token = source.token
+                            const source_type = source.type
                             const slug = source.slug instanceof Array? source.slug[0].text : source.slug
                             const description = meta.description
 
@@ -48,6 +49,7 @@ class larkDriveWriter extends larkDocWriter {
                                 page_slug: slug,
                                 page_beta: 'false',
                                 notebook: 'false',
+                                page_type: source_type,
                                 page_token: token,
                                 page_description: description,
                                 sidebar_position: index+1,
@@ -62,6 +64,7 @@ class larkDriveWriter extends larkDocWriter {
                         const meta = await this.__is_to_publish(source.name, source.slug)
                         if (meta['publish']) {
                             const token = source.token
+                            const source_type = source.type
                             const slug = source.slug instanceof Array? source.slug[0].text : source.slug
 
                             console.log(current_path)
@@ -69,6 +72,7 @@ class larkDriveWriter extends larkDocWriter {
                             await this.write_doc({
                                 path: current_path,
                                 page_title: source.name,
+                                page_type: source_type,
                                 page_token: token,
                                 page_slug: slug,
                                 page_beta: false,
@@ -88,6 +92,7 @@ class larkDriveWriter extends larkDocWriter {
             path,
             page_title,
             page_slug,
+            page_type,
             page_token,
             page_beta,
             notebook,
@@ -115,6 +120,7 @@ class larkDriveWriter extends larkDocWriter {
                         'slug: /' + slug + '\n' +
                         'beta: ' + page_beta + '\n' +
                         'notebook: ' + notebook + '\n' +
+                        'type: ' + page_type + '\n' +
                         'token: ' + page_token + '\n' +
                         'sidebar_position: ' + sidebar_position + '\n' +
                         'displayed_sidebar: ' + this.manual + 'Sidebar\n' +
@@ -142,6 +148,7 @@ class larkDriveWriter extends larkDocWriter {
                     slug: slug,
                     beta: page_beta,
                     notebook: notebook,
+                    type: page_type,
                     token: page_token,
                     sidebar_position: sidebar_position,
                     doc_card_list: doc_card_list,

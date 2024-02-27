@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/PyMilvusLegacy-FieldSchema
 beta: false
 notebook: false
+type: folder
 token: RV1nfeylFlUftwd2w4Wc40TYn6d
 sidebar_position: 5
 ---
@@ -38,7 +39,7 @@ __PARAMETERS:__
 
     Name of the field.
 
-- __dtype__ (_DataType_[](./Collections-DataType)_) -
+- __dtype__ (_[DataType](./Collections-DataType)_) -
 
     __[REQUIRED]__
 

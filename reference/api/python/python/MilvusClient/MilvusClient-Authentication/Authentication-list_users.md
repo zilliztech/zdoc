@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Authentication-list_users
 beta: false
 notebook: false
+type: docx
 token: EZ2YdBHoDoRTlxx91tscffm1nSb
 sidebar_position: 10
 ---
@@ -65,7 +66,7 @@ client.create_user(user_name="user_1", password="P@ssw0rd")
 # 3. List all users
 client.list_users()
 
-# ['admin', 'root', 'user_1']
+# ['db_admin', 'user_1']
 ```
 
 ## Related methods{#related-methods}

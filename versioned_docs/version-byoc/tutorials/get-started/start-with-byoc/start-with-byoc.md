@@ -2,6 +2,7 @@
 slug: /start-with-byoc
 beta: FALSE
 notebook: FALSE
+type: origin
 token: YVxQwnj23iS9sNkUTcmcPKzNnQh
 sidebar_position: 3
 ---

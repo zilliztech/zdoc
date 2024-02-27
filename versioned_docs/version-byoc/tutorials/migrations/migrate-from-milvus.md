@@ -2,6 +2,7 @@
 slug: /migrate-from-milvus
 beta: FALSE
 notebook: FALSE
+type: origin
 token: IO4fwm5fJiroaoktKeIcbdkDnRb
 sidebar_position: 1
 ---
@@ -64,9 +65,9 @@ Zilliz Cloud allows data migration from Milvus 0.9.x and later versions. As a pr
 
 To prepare migration data for Milvus 2.x, do as follows:
 
-1. Download __milvus-backup__[](https://github.com/zilliztech/milvus-backup/releases)__. Always use the latest release.
+1. Download __[milvus-backup](https://github.com/zilliztech/milvus-backup/releases)__. Always use the latest release.
 
-1. Create a __configs__ folder side by side with the downloaded binary, and download __backup.yaml__[](https://raw.githubusercontent.com/zilliztech/milvus-backup/master/configs/backup.yaml)__ into the __configs__ folder.
+1. Create a __configs__ folder side by side with the downloaded binary, and download __[backup.yaml](https://raw.githubusercontent.com/zilliztech/milvus-backup/master/configs/backup.yaml)__ into the __configs__ folder.
 
     Once the step is done, the structure of your workspace folder should look like this:
 
@@ -124,7 +125,7 @@ To prepare migration data for Milvus 2.x, do as follows:
 
         - To download from [Minio Console](https://min.io/docs/minio/kubernetes/upstream/administration/minio-console.html), log into Minio Console, locate the bucket specified in `minio.address`, select the files in the bucket, and click __Download__ to download them.
 
-        - If you prefer [the ](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)__mc__[](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)__[ client](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install), do as follows:
+        - If you prefer [the ](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)__[mc](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)__[ client](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install), do as follows:
 
             ```plaintext
             # configure a Minio host

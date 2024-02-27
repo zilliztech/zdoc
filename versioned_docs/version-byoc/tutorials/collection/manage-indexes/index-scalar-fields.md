@@ -2,6 +2,7 @@
 slug: /index-scalar-fields
 beta: FALSE
 notebook: FALSE
+type: origin
 token: XCCwwOLqKi2nYGkfy5Gc0Vnfnpb
 sidebar_position: 2
 ---
@@ -11,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 # Index Scalar Fields
 
-In Milvus, scalar fields, which refer to single numbers or strings, can be efficiently indexed for improved query performance.
+On Zilliz Cloud, scalar fields, which refer to single numbers or strings, can be efficiently indexed for improved query performance.
 
 This guide provides an overview of how to index scalar fields in a collection.
 

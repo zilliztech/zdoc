@@ -3,6 +3,7 @@ slug: /subscribe-by-adding-credit-card
 sidebar_label: Credit Card
 beta: FALSE
 notebook: FALSE
+type: origin
 token: TVnkwXupUiX3zDkzYPWcxKP3nvg
 sidebar_position: 1
 ---

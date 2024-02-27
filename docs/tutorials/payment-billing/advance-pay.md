@@ -3,6 +3,7 @@ slug: /advance-pay
 sidebar_label: Advance Pay
 beta: FALSE
 notebook: FALSE
+type: origin
 token: K8hFwmeBQiCSO4ktT9ScD9zMnua
 sidebar_position: 4
 ---

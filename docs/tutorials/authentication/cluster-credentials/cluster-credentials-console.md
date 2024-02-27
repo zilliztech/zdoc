@@ -2,6 +2,7 @@
 slug: /cluster-credentials-console
 beta: FALSE
 notebook: FALSE
+type: origin
 token: Ha8jwqxnniC8mDkXM4RcN4SFnKf
 sidebar_position: 1
 ---

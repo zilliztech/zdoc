@@ -2,6 +2,7 @@
 slug: /install-sdks
 beta: FALSE
 notebook: FALSE
+type: origin
 token: J274wT61xiEM4fkYeL8cMb4Pnbd
 sidebar_position: 5
 ---

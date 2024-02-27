@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Role-list_grant
 beta: false
 notebook: false
+type: docx
 token: JXNXdQuwhoYmZQxSohNcdxtwnzh
 sidebar_position: 7
 ---

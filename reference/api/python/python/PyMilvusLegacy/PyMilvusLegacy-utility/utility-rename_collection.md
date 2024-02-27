@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/utility-rename_collection
 beta: false
 notebook: false
+type: docx
 token: M0qRdF1cLokrxvxyrXScJ64FnEe
 sidebar_position: 37
 ---

@@ -2,6 +2,7 @@
 slug: /quick-start
 beta: FALSE
 notebook: FALSE
+type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
 sidebar_position: 2
 ---
@@ -194,7 +195,7 @@ func main() {
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Due to language differences, you should__ include your code in a main function__ if you prefer to code in <strong>Java</strong>, <strong>Golang</strong>, or <strong>Node.js</strong>.</p>
+<p>Due to language differences, you should <strong>include your code in a main function</strong> if you prefer to code in <strong>Java</strong>, <strong>Golang</strong>, or <strong>Node.js</strong>.</p>
 
 </Admonition>
 
@@ -925,7 +926,11 @@ For the sake of the search later, you can use the following code snippet to add 
 # 5.1. Prepare data
 
 colors = ["green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"]
-data = [ {"id": i, "vector": [ random.uniform(-1, 1) for _ in range(5) ], "color": f"{random.choice(colors)}_{str(random.randint(1000, 9999))}" } for i in range(1000) ]
+data = [ {
+    "id": i, 
+    "vector": [ random.uniform(-1, 1) for _ in range(5) ], 
+    "color": f"{random.choice(colors)}_{str(random.randint(1000, 9999))}" 
+} for i in range(1000) ]
 
 # 5.2. Insert data
 res = client.insert(
@@ -2646,6 +2651,12 @@ fmt.Println(resultSetToJSON(get, true))
 </TabItem>
 </Tabs>
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Currently, the RESTful API does not provide a get endpoint.</p>
+
+</Admonition>
+
 ## Delete Entities{#delete-entities}
 
 Zilliz Cloud allows deleting entities by IDs and by filters.
@@ -2861,6 +2872,12 @@ Zilliz Cloud allows deleting entities by IDs and by filters.
     </TabItem>
     </Tabs>
 
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>Currently, the delete endpoint of the RESTful API does not support filters.</p>
+
+    </Admonition>
+
 ## Drop the collection{#drop-the-collection}
 
 The Starter plan allows up to two collections in the serverless cluster. Once you have done this guide, you can drop the collection as follows:
@@ -2961,7 +2978,7 @@ curl --request POST \
 
 - There are two ways to create a collection. The first is the quick setup, which only requires you to provide a name and the dimension of the vector field. The second is the customized setup, which allows you to customize almost every aspect of the collection.
 
-- The data insertion process may take some time to complete. It is recommended to wait a few seconds after inserting data before conducting similarity searches.
+- The data insertion process may take some time to complete. It is recommended to wait a few seconds after inserting data and before conducting similarity searches.
 
 - Filter expressions can be used in both search and query requests. However, they are mandatory for query requests.
 

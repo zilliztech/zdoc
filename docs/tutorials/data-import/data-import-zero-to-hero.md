@@ -3,6 +3,7 @@ slug: /data-import-zero-to-hero
 sidebar_label: Zero to Hero
 beta: FALSE
 notebook: 99_data_import_zero_to_hero.ipynb
+type: origin
 token: BjHZwBkk0iFScik49QMc1Wwjndb
 sidebar_position: 1
 ---

@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/DataImport-LocalBulkWriter
 beta: false
 notebook: false
+type: folder
 token: SzykfW0E7lSK4sdsvhOcAhkan0b
 sidebar_position: 3
 ---
@@ -41,7 +42,7 @@ writer = LocalBulkWriter(
 
 __PARAMETERS:__
 
-- __schema__ (_CollectionSchema_[](./PyMilvusLegacy-CollectionSchema)_) -
+- __schema__ (_[CollectionSchema](./PyMilvusLegacy-CollectionSchema)_) -
 
     __[REQUIRED]__
 
@@ -75,7 +76,7 @@ __PARAMETERS:__
 
     </Admonition>
 
-- __file_type__ (_BulkFileType_[](./DataImport-BulkFileType)_) -
+- __file_type__ (_[BulkFileType](./DataImport-BulkFileType)_) -
 
     The type of the output file.
 

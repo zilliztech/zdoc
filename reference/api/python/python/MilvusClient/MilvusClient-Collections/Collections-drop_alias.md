@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Collections-drop_alias
 beta: false
 notebook: false
+type: docx
 token: FpWXdmIuforYz9xUCsqclyCXnLe
 sidebar_position: 8
 ---
@@ -51,7 +52,7 @@ __EXCEPTIONS:__
 
 - __MilvusException__
 
-    This exception will be raised when any error occurs during this operation, especially when you set `alias` to an existing alias.
+    This exception will be raised when any error occurs during this operation, especially when you set `alias` to a non-existing alias.
 
 - __BaseException__
 

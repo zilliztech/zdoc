@@ -2,6 +2,7 @@
 slug: /register-with-zilliz-cloud
 beta: FALSE
 notebook: FALSE
+type: origin
 token: HriHwEU3qiQrgskz3a0cdkcpnyf
 sidebar_position: 1
 ---

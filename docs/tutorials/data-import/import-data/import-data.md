@@ -2,6 +2,7 @@
 slug: /import-data
 beta: FALSE
 notebook: FALSE
+type: origin
 token: VTZZwCkkCi7FwnklLDhcMJwvnQb
 sidebar_position: 3
 ---

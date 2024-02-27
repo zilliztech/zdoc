@@ -3,6 +3,7 @@ slug: /subscribe-on-aws-marketplace
 sidebar_label: AWS Marketplace
 beta: FALSE
 notebook: FALSE
+type: origin
 token: LDlOweEzmiLkdQkvPFec5lrcnbf
 sidebar_position: 2
 ---

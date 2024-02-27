@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/utility-create_user
 beta: false
 notebook: false
+type: docx
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5
 ---

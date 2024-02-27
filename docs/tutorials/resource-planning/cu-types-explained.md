@@ -3,6 +3,7 @@ slug: /cu-types-explained
 sidebar_label: CU Types
 beta: FALSE
 notebook: FALSE
+type: origin
 token: UgqvwKh2QiKE1kkYNLJcaHt0nkg
 sidebar_position: 4
 ---

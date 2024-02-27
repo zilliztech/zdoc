@@ -2,6 +2,7 @@
 slug: /restore-from-snapshot
 beta: FALSE
 notebook: FALSE
+type: origin
 token: Dd6jwYIGiiz6HWkEPJqcpMA3n6g
 sidebar_position: 4
 ---

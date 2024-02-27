@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Vector-upsert
 beta: false
 notebook: false
+type: docx
 token: WRYFdoDe8ofrlDxxTxQcdoJjnAh
 sidebar_position: 6
 ---

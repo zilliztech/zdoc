@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Collections-create_schema
 beta: false
 notebook: false
+type: docx
 token: RxU7dBjGlop0e1xZShYcZ4qCnnh
 sidebar_position: 4
 ---
@@ -67,11 +68,11 @@ __PARAMETERS:__
 
 __RETURN TYPE:__
 
-_CollectionSchema_[](./PyMilvusLegacy-CollectionSchema)_
+_[CollectionSchema](./PyMilvusLegacy-CollectionSchema)_
 
 __RETURNS:__
 
-A __CollectionSchema__[](./PyMilvusLegacy-CollectionSchema)__ object.
+A __[CollectionSchema](./PyMilvusLegacy-CollectionSchema)__ object.
 
 __EXCEPTIONS:__
 

@@ -2,6 +2,7 @@
 slug: /manage-collections-sdks
 beta: FALSE
 notebook: FALSE
+type: origin
 token: USQ2w6yj0i3WN1k3eEYciscinkc
 sidebar_position: 2
 ---
@@ -418,4 +419,3 @@ The number of collections you can create varies with the CU that your cluster us
 |  8 CUs and less  |  __32__                        |
 |  More than 8 CUs |  __256__                       |
 
-To implement multi-tenancy, you are advised to 

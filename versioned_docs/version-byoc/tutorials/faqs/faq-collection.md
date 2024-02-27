@@ -2,6 +2,7 @@
 slug: /faq-collection
 beta: null
 notebook: null
+type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 3
 ---

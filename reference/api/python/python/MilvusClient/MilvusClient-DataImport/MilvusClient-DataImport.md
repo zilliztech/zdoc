@@ -2,6 +2,7 @@
 slug: /python/MilvusClient-DataImport
 beta: false
 notebook: false
+type: folder
 token: KdfofBXCwlWnxOdG5cLcbbLgnLf
 sidebar_position: 4
 displayed_sidebar: pythonSidebar

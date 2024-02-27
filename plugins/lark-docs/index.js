@@ -24,6 +24,7 @@ module.exports = function (context, options) {
                 .action(async (opts) => {
 
                     const options = context.siteConfig.plugins.filter(plugin => plugin[0].includes('lark-docs'))[0][1]
+                    process.env.REPO_BRANCH = fs.readFileSync('.git/HEAD', 'utf8').split(': ')[1].trim().split('/').slice(-1)[0]
                     const manuals = Object.keys(options)
                     const utils = new Utils()
 
@@ -119,10 +120,12 @@ module.exports = function (context, options) {
                             }
 
                             var token;
+                            var source_type;
 
                             if (paths.length === 1) {
                                 var source = JSON.parse(fs.readFileSync(docSourceDir + '/' + paths[0], 'utf8'))
                                 token = source.node_token ? source.node_token : source.token
+                                source_type = source.node_type ? source.node_type : source.type
                                 await scraper.fetch(recursive=false, page_token=token) 
                             }
 
@@ -153,7 +156,9 @@ module.exports = function (context, options) {
 
                                     var source = JSON.parse(fs.readFileSync(docSourceDir + '/' + paths[slugs.indexOf(answers.token)], 'utf8'))
                                     token = source.node_token ? source.node_token : source.token
-
+                                    source_type = source.node_type ? source.node_type : source.type
+                                    console.log(token)
+                                    
                                     // const scraper = new docScraper(root, base)
                                     await scraper.fetch(recursive=false, page_token=token)                                    
                                 } else {
@@ -164,6 +169,7 @@ module.exports = function (context, options) {
                                     var source = sources.filter(source => Object.keys(source).includes('children'))[0]
                                     source.blocks = sources.filter(source => Object.keys(source).includes('blocks'))[0].blocks
                                     token = source.token
+                                    source_type = source.type
                                     console.log(token)
                                 }
                             }
@@ -195,6 +201,7 @@ module.exports = function (context, options) {
                                     page_slug: page_slug,
                                     page_beta: page_beta ? page_beta : false,
                                     notebook: notebook ? notebook : false,
+                                    page_type: source_type,
                                     page_token: token,
                                     sidebar_position: sidebarPos,
                                     sidebar_label: labels,

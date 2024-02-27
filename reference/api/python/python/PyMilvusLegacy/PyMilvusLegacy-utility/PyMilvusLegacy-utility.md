@@ -2,6 +2,7 @@
 slug: /python/PyMilvusLegacy-utility
 beta: false
 notebook: false
+type: folder
 token: BvYKfbpMUlczBxdyBvEc5Gb3nfb
 sidebar_position: 8
 displayed_sidebar: pythonSidebar

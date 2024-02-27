@@ -2,6 +2,7 @@
 slug: /get-and-scalar-query
 beta: FALSE
 notebook: FALSE
+type: origin
 token: RCBVwuDlyiHDFwkg4UWcO8gOnqb
 sidebar_position: 3
 ---

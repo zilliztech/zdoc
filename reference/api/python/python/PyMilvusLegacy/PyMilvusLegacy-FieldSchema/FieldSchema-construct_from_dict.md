@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/FieldSchema-construct_from_dict
 beta: false
 notebook: false
+type: docx
 token: DCLUdOpVjohl8HxPUx1cGjokngf
 sidebar_position: 1
 ---

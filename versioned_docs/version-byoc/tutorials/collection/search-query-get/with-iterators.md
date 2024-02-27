@@ -2,6 +2,7 @@
 slug: /with-iterators
 beta: FALSE
 notebook: FALSE
+type: origin
 token: D7f6wXR2iiSBS2kuPilcZjD5n8d
 sidebar_position: 4
 ---

@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/RemoteBulkWriter-commit
 beta: false
 notebook: false
+type: docx
 token: VccVd4MTgoPzCixDVtgcEoKWnPf
 sidebar_position: 3
 ---

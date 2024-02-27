@@ -5,7 +5,7 @@
   "node_token": "GQN0wDCrni4n36kyeVQcF41Lned",
   "node_type": "origin",
   "obj_create_time": "1708764162",
-  "obj_edit_time": "1708780465",
+  "obj_edit_time": "1708913202",
   "obj_token": "KaFedwfsXoaRXCx9S9Gc7NPSnph",
   "obj_type": "docx",
   "origin_node_token": "GQN0wDCrni4n36kyeVQcF41Lned",
@@ -112,6 +112,7 @@
           "doxcnr65Xbv6xvjLeRwj0Xb72Ee",
           "doxcnUGPcLu8tDUSNdG1Gif4qHd",
           "doxcnlo3g0nQXFKZAq9rqWFa46i",
+          "VI0Jdzz9KodhTUxlNt8cLNwYnpc",
           "doxcnZaEQD9lDeTJdCssNfv9HjB",
           "doxcnhRoATUQEbM8uGP7bIAZGvf",
           "doxcnMeGQaQvWoDS7Me4IPpFCrU",
@@ -1416,7 +1417,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Due to language differences, you should",
+                "content": "Due to language differences, you should ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1428,7 +1429,7 @@
             },
             {
               "text_run": {
-                "content": " include your code in a main function",
+                "content": "include your code in a main function",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -3387,7 +3388,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# 5. Insert more data into the collection\n# 5.1. Prepare data\n\ncolors = [\"green\", \"blue\", \"yellow\", \"red\", \"black\", \"white\", \"purple\", \"pink\", \"orange\", \"brown\", \"grey\"]\ndata = [ {\"id\": i, \"vector\": [ random.uniform(-1, 1) for _ in range(5) ], \"color\": f\"{random.choice(colors)}_{str(random.randint(1000, 9999))}\" } for i in range(1000) ]\n\n# 5.2. Insert data\nres = client.insert(\n    collection_name=\"quick_setup\",\n    data=data[10:]\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"insert_count\": 990\n",
+                "content": "# 5. Insert more data into the collection\n# 5.1. Prepare data\n\ncolors = [\"green\", \"blue\", \"yellow\", \"red\", \"black\", \"white\", \"purple\", \"pink\", \"orange\", \"brown\", \"grey\"]\ndata = [ {\n    \"id\": i, \n    \"vector\": [ random.uniform(-1, 1) for _ in range(5) ], \n    \"color\": f\"{random.choice(colors)}_{str(random.randint(1000, 9999))}\" \n} for i in range(1000) ]\n\n# 5.2. Insert data\nres = client.insert(\n    collection_name=\"quick_setup\",\n    data=data[10:]\n)\n\nprint(res)\n\n# Output\n#\n# {\n#     \"insert_count\": 990\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4646,6 +4647,7 @@
             }
           ],
           "style": {
+            "indentation_level": "NoIndent",
             "language": 29,
             "wrap": false
           }
@@ -4683,6 +4685,7 @@
             }
           ],
           "style": {
+            "indentation_level": "NoIndent",
             "language": 30,
             "wrap": false
           }
@@ -4720,6 +4723,7 @@
             }
           ],
           "style": {
+            "indentation_level": "NoIndent",
             "language": 22,
             "wrap": false
           }
@@ -4757,6 +4761,7 @@
             }
           ],
           "style": {
+            "indentation_level": "NoIndent",
             "language": 7,
             "wrap": false
           }
@@ -4783,7 +4788,8 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": false,
+            "indentation_level": "NoIndent"
           }
         },
         "parent_id": "KaFedwfsXoaRXCx9S9Gc7NPSnph"
@@ -5107,6 +5113,7 @@
             }
           ],
           "style": {
+            "indentation_level": "NoIndent",
             "language": 29,
             "wrap": false
           }
@@ -5144,6 +5151,7 @@
             }
           ],
           "style": {
+            "indentation_level": "NoIndent",
             "language": 30,
             "wrap": false
           }
@@ -5181,6 +5189,7 @@
             }
           ],
           "style": {
+            "indentation_level": "NoIndent",
             "language": 22,
             "wrap": false
           }
@@ -5218,6 +5227,7 @@
             }
           ],
           "style": {
+            "indentation_level": "NoIndent",
             "language": 7,
             "wrap": false
           }
@@ -5404,11 +5414,76 @@
             }
           ],
           "style": {
+            "indentation_level": "NoIndent",
             "language": 22,
             "wrap": false
           }
         },
         "parent_id": "KaFedwfsXoaRXCx9S9Gc7NPSnph"
+      },
+      {
+        "block_id": "VI0Jdzz9KodhTUxlNt8cLNwYnpc",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "HNJSdG9NooicQhxsD6WcIsNZnag",
+          "CSq8dJiOXoc0RvxVy6Ccb0c1nHe"
+        ],
+        "parent_id": "KaFedwfsXoaRXCx9S9Gc7NPSnph"
+      },
+      {
+        "block_id": "HNJSdG9NooicQhxsD6WcIsNZnag",
+        "block_type": 2,
+        "parent_id": "VI0Jdzz9KodhTUxlNt8cLNwYnpc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CSq8dJiOXoc0RvxVy6Ccb0c1nHe",
+        "block_type": 2,
+        "parent_id": "VI0Jdzz9KodhTUxlNt8cLNwYnpc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, the RESTful API does not provide a get endpoint.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "doxcnZaEQD9lDeTJdCssNfv9HjB",
@@ -5704,7 +5779,8 @@
           "doxcnoNttkjbzOXXv0I4FQSQhDb",
           "doxcnWfkv8toDqwvP0WVD1vcorf",
           "doxcn0X4OEHWgXqdXSQOgeIyfJe",
-          "doxcnwKUpjroxg9gTF1aZm4Vslf"
+          "doxcnwKUpjroxg9gTF1aZm4Vslf",
+          "ED0JdP0imodVBJxR7FicDjmLnQf"
         ],
         "parent_id": "KaFedwfsXoaRXCx9S9Gc7NPSnph"
       },
@@ -5776,6 +5852,7 @@
             }
           ],
           "style": {
+            "indentation_level": "NoIndent",
             "language": 29,
             "wrap": false
           }
@@ -5813,6 +5890,7 @@
             }
           ],
           "style": {
+            "indentation_level": "NoIndent",
             "language": 30,
             "wrap": false
           }
@@ -5850,11 +5928,77 @@
             }
           ],
           "style": {
+            "indentation_level": "NoIndent",
             "language": 22,
             "wrap": false
           }
         },
         "parent_id": "doxcnnqzbHJagz9WzedwX8lPhhg"
+      },
+      {
+        "block_id": "ED0JdP0imodVBJxR7FicDjmLnQf",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "N4POdICNdosLarx0WGMc2NysndS",
+          "JPMTdyXP3onDDJxztzucOGmkn3d"
+        ],
+        "parent_id": "doxcnnqzbHJagz9WzedwX8lPhhg"
+      },
+      {
+        "block_id": "N4POdICNdosLarx0WGMc2NysndS",
+        "block_type": 2,
+        "parent_id": "ED0JdP0imodVBJxR7FicDjmLnQf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "indentation_level": "NoIndent"
+          }
+        }
+      },
+      {
+        "block_id": "JPMTdyXP3onDDJxztzucOGmkn3d",
+        "block_type": 2,
+        "parent_id": "ED0JdP0imodVBJxR7FicDjmLnQf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, the delete endpoint of the RESTful API does not support filters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "doxcnZvB76XUZcxjoYHvBJ1Tjte",
@@ -6148,7 +6292,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The data insertion process may take some time to complete. It is recommended to wait a few seconds after inserting data before conducting similarity searches.",
+                "content": "The data insertion process may take some time to complete. It is recommended to wait a few seconds after inserting data and before conducting similarity searches.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -6192,6 +6336,6 @@
         "parent_id": "KaFedwfsXoaRXCx9S9Gc7NPSnph"
       }
     ],
-    "counts": 172
+    "counts": 178
   }
 }

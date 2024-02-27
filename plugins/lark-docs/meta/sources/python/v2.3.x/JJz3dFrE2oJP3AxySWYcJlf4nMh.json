@@ -1,6 +1,6 @@
 {
   "created_time": "1706697975",
-  "modified_time": "1708480219",
+  "modified_time": "1709003307",
   "name": "describe_role()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "W9SBfQfXUlZAXDdK6nTcop4rnFd",
@@ -235,7 +235,8 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": false,
+            "indentation_level": "NoIndent"
           }
         },
         "children": [
@@ -745,7 +746,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 2. Create a role\nclient.create_role(role_name=\"read_only\")\n\n# 3. Describe the role\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 2. Create a role\nclient.create_role(role_name=\"read_only\")\n\n# 3. Grant permissions\nclient.grant_privilege(\n    role_name=\"read_only\",\n    object_type=\"Global\",\n    privilege=\"DescribeCollection\",\n    object_name=\"*\"\n)\n\n# 3. Describe the role\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -758,6 +759,33 @@
             {
               "text_run": {
                 "content": "client.describe_role(role_name=\"read_only\")",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340087740194799619"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\n# [\n#     {\n#        'object_type': 'Global', \n#        'object_name': '*', \n#        'db_name': 'default', \n#        'role_name': 'read_only', \n#        'privilege': 'DescribeCollection', \n#        'grantor_name': 'root'\n#    }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ]",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -773,6 +801,9 @@
             "wrap": false
           }
         },
+        "comment_ids": [
+          "7340087740194799619"
+        ],
         "parent_id": "JJz3dFrE2oJP3AxySWYcJlf4nMh"
       },
       {
@@ -832,7 +863,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a role\nclient.create_role(role_name=\"read_only\")\n\n# 3. Describe the role\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Describe the role\nclient.describe_role(role_name=\"db_ro\")\n\n# [\n#     {\n#         \"object_type\": \"Collection\",\n#         \"object_name\": \"*\",\n#         \"db_name\": \"default\",\n#         \"role_name\": \"db_ro\",\n#         \"privilege\": \"GetLoadState\",\n#         \"grantor_name\": \"zcloud_root\"\n#     },\n#     {\n#         \"object_type\": \"Collection\",\n#         \"object_name\": \"*\",\n#         \"db_name\": \"default\",\n#         \"role_name\": \"db_ro\",\n#         \"privilege\": \"GetLoadingProgress\",\n#         \"grantor_name\": \"zcloud_root\"\n#     },\n#     {\n#         \"object_type\": \"Collection\",\n#         \"object_name\": \"*\",\n#         \"db_name\": \"default\",\n#         \"role_name\": \"db_ro\",\n#         \"privilege\": \"IndexDetail\",\n#         \"grantor_name\": \"zcloud_root\"\n#     },\n#     ...\n#     {\n#         \"object_type\": \"Global\",\n#         \"object_name\": \"*\",\n#         \"db_name\": \"default\",\n#         \"role_name\": \"db_ro\",\n#         \"privilege\": \"ListDatabases\",\n#         \"grantor_name\": \"zcloud_root\"\n#     },\n#     {\n#         \"object_type\": \"Global\",\n#         \"object_name\": \"*\",\n#         \"db_name\": \"default\",\n#         \"role_name\": \"db_ro\",\n#         \"privilege\": \"ShowCollections\",\n#         \"grantor_name\": \"zcloud_root\"\n#     }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -844,7 +875,7 @@
             },
             {
               "text_run": {
-                "content": "client.describe_role(role_name=\"read_only\")",
+                "content": "# ]",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

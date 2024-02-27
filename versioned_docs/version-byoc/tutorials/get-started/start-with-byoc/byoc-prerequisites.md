@@ -2,6 +2,7 @@
 slug: /byoc-prerequisites
 beta: FALSE
 notebook: FALSE
+type: origin
 token: Bw7dwervZiOLHBk6OuWc3RylnKc
 sidebar_position: 1
 ---

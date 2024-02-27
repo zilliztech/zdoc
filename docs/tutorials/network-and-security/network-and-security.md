@@ -2,6 +2,7 @@
 slug: /network-and-security
 beta: FALSE
 notebook: FALSE
+type: origin
 token: WVcuwmMQ8iKlrKk7Kwacu9w1nCZ
 sidebar_position: 14
 ---

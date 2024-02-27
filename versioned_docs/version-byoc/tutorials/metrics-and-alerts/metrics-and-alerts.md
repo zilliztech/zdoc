@@ -2,6 +2,7 @@
 slug: /metrics-and-alerts
 beta: FALSE
 notebook: FALSE
+type: origin
 token: Xma9w6Ne9ihcsZkFkSmcHidEnZg
 sidebar_position: 13
 ---

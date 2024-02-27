@@ -2,6 +2,7 @@
 slug: /understanding-pipelines
 beta: TRUE
 notebook: FALSE
+type: origin
 token: Z2MUw8RaRiwlm4kGXAGcI6ybnFA
 sidebar_position: 1
 ---

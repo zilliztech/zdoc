@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/utility-flush_all
 beta: false
 notebook: false
+type: docx
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12
 ---

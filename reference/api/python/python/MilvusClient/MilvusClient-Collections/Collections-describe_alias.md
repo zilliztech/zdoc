@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/Collections-describe_alias
 beta: false
 notebook: false
+type: docx
 token: HN7nddgueo3scIxmPXAcpjkFnDf
 sidebar_position: 6
 ---
@@ -41,17 +42,39 @@ __PARAMETERS:__
 
 __RETURN TYPE:__
 
-_NoneType_
+_Dict_
 
 __RETURNS:__
 
-None
+A dictionary containing the alias details.
+
+```python
+{
+    alias: 'string',
+    collection_name: 'string',
+    db_name: 'default'
+}
+```
+
+__PARAMETERS:__
+
+- __alias __(_str_) -
+
+    The specified alias. 
+
+- __collection_name __(_str_) -
+
+    The name of the bound collection. 
+
+- __db_name __(_str_) -
+
+    The database to which the bound collection belongs. 
 
 __EXCEPTIONS:__
 
 - __MilvusException__
 
-    This exception will be raised when any error occurs during this operation, especially when you set `alias` to an existing alias.
+    This exception will be raised when any error occurs during this operation, especially when you set `alias` to a non-existing alias.
 
 - __BaseException__
 

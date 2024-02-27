@@ -2,6 +2,7 @@
 slug: /search-metrics-explained
 beta: TRUE
 notebook: FALSE
+type: origin
 token: TlfCwYUusikxUGkxsGGcO6eXnig
 sidebar_position: 5
 ---

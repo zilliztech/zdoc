@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/PyMilvusLegacy-Collection
 beta: false
 notebook: false
+type: folder
 token: ZGbAfWoUjl0Z3xdgyItc8wYXngf
 sidebar_position: 1
 ---
@@ -38,7 +39,7 @@ __PARAMETERS:__
 
     The name of the collection to create.
 
-- __schema__ (_CollectionSchema_[](./PyMilvusLegacy-CollectionSchema)_) - 
+- __schema__ (_[CollectionSchema](./PyMilvusLegacy-CollectionSchema)_) - 
 
     The schema used to create the collection. 
 

@@ -179,6 +179,7 @@ class larkDocWriter {
                     const meta = await this.__is_to_publish(child.title, child.slug) 
                     if (meta['publish']) {
                         const token = child.node_token
+                        const type = child.node_type
                         const slug = child.slug
                         const beta = meta['beta']
                         const notebook = meta['notebook']
@@ -196,6 +197,7 @@ class larkDocWriter {
                             page_slug: slug,
                             page_beta: beta,
                             notebook: notebook,
+                            page_type: type,
                             page_token: child.node_token,
                             sidebar_position: index+1,
                             sidebar_label: labels,
@@ -218,6 +220,7 @@ class larkDocWriter {
                             const meta = await this.__is_to_publish(child.title, child.slug)
                             if (meta['publish']) {
                                 const token = child.node_token
+                                const type = child.node_type
                                 const slug = child.slug
                                 const beta = meta['beta']
                                 const notebook = meta['notebook']
@@ -230,6 +233,7 @@ class larkDocWriter {
                                     page_slug: child.slug,
                                     page_beta: beta,
                                     notebook: notebook,
+                                    page_type: type,
                                     page_token: token,
                                     sidebar_position: index+1,
                                     sidebar_label: labels,
@@ -250,6 +254,7 @@ class larkDocWriter {
         page_slug,
         page_beta,
         notebook,
+        page_type,
         page_token,
         sidebar_position,
         sidebar_label,
@@ -287,6 +292,7 @@ class larkDocWriter {
                 beta: page_beta,
                 notebook: notebook,
                 path: path, 
+                type: page_type,
                 token: page_token,
                 sidebar_position: sidebar_position,
                 sidebar_label: sidebar_label,
@@ -331,7 +337,7 @@ class larkDocWriter {
             // Write FAQs root page
             let title = 'FAQs'
             let slug = 'faqs'
-            let front_matter = this.__front_matters(slug, null, null, source.node_token, 999)
+            let front_matter = this.__front_matters(slug, null, null, source.node_type, source.node_token, 999)
             const markdown = `${front_matter}\n\n# ${title}` + "\n\nimport DocCardList from '@theme/DocCardList';\n\n<DocCardList />"
             fs.writeFileSync(`${path}/${slug}.md`, markdown)
 
@@ -339,7 +345,7 @@ class larkDocWriter {
                 let title = sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
                 let short_description = sub_page.filter(line => line.length > 0)[1]
                 let slug = slugify(title, {lower: true, strict: true})
-                let front_matter = this.__front_matters(slug, null, null, source.node_token, index+1)
+                let front_matter = this.__front_matters(slug, null, null, source.node_type, source.node_token, index+1)
                 let links = []
 
                 sub_page = sub_page.map(line => {
@@ -472,8 +478,8 @@ class larkDocWriter {
         return markdown.replace(/\n{3,}/g, '\n\n')
     }
 
-    async __write_page({slug, beta, notebook, path, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
-        let front_matter = this.__front_matters(slug, beta, notebook, token, sidebar_position, sidebar_label, keywords)
+    async __write_page({slug, beta, notebook, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
+        let front_matter = this.__front_matters(slug, beta, notebook, type, token, sidebar_position, sidebar_label, keywords)
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.targets)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
@@ -502,7 +508,7 @@ class larkDocWriter {
         }
     }
 
-    __front_matters (slug, beta, notebook, token, sidebar_position=undefined, sidebar_label="", keywords="") {
+    __front_matters (slug, beta, notebook, type, token, sidebar_position=undefined, sidebar_label="", keywords="") {
         if (sidebar_label !== "") {
             sidebar_label = `sidebar_label: ${sidebar_label}\n`
         }
@@ -516,6 +522,7 @@ class larkDocWriter {
         sidebar_label +
         `beta: ${beta}` + '\n' +
         `notebook: ${notebook}` + '\n' +
+        `type: ${type}` + '\n' +
         `token: ${token}` + '\n' +
         `sidebar_position: ${sidebar_position}` + '\n' +
         keywords +
@@ -778,7 +785,21 @@ class larkDocWriter {
         let lang = code.style.language ? this.code_langs[code.style.language] : 'plaintext'
         
         if ((!prev || (prev && this.block_types[prev['block_type']-1] !== 'code')) && next && this.block_types[next['block_type']-1] === 'code') {
-            values.push({ label: lang === 'JavaScript' ? 'NodeJS' : lang, value: lang.toLowerCase() });
+            
+            let label;
+            switch (lang) {
+                case 'JavaScript':
+                    label = 'NodeJS'
+                    break;
+                case 'Bash':
+                    label = 'RESTful'
+                    break;
+                default:
+                    label = lang
+                    break;
+            }
+
+            values.push({ label: label, value: lang.toLowerCase() });
             
             function has_next_code(next, block_types, code_langs) {
                 const next_lang = code_langs[next['code']['style']['language']];
@@ -929,17 +950,17 @@ class larkDocWriter {
                 if ('link' in style) {
                     const url = await this.__convert_link(decodeURIComponent(style['link']['url']))
 
-                    var prefix = [...content.matchAll(/^\_{1,2}|^~~|^__/g)]
-                    var suffix = [...content.matchAll(/\_{1,2}$|~~$|__$/g)]
+                    var prefix = [...content.matchAll(/(^\_\_|^\_|^~~)/g)]
+                    var suffix = [...content.matchAll(/(\_\_$|\_$|~~$)/g)]
 
                     if (prefix.length > 0) {
-                        prefix = content.slice(prefix[0]['index'])
+                        prefix = prefix[0][0]
                     } else {
                         prefix = ''
                     }
 
                     if (suffix.length > 0) {
-                        suffix = content.slice(suffix[0]['index'])
+                        suffix = suffix[0][0]
                     } else {
                         suffix = ''
                     }

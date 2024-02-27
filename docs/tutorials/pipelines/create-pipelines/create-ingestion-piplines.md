@@ -2,6 +2,7 @@
 slug: /create-ingestion-piplines
 beta: TRUE
 notebook: FALSE
+type: origin
 token: QFsIwkbwVi7CWdkMVGQcFnPonLc
 sidebar_position: 1
 ---

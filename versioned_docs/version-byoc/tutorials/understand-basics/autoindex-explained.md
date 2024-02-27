@@ -2,6 +2,7 @@
 slug: /autoindex-explained
 beta: FALSE
 notebook: FALSE
+type: origin
 token: EA2twSf5oiERMDkriKScU9GInc4
 sidebar_position: 1
 ---

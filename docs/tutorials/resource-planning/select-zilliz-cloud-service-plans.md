@@ -3,6 +3,7 @@ slug: /select-zilliz-cloud-service-plans
 sidebar_label: Cluster Plans
 beta: FALSE
 notebook: FALSE
+type: origin
 token: Ghq9wEiOOivgeIkmj2HcHC9onXe
 sidebar_position: 3
 ---

@@ -3,6 +3,7 @@ displayed_sidbar: pythonSidebar
 slug: /python/DataImport-RemoteBulkWriter
 beta: false
 notebook: false
+type: folder
 token: Yhy1fHTMnlLKvydKzsIcnfPdnmb
 sidebar_position: 4
 ---
@@ -42,7 +43,7 @@ writer = RemoteBulkWriter(
 
 __PARAMETERS:__
 
-- __schema__ (_CollectionSchema_[](./PyMilvusLegacy-CollectionSchema)_) -
+- __schema__ (_[CollectionSchema](./PyMilvusLegacy-CollectionSchema)_) -
 
     __[REQUIRED]__
 
@@ -54,7 +55,7 @@ __PARAMETERS:__
 
     The path to the directory that is to hold the rewritten data.
 
-- __connect_param__ (_ConnectParam_[](./RemoteBulkWriter-S3ConnectParam)_) -
+- __connect_param__ (_[ConnectParam](./RemoteBulkWriter-S3ConnectParam)_) -
 
     The parameters used to connect to a remote bucket.
 

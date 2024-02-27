@@ -2,6 +2,7 @@
 slug: /view-activities
 beta: FALSE
 notebook: FALSE
+type: origin
 token: UfqGwAVleiNu7FkH28JcnlgOnpf
 sidebar_position: 2
 ---
