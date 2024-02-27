@@ -25,6 +25,9 @@
           "doxcnle2wiE0ztuyEXCQgzagvUg",
           "doxcnM4VhaoxKohmWAMxFYqEgFc"
         ],
+        "comment_ids": [
+          "7340168922016612355"
+        ],
         "page": {
           "elements": [
             {
@@ -32,6 +35,9 @@
                 "content": "IndexType",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340168922016612355"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -204,6 +210,9 @@
                 "content": "IVFLAT",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7340168183913267203"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -241,6 +250,9 @@
             "folded": false
           }
         },
+        "comment_ids": [
+          "7340168183913267203"
+        ],
         "parent_id": "FdLUdaL43oIuqTxJVnbcHxgqnkh"
       },
       {
@@ -302,6 +314,9 @@
                 "content": "RNSG",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7340168752798924804"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -311,7 +326,22 @@
             },
             {
               "text_run": {
-                "content": " = 4\n",
+                "content": " = 4",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340168752798924804"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -339,6 +369,9 @@
             "folded": false
           }
         },
+        "comment_ids": [
+          "7340168752798924804"
+        ],
         "parent_id": "FdLUdaL43oIuqTxJVnbcHxgqnkh"
       },
       {

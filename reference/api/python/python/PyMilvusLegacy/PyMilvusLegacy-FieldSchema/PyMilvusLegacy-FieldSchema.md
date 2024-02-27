@@ -99,7 +99,7 @@ __PARAMETERS:__
 
         The number of dimensions a value should have.
 
-        This is required if __dtype__ of this field is to __DataType.FLOAT_VECTOR__.
+        This is required if __dtype__ of this field is set to __DataType.FLOAT_VECTOR__.
 
 __RETURN TYPE:__
 

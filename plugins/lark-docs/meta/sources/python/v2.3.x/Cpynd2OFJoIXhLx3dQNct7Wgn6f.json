@@ -1,6 +1,6 @@
 {
   "created_time": "1706694255",
-  "modified_time": "1708481258",
+  "modified_time": "1709031033",
   "name": "list_aliases()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -23,6 +23,11 @@
           "DQUKdQHq5oOA2JxD1lhcXLFsn0g",
           "NWRzdmVrzotVTkxX5mtcJSeKnOb",
           "UAEbdjp2noc1J4xcotucWHwTnCb",
+          "VUbHdLfJQoMhqkx1zcUc21QSnig",
+          "L0Hvd8SEToEZsIxz2VvcFfibn7d",
+          "NFFJdA1lgowPqkxALI8cMYpjnBO",
+          "BSrAdnAKjo6JqkxTEgsc7fFtnib",
+          "V702dDglWoCgsTxSglecdyAZnEg",
           "InSGd4vjjo9i8rxRqYPc00wVnDc",
           "FfiMdoJ5xoQGpMxHIL4cyQwAnDe",
           "LO1SdMtKNoYdgXx8r8GcNHxznU6",
@@ -483,7 +488,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "list",
+                "content": "dict",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -533,7 +538,453 @@
           "elements": [
             {
               "text_run": {
-                "content": "A list of aliases for the specified collection. If the collection has no aliases, an empty list will be returned.",
+                "content": "A dictionary containing the list of aliases assigned to the specified collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VUbHdLfJQoMhqkx1zcUc21QSnig",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{\n    'aliases': [\n        'test'\n    ], \n    'collection_name': 'test_collection', \n    'db_name': 'default'\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Cpynd2OFJoIXhLx3dQNct7Wgn6f"
+      },
+      {
+        "block_id": "L0Hvd8SEToEZsIxz2VvcFfibn7d",
+        "block_type": 2,
+        "parent_id": "Cpynd2OFJoIXhLx3dQNct7Wgn6f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NFFJdA1lgowPqkxALI8cMYpjnBO",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "aliases ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "list",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "KtfFd7RKdoAyuax8TwKcvkBnnqb"
+        ],
+        "parent_id": "Cpynd2OFJoIXhLx3dQNct7Wgn6f"
+      },
+      {
+        "block_id": "KtfFd7RKdoAyuax8TwKcvkBnnqb",
+        "block_type": 2,
+        "parent_id": "NFFJdA1lgowPqkxALI8cMYpjnBO",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of aliases assigned to the specified collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BSrAdnAKjo6JqkxTEgsc7fFtnib",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection_name ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "J0LSdm3HboiL0MxITEYcunk2nTc"
+        ],
+        "parent_id": "Cpynd2OFJoIXhLx3dQNct7Wgn6f"
+      },
+      {
+        "block_id": "J0LSdm3HboiL0MxITEYcunk2nTc",
+        "block_type": 2,
+        "parent_id": "BSrAdnAKjo6JqkxTEgsc7fFtnib",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The specified collection name.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "V702dDglWoCgsTxSglecdyAZnEg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "db_name",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "ILLldDN7aoPXVDx9eG5cJqb6nuh",
+          "KYgidXXyPoLD9mxdc2WcP6o8nIb",
+          "RztBdrPqmoFUAyxbCLncD1fSnEd",
+          "STjodF08popzOExGJizcifjsnlg"
+        ],
+        "parent_id": "Cpynd2OFJoIXhLx3dQNct7Wgn6f"
+      },
+      {
+        "block_id": "ILLldDN7aoPXVDx9eG5cJqb6nuh",
+        "block_type": 2,
+        "parent_id": "V702dDglWoCgsTxSglecdyAZnEg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the database to which the specified collection belongs to.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KYgidXXyPoLD9mxdc2WcP6o8nIb",
+        "block_type": 2,
+        "parent_id": "V702dDglWoCgsTxSglecdyAZnEg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RztBdrPqmoFUAyxbCLncD1fSnEd",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "N6kDdzW9tojwMSxsZWZcRQWcnsC",
+          "KDOsd5Joko5AAwxQbzYcSgoWnNg"
+        ],
+        "parent_id": "V702dDglWoCgsTxSglecdyAZnEg"
+      },
+      {
+        "block_id": "N6kDdzW9tojwMSxsZWZcRQWcnsC",
+        "block_type": 2,
+        "parent_id": "RztBdrPqmoFUAyxbCLncD1fSnEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KDOsd5Joko5AAwxQbzYcSgoWnNg",
+        "block_type": 2,
+        "parent_id": "RztBdrPqmoFUAyxbCLncD1fSnEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, the database APIs are not available on Zilliz Cloud.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "STjodF08popzOExGJizcifjsnlg",
+        "block_type": 2,
+        "parent_id": "V702dDglWoCgsTxSglecdyAZnEg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -750,7 +1201,7 @@
             },
             {
               "text_run": {
-                "content": "# ['test']",
+                "content": "# {'aliases': ['test'], 'collection_name': 'test_collection', 'db_name': 'default'}",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -837,7 +1288,7 @@
             },
             {
               "text_run": {
-                "content": "# ['test']",
+                "content": "# {'aliases': ['test'], 'collection_name': 'test_collection', 'db_name': 'default'}",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1018,7 +1469,7 @@
         "parent_id": "Cpynd2OFJoIXhLx3dQNct7Wgn6f"
       }
     ],
-    "counts": 32
+    "counts": 45
   },
   "slug": "Collections-list_aliases"
 }

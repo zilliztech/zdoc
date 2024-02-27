@@ -14,7 +14,6 @@
         "block_type": 1,
         "children": [
           "RaKbdgazlodi2exMnqncaLt3n0c",
-          "KUv1dzNgroF9cGxAT92cryDrnch",
           "Lrpwd3ucfoCUo3xVDHjcbXOjnjb",
           "OTHydktN9ouHFMxL7IgczBPwnAf",
           "GIwVdpNNBoB7SZxRCnAckf1unhg",
@@ -68,94 +67,6 @@
             {
               "text_run": {
                 "content": "This operation loads the data of a specific collection into memory.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "KUv1dzNgroF9cGxAT92cryDrnch",
-        "block_type": 19,
-        "callout": {
-          "background_color": 2,
-          "border_color": 2,
-          "emoji_id": "blue_book"
-        },
-        "children": [
-          "BWNbd80uloD4ywxneiwcw2KZnxf",
-          "DbJJdWRL9ow6dRxjgzDcW5mAnSd"
-        ],
-        "parent_id": "FLmWdFP9Zo3JcixOEgucU8JMnLc"
-      },
-      {
-        "block_id": "BWNbd80uloD4ywxneiwcw2KZnxf",
-        "block_type": 2,
-        "parent_id": "KUv1dzNgroF9cGxAT92cryDrnch",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Notes",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "DbJJdWRL9ow6dRxjgzDcW5mAnSd",
-        "block_type": 2,
-        "parent_id": "KUv1dzNgroF9cGxAT92cryDrnch",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "This operation is required only if the target collection is not loaded. A collection is in the ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "NotLoad",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " state only if you have released the collection or you have created the collection without any index parameters.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1024,7 +935,7 @@
         "parent_id": "FLmWdFP9Zo3JcixOEgucU8JMnLc"
       }
     ],
-    "counts": 32
+    "counts": 29
   },
   "slug": "Management-load_collection"
 }

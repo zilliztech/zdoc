@@ -1,6 +1,6 @@
 {
   "created_time": "1705563350",
-  "modified_time": "1708503702",
+  "modified_time": "1709030377",
   "name": "add_index()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "IZKcfUEfClhhnWdFhk2co7krnAV",
@@ -118,7 +118,100 @@
           "elements": [
             {
               "text_run": {
-                "content": "IndexParams.add_index(\n    field_name: str,\n    index_type: str,\n    index_name: str\n",
+                "content": "IndexParams.add_index(\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    f",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ield_name: str,",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340206506314170371"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    index_type: str,",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340206506314170371"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    index_name: str",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340206506314170371"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -146,6 +239,9 @@
             "wrap": false
           }
         },
+        "comment_ids": [
+          "7340206506314170371"
+        ],
         "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd"
       },
       {
@@ -781,7 +877,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient, DataType\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\n# - For a scalar field\nindex_params.add_index(\n    field_name=\"my_id\"\n)\n\n# - For a vector field\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n",
+                "content": "from pymilvus import MilvusClient, DataType\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\n# - For a scalar field\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\n# - For a vector field\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"IVF_FLAT\",\n    metric_type=\"L2\",\n    params={\"nlist\": 1024}\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -868,7 +964,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient, DataType\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\n# - For a scalar field\nindex_params.add_index(\n    field_name=\"my_id\"\n)\n\n# - For a vector field\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"IVF_FLAT\",\n",
+                "content": "from pymilvus import MilvusClient, DataType\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\n# - For a scalar field\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\n# - For a vector field\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"IVF_FLAT\",\n    metric_type=\"L2\",\n    params={\"nlist\": 1024}\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

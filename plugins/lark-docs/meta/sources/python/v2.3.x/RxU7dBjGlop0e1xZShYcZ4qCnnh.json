@@ -1,6 +1,6 @@
 {
   "created_time": "1704871100",
-  "modified_time": "1708584856",
+  "modified_time": "1709005213",
   "name": "create_schema()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -940,7 +940,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Once a field is designated as the partition key, <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> automatically ",
+                "content": "Once a field is designated as the partition key, <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -952,7 +952,7 @@
             },
             {
               "text_run": {
-                "content": "creates a partition for each unique value in this field ",
+                "content": "calculates a hash based on the partition key value of each inserted entity ",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -967,7 +967,7 @@
             },
             {
               "text_run": {
-                "content": "and saves entities in these partitions accordingly.",
+                "content": "and saves entities in the partitions of the target collection accordingly.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1291,7 +1291,46 @@
             },
             {
               "text_run": {
-                "content": "\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\n",
+                "content": "\n\n# 2. Add fields to schema\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "add_field",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340205082660978692"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1320,6 +1359,7 @@
           }
         },
         "comment_ids": [
+          "7340205082660978692",
           "7324995726642757636"
         ],
         "parent_id": "RxU7dBjGlop0e1xZShYcZ4qCnnh"

@@ -61,7 +61,7 @@ __PARAMETERS:__
 
         <Admonition type="info" icon="📘" title="What is a partition key?">
 
-        <p>Once a field is designated as the partition key, Zilliz Cloud automatically creates a partition for each unique value in this field and saves entities in these partitions accordingly.</p>
+        <p>Once a field is designated as the partition key, Zilliz Cloud calculates a hash based on the partition key value of each inserted entity and saves entities in the partitions of the target collection accordingly.</p>
         <p>This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.</p>
 
         </Admonition>

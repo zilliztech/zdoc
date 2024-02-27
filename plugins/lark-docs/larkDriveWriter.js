@@ -103,7 +103,9 @@ class larkDriveWriter extends larkDocWriter {
 
         let obj;
         var current_path = path
-        this.docs = await this.__listed_docs()
+        if (!this.docs) {
+            this.docs = await this.__listed_docs()
+        }
 
         if (page_token) {
             obj = this.__fetch_doc_source('token', page_token)

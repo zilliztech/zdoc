@@ -107,6 +107,8 @@ client.get_load_state(
     collection_name="customized_setup",
 ) # Loaded
 
+# {'state': <LoadState: Loaded>}
+
 # 9. Release the collection
 client.release_collection(
     collection_name="customized_setup"
@@ -116,6 +118,8 @@ client.release_collection(
 client.get_load_state(
     collection_name="customized_setup"
 ) # Unloaded
+
+# {'state': <LoadState: NotLoad>}
 ```
 
 ## Related methods{#related-methods}

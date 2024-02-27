@@ -15,12 +15,6 @@ import Admonition from '@theme/Admonition';
 
 This operation loads the data of a specific collection into memory.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This operation is required only if the target collection is not loaded. A collection is in the <strong>NotLoad</strong> state only if you have released the collection or you have created the collection without any index parameters.</p>
-
-</Admonition>
-
 ## Request syntax{#request-syntax}
 
 ```python

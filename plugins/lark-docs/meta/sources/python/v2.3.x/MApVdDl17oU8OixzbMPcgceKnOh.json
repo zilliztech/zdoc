@@ -1,6 +1,6 @@
 {
   "created_time": "1706698174",
-  "modified_time": "1708480275",
+  "modified_time": "1709030662",
   "name": "list_roles()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "W9SBfQfXUlZAXDdK6nTcop4rnFd",
@@ -31,6 +31,7 @@
           "C72LdMYEiotKpXxANRNcCijDnkf",
           "RjIndPVKzoTUO1xqacScXSWSnud",
           "LT7SdZbLDoWzlAxc5YPcwCtTnwg",
+          "OIvHdKJPno7dRhxgDaQcyfhnnEf",
           "D8NGdIHNzoGE7Jx3LeVcMtr1nFh",
           "RZ3vdlgdyotek8xHhpkcNMDXnQ9",
           "B67hdfxC1ovxZFxb2BzcWTOjnqc",
@@ -643,7 +644,7 @@
             },
             {
               "text_run": {
-                "content": "# ['admin', 'public', 'read_only']",
+                "content": "# ['root', 'public', 'read_only']",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -718,7 +719,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a role\nclient.create_role(role_name=\"read_only\")\n\n# 3. List all roles\nclient.list_roles()\n\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. List all roles\nclient.list_roles()\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -730,7 +731,7 @@
             },
             {
               "text_run": {
-                "content": "# ['admin', 'public', 'read_only']",
+                "content": "# ['db_admin', 'db_ro', 'db_rw']",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -747,6 +748,169 @@
           }
         },
         "parent_id": "MApVdDl17oU8OixzbMPcgceKnOh"
+      },
+      {
+        "block_id": "OIvHdKJPno7dRhxgDaQcyfhnnEf",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "MQX3dP3nEoubI2xZjBmccPXTnrh",
+          "AMLWdrutBoWX09xgCA1cKCA0nVd"
+        ],
+        "parent_id": "MApVdDl17oU8OixzbMPcgceKnOh"
+      },
+      {
+        "block_id": "MQX3dP3nEoubI2xZjBmccPXTnrh",
+        "block_type": 2,
+        "parent_id": "OIvHdKJPno7dRhxgDaQcyfhnnEf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AMLWdrutBoWX09xgCA1cKCA0nVd",
+        "block_type": 2,
+        "parent_id": "OIvHdKJPno7dRhxgDaQcyfhnnEf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Each Zilliz Cloud cluster has three built-in roles, namely, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "db\\_ro",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "db\\_rw",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "db\\_admin",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Cluster Built-in Roles",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fuser-roles%23cluster-built-in-roles"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "D8NGdIHNzoGE7Jx3LeVcMtr1nFh",
@@ -1145,7 +1309,7 @@
         "parent_id": "MApVdDl17oU8OixzbMPcgceKnOh"
       }
     ],
-    "counts": 38
+    "counts": 41
   },
   "slug": "Authentication-list_roles"
 }

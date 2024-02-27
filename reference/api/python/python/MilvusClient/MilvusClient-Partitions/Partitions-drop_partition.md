@@ -39,7 +39,7 @@ __PARAMETERS:__
 
     The name of an existing collection.
 
-- __partition_name__ (_string_)
+- __partition_names__ (_str_)
 
     __[REQUIRED]__
 
@@ -88,7 +88,7 @@ client.create_partition(
 # 4. Release partition
 client.release_partitions(
     collection_name="test_collection",
-    partition_name="partition_A"
+    partition_names=["partition_A"]
 )
 
 # 4. Drop the partition

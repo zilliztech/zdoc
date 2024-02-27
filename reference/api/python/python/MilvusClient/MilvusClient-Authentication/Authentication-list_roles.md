@@ -60,14 +60,17 @@ client = MilvusClient(
     token="user:password"
 )
 
-# 2. Create a role
-client.create_role(role_name="read_only")
-
-# 3. List all roles
+# 2. List all roles
 client.list_roles()
 
-# ['admin', 'public', 'read_only']
+# ['db_admin', 'db_ro', 'db_rw']
 ```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Each Zilliz Cloud cluster has three built-in roles, namely, <strong>db_ro</strong>, <strong>db_rw</strong>, and <strong>db_admin</strong>. For details, refer to <a href="/docs/user-roles#cluster-built-in-roles">Cluster Built-in Roles</a>.</p>
+
+</Admonition>
 
 ## Related methods{#related-methods}
 

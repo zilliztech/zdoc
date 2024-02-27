@@ -634,7 +634,9 @@
           "DlYKd6zRxomUbUxHEKcc1SJqnse",
           "BLFndfyyaoYpxSx4KFbcotNAnwh",
           "Fyk7dgkSUoAZkYx7baecrbfrnTf",
-          "SwYbdisCCoXhfGxJIKoccfoOnKb"
+          "SwYbdisCCoXhfGxJIKoccfoOnKb",
+          "V8ZOd5sT1oI0upxIcu6ctCCSn5b",
+          "ARj9d1TQuoV71Xxy1A4cdis3nLb"
         ],
         "parent_id": "CAzpdAw3wo4ZqrxhjTLcEGBBn1S"
       },
@@ -670,7 +672,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "├── IndexParam\n│       ├── field_name\n│       ├── index_name\n",
+                "content": "├──",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -682,9 +684,93 @@
             },
             {
               "text_run": {
-                "content": "│       └── index_type",
+                "content": " IndexParam",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340200679350321156"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "│       ├── field_name",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340200679350321156"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "│       ├── index_name",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340200679350321156"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n│       ├── index_type\n│       ├── metric_type\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "│       └── params",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340200679350321156"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -698,6 +784,9 @@
             "wrap": false
           }
         },
+        "comment_ids": [
+          "7340200679350321156"
+        ],
         "parent_id": "Ytnzdu1Dzomkq8xY2MqcL3ddnUd"
       },
       {
@@ -1122,6 +1211,283 @@
         }
       },
       {
+        "block_id": "V8ZOd5sT1oI0upxIcu6ctCCSn5b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "metric_type",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "XrCBdUp7po10A0xB9lecBEcNnAc",
+          "LYqzdqixUoN18hxr0O1ceeqGnUb"
+        ],
+        "parent_id": "Ytnzdu1Dzomkq8xY2MqcL3ddnUd"
+      },
+      {
+        "block_id": "XrCBdUp7po10A0xB9lecBEcNnAc",
+        "block_type": 2,
+        "parent_id": "V8ZOd5sT1oI0upxIcu6ctCCSn5b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The algorithm that is used to measure similarity between vectors. Possible values are ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IP",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "L2",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "COSINE",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LYqzdqixUoN18hxr0O1ceeqGnUb",
+        "block_type": 2,
+        "parent_id": "V8ZOd5sT1oI0upxIcu6ctCCSn5b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This is available only when the specified field is a vector field. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ARj9d1TQuoV71Xxy1A4cdis3nLb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "params",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "dict",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "IThddnsVLoNb5mxYrkZcJo8bn1W"
+        ],
+        "parent_id": "Ytnzdu1Dzomkq8xY2MqcL3ddnUd"
+      },
+      {
+        "block_id": "IThddnsVLoNb5mxYrkZcJo8bn1W",
+        "block_type": 2,
+        "parent_id": "ARj9d1TQuoV71Xxy1A4cdis3nLb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Index parameters related to the listed index type.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "indentation_level": "NoIndent"
+          }
+        }
+      },
+      {
         "block_id": "Dd0pdKHH7oAe3bxKoiAcD1KBny1",
         "block_type": 2,
         "parent_id": "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
@@ -1374,7 +1740,7 @@
         "parent_id": "CAzpdAw3wo4ZqrxhjTLcEGBBn1S"
       }
     ],
-    "counts": 35
+    "counts": 40
   },
   "slug": "Management-prepare_index_params"
 }

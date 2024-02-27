@@ -1,6 +1,6 @@
 {
   "created_time": "1706697975",
-  "modified_time": "1709003307",
+  "modified_time": "1709030602",
   "name": "describe_role()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "W9SBfQfXUlZAXDdK6nTcop4rnFd",
@@ -32,6 +32,7 @@
           "VK3TdIm3poodQXxaXBkcHP6WnZg",
           "FZISdVHmMoui76xnY3Tc6DmSnU9",
           "YnscdVhw7on1QexEfpEczxvTnte",
+          "OzybdmoAtopCozxdubPcb50jnJd",
           "Q4Dqdv8pQo8zbvxLS4kcoApRnoO",
           "GTdTdUnK4oqFTDxDZq8cahJbnSf",
           "Fi7hdFVFro5r9xxiiUscQZgenpf",
@@ -894,6 +895,169 @@
         "parent_id": "JJz3dFrE2oJP3AxySWYcJlf4nMh"
       },
       {
+        "block_id": "OzybdmoAtopCozxdubPcb50jnJd",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "DMtZd5X7DoT3SXxFpkLcNqjonMb",
+          "HuLmdKgUCo7urqx2ruTcDcXdnjz"
+        ],
+        "parent_id": "JJz3dFrE2oJP3AxySWYcJlf4nMh"
+      },
+      {
+        "block_id": "DMtZd5X7DoT3SXxFpkLcNqjonMb",
+        "block_type": 2,
+        "parent_id": "OzybdmoAtopCozxdubPcb50jnJd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HuLmdKgUCo7urqx2ruTcDcXdnjz",
+        "block_type": 2,
+        "parent_id": "OzybdmoAtopCozxdubPcb50jnJd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Each Zilliz Cloud cluster has three built-in roles, namely, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "db\\_ro",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "db\\_rw",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "db\\_admin",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Cluster Built-in Roles",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fuser-roles%23cluster-built-in-roles"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "Q4Dqdv8pQo8zbvxLS4kcoApRnoO",
         "block_type": 2,
         "parent_id": "JJz3dFrE2oJP3AxySWYcJlf4nMh",
@@ -1240,7 +1404,7 @@
         "parent_id": "JJz3dFrE2oJP3AxySWYcJlf4nMh"
       }
     ],
-    "counts": 39
+    "counts": 42
   },
   "slug": "Authentication-describe_role"
 }

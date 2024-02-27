@@ -79,9 +79,11 @@ client = MilvusClient(
 # 2. Create a collection and get its load status
 client.create_collection(collection_name="test_collection", dimension=5)
 
-client.get_load_state(
+res = client.get_load_state(
     collection_name="test_collection"
 )
+
+print(res)
 
 # {'state': <LoadState: Loaded>}
 
@@ -92,10 +94,12 @@ client.create_partition(
 )
 
 # 4. Check the load status of the partition
-client.get_load_state(
+res = client.get_load_state(
     collection_name="test_collection",
-    partition_names=["partition_A"],
+    partition_name="partition_A",
 )
+
+print(res)
 
 # {'state': <LoadState: Loaded>}
 
@@ -106,18 +110,20 @@ client.release_partitions(
 )
 
 # 6. Check the load status
-client.get_load_state(
+res = client.get_load_state(
     collection_name="test_collection",
-    partition_name=["partition_A"]
+    partition_name="partition_A"
 )
+
+print(res)
 
 # {'state': <LoadState: NotLoad>}
 
-client.get_load_state(
+res = client.get_load_state(
     collection_name="test_collection"
 )
 
-# {'state': <LoadState: NotLoad>}
+# {'state': <LoadState: Loaded>}
 ```
 
 ## Related methods{#related-methods}

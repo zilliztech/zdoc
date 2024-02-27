@@ -58,7 +58,9 @@ An __IndexParams__ contains a list of __IndexParam__ objects.
     ├── IndexParam
     │       ├── field_name
     │       ├── index_name
-    │       └── index_type
+    │       ├── index_type
+    │       ├── metric_type
+    │       └── params
     ```
 
     - __field_name__ (_str_)
@@ -72,6 +74,16 @@ An __IndexParams__ contains a list of __IndexParam__ objects.
     - __index_type__ (_str_)
 
         The name of the algorithm used to arrange data in the specific field. 
+
+    - __metric_type__ (_str_)
+
+        The algorithm that is used to measure similarity between vectors. Possible values are __IP__, __L2__, and __COSINE__.
+
+        This is available only when the specified field is a vector field. 
+
+    - __params__ (_dict_)
+
+        Index parameters related to the listed index type.
 
 __EXCEPTIONS:__
 

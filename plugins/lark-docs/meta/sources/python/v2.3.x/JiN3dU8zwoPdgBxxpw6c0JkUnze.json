@@ -29,9 +29,7 @@
           "doxcnOBJadQus91uksdo1K9KQ6f",
           "doxcnJ0E0WPOsq6rErEmsfLPwrb",
           "doxcnnPN8LgIJbuVXYaezZvxpNf",
-          "doxcn6FckjAWkHQFCWpgAinaYSb",
-          "TXesdwwRpoaYOCxZAuJcBj9pnBf",
-          "QeILdUJgVoKuGHxRNXQcPrdenDc"
+          "doxcn6FckjAWkHQFCWpgAinaYSb"
         ],
         "page": {
           "elements": [
@@ -309,6 +307,9 @@
                 "content": "Sets the data type to ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340161841807048707"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -321,6 +322,9 @@
                 "content": "Int64",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7340161841807048707"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -333,6 +337,9 @@
                 "content": ".",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340161841807048707"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -346,6 +353,9 @@
             "folded": false
           }
         },
+        "comment_ids": [
+          "7340161841807048707"
+        ],
         "parent_id": "JiN3dU8zwoPdgBxxpw6c0JkUnze"
       },
       {
@@ -1084,71 +1094,9 @@
           }
         },
         "parent_id": "JiN3dU8zwoPdgBxxpw6c0JkUnze"
-      },
-      {
-        "block_id": "TXesdwwRpoaYOCxZAuJcBj9pnBf",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Example",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "JiN3dU8zwoPdgBxxpw6c0JkUnze"
-      },
-      {
-        "block_id": "QeILdUJgVoKuGHxRNXQcPrdenDc",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "from pymilvus import FieldSchema, DataType\n\n# Sets the data type to Int8\nfield_int8 = FieldSchema(\n    name=\"field_int8\",\n    # highlight-next\n    dtype=DataType.INT8\n)\n\n# Sets the data type to Varchar\nfield_varchar = FieldSchema(\n    name=\"field_varchar\",\n    # highlight-start\n    dtype=DataType.VARCHAR,\n    max_length=512 # Required attribute for a VARCHAR field.\n    # highlight-end\n)\n\n# Sets the data type to Float Vector\nfield_float_vector = FieldSchema(\n    name=\"field_float_vector\",\n    # highlight-start\n    dtype=DataType.FLOAT_VECTOR,\n    dim=768 # Required attribute for a FLOAT_VECTOR field.\n    # highlight-end\n)\n\n# Sets the data type to Binary Vector\nfield_float_vector = FieldSchema(\n    name=\"field_float_vector\",\n    # highlight-start\n    dtype=DataType.BINARY_VECTOR,\n    dim=128 # Required attribute for a BINARY_VECTOR field.\n    # highlight-end\n)\n\n# Sets the data type to JSON\nfield_json = FieldSchema(\n    name=\"field_json\",\n    # highlight-next\n    dtype=DataType.JSON\n)\n\n# Sets the data type to Array\nfield_json = FieldSchema(\n    name=\"field_json\",\n    # highlight-next\n    dtype=DataType.ARRAY\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ")",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 49,
-            "wrap": false
-          }
-        },
-        "parent_id": "JiN3dU8zwoPdgBxxpw6c0JkUnze"
       }
     ],
-    "counts": 20
+    "counts": 18
   },
   "slug": "Collections-DataType"
 }

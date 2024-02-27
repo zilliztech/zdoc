@@ -610,14 +610,32 @@
       {
         "block_id": "N6szdNUBqoNo61xUBAJcfLwVnab",
         "block_type": 2,
+        "comment_ids": [
+          "7340202521643859972"
+        ],
         "parent_id": "DBA9dny9ZoOM5Lx0AvRcJjwlnBd",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.",
+                "content": "This exception will be raised when any error occurs during this operation",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340202521643859972"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,

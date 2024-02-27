@@ -74,13 +74,16 @@ index_params = client.prepare_index_params()
 # 4. Add indexes
 # - For a scalar field
 index_params.add_index(
-    field_name="my_id"
+    field_name="my_id",
+    index_type="STL_SORT"
 )
 
 # - For a vector field
 index_params.add_index(
     field_name="my_vector", 
-    index_type="AUTOINDEX",
+    index_type="IVF_FLAT",
+    metric_type="L2",
+    params={"nlist": 1024}
 )
 ```
 

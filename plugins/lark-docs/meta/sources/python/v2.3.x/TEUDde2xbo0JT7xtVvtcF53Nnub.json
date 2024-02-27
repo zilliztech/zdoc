@@ -1082,6 +1082,9 @@
                 "content": ")",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340209201769316355"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1095,6 +1098,9 @@
             "wrap": false
           }
         },
+        "comment_ids": [
+          "7340209201769316355"
+        ],
         "parent_id": "TEUDde2xbo0JT7xtVvtcF53Nnub"
       },
       {

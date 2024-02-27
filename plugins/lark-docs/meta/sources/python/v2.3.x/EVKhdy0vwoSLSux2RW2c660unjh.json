@@ -1,6 +1,6 @@
 {
   "created_time": "1704340195",
-  "modified_time": "1708751341",
+  "modified_time": "1709016942",
   "name": "FieldSchema",
   "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_token": "RV1nfeylFlUftwd2w4Wc40TYn6d",
@@ -2172,7 +2172,31 @@
             },
             {
               "text_run": {
-                "content": " of this field is to ",
+                "content": " of this field is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "set ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "to ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

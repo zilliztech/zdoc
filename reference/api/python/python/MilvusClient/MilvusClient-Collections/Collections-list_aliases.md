@@ -40,11 +40,41 @@ __PARAMETERS:__
 
 __RETURN TYPE:__
 
-_list_
+_dict_
 
 __RETURNS:__
 
-A list of aliases for the specified collection. If the collection has no aliases, an empty list will be returned.
+A dictionary containing the list of aliases assigned to the specified collection.
+
+```python
+{
+    'aliases': [
+        'test'
+    ], 
+    'collection_name': 'test_collection', 
+    'db_name': 'default'
+}
+```
+
+__PARAMETERS:__
+
+- __aliases __(_list_) -
+
+    A list of aliases assigned to the specified collection.
+
+- __collection_name __(_str_) -
+
+    The specified collection name.
+
+- __db_name__ (_str_) -
+
+    The name of the database to which the specified collection belongs to.
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>Currently, the database APIs are not available on Zilliz Cloud.</p>
+
+    </Admonition>
 
 __EXCEPTIONS:__
 
@@ -76,7 +106,7 @@ client.create_alias(collection_name="test_collection", alias="test")
 # 4. List aliases of the collection
 client.list_aliases(collection_name="test_collection")
 
-# ['test']
+# {'aliases': ['test'], 'collection_name': 'test_collection', 'db_name': 'default'}
 ```
 
 ## Related methods{#related-methods}

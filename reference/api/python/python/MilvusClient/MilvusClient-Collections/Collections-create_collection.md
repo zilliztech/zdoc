@@ -111,7 +111,7 @@ __PARAMETERS:__
 
         The number of shards to create along with the creation of this collection. 
 
-        The value defaults to __2__, indicating that two shards are to be created along with this collection.
+        The value defaults to __1__, indicating that two shards are to be created along with this collection.
 
         <Admonition type="info" icon="📘" title="What is sharding?">
 

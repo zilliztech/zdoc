@@ -139,7 +139,34 @@
           "elements": [
             {
               "text_run": {
-                "content": "create_collection(\n    collection_name: str,\n    dimension: int,\n    primary_field_name: str = \"id\",\n    id_type: str = \"int\",\n    vector_field_name: str = \"vector\",\n    metric_type: str = \"IP\",\n    auto_id: bool = False,\n    timeout: Optional[float] = None,\n    schema: Optional[CollectionSchema] = None,\n    index_params: Optional[IndexParams] = None,\n    **kwargs,\n",
+                "content": "create_collection(\n    collection_name: str,\n    dimension: int,\n    primary_field_name: str = \"id\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    id_type: str = \"int\",",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340163427815882755"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    vector_field_name: str = \"vector\",\n    metric_type: str = \"IP\",\n    auto_id: bool = False,\n    timeout: Optional[float] = None,\n    schema: Optional[CollectionSchema] = None,\n    index_params: Optional[IndexParams] = None,\n    **kwargs,\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -167,6 +194,9 @@
             "wrap": false
           }
         },
+        "comment_ids": [
+          "7340163427815882755"
+        ],
         "parent_id": "TziHdCu4VoURrfxAMsUcsRhQnub"
       },
       {
@@ -682,6 +712,9 @@
       {
         "block_id": "LEJ9d8jbtot2d3xIaeXcP4VxnWf",
         "block_type": 2,
+        "comment_ids": [
+          "7340161591428333572"
+        ],
         "parent_id": "VBvfdlN5soOZjHxAq8gcDfRjnyf",
         "text": {
           "elements": [
@@ -690,6 +723,9 @@
                 "content": "The value defaults to ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340161591428333572"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -702,6 +738,9 @@
                 "content": "int",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7340161591428333572"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -714,6 +753,9 @@
                 "content": ". Possible values are ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340161591428333572"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -726,6 +768,9 @@
                 "content": "int",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7340161591428333572"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -738,6 +783,9 @@
                 "content": " and ",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340161591428333572"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -750,6 +798,9 @@
                 "content": "str",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7340161591428333572"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1009,14 +1060,32 @@
       {
         "block_id": "N6dSd93a1oUSywxzJPlcMbs9nmh",
         "block_type": 2,
+        "comment_ids": [
+          "7340162857047146500"
+        ],
         "parent_id": "YXkbdmEUUoViYFxPEt1c3TX1nRg",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "The value defaults to ",
+                "content": "The ",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340162857047146500"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1029,6 +1098,9 @@
                 "content": "IP",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7340162857047146500"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -2229,12 +2301,15 @@
       {
         "block_id": "BZpsdof7wo7t84xaZsycgUtJn5f",
         "block_type": 2,
+        "comment_ids": [
+          "7340157189302992899"
+        ],
         "parent_id": "Fds0duZAYosl3dxb30ZcQBYin7d",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "The value defaults to ",
+                "content": "The value ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2246,9 +2321,27 @@
             },
             {
               "text_run": {
-                "content": "2",
+                "content": "defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340157189302992899"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "1",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7340157189302992899"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,

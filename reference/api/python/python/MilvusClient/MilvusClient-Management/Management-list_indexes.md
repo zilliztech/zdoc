@@ -72,18 +72,21 @@ schema.add_field(field_name="my_id", datatype=DataType.INT64, is_primary=True)
 schema.add_field(field_name="my_vector", datatype=DataType.FLOAT_VECTOR, dim=5)
 
 # 3. Create index parameters
-index_params = Milvus.prepare_index_params()
+index_params = client.prepare_index_params()
 
 # 4. Add indexes
 # - For a scalar field
 index_params.add_index(
-    field_name="my_id"
+    field_name="my_id",
+    index_type="STL_SORT"
 )
 
 # - For a vector field
 index_params.add_index(
     field_name="my_vector", 
-    index_type="AUTOINDEX",
+    index_type="IVF_FLAT",
+    metric_type="L2",
+    params={"nlist": 1024}
 )
 
 # 5. Create a collection
@@ -101,7 +104,7 @@ client.create_index(
 # 6. List indexes
 client.list_indexes(collection_name="customized_setup")
 
-# ['_default_idx_101', '_default_idx_100']
+# # ['my_id', 'my_vector']
 ```
 
 ## Related methods{#related-methods}

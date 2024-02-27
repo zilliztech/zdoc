@@ -50,7 +50,7 @@ __EXCEPTIONS:__
 
 - __MilvusException__
 
-    This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
+    This exception will be raised when any error occurs during this operation.
 
 ## Example{#example}
 
