@@ -20,7 +20,7 @@ This operation lists all indexes of a specific collection.
 ```python
 list_indexes(
     collection_name: str,
-    index_name: Optional[str],
+    field_name: Optional[str],
     **kwargs,    
 ) -> List
 ```
@@ -33,9 +33,9 @@ __PARAMETERS:__
 
     The name of an existing collection.
 
-- __index_name__ (_str_) -
+- __field_name__ (_str_) -
 
-    The name of an existing index. Leaving this unspecified make this operation list all indexes.
+    The name of a field. Leaving this unspecified make this operation list all indexes.
 
 __RETURN TYPE:__
 

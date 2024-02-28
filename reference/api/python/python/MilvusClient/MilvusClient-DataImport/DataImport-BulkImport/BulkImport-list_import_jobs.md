@@ -151,28 +151,28 @@ res = list_import_jobs(
 
 print(res.json())
 
-_# Output_
-_#_
-_# {_
-_#     "code": 200,_
-_#     "data": {_
-_#         "tasks": [_
-_#             {_
-_#                 "collectionName": "medium_articles",_
-_#                 "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a",_
-_#                 "state": "ImportCompleted"_
-_#             },_
-_#             {_
-_#                 "collectionName": "medium_articles",_
-_#                 "jobId": "53632e6c-c078-4476-b840-10c4793d9c08",_
-_#                 "state": "ImportCompleted"_
-_#             },_
-_#         ],_
-_#         "count": 2,_
-_#         "currentPage": 1,_
-_#         "pageSize": 10_
-_#     }_
-_# }_
+# Output
+#
+# {
+#     "code": 200,
+#     "data": {
+#         "tasks": [
+#             {
+#                 "collectionName": "medium_articles",
+#                 "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a",
+#                 "state": "ImportCompleted"
+#             },
+#             {
+#                 "collectionName": "medium_articles",
+#                 "jobId": "53632e6c-c078-4476-b840-10c4793d9c08",
+#                 "state": "ImportCompleted"
+#             },
+#         ],
+#         "count": 2,
+#         "currentPage": 1,
+#         "pageSize": 10
+#     }
+# }
 ```
 
 For details, refer to [Import Data (SDK)](/docs/import-data-via-sdks) in our user guides.

@@ -125,7 +125,7 @@ index_params.add_index(
 # - For a vector field
 index_params.add_index(
     field_name="my_vector", 
-    index_type="IVF_FLAT",
+    index_type="AUTOINDEX",
     metric_type="L2",
     params={"nlist": 1024}
 )

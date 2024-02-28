@@ -40,11 +40,26 @@ __PARAMETERS:__
 
 __RETURN TYPE:__
 
-_NoneType_
+_dict_
 
 __RETURNS:__
 
-None
+A dictionary containing detailed information about the specified users.
+
+```python
+# {
+#       'user_name': str, 
+#       'roles': tuple
+# }
+```
+
+- __user_name__ (_str_) -
+
+    The name of the specified users.
+
+- __roles__ (_tuple_) - 
+
+    The roles granted to the specified user.
 
 __EXCEPTIONS:__
 

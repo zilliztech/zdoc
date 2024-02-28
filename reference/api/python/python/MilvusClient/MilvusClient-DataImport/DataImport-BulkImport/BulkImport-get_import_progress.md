@@ -73,27 +73,27 @@ __RETURNS:__
 - Response syntax
 
     ```python
-    _# {_
-    _#     "code": 200,_
-    _#     "data": {_
-    _#         "collectionName": "string",_
-    _#         "fileName": "string",_
-    _#         "fileSize": int,_
-    _#         "readyPercentage": int,_
-    _#         "completeTime": "string",_
-    _#         "errorMessage": null,_
-    _#         "jobId": "string",_
-    _#         "details": [_
-    _#             {_
-    _#                 "fileName": "string",_
-    _#                 "fileSize": int,_
-    _#                 "readyPercentage": int,_
-    _#                 "completeTime": "string",_
-    _#                 "errorMessage": null_
-    _#             }_
-    _#         ]_
-    _#     }_
-    _# }_
+    # {
+    #     "code": 200,
+    #     "data": {
+    #         "collectionName": "string",
+    #         "fileName": "string",
+    #         "fileSize": int,
+    #         "readyPercentage": int,
+    #         "completeTime": "string",
+    #         "errorMessage": null,
+    #         "jobId": "string",
+    #         "details": [
+    #             {
+    #                 "fileName": "string",
+    #                 "fileSize": int,
+    #                 "readyPercentage": int,
+    #                 "completeTime": "string",
+    #                 "errorMessage": null
+    #             }
+    #         ]
+    #     }
+    # }
     ```
 
 - Response structure

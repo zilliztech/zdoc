@@ -21,7 +21,9 @@ This operation adds index parameters for a specific field in a collection.
 IndexParams.add_index(
     field_name: str,
     index_type: str,
-    index_name: str
+    index_name: str,
+    metric_type: str,
+    params: dict
 ) -> None
 ```
 
@@ -38,6 +40,16 @@ __PARAMETERS:__
 - __index_type__ (_str_) -
 
     The name of the algorithm used to arrange data in the specific field. 
+
+- __metric_type__ (_str_) -
+
+    The algorithm that is used to measure similarity between vectors. Possible values are __IP__, __L2__, and __COSINE__.
+
+    This is available only when the specified field is a vector field. 
+
+- __params__ (_dict_) -
+
+    The fine-tuning parameters for the specified index type. For details on possible keys and value ranges, refer to  [In-memory Index](https://milvus.io/docs/index.md).
 
 __RETURN TYPE:__
 
@@ -81,7 +93,7 @@ index_params.add_index(
 # - For a vector field
 index_params.add_index(
     field_name="my_vector", 
-    index_type="IVF_FLAT",
+    index_type="AUTOINDEX",
     metric_type="L2",
     params={"nlist": 1024}
 )

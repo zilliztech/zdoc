@@ -1,6 +1,6 @@
 {
   "created_time": "1706703164",
-  "modified_time": "1709030316",
+  "modified_time": "1709087264",
   "name": "list_indexes()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "IZKcfUEfClhhnWdFhk2co7krnAV",
@@ -117,7 +117,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "list_indexes(\n    collection_name: str,\n    index_name: Optional[str],\n    **kwargs,    \n",
+                "content": "list_indexes(\n    collection_name: str,\n    field_name: Optional[str],\n    **kwargs,    \n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -294,7 +294,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "index_name",
+                "content": "field_name",
                 "text_element_style": {
                   "bold": true,
                   "comment_ids": [
@@ -374,7 +374,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The name of an existing index. Leaving this unspecified make this operation list all indexes.",
+                "content": "The name of a field. Leaving this unspecified make this operation list all indexes.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -27,7 +27,7 @@ Sets the data type to __Boolean__.
 Sets the data type to __Int8__.
 
 - INT16 = 3
-Sets the data type to __Int64__.
+Sets the data type to __Int16__.
 
 - INT32 = 4
 Sets the data type to __Int32__.

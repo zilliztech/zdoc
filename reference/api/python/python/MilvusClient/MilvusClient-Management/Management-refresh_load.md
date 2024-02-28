@@ -15,6 +15,12 @@ import Admonition from '@theme/Admonition';
 
 This operation refreshes the load status of an already loaded collection.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>You are advised to call this method after bulk  data into a collection.</p>
+
+</Admonition>
+
 ## Request syntax{#request-syntax}
 
 ```python

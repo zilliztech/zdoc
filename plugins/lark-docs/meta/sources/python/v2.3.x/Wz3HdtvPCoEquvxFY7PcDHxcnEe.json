@@ -1,6 +1,6 @@
 {
   "created_time": "1706699456",
-  "modified_time": "1708480229",
+  "modified_time": "1709088809",
   "name": "describe_user()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "W9SBfQfXUlZAXDdK6nTcop4rnFd",
@@ -23,6 +23,9 @@
           "ARK4dB8maogTxKxsZpSclOsWnKc",
           "TuoqdUeRHocJ6CxLybScm3jDnRh",
           "PIGRdccACoyOTxxnjxgcxbfpnJh",
+          "UxXpdaeGGoR3OnxIZiacKaKmnPe",
+          "U59KdTiLWoEHXvxUwTmciOwOnNc",
+          "WgRvdfJ66oXTKOxcoK0cZqv4nRe",
           "CwrOdDrByobrAyxRYAPcoxPunMh",
           "DEb6dbGAdo5GZpxIDKAc1GZfnte",
           "MMs9d8hCEojSEdxssJZck8Oinld",
@@ -453,6 +456,9 @@
       {
         "block_id": "U6eFdABT8oXa1Cxh0LPcHo3NnEh",
         "block_type": 2,
+        "comment_ids": [
+          "7340467813651742724"
+        ],
         "parent_id": "Wz3HdtvPCoEquvxFY7PcDHxcnEe",
         "text": {
           "elements": [
@@ -461,6 +467,9 @@
                 "content": "RETURN TYPE:",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7340467813651742724"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -483,7 +492,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "NoneType",
+                "content": "dict",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -503,6 +512,9 @@
       {
         "block_id": "TuoqdUeRHocJ6CxLybScm3jDnRh",
         "block_type": 2,
+        "comment_ids": [
+          "7340467813651742724"
+        ],
         "parent_id": "Wz3HdtvPCoEquvxFY7PcDHxcnEe",
         "text": {
           "elements": [
@@ -511,6 +523,9 @@
                 "content": "RETURNS:",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7340467813651742724"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -533,7 +548,222 @@
           "elements": [
             {
               "text_run": {
-                "content": "None",
+                "content": "A dictionary containing detailed information about the specified users.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UxXpdaeGGoR3OnxIZiacKaKmnPe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# {\n#       'user_name': str, \n#       'roles': tuple\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Wz3HdtvPCoEquvxFY7PcDHxcnEe"
+      },
+      {
+        "block_id": "U59KdTiLWoEHXvxUwTmciOwOnNc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "user_name",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "SudhdevdJoJ40Nxbidwc73J9nWb"
+        ],
+        "parent_id": "Wz3HdtvPCoEquvxFY7PcDHxcnEe"
+      },
+      {
+        "block_id": "SudhdevdJoJ40Nxbidwc73J9nWb",
+        "block_type": 2,
+        "parent_id": "U59KdTiLWoEHXvxUwTmciOwOnNc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the specified users.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WgRvdfJ66oXTKOxcoK0cZqv4nRe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "roles",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "tuple",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") - ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "CkPwdbMLPoFMWPxCpUzcf0L4n6c"
+        ],
+        "parent_id": "Wz3HdtvPCoEquvxFY7PcDHxcnEe"
+      },
+      {
+        "block_id": "CkPwdbMLPoFMWPxCpUzcf0L4n6c",
+        "block_type": 2,
+        "parent_id": "WgRvdfJ66oXTKOxcoK0cZqv4nRe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The roles granted to the specified user.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1018,7 +1248,7 @@
         "parent_id": "Wz3HdtvPCoEquvxFY7PcDHxcnEe"
       }
     ],
-    "counts": 32
+    "counts": 37
   },
   "slug": "Authentication-describe_user"
 }

@@ -1,6 +1,6 @@
 {
   "created_time": "1704422702",
-  "modified_time": "1704423882",
+  "modified_time": "1709085398",
   "name": "DataType",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -319,7 +319,7 @@
             },
             {
               "text_run": {
-                "content": "Int64",
+                "content": "Int16",
                 "text_element_style": {
                   "bold": true,
                   "comment_ids": [

@@ -101,12 +101,12 @@ __RETURNS:__
 - Response syntax
 
     ```python
-    _# {_
-    _#     "code": 200,_
-    _#     "data": {_
-    _#         "jobId": "string"_
-    _#     }_
-    _# }_
+    # {
+    #     "code": 200,
+    #     "data": {
+    #         "jobId": "string"
+    #     }
+    # }
     ```
 
 - Response structure

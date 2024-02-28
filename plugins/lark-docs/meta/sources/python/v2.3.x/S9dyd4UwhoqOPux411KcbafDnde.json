@@ -1,6 +1,6 @@
 {
   "created_time": "1703728329",
-  "modified_time": "1708486488",
+  "modified_time": "1709047628",
   "name": "bulk_import()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "MGFYf4JacldYUEdxtJdcwczAntg",
@@ -1342,115 +1342,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "# {",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "#     \"code\": 200,",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "#     \"data\": {",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "#         \"jobId\": \"string\"",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "#     }",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": true,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
+                "content": "# {\n#     \"code\": 200,\n#     \"data\": {\n#         \"jobId\": \"string\"\n#     }\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1466,7 +1358,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": true,
+                  "italic": false,
                   "strikethrough": false,
                   "underline": false
                 }

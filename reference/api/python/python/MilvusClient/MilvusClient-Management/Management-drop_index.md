@@ -111,12 +111,12 @@ client.create_index(
 # 6. List indexes
 client.list_indexes(collection_name="customized_setup")
 
-# ['_default_idx_101', '_default_idx_100']
+# ['my_id', 'my_vector']
 
 # 7. Drop an index
 client.drop_index(
     collection_name="customized_setup", 
-    index_name="_default_idx_100"
+    index_name="my_id"
 )
 ```
 

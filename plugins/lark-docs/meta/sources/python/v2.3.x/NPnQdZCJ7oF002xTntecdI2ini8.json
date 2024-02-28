@@ -1,6 +1,6 @@
 {
   "created_time": "1706703346",
-  "modified_time": "1709030252",
+  "modified_time": "1709032693",
   "name": "drop_index()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "IZKcfUEfClhhnWdFhk2co7krnAV",
@@ -763,7 +763,7 @@
             },
             {
               "text_run": {
-                "content": "# ['_default_idx_101', '_default_idx_100']",
+                "content": "# ['my_id', 'my_vector']",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -790,7 +790,7 @@
             },
             {
               "text_run": {
-                "content": "    index_name=\"_default_idx_100\"",
+                "content": "    index_name=\"my_id\"",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -908,7 +908,7 @@
             },
             {
               "text_run": {
-                "content": "# ['_default_idx_101', '_default_idx_100']",
+                "content": "# ['my_id', 'my_vector']\n\n# 7. Drop an index\nclient.drop_index(\n    collection_name=\"customized_setup\", \n    index_name=\"my_id\"\n",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -923,48 +923,12 @@
             },
             {
               "text_run": {
-                "content": "\n\n# 7. Drop an index\nclient.drop_index(\n    collection_name=\"customized_setup\", \n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "    index_name=\"_default_idx_100\"",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7340192113686413315"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
                 "content": ")",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7340192084672724995"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -979,7 +943,6 @@
           }
         },
         "comment_ids": [
-          "7340192113686413315",
           "7340192084672724995"
         ],
         "parent_id": "NPnQdZCJ7oF002xTntecdI2ini8"

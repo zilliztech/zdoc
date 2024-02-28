@@ -44,7 +44,46 @@ _list_
 
 __RETURNS:__
 
-A list of dictionaries containing the permissions assigned to the role.
+A list of dictionaries containing the permissions assigned to the role. The structure of each dictionary reassembles the following:
+
+```python
+#  {
+#      'object_type': str, 
+#      'object_name': str, 
+#      'db_name': str, 
+#      'role_name': str, 
+#      'privilege': str, 
+#      'grantor_name': str
+#  }
+```
+
+__PARAMETERS:__
+
+- __object_type__ (_str_) -
+
+    The type of the resource object granted to the role. 
+
+    Possible values are __Collection__, __Global__, and __User__.
+
+- __object_name__ (_str_) -
+
+    The name of the resource object granted to the role. You are advised to use an asterisk (*).
+
+- __db_name__ (_str_) -
+
+    The name of the database to which the role has access.
+
+- __role_name__ (_str_) -
+
+    The name of the specified role.
+
+- __privilege__ (_str_) -
+
+    The name of a privilege granted to the role. For details, refer to [Users & Roles](https://milvus.io/docs/users_and_roles.md) for more.
+
+- __grantor_name__ (_str_) - 
+
+    The name of the user who has granted the above permission to the specified role.
 
 __EXCEPTIONS:__
 

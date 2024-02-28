@@ -1,6 +1,6 @@
 {
   "created_time": "1704872499",
-  "modified_time": "1708485591",
+  "modified_time": "1709031813",
   "name": "list_collections()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -532,7 +532,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "This exception will be raised when any error occurs during this operation, ",
+                "content": "This exception will be raised when any error occurs during this operation",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -544,7 +544,7 @@
             },
             {
               "text_run": {
-                "content": "especially when the specified alias does not exist.",
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [

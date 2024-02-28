@@ -1,6 +1,6 @@
 {
   "created_time": "1705563350",
-  "modified_time": "1709030377",
+  "modified_time": "1709086971",
   "name": "add_index()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "IZKcfUEfClhhnWdFhk2co7krnAV",
@@ -20,6 +20,8 @@
           "T9ZmdUk5noQ3qExL0xHcYeEtn0S",
           "AfTldz217oxHBvxfKZHc7v9enag",
           "QcHSd5jLAoZCGKxWnZAcl0cNn4b",
+          "RZEFdDagSonzvcxWLkbcU0pWnvh",
+          "DfzodjSowoMZszxiSBpcXnndnmh",
           "G9hdddkPwoKDDQxGg4RcqeWYnju",
           "V30id1EIroxYnBxkMmTcgjGFnEc",
           "OTzid1H9IoE4eBx3TdqcvkfLnch",
@@ -196,7 +198,7 @@
             },
             {
               "text_run": {
-                "content": "    index_name: str",
+                "content": "    index_name: str,",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -211,7 +213,7 @@
             },
             {
               "text_run": {
-                "content": "\n",
+                "content": "\n    metric_type: str,\n    params: dict\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -643,6 +645,309 @@
         }
       },
       {
+        "block_id": "RZEFdDagSonzvcxWLkbcU0pWnvh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "metric_type",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Xme7domVXolajNxSs4ec8Hc8nLe",
+          "POljdHV1FocMOKxUrPhcQWRcn6e"
+        ],
+        "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd"
+      },
+      {
+        "block_id": "Xme7domVXolajNxSs4ec8Hc8nLe",
+        "block_type": 2,
+        "parent_id": "RZEFdDagSonzvcxWLkbcU0pWnvh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The algorithm that is used to measure similarity between vectors. Possible values are ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IP",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "L2",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "COSINE",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "POljdHV1FocMOKxUrPhcQWRcn6e",
+        "block_type": 2,
+        "parent_id": "RZEFdDagSonzvcxWLkbcU0pWnvh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This is available only when the specified field is a vector field. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DfzodjSowoMZszxiSBpcXnndnmh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "params",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "dict",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "DTIWd68hXo6KT9xp7E2cJWKCnme"
+        ],
+        "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd"
+      },
+      {
+        "block_id": "DTIWd68hXo6KT9xp7E2cJWKCnme",
+        "block_type": 2,
+        "parent_id": "DfzodjSowoMZszxiSBpcXnndnmh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The fine-tuning parameters for the specified index type. For details on possible keys and value ranges, refer to  ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "In-memory Index",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Findex.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "G9hdddkPwoKDDQxGg4RcqeWYnju",
         "block_type": 2,
         "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd",
@@ -877,7 +1182,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient, DataType\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\n# - For a scalar field\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\n# - For a vector field\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"IVF_FLAT\",\n    metric_type=\"L2\",\n    params={\"nlist\": 1024}\n",
+                "content": "from pymilvus import MilvusClient, DataType\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\n# - For a scalar field\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\n# - For a vector field\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n    metric_type=\"L2\",\n    params={\"nlist\": 1024}\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1185,7 +1490,7 @@
         "parent_id": "ZplAdphtooqHJkxo8GCcOFecngd"
       }
     ],
-    "counts": 31
+    "counts": 36
   },
   "slug": "Management-add_index"
 }

@@ -146,12 +146,30 @@
       {
         "block_id": "doxcnSNRn00h4EeVEaIJ95SHg0f",
         "block_type": 2,
+        "comment_ids": [
+          "7340470188079480835"
+        ],
         "parent_id": "TG3Rd9aM5offvFxKy2CcKXn9nWc",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "PARAMETERS:",
+                "content": "PARAMETERS",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7340470188079480835"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -1226,7 +1244,46 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import DataType, FieldSchema, CollectionSchema\n\n# Define fields to create a schema\nprimary_key = FieldSchema(\n    name=\"id\",\n    dtype=DataType.INT64,\n    is_primary=True,\n)\n\nvector = FieldSchema(\n    name=\"vector\",\n    dtype=DataType.FLOAT_VECTOR,\n    dim=768,\n)\n\nschema = CollectionSchema(\n    fields = [primary_key, vector]\n)\n\n# Add a scalar field to the schema\nschema.add_field(\n    field_name=\"scalar_01\",\n    datatype=DataType.INT32\n)\n\n# Output\n",
+                "content": "from pymilvus import DataType, FieldSchema, CollectionSchema\n\n# Define fields to create a schema\nprimary_key = FieldSchema(\n    name=\"id\",\n    dtype=DataType.INT64,\n    is_primary=True,\n)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector = ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "FieldSchema",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7340469945201426435"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(\n    name=\"vector\",\n    dtype=DataType.FLOAT_VECTOR,\n    dim=768,\n)\n\nschema = CollectionSchema(\n    fields = [primary_key, vector]\n)\n\n# Add a scalar field to the schema\nschema.add_field(\n    field_name=\"scalar_01\",\n    datatype=DataType.INT32\n)\n\n# Output\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1254,6 +1311,9 @@
             "wrap": false
           }
         },
+        "comment_ids": [
+          "7340469945201426435"
+        ],
         "parent_id": "TG3Rd9aM5offvFxKy2CcKXn9nWc"
       },
       {
