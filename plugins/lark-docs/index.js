@@ -86,6 +86,8 @@ module.exports = function (context, options) {
                             var file_path = outputDir + '/' + utils.determine_file_path(token, options.docSourceDir)
 
                             const doc_card_list = Object.keys(source).indexOf('children') > -1 ? true : false
+
+                            console.log(meta)
     
                             if (meta['publish']) {
                                 const page_slug = source.slug

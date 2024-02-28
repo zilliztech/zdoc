@@ -395,12 +395,10 @@ class larkDocWriter {
         }
 
         const result = this.records.filter(record => {
-            if (record["fields"]["Docs"] && record["fields"]["Docs"] === title &&
+            if (record["fields"]["Docs"] && record["fields"]["Docs"]["text"] === title &&
                 record["fields"]["Progress"] && (record["fields"]["Progress"] === "Draft" || record["fields"]["Progress"] === "Publish")) {
-                
-                if ((this.target === 'saas' && record["fields"]["Target"] && record["fields"]["Target"] != "PaaS Only") ||
-                    (this.target === 'paas' && record["fields"]["Target"] && record["fields"]["Target"] != "SaaS Only")
-                ) {
+
+                if (record["fields"]["Targets"] && record["fields"]["Targets"].map(a => a.toLowerCase()).includes(this.target)) {
                     return record
                 }
             }

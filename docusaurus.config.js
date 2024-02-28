@@ -88,11 +88,11 @@ const config = {
       base: 'PnsobATKVayIDFs6hhQcChlGnje',
       docSourceDir: './plugins/lark-docs/meta/sources',
       targets: [
-        ['saas', {
+        ['zilliz.saas', {
           outputDir: 'docs/tutorials',
           imageDir: 'static/img',
         }],
-        ['paas', {
+        ['zilliz.paas', {
           outputDir: 'versioned_docs/version-byoc/tutorials',
           imageDir: 'static/byoc',
         }]
