@@ -1,6 +1,6 @@
 {
   "created_time": "1704871577",
-  "modified_time": "1708485525",
+  "modified_time": "1709111657",
   "name": "describe_collection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -1202,6 +1202,7 @@
           "XBBHdWHIXoxTB3xjleoc863znyf",
           "T3iMdaMXbobwZQxVHbAcjJRonqw",
           "LN9HdUbthoeYEvxwABacR1QIn4f",
+          "UQkddzrPIo2DMhxTEvwcS7LAnPe",
           "CQ9udBcwDoGqkKxNemrcZUW7nXf"
         ],
         "parent_id": "MCkjdiRNKo2HCCxzHReclrgAnbg"
@@ -1685,7 +1686,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "For VARCHAR fields, ",
+                "content": "For ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "VARCHAR",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " fields, ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1758,7 +1783,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "For FLOAT_VECTOR fields, ",
+                "content": "For ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "FLOAT_VECTOR",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " fields, ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1823,6 +1872,169 @@
           }
         },
         "parent_id": "LN9HdUbthoeYEvxwABacR1QIn4f"
+      },
+      {
+        "block_id": "UQkddzrPIo2DMhxTEvwcS7LAnPe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "element_type",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "int",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "QsWSd8dQooc3RfxdTM9cAOJwngg",
+          "TQFndNDF0o7VqbxL7LBcppaKnId"
+        ],
+        "parent_id": "M5aVdlpn7oOouBxaXqkcGUgmnVe"
+      },
+      {
+        "block_id": "QsWSd8dQooc3RfxdTM9cAOJwngg",
+        "block_type": 2,
+        "parent_id": "UQkddzrPIo2DMhxTEvwcS7LAnPe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The data type of the elements in the field values. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TQFndNDF0o7VqbxL7LBcppaKnId",
+        "block_type": 2,
+        "parent_id": "UQkddzrPIo2DMhxTEvwcS7LAnPe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This always equals ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "0",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " if the current field is not an ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ARRAY",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "CQ9udBcwDoGqkKxNemrcZUW7nXf",
@@ -3328,7 +3540,7 @@
         }
       }
     ],
-    "counts": 80
+    "counts": 83
   },
   "slug": "Collections-describe_collection"
 }

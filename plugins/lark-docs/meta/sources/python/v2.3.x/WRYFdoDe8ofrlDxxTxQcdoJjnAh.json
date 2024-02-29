@@ -1,6 +1,6 @@
 {
   "created_time": "1705563808",
-  "modified_time": "1708507683",
+  "modified_time": "1709112554",
   "name": "upsert()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "ZA7LfYxQHltI94dGs2Fc62AvnSh",
@@ -1103,7 +1103,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Set up a milvus client\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\n# 3. Upsert a record\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Set up a milvus client\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\n# 3. Insert records\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1115,7 +1115,7 @@
             },
             {
               "text_run": {
-                "content": "res = client.upsert(",
+                "content": "res = client.insert(",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -1130,7 +1130,7 @@
             },
             {
               "text_run": {
-                "content": "\n    collection_name=\"test_collection\",\n    data={\n        'id': 0,\n        'vector': [\n            0.6186516144460161,\n            0.5927442462488592,\n            0.848608119657156,\n            0.9287046808231654,\n            -0.42215796530168403\n        ]\n    }\n)\n\n# {'upsert_count': 1}\n\n# 4. Upsert multiple records\nres = client.upsert(\n    collection_name=\"test_collection\",\n    data=[\n        {\n            'id': 1,\n             'vector': [\n                 0.37417449965222693,\n                 -0.9401784221711342,\n                 0.9197526367693833,\n                 0.49519396415367245,\n                 -0.558567588166478\n             ]\n       },\n       {\n           'id': 2,\n           'vector': [\n               0.46949086179692356,\n               -0.533609076732849,\n               -0.8344432775467099,\n               0.9797361846081416,\n               0.6294256393761057\n           ]\n       }\n   ]\n)\n\n",
+                "content": "\n    collection_name=\"test_collection\",\n    data=[\n        {\n            'id': 0,\n            'vector': [\n                0.37417449965222693,\n                -0.9401784221711342,\n                -0.8344432775467099,\n                0.9797361846081416,\n                0.6294256393761057\n            ]\n        },\n        {\n            'id': 1,\n            'vector': [\n                0.37417449965222693,\n                -0.9401784221711342,\n                0.9197526367693833,\n                0.49519396415367245,\n                -0.558567588166478\n            ]\n        },\n        {\n            'id': 2,\n            'vector': [\n                0.46949086179692356,\n                -0.533609076732849,\n                -0.8344432775467099,\n                0.9797361846081416,\n                0.6294256393761057\n            ]\n        }\n    ]\n)\n\n# {'insert_count': 3}\n\n# 4. Upsert a record\nres = client.insert(\n    collection_name=\"test_collection\",\n    data={\n        'id': 0,\n        'vector': [\n            0.6186516144460161,\n            0.5927442462488592,\n            0.848608119657156,\n            0.9287046808231654,\n            -0.42215796530168403\n        ]\n    }\n)\n\n# {'upsert_count': 1}\n\n# 4. Upsert multiple records\nres = client.upsert(\n    collection_name=\"test_collection\",\n    data=[\n        {\n            'id': 1,\n             'vector': [\n                 0.3457690490452393,\n                 -0.9401784221711342,\n                 0.9123948134344333,\n                 0.49519396415367245,\n                 -0.558567588166478\n             ]\n       },\n       {\n           'id': 2,\n           'vector': [\n               0.42349086179692356,\n               -0.533609076732849,\n               -0.8344432775467099,\n               0.675761846081416,\n               0.57094256393761057\n           ]\n       }\n   ]\n)\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1220,7 +1220,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Set up a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\n# 3. Upsert a record\nres = client.upsert(\n    collection_name=\"test_collection\",\n    data={\n        'id': 0,\n        'vector': [\n            0.6186516144460161,\n            0.5927442462488592,\n            0.848608119657156,\n            0.9287046808231654,\n            -0.42215796530168403\n        ]\n    }\n)\n\n# {'upsert_count': 1}\n\n# 4. Upsert multiple records\nres = client.upsert(\n    collection_name=\"test_collection\",\n    data=[\n        {\n            'id': 1,\n             'vector': [\n                 0.37417449965222693,\n                 -0.9401784221711342,\n                 0.9197526367693833,\n                 0.49519396415367245,\n                 -0.558567588166478\n             ]\n       },\n       {\n           'id': 2,\n           'vector': [\n               0.46949086179692356,\n               -0.533609076732849,\n               -0.8344432775467099,\n               0.9797361846081416,\n               0.6294256393761057\n           ]\n       }\n   ]\n)\n\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Set up a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\n# 3. Insert records\nres = client.insert(\n    collection_name=\"test_collection\",\n    data=[\n        {\n            'id': 0,\n            'vector': [\n                0.37417449965222693,\n                -0.9401784221711342,\n                -0.8344432775467099,\n                0.9797361846081416,\n                0.6294256393761057\n            ]\n        },\n        {\n            'id': 1,\n            'vector': [\n                0.37417449965222693,\n                -0.9401784221711342,\n                0.9197526367693833,\n                0.49519396415367245,\n                -0.558567588166478\n            ]\n        },\n        {\n            'id': 2,\n            'vector': [\n                0.46949086179692356,\n                -0.533609076732849,\n                -0.8344432775467099,\n                0.9797361846081416,\n                0.6294256393761057\n            ]\n        }\n    ]\n)\n\n# {'insert_count': 3}\n\n# 4. Upsert a record\nres = client.insert(\n    collection_name=\"test_collection\",\n    data={\n        'id': 0,\n        'vector': [\n            0.6186516144460161,\n            0.5927442462488592,\n            0.848608119657156,\n            0.9287046808231654,\n            -0.42215796530168403\n        ]\n    }\n)\n\n# {'upsert_count': 1}\n\n# 4. Upsert multiple records\nres = client.upsert(\n    collection_name=\"test_collection\",\n    data=[\n        {\n            'id': 1,\n             'vector': [\n                 0.3457690490452393,\n                 -0.9401784221711342,\n                 0.9123948134344333,\n                 0.49519396415367245,\n                 -0.558567588166478\n             ]\n       },\n       {\n           'id': 2,\n           'vector': [\n               0.42349086179692356,\n               -0.533609076732849,\n               -0.8344432775467099,\n               0.675761846081416,\n               0.57094256393761057\n           ]\n       }\n   ]\n)\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

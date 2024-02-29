@@ -208,16 +208,18 @@ class larkDocWriter {
                         await this.write_docs(`${current_path}/${slug}`, token)
                     }
                 } else {
+                    const meta = await this.__is_to_publish(child.title, child.slug)
                     switch (child.title) {
                         case 'FAQs':
-                            if (!fs.existsSync(`${current_path}/faqs`)) {
-                                fs.mkdirSync(`${current_path}/faqs`)
+                            if (meta['publish']) {
+                                if (!fs.existsSync(`${current_path}/faqs`)) {
+                                    fs.mkdirSync(`${current_path}/faqs`)
+                                }
+                                // this.__category_meta(`${current_path}/faqs`, 'FAQs', index+1)
+                                await this.write_faqs(`${current_path}/faqs`)
                             }
-                            // this.__category_meta(`${current_path}/faqs`, 'FAQs', index+1)
-                            await this.write_faqs(`${current_path}/faqs`)
                             break;
                         default:
-                            const meta = await this.__is_to_publish(child.title, child.slug)
                             if (meta['publish']) {
                                 const token = child.node_token
                                 const type = child.node_type

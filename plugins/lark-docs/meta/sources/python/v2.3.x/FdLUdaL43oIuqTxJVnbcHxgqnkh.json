@@ -1,6 +1,6 @@
 {
   "created_time": "1704423896",
-  "modified_time": "1708485037",
+  "modified_time": "1709108602",
   "name": "IndexType",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -19,11 +19,8 @@
           "doxcnV9N36i6EM2Sc7zKQT5KpQf",
           "doxcni19Dh4lk6SSJamyYrzlHDd",
           "doxcnQYuHrq6E4XpF6Tb2bf03uc",
-          "doxcnul0BKi176PkPz1zgD1vVTb",
-          "doxcn5vcZEIAGOXFbSE7N0IILOm",
           "doxcnBpovLS8Lir7b6U4LeR5VDm",
-          "doxcnle2wiE0ztuyEXCQgzagvUg",
-          "doxcnM4VhaoxKohmWAMxFYqEgFc"
+          "doxcnle2wiE0ztuyEXCQgzagvUg"
         ],
         "comment_ids": [
           "7340168922016612355"
@@ -207,7 +204,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "IVFLAT",
+                "content": "IVF_FLAT",
                 "text_element_style": {
                   "bold": true,
                   "comment_ids": [
@@ -287,125 +284,6 @@
             {
               "text_run": {
                 "content": "Sets the index type to IVF_SQ8.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "FdLUdaL43oIuqTxJVnbcHxgqnkh"
-      },
-      {
-        "block_id": "doxcnul0BKi176PkPz1zgD1vVTb",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "RNSG",
-                "text_element_style": {
-                  "bold": true,
-                  "comment_ids": [
-                    "7340168752798924804"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " = 4",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7340168752798924804"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Sets the index type to RNSG.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "comment_ids": [
-          "7340168752798924804"
-        ],
-        "parent_id": "FdLUdaL43oIuqTxJVnbcHxgqnkh"
-      },
-      {
-        "block_id": "doxcn5vcZEIAGOXFbSE7N0IILOm",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "IVF_SQ8H",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " = 5\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Sets the index type to IVF_SQ8H.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -520,58 +398,9 @@
           }
         },
         "parent_id": "FdLUdaL43oIuqTxJVnbcHxgqnkh"
-      },
-      {
-        "block_id": "doxcnM4VhaoxKohmWAMxFYqEgFc",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "ANNOY",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " = 12\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Sets the index type to ANNOY.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "FdLUdaL43oIuqTxJVnbcHxgqnkh"
       }
     ],
-    "counts": 12
+    "counts": 9
   },
   "slug": "Collections-IndexType"
 }

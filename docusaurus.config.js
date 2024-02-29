@@ -91,8 +91,8 @@ const config = {
         docSourceDir: './plugins/lark-docs/meta/sources/guides',
         targets: {
           milvus: {
-            outputDir: '',
-            imageDir: ''
+            outputDir: 'milvus/guides/docs',
+            imageDir: 'milvus/guides/images'
           },
           zilliz: {
             saas: {
@@ -114,8 +114,8 @@ const config = {
         docSourceDir: './plugins/lark-docs/meta/sources/python/v2.3.x',
         targets: {
           milvus: {
-            outputDir: '',
-            imageDir: ''
+            outputDir: 'milvus/reference/python/docs',
+            imageDir: 'milvus/reference/python/images'
           },
           zilliz: {
             outputDir: 'reference/api/python/python',
@@ -176,15 +176,15 @@ const config = {
               },
               {
                 label: 'Java SDK',
-                to: 'reference/java',
+                to: '/reference/java',
               },
               {
                 label: 'Go SDK',
-                to: 'reference/go'
+                to: '/reference/go'
               },
               {
                 label: 'Node.js SDK',
-                to: 'reference/nodejs'
+                to: '/reference/nodejs'
               }
             ]
           },

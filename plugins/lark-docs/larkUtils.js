@@ -76,6 +76,52 @@ class larkUtils {
         }
     }
 
+    postprocess_for_milvus(outputDir, docSourceDir) {
+        const paths = fs.readdirSync(outputDir, {recursive: true})
+        const files = paths.filter(path => path.endsWith('.md'))
+
+        for (const file of files) {
+            var content = fs.readFileSync(`${outputDir}/${file}`, {encoding: 'utf-8', flag: 'r'})
+            
+            // remove docusaurus imports
+            content = content.replace(/import .* from .*/g, '')
+
+            // add multi-code block
+            var matches = [... (content.matchAll(/([^\n\r]*)<Tabs .*values=(\{(\[.*\])\}).*>/g))]
+            matches.forEach(match => {
+                var codes = JSON.parse(match[3])
+                var indent = match[1]
+                var milvus_multi_code = `${indent}<div class="multipleCode">\n`
+                for (const code of codes) {
+                    milvus_multi_code += `${indent}    <a href="#${code.value}">${code.label}</a>\n`
+                }
+                milvus_multi_code += `${indent}</div>\n\n`
+                content = content.replace(match[0].replace(/\n/g, ''), `${milvus_multi_code}`)
+            })
+
+            // remove tabs and tab items
+            content = content.replace(/([^\n\r]*)<\/*(TabItem|Tabs).*>/g, '')
+
+            // add admonitions
+            matches = [... content.matchAll(/([^\n\r]*)<Admonition .* title="(.*)">/g)]
+            matches.forEach(match => {
+                var indent = match[1]
+                var admonition_label = match[2].toLowerCase()
+                var type = admonition_label === 'Notes' ? 'note' : 'warning'
+                content = content.replace(match[0], `${indent}<div class="alert ${type}">`)
+            })
+
+            content = content.replace(/([^\n\r]*)<\/Admonition>/g, (_, b) => {
+                return `${b}</div>`
+            })
+
+            // remove abundant line breaks
+            content = content.replace(/\n{3,}/g, '\n\n')
+
+            fs.writeFileSync(`${outputDir}/${file}_copy`, content, {encoding: 'utf-8', flag: 'w'})
+        }
+    }
+
     __fetch_doc_source (type, value, docSourceDir) {
         const file = fs.readdirSync(docSourceDir).filter(file => {
             const page = JSON.parse(fs.readFileSync(`${docSourceDir}/${file}`, {encoding: 'utf-8', flag: 'r'}))

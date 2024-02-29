@@ -1,6 +1,6 @@
 {
   "created_time": "1703744913",
-  "modified_time": "1709047680",
+  "modified_time": "1709112677",
   "name": "list_import_jobs()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "MGFYf4JacldYUEdxtJdcwczAntg",
@@ -1498,7 +1498,13 @@
         },
         "children": [
           "NngfdGdNVodixpxCk1CcKWRynTc",
-          "RDBndLCDkoi9zPxISJ9cacWLnJg"
+          "C3vWdysN5of3J8x1QlOcajK9nye",
+          "I8ZkdNlrCoj1yJxFOMqcCE9Pn2X",
+          "JWZidrNNSogB0YxjGRecOMQJngb",
+          "PaFUdya7PojjWExe51FcJWYBnUb",
+          "Fn6vdYwHloD3KuxqqBQc12FvnHd",
+          "BGtOdnftso3txaxfraMc5EYonIe",
+          "Th5QdWPcToYcT9xN6smcPSoanyf"
         ],
         "parent_id": "EQVodnCJWozv7zxum11c2LBonOg"
       },
@@ -1510,7 +1516,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The state of this bulk-import job.",
+                "content": "The state of this bulk-import job. Possible values are as follows:",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1528,79 +1534,15 @@
         }
       },
       {
-        "block_id": "RDBndLCDkoi9zPxISJ9cacWLnJg",
-        "block_type": 2,
-        "comment_ids": [
-          "7317533664534413315"
-        ],
-        "parent_id": "A2TXdV8jboQApWxRQUrcuQxznBe",
-        "text": {
+        "block_id": "C3vWdysN5of3J8x1QlOcajK9nye",
+        "block_type": 12,
+        "bullet": {
           "elements": [
             {
               "text_run": {
-                "content": "Possible values are ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Importing",
+                "content": "ImportPending",
                 "text_element_style": {
                   "bold": true,
-                  "comment_ids": [
-                    "7317533664534413315"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " and ",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7317533664534413315"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "ImportCompleted",
-                "text_element_style": {
-                  "bold": true,
-                  "comment_ids": [
-                    "7317533664534413315"
-                  ],
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": ".",
-                "text_element_style": {
-                  "bold": false,
-                  "comment_ids": [
-                    "7317533664534413315"
-                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1613,7 +1555,158 @@
             "align": 1,
             "folded": false
           }
-        }
+        },
+        "parent_id": "A2TXdV8jboQApWxRQUrcuQxznBe"
+      },
+      {
+        "block_id": "I8ZkdNlrCoj1yJxFOMqcCE9Pn2X",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportFailed",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "A2TXdV8jboQApWxRQUrcuQxznBe"
+      },
+      {
+        "block_id": "JWZidrNNSogB0YxjGRecOMQJngb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportStarted",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "A2TXdV8jboQApWxRQUrcuQxznBe"
+      },
+      {
+        "block_id": "PaFUdya7PojjWExe51FcJWYBnUb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportPersisted",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "A2TXdV8jboQApWxRQUrcuQxznBe"
+      },
+      {
+        "block_id": "Fn6vdYwHloD3KuxqqBQc12FvnHd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportFlushed",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "A2TXdV8jboQApWxRQUrcuQxznBe"
+      },
+      {
+        "block_id": "BGtOdnftso3txaxfraMc5EYonIe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportCompleted",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "A2TXdV8jboQApWxRQUrcuQxznBe"
+      },
+      {
+        "block_id": "Th5QdWPcToYcT9xN6smcPSoanyf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ImportFailedAndCleaned",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "A2TXdV8jboQApWxRQUrcuQxznBe"
       },
       {
         "block_id": "KnjddscqfoU7Msx585mc4oXmnAg",
@@ -2128,7 +2221,7 @@
         "parent_id": "P0vxdEVBPoTNKLxkKIzcznlYnNc"
       }
     ],
-    "counts": 55
+    "counts": 61
   },
   "slug": "BulkImport-list_import_jobs"
 }
