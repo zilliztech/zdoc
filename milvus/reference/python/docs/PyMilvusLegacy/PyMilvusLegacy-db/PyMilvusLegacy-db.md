@@ -12,6 +12,4 @@ displayed_sidebar: pythonSidebar
 
 Functions related to manipulating Milvus databases.
 
-import DocCardList from '@theme/DocCardList';
-
 <DocCardList />

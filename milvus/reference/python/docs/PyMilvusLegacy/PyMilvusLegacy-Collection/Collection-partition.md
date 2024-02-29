@@ -8,9 +8,6 @@ token: SvCrdEJIdosGQYxQZhrc2OAXnpd
 sidebar_position: 20
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # partition()
 
 This operation gets the specified partition in the current collection.

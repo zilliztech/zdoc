@@ -8,9 +8,6 @@ token: JeG6d5Sg2oPmXPxEhnyciq4snNd
 sidebar_position: 28
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # list_user()
 
 This operation lists the information of a specific user.

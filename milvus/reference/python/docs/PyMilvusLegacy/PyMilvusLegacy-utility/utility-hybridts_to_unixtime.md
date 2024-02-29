@@ -8,9 +8,6 @@ token: HbMMdqtQGoQqwixsyrjcTTh0nu5
 sidebar_position: 20
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # hybridts_to_unixtime()
 
 This operation converts a hybrid timestamp to a UNIX epoch timestamp

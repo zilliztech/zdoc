@@ -8,9 +8,6 @@ token: QgxEdfBMSodYo6xCg24cH3hInr4
 sidebar_position: 24
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # list_collections()
 
 This operation lists all collections in the database used in the current connection.

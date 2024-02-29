@@ -8,9 +8,6 @@ token: Sh7HdgJOIoJipXx5AoNcicjMnyd
 sidebar_position: 5
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # create_partition()
 
 This operation creates a partition in the target collection.

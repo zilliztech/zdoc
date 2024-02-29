@@ -8,9 +8,6 @@ token: RkQ8dnWDHo3DiDxiCVRcP1xPnob
 sidebar_position: 17
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # index()
 
 This operation gets the specified index of the current collection.

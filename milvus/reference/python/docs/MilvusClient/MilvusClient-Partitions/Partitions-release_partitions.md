@@ -8,9 +8,6 @@ token: VblKdUEU4o4t31xcFiicIGtjn9g
 sidebar_position: 7
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # release_partitions()
 
 This operation releases the partitions in a specified collection from memory.
@@ -53,11 +50,13 @@ __RETURNS:__
 
 None
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>A collection is in the loaded state only if any or all of its partitions are loaded.</p>
 
-</Admonition>
+</div>
 
 __EXCEPTIONS:__
 

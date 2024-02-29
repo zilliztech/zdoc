@@ -8,9 +8,6 @@ token: ClLXdDs64oixJBxlIrCcEB2dngb
 sidebar_position: 27
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # list_roles()
 
 This operation lists the information about all existing roles.

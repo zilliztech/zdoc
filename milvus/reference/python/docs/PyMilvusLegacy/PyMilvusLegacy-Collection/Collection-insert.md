@@ -8,9 +8,6 @@ token: CbCodEGY9o6pKuxowNdctUppn7d
 sidebar_position: 18
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # insert()
 
 This operation inserts data into the current collection.

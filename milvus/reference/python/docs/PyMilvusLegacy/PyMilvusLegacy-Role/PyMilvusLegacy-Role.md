@@ -8,9 +8,6 @@ token: O8YAfe5P0lZ0TZdUOqNcDHEunCe
 sidebar_position: 7
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # Role
 
 A __Role__ instance represents a role with specific privileges to access your Milvus instanceZilliz Cloud clusters.
@@ -30,11 +27,13 @@ Role(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>Calling the constructor alone does not create the role. You have to explicitly call the <code>create()</code> method of the role object to create the role.</p>
 
-</Admonition>
+</div>
 
 __PARAMETERS:__
 
@@ -78,9 +77,5 @@ role = Role(
 ## Methods{#methods}
 
 The following are the methods of the `Role` class:
-
-
-
-import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

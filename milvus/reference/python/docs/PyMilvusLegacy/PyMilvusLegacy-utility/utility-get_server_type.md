@@ -8,9 +8,6 @@ token: UOIddRBUXotHvyx4Yyocer0mnId
 sidebar_position: 15
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # get_server_type()
 
 This operation checks the type of the Milvus instance.

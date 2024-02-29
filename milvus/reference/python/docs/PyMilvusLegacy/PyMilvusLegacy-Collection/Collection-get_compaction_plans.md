@@ -8,9 +8,6 @@ token: D6Q7dq4USotLS3xxMP0cFiGLnsf
 sidebar_position: 12
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # get_compaction_plans()
 
 This operation gets the current compaction plans.

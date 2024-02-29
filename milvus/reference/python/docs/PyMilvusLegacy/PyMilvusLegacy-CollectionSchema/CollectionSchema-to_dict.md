@@ -8,9 +8,6 @@ token: GfTadfqhAo64XDxc643ci4Zwnwb
 sidebar_position: 4
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # to_dict()
 
 This operation converts a CollectionSchema object to a dictionary representation.

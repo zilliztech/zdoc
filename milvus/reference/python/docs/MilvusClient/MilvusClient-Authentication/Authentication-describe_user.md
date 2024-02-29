@@ -8,9 +8,6 @@ token: Wz3HdtvPCoEquvxFY7PcDHxcnEe
 sidebar_position: 4
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describe_user()
 
 This operation describes a specific user.

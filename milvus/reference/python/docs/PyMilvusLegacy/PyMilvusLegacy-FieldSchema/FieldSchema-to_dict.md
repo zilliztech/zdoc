@@ -8,9 +8,6 @@ token: G1gsdGWwuoPOPrxJdABcfa76nUd
 sidebar_position: 3
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # to_dict()
 
 This operation converts a FieldSchema object to a dictionary representation.

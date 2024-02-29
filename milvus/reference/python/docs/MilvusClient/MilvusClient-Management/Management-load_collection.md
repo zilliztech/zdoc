@@ -8,9 +8,6 @@ token: FLmWdFP9Zo3JcixOEgucU8JMnLc
 sidebar_position: 7
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # load_collection()
 
 This operation loads the data of a specific collection into memory.

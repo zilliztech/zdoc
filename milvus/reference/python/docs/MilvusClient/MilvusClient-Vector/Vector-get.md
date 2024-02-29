@@ -8,9 +8,6 @@ token: TEUDde2xbo0JT7xtVvtcF53Nnub
 sidebar_position: 2
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # get()
 
 This operation gets specific entities by their IDs.

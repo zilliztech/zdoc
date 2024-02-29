@@ -8,9 +8,6 @@ token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # flush_all()
 
 This operation seals all segments.

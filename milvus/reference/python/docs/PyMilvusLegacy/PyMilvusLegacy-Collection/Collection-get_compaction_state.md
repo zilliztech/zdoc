@@ -8,9 +8,6 @@ token: AXcMd0xiOovIX6xR4ZrcKA15nwh
 sidebar_position: 13
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # get_compaction_state()
 
 This operation gets the current compaction state. 

@@ -8,9 +8,6 @@ token: LkmSddW2NolgitxLhy9cx22Dnpe
 sidebar_position: 4
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # query()
 
 This operation conducts a scalar filtering with a specified boolean expression.
@@ -49,14 +46,16 @@ __PARAMETERS:__
 
     The value defaults to __None__.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <div class="admonition note">
+
+    <p><b>notes</b></p>
 
     <ul>
     <li><p>Setting this as `output_fields=["*"] outputs all fields.</p></li>
     <li><p>Setting this as <code>output_fields=["count(*)"]</code>outputs the loaded entities that match the conditions specified in the <strong>filter</strong> argument. </p></li>
     </ul>
 
-    </Admonition>
+    </div>
 
 - __timeout__ (_float_ | _None_) -
 
@@ -70,7 +69,9 @@ __PARAMETERS:__
 
         The value defaults to the one specified when you create the current collection, with options of __Strong __(__0__), __Bounded __(__1__), __Session __(__2__), and __Eventually __(__3__).
 
-        <Admonition type="info" icon="📘" title="What is the consistency level?">
+        <div class="admonition note">
+
+        <p><b>what is the consistency level?</b></p>
 
         <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
         <p></p>
@@ -79,7 +80,7 @@ __PARAMETERS:__
         <p></p>
         <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
 
-        </Admonition>
+        </div>
 
     - __guarantee_timestamp__ (_int_) -
 
@@ -87,11 +88,13 @@ __PARAMETERS:__
 
         If this parameter is set, MilvusZilliz Cloud executes the query only if all entities inserted before this timestamp are visible to query nodes. 
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <div class="admonition note">
+
+        <p><b>notes</b></p>
 
         <p>This parameter is valid when the default consistency level applies.</p>
 
-        </Admonition>
+        </div>
 
     - __graceful_time__ (_int_) -
 
@@ -99,11 +102,13 @@ __PARAMETERS:__
 
         The value defaults to __5__. If this parameter is set, MilvusZilliz Cloud calculates the guarantee timestamp by subtracting this from the current timestamp.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <div class="admonition note">
+
+        <p><b>notes</b></p>
 
         <p>This parameter is valid when a consistency level other than the default one applies.</p>
 
-        </Admonition>
+        </div>
 
     - __offset__ (_int_) -
 
@@ -129,11 +134,13 @@ __RETURNS:__
 
 A list of dictionaries with each dictionary representing a queried entity.
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>If the number of returned entities is less than expected, duplicate entities may exist in your collection.</p>
 
-</Admonition>
+</div>
 
 __EXCEPTIONS:__
 

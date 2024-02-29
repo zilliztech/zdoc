@@ -8,19 +8,17 @@ token: MQMzddDnao5Zz0xmSRncZM2nn5b
 sidebar_position: 11
 ---
 
-import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # upsert()
 
 This operation inserts new records into the database or updates existing ones. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>An upsert is a data-level operation that will overwrite an existing entity if a specified field already exists in a collection, and insert a new entity if the specified value doesn’t already exist.</p>
 
-</Admonition>
+</div>
 
 ## Request Syntax{#request-syntax}
 

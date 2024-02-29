@@ -8,9 +8,6 @@ token: CB9edh2ySoJyWhxBoLcchPj9nxg
 sidebar_position: 14
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # get_query_segment_info()
 
 This operation gets information about the sealed and growing segments in the query cluster.

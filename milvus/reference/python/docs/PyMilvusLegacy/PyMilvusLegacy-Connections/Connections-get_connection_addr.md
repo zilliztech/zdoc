@@ -8,9 +8,6 @@ token: H2zBdRHVtovNQGxvb0xcwpSKnBd
 sidebar_position: 5
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # get_connection_addr()
 
 This operation retrieves the configuration of the specified connection by alias.

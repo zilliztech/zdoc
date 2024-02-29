@@ -8,9 +8,6 @@ token: SSQ6dFGdxouy7hxRwCOcatnEn0e
 sidebar_position: 11
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # has_collection()
 
 This operation checks whether a specific collection exists.

@@ -8,9 +8,6 @@ token: BHx6dnSmPoaqHAxKCvncbuk9nWb
 sidebar_position: 2
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # compact()
 
 This operation compacts and merges small segments in the current collection.

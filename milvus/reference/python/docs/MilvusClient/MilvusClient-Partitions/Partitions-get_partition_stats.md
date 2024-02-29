@@ -8,9 +8,6 @@ token: Jjbsd2I8doQ9pBxBp57ckRdZnZd
 sidebar_position: 3
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # get_partition_stats()
 
 This operation displays the statistics collected on a specific partition.
@@ -59,12 +56,14 @@ A dictionary that contains the row count in the specified partition.
 }
 ```
 
-<Admonition type="info" icon="📘" title="__Why doesn't the row count match the number of entities inserted?__">
+<div class="admonition note">
+
+<p><b>__why doesn't the row count match the number of entities inserted?__</b></p>
 
 <p>The data that you insert will go through a process before it is finally saved. Initially, it will flow in as data streams. Then, it will be stored in segments as entities. Milvus will select an appropriate growing segment to store the data in streams until the segment reaches its upper limit and becomes sealed.</p>
 <p>However, it's important to note that the row count displayed may not match the number of records that were inserted because data in streams is not taken into account.</p>
 
-</Admonition>
+</div>
 
 __EXCEPTIONS:__
 

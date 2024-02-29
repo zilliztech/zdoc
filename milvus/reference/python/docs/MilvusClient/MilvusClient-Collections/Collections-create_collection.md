@@ -8,9 +8,6 @@ token: TziHdCu4VoURrfxAMsUcsRhQnub
 sidebar_position: 3
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # create_collection()
 
 This operation creates a collection either with default or customized settings. 
@@ -113,12 +110,14 @@ __PARAMETERS:__
 
         The value defaults to __1__, indicating that two shards are to be created along with this collection.
 
-        <Admonition type="info" icon="📘" title="What is sharding?">
+        <div class="admonition note">
+
+        <p><b>what is sharding?</b></p>
 
         <p>Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.</p>
         <p>By default, a collection contains two shards.</p>
 
-        </Admonition>
+        </div>
 
     - __consistency_level__ (_int_ | _str_)
 
@@ -126,7 +125,9 @@ __PARAMETERS:__
 
         The value defaults to __Bounded __(__1__) with options of __Strong __(__0__), __Bounded __(__1__), __Session __(__2__), and __Eventually __(__3__).
 
-        <Admonition type="info" icon="📘" title="What is the consistency level?">
+        <div class="admonition note">
+
+        <p><b>what is the consistency level?</b></p>
 
         <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
         <p></p>
@@ -135,7 +136,7 @@ __PARAMETERS:__
         <p></p>
         <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
 
-        </Admonition>
+        </div>
 
 __RETURN TYPE:__
 

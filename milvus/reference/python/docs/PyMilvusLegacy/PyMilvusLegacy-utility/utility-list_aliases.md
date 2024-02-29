@@ -8,9 +8,6 @@ token: XBwxdP96Go8ITyx7UuNcL7EonPd
 sidebar_position: 22
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # list_aliases()
 
 This operation lists all existing aliases for a specific collection.

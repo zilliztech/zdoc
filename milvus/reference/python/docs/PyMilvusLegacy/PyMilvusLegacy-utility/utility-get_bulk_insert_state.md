@@ -8,10 +8,6 @@ token: XzHhd3AdCo9DCsxawYycr69CnAb
 sidebar_position: 13
 ---
 
-import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # get_bulk_insert_state()
 
 This operation returns the state of a specified bulk-insert task.

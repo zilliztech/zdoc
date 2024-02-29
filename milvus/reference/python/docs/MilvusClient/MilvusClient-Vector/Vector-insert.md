@@ -8,9 +8,6 @@ token: QI87dhVnioL9JLxnNKxcM8jWnkh
 sidebar_position: 3
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # insert()
 
 This operation inserts data into a specific collection.

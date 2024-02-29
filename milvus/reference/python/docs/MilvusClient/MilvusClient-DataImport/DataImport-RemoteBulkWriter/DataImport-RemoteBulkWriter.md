@@ -8,9 +8,6 @@ token: Yhy1fHTMnlLKvydKzsIcnfPdnmb
 sidebar_position: 4
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # RemoteBulkWriter
 
 A __RemoteBulkWriter__ instance writes your raw data in a format that Milvus understands into an AWS-S3-compatible bucket.
@@ -23,11 +20,13 @@ class pymilvus.RemoteBulkWriter
 
 Constructs a __RemoteBulkWriter__ object with a set of parameters, such as __schema__, __remote_path__, __connect_param__ etc.
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>A <strong>RemoteBulkWriter</strong> object intends to rewrite your raw data in a format that Milvus understands into an AWS-S3-compatible bucket.</p>
 
-</Admonition>
+</div>
 
 ```python
 from pymilvus import CollectionSchema, RemoteBulkWriter, BulkFileType
@@ -67,7 +66,9 @@ __PARAMETERS:__
 
     The value defaults to 536,870,912 in bytes, which is 512 MB.
 
-    <Admonition type="info" icon="📘" title="How does BulkWriter segment my data?">
+    <div class="admonition note">
+
+    <p><b>how does bulkwriter segment my data?</b></p>
 
     <p>The way <strong>BulkWriter</strong> segments your data varies with the target file type.</p>
     <ul>
@@ -79,7 +80,7 @@ __PARAMETERS:__
     </ul>
     <p>If the generated file exceeds the specified segment size, <strong>BulkWriter</strong> creates multiple subdirectories and names them in sequence numbers. Each subdirectory contains all the necessary NumPy files that are no larger than the segment size.</p>
 
-    </Admonition>
+    </div>
 
 - __file_type__ (_BulkFileType_) -
 
@@ -120,7 +121,5 @@ The following are the classes of the `RemoteBulkWriter` class:
 ## Methods{#methods}
 
 The following are the methods of the `RemoteBulkWriter` class:
-
-import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

@@ -8,9 +8,6 @@ token: BDupd28JqoNY9HxVOTfcv86enRe
 sidebar_position: 2
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # create_user()
 
 This operation creates a user.

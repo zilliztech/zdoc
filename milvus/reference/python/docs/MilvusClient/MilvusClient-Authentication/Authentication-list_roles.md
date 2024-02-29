@@ -8,9 +8,6 @@ token: MApVdDl17oU8OixzbMPcgceKnOh
 sidebar_position: 9
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # list_roles()
 
 This operation lists all custom roles.

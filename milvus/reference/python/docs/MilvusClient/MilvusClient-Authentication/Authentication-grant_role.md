@@ -8,9 +8,6 @@ token: DsnpdZuDGo77TYxFuYvcDpOgnIf
 sidebar_position: 8
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # grant_role()
 
 This operation grants a role to a user.

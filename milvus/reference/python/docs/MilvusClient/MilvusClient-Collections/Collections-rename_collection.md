@@ -8,9 +8,6 @@ token: IeiIdJ71Pox2OjxMiOzczUTenud
 sidebar_position: 15
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # rename_collection()
 
 This operation renames an existing collection.

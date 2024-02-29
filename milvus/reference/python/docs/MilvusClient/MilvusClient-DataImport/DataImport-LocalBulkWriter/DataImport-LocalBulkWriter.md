@@ -8,9 +8,6 @@ token: SzykfW0E7lSK4sdsvhOcAhkan0b
 sidebar_position: 3
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # LocalBulkWriter
 
 A LocalBulkWriter instance rewrites your raw data locally in a format that Milvus understands.
@@ -23,11 +20,13 @@ class pymilvus.LocalBulkWriter
 
 Constructs a LocalBulkWriter object by schema, output path, segment size, and file type.
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>A <strong>LocalBulkWriter</strong> object intends to rewrite your raw data locally in a format that Milvus understands.</p>
 
-</Admonition>
+</div>
 
 ```python
 from pymilvus import CollectionSchema, LocalBulkWriter, BulkFileType
@@ -62,7 +61,9 @@ __PARAMETERS:__
 
     The value defaults to __536,870,912__ in bytes, which is __512__ MB.
 
-    <Admonition type="info" icon="📘" title="How does BulkWriter segment my data?">
+    <div class="admonition note">
+
+    <p><b>how does bulkwriter segment my data?</b></p>
 
     <p>The way <strong>BulkWriter</strong> segments your data varies with the target file type.</p>
     <ul>
@@ -74,7 +75,7 @@ __PARAMETERS:__
     </ul>
     <p>If the generated file exceeds the specified segment size, <strong>BulkWriter</strong> creates multiple subdirectories and names them in sequence numbers. Each subdirectory contains all the necessary NumPy files that are no larger than the segment size.</p>
 
-    </Admonition>
+    </div>
 
 - __file_type__ (_[BulkFileType](./DataImport-BulkFileType)_) -
 
@@ -115,9 +116,5 @@ __EXCEPTIONS:__
 ## Methods{#methods}
 
 The following are the methods of the __LocalBulkWriter__ class:
-
-
-
-import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

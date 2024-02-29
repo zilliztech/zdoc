@@ -8,9 +8,6 @@ token: EBAFdcmoKoNJISxM8i1cqXzRn9H
 sidebar_position: 19
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # hybridts_to_datetime()
 
 This operation converts a hybrid timestamp to a Python's datetime object.

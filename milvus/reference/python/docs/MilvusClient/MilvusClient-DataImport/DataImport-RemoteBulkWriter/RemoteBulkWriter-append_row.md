@@ -8,9 +8,6 @@ token: F1MFdP8VvoMu17x4Vg9cH6ztnqb
 sidebar_position: 1
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # append_row()
 
 This operation appends records to the writer.

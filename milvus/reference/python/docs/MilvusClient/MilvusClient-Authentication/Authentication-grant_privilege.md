@@ -8,9 +8,6 @@ token: W39Wdr7S6ohrtfxI8r7cyTeInlb
 sidebar_position: 7
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # grant_privilege()
 
 This operation assigns a privilege to a role.

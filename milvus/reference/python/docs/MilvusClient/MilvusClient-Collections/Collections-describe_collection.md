@@ -8,9 +8,6 @@ token: MCkjdiRNKo2HCCxzHReclrgAnbg
 sidebar_position: 7
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describe_collection()
 
 This operation lists detailed information about a specific collection.

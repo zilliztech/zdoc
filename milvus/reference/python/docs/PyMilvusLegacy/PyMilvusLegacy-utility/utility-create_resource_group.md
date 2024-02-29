@@ -8,20 +8,19 @@ token: X5qsdhFQ5oOhkcxOprzcOZq4nMc
 sidebar_position: 4
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # create_resource_group()
 
 This operation creates a new resource group. 
 
-<Admonition type="info" icon="📘" title="What is a resource group?">
+<div class="admonition note">
+
+<p><b>what is a resource group?</b></p>
 
 <p>A resource group can hold several or all of the query nodes in a Milvus instance. When you load a collection by calling load(), Milvus loads the data of the collection into certain query nodes.</p>
 <p>There is a default resource group named <strong>_<em>default</em>resource_group</strong> available in every Milvus instance that holds all its query nodes. </p>
 <p>Use <strong>describe<em>resource</em>group()</strong> to check the actual number. If there are multiple query nodes available, consider creating resource groups and distributing the query nodes among them.</p>
 
-</Admonition>
+</div>
 
 ## Request Syntax{#request-syntax}
 

@@ -8,9 +8,6 @@ token: SGjed7w9toewDlxmXHKc7BFancf
 sidebar_position: 41
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # update_password()
 
 This operation updates the password for a specific user.

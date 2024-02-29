@@ -8,9 +8,6 @@ token: PV1PdliWZooAB8xAE5scZO2Nn6K
 sidebar_position: 3
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # list_database()
 
 This operation returns a list of database names from the connected Milvus instance.

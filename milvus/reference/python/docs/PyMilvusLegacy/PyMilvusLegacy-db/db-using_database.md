@@ -8,9 +8,6 @@ token: GXXTd7JIgoUKhzxiI6ncWtwjnVc
 sidebar_position: 4
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # using_database()
 
 This operation sets a database as the default for the current connection.

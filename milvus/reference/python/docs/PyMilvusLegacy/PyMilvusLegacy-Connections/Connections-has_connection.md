@@ -8,9 +8,6 @@ token: XeZwdeK64oGD8rx9DA3ciqNinnh
 sidebar_position: 6
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # has_connection()
 
 This operation checks if a connection with the given alias has already been established.
@@ -37,12 +34,14 @@ __RETURNS:__
 
 A Boolean value indicating whether the connection exists.
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>An existing connection alias does not necessarily indicates that the corresponding connection has been established.</p>
 <p>This operation evaluates to <strong>True</strong> only if the connection alias exists and the corresponding connection has been established.</p>
 
-</Admonition>
+</div>
 
 __EXCEPTIONS:__
 

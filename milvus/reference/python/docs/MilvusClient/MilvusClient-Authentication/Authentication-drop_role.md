@@ -8,9 +8,6 @@ token: Vmxpd3MttodOE3x3V11cVTeunDh
 sidebar_position: 5
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # drop_role()
 
 This operation drops a custom role.

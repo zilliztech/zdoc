@@ -8,9 +8,6 @@ token: Y7pOdKR4MoqmvVxcS1TcjqUynMc
 sidebar_position: 2
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # drop_database()
 
 This operation drops a database using the provided database name.

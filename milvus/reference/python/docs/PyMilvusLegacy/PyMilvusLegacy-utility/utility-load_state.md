@@ -8,9 +8,6 @@ token: BJysdlj1MoksHZxNRxicHn9fnSh
 sidebar_position: 33
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # load_state()
 
 This operation returns the load status of a specific collection.

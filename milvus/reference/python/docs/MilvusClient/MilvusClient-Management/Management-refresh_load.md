@@ -8,9 +8,6 @@ token: X3NXdtC2koiAxyxhcUBcv38Wnsh
 sidebar_position: 9
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # refresh_load()
 
 This operation loads the unloaded data of a loaded collection into memory.

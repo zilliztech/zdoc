@@ -8,9 +8,6 @@ token: ISZadjHwyopWr5xRdJ2cqxVanEg
 sidebar_position: 3
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # construct_from_dataframe()
 
 This operation creates a collection with the specified dataframe. 

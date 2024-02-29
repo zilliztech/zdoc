@@ -8,9 +8,6 @@ token: JJOId59ePoMLefxz1ChcBZ6inOh
 sidebar_position: 12
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # revoke_role()
 
 This operation revokes the role assigned to a user.

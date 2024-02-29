@@ -8,9 +8,6 @@ token: CBc3d1mrdoYqmDxe4Kcc9zxAnzh
 sidebar_position: 1
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # alter_alias()
 
 This operation reassigns the alias of one collection to another.
@@ -39,7 +36,9 @@ __PARAMETERS:__
 
     The alias of the collection. Note that the alias should exist beforehand.
 
-    <Admonition type="info" icon="📘" title="What is a collection alias?">
+    <div class="admonition note">
+
+    <p><b>what is a collection alias?</b></p>
 
     <p>A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. </p>
     <p>In Milvus, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
@@ -55,7 +54,7 @@ __PARAMETERS:__
     <li><p><code>collection_2</code>'s alias = ["bob"]</p></li>
     </ul>
 
-    </Admonition>
+    </div>
 
 - __timeout__ (_float _|_ None_)  
 

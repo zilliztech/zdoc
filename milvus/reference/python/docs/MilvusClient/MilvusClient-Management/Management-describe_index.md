@@ -8,9 +8,6 @@ token: WhsHdyIgyoFlsQxNJt9cFCTxnDe
 sidebar_position: 3
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describe_index()
 
 This operation describes a specific index.

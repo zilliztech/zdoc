@@ -8,9 +8,6 @@ token: RV1nfeylFlUftwd2w4Wc40TYn6d
 sidebar_position: 5
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # FieldSchema
 
 A __FieldSchema__ instance defines the data type and related attributes of a specific field in a collection.
@@ -81,13 +78,15 @@ __PARAMETERS:__
 
         Setting this to __True__ makes the current field serve as the partition key. In this case, Milvus manages all partitions in the current collection.
 
-        <Admonition type="info" icon="📘" title="What is a partition key?">
+        <div class="admonition note">
+
+        <p><b>what is a partition key?</b></p>
 
         <p>Once a field is designated as the partition key, Milvus automatically creates a partition for each unique value in this field and saves entities in these partitions accordingly.</p>
         <p>This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.</p>
         <p>As an alternative, you can set <strong>partition<em>key</em>field</strong> when creating a <strong>CollectionSchema</strong> object.</p>
 
-        </Admonition>
+        </div>
 
     - __max_length__ (_int_)
 
@@ -138,7 +137,5 @@ __Exceptions:__
 ## Methods{#methods}
 
 The following are the methods of the `FieldSchema` class:
-
-import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

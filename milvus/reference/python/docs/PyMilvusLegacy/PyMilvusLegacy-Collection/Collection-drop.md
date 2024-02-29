@@ -8,9 +8,6 @@ token: L8UTdDNkPoeew0x6LoDcfHx4nof
 sidebar_position: 8
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # drop()
 
 This operation drops the current collection. 

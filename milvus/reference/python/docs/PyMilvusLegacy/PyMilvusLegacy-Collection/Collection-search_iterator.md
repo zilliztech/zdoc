@@ -8,9 +8,6 @@ token: HrnndnWtKoPuenxvsXBchF1wnnh
 sidebar_position: 25
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # search_iterator()
 
 This operation returns a Python iterator for you to iterate over the search results. It is useful especially when the search result contains a large volume of data.

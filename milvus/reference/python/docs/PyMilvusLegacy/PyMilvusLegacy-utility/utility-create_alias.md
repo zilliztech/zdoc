@@ -8,9 +8,6 @@ token: DthMdlg8Lozw89xNz4TcBv1LnOe
 sidebar_position: 3
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # create_alias()
 
 This operation creates an alias for an existing collection.
@@ -40,13 +37,15 @@ __PARAMETERS:__
 
     The alias of the collection. Before this operation, ensure that the alias does not already exist. If it does, exceptions will occur.
 
-    <Admonition type="info" icon="📘" title="What is a collection alias?">
+    <div class="admonition note">
+
+    <p><b>what is a collection alias?</b></p>
 
     <p>A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. </p>
     <p>In MilvusZilliz Cloud, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
     <p>Suppose there is one collection: <code>collection_1</code>. You can assign two different aliases (<code>bob</code> and <code>tom</code>) to this collection by calling <code>create_alias("collection_1", "bob")</code> and <code>create_alias("collection_1", "tom")</code>.</p>
 
-    </Admonition>
+    </div>
 
 - __using__ (_str_) - 
 

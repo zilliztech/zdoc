@@ -8,9 +8,6 @@ token: ZplAdphtooqHJkxo8GCcOFecngd
 sidebar_position: 1
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # add_index()
 
 This operation adds index parameters for a specific field in a collection.

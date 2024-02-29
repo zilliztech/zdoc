@@ -82,6 +82,8 @@ class larkUtils {
 
         for (const file of files) {
             var content = fs.readFileSync(`${outputDir}/${file}`, {encoding: 'utf-8', flag: 'r'})
+
+            // TODO: change frontmatters
             
             // remove docusaurus imports
             content = content.replace(/import .* from .*/g, '')
@@ -107,18 +109,26 @@ class larkUtils {
             matches.forEach(match => {
                 var indent = match[1]
                 var admonition_label = match[2].toLowerCase()
-                var type = admonition_label === 'Notes' ? 'note' : 'warning'
-                content = content.replace(match[0], `${indent}<div class="alert ${type}">`)
+                var type = admonition_label === 'Notes' ? 'note' : admonition_label === 'Warning' ? 'warning' : 'note'
+                var start = `${indent}<div class="admonition ${type}">`
+
+                if (!['Notes', 'Warning'].includes(admonition_label)) {
+                    start += `\n\n${indent}<p><b>${admonition_label}</b></p>\n\n`
+                }
+
+                content = content.replace(match[0], start)
             })
 
             content = content.replace(/([^\n\r]*)<\/Admonition>/g, (_, b) => {
                 return `${b}</div>`
             })
 
+            // TODO: change image path to relative path
+
             // remove abundant line breaks
             content = content.replace(/\n{3,}/g, '\n\n')
 
-            fs.writeFileSync(`${outputDir}/${file}_copy`, content, {encoding: 'utf-8', flag: 'w'})
+            fs.writeFileSync(`${outputDir}/${file}`, content, {encoding: 'utf-8', flag: 'w'})
         }
     }
 

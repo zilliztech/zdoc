@@ -8,9 +8,6 @@ token: V7BWdrC39oPAauxoWBzcaldwnVc
 sidebar_position: 9
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # drop_alias()
 
 This operation drops a specified collection alias. 
@@ -34,11 +31,13 @@ __PARAMETERS:__
 
     The alias to drop.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <div class="admonition note">
+
+    <p><b>notes</b></p>
 
     <p>When dropping an alias, you do not need to provide the collection name because one alias can only be assigned to exactly one collection. Therefore, the server knows which collection the specified alias belongs to.</p>
 
-    </Admonition>
+    </div>
 
 - __using__ (_str_) - 
 

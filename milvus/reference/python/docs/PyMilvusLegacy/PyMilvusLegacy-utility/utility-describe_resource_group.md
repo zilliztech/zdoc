@@ -8,9 +8,6 @@ token: HScCdxLNJotPCcxb4AZcxsNJn9c
 sidebar_position: 7
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describe_resource_group()
 
 This operation describes the details of a specific resource group.

@@ -8,9 +8,6 @@ token: VFKIdx0tDoeAzSx4Ud6c3u5Snsf
 sidebar_position: 28
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # wait_for_compaction_completed()
 
 This operation blocks the current session until the compaction request is completed.

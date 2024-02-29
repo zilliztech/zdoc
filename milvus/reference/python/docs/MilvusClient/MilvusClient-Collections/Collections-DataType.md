@@ -8,9 +8,6 @@ token: JiN3dU8zwoPdgBxxpw6c0JkUnze
 sidebar_position: 5
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # DataType
 
 This is an enumeration that provides the following constants.

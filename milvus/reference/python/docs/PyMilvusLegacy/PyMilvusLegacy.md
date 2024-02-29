@@ -12,6 +12,4 @@ displayed_sidebar: pythonSidebar
 
 Legacy PyMilvus Modules, classes, and methods
 
-import DocCardList from '@theme/DocCardList';
-
 <DocCardList />

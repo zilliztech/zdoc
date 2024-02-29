@@ -8,9 +8,6 @@ token: UP2GdfHHzoIQ56x2JvScs0sAnzh
 sidebar_position: 11
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # revoke_privileges()
 
 This operation revokes a privilege already assigned to a role.

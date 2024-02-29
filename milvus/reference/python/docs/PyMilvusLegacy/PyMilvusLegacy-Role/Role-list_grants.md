@@ -8,9 +8,6 @@ token: YRoGdgQmWoIEaJx84ICcHTILnMe
 sidebar_position: 8
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # list_grants()
 
 This operation lists all privileges granted to the current role.

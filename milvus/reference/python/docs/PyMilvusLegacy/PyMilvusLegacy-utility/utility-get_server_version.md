@@ -8,10 +8,6 @@ token: PoPkdkzSnofUihxzKLqcw7hYnrf
 sidebar_position: 16
 ---
 
-import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # get_server_version()
 
 This operation checks the version of the Milvus instance.

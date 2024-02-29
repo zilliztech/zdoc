@@ -8,9 +8,6 @@ token: DCLUdOpVjohl8HxPUx1cGjokngf
 sidebar_position: 1
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # construct_from_dict()
 
 This operation constructs a FieldSchema object from a dictionary representation.
@@ -23,12 +20,14 @@ construct_from_dict(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>This is a class method. You should call it from the class instead of an instance of the class as follows:</p>
 <p><code>FieldSchema.construct_from_dict()</code></p>
 
-</Admonition>
+</div>
 
 __PARAMETERS:__
 

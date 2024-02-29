@@ -8,9 +8,6 @@ token: XLepdUCcTow6rpx5vxxcbLXZnyb
 sidebar_position: 25
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # list_indexes()
 
 This operation lists all indexes of a specific collection.

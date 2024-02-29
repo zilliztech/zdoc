@@ -8,9 +8,6 @@ token: TJMVdi4U2oBFnAxO95jctzVAnzg
 sidebar_position: 6
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # delete()
 
 This operation deletes entities with a boolean expression.

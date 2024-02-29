@@ -8,9 +8,6 @@ token: CSpOd0XgWoVAhzx5xbVcpCVfnPg
 sidebar_position: 5
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # S3ConnectParam
 
 An __S3ConnectParam__ instance sets connection parameters for a __RemoteBulkWriter__ instance.
@@ -23,12 +20,14 @@ class pymilvus.RemoteBulkWriter.S3ConnectParam
 
 Constructs an __S3ConnectParam__ object by a set of parameters, such as __bucket_name__, __access_key__, __secret_key__, etc.
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>An <strong>S3ConnectParam</strong> object defines the parameters necessary for Milvus to connect to an AWS-S3-compatible bucket.</p>
 <p>You need to create this object before initializing a <strong>RemoteBulkWriter</strong> object.</p>
 
-</Admonition>
+</div>
 
 ```python
 from urllib3.poolmanager import PoolManager

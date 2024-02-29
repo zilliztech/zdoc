@@ -8,9 +8,6 @@ token: WDk4dXY8IoV3SJxp9e7c3aq1nBh
 sidebar_position: 15
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # has_index()
 
 This operation checks whether the current collection has a built index.

@@ -8,9 +8,6 @@ token: JJz3dFrE2oJP3AxySWYcJlf4nMh
 sidebar_position: 3
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describe_role()
 
 This operation describes a specific role.

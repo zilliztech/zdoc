@@ -8,9 +8,6 @@ token: BpqpdBWdyoxbmzx0GGCcQxksnBc
 sidebar_position: 8
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # do_bulk_insert()
 
 This operation bulk-inserts data from specified files.
@@ -42,7 +39,9 @@ __PARAMETERS:__
 
     A list of paths to the files that contain the source data. 
 
-    <Admonition type="info" icon="📘" title="How can I prepare the source data files?">
+    <div class="admonition note">
+
+    <p><b>how can i prepare the source data files?</b></p>
 
     <ul>
     <li><p>You can include a JSON file (<em>.json</em>) or a set of NumPy files (<em>.npy</em>) as the source data files.</p></li>
@@ -64,7 +63,7 @@ __PARAMETERS:__
     <li><p>To find the name of the MinIO bucket your Milvus instance uses, simply log into the MinIO server and find out. </p></li>
     </ul>
 
-    </Admonition>
+    </div>
 
 - __partition_name__ (_str_) -
 

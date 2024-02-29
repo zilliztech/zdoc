@@ -8,9 +8,6 @@ token: ECmAdaYKboPTNlxqkLxcUEZ4nrh
 sidebar_position: 26
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # set_properties()
 
 This operation sets properties for the collection.

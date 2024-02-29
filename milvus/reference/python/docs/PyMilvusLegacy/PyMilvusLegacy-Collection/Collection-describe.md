@@ -8,9 +8,6 @@ token: EZwsd887JojFjLxbMByckhW0nxg
 sidebar_position: 7
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describe()
 
 This operation describes the current collection.

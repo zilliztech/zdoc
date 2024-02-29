@@ -8,9 +8,6 @@ token: C2YSddNqZoDNmNxWqqEcuzhKn4f
 sidebar_position: 2
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # AzureConnectParam
 
 An __AzureConnectParam__ instance sets connection parameters for a __RemoteBulkWriter__ instance.
@@ -23,12 +20,14 @@ class pymilvus.RemoteBulkWriter.AzureConnectParam
 
 Constructs an __AzureConnectParam__ object by a set of parameters, such as __container_name__, __account_url__, __credential__, etc.
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>An <strong>AzureConnectParam</strong> object defines the parameters necessary for Milvus to connect to an Azure blob storage bucket.</p>
 <p>You need to create this object before initializing a <strong>RemoteBulkWriter</strong> object.</p>
 
-</Admonition>
+</div>
 
 ```python
 from pymilvus.RemoteBulkWriter import AzureConnectParam

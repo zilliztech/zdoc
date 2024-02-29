@@ -8,9 +8,6 @@ token: JXNXdQuwhoYmZQxSohNcdxtwnzh
 sidebar_position: 7
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # list_grant()
 
 This operation lists the relationship between the current role and the specified object.

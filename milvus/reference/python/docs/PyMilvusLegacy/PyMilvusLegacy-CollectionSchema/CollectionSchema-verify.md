@@ -8,9 +8,6 @@ token: KSECdBDcUoIkL7xI4KOc29Ukn1g
 sidebar_position: 5
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # verify()
 
 This operation performs final validation checks on the CollectionSchema to detect any obvious problems.

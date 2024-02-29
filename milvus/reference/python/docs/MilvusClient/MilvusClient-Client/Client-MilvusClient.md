@@ -8,9 +8,6 @@ token: TUrSdmskuoGdFRxFT75c6xhinzc
 sidebar_position: 2
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # MilvusClient
 
 A __MilvusClient__ instance represents a python client that connects to a specific Milvus instance.
@@ -23,11 +20,13 @@ pymilvus.MilvusClient
 
 Constructs a client for common use cases.
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>This client serves as an easy-to-use alternative for the current set of APIs that handles CRUD operations in Milvus.</p>
 
-</Admonition>
+</div>
 
 ```python
 MilvusClient(

@@ -8,9 +8,6 @@ token: EofGdftYjoQ9E6x8mxLcpbG1nhc
 sidebar_position: 11
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # drop_resource_group()
 
 This operation drops a resource group. 

@@ -8,9 +8,6 @@ token: L4KSdOVTEotaiyxjTddcVRDhn3E
 sidebar_position: 8
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # remove_connection()
 
 This operation removes the connection from the registry by the given alias and disconnects if connected.

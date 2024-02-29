@@ -8,9 +8,6 @@ token: QHcpd1aJzo5aYbxJtMXc58een4f
 sidebar_position: 39
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # transfer_node()
 
 This operation moves a specific number of query nodes from the source resource group to the target resource group.

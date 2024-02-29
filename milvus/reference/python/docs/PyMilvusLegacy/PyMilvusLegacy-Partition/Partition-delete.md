@@ -8,18 +8,17 @@ token: V9BidASNqoWYrmxo11ecuN99neg
 sidebar_position: 1
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # delete()
 
 This operation deletes entities from a partition with a boolean expression.
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>Using the <strong>partition_name</strong> parameter in the <strong>delete()</strong> method of a <strong>Collection</strong> object is equivalent to using the <strong>delete()</strong> method of a <strong>Partition</strong> object.</p>
 
-</Admonition>
+</div>
 
 ## Request Syntax{#request-syntax}
 

@@ -8,9 +8,6 @@ token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # flush()
 
 This operation seals all segments in the partition. Any insertions after this operation will generate a new segment.
@@ -23,13 +20,15 @@ flush(
 )   
 ```
 
-<Admonition type="info" icon="📘" title="Can I call `flush()` after every data insertion?">
+<div class="admonition note">
+
+<p><b>can i call `flush()` after every data insertion?</b></p>
 
 <p>When new data is inserted, it is written into growing segments. Once the size of a growing segment reaches its upper limit, Milvus automatically seals the segment. </p>
 <p>Continuously calling this operation results in many sealed segments of small sizes, which can gradually degrade search performance. </p>
 <p>It is recommended that you wait for Milvus to seal all segments before conducting any searches.</p>
 
-</Admonition>
+</div>
 
 __PARAMETERS:__
 

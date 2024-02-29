@@ -8,9 +8,6 @@ token: IpSBdcabbosobvxQkAEcv6CvnJd
 sidebar_position: 4
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # disconnect()
 
 This operation disconnects the client from the specified connection.

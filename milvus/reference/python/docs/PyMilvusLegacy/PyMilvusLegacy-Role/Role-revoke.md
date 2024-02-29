@@ -8,18 +8,17 @@ token: UUJWdoEnjoXx69xahsScdMVSnzf
 sidebar_position: 10
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # revoke()
 
 This operation revokes a privilege granted to the current role.
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>To complete this operation, you need to enable authentication on your Milvus instance. For details, refer to <a href="https://milvus.io/docs/authenticate.md">Authenticate User Access</a>.</p>
 
-</Admonition>
+</div>
 
 ## Request Syntax{#request-syntax}
 
@@ -58,14 +57,16 @@ __PARAMETERS:__
 
     Applicable privileges vary with the specified __object__. For details, refer to refer to [Users & Roles](https://milvus.io/docs/users_and_roles.md).
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <div class="admonition note">
+
+    <p><b>notes</b></p>
 
     <ul>
     <li><p>To grant all privileges to a kind of object, like <strong>Collection</strong>, <strong>Global</strong>, <strong>User</strong>, use <code>*</code> for privilege name.</p></li>
     <li><p>When <code>object</code> is set to <code>Global</code>, setting <code>privilege</code> to <code>*</code> is not equivalent to setting it to <code>All</code>. The <code>All</code> privilege includes all permissions, including any collection and user object.</p></li>
     </ul>
 
-    </Admonition>
+    </div>
 
 - __db_name__ (_string_)
 

@@ -8,9 +8,6 @@ token: PLKXdUB1EoNX8gxKHruc9GcEnsg
 sidebar_position: 43
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # wait_for_loading_complete()
 
 This operation blocks the current process until the specified collection has been loaded.

@@ -8,9 +8,6 @@ token: BHyidrVcyoPwxexHLrnceOSAnRe
 sidebar_position: 14
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # list_collections()
 
 This operation lists all existing collections.

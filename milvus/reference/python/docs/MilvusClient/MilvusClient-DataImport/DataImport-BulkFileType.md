@@ -8,9 +8,6 @@ token: CROadSmHNoV2CuxREnccTkaen0e
 sidebar_position: 1
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # BulkFileType
 
 This is an enumeration that provides the following constants.

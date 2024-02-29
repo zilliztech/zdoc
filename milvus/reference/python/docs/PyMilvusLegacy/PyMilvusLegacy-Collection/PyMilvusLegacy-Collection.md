@@ -8,9 +8,6 @@ token: ZGbAfWoUjl0Z3xdgyItc8wYXngf
 sidebar_position: 1
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # Collection
 
 A __Collection__ instance represents a Milvus collection.
@@ -45,11 +42,13 @@ __PARAMETERS:__
 
     The default value is __None__, indicating that a default schema is used.
 
-    <Admonition type="info" icon="📘" title="What is a schema?">
+    <div class="admonition note">
+
+    <p><b>what is a schema?</b></p>
 
     <p>The schema is responsible for organizing data in the target collection. A valid schema should have multiple fields, which must include a primary key, a vector field, and several scalar fields.</p>
 
-    </Admonition>
+    </div>
 
 - __using__ (_string_) - 
 
@@ -63,12 +62,14 @@ __PARAMETERS:__
 
     The value defaults to __2__, indicating that two shards are to be created along with this collection.
 
-    <Admonition type="info" icon="📘" title="What is sharding?">
+    <div class="admonition note">
+
+    <p><b>what is sharding?</b></p>
 
     <p>Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.</p>
     <p>By default, a collection contains two shards.</p>
 
-    </Admonition>
+    </div>
 
 - __consistency_level__ (_int_ | _str_)
 
@@ -76,7 +77,9 @@ __PARAMETERS:__
 
     The value defaults to __Bounded __(__1__) with options of __Strong __(__0__), __Bounded __(__1__), __Session __(__2__), and __Eventually __(__3__).
 
-    <Admonition type="info" icon="📘" title="What is the consistency level?">
+    <div class="admonition note">
+
+    <p><b>what is the consistency level?</b></p>
 
     <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
     <p></p>
@@ -85,7 +88,7 @@ __PARAMETERS:__
     <p></p>
     <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
 
-    </Admonition>
+    </div>
 
 - __timeout__ (_float _|_ None_)  
 
@@ -137,9 +140,5 @@ collection = Collection(
 ## Members{#members}
 
 The following are the members of the `Collection` class:
-
-
-
-import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

@@ -8,9 +8,6 @@ token: GRarduHPSoFY3Yx9EWRcdcTfn1g
 sidebar_position: 35
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # mkts_from_hybridts()
 
 This operation makes a hybrid timestamp from another hybrid timestamp.

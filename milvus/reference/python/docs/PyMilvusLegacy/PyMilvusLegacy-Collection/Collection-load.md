@@ -8,9 +8,6 @@ token: HQDndiGwloWKIexgPCUcEZGenOh
 sidebar_position: 19
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # load()
 
 This operation loads the data of the current collection into memory. 
@@ -25,11 +22,13 @@ load(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>This operation is non-blocking. You can call <code>utility.wait_for_loading_complete()</code> to block the current process.</p>
 
-</Admonition>
+</div>
 
 __PARAMETERS:__
 
@@ -41,12 +40,14 @@ __PARAMETERS:__
 
     The number of replicas to create. The value defaults to 1 and ranges from 1 to the number of query nodes available. Setting this to `1` indicates that segments in the current collection or any specified partitions are to be loaded onto one query node.
 
-    <Admonition type="info" icon="📘" title="What are the differences between partitions and replicas?">
+    <div class="admonition note">
+
+    <p><b>what are the differences between partitions and replicas?</b></p>
 
     <p>Partitioning allows you to further split a collection into multiple partitions, store different data in them, and load or release each of them individually. A collection can have up to 64 partitions. </p>
     <p>Replication is a mechanism for Milvus to load the same segments on multiple query nodes. It is very useful if you have a relatively small dataset but want to increase read-throughput with extra hardware resources.</p>
 
-    </Admonition>
+    </div>
 
 - __timeout__ (_float _|_ None_)  -
 
@@ -60,12 +61,14 @@ __PARAMETERS:__
 
         If left unspecified, the default resource group applies.
 
-        <Admonition type="info" icon="📘" title="What is a resource group?">
+        <div class="admonition note">
+
+        <p><b>what is a resource group?</b></p>
 
         <p>A resource group can hold several or all of the query nodes in a Milvus instance.</p>
         <p>Setting this parameter for this operation makes Milvus loads the current collection to the query nodes in the specified resource groups.</p>
 
-        </Admonition>
+        </div>
 
 __RETURN TYPE:__
 
@@ -81,11 +84,13 @@ __EXCEPTIONS:__
 
     This exception is to be raised when any error occurs during this operation.
 
-<Admonition type="danger" icon="🚧" title="Warning">
+<div class="admonition note">
+
+<p><b>warning</b></p>
 
 <p>If you try to load a collection that is not indexed, you will receive a <strong>MilvusException</strong>.</p>
 
-</Admonition>
+</div>
 
 ## Examples{#examples}
 

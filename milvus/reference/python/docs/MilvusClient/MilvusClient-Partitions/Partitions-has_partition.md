@@ -8,9 +8,6 @@ token: MxTAd0haboKnRrxQvoOckGghn1T
 sidebar_position: 4
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # has_partition()
 
 This operation checks whether the specified partition exists in the specified collection.

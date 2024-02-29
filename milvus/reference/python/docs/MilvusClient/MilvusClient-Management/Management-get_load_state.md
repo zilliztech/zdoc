@@ -8,9 +8,6 @@ token: KEPYdKup1o3nHdxKbjvcQUzwnnd
 sidebar_position: 5
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # get_load_state()
 
 This operation displays whether a specified collection or partition is loaded or not.
@@ -49,11 +46,13 @@ __RETURNS:__
 
 A dictionary that contains the status of the specified collection or partition. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>A collection is in the loaded state if any or all of its partitions are loaded.</p>
 
-</Admonition>
+</div>
 
 __EXCEPTIONS:__
 

@@ -12,6 +12,4 @@ displayed_sidebar: pythonSidebar
 
 Classes and methods for you to manage the MilvusClient instances.
 
-import DocCardList from '@theme/DocCardList';
-
 <DocCardList />

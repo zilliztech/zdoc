@@ -8,9 +8,6 @@ token: LffbdiHhzoHe08xivF9ccmoen5d
 sidebar_position: 22
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # query_iterator()
 
 This operation returns a Python iterator for you to iterate over the query results. It is useful especially when the query result contains a large volume of data.

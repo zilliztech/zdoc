@@ -8,9 +8,6 @@ token: T1CGdXeVkoG2yAxkualc1jVonRb
 sidebar_position: 23
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # list_bulk_insert_tasks()
 
 This operation lists all bulk-insert tasks.

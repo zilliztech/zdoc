@@ -8,9 +8,6 @@ token: Arn1dIKgwoISFoxT7xVc3UrBnAf
 sidebar_position: 2
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # BulkInsertState
 
 This is an enumeration that provides the following constants.

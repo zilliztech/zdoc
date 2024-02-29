@@ -8,9 +8,6 @@ token: FdLUdaL43oIuqTxJVnbcHxgqnkh
 sidebar_position: 12
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # IndexType
 
 This is an enumeration that provides the following constants.

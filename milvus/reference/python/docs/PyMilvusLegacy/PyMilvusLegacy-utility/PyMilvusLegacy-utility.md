@@ -12,6 +12,4 @@ displayed_sidebar: pythonSidebar
 
 Available Milvus utility functions.
 
-import DocCardList from '@theme/DocCardList';
-
 <DocCardList />

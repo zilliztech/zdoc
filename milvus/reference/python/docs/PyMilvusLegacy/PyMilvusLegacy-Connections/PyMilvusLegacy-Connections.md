@@ -8,9 +8,6 @@ token: Jy4gf9SrBlUSnpdXg2VcTuwhn4g
 sidebar_position: 3
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # Connections
 
 A __Connections__ instance represents a pool of connections to your Milvus instances.
@@ -23,11 +20,13 @@ class pymilvus.Connections
 
 Constructs a singleton instance to manage all connections. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>Instead of creating a new instance of this class on your own, import the existing singleton instance as shown in the following example.</p>
 
-</Admonition>
+</div>
 
 ## Examples{#examples}
 
@@ -44,7 +43,5 @@ connections.connect(
 ## Methods{#methods}
 
 The following are the methods of the `connections` singleton instance:
-
-import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

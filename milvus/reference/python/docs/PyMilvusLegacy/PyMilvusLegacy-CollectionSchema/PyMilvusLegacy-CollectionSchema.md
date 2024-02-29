@@ -8,9 +8,6 @@ token: SeaffVvutlNtvTdpV17cy78un5T
 sidebar_position: 2
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # CollectionSchema
 
 A __CollectionSchema__ instance represents the schema of a collection. A schema sketches the structure of a collection.
@@ -38,11 +35,13 @@ __PARAMETERS:__
 
     A list of __FieldSchema__ objects that define the fields in the collection schema.
 
-    <Admonition type="info" icon="📘" title="What is a field schema?">
+    <div class="admonition note">
+
+    <p><b>what is a field schema?</b></p>
 
     <p>A field schema represents and contains metadata for a single field, while <strong>CollectionSchema</strong> ties together a list of FieldSchema objects to define the full schema.</p>
 
-    </Admonition>
+    </div>
 
 - __description__ (_string_) -
 
@@ -64,11 +63,13 @@ __PARAMETERS:__
 
         When you set this to __True__, Milvus and  will create a field called __$meta__ to store any undefined fields and their values from the data that is inserted.
 
-        <Admonition type="info" icon="📘" title="What is a dynamic field?">
+        <div class="admonition note">
+
+        <p><b>what is a dynamic field?</b></p>
 
         <p>If the data being inserted into the target collection includes fields that are not defined in the collection's schema, those fields will be saved in a dynamic field as key-value pairs.</p>
 
-        </Admonition>
+        </div>
 
     - __primary_field__ (_str_)
 
@@ -88,13 +89,15 @@ __PARAMETERS:__
 
         As an alternative, you can set __is_partition_key__ when creating a __FieldSchema__ object.
 
-        <Admonition type="info" icon="📘" title="What is a partition key?">
+        <div class="admonition note">
+
+        <p><b>what is a partition key?</b></p>
 
         <p>Once a field is designated as the partition key, Milvus automatically creates a partition for each unique value in this field and saves entities in these partitions accordingly.</p>
         <p>This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.</p>
         <p>As an alternative, you can set <strong>partition<em>key</em>field</strong> when creating a <strong>CollectionSchema</strong> object.</p>
 
-        </Admonition>
+        </div>
 
 __RETURN TYPE:__
 
@@ -162,9 +165,5 @@ schema = CollectionSchema(
 ## Methods{#methods}
 
 The following are the methods of the `CollectionSchema` class:
-
-
-
-import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

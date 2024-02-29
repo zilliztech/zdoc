@@ -8,9 +8,6 @@ token: CWZGd48FJoFHXYx40NMcTd2FnKc
 sidebar_position: 1
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # close()
 
 This operation closes the current Milvus client.

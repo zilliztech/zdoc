@@ -8,9 +8,6 @@ token: B3n3db0idoia02xXxJfcONK8nRh
 sidebar_position: 2
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # create_index()
 
 This operation creates an index for a specific collection.

@@ -8,9 +8,6 @@ token: EZ2YdBHoDoRTlxx91tscffm1nSb
 sidebar_position: 10
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # list_users()
 
 This operation lists the names of all existing users.

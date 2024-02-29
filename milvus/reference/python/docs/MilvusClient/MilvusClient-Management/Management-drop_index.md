@@ -8,9 +8,6 @@ token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 4
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # drop_index()
 
 This operation drops an index from a specific collection.

@@ -8,9 +8,6 @@ token: TG3Rd9aM5offvFxKy2CcKXn9nWc
 sidebar_position: 1
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # add_field()
 
 This operation adds a field to the schema of a collection.
@@ -70,14 +67,16 @@ __PARAMETERS:__
 
     Whether the current field is the primary field in a collection.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <div class="admonition note">
+
+    <p><b>notes</b></p>
 
     <ul>
     <li><p>Each collection has only one primary field.</p></li>
     <li><p>A primary field should be of either the <strong>DataType.INT64</strong> type or the <strong>DataType.VARCHAR</strong> type.</p></li>
     </ul>
 
-    </Admonition>
+    </div>
 
 - __max_length__ (_int_) -
 

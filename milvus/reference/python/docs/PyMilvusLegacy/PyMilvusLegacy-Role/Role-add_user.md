@@ -8,9 +8,6 @@ token: W7GJdpYrYoYhSaxW6uzcVAZinYf
 sidebar_position: 1
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # add_user()
 
 This operation adds an existing user to the current role. Once added, the user gets permissions allowed for the current role and can perform certain operations.

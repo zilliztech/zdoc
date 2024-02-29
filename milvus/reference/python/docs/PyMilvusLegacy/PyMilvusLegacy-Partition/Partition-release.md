@@ -8,9 +8,6 @@ token: ZQ2RdE2AOoH9bfx4k3Sc3Ny0ngb
 sidebar_position: 9
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # release()
 
 This operation releases the data of the current partition from memory.

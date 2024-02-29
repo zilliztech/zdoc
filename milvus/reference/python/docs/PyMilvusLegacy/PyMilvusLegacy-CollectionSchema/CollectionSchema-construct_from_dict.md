@@ -8,9 +8,6 @@ token: DYuUdc503o1TANxuGozcXhCmnRN
 sidebar_position: 3
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # construct_from_dict()
 
 This operation constructs a __CollectionSchema__ object from a dictionary representation.

@@ -8,18 +8,17 @@ token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # reset_password()
 
 This operation resets the password for a specific user. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>This operation differs from _<em>update</em>password() __in that this operation also resets the current connection using the newly set credentials.</p>
 
-</Admonition>
+</div>
 
 ## Request Syntax{#request-syntax}
 

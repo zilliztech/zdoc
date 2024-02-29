@@ -8,9 +8,6 @@ token: D74JdcitKobd7cxNdDdcGAz6nuf
 sidebar_position: 5
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # search()
 
 This operation conducts a vector similarity search with an optional scalar filtering expression.

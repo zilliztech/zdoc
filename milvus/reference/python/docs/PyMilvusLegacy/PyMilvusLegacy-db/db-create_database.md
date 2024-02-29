@@ -8,9 +8,6 @@ token: G4Ftde3kxoHAJbxVNXncI7mpngb
 sidebar_position: 1
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # create_database()
 
 This operation creates a database using the provided database name.

@@ -8,9 +8,6 @@ token: N97pdfkjlo9j61xrtL2cbB79nKe
 sidebar_position: 8
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # query()
 
 This operation conducts a query on the entity scalar field(s) with a boolean expression.
@@ -52,7 +49,9 @@ __PARAMETERS:__
 
         The value defaults to the one specified when you create the current collection, with options of __Strong __(__0__), __Bounded __(__1__), __Session __(__2__), and __Eventually __(__3__).
 
-        <Admonition type="info" icon="📘" title="What is the consistency level?">
+        <div class="admonition note">
+
+        <p><b>what is the consistency level?</b></p>
 
         <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
         <p></p>
@@ -61,7 +60,7 @@ __PARAMETERS:__
         <p></p>
         <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
 
-        </Admonition>
+        </div>
 
     - __guarantee_timestamp__ (_int_) -
 
@@ -69,11 +68,13 @@ __PARAMETERS:__
 
         If this parameter is set, MilvusZilliz Cloud executes the query only if all entities inserted before this timestamp are visible to query nodes. 
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <div class="admonition note">
+
+        <p><b>notes</b></p>
 
         <p>This parameter is valid when the default consistency level applies.</p>
 
-        </Admonition>
+        </div>
 
     - __graceful_time__ (_int_) -
 
@@ -81,11 +82,13 @@ __PARAMETERS:__
 
         The value defaults to __5__. If this parameter is set, MilvusZilliz Cloud calculates the guarantee timestamp by subtracting this from the current timestamp.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <div class="admonition note">
+
+        <p><b>notes</b></p>
 
         <p>This parameter is valid when a consistency level other than the default one applies.</p>
 
-        </Admonition>
+        </div>
 
     - __offset__ (_int_) -
 

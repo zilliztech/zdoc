@@ -8,18 +8,17 @@ token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
 sidebar_position: 8
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # prepare_index_params()
 
 This operation prepares index parameters to build indexes for a specific collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>This is a class method. You should call this method like this: <code>MilvusClient.prepare_index_params()</code>.</p>
 
-</Admonition>
+</div>
 
 ## Request syntax{#request-syntax}
 

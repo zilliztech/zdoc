@@ -240,8 +240,12 @@ module.exports = function (context, options) {
     
                             await writer.write_faqs(path)
                         }
+
+                        if (opts.pubTarget === "milvus") {
+                            utils.postprocess_for_milvus(outputDir, docSourceDir)
+                        }
     
-                    }                    
+                    }
                 })
         }
     }

@@ -8,9 +8,6 @@ token: E7zOdU2JpoqaU5xNYXvcAjgPnNh
 sidebar_position: 6
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # delete_user()
 
 This operation deletes an existing user.

@@ -8,9 +8,6 @@ token: EtBDdoGaFo3bOExKxCHcKgpenib
 sidebar_position: 2
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # commit()
 
 This operation commits the appended data.

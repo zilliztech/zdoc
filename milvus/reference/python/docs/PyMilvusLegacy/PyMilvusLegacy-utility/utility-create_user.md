@@ -8,10 +8,6 @@ token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5
 ---
 
-import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # create_user()
 
 This operation creates a new user with a corresponding password.

@@ -8,18 +8,17 @@ token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # insert()
 
 This operation inserts data into the current partition.
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>Using the <strong>partition_name</strong> parameter in the <strong>insert()</strong> method of a <strong>Collection</strong> object is equivalent to using the <strong>insert()</strong> method of a <strong>Partition</strong> object.</p>
 
-</Admonition>
+</div>
 
 ## Request Syntax{#request-syntax}
 

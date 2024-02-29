@@ -8,9 +8,6 @@ token: Ed0CftM6Mlb5e4dUYApc9syJnDb
 sidebar_position: 6
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # Partition
 
 A __Partition__ instance represents a partition within a collection.
@@ -23,11 +20,13 @@ class pymilvus.Partition
 
 Constructs a partition in a collection by name, description, and other parameters. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>When using partitions, ensure that <strong>enable<em>partition</em>key</strong> is not set to <strong>True</strong> in the collection schema. Otherwise, an error will occur.</p>
 
-</Admonition>
+</div>
 
 ```python
 Partition(
@@ -47,12 +46,14 @@ __PARAMETERS:__
 
     You can either reference a __Collection__ object or its name.
 
-    <Admonition type="info" icon="📘" title="What is a collection?">
+    <div class="admonition note">
+
+    <p><b>what is a collection?</b></p>
 
     <p>A collection collects data in a two-dimensional table with a fixed number of columns and a variable number of rows. In the table, each column corresponds to a field, and each row represents an entity.</p>
     <p>A collection can support up to 64 partitions.</p>
 
-    </Admonition>
+    </div>
 
 - __name__ (_string_) - 
 
@@ -93,9 +94,5 @@ partition = Partition(collection, "novel", "")
 ## Members{#members}
 
 The following are the members of the `Partition` class:
-
-
-
-import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

@@ -8,18 +8,17 @@ token: M0qRdF1cLokrxvxyrXScJ64FnEe
 sidebar_position: 37
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # rename_collection()
 
 This operation renames an existing collection and optionally moves the collection to a new database.
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>Aliases created for the target collection remain intact after this operation.</p>
 
-</Admonition>
+</div>
 
 ## Request Syntax{#request-syntax}
 

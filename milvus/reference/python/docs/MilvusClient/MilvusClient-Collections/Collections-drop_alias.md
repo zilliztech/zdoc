@@ -8,9 +8,6 @@ token: FpWXdmIuforYz9xUCsqclyCXnLe
 sidebar_position: 8
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # drop_alias()
 
 This operation drops a specified collection alias. 

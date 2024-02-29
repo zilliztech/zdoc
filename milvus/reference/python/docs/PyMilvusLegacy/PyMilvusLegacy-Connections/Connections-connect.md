@@ -8,9 +8,6 @@ token: KzCXdTVVSoOmkbxuFjsccDlXnff
 sidebar_position: 2
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # connect()
 
 This operation establishes a connection to a Milvus instance using the provided alias, address, and authentication parameters.
@@ -36,14 +33,16 @@ __PARAMETERS:__
 
     A connection alias.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <div class="admonition note">
+
+    <p><b>notes</b></p>
 
     <ul>
     <li><p>If the specified connection alias does not exist, a new one will be added, and the parameters specified below are added as the parameters of the connection alias.</p></li>
     <li><p>If the specified connection alias has already been added by calling <strong>add_connection()</strong>, the parameters specified below overwrite those of the connection alias.</p></li>
     </ul>
 
-    </Admonition>
+    </div>
 
 - __user__ (_string_) -
 

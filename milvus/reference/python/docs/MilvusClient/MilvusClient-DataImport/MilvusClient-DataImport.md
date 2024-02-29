@@ -12,6 +12,4 @@ displayed_sidebar: pythonSidebar
 
 Modules and classes related to the import of large-volume data into a collection.
 
-import DocCardList from '@theme/DocCardList';
-
 <DocCardList />

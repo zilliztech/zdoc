@@ -8,9 +8,6 @@ token: WtyZdeFKMoSv5exaYRxcPLCSndg
 sidebar_position: 6
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # drop_user()
 
 This operation drops a user.

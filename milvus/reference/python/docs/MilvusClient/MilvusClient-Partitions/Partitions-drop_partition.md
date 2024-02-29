@@ -8,18 +8,17 @@ token: EMI8dM8uooIAFPxVfffcoqRwnZf
 sidebar_position: 2
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # drop_partition()
 
 This operation drops a specified partition from the current collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>Before dropping a partition, you must first release it.</p>
 
-</Admonition>
+</div>
 
 ## Request syntax{#request-syntax}
 

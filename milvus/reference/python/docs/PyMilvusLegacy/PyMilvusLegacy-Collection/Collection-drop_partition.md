@@ -8,9 +8,6 @@ token: Aym2dpBuIo81mExCqyLcSWhunBe
 sidebar_position: 10
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # drop_partition()
 
 This operation drops a specified partition from the current collection.

@@ -8,9 +8,6 @@ token: LCQTdebkConhUqxwnk7c3EbPnWh
 sidebar_position: 34
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # mkts_from_datetime()
 
 This operation makes a hybrid timestamp from a Python's __datetime.datetime__ object.

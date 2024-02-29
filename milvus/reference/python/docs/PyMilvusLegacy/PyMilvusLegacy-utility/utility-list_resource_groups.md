@@ -8,9 +8,6 @@ token: FXTZd5FgNo9ta0xvjaIclEM1nPf
 sidebar_position: 26
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # list_resource_groups()
 
 This operation lists all resource groups in the currently connected Milvus instance.

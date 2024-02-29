@@ -8,9 +8,6 @@ token: RxU7dBjGlop0e1xZShYcZ4qCnnh
 sidebar_position: 4
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # create_schema()
 
 This operation creates a collection schema.
@@ -21,11 +18,13 @@ This operation creates a collection schema.
 MilvusClient.create_schema(**kwargs) -> CollectionSchema
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>This is a class method. You should call this method like this: <code>MilvusClient.create_schema()</code>.</p>
 
-</Admonition>
+</div>
 
 __PARAMETERS:__
 
@@ -43,11 +42,13 @@ __PARAMETERS:__
 
         When you set this to __True__, Milvus and  will create a field called __$meta__ to store any undefined fields and their values from the data that is inserted.
 
-        <Admonition type="info" icon="📘" title="What is a dynamic field?">
+        <div class="admonition note">
+
+        <p><b>what is a dynamic field?</b></p>
 
         <p>If the data being inserted into the target collection includes fields that are not defined in the collection's schema, those fields will be saved in a reserved dynamic field named <strong>$meta</strong> as key-value pairs.</p>
 
-        </Admonition>
+        </div>
 
     - __primary_field__ (_str_)
 
@@ -59,12 +60,14 @@ __PARAMETERS:__
 
         Setting this makes Milvus manage all partitions in the current collection.
 
-        <Admonition type="info" icon="📘" title="What is a partition key?">
+        <div class="admonition note">
+
+        <p><b>what is a partition key?</b></p>
 
         <p>Once a field is designated as the partition key, Milvus calculates a hash based on the partition key value of each inserted entity and saves entities in the partitions of the target collection accordingly.</p>
         <p>This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.</p>
 
-        </Admonition>
+        </div>
 
 __RETURN TYPE:__
 

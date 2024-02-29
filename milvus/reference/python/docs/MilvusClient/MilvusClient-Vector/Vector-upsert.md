@@ -8,9 +8,6 @@ token: WRYFdoDe8ofrlDxxTxQcdoJjnAh
 sidebar_position: 6
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # upsert()
 
 This operation inserts or updates data in a specific collection.

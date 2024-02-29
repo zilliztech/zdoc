@@ -8,9 +8,6 @@ token: OUz3drncZo1Er8xyITZcYz66nWE
 sidebar_position: 1
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # create_role()
 
 This operation creates a custom role.

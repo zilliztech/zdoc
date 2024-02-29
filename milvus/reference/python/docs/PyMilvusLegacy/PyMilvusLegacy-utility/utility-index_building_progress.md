@@ -8,9 +8,6 @@ token: OVfodiKa6o3qTGxadYicI975nhh
 sidebar_position: 21
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # index_building_progress()
 
 This operation returns the progress of the index-building process.

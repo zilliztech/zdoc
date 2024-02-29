@@ -8,9 +8,6 @@ token: KEzNdJPoDoHOjlx2FC8cNcHqngg
 sidebar_position: 3
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # drop()
 
 This operation drops an existing role. The operation will succeed if the specified role exists. Otherwise, this operation will fail.

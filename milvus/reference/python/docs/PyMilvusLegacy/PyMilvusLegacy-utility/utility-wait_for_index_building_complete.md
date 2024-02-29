@@ -8,9 +8,6 @@ token: MfR8dw5TioPvw3xvrstcgYixnUb
 sidebar_position: 42
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # wait_for_index_building_complete()
 
 This operation blocks the current process until the specified index has been built.

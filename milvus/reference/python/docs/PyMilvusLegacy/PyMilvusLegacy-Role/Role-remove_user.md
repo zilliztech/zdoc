@@ -8,9 +8,6 @@ token: SlmSdaD7rocMJsxThNHcOtEknVd
 sidebar_position: 9
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # remove_user()
 
 This operation removes a user from the current role. Once removed, the user will lose the permissions allowed for the current role.

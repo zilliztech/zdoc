@@ -12,6 +12,4 @@ displayed_sidebar: pythonSidebar
 
 Methods related to implement role-based access control to your resources.
 
-import DocCardList from '@theme/DocCardList';
-
 <DocCardList />

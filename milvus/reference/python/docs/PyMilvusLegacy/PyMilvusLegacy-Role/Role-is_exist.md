@@ -8,9 +8,6 @@ token: F8WOdIoz4okn5OxMEymcXNuRnkb
 sidebar_position: 6
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # is_exist()
 
 This operation checks whether the current role exists.

@@ -8,9 +8,6 @@ token: XYNMdg3Vpo3SE7xTRVqcJNvrn0d
 sidebar_position: 32
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # load_balance()
 
 This operation sets up a load-balancing group between two query nodes for a specific collection.

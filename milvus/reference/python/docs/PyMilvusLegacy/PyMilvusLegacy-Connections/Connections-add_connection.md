@@ -8,9 +8,6 @@ token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # add_connection()
 
 This operation adds connections to multiple Milvus instances for different purposes in a batch. 

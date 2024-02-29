@@ -8,9 +8,6 @@ token: HN7nddgueo3scIxmPXAcpjkFnDf
 sidebar_position: 6
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describe_alias()
 
 This operation displays the details of an alias.

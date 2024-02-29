@@ -8,9 +8,6 @@ token: AtkDdtMAWodFzExARxnco5xLnsg
 sidebar_position: 9
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # drop_index()
 
 This operation deletes index from the current collection.

@@ -8,9 +8,6 @@ token: CCOhd671iog6rRxu8aOcaPncnLK
 sidebar_position: 4
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # get_users()
 
 This operation lists all users associated with the current role.

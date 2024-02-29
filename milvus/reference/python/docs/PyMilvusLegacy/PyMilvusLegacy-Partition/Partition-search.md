@@ -8,9 +8,6 @@ token: XW72dhBuNoqNWhxUQLtcfa6Fnwd
 sidebar_position: 10
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # search()
 
 This operation conducts a vector similarity search with an optional scalar filtering expression.
@@ -121,12 +118,14 @@ A __SearchResult__ object that contains a list of __Hits__ objects.
 
 - Response structure
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <div class="admonition note">
+
+    <p><b>notes</b></p>
 
     <p>A <strong>SearchResult</strong> object contains a list of <strong>Hits</strong> objects, each corresponding to a query vector in the search request. </p>
     <p>A <strong>Hits</strong> object contains a list of <strong>Hit</strong> objects, each corresponding to an entity hit by the search.</p>
 
-    </Admonition>
+    </div>
 
     ```plaintext
     ├── SearchResult

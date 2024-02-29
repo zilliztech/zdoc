@@ -8,9 +8,6 @@ token: CBwkdDs7MoKkVKx0kJgcPUNxn6s
 sidebar_position: 23
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # release()
 
 This operation releases the data of the current collection from memory.

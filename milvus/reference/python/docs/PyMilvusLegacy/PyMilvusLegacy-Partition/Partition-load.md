@@ -8,18 +8,17 @@ token: TWxddf6iboyM15xK4Kzc8ASknRb
 sidebar_position: 6
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # load()
 
 This operation loads the data of the current partition into memory.
 
-<Admonition type="info" icon="📘" title="Notes">
+<div class="admonition note">
+
+<p><b>notes</b></p>
 
 <p>Using the <strong>partition_names</strong> parameter in the <strong>load()</strong> method of a <strong>Collection</strong> object is equivalent to using the <strong>load()</strong> method of corresponding <strong>Partition</strong> objects.</p>
 
-</Admonition>
+</div>
 
 ## Request Syntax{#request-syntax}
 
@@ -48,12 +47,14 @@ __PARAMETERS:__
 
         If left unspecified, the default resource group applies.
 
-        <Admonition type="info" icon="📘" title="What is a resource group?">
+        <div class="admonition note">
+
+        <p><b>what is a resource group?</b></p>
 
         <p>A resource group can hold several or all of the query nodes in a Milvus instance.</p>
         <p>Setting this parameter for this operation makes Milvus loads the current collection to the query nodes in the specified resource groups.</p>
 
-        </Admonition>
+        </div>
 
 __RETURN TYPE:__
 

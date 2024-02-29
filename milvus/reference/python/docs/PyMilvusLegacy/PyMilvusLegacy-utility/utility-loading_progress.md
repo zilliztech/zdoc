@@ -8,9 +8,6 @@ token: HQiHd82orov0XvxAzLWcl5xRnzc
 sidebar_position: 31
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # loading_progress()
 
 This operation returns the load progress of a specific collection.

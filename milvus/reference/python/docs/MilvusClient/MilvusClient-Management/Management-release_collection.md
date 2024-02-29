@@ -8,9 +8,6 @@ token: PRR7dRfi8o1s61xFRovccAdRnHe
 sidebar_position: 10
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # release_collection()
 
 This operation releases the data of a specific collection from memory.
