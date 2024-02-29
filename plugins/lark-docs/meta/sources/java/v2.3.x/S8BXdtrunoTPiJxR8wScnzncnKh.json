@@ -1,0 +1,592 @@
+{
+  "created_time": "1708421451",
+  "modified_time": "1708934871",
+  "name": "dropIndex()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "UqeGfuMkilgT1HdhoyGc08FznEt",
+  "token": "S8BXdtrunoTPiJxR8wScnzncnKh",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/S8BXdtrunoTPiJxR8wScnzncnKh",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "S8BXdtrunoTPiJxR8wScnzncnKh",
+        "block_type": 1,
+        "children": [
+          "TdAid0b2goUnpixWKg7c6tznnZz",
+          "CSh9dmADVof52HxY2VHct1Ewnrq",
+          "UEpidF6DwoHv5Axa5b0cWycBnSe",
+          "Qz4sd2rF9oVJakx7aaQcjHI1nWE",
+          "HV8Ed7apQoguWRxDVTQcFcBNnSc",
+          "JExGd6tlBo9bgSxrnvmc7rSBngd",
+          "ZQepdEudHogcvVxchcIc1uGCnIg",
+          "PBm5dK4kJoEFmExJR8mcBuY7nw1",
+          "XkcjdlkTqo7vqYxuT0Ac1MtSnFe",
+          "TWm8dPWP1oNK77xwmkicWS0Xnoe",
+          "AYebdYOUuo9XFwxzn6sceZX0nig",
+          "V2Eydi0vFoISmxxHsXlcBCUUnQf",
+          "EE3PdQJFnoo6d9xWFEac2fXcnob",
+          "P6bdd2huAoUkNsxyk9qc9ib5nDg",
+          "Ef94d7tbaoOH1exjx7Yccm2ZnAe"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "dropIndex()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "TdAid0b2goUnpixWKg7c6tznnZz",
+        "block_type": 2,
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation drops an index from a specific collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CSh9dmADVof52HxY2VHct1Ewnrq",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "public void dropIndex(DropIndexReq request)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh"
+      },
+      {
+        "block_id": "UEpidF6DwoHv5Axa5b0cWycBnSe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh"
+      },
+      {
+        "block_id": "Qz4sd2rF9oVJakx7aaQcjHI1nWE",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "dropIndex(DropIndexReq.builder()\n    .collectionName(String collectionName)\n    .fieldName(String fieldName)\n    .indexName(String indexName)\n    .build()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh"
+      },
+      {
+        "block_id": "HV8Ed7apQoguWRxDVTQcFcBNnSc",
+        "block_type": 2,
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "BUILDER METHODS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JExGd6tlBo9bgSxrnvmc7rSBngd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collectionName(String collectionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "LSeBdVj3wot4ehxXDWycUYw1nSg"
+        ],
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh"
+      },
+      {
+        "block_id": "LSeBdVj3wot4ehxXDWycUYw1nSg",
+        "block_type": 2,
+        "parent_id": "JExGd6tlBo9bgSxrnvmc7rSBngd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of an existing collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZQepdEudHogcvVxchcIc1uGCnIg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "fieldName(String fieldName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "D5YZdlVopouxAPxboldcRWNHnye"
+        ],
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh"
+      },
+      {
+        "block_id": "D5YZdlVopouxAPxboldcRWNHnye",
+        "block_type": 2,
+        "parent_id": "ZQepdEudHogcvVxchcIc1uGCnIg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the field on which the index is created.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PBm5dK4kJoEFmExJR8mcBuY7nw1",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "indexName(String indexName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "T4SAdVtnFoi1k5xywzqcQXpUnQW"
+        ],
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh"
+      },
+      {
+        "block_id": "T4SAdVtnFoi1k5xywzqcQXpUnQW",
+        "block_type": 2,
+        "parent_id": "PBm5dK4kJoEFmExJR8mcBuY7nw1",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the index to drop.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XkcjdlkTqo7vqYxuT0Ac1MtSnFe",
+        "block_type": 2,
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TWm8dPWP1oNK77xwmkicWS0Xnoe",
+        "block_type": 2,
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "void",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AYebdYOUuo9XFwxzn6sceZX0nig",
+        "block_type": 2,
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "V2Eydi0vFoISmxxHsXlcBCUUnQf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusClientExceptions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "FXB5dP94loHZJexdEKjcD4NknUd"
+        ],
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh"
+      },
+      {
+        "block_id": "FXB5dP94loHZJexdEKjcD4NknUd",
+        "block_type": 2,
+        "parent_id": "V2Eydi0vFoISmxxHsXlcBCUUnQf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when any error occurs during this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EE3PdQJFnoo6d9xWFEac2fXcnob",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh"
+      },
+      {
+        "block_id": "P6bdd2huAoUkNsxyk9qc9ib5nDg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "DropIndexReq dropIndexReq = DropIndexReq.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "builder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "()\n        .collectionName(\"test\")\n        .fieldName(\"vector\")\n        .build();\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client_v2.dropIndex(dropIndexReq);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh"
+      },
+      {
+        "block_id": "Ef94d7tbaoOH1exjx7Yccm2ZnAe",
+        "block_type": 2,
+        "parent_id": "S8BXdtrunoTPiJxR8wScnzncnKh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 20
+  },
+  "slug": "Management-dropIndex"
+}

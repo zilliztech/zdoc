@@ -1,16 +1,16 @@
 ---
-slug: /java/Vector
+slug: /java/Collections
 beta: false
 notebook: false
 type: folder
-token: HVVZfLAcOlz6bpdjY82cFmtNn2g
-sidebar_position: 6
+token: KvSff5lOglJa2LdLSdBcJwPmnSd
+sidebar_position: 3
 displayed_sidebar: javaSidebar
 ---
 
-# Vector
+# Collections
 
-Methods related to CRUD operations within a collection.
+Methods for you to manage collections.
 
 import DocCardList from '@theme/DocCardList';
 

@@ -1,0 +1,1027 @@
+{
+  "created_time": "1708421236",
+  "modified_time": "1709005609",
+  "name": "createAlias()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "KvSff5lOglJa2LdLSdBcJwPmnSd",
+  "token": "VU1odD6KIoV6kWxTJHScVhDRnkb",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/VU1odD6KIoV6kWxTJHScVhDRnkb",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "VU1odD6KIoV6kWxTJHScVhDRnkb",
+        "block_type": 1,
+        "children": [
+          "WQEvdvlwPo2MERxesabcs8hLnef",
+          "WpWvdFmaxoxV5txoWfScxur7nmj",
+          "TMv8drrQYo6gzwxJzJycc0LenWf",
+          "XlirdoP0soH8OwxxswocWDrpn9c",
+          "Br0wdI1DxofjM3xPrfqccBjinfe",
+          "WYXxdzwKQo3tC8xn9zBc9cgIn6K",
+          "YfVwdDK4jogKpHx83aPcs9yOnAc",
+          "NkHIdciSkosJXnxbbkbc6lsAnpc",
+          "YT14dry8boI75dxd9v3cKKRQn4f",
+          "QeGtdmHIzoiCSaxGp1RcMoYynYQ",
+          "JIN9dSC9uooATcxnkyIcy3yPncg",
+          "CpO9d3fMWorkCqxqPybcLDgpn4g",
+          "FalCdb6txoc5D9xJ1APcZLkWn3c",
+          "YLGNd8vGEoJnKyxgiepcXU0KnDz"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "createAlias()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "WQEvdvlwPo2MERxesabcs8hLnef",
+        "block_type": 2,
+        "parent_id": "VU1odD6KIoV6kWxTJHScVhDRnkb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation creates an alias for an existing collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WpWvdFmaxoxV5txoWfScxur7nmj",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "public void createAlias(CreateAliasReq request)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "VU1odD6KIoV6kWxTJHScVhDRnkb"
+      },
+      {
+        "block_id": "TMv8drrQYo6gzwxJzJycc0LenWf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VU1odD6KIoV6kWxTJHScVhDRnkb"
+      },
+      {
+        "block_id": "XlirdoP0soH8OwxxswocWDrpn9c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "createAlias(CreateAliasReq.builder()\n    .alias(String alias)\n    .collectionName(String collectionName)\n    .build()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "VU1odD6KIoV6kWxTJHScVhDRnkb"
+      },
+      {
+        "block_id": "Br0wdI1DxofjM3xPrfqccBjinfe",
+        "block_type": 2,
+        "parent_id": "VU1odD6KIoV6kWxTJHScVhDRnkb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "BUILDER METHODS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WYXxdzwKQo3tC8xn9zBc9cgIn6K",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "alias(String alias)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "HqNbdlWVbo1nXoxpIHfcXr6GnUf",
+          "YmiudH9Q5oM7nbxn1YRcCd1UnSd"
+        ],
+        "parent_id": "VU1odD6KIoV6kWxTJHScVhDRnkb"
+      },
+      {
+        "block_id": "HqNbdlWVbo1nXoxpIHfcXr6GnUf",
+        "block_type": 2,
+        "parent_id": "WYXxdzwKQo3tC8xn9zBc9cgIn6K",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The alias of the collection. Before this operation, ensure that the alias does not already exist. If it does, exceptions will occur.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YmiudH9Q5oM7nbxn1YRcCd1UnSd",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "VZ0YdscvloU70ExcZR3cTKKhnGf",
+          "YHrVdMdRDo5WJbxLdcJciwOUn4d",
+          "SNgrd8xIeovKUrxyER0c5xGtnwd",
+          "O6EFdZHqSodo9Fxgq1vcgjY8nZf",
+          "F76idvQIXonEAMxYRQNcngfinJf",
+          "MeuPdwivfogzhOxH99vclVFjnIg",
+          "ACxYd9q8loaQDYx46P9cDGUFnZd",
+          "H1GidCVJBoS7wrxaEhtcA9UAnDb",
+          "L5oYdksiNoxcirxHM8tccfXnnQb",
+          "DloCdmsByoafg7x283DcXZlGnMb"
+        ],
+        "parent_id": "WYXxdzwKQo3tC8xn9zBc9cgIn6K"
+      },
+      {
+        "block_id": "VZ0YdscvloU70ExcZR3cTKKhnGf",
+        "block_type": 2,
+        "parent_id": "YmiudH9Q5oM7nbxn1YRcCd1UnSd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What is a collection alias?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YHrVdMdRDo5WJbxLdcJciwOUn4d",
+        "block_type": 2,
+        "parent_id": "YmiudH9Q5oM7nbxn1YRcCd1UnSd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SNgrd8xIeovKUrxyER0c5xGtnwd",
+        "block_type": 2,
+        "parent_id": "YmiudH9Q5oM7nbxn1YRcCd1UnSd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">In Milvus</include><include target=\"zilliz\">On Zilliz Cloud</include>, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O6EFdZHqSodo9Fxgq1vcgjY8nZf",
+        "block_type": 2,
+        "parent_id": "YmiudH9Q5oM7nbxn1YRcCd1UnSd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Below is an example of reassigning the alias of one collection to another:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F76idvQIXonEAMxYRQNcngfinJf",
+        "block_type": 2,
+        "parent_id": "YmiudH9Q5oM7nbxn1YRcCd1UnSd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Suppose there are two collections: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection_1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection_2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". There is also a collection alias named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "bob",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", which was originally assigned to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection_1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MeuPdwivfogzhOxH99vclVFjnIg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection_1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'s alias = [\"bob\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YmiudH9Q5oM7nbxn1YRcCd1UnSd"
+      },
+      {
+        "block_id": "ACxYd9q8loaQDYx46P9cDGUFnZd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection_2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'s alias = []",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YmiudH9Q5oM7nbxn1YRcCd1UnSd"
+      },
+      {
+        "block_id": "H1GidCVJBoS7wrxaEhtcA9UAnDb",
+        "block_type": 2,
+        "parent_id": "YmiudH9Q5oM7nbxn1YRcCd1UnSd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After calling the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "alterAlias",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " function with the parameters ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "collection_2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "bob",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "L5oYdksiNoxcirxHM8tccfXnnQb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection_1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'s alias = []",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YmiudH9Q5oM7nbxn1YRcCd1UnSd"
+      },
+      {
+        "block_id": "DloCdmsByoafg7x283DcXZlGnMb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection_2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "'s alias = [\"bob\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YmiudH9Q5oM7nbxn1YRcCd1UnSd"
+      },
+      {
+        "block_id": "YfVwdDK4jogKpHx83aPcs9yOnAc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collectionName(String collectionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "QhjLdeqzzoS5z6xOGAgciciGnpd"
+        ],
+        "parent_id": "VU1odD6KIoV6kWxTJHScVhDRnkb"
+      },
+      {
+        "block_id": "QhjLdeqzzoS5z6xOGAgciciGnpd",
+        "block_type": 2,
+        "parent_id": "YfVwdDK4jogKpHx83aPcs9yOnAc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the collection to create an alias for.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NkHIdciSkosJXnxbbkbc6lsAnpc",
+        "block_type": 2,
+        "parent_id": "VU1odD6KIoV6kWxTJHScVhDRnkb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YT14dry8boI75dxd9v3cKKRQn4f",
+        "block_type": 2,
+        "parent_id": "VU1odD6KIoV6kWxTJHScVhDRnkb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "void",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QeGtdmHIzoiCSaxGp1RcMoYynYQ",
+        "block_type": 2,
+        "parent_id": "VU1odD6KIoV6kWxTJHScVhDRnkb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JIN9dSC9uooATcxnkyIcy3yPncg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusClientExceptions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "WHibdy6XVogCl3xQ9wtckMYsnae"
+        ],
+        "parent_id": "VU1odD6KIoV6kWxTJHScVhDRnkb"
+      },
+      {
+        "block_id": "WHibdy6XVogCl3xQ9wtckMYsnae",
+        "block_type": 2,
+        "parent_id": "JIN9dSC9uooATcxnkyIcy3yPncg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when any error occurs during this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CpO9d3fMWorkCqxqPybcLDgpn4g",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "VU1odD6KIoV6kWxTJHScVhDRnkb"
+      },
+      {
+        "block_id": "FalCdb6txoc5D9xJ1APcZLkWn3c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "CreateAliasReq createAliasReq = CreateAliasReq.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "builder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "()\n        .collectionName(\"test\")\n        .alias(\"test_alias\")\n        .build();\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client.createAlias(createAliasReq);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "VU1odD6KIoV6kWxTJHScVhDRnkb"
+      },
+      {
+        "block_id": "YLGNd8vGEoJnKyxgiepcXU0KnDz",
+        "block_type": 2,
+        "parent_id": "VU1odD6KIoV6kWxTJHScVhDRnkb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 29
+  },
+  "slug": "Collections-createAlias"
+}

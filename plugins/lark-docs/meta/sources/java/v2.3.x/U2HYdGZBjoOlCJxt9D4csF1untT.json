@@ -1,0 +1,4287 @@
+{
+  "created_time": "1708421678",
+  "modified_time": "1709199351",
+  "name": "search()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "HVVZfLAcOlz6bpdjY82cFmtNn2g",
+  "token": "U2HYdGZBjoOlCJxt9D4csF1untT",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/U2HYdGZBjoOlCJxt9D4csF1untT",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "U2HYdGZBjoOlCJxt9D4csF1untT",
+        "block_type": 1,
+        "children": [
+          "SMwBdZECSomWaYxfvZ2clSvqnnc",
+          "NhVudCwGHoTRg7xaZNfcNU6Bn5d",
+          "FADidpKNNogbpRxbP8CcDpWgnvX",
+          "KbzedUOQCooF27x2LadcO9AanMc",
+          "Rv9YdDhnBoZBlIxZkiBcfdLEnde",
+          "LwwSdqWBMo4eoPxWbiNc9nx4nYI",
+          "G96AdHIZ9oiDdjx7RXXcSogDnUd",
+          "EwgvdkawXoA8wfxSTY5c9mwNn8u",
+          "NswRdadazoBxJmxYDSOcQpG7n9e",
+          "FTmEdX8gxoyVVsxXHwBcYgHxnWf",
+          "FWWYdoAaUoAAbexg1escBugrnmf",
+          "MuZzdwQK8osNDvx3HzBcgQlYnXe",
+          "ZaaTdKNiHoxtj5xoDKoc8lx1n1g",
+          "VYMPd6UcUo2BDgx90NFc3fZ4nAh",
+          "L79EdtYd4oKILMxjXFGcXfpjn4c",
+          "HfBqdM3NIofjL7xetxgcRo70nSc",
+          "GXjMdQepBomCVSxcrLmcdNSRnSb",
+          "Z24tdwimnoM65sxzKLQclFwGnef",
+          "VcVJdimTIoteNGxFZf7cXxbqnPg",
+          "Q0dvd2dl6ojBUUx2ukwc3wWinoh",
+          "GmJCd5nLToaPuxxMW1mcKYO1nCb",
+          "PbQsdHxaroq5JmxUSS3c6C4SnEf",
+          "DA0MdWN61olXv4xiNb9crC8qnId",
+          "XqjQd0rLLowVwNxVFYFcqKQqnWI",
+          "Mz0IdLETKokC2WxAUtQcNYLxnzh",
+          "J9fKdzdw8oqRQVxeEorcbyu8n3d",
+          "SrhBdQMfXoAd1hxjPWccWcXpnDh",
+          "Sx3JdQZwLoOUVExcDkGcmbQUn1e",
+          "EGMtdfLPWoPuksxJN1ycCsqnnxg",
+          "VxKldIWJSoj2FtxXX2YcRea6njd",
+          "Vfr6dBLfyonSdPxWPHHcHfBRnyg",
+          "Tz1rdEm9coCCs3xl5p9c0Eojnbd",
+          "ZrN6dOdOeoA4GLx5SPbcdQhmnFd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "search()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "SMwBdZECSomWaYxfvZ2clSvqnnc",
+        "block_type": 2,
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation conducts a vector similarity search with an optional scalar filtering expression.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NhVudCwGHoTRg7xaZNfcNU6Bn5d",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "public SearchResp search(SearchReq request)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "FADidpKNNogbpRxbP8CcDpWgnvX",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "KbzedUOQCooF27x2LadcO9AanMc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "search(SearchReq.builder()\n    .collectionName(String collectionName)\n    .consistencyLevel(ConsistencyLevel consistencyLevel)\n    .data(List<Object> data)\n    .filter(String filter)\n    .limit(long limit)\n    .offset(long offset)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .outputFields(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "> outputFields)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .partitionNames(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "> partitionNames)\n    .searchParams(String searchParams)\n    .topK(int topK)\n    .vectorFieldName(String vectorFieldName)\n    .gracefulTime(long gracefulTime)\n    .guaranteeTimestamp(long guaranteeTimestamp)\n    .ignoreGrowing(boolean ignoreGrowing)\n    .roundDecimal(int roundDecimal)\n    .build()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "Rv9YdDhnBoZBlIxZkiBcfdLEnde",
+        "block_type": 2,
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "BUILDER METHODS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LwwSdqWBMo4eoPxWbiNc9nx4nYI",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collectionName(String collectionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "ZsGYdCxScoG5CmxaqUsc9LJwnEf"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "ZsGYdCxScoG5CmxaqUsc9LJwnEf",
+        "block_type": 2,
+        "parent_id": "LwwSdqWBMo4eoPxWbiNc9nx4nYI",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of an existing collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G96AdHIZ9oiDdjx7RXXcSogDnUd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "consistencyLevel(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ConsistencyLevel",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FZYqWdyQlEoZTtKxt2gVcKeLMnhf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " consistencyLevel)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "YrLAdvFUXohCmOx8vvncy8KCnzb",
+          "AAt5d9EIOokYY4x9vBLcFqNBnBc",
+          "Ww99dTCVCoFWhvxUY2bch4bsnGb"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "YrLAdvFUXohCmOx8vvncy8KCnzb",
+        "block_type": 2,
+        "parent_id": "G96AdHIZ9oiDdjx7RXXcSogDnUd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The consistency level of the target collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AAt5d9EIOokYY4x9vBLcFqNBnBc",
+        "block_type": 2,
+        "parent_id": "G96AdHIZ9oiDdjx7RXXcSogDnUd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to the one specified when you create the current collection, with options of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Strong ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "0",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "), ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Bounded ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "1",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "), ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Session ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "2",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "), and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Eventually ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "3",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ").",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ww99dTCVCoFWhvxUY2bch4bsnGb",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "Uo3od3zDEoJ9LTxotyYcVondnKe",
+          "BzLZdxcmOo376TxgafQc3yx1npf",
+          "QMrQdgY5KowlU5xuB5oc2o4bnWb",
+          "Fr9wdZT2qojf1gxFDDuctwDknAf",
+          "EbBedWH8eon7v5xSKV1cUlshnec",
+          "Moxrd9vgzozRUIxkHkbcNyKmnEC",
+          "XodIdunLjoEfMnx0KfucFfTynih",
+          "Vz2fdCr1tok5sOxpW6rcb6ANnro",
+          "OT5odtSkuoqWYcxFjrnceDrznYc"
+        ],
+        "parent_id": "G96AdHIZ9oiDdjx7RXXcSogDnUd"
+      },
+      {
+        "block_id": "Uo3od3zDEoJ9LTxotyYcVondnKe",
+        "block_type": 2,
+        "parent_id": "Ww99dTCVCoFWhvxUY2bch4bsnGb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What is the consistency level?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BzLZdxcmOo376TxgafQc3yx1npf",
+        "block_type": 2,
+        "parent_id": "Ww99dTCVCoFWhvxUY2bch4bsnGb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QMrQdgY5KowlU5xuB5oc2o4bnWb",
+        "block_type": 2,
+        "parent_id": "Ww99dTCVCoFWhvxUY2bch4bsnGb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Fr9wdZT2qojf1gxFDDuctwDknAf",
+        "block_type": 2,
+        "parent_id": "Ww99dTCVCoFWhvxUY2bch4bsnGb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Milvus supports four consistency levels: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Strong",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Bounded Staleness",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Session",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Eventually",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". The default consistency level in Milvus is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Bounded Staleness",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EbBedWH8eon7v5xSKV1cUlshnec",
+        "block_type": 2,
+        "parent_id": "Ww99dTCVCoFWhvxUY2bch4bsnGb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Moxrd9vgzozRUIxkHkbcNyKmnEC",
+        "block_type": 2,
+        "parent_id": "Ww99dTCVCoFWhvxUY2bch4bsnGb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XodIdunLjoEfMnx0KfucFfTynih",
+        "block_type": 2,
+        "parent_id": "Ww99dTCVCoFWhvxUY2bch4bsnGb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud provides three consistency levels: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Strong",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Bounded Staleness",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Eventually",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Bounded Staleness",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " set as the default.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Vz2fdCr1tok5sOxpW6rcb6ANnro",
+        "block_type": 2,
+        "parent_id": "Ww99dTCVCoFWhvxUY2bch4bsnGb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OT5odtSkuoqWYcxFjrnceDrznYc",
+        "block_type": 2,
+        "parent_id": "Ww99dTCVCoFWhvxUY2bch4bsnGb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can easily tune the consistency level when conducting a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector similarity search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to make it best suit your application.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EwgvdkawXoA8wfxSTY5c9mwNn8u",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "data(List<Object> data)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "CRkCdAdtKonNEUxbIwecKlwWnBd",
+          "XbAVd4hkIo7bvnxlJK7cUjnbnJd"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "CRkCdAdtKonNEUxbIwecKlwWnBd",
+        "block_type": 2,
+        "parent_id": "EwgvdkawXoA8wfxSTY5c9mwNn8u",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of vector embeddings.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XbAVd4hkIo7bvnxlJK7cUjnbnJd",
+        "block_type": 2,
+        "parent_id": "EwgvdkawXoA8wfxSTY5c9mwNn8u",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> searches for the most similar vector embeddings to the specified ones.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NswRdadazoBxJmxYDSOcQpG7n9e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "filter(String filter)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "HKvUdT8kJoLkGkxsT6WcFKPinAd",
+          "Sv3ndcjlUow0OxxR1ldciXaYnqf"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "HKvUdT8kJoLkGkxsT6WcFKPinAd",
+        "block_type": 2,
+        "parent_id": "NswRdadazoBxJmxYDSOcQpG7n9e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A scalar filtering condition to filter matching entities. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Sv3ndcjlUow0OxxR1ldciXaYnqf",
+        "block_type": 2,
+        "parent_id": "NswRdadazoBxJmxYDSOcQpG7n9e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Boolean Expression Rules",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fboolean.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FTmEdX8gxoyVVsxXHwBcYgHxnWf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "limit(long limit)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "ETFqduNjqoMEYbxSnIgcMwvznqb",
+          "CPjtdtZKXoEeygxF3VNcbV1tnQb",
+          "OmvkdagDqoYmOOx23GWcfZxcnre"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "ETFqduNjqoMEYbxSnIgcMwvznqb",
+        "block_type": 2,
+        "parent_id": "FTmEdX8gxoyVVsxXHwBcYgHxnWf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The number of records to return in the search result. This parameter uses the same syntax as the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "topK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " parameter, so you should only set one of them.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CPjtdtZKXoEeygxF3VNcbV1tnQb",
+        "block_type": 2,
+        "parent_id": "FTmEdX8gxoyVVsxXHwBcYgHxnWf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can use this parameter in combination with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "offset",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to enable pagination.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OmvkdagDqoYmOOx23GWcfZxcnre",
+        "block_type": 2,
+        "parent_id": "FTmEdX8gxoyVVsxXHwBcYgHxnWf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The sum of this value and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "offset",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " should be less than 16,384. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FWWYdoAaUoAAbexg1escBugrnmf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "offset(long offset)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Ku4YdywCdo7r7oxZ3z3cImPFnzb",
+          "RwxLdX3iwoCFlbxTEK4ciogqntb",
+          "TiC9dROEJo1wYrxG9HTcw73jnnf"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "Ku4YdywCdo7r7oxZ3z3cImPFnzb",
+        "block_type": 2,
+        "parent_id": "FWWYdoAaUoAAbexg1escBugrnmf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The number of records to skip in the query result. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RwxLdX3iwoCFlbxTEK4ciogqntb",
+        "block_type": 2,
+        "parent_id": "FWWYdoAaUoAAbexg1escBugrnmf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can use this parameter in combination with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "limit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to enable pagination.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TiC9dROEJo1wYrxG9HTcw73jnnf",
+        "block_type": 2,
+        "parent_id": "FWWYdoAaUoAAbexg1escBugrnmf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The sum of this value and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "limit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " should be less than 16,384. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MuZzdwQK8osNDvx3HzBcgQlYnXe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "outputFields(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "> outputFields)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "RNIldi8kGoQ0IPxhPkVcrrUOnvh",
+          "LSrBddTEuo2BSZxUF2Qcj5UEnge"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "RNIldi8kGoQ0IPxhPkVcrrUOnvh",
+        "block_type": 2,
+        "parent_id": "MuZzdwQK8osNDvx3HzBcgQlYnXe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of field names to include in each entity in return.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LSrBddTEuo2BSZxUF2Qcj5UEnge",
+        "block_type": 2,
+        "parent_id": "MuZzdwQK8osNDvx3HzBcgQlYnXe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". If left unspecified, all fields are selected as the output fields.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZaaTdKNiHoxtj5xoDKoc8lx1n1g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "partitionNames(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "> partitionNames)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "A3icd5mkloaAPpxEwpKcUL5Anwc"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "A3icd5mkloaAPpxEwpKcUL5Anwc",
+        "block_type": 2,
+        "parent_id": "ZaaTdKNiHoxtj5xoDKoc8lx1n1g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of partition names.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VYMPd6UcUo2BDgx90NFc3fZ4nAh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "searchParams(",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7338736775560249348"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Map<String,Object>",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7338736775560249348"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " searchParams)",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7338736775560249348"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "OTBKdOdlMoqYLsx7wXgcxplCnwg",
+          "QtQddRe6JoUIyFxksR1caFQenwb",
+          "Igetd9mRDohligxnMn8c9x1hnAd",
+          "ZPfid4iLoo60DTxA3eXcrYe6nqh",
+          "O4lbdVXlPooTR6xBQ08cHw42ncf",
+          "E2WYd9wLsoaeN9xaYPEcqAzin5e",
+          "JIbtdVeQIoLoVJxxIZ1cTio4nPd",
+          "HJiAdx6nUoAvxOxfGpBcz2dSn2b",
+          "VD3mdSWzEokpEoxIBzRcMrkSnQf"
+        ],
+        "comment_ids": [
+          "7338736775560249348"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "OTBKdOdlMoqYLsx7wXgcxplCnwg",
+        "block_type": 2,
+        "parent_id": "VYMPd6UcUo2BDgx90NFc3fZ4nAh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The parameter settings specific to this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QtQddRe6JoUIyFxksR1caFQenwb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "metric_type",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (String)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "A7eVdwbReoS9EixBSrQcynaWnhe",
+          "MN3GdhFAEoOCZxx3dmzc9s5ln0c"
+        ],
+        "parent_id": "VYMPd6UcUo2BDgx90NFc3fZ4nAh"
+      },
+      {
+        "block_id": "A7eVdwbReoS9EixBSrQcynaWnhe",
+        "block_type": 2,
+        "parent_id": "QtQddRe6JoUIyFxksR1caFQenwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The metric type applied to this operation. This should be the same as the one used when you index the vector field specified above. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MN3GdhFAEoOCZxx3dmzc9s5ln0c",
+        "block_type": 2,
+        "parent_id": "QtQddRe6JoUIyFxksR1caFQenwb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Possible values are ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "L2",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IP",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "COSINE",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Igetd9mRDohligxnMn8c9x1hnAd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "params",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Map<String,Object>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "G23Fd3VQdon49CxMJrLcTQWonDg",
+          "JGAFddQ0ioJ2SrxUQbTcjD8Xnbd",
+          "WS2SdcusmolteGxkTVpchjy1n5f"
+        ],
+        "parent_id": "VYMPd6UcUo2BDgx90NFc3fZ4nAh"
+      },
+      {
+        "block_id": "G23Fd3VQdon49CxMJrLcTQWonDg",
+        "block_type": 2,
+        "parent_id": "Igetd9mRDohligxnMn8c9x1hnAd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Additional parameters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JGAFddQ0ioJ2SrxUQbTcjD8Xnbd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "radius (float)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "WIXLd0G6xoH81AxtZ1jcatjsneL"
+        ],
+        "parent_id": "Igetd9mRDohligxnMn8c9x1hnAd"
+      },
+      {
+        "block_id": "WIXLd0G6xoH81AxtZ1jcatjsneL",
+        "block_type": 2,
+        "parent_id": "JGAFddQ0ioJ2SrxUQbTcjD8Xnbd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Determines the threshold of least similarity. When setting ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "metric_type",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "L2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ensure that this value is greater than that of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "range_filter",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Otherwise, this value should be lower than that of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "range_filter",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WS2SdcusmolteGxkTVpchjy1n5f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "range_filter (float)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "H2QvdknOyo5cgcxclktc5Ec5n0c"
+        ],
+        "parent_id": "Igetd9mRDohligxnMn8c9x1hnAd"
+      },
+      {
+        "block_id": "H2QvdknOyo5cgcxclktc5Ec5n0c",
+        "block_type": 2,
+        "parent_id": "WS2SdcusmolteGxkTVpchjy1n5f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Refines the search to vectors within a specific similarity range. When setting ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "metric_type",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "COSINE",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ensure that this value is greater than that of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "radius",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Otherwise, this value should be lower than that of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "radius",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZPfid4iLoo60DTxA3eXcrYe6nqh",
+        "block_type": 2,
+        "parent_id": "VYMPd6UcUo2BDgx90NFc3fZ4nAh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O4lbdVXlPooTR6xBQ08cHw42ncf",
+        "block_type": 2,
+        "parent_id": "VYMPd6UcUo2BDgx90NFc3fZ4nAh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For details on other applicable search parameters, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "In-memory Index",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Findex.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "On-disk Index",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fdisk_index.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "E2WYd9wLsoaeN9xaYPEcqAzin5e",
+        "block_type": 2,
+        "parent_id": "VYMPd6UcUo2BDgx90NFc3fZ4nAh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JIbtdVeQIoLoVJxxIZ1cTio4nPd",
+        "block_type": 2,
+        "parent_id": "VYMPd6UcUo2BDgx90NFc3fZ4nAh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HJiAdx6nUoAvxOxfGpBcz2dSn2b",
+        "block_type": 2,
+        "parent_id": "VYMPd6UcUo2BDgx90NFc3fZ4nAh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For details on other applicable search parameters, read ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "AUTOINDEX Explained",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fautoindex-explained"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to get more.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VD3mdSWzEokpEoxIBzRcMrkSnQf",
+        "block_type": 2,
+        "parent_id": "VYMPd6UcUo2BDgx90NFc3fZ4nAh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "L79EdtYd4oKILMxjXFGcXfpjn4c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "topK(int topK)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "DbS1d0MiFoybHvxk9Q0cXLShnuc",
+          "QcRVdQLXQojugwx2RiDcxssjnAd",
+          "XxMNdTYRWoV0umxOlxIcHmLtnPg"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "DbS1d0MiFoybHvxk9Q0cXLShnuc",
+        "block_type": 2,
+        "parent_id": "L79EdtYd4oKILMxjXFGcXfpjn4c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The number of records to return in the search result. This parameter uses the same syntax as the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "limit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " parameter, so you should only set one of them.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QcRVdQLXQojugwx2RiDcxssjnAd",
+        "block_type": 2,
+        "parent_id": "L79EdtYd4oKILMxjXFGcXfpjn4c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can use this parameter in combination with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "offset",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to enable pagination.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XxMNdTYRWoV0umxOlxIcHmLtnPg",
+        "block_type": 2,
+        "parent_id": "L79EdtYd4oKILMxjXFGcXfpjn4c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The sum of this value and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "offset",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " should be less than 16,384. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HfBqdM3NIofjL7xetxgcRo70nSc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "vectorFieldName(String vectorFieldName)",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7339751117180223491"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "LDw0d8xqYo2XggxVEsGcpdBonzh"
+        ],
+        "comment_ids": [
+          "7339751117180223491"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "LDw0d8xqYo2XggxVEsGcpdBonzh",
+        "block_type": 2,
+        "parent_id": "HfBqdM3NIofjL7xetxgcRo70nSc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the vector field. The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GXjMdQepBomCVSxcrLmcdNSRnSb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "gracefulTime(long gracefulTime)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "NINKdZcPsoBeqVxJ6VUcAaAunTb",
+          "PptTdno7nof19jxySJocterDn2g",
+          "YrZodHnJioD0TuxWDzXcCnw2nLd"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "NINKdZcPsoBeqVxJ6VUcAaAunTb",
+        "block_type": 2,
+        "parent_id": "GXjMdQepBomCVSxcrLmcdNSRnSb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A period of time in ms.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PptTdno7nof19jxySJocterDn2g",
+        "block_type": 2,
+        "parent_id": "GXjMdQepBomCVSxcrLmcdNSRnSb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "5000L",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". If this parameter is set, <include target=\"milvus\">Milvus</include><include target=\"milvus\">Zilliz Cloud</include> calculates the guarantee timestamp by subtracting this from the current timestamp.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YrZodHnJioD0TuxWDzXcCnw2nLd",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "JVR5d2d6joe5Nax9gpOcOd2MnIe",
+          "MPE6dUMC2o0Vy9xKw9Dc7dbsnTc"
+        ],
+        "parent_id": "GXjMdQepBomCVSxcrLmcdNSRnSb"
+      },
+      {
+        "block_id": "JVR5d2d6joe5Nax9gpOcOd2MnIe",
+        "block_type": 2,
+        "parent_id": "YrZodHnJioD0TuxWDzXcCnw2nLd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MPE6dUMC2o0Vy9xKw9Dc7dbsnTc",
+        "block_type": 2,
+        "parent_id": "YrZodHnJioD0TuxWDzXcCnw2nLd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This parameter is valid when a consistency level other than the default one applies.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Z24tdwimnoM65sxzKLQclFwGnef",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "guaranteeTimestamp(long guaranteeTimestamp)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "ZzBId31cWo3kVkxHjuvc8ByrnWh",
+          "Z8uMdWi8po0MlhxxvXrcUQuOnnb",
+          "LP2BdkOYPokdvmx8rJLcpfRLndb"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "ZzBId31cWo3kVkxHjuvc8ByrnWh",
+        "block_type": 2,
+        "parent_id": "Z24tdwimnoM65sxzKLQclFwGnef",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A valid timestamp. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Z8uMdWi8po0MlhxxvXrcUQuOnnb",
+        "block_type": 2,
+        "parent_id": "Z24tdwimnoM65sxzKLQclFwGnef",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If this parameter is set, <include target=\"milvus\">Milvus</include><include target=\"milvus\">Zilliz Cloud</include> executes the query only if all entities inserted before this timestamp are visible to query nodes. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LP2BdkOYPokdvmx8rJLcpfRLndb",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "NaRbdyG6BoQpYExcYx9cyTNcnHf",
+          "NwJxdA9d1o5ORvx4TiYcDqq3nMc"
+        ],
+        "parent_id": "Z24tdwimnoM65sxzKLQclFwGnef"
+      },
+      {
+        "block_id": "NaRbdyG6BoQpYExcYx9cyTNcnHf",
+        "block_type": 2,
+        "parent_id": "LP2BdkOYPokdvmx8rJLcpfRLndb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NwJxdA9d1o5ORvx4TiYcDqq3nMc",
+        "block_type": 2,
+        "parent_id": "LP2BdkOYPokdvmx8rJLcpfRLndb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This parameter is valid when the default consistency level applies.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VcVJdimTIoteNGxFZf7cXxbqnPg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ignoreGrowing(boolean ignoreGrowing)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "VS77dBXzvolhAPxvUk0coM9Snlg"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "VS77dBXzvolhAPxvUk0coM9Snlg",
+        "block_type": 2,
+        "parent_id": "VcVJdimTIoteNGxFZf7cXxbqnPg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Whether to ignore growing segments during similarity searches.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Q0dvd2dl6ojBUUx2ukwc3wWinoh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "roundDecimal(int roundDecimal)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "MqCfdFDMroqgyXxJlm6cmbk9n8b",
+          "M5Utd8x8conIyUx5okuculSsnBc"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "MqCfdFDMroqgyXxJlm6cmbk9n8b",
+        "block_type": 2,
+        "parent_id": "Q0dvd2dl6ojBUUx2ukwc3wWinoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The number of decimal places that <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> rounds the calculated distances to.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "M5Utd8x8conIyUx5okuculSsnBc",
+        "block_type": 2,
+        "parent_id": "Q0dvd2dl6ojBUUx2ukwc3wWinoh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "-1",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", indicating that <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> skips rounding the calculated distances and returns the raw value.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GmJCd5nLToaPuxxMW1mcKYO1nCb",
+        "block_type": 2,
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PbQsdHxaroq5JmxUSS3c6C4SnEf",
+        "block_type": 2,
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "List",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\\",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<SearchResult",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\\",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DA0MdWN61olXv4xiNb9crC8qnId",
+        "block_type": 2,
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XqjQd0rLLowVwNxVFYFcqKQqnWI",
+        "block_type": 2,
+        "comment_ids": [
+          "7339751296730415108"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SearchResult",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7339751296730415108"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "objects representing specific search results with the specified output fields and relevance score.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Mz0IdLETKokC2WxAUtQcNYLxnzh",
+        "block_type": 2,
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "J9fKdzdw8oqRQVxeEorcbyu8n3d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "fields",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (Map",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\\",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<String, Object",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\\",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ">)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "EjB2dKS3IogQkoxRhfxc8SPinrb"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "EjB2dKS3IogQkoxRhfxc8SPinrb",
+        "block_type": 2,
+        "parent_id": "J9fKdzdw8oqRQVxeEorcbyu8n3d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A map that stores the specific fields associated with the search result.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SrhBdQMfXoAd1hxjPWccWcXpnDh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "score",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (Float)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "ShPkdEUtpoToGYxFIaacrKonn2c"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "ShPkdEUtpoToGYxFIaacrKonn2c",
+        "block_type": 2,
+        "parent_id": "SrhBdQMfXoAd1hxjPWccWcXpnDh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The relevance score of the search result. The score indicates how closely the vector associated with the search result matches the query vector.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Sx3JdQZwLoOUVExcDkGcmbQUn1e",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "DfOYdY6JMot1h7xLd1BcOkTSn0e",
+          "Ks0Yd4QyLoRjvhxePSocTjWOnTc"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "DfOYdY6JMot1h7xLd1BcOkTSn0e",
+        "block_type": 2,
+        "parent_id": "Sx3JdQZwLoOUVExcDkGcmbQUn1e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ks0Yd4QyLoRjvhxePSocTjWOnTc",
+        "block_type": 2,
+        "parent_id": "Sx3JdQZwLoOUVExcDkGcmbQUn1e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If the number of returned entities is less than expected, duplicate entities may exist in your collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EGMtdfLPWoPuksxJN1ycCsqnnxg",
+        "block_type": 2,
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VxKldIWJSoj2FtxXX2YcRea6njd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusClientExceptions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "DTb9dWm9ooJxMnxTh7bcDNZenbc"
+        ],
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "DTb9dWm9ooJxMnxTh7bcDNZenbc",
+        "block_type": 2,
+        "parent_id": "VxKldIWJSoj2FtxXX2YcRea6njd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when any error occurs during this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Vfr6dBLfyonSdPxWPHHcHfBRnyg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "Tz1rdEm9coCCs3xl5p9c0Eojnbd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "List<Float> vectorList = new ArrayList<>();\nvectorList.add(1.0f);\nvectorList.add(2.0f);\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SearchReq searchReq = SearchReq.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "builder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "()\n        .collectionName(\"test\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .data(Collections.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "singletonList",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(vectorList))\n        .topK(10)\n        .build();\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SearchResp searchResp = client_v2.search(searchReq);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT"
+      },
+      {
+        "block_id": "ZrN6dOdOeoA4GLx5SPbcdQhmnFd",
+        "block_type": 2,
+        "parent_id": "U2HYdGZBjoOlCJxt9D4csF1untT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 98
+  },
+  "slug": "Vector-search"
+}

@@ -122,6 +122,23 @@ const config = {
             imageDir: 'static/img',
           }
         }
+      },
+      java: {
+        root: 'GYfPfBbdglDhh5dzLH3cYaV1nDf',
+        base: 'Bp72bJ9wEazV1SsA30lcsuJgnfe',
+        sourceType: 'drive',
+        version: 'v2.3.x',
+        docSourceDir: './plugins/lark-docs/meta/sources/java/v2.3.x',
+        targets: {
+          milvus: {
+            outputDir: 'milvus/reference/java/docs',
+            imageDir: 'milvus/reference/java/images'
+          },
+          zilliz: {
+            outputDir: 'reference/api/java/java',
+            imageDir: 'static/img',
+          }
+        }
       }
     }],
     './plugins/apifox-docs',

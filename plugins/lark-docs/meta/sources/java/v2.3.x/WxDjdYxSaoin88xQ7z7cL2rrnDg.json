@@ -1,0 +1,2434 @@
+{
+  "created_time": "1708421670",
+  "modified_time": "1709021399",
+  "name": "query()",
+  "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_token": "HVVZfLAcOlz6bpdjY82cFmtNn2g",
+  "token": "WxDjdYxSaoin88xQ7z7cL2rrnDg",
+  "type": "docx",
+  "url": "https://zilliverse.feishu.cn/docx/WxDjdYxSaoin88xQ7z7cL2rrnDg",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg",
+        "block_type": 1,
+        "children": [
+          "VSn3d6Enqokil7xKsUUcDbL6n8z",
+          "Fbfgds7N5oymm8xY2Hhcwrpancf",
+          "FIywdQB1cobmX0x2mXfcuG3mntc",
+          "HZNqd2zqDoSdTWxfs8bcn7pznGf",
+          "RaeidE80ioYayFxQtNKctkBHnKe",
+          "FsUkd0VaboFDc1xloFDcCinanXe",
+          "PBaVdo9u3om0L2xt2OlcKgIbn1d",
+          "SIUtdC8TZo6aT4xMJYOcMVAGnPh",
+          "Oj18dDdCkoK9VTxGyLzcExYInxd",
+          "JWjFdbwnkojKFrxRSWQcBOSQn9f",
+          "ZA8fdV7w1onWXBxoesjcRXY2nFb",
+          "I7jQdqag0oOZc1xMzHRcIVNtnjF",
+          "RoBOdML6do6BiOxqDCTcDiu6nLd",
+          "FoFhdGm9loSVpixnPLxcoNJWn8k",
+          "XuXkdBsVTogUo1xZdXdcAfIcnEf",
+          "VUkEdHwv9oUKkdxogcXcxbg5n3e",
+          "MgHmdul1vocJDXxZE3ncBgkAn9c",
+          "ENscdn7xuoSR9zxSBpBcFfzunac",
+          "ZbrEdLX7Lo5dvxx05TNcXj7Lngg",
+          "Xl52dvKFKoNta7x2Y25cw2yBntd",
+          "T7kKdl7sMoLTR0xoMCxcP7lznAr",
+          "PUPOd7gNYo7O0wxMuQcc3i0Pn3f",
+          "L6UrduLPfoahf3xZchFcz5odn4d",
+          "O5sQd7YCxo75Raxp5gGceleAncd"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "query()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "VSn3d6Enqokil7xKsUUcDbL6n8z",
+        "block_type": 2,
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This operation conducts a scalar filtering with a specified boolean expression.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Fbfgds7N5oymm8xY2Hhcwrpancf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "public QueryResp query(QueryReq request)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "FIywdQB1cobmX0x2mXfcuG3mntc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Request Syntax",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "HZNqd2zqDoSdTWxfs8bcn7pznGf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "query(QueryReq.builder()\n    .collectionName(String collectionName)\n    .consistencyLevel(ConsistencyLevel consistencyLevel)\n    .filter(String filter)\n    .ids(List<Object> ids)\n    .limit(long limit)\n    .offset(long offset)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .outputFields(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "> outputFields)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    .partitionNames(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "> partitionNames)\n    .build()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "RaeidE80ioYayFxQtNKctkBHnKe",
+        "block_type": 2,
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "BUILDER METHODS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FsUkd0VaboFDc1xloFDcCinanXe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collectionName(String collectionName)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Ti5MdFdUgoC9kexpF44ciEQdnPg"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "Ti5MdFdUgoC9kexpF44ciEQdnPg",
+        "block_type": 2,
+        "parent_id": "FsUkd0VaboFDc1xloFDcCinanXe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of an existing collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PBaVdo9u3om0L2xt2OlcKgIbn1d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "consistencyLevel(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ConsistencyLevel",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FZYqWdyQlEoZTtKxt2gVcKeLMnhf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " consistencyLevel)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "GtCUd03W3ooxJtxN20scis2BnLk",
+          "DMY4dGnr2oqB8QxQFopc35YJnxc",
+          "PSjudOQ4voO2UzxEpXYcelH6nYe"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "GtCUd03W3ooxJtxN20scis2BnLk",
+        "block_type": 2,
+        "parent_id": "PBaVdo9u3om0L2xt2OlcKgIbn1d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The consistency level of the target collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DMY4dGnr2oqB8QxQFopc35YJnxc",
+        "block_type": 2,
+        "parent_id": "PBaVdo9u3om0L2xt2OlcKgIbn1d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to the one specified when you create the current collection, with options of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Strong ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "0",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "), ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Bounded ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "1",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "), ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Session ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "2",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "), and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Eventually ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "3",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ").",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PSjudOQ4voO2UzxEpXYcelH6nYe",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "P6hpdzqeeoUpxSxwGK8cMuZ6nSf",
+          "LLqRdcQNUoLs8Lx3QaTcm6vxn3g",
+          "OmrwdbUcEourbzx9lxxc0k5EnRh",
+          "EjAwdnWOMoOKhmxgSIlcqnfHnCe",
+          "CAzLd3qWfoinDux7UtccPQCOnjh",
+          "QrEsdXSt1oSapExFTvNcnEZenPe",
+          "Vt2YdSs8AoBWHoxkVzVceqR1nvg",
+          "MBqldLqmtoSZ1Kxyif9cYxLGn6e",
+          "G0W4dy8HpoY2YqxCENfcbFPynhf"
+        ],
+        "parent_id": "PBaVdo9u3om0L2xt2OlcKgIbn1d"
+      },
+      {
+        "block_id": "P6hpdzqeeoUpxSxwGK8cMuZ6nSf",
+        "block_type": 2,
+        "parent_id": "PSjudOQ4voO2UzxEpXYcelH6nYe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What is the consistency level?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LLqRdcQNUoLs8Lx3QaTcm6vxn3g",
+        "block_type": 2,
+        "parent_id": "PSjudOQ4voO2UzxEpXYcelH6nYe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OmrwdbUcEourbzx9lxxc0k5EnRh",
+        "block_type": 2,
+        "parent_id": "PSjudOQ4voO2UzxEpXYcelH6nYe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EjAwdnWOMoOKhmxgSIlcqnfHnCe",
+        "block_type": 2,
+        "parent_id": "PSjudOQ4voO2UzxEpXYcelH6nYe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Milvus supports four consistency levels: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Strong",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Bounded Staleness",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Session",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Eventually",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". The default consistency level in Milvus is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Bounded Staleness",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CAzLd3qWfoinDux7UtccPQCOnjh",
+        "block_type": 2,
+        "parent_id": "PSjudOQ4voO2UzxEpXYcelH6nYe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QrEsdXSt1oSapExFTvNcnEZenPe",
+        "block_type": 2,
+        "parent_id": "PSjudOQ4voO2UzxEpXYcelH6nYe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Vt2YdSs8AoBWHoxkVzVceqR1nvg",
+        "block_type": 2,
+        "parent_id": "PSjudOQ4voO2UzxEpXYcelH6nYe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud provides three consistency levels: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Strong",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Bounded Staleness",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Eventually",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Bounded Staleness",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " set as the default.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MBqldLqmtoSZ1Kxyif9cYxLGn6e",
+        "block_type": 2,
+        "parent_id": "PSjudOQ4voO2UzxEpXYcelH6nYe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G0W4dy8HpoY2YqxCENfcbFPynhf",
+        "block_type": 2,
+        "parent_id": "PSjudOQ4voO2UzxEpXYcelH6nYe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can easily tune the consistency level when conducting a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector similarity search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to make it best suit your application.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SIUtdC8TZo6aT4xMJYOcMVAGnPh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "filter(String filter)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "JfUidBK4toxMNExssP3chzDNnqd",
+          "CuKydnWZVoGXy5xH5mgcFdFYnkb"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "JfUidBK4toxMNExssP3chzDNnqd",
+        "block_type": 2,
+        "parent_id": "SIUtdC8TZo6aT4xMJYOcMVAGnPh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A scalar filtering condition to filter matching entities. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CuKydnWZVoGXy5xH5mgcFdFYnkb",
+        "block_type": 2,
+        "parent_id": "SIUtdC8TZo6aT4xMJYOcMVAGnPh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Boolean Expression Rules",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fboolean.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Oj18dDdCkoK9VTxGyLzcExYInxd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "ids(List<Object> ids)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "P5JYdr1SSolvmhx5wlFcnuOZnZe"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "P5JYdr1SSolvmhx5wlFcnuOZnZe",
+        "block_type": 2,
+        "parent_id": "Oj18dDdCkoK9VTxGyLzcExYInxd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The IDs of entities to query.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JWjFdbwnkojKFrxRSWQcBOSQn9f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "limit(long limit)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "DOYwdsC2Norr53xN8PdcECzgnmb",
+          "EGs6dpHiPoFsHExHO2tcHE9DnBd",
+          "F1u8d0SUpoape1xtgOAcdVO1nXe"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "DOYwdsC2Norr53xN8PdcECzgnmb",
+        "block_type": 2,
+        "parent_id": "JWjFdbwnkojKFrxRSWQcBOSQn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The number of records to return in the query result.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EGs6dpHiPoFsHExHO2tcHE9DnBd",
+        "block_type": 2,
+        "parent_id": "JWjFdbwnkojKFrxRSWQcBOSQn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can use this parameter in combination with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "offset",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to enable pagination.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F1u8d0SUpoape1xtgOAcdVO1nXe",
+        "block_type": 2,
+        "parent_id": "JWjFdbwnkojKFrxRSWQcBOSQn9f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The sum of this value and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "offset",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " should be less than 16,384. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZA8fdV7w1onWXBxoesjcRXY2nFb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "offset(long offset)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "EvyJd3vp5oJJSSxSa3fcY2YwnFg",
+          "D05xdrV9PoWK38xDCUlchUSsnyh",
+          "DXS5dq03Yogjanx7vo8c62tdnff"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "EvyJd3vp5oJJSSxSa3fcY2YwnFg",
+        "block_type": 2,
+        "parent_id": "ZA8fdV7w1onWXBxoesjcRXY2nFb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The number of records to skip in the query result. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D05xdrV9PoWK38xDCUlchUSsnyh",
+        "block_type": 2,
+        "parent_id": "ZA8fdV7w1onWXBxoesjcRXY2nFb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can use this parameter in combination with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "limit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to enable pagination.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DXS5dq03Yogjanx7vo8c62tdnff",
+        "block_type": 2,
+        "parent_id": "ZA8fdV7w1onWXBxoesjcRXY2nFb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The sum of this value and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "limit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " should be less than 16,384. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "I7jQdqag0oOZc1xMzHRcIVNtnjF",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "outputFields(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "> outputFields)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "NAZAdqAuEojJImxWO0Gc8pCMnLb",
+          "DmGUd1w2foDPzMx6eGnc2QKYnCe"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "NAZAdqAuEojJImxWO0Gc8pCMnLb",
+        "block_type": 2,
+        "parent_id": "I7jQdqag0oOZc1xMzHRcIVNtnjF",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of field names to include in each entity in return.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DmGUd1w2foDPzMx6eGnc2QKYnCe",
+        "block_type": 2,
+        "parent_id": "I7jQdqag0oOZc1xMzHRcIVNtnjF",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". If left unspecified, all fields are selected as the output fields.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RoBOdML6do6BiOxqDCTcDiu6nLd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "partitionNames(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "> partitionNames)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "F27OdFsf1ok3kUx9o23cwwK0nFc"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "F27OdFsf1ok3kUx9o23cwwK0nFc",
+        "block_type": 2,
+        "parent_id": "RoBOdML6do6BiOxqDCTcDiu6nLd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A list of partition names.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FoFhdGm9loSVpixnPLxcoNJWn8k",
+        "block_type": 2,
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURN TYPE:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XuXkdBsVTogUo1xZdXdcAfIcnEf",
+        "block_type": 2,
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "QueryResp",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VUkEdHwv9oUKkdxogcXcxbg5n3e",
+        "block_type": 2,
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "RETURNS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MgHmdul1vocJDXxZE3ncBgkAn9c",
+        "block_type": 2,
+        "comment_ids": [
+          "7339750809804390403"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "QueryResp",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7339750809804390403"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " object representing one or more queried entities.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ENscdn7xuoSR9zxSBpBcFfzunac",
+        "block_type": 2,
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PARAMETERS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZbrEdLX7Lo5dvxx05TNcXj7Lngg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "fields",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Map",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Object",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ">)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Z8mjdxLsUoJNn3xeCBoc8E7QnJc"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "Z8mjdxLsUoJNn3xeCBoc8E7QnJc",
+        "block_type": 2,
+        "parent_id": "ZbrEdLX7Lo5dvxx05TNcXj7Lngg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A map that contains key-value pairs of field names and their values.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Xl52dvKFKoNta7x2Y25cw2yBntd",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "DbeIdgE0DofK8yxCvkVcFr5LnLh",
+          "J9eDdiyT2onOOvxRIRQcItqonsc"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "DbeIdgE0DofK8yxCvkVcFr5LnLh",
+        "block_type": 2,
+        "parent_id": "Xl52dvKFKoNta7x2Y25cw2yBntd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "J9eDdiyT2onOOvxRIRQcItqonsc",
+        "block_type": 2,
+        "parent_id": "Xl52dvKFKoNta7x2Y25cw2yBntd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If the number of returned entities is less than expected, duplicate entities may exist in your collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T7kKdl7sMoLTR0xoMCxcP7lznAr",
+        "block_type": 2,
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "EXCEPTIONS:",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PUPOd7gNYo7O0wxMuQcc3i0Pn3f",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "MilvusClientExceptions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Lgnjdcg5gocWuFxCAiHcolH2nLe"
+        ],
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "Lgnjdcg5gocWuFxCAiHcolH2nLe",
+        "block_type": 2,
+        "parent_id": "PUPOd7gNYo7O0wxMuQcc3i0Pn3f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This exception will be raised when any error occurs during this operation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "L6UrduLPfoahf3xZchFcz5odn4d",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      },
+      {
+        "block_id": "O5sQd7YCxo75Raxp5gGceleAncd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "//query by filter \"id < 10\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "QueryReq queryReq = QueryReq.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "builder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "()\n        .collectionName(\"book\")\n        .filter(\"id < 10\")\n        .build();\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "QueryResp queryResp = client_v2.query(queryReq);",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "WxDjdYxSaoin88xQ7z7cL2rrnDg"
+      }
+    ],
+    "counts": 54
+  },
+  "slug": "Vector-query"
+}
