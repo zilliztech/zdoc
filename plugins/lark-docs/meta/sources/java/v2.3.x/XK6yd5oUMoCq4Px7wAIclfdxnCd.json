@@ -1,6 +1,6 @@
 {
   "created_time": "1709027650",
-  "modified_time": "1709179682",
+  "modified_time": "1709200208",
   "name": "getField()",
   "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_token": "EfYXfQjt7lz77odlUj7cjJZVnMh",
@@ -255,7 +255,19 @@
               "text_run": {
                 "content": "fieldName",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -265,7 +277,19 @@
             },
             {
               "text_run": {
-                "content": " (String)",
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

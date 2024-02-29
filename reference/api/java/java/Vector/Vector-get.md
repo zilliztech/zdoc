@@ -54,11 +54,11 @@ A __GetResp__ object representing one or more queried entities.
 
 __PARAMETERS:__
 
-- __getResults__ (List\<QueryResp.QueryResult\>)
+- __getResults__ (_List\<QueryResp.QueryResult\>_)
 
     A list of __QueryResp.QueryResult__ objects.
 
-- __fields__ (Map\<String,Object\>)
+- __fields__ (_Map\<String,Object\>_)
 
     A map that contains key-value pairs of field names and their values.
 

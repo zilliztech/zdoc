@@ -183,11 +183,11 @@ A list of __SearchResult objects representing specific search results with the s
 
 __PARAMETERS:__
 
-- __fields__ (Map\<String, Object\>)
+- __fields__ (_Map\<String, Object\>_)
 
     A map that stores the specific fields associated with the search result.
 
-- __score__ (Float)
+- __score__ (_Float_)
 
     The relevance score of the search result. The score indicates how closely the vector associated with the search result matches the query vector.
 

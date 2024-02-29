@@ -44,7 +44,7 @@ A __GetCollectionStatsResp__ object containing collected statistics on the speci
 
 __PARAMETERS:__
 
-- __numOfEntities__ (long)
+- __numOfEntities__ (_long_)
 
     The count of entities in the collection.
 

@@ -1,6 +1,6 @@
 {
   "created_time": "1708421652",
-  "modified_time": "1709199314",
+  "modified_time": "1709200600",
   "name": "get()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "HVVZfLAcOlz6bpdjY82cFmtNn2g",
@@ -649,7 +649,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": false,
+                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -661,7 +661,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": false,
+                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -673,7 +673,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": false,
+                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -685,7 +685,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": false,
+                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -697,7 +697,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": false,
+                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -705,7 +705,19 @@
             },
             {
               "text_run": {
-                "content": ">)",
+                "content": ">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -810,7 +822,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": false,
+                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -822,7 +834,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": false,
+                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -834,7 +846,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": false,
+                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -846,7 +858,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": false,
+                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -858,7 +870,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": false,
+                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -870,7 +882,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": false,
+                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -882,7 +894,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": false,
+                  "italic": true,
                   "strikethrough": false,
                   "underline": false
                 }
@@ -890,7 +902,19 @@
             },
             {
               "text_run": {
-                "content": ">)",
+                "content": ">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

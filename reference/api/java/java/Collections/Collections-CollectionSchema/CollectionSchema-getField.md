@@ -27,7 +27,7 @@ CollectionSchema.getField(String fieldName)
 
 __PARAMETERS:__
 
-- __fieldName__ (String)
+- `fieldName` (_String_)
 
     The name of the field.
 

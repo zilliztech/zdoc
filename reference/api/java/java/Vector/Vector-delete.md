@@ -63,7 +63,7 @@ A __DeleteResp__ object contains the number of deleted entities.
 
 __PARAMETERS:__
 
-- __deleteCnt__ (long)
+- __deleteCnt__ (_long_)
 
     The count of deleted entities.
 

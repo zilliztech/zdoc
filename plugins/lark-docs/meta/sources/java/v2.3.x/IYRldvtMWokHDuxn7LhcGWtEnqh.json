@@ -1,6 +1,6 @@
 {
   "created_time": "1708421123",
-  "modified_time": "1709019394",
+  "modified_time": "1709200358",
   "name": "getCollectionStats()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "KvSff5lOglJa2LdLSdBcJwPmnSd",
@@ -416,7 +416,31 @@
             },
             {
               "text_run": {
-                "content": " (long)",
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "long",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

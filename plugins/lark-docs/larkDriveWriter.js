@@ -21,11 +21,44 @@ class larkDriveWriter extends larkDocWriter {
         const node = this.__fetch_doc_source('token', token)
 
         if (node.children) {
+            const subfolders = []
             await forEachAsync(node.children, async (child, index) => {
                 var source = fs.readdirSync(this.docSourceDir).filter(file => file === `${child.token}.json`)
                 if (source.length > 0) {
                     source = JSON.parse(fs.readFileSync(node_path.join(this.docSourceDir, source[0]), 'utf8'))
-                
+
+                    if (source.blocks) {
+                        const meta = await this.__is_to_publish(source.name, source.slug)
+                        if (meta['publish']) {
+                            const token = source.token
+                            const source_type = source.type
+                            const slug = source.slug instanceof Array? source.slug[0].text : source.slug
+
+                            console.log(current_path)
+
+                            await this.write_doc({
+                                path: current_path,
+                                page_title: source.name,
+                                page_type: source_type,
+                                page_token: token,
+                                page_slug: slug,
+                                page_beta: false,
+                                notebook: false,
+                                sidebar_position: index+1,
+                                doc_card_list: false
+                            })
+                        }   
+                    }
+
+                    if (source.children) {
+                        source.index = index
+                        subfolders.push(source)
+                    }
+                }    
+            })
+
+            if (subfolders.length > 0) {
+                subfolders.forEach(async (source, x) => {
                     if (source.children) {
                         console.log(source.token)
                         const meta = await this.__is_to_publish(source.name, source.slug)
@@ -52,38 +85,15 @@ class larkDriveWriter extends larkDocWriter {
                                 page_type: source_type,
                                 page_token: token,
                                 page_description: description,
-                                sidebar_position: index+1,
+                                sidebar_position: source.index+1,
                                 doc_card_list: true
                             })
 
                             await this.write_docs(current_path, token)
                         }
                     }
-
-                    if (source.blocks) {
-                        const meta = await this.__is_to_publish(source.name, source.slug)
-                        if (meta['publish']) {
-                            const token = source.token
-                            const source_type = source.type
-                            const slug = source.slug instanceof Array? source.slug[0].text : source.slug
-
-                            console.log(current_path)
-
-                            await this.write_doc({
-                                path: current_path,
-                                page_title: source.name,
-                                page_type: source_type,
-                                page_token: token,
-                                page_slug: slug,
-                                page_beta: false,
-                                notebook: false,
-                                sidebar_position: index+1,
-                                doc_card_list: false
-                            })
-                        }   
-                    }
-                }    
-            })
+                })
+            }
         }
     }
 

@@ -1,6 +1,6 @@
 {
   "created_time": "1708421687",
-  "modified_time": "1708998971",
+  "modified_time": "1709200734",
   "name": "upsert()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "HVVZfLAcOlz6bpdjY82cFmtNn2g",
@@ -533,7 +533,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "An UpsertResp object that contains information about the number of inserted or updated entities.",
+                "content": "An ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "UpsertResp",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " object that contains information about the number of inserted or updated entities.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

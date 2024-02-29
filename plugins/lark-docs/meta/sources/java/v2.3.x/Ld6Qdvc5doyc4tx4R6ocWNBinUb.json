@@ -1,6 +1,6 @@
 {
   "created_time": "1709027485",
-  "modified_time": "1709179561",
+  "modified_time": "1709200167",
   "name": "addPrimaryField()",
   "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_token": "EfYXfQjt7lz77odlUj7cjJZVnMh",
@@ -209,7 +209,19 @@
               "text_run": {
                 "content": "fieldName",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -219,7 +231,19 @@
             },
             {
               "text_run": {
-                "content": " (String)",
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -274,8 +298,8 @@
               "text_run": {
                 "content": "dataType",
                 "text_element_style": {
-                  "bold": true,
-                  "inline_code": false,
+                  "bold": false,
+                  "inline_code": true,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -300,7 +324,7 @@
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
-                  "italic": false,
+                  "italic": true,
                   "link": {
                     "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fdocx%2FP85rdatjZosvEfxCq7TcFRy0nBe%3Ffrom%3Dfrom_copylink"
                   },
@@ -806,7 +830,19 @@
               "text_run": {
                 "content": "maxLength",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -816,7 +852,19 @@
             },
             {
               "text_run": {
-                "content": " (Integer)",
+                "content": "Integer",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -933,7 +981,19 @@
               "text_run": {
                 "content": "isPrimaryKey",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -943,7 +1003,19 @@
             },
             {
               "text_run": {
-                "content": " (Boolean)",
+                "content": "Boolean",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1048,7 +1120,19 @@
               "text_run": {
                 "content": "autoID",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -1058,7 +1142,19 @@
             },
             {
               "text_run": {
-                "content": " (Boolean)",
+                "content": "Boolean",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

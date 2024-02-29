@@ -91,7 +91,7 @@ _UpsertResp_
 
 __RETURNS:__
 
-An UpsertResp object that contains information about the number of inserted or updated entities.
+An __UpsertResp__ object that contains information about the number of inserted or updated entities.
 
 __EXCEPTIONS:__
 

@@ -58,23 +58,23 @@ A __DescribeIndexResp__ object that contains the details of the specified index.
 
 __PARAMETERS:__
 
-- __indexName__ (String)
+- __indexName__ (_String_)
 
     The name of the created index.
 
-- __indexType__ (String)
+- __indexType__ (_String_)
 
     The algorithm that is used to build the index. 
 
     On Zilliz Cloud, the value is always __AUTOINDEX__. For details, refer to [AUTOINDEX Explained](/docs/autoindex-explained).
 
-- __metricType__ (String)
+- __metricType__ (_String_)
 
     The algorithm that is used to measure similarity between vectors. Possible values are __IP__, __L2__, and __COSINE__.
 
     This is available only when the specified field is a vector field.
 
-- __fieldName__ (String)
+- __fieldName__ (_String_)
 
     The name of the field on which the index has been created.
 

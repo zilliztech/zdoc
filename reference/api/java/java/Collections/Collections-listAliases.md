@@ -39,7 +39,7 @@ __PARAMETERS:__
 
     A list of strings containing the aliases.
 
-- __collectionName__
+- __collectionName__ (_String_)
 
     The name of the collection.
 

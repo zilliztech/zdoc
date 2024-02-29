@@ -1,6 +1,6 @@
 {
   "created_time": "1708420750",
-  "modified_time": "1709004638",
+  "modified_time": "1709199886",
   "name": "describeRole()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "NX2nfYbWXlBEeyd1gQhcsnDGnQe",
@@ -419,7 +419,31 @@
             },
             {
               "text_run": {
-                "content": " (String):\n",
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "):\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -468,7 +492,31 @@
             },
             {
               "text_run": {
-                "content": " (String):\n",
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "):\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -517,7 +565,31 @@
             },
             {
               "text_run": {
-                "content": " (String):\n",
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "):\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -566,7 +638,31 @@
             },
             {
               "text_run": {
-                "content": " (String):\n",
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "):\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -615,7 +711,31 @@
             },
             {
               "text_run": {
-                "content": " (String):\n",
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "String",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "):\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

@@ -1,6 +1,6 @@
 {
   "created_time": "1708421662",
-  "modified_time": "1709021283",
+  "modified_time": "1709200627",
   "name": "insert()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "HVVZfLAcOlz6bpdjY82cFmtNn2g",
@@ -695,7 +695,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "An InsertResp object containing information about the number of inserted entities.",
+                "content": "An ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "InsertResp",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " object containing information about the number of inserted entities.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

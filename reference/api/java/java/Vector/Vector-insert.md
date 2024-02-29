@@ -96,7 +96,7 @@ _InsertResp_
 
 __RETURNS:__
 
-An InsertResp object containing information about the number of inserted entities.
+An __InsertResp__ object containing information about the number of inserted entities.
 
 __EXCEPTIONS:__
 

@@ -35,11 +35,11 @@ CollectionSchema.addPrimaryField(String fieldName,
 
 __PARAMETERS:__
 
-- __fieldName__ (String)
+- `fieldName` (_String_)
 
     The name of the field.
 
-- __dataType__ ([DataType](./Collections-DataType))
+- `dataType` (_[DataType](./Collections-DataType)_)
 
     The data type of the field.
 
@@ -51,19 +51,19 @@ __PARAMETERS:__
 
     - Vector fields: Select __DataType.FloatVector__.
 
-- __maxLength__ (Integer)
+- `maxLength` (_Integer_)
 
     The maximum number of characters a value should contain.
 
     This is required if __dataType__ of this field is set to __DataType.VarChar.__
 
-- __isPrimaryKey__ (Boolean)
+- `isPrimaryKey` (_Boolean_)
 
     Whether the current field is the primary field.
 
     Setting this to __True__ makes the current field the primary field.
 
-- __autoID__ (Boolean)
+- `autoID` (_Boolean_)
 
     Whether allows the primary field to automatically increment.
 

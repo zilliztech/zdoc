@@ -44,19 +44,19 @@ A __DescribeRoleResp.GrantInfo__ object representing the permissions assigned to
 
 __PARAMETERS:__
 
-- __objectType__ (String):
+- __objectType__ (_String_):
 The type of the object being granted a privilege.
 
-- __privilege__ (String):
+- __privilege__ (_String_):
 The specific privilege granted to the object.
 
-- __objectName__ (String):
+- __objectName__ (_String_):
 The name of the object to which the privilege is granted.
 
-- __dbName__ (String):
+- __dbName__ (_String_):
 The name of the database associated with the granted privilege.
 
-- __grantor__ (String):
+- __grantor__ (_String_):
 The name of the entity (user or role) that granted the privilege.
 
 __EXCEPTIONS:__
