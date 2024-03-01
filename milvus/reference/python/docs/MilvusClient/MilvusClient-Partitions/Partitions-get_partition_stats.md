@@ -108,6 +108,8 @@ client.insert(
      ],
 )
 
+# {'insert_count': 10}
+
 # 5. Get the statistics in the default partition
 client.get_partition_stats(
     collection_name="test_collection",

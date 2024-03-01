@@ -86,8 +86,6 @@ __PARAMETERS:__
 
 ## Examples{#examples}
 
-<include target="zilliz">
-
 ```python
 from pymilvus import MilvusClient
 
@@ -106,8 +104,6 @@ client = MilvusClient(
 </ul>
 
 </Admonition>
-
-</include>
 
 ## Class members{#class-members}
 

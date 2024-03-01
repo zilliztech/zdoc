@@ -62,16 +62,12 @@ class larkDriveWriter extends larkDocWriter {
                             const slug = source.slug instanceof Array? source.slug[0].text : source.slug
                             const description = meta.description
 
-                            current_path = node_path.join(path, slug)
-
-                            if (!fs.existsSync(current_path)) {
-                                fs.mkdirSync(current_path, { recursive: true });
+                            if (!fs.existsSync(node_path.join(path, slug))) {
+                                fs.mkdirSync(node_path.join(path, slug), { recursive: true });
                             }
 
-                            console.log(current_path)
-
                             await this.write_doc({
-                                path: current_path,
+                                path: node_path.join(path, slug),
                                 page_title: source.name,
                                 page_slug: slug,
                                 page_beta: 'false',
@@ -83,7 +79,7 @@ class larkDriveWriter extends larkDocWriter {
                                 doc_card_list: true
                             })
 
-                            await this.write_docs(current_path, token)
+                            await this.write_docs(node_path.join(path, slug), token)
                         }
                     }
                 }    

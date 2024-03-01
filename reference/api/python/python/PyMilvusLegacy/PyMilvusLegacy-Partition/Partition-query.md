@@ -55,12 +55,7 @@ __PARAMETERS:__
         <Admonition type="info" icon="📘" title="What is the consistency level?">
 
         <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-        <p><include target="milvus"></p>
-        <p>Milvus supports four consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, <strong>Session</strong>, and <strong>Eventually</strong>. The default consistency level in Milvus is bounded staleness. </p>
-        <p></include></p>
-        <p><include target="zilliz"></p>
         <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-        <p></include></p>
         <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
 
         </Admonition>
@@ -69,7 +64,7 @@ __PARAMETERS:__
 
         A valid timestamp. 
 
-        If this parameter is set,  executes the query only if all entities inserted before this timestamp are visible to query nodes. 
+        If this parameter is set, Zilliz Cloud executes the query only if all entities inserted before this timestamp are visible to query nodes. 
 
         <Admonition type="info" icon="📘" title="Notes">
 
@@ -81,7 +76,7 @@ __PARAMETERS:__
 
         A period of time in seconds.
 
-        The value defaults to __5__. If this parameter is set,  calculates the guarantee timestamp by subtracting this from the current timestamp.
+        The value defaults to __5__. If this parameter is set, Zilliz Cloud calculates the guarantee timestamp by subtracting this from the current timestamp.
 
         <Admonition type="info" icon="📘" title="Notes">
 

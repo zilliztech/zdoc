@@ -63,7 +63,7 @@ client.create_role(role_name="read_only")
 # 3. List all roles
 client.list_roles()
 
-# ['root', 'public', 'read_only']
+# ['admin', 'public', 'read_only']
 ```
 
 ## Related methods{#related-methods}

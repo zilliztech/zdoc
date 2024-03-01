@@ -39,25 +39,6 @@ None
 
 ## Examples{#examples}
 
-<include target="milvus">
-
-```python
-from pymilvus import connections
-
-connections.connect(
-    uri='https://localhost:19530',
-    token='root:Milvus'
-)
-connections.list_connections()
-
-# Output
-# [('default', <pymilvus.client.grpc_handler.GrpcHandler at 0x13743b967>)]
-```
-
-</include>
-
-<include target="zilliz">
-
 ```python
 from pymilvus import connections
 
@@ -70,8 +51,6 @@ connections.list_connections()
 # Output
 # [('default', <pymilvus.client.grpc_handler.GrpcHandler at 0x14713b940>)]
 ```
-
-</include>
 
 ## Related operations{#related-operations}
 

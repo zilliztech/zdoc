@@ -31,8 +31,6 @@ Constructs a singleton instance to manage all connections.
 
 ## Examples{#examples}
 
-<include target="zilliz">
-
 ```python
 from pymilvus import connections    
 
@@ -66,8 +64,6 @@ connections.connect(
 <p>You can use the cluster credentials specified when the cluster has been created on the Zilliz Cloud console, or those of any existing cluster users.</p>
 
 </Admonition>
-
-</include>
 
 ## Methods{#methods}
 

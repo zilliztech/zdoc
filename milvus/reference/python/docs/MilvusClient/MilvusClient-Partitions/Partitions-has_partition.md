@@ -80,7 +80,9 @@ client.create_partition(
 client.has_partition(
     collection_name="test_collection", 
     partition_name="partition_A"
-) # True
+) 
+
+# True
 ```
 
 ## Related methods{#related-methods}

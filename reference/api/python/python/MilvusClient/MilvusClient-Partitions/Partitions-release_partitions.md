@@ -67,71 +67,6 @@ __EXCEPTIONS:__
 
 ## Example{#example}
 
-<include target="milvus">
-
-```python
-from pymilvus import MilvusClient
-
-# 1. Create a milvus client
-client = MilvusClient(
-    uri="http://localhost:19530",
-    token="root:Milvus"
-)
-
-# 2. Create a collection and get its load status
-client.create_collection(collection_name="test_collection", dimension=5)
-
-res = client.get_load_state(
-    collection_name="test_collection"
-)
-
-print(res)
-
-# {'state': <LoadState: Loaded>}
-
-# 3. Create a partition
-client.create_partition(
-    collection_name="test_collection", 
-    partition_name="partition_A"
-)
-
-# 4. Check the load status of the partition
-res = client.get_load_state(
-    collection_name="test_collection",
-    partition_name="partition_A",
-)
-
-print(res)
-
-# {'state': <LoadState: Loaded>}
-
-# 5. Release the partition
-client.release_partitions(
-    collection_name="test_collection",
-    partition_names=["partition_A"]
-)
-
-# 6. Check the load status
-res = client.get_load_state(
-    collection_name="test_collection",
-    partition_name="partition_A"
-)
-
-print(res)
-
-# {'state': <LoadState: NotLoad>}
-
-res = client.get_load_state(
-    collection_name="test_collection"
-)
-
-# {'state': <LoadState: Loaded>}
-```
-
-</include>
-
-<include target="zilliz">
-
 ```python
 from pymilvus import MilvusClient
 
@@ -190,8 +125,6 @@ res = client.get_load_state(
 
 # {'state': <LoadState: Loaded>}
 ```
-
-</include>
 
 ## Related methods{#related-methods}
 

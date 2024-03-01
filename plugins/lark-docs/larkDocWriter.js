@@ -444,83 +444,84 @@ class larkDocWriter {
         
     }
 
-    // __filter_content (markdown, targets) {
-    //     const regex = /<(include|exclude) target="(\b(\w+,)*\w+\b)">[\s\S]*?<\/\1>/g
-    //     targets = targets.split('.')
-    //     for (let target of targets) {
-    //         markdown = markdown.replace(regex, (match, tag, value) => {
-    //             value = value.split(',').map(item => item.trim())
-    //             if (tag == 'include' && value.includes(target)) {
-    //                 return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
-    //             }
-
-    //             if (tag == 'include' && !value.includes(target)) {
-    //                 if (targets.indexOf(target) === targets.length - 1) {
-    //                     return ""
-    //                 } else {
-    //                     return match
-    //                 }
-                    
-    //             }
-
-    //             if (tag == 'exclude' && value.includes(target)) {
-    //                 return ""
-    //             }
-    
-    //             if (tag == 'exclude' && !value.includes(target)) {
-    //                 if (targets.indexOf(target) === targets.length - 1) {
-    //                     return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
-    //                 } else {
-    //                     return match
-    //                 }
-    //             }
-    //         })
-    //     }
-
     __filter_content (markdown, targets) {
-        const $ = cheerio.load(markdown, {decodeEntities: false});
-        targets = targets.split('.');
-
+        const regex = /<(include|exclude) target="(\b(\w+,)*\w+\b)">[\s\S]*?<\/\1>/g
+        targets = targets.split('.')
         for (let target of targets) {
-            const elements = $('include, exclude')
-        
-            for (let element of elements) {
-                if (element.name === 'include' && targets.includes($(element).attr('target'))) {
-                    console.log(target, element.name, element.attribs.target, 1)
-                    const raw = $(element).toString()
-                    const innerHTML = $(element).html()
-                    markdown = markdown.replace(raw, innerHTML)
+            markdown = markdown.replace(regex, (match, tag, value) => {
+                value = value.split(',').map(item => item.trim())
+                if (tag == 'include' && value.includes(target)) {
+                    return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
                 }
-            
-                if (element.name === 'include' && !targets.includes($(element).attr('target'))) {
-                    console.log(target, element.name, element.attribs.target, 2)
-                    const raw = $(element).toString()
+
+                if (tag == 'include' && !value.includes(target)) {
+                    if (targets.indexOf(target) === targets.length - 1) {
+                        return ""
+                    } else {
+                        return match
+                    }
                     
+                }
+
+                if (tag == 'exclude' && value.includes(target)) {
+                    return ""
+                }
+    
+                if (tag == 'exclude' && !value.includes(target)) {
                     if (targets.indexOf(target) === targets.length - 1) {
-                        markdown = markdown.replace(raw, '')
+                        return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
+                    } else {
+                        return match
                     }
                 }
-            
-                if (element.name === 'exclude' && targets.includes($(element).attr('target'))) {
-                    console.log(target, element.name, element.attribs.target, 3)
-                    const raw = $(element).toString()
-                    markdown = markdown.replace(raw, '')
-                }
-            
-                if (element.name === 'exclude' && !targets.includes($(element).attr('target'))) {
-                    console.log(target, element.name, element.attribs.target, 4)
-                    const raw = $(element).toString()
-                    const innerHTML = $(element).html()
-            
-                    if (targets.indexOf(target) === targets.length - 1) {
-                        markdown = markdown.replace(raw, innerHTML)
-                    }
-                }   
-            }
+            })
         }
 
         return markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
     }
+
+    // __filter_content (markdown, targets) {
+    //     const $ = cheerio.load(markdown, {decodeEntities: false});
+    //     targets = targets.split('.');
+    //     fs.writeFileSync('test.md', markdown)
+
+    //     for (let target of targets) {
+    //         const elements = $('include, exclude')
+        
+    //         for (let element of elements) {
+    //             const raw = $(element).toString()
+    //             const innerHTML = $(element).html()
+
+    //             if (element.name === 'include' && targets.includes($(element).attr('target'))) {
+    //                 console.log(target, element.name, element.attribs.target, 1)
+    //                 markdown = markdown.replace(raw, innerHTML)
+    //             }
+            
+    //             if (element.name === 'include' && !targets.includes($(element).attr('target'))) {
+    //                 console.log(target, element.name, element.attribs.target, 2)
+                    
+    //                 if (targets.indexOf(target) === targets.length - 1) {
+    //                     markdown = markdown.replace(raw, '')
+    //                 }
+    //             }
+            
+    //             if (element.name === 'exclude' && targets.includes($(element).attr('target'))) {
+    //                 console.log(target, element.name, element.attribs.target, 3)
+    //                 markdown = markdown.replace(raw, '')
+    //             }
+            
+    //             if (element.name === 'exclude' && !targets.includes($(element).attr('target'))) {
+    //                 console.log(target, element.name, element.attribs.target, 4)
+            
+    //                 if (targets.indexOf(target) === targets.length - 1) {
+    //                     markdown = markdown.replace(raw, innerHTML)
+    //                 }
+    //             }   
+    //         }
+    //     }
+
+    //     return markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
+    // }
 
     async __write_page({slug, beta, notebook, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
         let front_matter = this.__front_matters(slug, beta, notebook, type, token, sidebar_position, sidebar_label, keywords)
@@ -692,6 +693,7 @@ class larkDocWriter {
             })
 
             children = await this.__markdown(children, indent)
+            children = this.__filter_content(children, this.targets)
             children = children.split('\n')
         }
 

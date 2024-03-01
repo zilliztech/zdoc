@@ -51,8 +51,6 @@ __EXCEPTIONS:__
 
 ## Example{#example}
 
-<include target="zilliz">
-
 ```python
 from pymilvus import MilvusClient
 
@@ -73,8 +71,6 @@ client.list_roles()
 <p>Each Zilliz Cloud cluster has three built-in roles, namely, <strong>db_ro</strong>, <strong>db_rw</strong>, and <strong>db_admin</strong>. For details, refer to <a href="/docs/user-roles#cluster-built-in-roles">Cluster Built-in Roles</a>.</p>
 
 </Admonition>
-
-</include>
 
 ## Related methods{#related-methods}
 

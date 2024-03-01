@@ -1,6 +1,6 @@
 {
   "created_time": "1704191259",
-  "modified_time": "1708753917",
+  "modified_time": "1709275702",
   "name": "query()",
   "owner_id": "ou_fbc044d19930afd389d5c369466c38b1",
   "parent_token": "Ed0CftM6Mlb5e4dUYApc9syJnDb",
@@ -1558,7 +1558,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "If this parameter is set, <include target=\"milvus\">Milvus</include><include target=\"milvus\">Zilliz Cloud</include> executes the ",
+                "content": "If this parameter is set, <include target=\"milvus\">Milvus</include><include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "zilliz",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">Zilliz Cloud</include> executes the ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1786,7 +1810,31 @@
             },
             {
               "text_run": {
-                "content": ". If this parameter is set, <include target=\"milvus\">Milvus</include><include target=\"milvus\">Zilliz Cloud</include> calculates the guarantee timestamp by subtracting this from the current timestamp.",
+                "content": ". If this parameter is set, <include target=\"milvus\">Milvus</include><include target=\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "zilliz",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\">Zilliz Cloud</include> calculates the guarantee timestamp by subtracting this from the current timestamp.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

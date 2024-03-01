@@ -75,7 +75,44 @@ schema = MilvusClient.create_schema(
 
 # 2. Add fields to schema
 schema.add_field(field_name="my_id", datatype=DataType.INT64, is_primary=True)
+
+# {
+#     'auto_id': False, 
+#     'description': '', 
+#     'fields': [
+#         {
+#             'name': 'my_id', 
+#             'description': '', 
+#             'type': <DataType.INT64: 5>, 
+#             'is_primary': True, 
+#             'auto_id': False
+#         }
+#     ]
+# }
+
 schema.add_field(field_name="my_vector", datatype=DataType.FLOAT_VECTOR, dim=5)
+
+# {
+#     'auto_id': False, 
+#     'description': '', 
+#     'fields': [
+#         {
+#             'name': 'my_id', 
+#             'description': '', 
+#             'type': <DataType.INT64: 5>, 
+#             'is_primary': True, 
+#             'auto_id': False
+#         }, 
+#         {
+#             'name': 'my_vector', 
+#             'description': '', 
+#             'type': <DataType.FLOAT_VECTOR: 101>, 
+#             'params': {
+#                 'dim': 5
+#             }
+#         }        
+#     ]
+# }
 
 # 3. Create index parameters
 index_params = client.prepare_index_params()
