@@ -128,9 +128,15 @@ __PARAMETERS:__
 
         Additional attributes of the current fields.
 
-        - For VARCHAR fields, __max_length__ (_int_) is a possible attribute, which determines the number of characters in the value of the current field.
+        - For __VARCHAR__ fields, __max_length__ (_int_) is a possible attribute, which determines the number of characters in the value of the current field.
 
-        - For FLOAT_VECTOR fields, __dim__ (_int_) is a possible attribute, which determines the number of vector embeddings in the value of the current field.
+        - For __FLOAT_VECTOR__ fields, __dim__ (_int_) is a possible attribute, which determines the number of vector embeddings in the value of the current field.
+
+    - __element_type__ (_int_) 
+
+        The data type of the elements in the field values. 
+
+        This always equals __0__ if the current field is not an __ARRAY__ field.
 
     - __is_primary__ (_bool_)
 

@@ -1,6 +1,6 @@
 {
   "created_time": "1706701465",
-  "modified_time": "1709087163",
+  "modified_time": "1709263746",
   "name": "describe_index()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "IZKcfUEfClhhnWdFhk2co7krnAV",
@@ -1698,7 +1698,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient, DataType\n\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create index parameters\n",
+                "content": "from pymilvus import MilvusClient, DataType\n\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }\n#     ]\n# }\n\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }, \n#         {\n#             'name': 'my_vector', \n#             'description': '', \n#             'type': <DataType.FLOAT_VECTOR: 101>, \n#             'params': {\n#                 'dim': 5\n#             }\n#         }        \n#     ]\n# }\n\n# 3. Create index parameters\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1764,7 +1764,7 @@
             },
             {
               "text_run": {
-                "content": "\n\n# 7. Describe the indexes\nclient.describe_index(\n    collection_name=\"customized_setup\",\n    index_name=\"my_vector\"\n)\n\n# {\n#     'index_type': 'IVF_FLAT',\n#     'metric_type': 'IP',\n#     'field_name': 'my_vector',\n#     'index_name': 'my_vector'\n# }\n\nclient.describe_index(\n    collection_name=\"customized_setup\",\n    index_name=\"my_id\"    \n)\n\n",
+                "content": "\n\n# 7. Describe the indexes\nclient.describe_index(\n    collection_name=\"customized_setup\",\n    index_name=\"my_vector\"\n)\n\n# {\n#     'nlist': '1024',\n#     'index_type': 'IVF_FLAT',\n#     'metric_type': 'L2',\n#     'field_name': 'my_vector',\n#     'index_name': 'my_vector'\n# }\n\nclient.describe_index(\n    collection_name=\"customized_setup\",\n    index_name=\"my_id\"    \n)\n\n# {\n#     'index_type': 'STL_SORT',\n#     'field_name': 'my_id', \n#     'index_name': 'my_id'\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1776,7 +1776,7 @@
             },
             {
               "text_run": {
-                "content": "# {'field_name': 'my_id', 'index_name': 'my_id'}",
+                "content": "# }",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1855,7 +1855,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient, DataType\n\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\n# - For a scalar field\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\n# - For a vector field\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n    metric_type=\"L2\",\n    params={\"nlist\": 1024}\n)\n\n# 5. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema\n)\n\n# 6. Create indexes\nclient.create_index(\n    collection_name=\"customized_setup\",\n    index_params=index_params\n)\n\n# 6. List indexes\nclient.list_indexes(collection_name=\"customized_setup\")\n\n# ['my_id', 'my_vector']\n\n# 7. Describe the indexes\nclient.describe_index(\n    collection_name=\"customized_setup\",\n    index_name=\"my_vector\"\n)\n\n# {\n#     'index_type': 'AUTOINDEX',\n#     'metric_type': 'IP',\n#     'field_name': 'my_vector',\n#     'index_name': 'my_vector'\n# }\n\nclient.describe_index(\n    collection_name=\"customized_setup\",\n    index_name=\"my_id\"    \n)\n\n",
+                "content": "from pymilvus import MilvusClient, DataType\n\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Create index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\n# - For a scalar field\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\n# - For a vector field\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n    metric_type=\"L2\",\n    params={\"nlist\": 1024}\n)\n\n# 5. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema\n)\n\n# 6. Create indexes\nclient.create_index(\n    collection_name=\"customized_setup\",\n    index_params=index_params\n)\n\n# 6. List indexes\nclient.list_indexes(collection_name=\"customized_setup\")\n\n# ['my_id', 'my_vector']\n\n# 7. Describe the indexes\nclient.describe_index(\n    collection_name=\"customized_setup\",\n    index_name=\"my_vector\"\n)\n\n# {\n#     'index_type': 'AUTOINDEX',\n#     'metric_type': 'L2',\n#     'field_name': 'my_vector',\n#     'index_name': 'my_vector'\n# }\n\nclient.describe_index(\n    collection_name=\"customized_setup\",\n    index_name=\"my_id\"    \n)\n\n# {\n#     'index_type': 'STL_SORT',\n#     'field_name': 'my_id', \n#     'index_name': 'my_id'\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1867,7 +1867,7 @@
             },
             {
               "text_run": {
-                "content": "# {'field_name': 'my_id', 'index_name': 'my_id'}",
+                "content": "# }",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

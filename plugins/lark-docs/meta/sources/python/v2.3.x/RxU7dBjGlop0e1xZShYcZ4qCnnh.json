@@ -1,6 +1,6 @@
 {
   "created_time": "1704871100",
-  "modified_time": "1709005213",
+  "modified_time": "1709263349",
   "name": "create_schema()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -1330,7 +1330,7 @@
             },
             {
               "text_run": {
-                "content": "(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\n",
+                "content": "(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }\n#     ]\n# }\n\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }, \n#         {\n#             'name': 'my_vector', \n#             'description': '', \n#             'type': <DataType.FLOAT_VECTOR: 101>, \n#             'params': {\n#                 'dim': 5\n#             }\n#         }        \n#     ]\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1342,7 +1342,7 @@
             },
             {
               "text_run": {
-                "content": "schema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)",
+                "content": "# }",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

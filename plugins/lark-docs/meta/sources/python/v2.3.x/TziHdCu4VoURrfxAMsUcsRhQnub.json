@@ -1,6 +1,6 @@
 {
   "created_time": "1704790733",
-  "modified_time": "1709108837",
+  "modified_time": "1709263070",
   "name": "create_collection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -151,7 +151,7 @@
             },
             {
               "text_run": {
-                "content": "    id_type: str = \"int\",",
+                "content": "    id_type: str = DataType,",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -166,7 +166,7 @@
             },
             {
               "text_run": {
-                "content": "\n    vector_field_name: str = \"vector\",\n    metric_type: str = \"IP\",\n    auto_id: bool = False,\n    timeout: Optional[float] = None,\n    schema: Optional[CollectionSchema] = None,\n    index_params: Optional[IndexParams] = None,\n    **kwargs,\n",
+                "content": "\n    vector_field_name: str = \"vector\",\n    metric_type: str = \"COSINE\",\n    auto_id: bool = False,\n    timeout: Optional[float] = None,\n    schema: Optional[CollectionSchema] = None,\n    index_params: Optional[IndexParams] = None,\n    **kwargs,\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

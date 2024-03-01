@@ -1,6 +1,6 @@
 {
   "created_time": "1704958814",
-  "modified_time": "1708485547",
+  "modified_time": "1709263452",
   "name": "drop_collection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -358,7 +358,7 @@
             },
             {
               "text_run": {
-                "content": "\n)\n\n# 3. List collections\nres = client.list_collections() # ['test_collection']\n\n# 4. Drop the collection\n",
+                "content": "\n)\n\n# 3. List collections\nres = client.list_collections() \n\n# ['test_collection']\n\n# 4. Drop the collection\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -397,7 +397,7 @@
             },
             {
               "text_run": {
-                "content": "\n\n# 5. List collections\n",
+                "content": "\n\n# 5. List collections\nres = client.list_collections() \n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -409,7 +409,7 @@
             },
             {
               "text_run": {
-                "content": "res = client.list_collections() # []",
+                "content": "# []",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -488,7 +488,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Set up a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection\nclient.create_collection(\n    collection_name=\"test_collection\",\n    dimension=5\n)\n\n# 3. List collections\nres = client.list_collections() # ['test_collection']\n\n# 4. Drop the collection\nclient.drop_collection(collection_name=\"test_collection\")\n\n# 5. List collections\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Set up a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection\nclient.create_collection(\n    collection_name=\"test_collection\",\n    dimension=5\n)\n\n# 3. List collections\nres = client.list_collections() \n\n# ['test_collection']\n\n# 4. Drop the collection\nclient.drop_collection(collection_name=\"test_collection\")\n\n# 5. List collections\nres = client.list_collections() \n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -500,7 +500,7 @@
             },
             {
               "text_run": {
-                "content": "res = client.list_collections() # []",
+                "content": "# []",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

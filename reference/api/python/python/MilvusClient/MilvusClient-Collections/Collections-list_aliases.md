@@ -70,11 +70,15 @@ __PARAMETERS:__
 
     The name of the database to which the specified collection belongs to.
 
+    <include target="zilliz">
+
     <Admonition type="info" icon="📘" title="Notes">
 
     <p>Currently, the database APIs are not available on Zilliz Cloud.</p>
 
     </Admonition>
+
+    </include>
 
 __EXCEPTIONS:__
 

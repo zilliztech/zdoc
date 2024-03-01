@@ -48,42 +48,7 @@ An __IndexParams__ contains a list of __IndexParam__ objects.
     │       └── add_index()
     ```
 
-    It offers the __add_index()__ method to add indexes to the list.
-
-- __IndexParam__
-
-    An object to store information about an index of a specific field.
-
-    ```python
-    ├── IndexParam
-    │       ├── field_name
-    │       ├── index_name
-    │       ├── index_type
-    │       ├── metric_type
-    │       └── params
-    ```
-
-    - __field_name__ (_str_)
-
-        The name of the target field to apply this object applies.
-
-    - __index_name__ (_str_)
-
-        The name of the index field generated after this object has been applied.
-
-    - __index_type__ (_str_)
-
-        The name of the algorithm used to arrange data in the specific field. 
-
-    - __metric_type__ (_str_)
-
-        The algorithm that is used to measure similarity between vectors. Possible values are __IP__, __L2__, and __COSINE__.
-
-        This is available only when the specified field is a vector field. 
-
-    - __params__ (_dict_)
-
-        Index parameters related to the listed index type.
+    It offers the __[add_index()](./Management-add_index)__ method to add indexes to the list.
 
 __EXCEPTIONS:__
 

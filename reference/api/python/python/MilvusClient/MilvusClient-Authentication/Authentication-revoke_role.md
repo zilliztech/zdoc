@@ -1,29 +1,43 @@
 ---
 displayed_sidbar: pythonSidebar
-slug: /python/Authentication-list_roles
+slug: /python/Authentication-revoke_role
 beta: false
 notebook: false
 type: docx
-token: MApVdDl17oU8OixzbMPcgceKnOh
-sidebar_position: 9
+token: JJOId59ePoMLefxz1ChcBZ6inOh
+sidebar_position: 12
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# list_roles()
+# revoke_role()
 
-This operation lists all custom roles.
+This operation revokes the role assigned to a user.
 
 ## Request syntax{#request-syntax}
 
 ```python
-list_roles(
+revoke_role(
+    user_name: str,
+    role_name: str,
     timeout: Optional[float] = None
-) -> dict
+) -> None
 ```
 
 __PARAMETERS:__
+
+- __user_name__ (_str_) -
+
+    __[REQUIRED]__
+
+    The name of an existing user.
+
+- __role_name__ (_str_) -
+
+    __[REQUIRED]__
+
+    The name of the role to revoke.
 
 - __timeout__ (_float _|_ None_)  
 
@@ -33,11 +47,11 @@ __PARAMETERS:__
 
 __RETURN TYPE:__
 
-_list_
+_NoneType_
 
 __RETURNS:__
 
-A list of role names.
+None
 
 __EXCEPTIONS:__
 
@@ -51,8 +65,6 @@ __EXCEPTIONS:__
 
 ## Example{#example}
 
-<include target="zilliz">
-
 ```python
 from pymilvus import MilvusClient
 
@@ -62,19 +74,15 @@ client = MilvusClient(
     token="user:password"
 )
 
-# 2. List all roles
-client.list_roles()
+# 2. Create a user
+client.create_user(user_name="user_1", password="P@ssw0rd")
 
-# ['db_admin', 'db_ro', 'db_rw']
+# 3. Grant the role to the user
+client.grant_role(user_name="user_1", role_name="db_ro")
+
+# 4. Revoke the role from the user
+client.revoke_role(user_name="user_1", role_name="db_ro")
 ```
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Each Zilliz Cloud cluster has three built-in roles, namely, <strong>db_ro</strong>, <strong>db_rw</strong>, and <strong>db_admin</strong>. For details, refer to <a href="/docs/user-roles#cluster-built-in-roles">Cluster Built-in Roles</a>.</p>
-
-</Admonition>
-
-</include>
 
 ## Related methods{#related-methods}
 
@@ -82,5 +90,5 @@ client.list_roles()
 
 - [grant_role()](./Authentication-grant_role)
 
-- [revoke_role()](./Authentication-revoke_role)
+- [list_roles()](./Authentication-list_roles)
 

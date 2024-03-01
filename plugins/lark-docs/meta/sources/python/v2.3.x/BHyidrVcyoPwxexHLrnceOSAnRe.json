@@ -1,6 +1,6 @@
 {
   "created_time": "1704872499",
-  "modified_time": "1709031813",
+  "modified_time": "1709263487",
   "name": "list_collections()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -621,7 +621,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\n# 3. List collections\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\n# 3. List collections\nclient.list_collections() \n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -633,7 +633,7 @@
             },
             {
               "text_run": {
-                "content": "client.list_collections() # ['test_collection']",
+                "content": "# ['test_collection']",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -708,7 +708,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\n# 3. List collections\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a collection\nclient.create_collection(collection_name=\"test_collection\", dimension=5)\n\n# 3. List collections\nclient.list_collections() \n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -720,7 +720,7 @@
             },
             {
               "text_run": {
-                "content": "client.list_collections() # ['test_collection']",
+                "content": "# ['test_collection']",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

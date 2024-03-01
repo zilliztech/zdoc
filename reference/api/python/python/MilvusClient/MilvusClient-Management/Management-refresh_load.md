@@ -13,13 +13,7 @@ import Admonition from '@theme/Admonition';
 
 # refresh_load()
 
-This operation refreshes the load status of an already loaded collection.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>You are advised to call this method after bulk  data into a collection.</p>
-
-</Admonition>
+This operation loads the unloaded data of a loaded collection into memory.
 
 ## Request syntax{#request-syntax}
 

@@ -33,7 +33,17 @@ __PARAMETERS:__
 
     The type of the object to grant the privilege.
 
+    <include target="milvus">
+
+    The value is case-sensitive, and possible options are __Collection__, __Global__, and __User__. For details, refer to [Users & Roles](https://milvus.io/docs/users_and_roles.md).
+
+    </include>
+
+    <include target="zilliz">
+
     The value is case-sensitive. For details, refer to Users & Roles.
+
+    </include>
 
 - __object_name__ (_str_)
 

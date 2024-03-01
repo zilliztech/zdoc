@@ -55,10 +55,12 @@ __PARAMETERS:__
         <Admonition type="info" icon="📘" title="What is the consistency level?">
 
         <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-        <p></p>
-        <p></p>
+        <p><include target="milvus"></p>
+        <p>Milvus supports four consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, <strong>Session</strong>, and <strong>Eventually</strong>. The default consistency level in Milvus is bounded staleness. </p>
+        <p></include></p>
+        <p><include target="zilliz"></p>
         <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-        <p></p>
+        <p></include></p>
         <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
 
         </Admonition>

@@ -166,6 +166,8 @@ client.insert(
      ],
 )
 
+# {'insert_count': 10}
+
 # 4. Conduct a search
 search_params = {
     "metric_type": "IP",
@@ -180,6 +182,10 @@ res = client.search(
     search_params=search_params
 )
 
+# [[{'id': 7, 'distance': 0.4801957309246063, 'entity': {}},
+#   {'id': 2, 'distance': 0.3205878734588623, 'entity': {}},
+#   {'id': 1, 'distance': 0.2993225157260895, 'entity': {}}]]
+
 # Search with filter
 res = client.search(
     collection_name="test_collection",
@@ -188,6 +194,10 @@ res = client.search(
     filter='color like "red%"',
     search_params=search_params
 )
+
+# [[{'id': 1, 'distance': 0.2993225157260895, 'entity': {}},
+#   {'id': 4, 'distance': 0.12666261196136475, 'entity': {}},
+#   {'id': 6, 'distance': -0.3535143733024597, 'entity': {}}]]
 
 # Search with an offset
 res = client.search(
@@ -198,6 +208,10 @@ res = client.search(
     search_params=search_params
 )
 
+# [[{'id': 4, 'distance': 0.12666261196136475, 'entity': {}},
+#   {'id': 3, 'distance': 0.11930042505264282, 'entity': {}},
+#   {'id': 5, 'distance': -0.05843167006969452, 'entity': {}}]]
+
 # Search with output fields
 res = client.search(
     collection_name="test_collection",
@@ -206,6 +220,31 @@ res = client.search(
     output_fields=["vector", "color"],
     search_params=search_params
 )
+
+# [[{'id': 7,
+#    'distance': 0.4801957309246063,
+#    'entity': {'color': 'grey_8510',
+#     'vector': [-0.33445146679878235,
+#      -0.25671350955963135,
+#      0.8987540006637573,
+#      0.9402995705604553,
+#      0.537806510925293]}},
+#   {'id': 2,
+#    'distance': 0.3205878734588623,
+#    'entity': {'color': 'orange_6781',
+#     'vector': [0.4374213218688965,
+#      -0.5597502589225769,
+#      0.6457887887954712,
+#      0.789405882358551,
+#      0.20785793662071228]}},
+#   {'id': 1,
+#    'distance': 0.2993225157260895,
+#    'entity': {'color': 'red_7025',
+#     'vector': [0.19886812567710876,
+#      0.060235604643821716,
+#      0.697696328163147,
+#      0.2614474594593048,
+#      0.8387295007705688]}}]]
 
 # Conduct a range search
 search_params = {
@@ -222,6 +261,8 @@ res = client.search(
     limit=3,
     search_params=search_params
 )
+
+# [[]]
 ```
 
 ## Related methods{#related-methods}

@@ -73,6 +73,8 @@ __PARAMETERS:__
 
         - A pair of username and password used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
 
+<include target="zilliz">
+
 <Admonition type="info" icon="📘" title="How can I get the cluster endpoint and token?">
 
 <ul>
@@ -94,6 +96,8 @@ __PARAMETERS:__
 <p>For details, refer to <a href="/docs/on-zilliz-cloud-console">On Zilliz Cloud Console</a> for more information.</p>
 
 </Admonition>
+
+</include>
 
 __RETURN TYPE:__
 

@@ -119,16 +119,22 @@ client.insert(
     ]
 )
 
+# {'insert_count': 10}
+
 # 4. Delete entities
 client.delete(
     collection_name="test_collection",
     ids=[3, 6, 7]
 )
 
+# {'delete_count': 3}
+
 client.delete(
     collection_name="test_collection",
-    filter="ids in [1, 8, 9] and color like 'b%'"
+    filter="id in [1, 8, 9] and color like 'b%'"
 )
+
+# {'delete_count': 2}
 ```
 
 ## Related methods{#related-methods}

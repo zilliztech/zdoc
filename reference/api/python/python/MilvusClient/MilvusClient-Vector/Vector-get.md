@@ -102,6 +102,8 @@ client.insert(
      ],
 )
 
+# {'insert_count': 10}
+
 # 4. Get entities
 
 # Get an entity by its ID
@@ -110,11 +112,37 @@ res = client.get(
     ids=1
 )
 
+# [
+#     {
+#        'id': 1,
+#        'vector': [0.19886813, 0.060235605, 0.6976963, 0.26144746, 0.8387295],
+#        'color': 'red_7025'
+#    }
+# ]
+
 # Get a list of entities by their IDs
 res = client.get(
     collection_name="test_collection",
     ids=[2, 5, 8]
 )
+
+# [
+#     {
+#         'id': 2, 
+#         'vector': [0.43742132, -0.55975026, 0.6457888, 0.7894059, 0.20785794], 
+#         'color': 'orange_6781'
+#     }, 
+#     {
+#         'id': 5, 
+#         'vector': [0.9858251, -0.81446517, 0.6299267, 0.12069069, -0.14462778], 
+#         'color': 'yellow_4222'
+#     }, 
+#     {
+#        'id': 8, 
+#        'vector': [0.3952472, 0.40002573, -0.5890507, -0.86505026, -0.6140361], 
+#        'color': 'white_9381'
+#     }
+# ]
 ```
 
 ## Related methods{#related-methods}

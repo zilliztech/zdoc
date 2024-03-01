@@ -47,13 +47,17 @@ client.create_collection(
 )
 
 # 3. List collections
-res = client.list_collections() # ['test_collection']
+res = client.list_collections() 
+
+# ['test_collection']
 
 # 4. Drop the collection
 client.drop_collection(collection_name="test_collection")
 
 # 5. List collections
-res = client.list_collections() # []
+res = client.list_collections() 
+
+# []
 ```
 
 ## Related methods{#related-methods}

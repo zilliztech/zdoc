@@ -1,59 +1,77 @@
-const regex1 = /<(include|exclude) target="(\b(\w+,)*\w+\b)">/g
-const regex2 = /<\/(include|exclude)>/
-const regex3 = /<(include|exclude) target="(\b(\w+,)*\w+\b)">[\s\S]*?<\/\1>/g
+const cheerio = require('cheerio')
 
-const test = `
-<include target="zilliz">
+const regex = /<(include|exclude) target="(\b(\w+,)*\w+\b)">/g
+const regex2 = /<(include|exclude) target="(\b(\w+,)*\w+\b)">[\s\S]*?<\/\1>/g
 
-asdlkjfla;fja;'ds<include target="paas">asdfasdfasdfdsa</include>
+var test = `
+<include target="zilliz"><include target="paas">
+
+paas<include target="paas">paas</include>sdfdasfsd<include target="saas">saas</include>
 <include target="saas">
 
-asdfasdfdasf
+saassaas
 </include>
     sdfdasfads
     <exclude target="paas">
-    adfasdfdas
+    paas
     </exclude>
-adfasdfads
+paas
+</include>
 
 <include target="saas">
 
-adsfdasfkjijpijlajdf
+saas
 </include>
 
 </include>
 `
-var pairs = []
-var current = ""
-var currentIdx = 0
-var closeTag = ""
-var closeTagIdx = 0
-const lines = test.split("\n")
 
-// for (const line of lines) {
-//     var matches = [... line.matchAll(regex1)]
 
-//     if (matches.length > 0) {
-//         var tag = matches[0][1]
-//         current = line
-//         currentIdx = line.indexOf(matches[0][0])
-//         closeTag = `</${tag}>`
-//     } else if (line.includes(regex2)) {
 
-//     } else if (line.matchAll(regex3)) {
-//         // check the tag and target
-//     }
-// }
+const targets = ['zilliz', 'paas']
 
-lines.forEach((line, idx) => {
-    var matches = [... line.matchAll(regex1)]
+const $ = cheerio.load(test)
 
-    if (matches.length > 0) {
-        var tag = matches[0][1]
-        current = line
-        currentIdx = idx
-        closeTag = 
-    } else if (line.match(regex2)) {
-        var tag =
+for (let target of targets) {
+    const elements = $('include, exclude')
+
+    for (let element of elements) {
+        if (element.name === 'include' && targets.includes($(element).attr('target'))) {
+            console.log(target, element.name, element.attribs.target, 1)
+            const raw = $(element).toString()
+            const innerHTML = $(element).html()
+            test = test.replace(raw, innerHTML)
+        }
+    
+        if (element.name === 'include' && !targets.includes($(element).attr('target'))) {
+            console.log(target, element.name, element.attribs.target, 2)
+            const raw = $(element).toString()
+            
+            if (targets.indexOf(target) === targets.length - 1) {
+                test = test.replace(raw, '')
+            }
+        }
+    
+        if (element.name === 'exclude' && targets.includes($(element).attr('target'))) {
+            console.log(target, element.name, element.attribs.target, 3)
+            const raw = $(element).toString()
+            test = test.replace(raw, '')
+        }
+    
+        if (element.name === 'exclude' && !targets.includes($(element).attr('target'))) {
+            console.log(target, element.name, element.attribs.target, 4)
+            const raw = $(element).toString()
+            const innerHTML = $(element).html()
+    
+            if (targets.indexOf(target) === targets.length - 1) {
+                test = test.replace(raw, innerHTML)
+            }
+        }   
     }
-})
+
+    test = test.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
+}
+
+
+
+console.log(test)

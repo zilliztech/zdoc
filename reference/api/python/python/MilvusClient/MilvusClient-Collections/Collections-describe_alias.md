@@ -99,6 +99,12 @@ client.create_alias(collection_name="test_collection", alias="test")
 
 # 4. Describe the alias
 client.describe_alias(alias="test")
+
+# {
+#     'alias': 'test', 
+#     'collection_name': 'test_collection', 
+#     'db_name': 'default'
+# }
 ```
 
 ## Related methods{#related-methods}

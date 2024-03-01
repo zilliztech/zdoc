@@ -22,9 +22,9 @@ create_collection(
     collection_name: str,
     dimension: int,
     primary_field_name: str = "id",
-    id_type: str = "int",
+    id_type: str = DataType,
     vector_field_name: str = "vector",
-    metric_type: str = "IP",
+    metric_type: str = "COSINE",
     auto_id: bool = False,
     timeout: Optional[float] = None,
     schema: Optional[CollectionSchema] = None,
@@ -55,11 +55,11 @@ __PARAMETERS:__
 
     The value defaults to __id__. You can use another name you see fit. Skip this parameter if you need to set up a collection with a customized schema.
 
-- __id_type__ (_str_) -
+- __id_type__ (_[DataType](./Collections-DataType)_) -
 
     The data type of the primary field in this collection.
 
-    The value defaults to __int__. Possible values are __int__ and __str__. Skip this parameter if you need to set up a collection with a customized schema.
+    The value defaults to __DataType.INT64__. Possible values are __DataType.INT64__ and __DataType.VARCHAR__. Skip this parameter if you need to set up a collection with a customized schema.
 
 - __vector_field_name__ (_str_) -
 
@@ -71,7 +71,7 @@ __PARAMETERS:__
 
     The algorithm used for this collection to measure similarities between vector embeddings.
 
-    The value defaults to __IP__. Possible values are __L2__, __IP__, and __COSINE__. For details on these metric types, refer to [Similarity Metrics Explained](/docs/search-metrics-explained).
+    The value defaults to __COSINE__. Possible values are __L2__, __IP__, and __COSINE__. For details on these metric types, refer to [Similarity Metrics Explained](/docs/search-metrics-explained).
 
     Skip this parameter if you need to set up a collection with a customized schema.
 
@@ -129,10 +129,12 @@ __PARAMETERS:__
         <Admonition type="info" icon="📘" title="What is the consistency level?">
 
         <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-        <p></p>
-        <p></p>
+        <p><include target="milvus"></p>
+        <p>Milvus supports four consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, <strong>Session</strong>, and <strong>Eventually</strong>. The default consistency level in Milvus is <strong>Bounded Staleness</strong>. </p>
+        <p></include></p>
+        <p><include target="zilliz"></p>
         <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-        <p></p>
+        <p></include></p>
         <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
 
         </Admonition>

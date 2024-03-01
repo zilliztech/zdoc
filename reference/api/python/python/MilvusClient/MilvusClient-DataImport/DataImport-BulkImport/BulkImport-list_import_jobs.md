@@ -116,9 +116,21 @@ __RETURNS:__
 
         - __state__ (_string_)
 
-            The state of this bulk-import job.
+            The state of this bulk-import job. Possible values are as follows:
 
-            Possible values are __Importing__ and __ImportCompleted__.
+            - __ImportPending__
+
+            - __ImportFailed__
+
+            - __ImportStarted__
+
+            - __ImportPersisted__
+
+            - __ImportFlushed__
+
+            - __ImportCompleted__
+
+            - __ImportFailedAndCleaned__
 
     - __count__ (_int_)
 

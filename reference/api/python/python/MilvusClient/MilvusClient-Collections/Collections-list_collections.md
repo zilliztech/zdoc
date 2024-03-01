@@ -60,7 +60,9 @@ client = MilvusClient(
 client.create_collection(collection_name="test_collection", dimension=5)
 
 # 3. List collections
-client.list_collections() # ['test_collection']
+client.list_collections() 
+
+# ['test_collection']
 ```
 
 ## Related methods{#related-methods}

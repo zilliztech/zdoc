@@ -97,6 +97,8 @@ __EXCEPTIONS:__
 
 ## Example{#example}
 
+<include target="zilliz">
+
 ```python
 from pymilvus import MilvusClient
 
@@ -116,7 +118,7 @@ client.describe_role(role_name="db_ro")
 #         "db_name": "default",
 #         "role_name": "db_ro",
 #         "privilege": "GetLoadState",
-#         "grantor_name": "zcloud_root"
+#         "grantor_name": ""
 #     },
 #     {
 #         "object_type": "Collection",
@@ -124,7 +126,7 @@ client.describe_role(role_name="db_ro")
 #         "db_name": "default",
 #         "role_name": "db_ro",
 #         "privilege": "GetLoadingProgress",
-#         "grantor_name": "zcloud_root"
+#         "grantor_name": ""
 #     },
 #     {
 #         "object_type": "Collection",
@@ -132,7 +134,7 @@ client.describe_role(role_name="db_ro")
 #         "db_name": "default",
 #         "role_name": "db_ro",
 #         "privilege": "IndexDetail",
-#         "grantor_name": "zcloud_root"
+#         "grantor_name": ""
 #     },
 #     ...
 #     {
@@ -141,7 +143,7 @@ client.describe_role(role_name="db_ro")
 #         "db_name": "default",
 #         "role_name": "db_ro",
 #         "privilege": "ListDatabases",
-#         "grantor_name": "zcloud_root"
+#         "grantor_name": ""
 #     },
 #     {
 #         "object_type": "Global",
@@ -149,7 +151,7 @@ client.describe_role(role_name="db_ro")
 #         "db_name": "default",
 #         "role_name": "db_ro",
 #         "privilege": "ShowCollections",
-#         "grantor_name": "zcloud_root"
+#         "grantor_name": ""
 #     }
 # ]
 ```
@@ -159,6 +161,8 @@ client.describe_role(role_name="db_ro")
 <p>Each Zilliz Cloud cluster has three built-in roles, namely, <strong>db_ro</strong>, <strong>db_rw</strong>, and <strong>db_admin</strong>. For details, refer to <a href="/docs/user-roles#cluster-built-in-roles">Cluster Built-in Roles</a>.</p>
 
 </Admonition>
+
+</include>
 
 ## Related methods{#related-methods}
 
