@@ -250,8 +250,8 @@ res = client.search(
 search_params = {
     "metric_type": "IP",
     "params": {
-        "radius": 0.8,
-        "range_filter": 1.0
+        "radius": 0.1,
+        "range_filter": 0.8
     }
 }
 
@@ -262,7 +262,10 @@ res = client.search(
     search_params=search_params
 )
 
-# [[]]
+# [[{'id': 7, 'distance': 0.4801957309246063, 'entity': {}},
+#   {'id': 2, 'distance': 0.3205878734588623, 'entity': {}},
+#   {'id': 1, 'distance': 0.2993225157260895, 'entity': {}}]]
+
 ```
 
 ## Related methods{#related-methods}
