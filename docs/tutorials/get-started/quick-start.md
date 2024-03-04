@@ -37,7 +37,7 @@ Zilliz Cloud supports the Milvus SDKs and all [RESTful API endpoints](/reference
 
 ## Create a Cluster{#create-a-cluster}
 
-You can create a cluster with the subscription plan of your choice using either the RESTful API endpoints or on the Zilliz Cloud console. 
+You can create a cluster with the subscription plan of your choice using either the RESTful API endpoints or on the Zilliz Cloud console.
 
 The following demonstrates how to create a serverless cluster using the RESTful API.
 

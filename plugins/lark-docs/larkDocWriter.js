@@ -6,6 +6,7 @@ const { URL } = require('node:url')
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
 const showdown = require('showdown')
+const { match } = require('node:assert')
 
 class larkDocWriter {
     constructor(root_token, base_token, docSourceDir='plugins/lark-docs/meta/sources', imageDir='static/img', targets='zilliz.saas', skip_image_download=false) {
@@ -444,84 +445,105 @@ class larkDocWriter {
         
     }
 
-    __filter_content (markdown, targets) {
-        const regex = /<(include|exclude) target="(\b(\w+,)*\w+\b)">[\s\S]*?<\/\1>/g
-        targets = targets.split('.')
-        for (let target of targets) {
-            markdown = markdown.replace(regex, (match, tag, value) => {
-                value = value.split(',').map(item => item.trim())
-                if (tag == 'include' && value.includes(target)) {
-                    return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
-                }
+    // __filter_content (markdown, targets) {
+    //     const regex = /<(include|exclude) target="(\b(\w+,)*\w+\b)">[\s\S]*?<\/\1>/g
+    //     targets = targets.split('.')
+    //     for (let target of targets) {
+    //         markdown = markdown.replace(regex, (match, tag, value) => {
+    //             value = value.split(',').map(item => item.trim())
+    //             if (tag == 'include' && value.includes(target)) {
+    //                 return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
+    //             }
 
-                if (tag == 'include' && !value.includes(target)) {
-                    if (targets.indexOf(target) === targets.length - 1) {
-                        return ""
-                    } else {
-                        return match
-                    }
+    //             if (tag == 'include' && !value.includes(target)) {
+    //                 if (targets.indexOf(target) === targets.length - 1) {
+    //                     return ""
+    //                 } else {
+    //                     return match
+    //                 }
                     
-                }
+    //             }
 
-                if (tag == 'exclude' && value.includes(target)) {
-                    return ""
-                }
+    //             if (tag == 'exclude' && value.includes(target)) {
+    //                 return ""
+    //             }
     
-                if (tag == 'exclude' && !value.includes(target)) {
-                    if (targets.indexOf(target) === targets.length - 1) {
-                        return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
-                    } else {
-                        return match
-                    }
-                }
-            })
+    //             if (tag == 'exclude' && !value.includes(target)) {
+    //                 if (targets.indexOf(target) === targets.length - 1) {
+    //                     return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
+    //                 } else {
+    //                     return match
+    //                 }
+    //             }
+    //         })
+    //     }
+
+    //     return markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
+    // }
+
+    __filter_content (markdown, targets) {
+        const matches = this.__match_filter_tags(markdown)
+
+        if (matches.length > 0) {
+            var preText = markdown.slice(0, matches[0].startIndex)
+            var matchText = markdown.slice(matches[0].startIndex, matches[0].endIndex)
+            var postText = markdown.slice(matches[0].endIndex)
+            var isTargetValid = targets.split('.').includes(matches[0].target.trim())
+            var startTagLength = `<${matches[0].tag} target="${matches[0].target}">`.length
+            var endTagLength = `</${matches[0].tag}>`.length
+
+            if (matches[0].tag == 'include' && isTargetValid || matches[0].tag == 'exclude' && !isTargetValid) {
+                matchText = matchText.slice(startTagLength, -endTagLength)
+            }
+
+            if (matches[0].tag == 'include' && !isTargetValid || matches[0].tag == 'exclude' &&  isTargetValid) {
+                matchText = ""
+            }
+ 
+            markdown = this.__filter_content(preText + matchText + postText , targets)
         }
 
         return markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
     }
 
-    // __filter_content (markdown, targets) {
-    //     const $ = cheerio.load(markdown, {decodeEntities: false});
-    //     targets = targets.split('.');
-    //     fs.writeFileSync('test.md', markdown)
+    __match_filter_tags(markdown) {
+        const startTagRegex = /<(include|exclude) target="(.+?)"/gm
+        const endTagRegex = /<\/(include|exclude)>/gm
+        const matches = [... markdown.matchAll(startTagRegex)]
+        var returns = []
 
-    //     for (let target of targets) {
-    //         const elements = $('include, exclude')
+        matches.forEach(match => {
+            var tag = match[1]
+            var rest = markdown.slice(match.index)
+            
+            var closeTagRegex = new RegExp(`</${tag}>`, 'gm')
+            var closeTagMatch = [... rest.matchAll(closeTagRegex)]
+            
+            var startIndex = match.index
+            var endIndex = 0
+            
+            for (let i = 0; i < closeTagMatch.length; i++) {
+                var t = markdown.slice(startIndex, startIndex+closeTagMatch[i].index+closeTagMatch[i][0].length)
+            
+                var startCount = t.match(startTagRegex) ? t.match(startTagRegex).length : 0
+                var endCount = t.match(endTagRegex) ? t.match(endTagRegex).length : 0
         
-    //         for (let element of elements) {
-    //             const raw = $(element).toString()
-    //             const innerHTML = $(element).html()
+                if (startCount === endCount) {
+                    endIndex = startIndex + closeTagMatch[i].index + closeTagMatch[i][0].length
+                    break
+                }
+            }
+            
+            returns.push({
+                tag: tag,
+                target: match[2],
+                startIndex: startIndex,
+                endIndex: endIndex
+            })           
+        })
 
-    //             if (element.name === 'include' && targets.includes($(element).attr('target'))) {
-    //                 console.log(target, element.name, element.attribs.target, 1)
-    //                 markdown = markdown.replace(raw, innerHTML)
-    //             }
-            
-    //             if (element.name === 'include' && !targets.includes($(element).attr('target'))) {
-    //                 console.log(target, element.name, element.attribs.target, 2)
-                    
-    //                 if (targets.indexOf(target) === targets.length - 1) {
-    //                     markdown = markdown.replace(raw, '')
-    //                 }
-    //             }
-            
-    //             if (element.name === 'exclude' && targets.includes($(element).attr('target'))) {
-    //                 console.log(target, element.name, element.attribs.target, 3)
-    //                 markdown = markdown.replace(raw, '')
-    //             }
-            
-    //             if (element.name === 'exclude' && !targets.includes($(element).attr('target'))) {
-    //                 console.log(target, element.name, element.attribs.target, 4)
-            
-    //                 if (targets.indexOf(target) === targets.length - 1) {
-    //                     markdown = markdown.replace(raw, innerHTML)
-    //                 }
-    //             }   
-    //         }
-    //     }
-
-    //     return markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
-    // }
+        return returns
+    }
 
     async __write_page({slug, beta, notebook, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
         let front_matter = this.__front_matters(slug, beta, notebook, type, token, sidebar_position, sidebar_label, keywords)
