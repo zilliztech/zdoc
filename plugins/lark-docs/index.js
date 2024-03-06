@@ -36,6 +36,7 @@ module.exports = function (context, options) {
                         }
                     } else {
                         const { outputDir, imageDir } = options.targets.filter(target => target[0] === opts.pubTarget)[0][1]
+
                         const utils = new Utils(options.root, options.docSourceDir, outputDir)
 
                         // Add necessary imports to category pages
@@ -85,9 +86,9 @@ module.exports = function (context, options) {
 
                             var file_path = outputDir + '/' + utils.determine_file_path(token, options.docSourceDir)
 
-                            const doc_card_list = Object.keys(source).indexOf('children') > -1 ? true : false
+                            console.log(source.slug)
 
-                            console.log(meta)
+                            const doc_card_list = Object.keys(source).indexOf('children') > -1 ? true : false
     
                             if (meta['publish']) {
                                 const page_slug = source.slug

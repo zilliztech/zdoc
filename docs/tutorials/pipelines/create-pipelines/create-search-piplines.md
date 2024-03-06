@@ -56,6 +56,14 @@ Unlike Ingestion and Deletion pipelines, when creating a Search pipeline, the cl
 
     1. Choose **Target Cluster** and **Target collection**. The Target Cluster must be serverless cluster and the Target Collection must be created by an Ingestion pipeline, otherwise the Search pipeline won't be compatible.
 
+    1. (Optional) Enable reranker if you want to reorder or rank a set of candidate outputs to improve the quality of the search results. By default, this feature is disabled. Once enabled, you can choose the model service used for reranking. Currently, only **zilliz/bge-reranker-base** is available.
+
+        |  **Reranker Mode Service** |  **Description**                                                                                                                                                                                                    |
+        | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+        |  zilliz/bge-reranker-base  |  Open-source reranker model published by BAAI. This model is hosted on Zilliz Cloud and co-located with other Zilliz services, thus has the best latency. One of the best performers according to MTEB leaderboard. |
+
+        ![add-function-to-search-pipeline](/img/add-function-to-search-pipeline.png)
+
     1. Click **Add** to save your function.
 
 1. Click** Create Search Pipeline**.
@@ -86,7 +94,8 @@ curl --request POST \
                 "action": "SEARCH_DOC_CHUNK",
                 "inputField": "query_text",
                 "clusterId": "${CLUSTER_ID}",
-                "collectionName": "my_new_collection"
+                "collectionName": "my_new_collection",
+                "reranker": "zilliz/bge-reranker-base"
             }
         ]
     }
@@ -118,6 +127,8 @@ The parameters in the above code are described as follows:
 
     - `collectionName`: The name of the collection in which you want to create a pipeline.
 
+    - `reranker`(Optional): This is an optional parameter for those who want to reorder or rank a set of candidate outputs to improve the quality of the search results. If you do not need the reranker, you can omit this parameter. Currently, only `zilliz/bge-reranker-base` is available as the parameter value.
+
 Below is an example output.
 
 ```bash
@@ -136,7 +147,8 @@ Below is an example output.
         "inputField": "query_text",
         "clusterId": "in03-***************",
         "collectionName": "my_new_collection",
-        "embedding": "zilliz/bge-base-en-v1.5"
+        "embedding": "zilliz/bge-base-en-v1.5",
+        "reranker": "zilliz/bge-reranker-base"
       }
     ],
     "totalTokenUsage": 0

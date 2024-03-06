@@ -64,14 +64,15 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 
         1. Choose the embedding model used to generate vector embeddings. Different document languages have distinct embedding models. Currently, there are 5 available models for the English language: **zilliz/bge-base-en-v1.5**, **voyageai/voyage-2**,** voyageai/voyage-code-2**,** openai/text-embedding-3-small**, and **openai/text-embedding-3-large**. For the Chinese language, only **zilliz/bge-base-zh-v1.5** is available. The following chart briefly introduces each embedding model.
 
-            |  **Embedding Model **           |  **Description**                                                                                                                                                                                                                                                          |
-            | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-            |  zilliz/bge-base-en-v1.5        |  Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when `language` is `ENGLISH`.                             |
-            |  voyageai/voyage-2              |  Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when `language` is `ENGLISH`. |
-            |  voyageai/voyage-code-2         |  Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks. This model is only available when `language` is `ENGLISH`.                                                                                   |
-            |  openai/text-embedding-3-small  |  Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality. This model is only available when `language` is `ENGLISH`.                                         |
-            |  openai/text-embedding-3-large  |  Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when `language` is `ENGLISH`.                                                               |
-            |  zilliz/bge-base-zh-v1.5        |  Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when `language` is `CHINESE`.                             |
+            |  **Embedding Model **           |  **Description**                                                                                                                                                                                                                                                                               |
+            | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+            |  zilliz/bge-base-en-v1.5        |  Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when `language` is `ENGLISH`.                                                  |
+            |  voyageai/voyage-2              |  Hosted by Voyage AI. This general purpose model excels in retrieving technical documentation containing descriptive text and code. Its lighter version voyage-lite-02-instruct ranks top on MTEB leaderboard. This model is only available when `language` is `ENGLISH`.                      |
+            |  voyageai/voyage-code-2         |  Hosted by Voyage AI. This model is optimized for software code, providing outstanding quality for retrieving software documents and source code. This model is only available when `language` is `ENGLISH`.                                                                                   |
+            |  voyageai/voyage-large-2        |  Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents. This model is only available when `language` is `ENGLISH`. |
+            |  openai/text-embedding-3-small  |  Hosted by OpenAI. This highly efficient embedding model has stronger performance over its predecessor text-embedding-ada-002 and balances inference cost and quality. This model is only available when `language` is `ENGLISH`.                                                              |
+            |  openai/text-embedding-3-large  |  Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when `language` is `ENGLISH`.                                                                                    |
+            |  zilliz/bge-base-zh-v1.5        |  Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when `language` is `CHINESE`.                                                  |
 
         1. (Optional) Customize the chunk size. The function segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size for custom chunking strategies. Moreover, for markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size.
 
@@ -81,8 +82,9 @@ A collection will be created automatically as part of Ingestion pipeline creatio
             | ------------------------------ | ------------------------------ |
             |  zilliz/bge-base-en-v1.5       |  20-500 tokens                 |
             |  zilliz/bge-base-zh-v1.5       |  20-500 tokens                 |
-            |  voyageai/voyage-2             |  20-3,000   tokens             |
+            |  voyageai/voyage-2             |  20-3,000 tokens               |
             |  voyageai/voyage-code-2        |  20-12,000 tokens              |
+            |  voyageai/voyage-large-2       |  20-12,000 tokens              |
             |  openai/text-embedding-3-small |  250-8,191 tokens              |
             |  openai/text-embedding-3-large |  250-8,191 tokens              |
 
@@ -115,6 +117,12 @@ A collection will be created automatically as part of Ingestion pipeline creatio
 1. Continue creating a [Search pipeline ](./understanding-pipelines#search-pipelines)and a [Deletion pipeline](./understanding-pipelines#deletion-pipelines) that is auto-configured to be compatible with the just-created Ingestion pipeline. 
 
     ![ingestion-pipeline-created-successfully](/img/ingestion-pipeline-created-successfully.png)
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    By default, the reranker feature is disabled in the auto-configured search pipeline. If you need to enable reranker, please manually [create a new search pipeline](./create-search-piplines).
+
+    </Admonition>
 
 ## Via RESTful API{#via-restful-api}
 

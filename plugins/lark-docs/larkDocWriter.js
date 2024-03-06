@@ -14,6 +14,7 @@ class larkDocWriter {
         this.blocks = []
         this.target = target
         this.skip_image_download = skip_image_download
+        this.imageDir = imageDir
         this.block_types = [
             "page",
             "text",
@@ -782,12 +783,12 @@ class larkDocWriter {
     
     async __image(image) {
         if (this.skip_image_download) {
-            const root = this.target === 'saas' ? 'img' : 'byoc'
+            const root = this.imageDir.replace(/^static\//g, '')
             return `![${image.token}](/${root}/${image["token"]}.png)`;
         }
 
         const result = await this.downloader.__downloadImage(image.token)
-        const root = this.target === 'saas' ? 'img' : 'byoc'
+        const root = this.imageDir.replace(/^static\//g, '')
         result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${image["token"]}.png`));
         return `![${image.token}](/${root}/${image["token"]}.png)`;
     }
@@ -797,7 +798,7 @@ class larkDocWriter {
             return '';
         } else if (this.skip_image_download) {
             const url = new URL(decodeURIComponent(iframe.component.url))
-            const root = this.target === 'saas' ? 'img' : 'byoc'
+            const root = this.imageDir.replace(/^static\//g, '')
             const key = url.pathname.split('/')[2]
             const node = url.searchParams.get('node-id').split('-').join(":") 
 
@@ -805,7 +806,7 @@ class larkDocWriter {
             return `![${caption}](/${root}/${caption}.png)`;
         } else {
             const url = new URL(decodeURIComponent(iframe.component.url))
-            const root = this.target === 'saas' ? 'img' : 'byoc'
+            const root = this.imageDir.replace(/^static\//g, '')
             const key = url.pathname.split('/')[2]
             const node = url.searchParams.get('node-id').split('-').join(":") 
 

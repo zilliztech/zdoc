@@ -71,34 +71,48 @@ class larkDocScraper {
         })).json()).data.items
 
         const slugs = {}
-        records.map(record => slugs[record.fields.Docs] = record.fields.Slug )
+        if (records.length > 0) {
+            for (let record of records) {
+                if (record.fields.Slug) {
+                    slugs[record.fields.Docs.link.split('/').pop()] = { slug: record.fields.Slug, title: record.fields.Docs.text }
+                } else {
+                    throw new Error(`Slug field not found for record ${record.fields['Seq. ID']}`)
+                }
+            }
+        }
 
         this.slugs = slugs
     }
 
-    async __slugify(title) {
-
-        if (fs.existsSync('plugins/lark-docs/meta/titles.json')) {
-            if (!this.titles) {
-                this.titles = JSON.parse(fs.readFileSync('plugins/lark-docs/meta/titles.json'))
-            }
-
-            if (!this.slugs) {
-                await this.__base(this.base)
-            }
-    
-            if (title in this.slugs) {
-                return this.slugs[title]
-            } else if (title in this.titles) {
-                return this.titles[title]
-            }
-        } else {
-            throw new Error('Please run `fetch` first')
+    async __slugify(token, title=null) {
+        if (!this.slugs) {
+            await this.__base(this.base)
         }
+
+        var slug = this.slugs[token]
+
+        if (!slug) {
+            const record = Object.keys(this.slugs).filter(key => this.slugs[key].title == title)
+            if (record.length > 0) {
+                slug = this.slugs[record[0]] 
+            }
+        }
+
+        if (slug) {
+            slug = slug.slug
+        }
+
+        if (slug instanceof Array) {
+            if (slug[0] instanceof Object) {
+                return slug[0][slug[0].type]
+            }
+        }
+
+        return slug
     }
 
     async __fetch_children(node, recursive=false) {
-        node.slug = await this.__slugify(node.title)
+        node.slug = await this.__slugify(node.node_token,node.title)
         await this.__fetch_blocks(node)
         if (node.has_child) {
             let url = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/${SPACE_ID}/nodes?page_size=50&parent_node_token=${node.origin_node_token}`
@@ -113,7 +127,7 @@ class larkDocScraper {
 
             if (res.code == 0) {
                 node.children = await Promise.all(res.data.items.map(async item => {
-                    item.slug = await this.__slugify(item.title)
+                    item.slug = await this.__slugify(item.node_token,item.title)
                     return item
                 }))
                 
@@ -124,7 +138,7 @@ class larkDocScraper {
                     for (let child of node.children) {
                         await this.__fetch_children(child, recursive)
                         await this.__fetch_blocks(child)
-                        child.slug = await this.__slugify(child.title)
+                        child.slug = await this.__slugify(child.node_token, child.title)
                         fs.writeFileSync(`plugins/lark-docs/meta/sources/${child.origin_node_token}.json`, JSON.stringify(child, null, 2))
                         delete child.children
                         delete child.blocks

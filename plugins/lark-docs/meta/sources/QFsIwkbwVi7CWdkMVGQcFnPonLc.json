@@ -5,7 +5,7 @@
   "node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
   "node_type": "origin",
   "obj_create_time": "1706249835",
-  "obj_edit_time": "1707132068",
+  "obj_edit_time": "1709522525",
   "obj_token": "Fyg6dFS6foYW2ixcQyKcnltOnIe",
   "obj_type": "docx",
   "origin_node_token": "QFsIwkbwVi7CWdkMVGQcFnPonLc",
@@ -1707,6 +1707,8 @@
           "QpkBdM5XsocTk9xnWFAcS4Aqn0b",
           "VDjmdqXz6o6ht6xy3yScM2qpnBe",
           "EnOzdAJ8Doq9gbx3pSmcGg4AnKb",
+          "H4OSdRWavoR6rkxaaWicAMaPn7b",
+          "UnD6ddg6soBQbvxFnBPcy5q8n3g",
           "M7Wdd7ATloXVqsxjMtAcOoD3njc",
           "OGJydAI2Io8SEwxXNWfcd1JOnIh",
           "UYhjdgoxuoIrLaxrDLjcMijrnRf",
@@ -1725,6 +1727,8 @@
             "QpkBdM5XsocTk9xnWFAcS4Aqn0b",
             "VDjmdqXz6o6ht6xy3yScM2qpnBe",
             "EnOzdAJ8Doq9gbx3pSmcGg4AnKb",
+            "H4OSdRWavoR6rkxaaWicAMaPn7b",
+            "UnD6ddg6soBQbvxFnBPcy5q8n3g",
             "M7Wdd7ATloXVqsxjMtAcOoD3njc",
             "OGJydAI2Io8SEwxXNWfcd1JOnIh",
             "UYhjdgoxuoIrLaxrDLjcMijrnRf",
@@ -1794,9 +1798,17 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 7
+            "row_size": 8
           }
         }
       },
@@ -2187,7 +2199,123 @@
           "elements": [
             {
               "text_run": {
-                "content": "Hosted by Voyage AI. This model is optimized for programming code, providing outstanding quality for retrieval code blocks. This model is only available when ",
+                "content": "Hosted by Voyage AI. This model is optimized for software code, providing outstanding quality for retrieving software documents and source code. This model is only available when ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "language",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ENGLISH",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "H4OSdRWavoR6rkxaaWicAMaPn7b",
+        "block_type": 32,
+        "children": [
+          "F4zFdZuw9oz02OxhHeWc9dxVntf"
+        ],
+        "parent_id": "FJ1pd7ZCZouEmCxiJLHcB1JGnvc",
+        "table_cell": {}
+      },
+      {
+        "block_id": "F4zFdZuw9oz02OxhHeWc9dxVntf",
+        "block_type": 2,
+        "parent_id": "H4OSdRWavoR6rkxaaWicAMaPn7b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "voyageai/voyage-large-2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UnD6ddg6soBQbvxFnBPcy5q8n3g",
+        "block_type": 32,
+        "children": [
+          "WwzfdqJ2RombqmxVfphcFVmgnyh"
+        ],
+        "parent_id": "FJ1pd7ZCZouEmCxiJLHcB1JGnvc",
+        "table_cell": {}
+      },
+      {
+        "block_id": "WwzfdqJ2RombqmxVfphcFVmgnyh",
+        "block_type": 2,
+        "parent_id": "UnD6ddg6soBQbvxFnBPcy5q8n3g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Hosted by Voyage AI. This is the most powerful generalist embedding model from Voyage AI. It supports 16k context length (4x that of voyage-2) and excels on various types of text including technical and long-context documents. This model is only available when ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2699,6 +2827,8 @@
           "KarHds8x3odUvYxiCAAc6k6nnTd",
           "WpJ0diRksoJ3AYxbFbCc1Ubsnjf",
           "XZPKdpjCUoKXYqxaQVkcTZQlncd",
+          "M5mEdhR8RoEAlVx6gwVccSVTnX1",
+          "T5V3dDtSioudmSxdYl5cgM4nnnb",
           "ZNwddwygxoYLOlxrByUcT5KAnVh",
           "F6Eqdg9plo20JXxikiJc1w7Gncc",
           "OyXFdhn8WoCRnjxoDG1cQ6sTnYc",
@@ -2717,6 +2847,8 @@
             "KarHds8x3odUvYxiCAAc6k6nnTd",
             "WpJ0diRksoJ3AYxbFbCc1Ubsnjf",
             "XZPKdpjCUoKXYqxaQVkcTZQlncd",
+            "M5mEdhR8RoEAlVx6gwVccSVTnX1",
+            "T5V3dDtSioudmSxdYl5cgM4nnnb",
             "ZNwddwygxoYLOlxrByUcT5KAnVh",
             "F6Eqdg9plo20JXxikiJc1w7Gncc",
             "OyXFdhn8WoCRnjxoDG1cQ6sTnYc",
@@ -2785,9 +2917,17 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 7
+            "row_size": 8
           }
         }
       },
@@ -3052,7 +3192,31 @@
           "elements": [
             {
               "text_run": {
-                "content": "20-3,000   tokens",
+                "content": "20-3,000 ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "t",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "okens",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3116,6 +3280,74 @@
         "block_id": "OTHXds7rxoM6Jrx5UJocHo70nwg",
         "block_type": 2,
         "parent_id": "XZPKdpjCUoKXYqxaQVkcTZQlncd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "20-12,000 tokens",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "M5mEdhR8RoEAlVx6gwVccSVTnX1",
+        "block_type": 32,
+        "children": [
+          "NfnpdnAAqoaCxuxmc51cJc0SnEh"
+        ],
+        "parent_id": "CblLdfZCMo6BXuxPXdnc2GtonY2",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NfnpdnAAqoaCxuxmc51cJc0SnEh",
+        "block_type": 2,
+        "parent_id": "M5mEdhR8RoEAlVx6gwVccSVTnX1",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "voyageai/voyage-large-2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T5V3dDtSioudmSxdYl5cgM4nnnb",
+        "block_type": 32,
+        "children": [
+          "SsLJdIFh5o9JISxMuU6cgoMJnnj"
+        ],
+        "parent_id": "CblLdfZCMo6BXuxPXdnc2GtonY2",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SsLJdIFh5o9JISxMuU6cgoMJnnj",
+        "block_type": 2,
+        "parent_id": "T5V3dDtSioudmSxdYl5cgM4nnnb",
         "text": {
           "elements": [
             {
@@ -3985,7 +4217,8 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": false,
+            "indentation_level": "NoIndent"
           }
         },
         "parent_id": "BVaidWzeSoVP18xF9pnc6S0an3g"
@@ -4043,7 +4276,8 @@
         "block_id": "MC0wd5pFYobdMpxx6gwckrxAnyh",
         "block_type": 13,
         "children": [
-          "UQZ1dJ2kCoorh1xojNHcOd6yn2g"
+          "UQZ1dJ2kCoorh1xojNHcOd6yn2g",
+          "WgmvdmWS6o0ufQxX1v3cGGrmnnd"
         ],
         "ordered": {
           "elements": [
@@ -4134,6 +4368,153 @@
           }
         },
         "parent_id": "MC0wd5pFYobdMpxx6gwckrxAnyh"
+      },
+      {
+        "block_id": "WgmvdmWS6o0ufQxX1v3cGGrmnnd",
+        "block_type": 34,
+        "children": [
+          "UzO2dQOTcocV6pxdNbRcxFG8nUe",
+          "JxE9dRG5woMROKxyY7EcvTjHnPc"
+        ],
+        "parent_id": "MC0wd5pFYobdMpxx6gwckrxAnyh",
+        "quote_container": {}
+      },
+      {
+        "block_id": "UzO2dQOTcocV6pxdNbRcxFG8nUe",
+        "block_type": 2,
+        "comment_ids": [
+          "7337947392248987652"
+        ],
+        "parent_id": "WgmvdmWS6o0ufQxX1v3cGGrmnnd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337947392248987652"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JxE9dRG5woMROKxyY7EcvTjHnPc",
+        "block_type": 2,
+        "comment_ids": [
+          "7337947392248987652"
+        ],
+        "parent_id": "WgmvdmWS6o0ufQxX1v3cGGrmnnd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "By default, the reranker feature is disabled in the auto-configured ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337947392248987652"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "search pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337947392248987652"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". If you need to enable reranker, please manually ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337947392248987652"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "create a new search pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337947392248987652"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FTQnswMmIpiTmUSkf1iscU05Lnfb"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7337947392248987652"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "TaZpda9qKoRHAIxInZ2cQUQSnCb",
@@ -4613,7 +4994,8 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": false,
+            "indentation_level": "NoIndent"
           }
         },
         "parent_id": "Fyg6dFS6foYW2ixcQyKcnltOnIe"
@@ -8701,6 +9083,6 @@
         }
       }
     ],
-    "counts": 237
+    "counts": 248
   }
 }
