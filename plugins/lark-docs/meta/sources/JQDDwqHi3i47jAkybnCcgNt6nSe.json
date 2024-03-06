@@ -5,7 +5,7 @@
   "node_token": "JQDDwqHi3i47jAkybnCcgNt6nSe",
   "node_type": "origin",
   "obj_create_time": "1706261074",
-  "obj_edit_time": "1709619894",
+  "obj_edit_time": "1709721118",
   "obj_token": "Bvlndb45JoworixJokocT55Znke",
   "obj_type": "docx",
   "origin_node_token": "JQDDwqHi3i47jAkybnCcgNt6nSe",
@@ -523,7 +523,7 @@
             },
             {
               "text_run": {
-                "content": "          \"outputFields\": [ \"chunk_text\", \"id\", \"doc_name\" ],",
+                "content": "          \"outputFields\": [ \"chunk_id\", \"doc_name\" ],",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -1041,7 +1041,7 @@
             },
             {
               "text_run": {
-                "content": ": The number of entities to skip in the search results.\n",
+                "content": ": The number of entities to skip in the search results.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1050,7 +1050,24 @@
                   "underline": false
                 }
               }
-            },
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "W0rQdcFunoOChsxWMu2cxiMhnYb"
+        ],
+        "parent_id": "Ga7vdNAjAoXjYIxEKg0cxQgQnYg"
+      },
+      {
+        "block_id": "W0rQdcFunoOChsxWMu2cxiMhnYb",
+        "block_type": 2,
+        "parent_id": "Lj5odms8qoSFGmxOMgIcN9InnIJ",
+        "text": {
+          "elements": [
             {
               "text_run": {
                 "content": "The sum of this value and that of ",
@@ -1138,10 +1155,10 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": false,
+            "indentation_level": "NoIndent"
           }
-        },
-        "parent_id": "Ga7vdNAjAoXjYIxEKg0cxQgQnYg"
+        }
       },
       {
         "block_id": "G89Id5bwKobDkUx6cNYcaX4cnSn",
@@ -1162,7 +1179,7 @@
             },
             {
               "text_run": {
-                "content": ": An array of fields to return along with the search results. ",
+                "content": ": An array of fields to return along with the search results. Note that ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1181,6 +1198,21 @@
                     "7342757950697979907"
                   ],
                   "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "（entity ID）",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7342757950697979907"
+                  ],
+                  "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -1237,7 +1269,7 @@
             },
             {
               "text_run": {
-                "content": "are default output fields. ",
+                "content": " will be returned in the search result by default. If you need other output fields in the returned result, you can configure this parameter.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1546,6 +1578,6 @@
         "parent_id": "Bvlndb45JoworixJokocT55Znke"
       }
     ],
-    "counts": 27
+    "counts": 28
   }
 }
