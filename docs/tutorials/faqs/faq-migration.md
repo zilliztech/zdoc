@@ -3,7 +3,7 @@ slug: /faq-migration
 beta: null
 notebook: null
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
-sidebar_position: 6
+sidebar_position: 5
 ---
 
 # FAQ: Migration

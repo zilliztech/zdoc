@@ -5,7 +5,7 @@
   "node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
   "node_type": "origin",
   "obj_create_time": "1705979316",
-  "obj_edit_time": "1707199160",
+  "obj_edit_time": "1709522515",
   "obj_token": "NIIldYshaoVw2bxiWjrcTt14nac",
   "obj_type": "docx",
   "origin_node_token": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
@@ -2581,6 +2581,8 @@
           "MlSad6nzWoDvifxzwQWcioVmn4f",
           "EpGWdiLlqoRAplxtGtIcaeLenTf",
           "SEnFdHRoRoHDaCxHKJDcTtSun5b",
+          "WMGudsx79o9HJ1xHQjqctAwDnye",
+          "ZGS9dPkCeoseZgxeSuicdRCjnPg",
           "Z6C5dPhLjowNS9xOWqscSDUKn0c",
           "ItW8dEUAWogZi1xYT4ycIS5Jnwh",
           "LVQgdSZIOogFcNxC1vychhYtnpd",
@@ -2599,6 +2601,8 @@
             "MlSad6nzWoDvifxzwQWcioVmn4f",
             "EpGWdiLlqoRAplxtGtIcaeLenTf",
             "SEnFdHRoRoHDaCxHKJDcTtSun5b",
+            "WMGudsx79o9HJ1xHQjqctAwDnye",
+            "ZGS9dPkCeoseZgxeSuicdRCjnPg",
             "Z6C5dPhLjowNS9xOWqscSDUKn0c",
             "ItW8dEUAWogZi1xYT4ycIS5Jnwh",
             "LVQgdSZIOogFcNxC1vychhYtnpd",
@@ -2666,9 +2670,17 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 7
+            "row_size": 8
           }
         }
       },
@@ -2991,6 +3003,74 @@
         "block_id": "LzQOdF13hoRijjxVDNscx6cVnss",
         "block_type": 2,
         "parent_id": "SEnFdHRoRoHDaCxHKJDcTtSun5b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "20-12,000",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WMGudsx79o9HJ1xHQjqctAwDnye",
+        "block_type": 32,
+        "children": [
+          "T8Y7d7zW1oYSiRxSAllc8AEHnGh"
+        ],
+        "parent_id": "C94PdRY5aozcNhxRE25cZfaHnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "T8Y7d7zW1oYSiRxSAllc8AEHnGh",
+        "block_type": 2,
+        "parent_id": "WMGudsx79o9HJ1xHQjqctAwDnye",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "voyageai/voyage-large-2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZGS9dPkCeoseZgxeSuicdRCjnPg",
+        "block_type": 32,
+        "children": [
+          "OSZKdARnoo7QryxBBLTcfUlOnYd"
+        ],
+        "parent_id": "C94PdRY5aozcNhxRE25cZfaHnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "OSZKdARnoo7QryxBBLTcfUlOnYd",
+        "block_type": 2,
+        "parent_id": "ZGS9dPkCeoseZgxeSuicdRCjnPg",
         "text": {
           "elements": [
             {
@@ -11237,6 +11317,9 @@
       {
         "block_id": "WstDdDsnAoxi4vx5IrncdWCQn6e",
         "block_type": 5,
+        "comment_ids": [
+          "7337615043892592644"
+        ],
         "heading3": {
           "elements": [
             {
@@ -11244,6 +11327,9 @@
                 "content": "Delete",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7337615043892592644"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -11360,6 +11446,9 @@
       {
         "block_id": "UyE8dgp7noeQqZxKmE0cDOyvndz",
         "block_type": 5,
+        "comment_ids": [
+          "7337614893352239107"
+        ],
         "heading3": {
           "elements": [
             {
@@ -11367,6 +11456,9 @@
                 "content": "Drop",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7337614893352239107"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -12215,6 +12307,6 @@
         }
       }
     ],
-    "counts": 499
+    "counts": 503
   }
 }

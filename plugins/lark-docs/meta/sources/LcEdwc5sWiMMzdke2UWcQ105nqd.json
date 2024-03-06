@@ -1,0 +1,1760 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1708764316",
+  "node_token": "LcEdwc5sWiMMzdke2UWcQ105nqd",
+  "node_type": "origin",
+  "obj_create_time": "1708764316",
+  "obj_edit_time": "1708764316",
+  "obj_token": "KZmCd5PowoMnrzxdssKcbDPanqg",
+  "obj_type": "docx",
+  "origin_node_token": "LcEdwc5sWiMMzdke2UWcQ105nqd",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "KEKtwN7kUiIf7akFPlOcFCkmnQe",
+  "space_id": "7167193056431783939",
+  "title": "Manage Partitions",
+  "slug": "manage-partitions",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "block_type": 1,
+        "children": [
+          "doxcnc2TTmqprQin6r0Lo8BMq8f",
+          "doxcnACSpOcl0cjUClsd6hu7y5f",
+          "doxcnXEdigz9mwaDuDOWMqLdEdd",
+          "doxcnJl826WUEGjlYVfVEwPnSYg",
+          "doxcn3wRmecc2R0Lyvj88aiiyQc",
+          "doxcnGXBsoqbXXZXhoWWAgvwGif",
+          "doxcnTXGJacUN6LqHGczrSDW8ug",
+          "doxcnrxsLRezLS4021cGiuDbLWc",
+          "doxcnpFs6LiZYrDtzTgIUBg7Xpg",
+          "doxcnHtucVdJUJ1gytN32ekqTqd",
+          "doxcniTu3pxQgNcEmHCTksYV558",
+          "doxcnCJPwc6OaL2iWhBqYwUrRdb",
+          "doxcnxOko36WZlJ9HFer1YQw2Lf",
+          "doxcn7Qcqh7BGiFLAJu1lLhWxYd",
+          "doxcnWnnF8iFAuqGuarNF8w75YL",
+          "doxcnWhoMu8WZejGEidzHuwEPCf",
+          "doxcnjpZptJQZcTacSbuxXBMppb",
+          "doxcni3PyQgqH5kGinkUOxTlHLg",
+          "doxcnGSNxkyxFycpkSiaqyxFREd",
+          "doxcnm01gUqww4AOlecXXR8zz2b",
+          "doxcnCu2cS6Z7cNcKXSsLlj2lRe",
+          "doxcnqQWpC2wQoiAMQGPTxMUuXg",
+          "doxcnTrtgjfvF6K5ISJ26xoajmf",
+          "doxcnqPXUg9UsEmzqwKsFMyDsOf",
+          "doxcnfvbpKk8EHxnemTeukiX8Rc",
+          "doxcnT2WBsj0UJQmVnryUUAlU2d",
+          "doxcnUMMkXqXXPMSLykk5nFtpRe",
+          "doxcnjtNioNNi5QLq1StdPA7WTe",
+          "doxcndikg9OPbyRiyx0SYDKGCqd",
+          "doxcn8PB6ZRwsjtIFs7l78eVlmd",
+          "doxcnn53U7om2cYYtBqrpt8Xt4f",
+          "doxcnkaC4nq4C57K0JIXQb9uSld",
+          "doxcngdABZj5b3ZhcrEmj5sKjtc",
+          "doxcncT5bMsAjgfWM8jIYOudHRd",
+          "doxcnTTOKpG0rBGmi1Kao0tEEYf",
+          "doxcnepy5x6CWF5cZTjBSjhmYih",
+          "doxcn7yl2kTeSRFpIXwROVqwUPg",
+          "doxcnWUefiLRrRjlmzxpMWlj8Th",
+          "doxcnnaPZDTnS7ZiK8OCMbdPeqe"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage Partitions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnc2TTmqprQin6r0Lo8BMq8f",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This guide walks you through how to create and manage partitions in a collection. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnACSpOcl0cjUClsd6hu7y5f",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcnXEdigz9mwaDuDOWMqLdEdd",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A partition in Zilliz Cloud represents a sub-division of a collection. This functionality allows the physical storage of a collection to be divided into multiple parts, contributing to improved ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " performance by narrowing down the focus to a smaller subset of data rather than the entire collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnJl826WUEGjlYVfVEwPnSYg",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Upon the creation of a collection, a default partition named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "_default",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is automatically created. It's worth noting that you can create a maximum of 4,096 partitions within a collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn3wRmecc2R0Lyvj88aiiyQc",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For a comprehensive understanding of the relationships between clusters, collections, indexes, partitions, and entities, read ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Cluster, Collection & Entities",
+                "token": "KfI3wa2ZCiEJyzkkvKSc5FennId",
+                "url": "https://zilliverse.feishu.cn/wiki/KfI3wa2ZCiEJyzkkvKSc5FennId"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnGXBsoqbXXZXhoWWAgvwGif",
+        "block_type": 34,
+        "children": [
+          "doxcnALw3G4LGQwweyDdXMWtNKc",
+          "doxcnGSuyQc7UkuXJihoIRtFMMb",
+          "doxcn0rZl6Af0bYTdmgRih6U3Uh"
+        ],
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "quote_container": {}
+      },
+      {
+        "block_id": "doxcnALw3G4LGQwweyDdXMWtNKc",
+        "block_type": 2,
+        "parent_id": "doxcnGXBsoqbXXZXhoWWAgvwGif",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnGSuyQc7UkuXJihoIRtFMMb",
+        "block_type": 2,
+        "parent_id": "doxcnGXBsoqbXXZXhoWWAgvwGif",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud introduces a feature called ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Partition Key",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", leveraging the underlying partitions to store entities based on the values of a specific field. This feature facilitates the implementation of multi-tenancy, enhancing search performance. For details, read ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Use Partition Key",
+                "token": "UzY9wHHcIiDJAUkkFSzcBUk9n4o",
+                "url": "https://zilliverse.feishu.cn/wiki/UzY9wHHcIiDJAUkkFSzcBUk9n4o"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn0rZl6Af0bYTdmgRih6U3Uh",
+        "block_type": 2,
+        "parent_id": "doxcnGXBsoqbXXZXhoWWAgvwGif",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "It's important to note that when the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Partition Key",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " feature is on in a collection, Zilliz Cloud takes care of managing all the partitions, relieving you of this responsibility.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnTXGJacUN6LqHGczrSDW8ug",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Preparations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcnrxsLRezLS4021cGiuDbLWc",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The code snippet below repurposes the existing code to establish a connection to a Zilliz Cloud cluster and create a collection and its index separately. Consequently, the collection remains unloaded.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnpFs6LiZYrDtzTgIUBg7Xpg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient, DataType\n\nCLUSTER_ENDPOINT = \"YOUR_CLUSTER_ENDPOINT\"\nTOKEN = \"YOUR_CLUSTER_TOKEN\"\n\n# 1. Set up a Milvus client\nclient = MilvusClient(\n    uri=CLUSTER_ENDPOINT,\n    token=TOKEN \n)\n\n# 2. Create a collection\nclient.create_collection(\n    collection_name=\"quick_setup\",\n    dimension=5,\n)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcnHtucVdJUJ1gytN32ekqTqd",
+        "block_type": 34,
+        "children": [
+          "doxcncuEuS9dBbVAb6ZVUfy48Pc",
+          "doxcn1VPtAr1xg0s1rrQ3Ls9WOh"
+        ],
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "quote_container": {}
+      },
+      {
+        "block_id": "doxcncuEuS9dBbVAb6ZVUfy48Pc",
+        "block_type": 2,
+        "parent_id": "doxcnHtucVdJUJ1gytN32ekqTqd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": " 📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn1VPtAr1xg0s1rrQ3Ls9WOh",
+        "block_type": 2,
+        "parent_id": "doxcnHtucVdJUJ1gytN32ekqTqd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the above code snippet, the index of the collection has been created along with the collection, indicating that the collection is loaded upon creation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcniTu3pxQgNcEmHCTksYV558",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "List Partitions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcnCJPwc6OaL2iWhBqYwUrRdb",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once a collection is ready, you can list its partitions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnxOko36WZlJ9HFer1YQw2Lf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 3. List partitions\nres = client.list_partitions(collection_name=\"quick_setup\")\nprint(res)\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# [\"_default\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcn7Qcqh7BGiFLAJu1lLhWxYd",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The output of the above code snippet is a list of strings, stating the names of the partitions within the specified collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnWnnF8iFAuqGuarNF8w75YL",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create Partitions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcnWhoMu8WZejGEidzHuwEPCf",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can add more partitions to the collection. A collection can have up to 64 partitions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnjpZptJQZcTacSbuxXBMppb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 4. Create more partitions\nclient.create_partition(\n    collection_name=\"quick_setup\",\n    partition_name=\"partitionA\"\n)\n\nclient.create_partition(\n    collection_name=\"quick_setup\",\n    partition_name=\"partitionB\"\n)\n\nres = client.list_partitions(collection_name=\"quick_setup\")\nprint(res)\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# [\"_default\", \"partitionA\", \"partitionB\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcni3PyQgqH5kGinkUOxTlHLg",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The code snippet above creates a partition in a collection and lists the partitions of the collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnGSNxkyxFycpkSiaqyxFREd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Check for a Specific Partition",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcnm01gUqww4AOlecXXR8zz2b",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can also check the existence of a specific partition.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnCu2cS6Z7cNcKXSsLlj2lRe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 5. Check whether a partition exists\nres = client.has_partition(\n    collection_name=\"quick_setup\",\n    partition_name=\"partitionA\"\n)\nprint(res)\n\n# Output\n#\n# True\n\nres = client.has_partition(\n    collection_name=\"quick_setup\",\n    partition_name=\"partitionC\"\n)\nprint(res)\n\n# Output\n#\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# False",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcnqQWpC2wQoiAMQGPTxMUuXg",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The code snippet above checks whether the collection has a partition named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "partitionA",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "partitionC",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnTrtgjfvF6K5ISJ26xoajmf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Load & Release Partitions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcnqPXUg9UsEmzqwKsFMyDsOf",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can load and release specific partitions to make them available or unavailable for searches and queries. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnfvbpKk8EHxnemTeukiX8Rc",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Get Load Status",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcnT2WBsj0UJQmVnryUUAlU2d",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To check the load status of a collection and its partitions, do as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnUMMkXqXXPMSLykk5nFtpRe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Release the collection\nclient.release_collection(collection_name=\"quick_setup\")\n\n# Check the load status\nres = client.get_load_state(collection_name=\"quick_setup\")\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: NotLoad>\"\n# }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcnjtNioNNi5QLq1StdPA7WTe",
+        "block_type": 34,
+        "children": [
+          "doxcnVJ9B4WLFeL9S793KwTlq2f",
+          "doxcnw9BigRLj4EzvTaZoI6ywVg",
+          "doxcnBUimkI98UJFr7tQ5tKx2th",
+          "doxcnEi7qqyEuOftmnPDf4kC5lg",
+          "doxcnl8fiWH9vfvNBT2bFNPbcYc"
+        ],
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "quote_container": {}
+      },
+      {
+        "block_id": "doxcnVJ9B4WLFeL9S793KwTlq2f",
+        "block_type": 2,
+        "parent_id": "doxcnjtNioNNi5QLq1StdPA7WTe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnw9BigRLj4EzvTaZoI6ywVg",
+        "block_type": 2,
+        "parent_id": "doxcnjtNioNNi5QLq1StdPA7WTe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Possible outputs are as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnBUimkI98UJFr7tQ5tKx2th",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Loaded",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcnYcKxjfVroU35MXEEFqk8kb"
+        ],
+        "parent_id": "doxcnjtNioNNi5QLq1StdPA7WTe"
+      },
+      {
+        "block_id": "doxcnYcKxjfVroU35MXEEFqk8kb",
+        "block_type": 2,
+        "parent_id": "doxcnBUimkI98UJFr7tQ5tKx2th",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A collection is marked as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Loaded",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " if at least one of its partitions has been loaded.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnEi7qqyEuOftmnPDf4kC5lg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Not Loaded",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcnSXJKgiAmssQFbeULkjGoDc"
+        ],
+        "parent_id": "doxcnjtNioNNi5QLq1StdPA7WTe"
+      },
+      {
+        "block_id": "doxcnSXJKgiAmssQFbeULkjGoDc",
+        "block_type": 2,
+        "parent_id": "doxcnEi7qqyEuOftmnPDf4kC5lg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A collection is marked as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Not Loaded",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " if none of its partitions has been loaded.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnl8fiWH9vfvNBT2bFNPbcYc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Loading",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcnwzdKiPRb9OUYJKHshOWCNh"
+        ],
+        "parent_id": "doxcnjtNioNNi5QLq1StdPA7WTe"
+      },
+      {
+        "block_id": "doxcnwzdKiPRb9OUYJKHshOWCNh",
+        "block_type": 2,
+        "parent_id": "doxcnl8fiWH9vfvNBT2bFNPbcYc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A collection is marked as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Loading",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " if at least one of its partitions is in the loading process.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcndikg9OPbyRiyx0SYDKGCqd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Load Partitions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcn8PB6ZRwsjtIFs7l78eVlmd",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To load all partitions of a collection, you can just call ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "load_collection()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". To load specific partitions of a collection, do as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnn53U7om2cYYtBqrpt8Xt4f",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "client.load_partitions(\n    collection_name=\"quick_setup\",\n    partition_names=[\"partitionA\"]\n)\n\nres = client.get_load_state(collection_name=\"quick_setup\")\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: Loaded>\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcnkaC4nq4C57K0JIXQb9uSld",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To load multiple partitions at a time, do as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcngdABZj5b3ZhcrEmj5sKjtc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "client.load_partitions(\n    collection_name=\"medium_articles_2020\",\n    partition_names=[\"_default\", \"partitionA\"]\n)\n\nres = client.get_load_status(\n    collection_name=\"quick_setup\",\n)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: NotLoad>\"\n# }\n\nres = client.get_load_status(\n    collection_name=\"medium_articles_2020\",\n    partition_name=\"_default\"\n)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: Loaded>\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "indentation_level": "NoIndent",
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcncT5bMsAjgfWM8jIYOudHRd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Release Partitions",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcnTTOKpG0rBGmi1Kao0tEEYf",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To release all partitions of a collection, you can just call ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "release_collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". To release specific partitions of a collection, do as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnepy5x6CWF5cZTjBSjhmYih",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# 7. Release a partition\nclient.release_partitions(\n    collection_name=\"quick_setup\",\n    partition_names=[\"partitionA\"]\n)\n\nres = client.get_load_state(collection_name=\"quick_setup\", partition_name=\"partitionA\")\nprint(res)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: NotLoad>\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcn7yl2kTeSRFpIXwROVqwUPg",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To release multiple partitions at a time, do as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnWUefiLRrRjlmzxpMWlj8Th",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "client.release_partitions(\n    collection_name=\"medium_articles_2020\",\n    partition_names=[\"_default\", \"partitionA\", \"partitionB\"]\n)\n\nres = client.get_load_status(\n    collection_name=\"medium_articles_2020\",\n)\n\n# Output\n#\n# {\n#     \"state\": \"<LoadState: NotLoad>\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# }",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "indentation_level": "NoIndent",
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg"
+      },
+      {
+        "block_id": "doxcnnaPZDTnS7ZiK8OCMbdPeqe",
+        "block_type": 2,
+        "parent_id": "KZmCd5PowoMnrzxdssKcbDPanqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 53
+  }
+}

@@ -3,7 +3,7 @@ slug: /faq-integrations
 beta: null
 notebook: null
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
-sidebar_position: 14
+sidebar_position: 13
 ---
 
 # FAQ: Integrations
