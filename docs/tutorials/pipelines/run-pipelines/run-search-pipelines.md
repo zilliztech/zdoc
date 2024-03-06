@@ -41,8 +41,8 @@ curl --request POST \
       "params":{
           "limit": 1,
           "offset": 0,
-          "outputFields": [ "chunk_text", "chunk_id", "doc_name" ],
-          "filter": "chunk_id >= 0", 
+          "outputFields": [ "chunk_text", "id", "doc_name" ],
+          "filter": "id >= 0", 
       }
     }'
 
@@ -63,7 +63,7 @@ The parameters in the above code are described as follows:
     - `offset`: The number of entities to skip in the search results.
 The sum of this value and that of `limit` should not be greater than **1024**.The maximum value is **1024**.
 
-    - `outputFields`: An array of fields to return along with the search results.
+    - `outputFields`: An array of fields to return along with the search results. `id`, `distance`, and `chunk_text`are default output fields.
 
     - `filter`: The [filter](./search-query-and-get#search-with-filters) in boolean expression used to find matches for the search
 

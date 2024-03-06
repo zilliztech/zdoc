@@ -5,7 +5,7 @@
   "node_token": "JQDDwqHi3i47jAkybnCcgNt6nSe",
   "node_type": "origin",
   "obj_create_time": "1706261074",
-  "obj_edit_time": "1707286056",
+  "obj_edit_time": "1709619894",
   "obj_token": "Bvlndb45JoworixJokocT55Znke",
   "obj_type": "docx",
   "origin_node_token": "JQDDwqHi3i47jAkybnCcgNt6nSe",
@@ -523,7 +523,7 @@
             },
             {
               "text_run": {
-                "content": "          \"outputFields\": [ \"chunk_text\", \"chunk_id\", \"doc_name\" ],",
+                "content": "          \"outputFields\": [ \"chunk_text\", \"id\", \"doc_name\" ],",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -550,7 +550,7 @@
             },
             {
               "text_run": {
-                "content": "          \"filter\": \"chunk_id >= 0\", ",
+                "content": "          \"filter\": \"id >= 0\", ",
                 "text_element_style": {
                   "bold": false,
                   "comment_ids": [
@@ -1162,7 +1162,82 @@
             },
             {
               "text_run": {
-                "content": ": An array of fields to return along with the search results.",
+                "content": ": An array of fields to return along with the search results. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7342757950697979907"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "distance",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "chunk_text",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "are default output fields. ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1178,6 +1253,9 @@
             "folded": false
           }
         },
+        "comment_ids": [
+          "7342757950697979907"
+        ],
         "parent_id": "Ga7vdNAjAoXjYIxEKg0cxQgQnYg"
       },
       {
