@@ -5,7 +5,7 @@
   "node_token": "MIqTw7iJ4iQAtVkYKiEc98a7nsh",
   "node_type": "origin",
   "obj_create_time": "1694744188",
-  "obj_edit_time": "1705045745",
+  "obj_edit_time": "1709867757",
   "obj_token": "HCCVdW5mEoMctyxgxPRc0hE3n5f",
   "obj_type": "docx",
   "origin_node_token": "MIqTw7iJ4iQAtVkYKiEc98a7nsh",
@@ -51,6 +51,7 @@
           "CplIdT2oAo22aGxKh69c7O4GnQc",
           "SeiUdlxfsoWMsHxzIEfc5ADBnSV",
           "Kz8HdYLzloBwjgx11XCcEvjcn7g",
+          "JQNYd7vPRoTUR9xBuCecuUNpnFe",
           "AhZfdoxMdoXU9jxKbwnceW2fnnh",
           "YiJDdTyKWoaQBax6grgcfOxxnTd",
           "DJQqdDFfqo2MVOxUIf6cRCzqnHd",
@@ -58,6 +59,7 @@
           "FdLHdt5HKoks6JxgNN9cNBZ9nSc",
           "KDSvdfXpXooMEOxyUcqchfm8nTb",
           "BKiyd7dCEolVPHxOXWgcrMH0nAh",
+          "XTAXdkgujoBBLmxCOgacIatun8e",
           "OyHUd69yjonSuGxc1cdcWSiKnPh"
         ],
         "page": {
@@ -596,7 +598,8 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": false,
+            "indentation_level": "NoIndent"
           }
         }
       },
@@ -964,7 +967,8 @@
           ],
           "style": {
             "align": 1,
-            "folded": false
+            "folded": false,
+            "indentation_level": "NoIndent"
           }
         }
       },
@@ -1516,6 +1520,9 @@
       {
         "block_id": "HY0Md1ENyoFZ2bxUk1lcDzaVnyg",
         "block_type": 13,
+        "children": [
+          "Ie3ndyGv6oMNO5xpAELcsrxfntb"
+        ],
         "ordered": {
           "elements": [
             {
@@ -1564,6 +1571,66 @@
           }
         },
         "parent_id": "HCCVdW5mEoMctyxgxPRc0hE3n5f"
+      },
+      {
+        "block_id": "Ie3ndyGv6oMNO5xpAELcsrxfntb",
+        "block_type": 34,
+        "children": [
+          "BLnkdZalGonb42xtphCcvm0knSx",
+          "QC1Vdq4rwoSmIVxvqcGcI5hmnMh"
+        ],
+        "parent_id": "HY0Md1ENyoFZ2bxUk1lcDzaVnyg",
+        "quote_container": {}
+      },
+      {
+        "block_id": "BLnkdZalGonb42xtphCcvm0knSx",
+        "block_type": 2,
+        "parent_id": "Ie3ndyGv6oMNO5xpAELcsrxfntb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Note",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QC1Vdq4rwoSmIVxvqcGcI5hmnMh",
+        "block_type": 2,
+        "parent_id": "Ie3ndyGv6oMNO5xpAELcsrxfntb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When updating GCP Marketplace subscription, you must click the Manage on Provider button to link your new subscription with Zilliz Cloud organization.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "B0hFdLmlAoOuBjx21dRcWDTtnRe",
@@ -1934,6 +2001,90 @@
         "parent_id": "HCCVdW5mEoMctyxgxPRc0hE3n5f"
       },
       {
+        "block_id": "JQNYd7vPRoTUR9xBuCecuUNpnFe",
+        "block_type": 34,
+        "children": [
+          "R93Jd0K9TodH8XxeIoGcLGWrnRe",
+          "ParZdQaYio3H9mxXRg1cCAGhnNd"
+        ],
+        "parent_id": "HCCVdW5mEoMctyxgxPRc0hE3n5f",
+        "quote_container": {}
+      },
+      {
+        "block_id": "R93Jd0K9TodH8XxeIoGcLGWrnRe",
+        "block_type": 2,
+        "parent_id": "JQNYd7vPRoTUR9xBuCecuUNpnFe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Note",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ParZdQaYio3H9mxXRg1cCAGhnNd",
+        "block_type": 2,
+        "parent_id": "JQNYd7vPRoTUR9xBuCecuUNpnFe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can subscribe to ou",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "r",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " service in GCP Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "AhZfdoxMdoXU9jxKbwnceW2fnnh",
         "block_type": 12,
         "bullet": {
@@ -1986,7 +2137,15 @@
           "WXB1dxN6Io8owpxKyjMcuw9pnbf",
           "JhxNdrycWogY8vxCkHrcsVD1nwg",
           "TETbdDuHeo1ZglxWeYGcU8XSnLd",
-          "XkBLda6ZMoJPsTxtxKrc4zM5ndd"
+          "XkBLda6ZMoJPsTxtxKrc4zM5ndd",
+          "IdG6dDNE1oFzr4xjjmPcz3JfnHw",
+          "BR4Zdm0kZoW54txnDsHcA5SpnKh",
+          "JbqGdI0pyousoAxsPpec42HPnW0",
+          "UeqVd2zOto3NMXx2MNEceJjJnEQ",
+          "D8lOdkl0hozh8Ex2oYEc83mbnnc",
+          "EA1Rdk0xrojV5axHjPIcQ7yzn2e",
+          "R95EdgoaEoFJjcx0NxVcWJq4n0c",
+          "GscGdinwdofQCjxnTwHcG0STn6f"
         ],
         "parent_id": "AhZfdoxMdoXU9jxKbwnceW2fnnh",
         "table": {
@@ -2012,7 +2171,15 @@
             "WXB1dxN6Io8owpxKyjMcuw9pnbf",
             "JhxNdrycWogY8vxCkHrcsVD1nwg",
             "TETbdDuHeo1ZglxWeYGcU8XSnLd",
-            "XkBLda6ZMoJPsTxtxKrc4zM5ndd"
+            "XkBLda6ZMoJPsTxtxKrc4zM5ndd",
+            "IdG6dDNE1oFzr4xjjmPcz3JfnHw",
+            "BR4Zdm0kZoW54txnDsHcA5SpnKh",
+            "JbqGdI0pyousoAxsPpec42HPnW0",
+            "UeqVd2zOto3NMXx2MNEceJjJnEQ",
+            "D8lOdkl0hozh8Ex2oYEc83mbnnc",
+            "EA1Rdk0xrojV5axHjPIcQ7yzn2e",
+            "R95EdgoaEoFJjcx0NxVcWJq4n0c",
+            "GscGdinwdofQCjxnTwHcG0STn6f"
           ],
           "property": {
             "column_size": 2,
@@ -2108,9 +2275,41 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 11
+            "row_size": 15
           }
         }
       },
@@ -2983,6 +3182,278 @@
         }
       },
       {
+        "block_id": "IdG6dDNE1oFzr4xjjmPcz3JfnHw",
+        "block_type": 32,
+        "children": [
+          "Lk7EdaZl1omd9pxHmv9cRqnWnjd"
+        ],
+        "parent_id": "Vr1RdbxdOoX4LfxF1jNc2aXSndb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Lk7EdaZl1omd9pxHmv9cRqnWnjd",
+        "block_type": 2,
+        "parent_id": "IdG6dDNE1oFzr4xjjmPcz3JfnHw",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 Azure performance-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BR4Zdm0kZoW54txnDsHcA5SpnKh",
+        "block_type": 32,
+        "children": [
+          "Bh3udKFAVocbcQxqrDBcpOGBnMb"
+        ],
+        "parent_id": "Vr1RdbxdOoX4LfxF1jNc2aXSndb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Bh3udKFAVocbcQxqrDBcpOGBnMb",
+        "block_type": 2,
+        "parent_id": "BR4Zdm0kZoW54txnDsHcA5SpnKh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.159 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JbqGdI0pyousoAxsPpec42HPnW0",
+        "block_type": 32,
+        "children": [
+          "Sw0Dd9fRVoGGYnxPXcpc6c8Hnkh"
+        ],
+        "parent_id": "Vr1RdbxdOoX4LfxF1jNc2aXSndb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Sw0Dd9fRVoGGYnxPXcpc6c8Hnkh",
+        "block_type": 2,
+        "parent_id": "JbqGdI0pyousoAxsPpec42HPnW0",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 Azure capacity-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UeqVd2zOto3NMXx2MNEceJjJnEQ",
+        "block_type": 32,
+        "children": [
+          "O8lTdWVCJo2C2cxqIOacPo4TnSd"
+        ],
+        "parent_id": "Vr1RdbxdOoX4LfxF1jNc2aXSndb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "O8lTdWVCJo2C2cxqIOacPo4TnSd",
+        "block_type": 2,
+        "parent_id": "UeqVd2zOto3NMXx2MNEceJjJnEQ",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.159 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D8lOdkl0hozh8Ex2oYEc83mbnnc",
+        "block_type": 32,
+        "children": [
+          "Xg54dwNcOoPYnTxVUFjcA2oUnUh"
+        ],
+        "parent_id": "Vr1RdbxdOoX4LfxF1jNc2aXSndb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Xg54dwNcOoPYnTxVUFjcA2oUnUh",
+        "block_type": 2,
+        "parent_id": "D8lOdkl0hozh8Ex2oYEc83mbnnc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GB for storage on Azure per month as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EA1Rdk0xrojV5axHjPIcQ7yzn2e",
+        "block_type": 32,
+        "children": [
+          "QMSKdEeryoxVkVx8k5JcEm5mnTc"
+        ],
+        "parent_id": "Vr1RdbxdOoX4LfxF1jNc2aXSndb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QMSKdEeryoxVkVx8k5JcEm5mnTc",
+        "block_type": 2,
+        "parent_id": "EA1Rdk0xrojV5axHjPIcQ7yzn2e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.025 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "R95EdgoaEoFJjcx0NxVcWJq4n0c",
+        "block_type": 32,
+        "children": [
+          "UjzndJUSBouPhVx5MSAcRYABnLs"
+        ],
+        "parent_id": "Vr1RdbxdOoX4LfxF1jNc2aXSndb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "UjzndJUSBouPhVx5MSAcRYABnLs",
+        "block_type": 2,
+        "parent_id": "R95EdgoaEoFJjcx0NxVcWJq4n0c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GB for backup service on Azure as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GscGdinwdofQCjxnTwHcG0STn6f",
+        "block_type": 32,
+        "children": [
+          "Iwfndw76VoJ0wMxliSWcx2Panve"
+        ],
+        "parent_id": "Vr1RdbxdOoX4LfxF1jNc2aXSndb",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Iwfndw76VoJ0wMxliSWcx2Panve",
+        "block_type": 2,
+        "parent_id": "GscGdinwdofQCjxnTwHcG0STn6f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.025 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "YiJDdTyKWoaQBax6grgcfOxxnTd",
         "block_type": 12,
         "bullet": {
@@ -3035,7 +3506,15 @@
           "MoWMd7mNfor7CYx5vb4co8uSnrD",
           "LfNXduS6hoW0VIxxzV5cqEIKnOe",
           "KYjGdpLgOoMMf7xmgzmc50e4noc",
-          "F5zWdcVFbo7hKZxg72UcEp4knah"
+          "F5zWdcVFbo7hKZxg72UcEp4knah",
+          "ZRSVdHXlMoUsLKxvmKLc4uM9nFe",
+          "Ub3Pd1mgYoMIbZxDy7PclnNVnef",
+          "Fgu7dYTvaobIVTx6j8dcXnc2nRd",
+          "FPkIdpoUNoa5h9xAjk7canEGnxb",
+          "RE3Yd3rkzo1DjSxVcE1cIOUEnFw",
+          "WPEbdGdfRolLelx2M6AcyHJ5nfi",
+          "AnP4dK3eIoaji4ximz0ckG5On42",
+          "KqzndYdJzojfMLxD4nmcOgvkngb"
         ],
         "parent_id": "YiJDdTyKWoaQBax6grgcfOxxnTd",
         "table": {
@@ -3061,7 +3540,15 @@
             "MoWMd7mNfor7CYx5vb4co8uSnrD",
             "LfNXduS6hoW0VIxxzV5cqEIKnOe",
             "KYjGdpLgOoMMf7xmgzmc50e4noc",
-            "F5zWdcVFbo7hKZxg72UcEp4knah"
+            "F5zWdcVFbo7hKZxg72UcEp4knah",
+            "ZRSVdHXlMoUsLKxvmKLc4uM9nFe",
+            "Ub3Pd1mgYoMIbZxDy7PclnNVnef",
+            "Fgu7dYTvaobIVTx6j8dcXnc2nRd",
+            "FPkIdpoUNoa5h9xAjk7canEGnxb",
+            "RE3Yd3rkzo1DjSxVcE1cIOUEnFw",
+            "WPEbdGdfRolLelx2M6AcyHJ5nfi",
+            "AnP4dK3eIoaji4ximz0ckG5On42",
+            "KqzndYdJzojfMLxD4nmcOgvkngb"
           ],
           "property": {
             "column_size": 2,
@@ -3157,9 +3644,41 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 11
+            "row_size": 15
           }
         }
       },
@@ -4032,6 +4551,278 @@
         }
       },
       {
+        "block_id": "ZRSVdHXlMoUsLKxvmKLc4uM9nFe",
+        "block_type": 32,
+        "children": [
+          "VXOsdUV8roofTDxTf5LccB0AnzH"
+        ],
+        "parent_id": "E3wXdT7USoFMqFxrtAOcVXlynxh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "VXOsdUV8roofTDxTf5LccB0AnzH",
+        "block_type": 2,
+        "parent_id": "ZRSVdHXlMoUsLKxvmKLc4uM9nFe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 Azure performance-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ub3Pd1mgYoMIbZxDy7PclnNVnef",
+        "block_type": 32,
+        "children": [
+          "WfE6d0KIvoh7QLx5nHYchxT2nGh"
+        ],
+        "parent_id": "E3wXdT7USoFMqFxrtAOcVXlynxh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "WfE6d0KIvoh7QLx5nHYchxT2nGh",
+        "block_type": 2,
+        "parent_id": "Ub3Pd1mgYoMIbZxDy7PclnNVnef",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.248 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Fgu7dYTvaobIVTx6j8dcXnc2nRd",
+        "block_type": 32,
+        "children": [
+          "UCeLdL6s8o25pMxUFw7ctTz7nhg"
+        ],
+        "parent_id": "E3wXdT7USoFMqFxrtAOcVXlynxh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "UCeLdL6s8o25pMxUFw7ctTz7nhg",
+        "block_type": 2,
+        "parent_id": "Fgu7dYTvaobIVTx6j8dcXnc2nRd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 Azure capacity-optimized CU per hour as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FPkIdpoUNoa5h9xAjk7canEGnxb",
+        "block_type": 32,
+        "children": [
+          "IWUKdkEcYoqbkLx1GK0cBWuQnah"
+        ],
+        "parent_id": "E3wXdT7USoFMqFxrtAOcVXlynxh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "IWUKdkEcYoqbkLx1GK0cBWuQnah",
+        "block_type": 2,
+        "parent_id": "FPkIdpoUNoa5h9xAjk7canEGnxb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.248 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RE3Yd3rkzo1DjSxVcE1cIOUEnFw",
+        "block_type": 32,
+        "children": [
+          "MtkkdvaMcohx6txM5Q3cnDTansc"
+        ],
+        "parent_id": "E3wXdT7USoFMqFxrtAOcVXlynxh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "MtkkdvaMcohx6txM5Q3cnDTansc",
+        "block_type": 2,
+        "parent_id": "RE3Yd3rkzo1DjSxVcE1cIOUEnFw",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GB for storage on Azure per month as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WPEbdGdfRolLelx2M6AcyHJ5nfi",
+        "block_type": 32,
+        "children": [
+          "Hsj6d7uCHocwFQxseejcLjzJntg"
+        ],
+        "parent_id": "E3wXdT7USoFMqFxrtAOcVXlynxh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Hsj6d7uCHocwFQxseejcLjzJntg",
+        "block_type": 2,
+        "parent_id": "WPEbdGdfRolLelx2M6AcyHJ5nfi",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.025 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AnP4dK3eIoaji4ximz0ckG5On42",
+        "block_type": 32,
+        "children": [
+          "XF2tdoaA2oVGBrxpzyBcO4Fanfb"
+        ],
+        "parent_id": "E3wXdT7USoFMqFxrtAOcVXlynxh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "XF2tdoaA2oVGBrxpzyBcO4Fanfb",
+        "block_type": 2,
+        "parent_id": "AnP4dK3eIoaji4ximz0ckG5On42",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "1 GB for backup service on Azure as one unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KqzndYdJzojfMLxD4nmcOgvkngb",
+        "block_type": 32,
+        "children": [
+          "GnfEdVH53oQbqqxpdILcltxAnFh"
+        ],
+        "parent_id": "E3wXdT7USoFMqFxrtAOcVXlynxh",
+        "table_cell": {}
+      },
+      {
+        "block_id": "GnfEdVH53oQbqqxpdILcltxAnFh",
+        "block_type": 2,
+        "parent_id": "KqzndYdJzojfMLxD4nmcOgvkngb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "$0.025 / unit",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "DJQqdDFfqo2MVOxUIf6cRCzqnHd",
         "block_type": 2,
         "parent_id": "HCCVdW5mEoMctyxgxPRc0hE3n5f",
@@ -4241,6 +5032,34 @@
         "parent_id": "HCCVdW5mEoMctyxgxPRc0hE3n5f"
       },
       {
+        "block_id": "XTAXdkgujoBBLmxCOgacIatun8e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Subscribe on Azure Marketplace",
+                "token": "LbFXwpruviFWWokwtkhcVmnhnFh",
+                "url": "https://zilliverse.feishu.cn/wiki/LbFXwpruviFWWokwtkhcVmnhnFh"
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HCCVdW5mEoMctyxgxPRc0hE3n5f"
+      },
+      {
         "block_id": "OyHUd69yjonSuGxc1cdcWSiKnPh",
         "block_type": 12,
         "bullet": {
@@ -4284,6 +5103,6 @@
         "parent_id": "HCCVdW5mEoMctyxgxPRc0hE3n5f"
       }
     ],
-    "counts": 150
+    "counts": 189
   }
 }

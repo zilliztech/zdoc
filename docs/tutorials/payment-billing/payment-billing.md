@@ -23,17 +23,18 @@ In order to manage payment and billing, you need to be an **Organization Owner**
 
 ### Payment options{#payment-options}
 
-|  **Payment method**           |  **Description**                                                                                                                                                |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  Credits                      |  You earn credits upon registration or by participating in Zilliz Cloud events, etc. Credits can be used to cover the expenses of using Zilliz Cloud services.  |
-|  Credit card                  |  You receive a monthly invoice for your usage on Zilliz Cloud.                                                                                                  |
-|  AWS Marketplace subscription |  You receive invoices for your Zilliz Cloud usage through the AWS Marketplace.                                                                                  |
-|  GCP Marketplace subscription |  You receive invoices for your Zilliz Cloud usage through the GCP Marketplace.                                                                                  |
-|  Advance Pay                  |  You prepay a sum of funds for Zilliz Cloud services.                                                                                                           |
+|  **Payment method**             |  **Description**                                                                                                                                                |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  Credits                        |  You earn credits upon registration or by participating in Zilliz Cloud events, etc. Credits can be used to cover the expenses of using Zilliz Cloud services.  |
+|  Credit card                    |  You receive a monthly invoice for your usage on Zilliz Cloud.                                                                                                  |
+|  AWS Marketplace subscription   |  You receive invoices for your Zilliz Cloud usage through the AWS Marketplace.                                                                                  |
+|  GCP Marketplace subscription   |  You receive invoices for your Zilliz Cloud usage through the GCP Marketplace.                                                                                  |
+|  Azure Marketplace subscription |  You receive invoices for your Zilliz Cloud usage through the Azure Marketplace.                                                                                |
+|  Advance Pay                    |  You prepay a sum of funds for Zilliz Cloud services.                                                                                                           |
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Credits and Advance Pay can be combined with either a credit card or a Marketplace subscription (AWS/GCP). However, it is not possible to set both a credit card and a Marketplace subscription simultaneously.
+Credits and Advance Pay can be combined with either a credit card or a Marketplace subscription (AWS/GCP/Azure). However, it is not possible to set both a credit card and a Marketplace subscription simultaneously.
 
 </Admonition>
 
@@ -45,7 +46,7 @@ If multiple payment methods are in use, their priority is as follows:
 
 1. Advance Pay funds
 
-1. Credit card / AWS Marketplace subscription / GCP Marketplace subscription
+1. Credit card / AWS Marketplace subscription / GCP Marketplace subscription / Azure Marketplace subscription.
 
 **Example: **For a $500 unpaid bill, with $100 in credits and $200 in Advance Pay funds available, plus a linked credit card:
 
@@ -61,7 +62,7 @@ Zilliz Cloud offers flexibility in switching between different payment methods:
 
 #### From credit card to Marketplace subscription{#from-credit-card-to-marketplace-subscription}
 
-- Subscribe directly on the [AWS](./subscribe-on-aws-marketplace) or [GCP](./subscribe-on-gcp-marketplace) Marketplace.
+- Subscribe directly on the [AWS](./subscribe-on-aws-marketplace) or [GCP](./subscribe-on-gcp-marketplace) or [Azure](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview) Marketplace.
 
 - No need to manually remove your credit card.
 
@@ -69,7 +70,7 @@ Zilliz Cloud offers flexibility in switching between different payment methods:
 
 #### From Marketplace subscription to credit card{#from-marketplace-subscription-to-credit-card}
 
-- Unsubscribe manually from the original [AWS](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription) or [GCP](./subscribe-on-gcp-marketplace#cancel-gcp-marketplace-subscription) Marketplace.
+- Unsubscribe manually from the original [AWS](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription) or [GCP](./subscribe-on-gcp-marketplace#cancel-gcp-marketplace-subscription) or [Azure](./subscribe-on-azure-marketplace) Marketplace.
 
 - [Add your credit card](./subscribe-by-adding-credit-card) on the Zilliz Cloud web console.
 
@@ -77,9 +78,9 @@ Zilliz Cloud offers flexibility in switching between different payment methods:
 
 - Unsubscribe from the current Marketplace.
 
-- Resubscribe using the new [AWS](./subscribe-on-aws-marketplace) or [GCP](./subscribe-on-gcp-marketplace) Marketplace account.
+- Resubscribe using the new [AWS](./subscribe-on-aws-marketplace) or [GCP](./subscribe-on-gcp-marketplace) or [Azure](./subscribe-on-azure-marketplace) Marketplace account.
 
-## Contents{#contents}
+
 
 import DocCardList from '@theme/DocCardList';
 

@@ -4,7 +4,7 @@ sidebar_label: Invoice
 beta: FALSE
 notebook: FALSE
 token: PBEbwjRu9iyyaFkZnuzcINHCnke
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 import Admonition from '@theme/Admonition';

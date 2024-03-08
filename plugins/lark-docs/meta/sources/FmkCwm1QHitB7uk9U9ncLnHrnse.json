@@ -5,7 +5,7 @@
   "node_token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
   "node_type": "origin",
   "obj_create_time": "1689059641",
-  "obj_edit_time": "1708758075",
+  "obj_edit_time": "1709864732",
   "obj_token": "T1JedzGx9oVUcpxdjX7c6SmanqX",
   "obj_type": "docx",
   "origin_node_token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
@@ -265,6 +265,8 @@
           "AzDCdidSYodDgDxveEpcHoatnuf",
           "GOBzdNUiYooJUAxOHJPcg8q4npb",
           "FQcvdd507oBQ8FxCZwFctZmAnLb",
+          "SaJrdqEIqoj0NoxaUFvcx3mTnmg",
+          "HjrId8vnDo3ci9xJqwAcf5D4ncS",
           "IlECdpHbNoxIKvxv68rcHfn2n3e",
           "VYahdYOs0oVQgBxmQWEcSwE6nkd"
         ],
@@ -281,6 +283,8 @@
             "AzDCdidSYodDgDxveEpcHoatnuf",
             "GOBzdNUiYooJUAxOHJPcg8q4npb",
             "FQcvdd507oBQ8FxCZwFctZmAnLb",
+            "SaJrdqEIqoj0NoxaUFvcx3mTnmg",
+            "HjrId8vnDo3ci9xJqwAcf5D4ncS",
             "IlECdpHbNoxIKvxv68rcHfn2n3e",
             "VYahdYOs0oVQgBxmQWEcSwE6nkd"
           ],
@@ -338,9 +342,17 @@
               {
                 "col_span": 1,
                 "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
               }
             ],
-            "row_size": 6
+            "row_size": 7
           }
         }
       },
@@ -757,6 +769,74 @@
         }
       },
       {
+        "block_id": "SaJrdqEIqoj0NoxaUFvcx3mTnmg",
+        "block_type": 32,
+        "children": [
+          "TDEBdESygo8VvoxvZ1UcseAonxg"
+        ],
+        "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "TDEBdESygo8VvoxvZ1UcseAonxg",
+        "block_type": 2,
+        "parent_id": "SaJrdqEIqoj0NoxaUFvcx3mTnmg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Azure Marketplace subscription",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HjrId8vnDo3ci9xJqwAcf5D4ncS",
+        "block_type": 32,
+        "children": [
+          "U9BJd5Y6zoIuXJxtnxYcKrpxnSd"
+        ],
+        "parent_id": "L8h8d3UZsomIjYxOMmucCBNTnpf",
+        "table_cell": {}
+      },
+      {
+        "block_id": "U9BJd5Y6zoIuXJxtnxYcKrpxnSd",
+        "block_type": 2,
+        "parent_id": "HjrId8vnDo3ci9xJqwAcf5D4ncS",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You receive invoices for your Zilliz Cloud usage through the Azure Marketplace.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "IlECdpHbNoxIKvxv68rcHfn2n3e",
         "block_type": 32,
         "children": [
@@ -891,7 +971,7 @@
             },
             {
               "text_run": {
-                "content": "/GCP). However, it is not possible to set both a credit card and a Marketplace subscription simultaneously.",
+                "content": "/GCP/Azure). However, it is not possible to set both a credit card and a Marketplace subscription simultaneously.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1064,7 +1144,7 @@
             },
             {
               "text_run": {
-                "content": " Marketplace subscription / GCP Marketplace subscription",
+                "content": " Marketplace subscription / GCP Marketplace subscription / Azure Marketplace subscription.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1330,6 +1410,33 @@
             },
             {
               "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Azure",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fazuremarketplace.microsoft.com%2Fen-us%2Fmarketplace%2Fapps%2Fzillizinc1703056661329.zilliz_cloud%3Ftab%3DOverview"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
                 "content": " Marketplace.",
                 "text_element_style": {
                   "bold": false,
@@ -1476,6 +1583,33 @@
                   "italic": false,
                   "link": {
                     "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FMIqTw7iJ4iQAtVkYKiEc98a7nsh%3Fchunked%3Dfalse%23CplIdT2oAo22aGxKh69c7O4GnQc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Azure",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FLbFXwpruviFWWokwtkhcVmnhnFh"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -1653,6 +1787,33 @@
             },
             {
               "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Azure",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FLbFXwpruviFWWokwtkhcVmnhnFh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
                 "content": " Marketplace account.",
                 "text_element_style": {
                   "bold": false,
@@ -1672,7 +1833,7 @@
         "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
       }
     ],
-    "counts": 57
+    "counts": 61
   },
   "children": [
     {
@@ -1700,7 +1861,7 @@
       "node_token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
       "node_type": "origin",
       "obj_create_time": "1689062622",
-      "obj_edit_time": "1705995008",
+      "obj_edit_time": "1709864611",
       "obj_token": "G0qudBnqjoxXb6xywOjcLtBhnTb",
       "obj_type": "docx",
       "origin_node_token": "LDlOweEzmiLkdQkvPFec5lrcnbf",
@@ -1718,7 +1879,7 @@
       "node_token": "MIqTw7iJ4iQAtVkYKiEc98a7nsh",
       "node_type": "origin",
       "obj_create_time": "1694744188",
-      "obj_edit_time": "1709635320",
+      "obj_edit_time": "1709864655",
       "obj_token": "HCCVdW5mEoMctyxgxPRc0hE3n5f",
       "obj_type": "docx",
       "origin_node_token": "MIqTw7iJ4iQAtVkYKiEc98a7nsh",
@@ -1736,7 +1897,7 @@
       "node_token": "LbFXwpruviFWWokwtkhcVmnhnFh",
       "node_type": "origin",
       "obj_create_time": "1709634160",
-      "obj_edit_time": "1709691995",
+      "obj_edit_time": "1709864312",
       "obj_token": "Sx56dqIsworbtgxeVDscO80nn3b",
       "obj_type": "docx",
       "origin_node_token": "LbFXwpruviFWWokwtkhcVmnhnFh",
