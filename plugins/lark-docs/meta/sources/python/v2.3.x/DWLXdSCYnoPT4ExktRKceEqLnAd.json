@@ -1,6 +1,6 @@
 {
   "created_time": "1704884342",
-  "modified_time": "1709264231",
+  "modified_time": "1709805356",
   "name": "delete()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "ZA7LfYxQHltI94dGs2Fc62AvnSh",
@@ -488,7 +488,7 @@
             },
             {
               "text_run": {
-                "content": ", indicating that a scalar filtering condition applies.  Setting both ",
+                "content": ", indicating that a scalar filtering condition applies. Setting both ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

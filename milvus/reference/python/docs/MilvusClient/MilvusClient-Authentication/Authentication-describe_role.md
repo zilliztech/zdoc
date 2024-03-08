@@ -117,16 +117,21 @@ client.grant_privilege(
 # 3. Describe the role
 client.describe_role(role_name="read_only")
 
-# [
-#     {
-#        'object_type': 'Global', 
-#        'object_name': '*', 
-#        'db_name': 'default', 
-#        'role_name': 'read_only', 
-#        'privilege': 'DescribeCollection', 
-#        'grantor_name': 'root'
-#    }
-# ]
+# Output
+#
+# {
+#     "role": "read_only",
+#     "privileges": [
+#         {
+#             "object_type": "Global",
+#             "object_name": "*",
+#             "db_name": "default",
+#             "role_name": "read_only",
+#             "privilege": "DescribeCollection",
+#             "grantor_name": "root"
+#         }
+#     ]
+# }
 ```
 
 ## Related methods{#related-methods}

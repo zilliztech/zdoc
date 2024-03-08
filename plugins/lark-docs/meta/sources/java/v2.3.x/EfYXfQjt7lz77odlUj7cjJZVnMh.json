@@ -10,26 +10,6 @@
   "slug": "Collections-CollectionSchema",
   "children": [
     {
-      "created_time": "1709027573",
-      "modified_time": "1709200075",
-      "name": "\naddScalarField()",
-      "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
-      "parent_token": "EfYXfQjt7lz77odlUj7cjJZVnMh",
-      "token": "UydVdfQtroGMHaxjvEdcEe5Nnng",
-      "type": "docx",
-      "url": "https://zilliverse.feishu.cn/docx/UydVdfQtroGMHaxjvEdcEe5Nnng"
-    },
-    {
-      "created_time": "1709027627",
-      "modified_time": "1709200118",
-      "name": "\naddVectorField()",
-      "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
-      "parent_token": "EfYXfQjt7lz77odlUj7cjJZVnMh",
-      "token": "ZqxddbCEzoxibpx4KqdcuTd8nLf",
-      "type": "docx",
-      "url": "https://zilliverse.feishu.cn/docx/ZqxddbCEzoxibpx4KqdcuTd8nLf"
-    },
-    {
       "created_time": "1709027485",
       "modified_time": "1709200167",
       "name": "addPrimaryField()",
@@ -40,8 +20,28 @@
       "url": "https://zilliverse.feishu.cn/docx/Ld6Qdvc5doyc4tx4R6ocWNBinUb"
     },
     {
+      "created_time": "1709027573",
+      "modified_time": "1709881028",
+      "name": "addScalarField()",
+      "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_token": "EfYXfQjt7lz77odlUj7cjJZVnMh",
+      "token": "UydVdfQtroGMHaxjvEdcEe5Nnng",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/UydVdfQtroGMHaxjvEdcEe5Nnng"
+    },
+    {
+      "created_time": "1709027627",
+      "modified_time": "1709881033",
+      "name": "addVectorField()",
+      "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
+      "parent_token": "EfYXfQjt7lz77odlUj7cjJZVnMh",
+      "token": "ZqxddbCEzoxibpx4KqdcuTd8nLf",
+      "type": "docx",
+      "url": "https://zilliverse.feishu.cn/docx/ZqxddbCEzoxibpx4KqdcuTd8nLf"
+    },
+    {
       "created_time": "1709007388",
-      "modified_time": "1709176955",
+      "modified_time": "1709880603",
       "name": "CollectionSchema",
       "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
       "parent_token": "EfYXfQjt7lz77odlUj7cjJZVnMh",

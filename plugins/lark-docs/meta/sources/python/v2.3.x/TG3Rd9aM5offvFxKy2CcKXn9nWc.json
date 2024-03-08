@@ -1,6 +1,6 @@
 {
   "created_time": "1704186662",
-  "modified_time": "1709111492",
+  "modified_time": "1709634784",
   "name": "add_field()",
   "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_token": "SeaffVvutlNtvTdpV17cy78un5T",
@@ -22,7 +22,9 @@
           "SClzdIRVWotT8qx9PDucMTq1nze",
           "XU7KdLjNvoAoASxlyDFc1ZVKnCf",
           "PF4adTwoqoO65xxQSiocyVPgnje",
+          "ZO1odljqVoNjG3xT18gcDEX4nFh",
           "MQWjdEmJuo88GzxZbMAcSHkLnpf",
+          "S8zcdgqmxod8NVxLQSlceNjFnl1",
           "DPoUdsBljoh8QixJnEdcYHCun8f",
           "O0cwdUPCuogfFCxPMKVcD1Grngb",
           "doxcnXXklhYPgPnHDbIkfXunh9e",
@@ -1666,6 +1668,145 @@
         }
       },
       {
+        "block_id": "ZO1odljqVoNjG3xT18gcDEX4nFh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "max_capacity",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "int",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "YoGcdzgxTo9fWXxnUW9cXVIqnfc",
+          "Q4MidqXTroVoncxkd38cD3Qdngd"
+        ],
+        "parent_id": "TG3Rd9aM5offvFxKy2CcKXn9nWc"
+      },
+      {
+        "block_id": "YoGcdzgxTo9fWXxnUW9cXVIqnfc",
+        "block_type": 2,
+        "parent_id": "ZO1odljqVoNjG3xT18gcDEX4nFh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The number of elements in an Array field value.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Q4MidqXTroVoncxkd38cD3Qdngd",
+        "block_type": 2,
+        "parent_id": "ZO1odljqVoNjG3xT18gcDEX4nFh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This is mandatory for a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "DataType.Array",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "MQWjdEmJuo88GzxZbMAcSHkLnpf",
         "block_type": 12,
         "bullet": {
@@ -1708,7 +1849,7 @@
             },
             {
               "text_run": {
-                "content": ") ",
+                "content": ") -",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1812,6 +1953,320 @@
             {
               "text_run": {
                 "content": " </include>field.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "S8zcdgqmxod8NVxLQSlceNjFnl1",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "is_partition_key",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "bool",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "IZa8dFRHiodBrqx5lMlcAJTFnZt",
+          "UMvOdOxbZo4kKcxBsZXcYZMCnbf"
+        ],
+        "parent_id": "TG3Rd9aM5offvFxKy2CcKXn9nWc"
+      },
+      {
+        "block_id": "IZa8dFRHiodBrqx5lMlcAJTFnZt",
+        "block_type": 2,
+        "parent_id": "S8zcdgqmxod8NVxLQSlceNjFnl1",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Whether the current field serves as the partition key. Each collection can have one partition key.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UMvOdOxbZo4kKcxBsZXcYZMCnbf",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "KNgJdVHAfobm5oxhUdHceRA8nsc",
+          "KX5ldkvY3oyKwNxeeEmcTjKlnhd",
+          "JM1pdQMufooklGxqGh1cAKLrnMg",
+          "XwamdfLJNo1NBDx3kctcaNRJn0e"
+        ],
+        "parent_id": "S8zcdgqmxod8NVxLQSlceNjFnl1"
+      },
+      {
+        "block_id": "KNgJdVHAfobm5oxhUdHceRA8nsc",
+        "block_type": 2,
+        "parent_id": "UMvOdOxbZo4kKcxBsZXcYZMCnbf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What is the partition key?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KX5ldkvY3oyKwNxeeEmcTjKlnhd",
+        "block_type": 2,
+        "parent_id": "UMvOdOxbZo4kKcxBsZXcYZMCnbf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To facilitate partition-oriented multi-tenancy, you can set a field as the partition key field so that <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> hashes the field values and distributes entities among the specified number of partitions accordingly.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JM1pdQMufooklGxqGh1cAKLrnMg",
+        "block_type": 2,
+        "parent_id": "UMvOdOxbZo4kKcxBsZXcYZMCnbf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When retrieving entities, ensure that the partition key field is used in the boolean expression to filter out entities of a specific field value.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XwamdfLJNo1NBDx3kctcaNRJn0e",
+        "block_type": 2,
+        "parent_id": "UMvOdOxbZo4kKcxBsZXcYZMCnbf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For details, refer to <include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Use Partition Key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fuse-partition-key"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Multi-tenancy",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fmulti_tenancy.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include><include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Use Partition Key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fuse-partition-key"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Multi-tenancy",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fmulti_tenancy.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3258,7 +3713,7 @@
         "parent_id": "TG3Rd9aM5offvFxKy2CcKXn9nWc"
       }
     ],
-    "counts": 61
+    "counts": 71
   },
   "slug": "CollectionSchema-add_field"
 }

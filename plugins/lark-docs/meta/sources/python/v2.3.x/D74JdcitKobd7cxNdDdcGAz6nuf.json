@@ -1,6 +1,6 @@
 {
   "created_time": "1704956954",
-  "modified_time": "1709279116",
+  "modified_time": "1709805239",
   "name": "search()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "ZA7LfYxQHltI94dGs2Fc62AvnSh",
@@ -19,6 +19,7 @@
           "doxcnRz1T9JHXprydfQbJwaTQNe",
           "RnwUd81lvoj4boxYz8ZcyzOEnhy",
           "doxcni8ERa40V7Wk1sIoIEfEzMg",
+          "FNXddYLt4ojCx2xoHVMcxvEYnne",
           "IMF3dvxUeoegoExlOzvcIfoWnlt",
           "doxcnd1LiGrG84QEQn07ibIN91b",
           "doxcn2MyAhkDp5uAU3JBaptu4jd",
@@ -418,6 +419,95 @@
             {
               "text_run": {
                 "content": "<include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> searches for the most similar vector embeddings to the specified ones.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FNXddYLt4ojCx2xoHVMcxvEYnne",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "anns_field",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "PYVPdgn3io0nsAxxYywcvfjCndc"
+        ],
+        "parent_id": "D74JdcitKobd7cxNdDdcGAz6nuf"
+      },
+      {
+        "block_id": "PYVPdgn3io0nsAxxYywcvfjCndc",
+        "block_type": 2,
+        "parent_id": "FNXddYLt4ojCx2xoHVMcxvEYnne",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the target vector field of the current search.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3099,7 +3189,7 @@
         "parent_id": "D74JdcitKobd7cxNdDdcGAz6nuf"
       }
     ],
-    "counts": 72
+    "counts": 74
   },
   "slug": "Vector-search"
 }

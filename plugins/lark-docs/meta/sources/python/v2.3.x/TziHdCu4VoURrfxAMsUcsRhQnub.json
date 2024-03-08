@@ -1,6 +1,6 @@
 {
   "created_time": "1704790733",
-  "modified_time": "1709263070",
+  "modified_time": "1709805120",
   "name": "create_collection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -401,7 +401,7 @@
         "children": [
           "PoTydzM0yoI1i3x6MePce84nndd",
           "YPazdCmwCoD4e9x8HLlcUHRfnxd",
-          "A7GOdzD88oh2uHxrDXLcmbB8nCd"
+          "NBJLdEXS8o67I9xCvgGcmLk2nAd"
         ],
         "parent_id": "TziHdCu4VoURrfxAMsUcsRhQnub"
       },
@@ -456,14 +456,86 @@
         }
       },
       {
-        "block_id": "A7GOdzD88oh2uHxrDXLcmbB8nCd",
+        "block_id": "NBJLdEXS8o67I9xCvgGcmLk2nAd",
         "block_type": 2,
         "parent_id": "X3jcd6tLHoldsXxxxrFc5fB6nef",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": " This is required to set up a collection with default settings. Skip this parameter if you need to set up a collection with a customized schema.",
+                "content": "This parameter is designed for the quick setup of a collection and will be ignored if ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is not ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "and a field in the schema has its ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "dim ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "set to a positive integer.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -541,7 +613,8 @@
         },
         "children": [
           "BL3odvlZtoYNYBxkEkCczW9cnNh",
-          "U67OdNG5jo7WSMxrZHSchXLfn4g"
+          "U67OdNG5jo7WSMxrZHSchXLfn4g",
+          "KMC2dMKWRo45u2xWIczcF99WnHS"
         ],
         "parent_id": "TziHdCu4VoURrfxAMsUcsRhQnub"
       },
@@ -603,6 +676,127 @@
             {
               "text_run": {
                 "content": ". You can use another name you see fit. Skip this parameter if you need to set up a collection with a customized schema.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KMC2dMKWRo45u2xWIczcF99WnHS",
+        "block_type": 2,
+        "parent_id": "AgvNd7VvtomiusxQ9imcfBTLnue",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This parameter is designed for the quick setup of a collection and will ignored if the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is not ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "and a field in the schema has its ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "is_primary",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " set to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "True",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -683,7 +877,8 @@
         },
         "children": [
           "V4ymdj2QIooK2JxNFJKcSLWfnJf",
-          "LEJ9d8jbtot2d3xIaeXcP4VxnWf"
+          "LEJ9d8jbtot2d3xIaeXcP4VxnWf",
+          "Cqs2dH6Y9oVv1gxcIXRcH0Uunjd"
         ],
         "parent_id": "TziHdCu4VoURrfxAMsUcsRhQnub"
       },
@@ -813,7 +1008,80 @@
             },
             {
               "text_run": {
-                "content": ". Skip this parameter if you need to set up a collection with a customized schema.",
+                "content": ". ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Cqs2dH6Y9oVv1gxcIXRcH0Uunjd",
+        "block_type": 2,
+        "parent_id": "VBvfdlN5soOZjHxAq8gcDfRjnyf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This parameter is designed for the quick setup of a collection and will be ignored if ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is not ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -891,7 +1159,8 @@
         },
         "children": [
           "O0jjdbI4roVzv3xqay1cb8ntnlb",
-          "N6C1d7WaxocWoTxmNaqcY8mdn3e"
+          "N6C1d7WaxocWoTxmNaqcY8mdn3e",
+          "PADFd0Ye1ovIlOxBRRdcvKran1f"
         ],
         "parent_id": "TziHdCu4VoURrfxAMsUcsRhQnub"
       },
@@ -952,7 +1221,80 @@
             },
             {
               "text_run": {
-                "content": ". You can use another name you see fit. Skip this parameter if you need to set up a collection with a customized schema.",
+                "content": ". You can use another name you see fit. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PADFd0Ye1ovIlOxBRRdcvKran1f",
+        "block_type": 2,
+        "parent_id": "KXSFd2T9goKcMwxTcBqcddPcnLh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This parameter is designed for the quick setup of a collection and will be ignored if ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is not ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1264,7 +1606,55 @@
           "elements": [
             {
               "text_run": {
-                "content": "Skip this parameter if you need to set up a collection with a customized schema.",
+                "content": "This parameter is designed for the quick setup of a collection and will be ignored if ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is not ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1342,7 +1732,8 @@
         },
         "children": [
           "ClmddMqSsoOzstxcoSnctBjRnme",
-          "AwI6d1tOlo5j0ixafUVc7qK6nxe"
+          "AwI6d1tOlo5j0ixafUVc7qK6nxe",
+          "ZbvsdomsRosACCxhhzAc3WQOnFh"
         ],
         "parent_id": "TziHdCu4VoURrfxAMsUcsRhQnub"
       },
@@ -1427,7 +1818,80 @@
             },
             {
               "text_run": {
-                "content": " makes the primary field automatically increment. Skip this parameter if you need to set up a collection with a customized schema.",
+                "content": " makes the primary field automatically increment. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZbvsdomsRosACCxhhzAc3WQOnFh",
+        "block_type": 2,
+        "parent_id": "HgWLdA5FMo3Yknx8cyyc4QaKnEb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This parameter is designed for the quick setup of a collection and will be ignored if ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is not ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2019,7 +2483,10 @@
         "children": [
           "WnZgdgavOo4nntxWNy1cli4CnAN",
           "Fds0duZAYosl3dxb30ZcQBYin7d",
-          "W0e7dkFySoRgbVxdZeqchnPPnga"
+          "ViFzdpK65oWnCaxkOEWcEpGonRd",
+          "MK7DdAhJZoKpndxtRe9cpCIznug",
+          "W0e7dkFySoRgbVxdZeqchnPPnga",
+          "DU8xdf85koW0ByxghPWcSLaCnde"
         ],
         "parent_id": "TziHdCu4VoURrfxAMsUcsRhQnub"
       },
@@ -2084,7 +2551,8 @@
         },
         "children": [
           "WhtNdOAjboKZYAxtxx3c7IUWn7e",
-          "Sg6pdz2JQoRUeQxbaK9ccqJ4nke"
+          "Sg6pdz2JQoRUeQxbaK9ccqJ4nke",
+          "V3aIdxNTooTceNx9czOcYfSFnFb"
         ],
         "parent_id": "doxcnsNqv3WIX0ycyUz9VkYRGxd"
       },
@@ -2193,7 +2661,104 @@
             },
             {
               "text_run": {
-                "content": ", indicating that the meta field is used.",
+                "content": ", indicating that the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "$meta",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field is used.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "V3aIdxNTooTceNx9czOcYfSFnFb",
+        "block_type": 2,
+        "parent_id": "WnZgdgavOo4nntxWNy1cli4CnAN",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This parameter is ignored if ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is not ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2445,6 +3010,605 @@
             {
               "text_run": {
                 "content": "By default, a collection contains two shards.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ViFzdpK65oWnCaxkOEWcEpGonRd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "partition_key_field",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "str",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "DNcCdjN6Wo0WVcx8xS1c7c9nnMh",
+          "FyjfdvZOoot51jxbTv3cMNr4nWc",
+          "L9WUd8ZUSoHHI2x7ou8cmxHanBh"
+        ],
+        "parent_id": "doxcnsNqv3WIX0ycyUz9VkYRGxd"
+      },
+      {
+        "block_id": "DNcCdjN6Wo0WVcx8xS1c7c9nnMh",
+        "block_type": 2,
+        "parent_id": "ViFzdpK65oWnCaxkOEWcEpGonRd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The name of the field that serves as the partition key. Each collection can have one partition key.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FyjfdvZOoot51jxbTv3cMNr4nWc",
+        "block_type": 2,
+        "parent_id": "ViFzdpK65oWnCaxkOEWcEpGonRd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This parameter is ignored if ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "schema",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is not ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "and a field in the schema has its ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "is_parition_key",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " set to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "True",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "L9WUd8ZUSoHHI2x7ou8cmxHanBh",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "VQxTdGOJXoTJQ4xDVbVccxUSnCg",
+          "S015dEXQuovtX8xxKfcc2FuZnec",
+          "KXK0dj7s7oJ6UBxqD67ca53nnKg",
+          "RM0fdLC9nob37FxiUaBc2rMdnLb"
+        ],
+        "parent_id": "ViFzdpK65oWnCaxkOEWcEpGonRd"
+      },
+      {
+        "block_id": "VQxTdGOJXoTJQ4xDVbVccxUSnCg",
+        "block_type": 2,
+        "parent_id": "L9WUd8ZUSoHHI2x7ou8cmxHanBh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What is the partition key?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "S015dEXQuovtX8xxKfcc2FuZnec",
+        "block_type": 2,
+        "parent_id": "L9WUd8ZUSoHHI2x7ou8cmxHanBh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To facilitate partition-oriented multi-tenancy, you can set a field as the partition key field so that <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> hashes the field values and distributes entities among the specified number of partitions accordingly.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KXK0dj7s7oJ6UBxqD67ca53nnKg",
+        "block_type": 2,
+        "parent_id": "L9WUd8ZUSoHHI2x7ou8cmxHanBh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When retrieving entities, ensure that the partition key field is used in the boolean expression to filter out entities of a specific field value.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RM0fdLC9nob37FxiUaBc2rMdnLb",
+        "block_type": 2,
+        "parent_id": "L9WUd8ZUSoHHI2x7ou8cmxHanBh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For details, refer to <include target=\"milvus\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Use Partition Key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fuse-partition-key"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Multi-tenancy",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fmulti_tenancy.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include><include target=\"zilliz\">",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Use Partition Key",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fdocs.zilliz.com%2Fdocs%2Fuse-partition-key"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Multi-tenancy",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs%2Fmulti_tenancy.md"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MK7DdAhJZoKpndxtRe9cpCIznug",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "num_partitions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "int",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "NXoldvUF1oG2s7xMNMNcghEvn8c",
+          "SGEUd05lLoZEu5xXTf6cN7DZntf"
+        ],
+        "parent_id": "doxcnsNqv3WIX0ycyUz9VkYRGxd"
+      },
+      {
+        "block_id": "NXoldvUF1oG2s7xMNMNcghEvn8c",
+        "block_type": 2,
+        "parent_id": "MK7DdAhJZoKpndxtRe9cpCIznug",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The number of partitions to create for the partition key feature.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SGEUd05lLoZEu5xXTf6cN7DZntf",
+        "block_type": 2,
+        "parent_id": "MK7DdAhJZoKpndxtRe9cpCIznug",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The value defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "64",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", indicating that 64 partitions are to be created along with this collection. This parameter applies when ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "partition_key_field ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "is set to the name of a field.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3352,6 +4516,186 @@
         }
       },
       {
+        "block_id": "DU8xdf85koW0ByxghPWcSLaCnde",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "properties",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "dict",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") -",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "indentation_level": "NoIndent"
+          }
+        },
+        "children": [
+          "G42DdvMs0osDI6xbIQrco6Munj5",
+          "J3EXdijlCo4KnhxarlHcF5IRnhC"
+        ],
+        "parent_id": "doxcnsNqv3WIX0ycyUz9VkYRGxd"
+      },
+      {
+        "block_id": "G42DdvMs0osDI6xbIQrco6Munj5",
+        "block_type": 2,
+        "parent_id": "DU8xdf85koW0ByxghPWcSLaCnde",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Additional properties in key-value pairs.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "J3EXdijlCo4KnhxarlHcF5IRnhC",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection.ttl.seconds",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "int",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Xs2Tdp008oXE7LxDiokcfCN9nAh"
+        ],
+        "parent_id": "DU8xdf85koW0ByxghPWcSLaCnde"
+      },
+      {
+        "block_id": "Xs2Tdp008oXE7LxDiokcfCN9nAh",
+        "block_type": 2,
+        "parent_id": "J3EXdijlCo4KnhxarlHcF5IRnhC",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The time-to-live (TTL) of a collection in seconds.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
         "block_id": "SCnHdaEAboPDe9xEmkDckjiEnPh",
         "block_type": 2,
         "parent_id": "TziHdCu4VoURrfxAMsUcsRhQnub",
@@ -4097,7 +5441,7 @@
             },
             {
               "text_run": {
-                "content": "IP",
+                "content": "COSINE",
                 "text_element_style": {
                   "bold": true,
                   "inline_code": false,
@@ -4453,7 +5797,7 @@
             },
             {
               "text_run": {
-                "content": "\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Prepare index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n)\n\n# 5. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema,\n    index_params=index_params\n",
+                "content": "\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Prepare index parameters\nindex_params = client.create_index_params()\n\n# 4. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n)\n\n# 5. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema,\n    index_params=index_params\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -4932,7 +6276,7 @@
         "parent_id": "TziHdCu4VoURrfxAMsUcsRhQnub"
       }
     ],
-    "counts": 110
+    "counts": 130
   },
   "slug": "Collections-create_collection"
 }

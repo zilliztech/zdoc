@@ -1,6 +1,6 @@
 {
   "created_time": "1704192169",
-  "modified_time": "1708753968",
+  "modified_time": "1709864947",
   "name": "search()",
   "owner_id": "ou_fbc044d19930afd389d5c369466c38b1",
   "parent_token": "Ed0CftM6Mlb5e4dUYApc9syJnDb",
@@ -354,22 +354,46 @@
           }
         },
         "children": [
-          "OyXmdT9f9ok0vQxuJg6cdbzInAh",
-          "JR2ad0d4uoQpKExTq1jcZUdgnZd"
+          "JR2ad0d4uoQpKExTq1jcZUdgnZd",
+          "Z7PTdx0Cxov9rLxHdhNcPoiInsd"
         ],
         "parent_id": "XW72dhBuNoqNWhxUQLtcfa6Fnwd"
       },
       {
-        "block_id": "OyXmdT9f9ok0vQxuJg6cdbzInAh",
+        "block_id": "JR2ad0d4uoQpKExTq1jcZUdgnZd",
         "block_type": 2,
         "parent_id": "L38JdBcN3oVMizxPJlHceOqxnmh",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "[REQUIRED]",
+                "content": "The name of the ",
                 "text_element_style": {
-                  "bold": true,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "target vector field of the current search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -385,14 +409,14 @@
         }
       },
       {
-        "block_id": "JR2ad0d4uoQpKExTq1jcZUdgnZd",
+        "block_id": "Z7PTdx0Cxov9rLxHdhNcPoiInsd",
         "block_type": 2,
         "parent_id": "L38JdBcN3oVMizxPJlHceOqxnmh",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "The name of the vector field in the current collection.",
+                "content": "This parameter defaults to an empty string. If this parameter is left unspecified, the default value applies, indicating that the only vector field in the collection will be used as the search target.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

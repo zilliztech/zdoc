@@ -1,7 +1,7 @@
 {
   "created_time": "1705561165",
-  "modified_time": "1709111804",
-  "name": "prepare_index_params()",
+  "modified_time": "1709803004",
+  "name": "create_index_params()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "IZKcfUEfClhhnWdFhk2co7krnAV",
   "token": "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
@@ -38,7 +38,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "prepare_index_params()",
+                "content": "create_index_params()",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -163,7 +163,7 @@
             },
             {
               "text_run": {
-                "content": "MilvusClient.prepare_index_params()",
+                "content": "MilvusClient.create_index_params()",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -224,7 +224,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "pymilvus.MilvusClient.prepare_index_params() -> IndexParams",
+                "content": "pymilvus.MilvusClient.create_index_params() -> IndexParams",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -702,7 +702,7 @@
             },
             {
               "text_run": {
-                "content": "index_params = MilvusClient.prepare_index_params()",
+                "content": "index_params = MilvusClient.create_index_params()",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -863,5 +863,5 @@
     ],
     "counts": 26
   },
-  "slug": "Management-prepare_index_params"
+  "slug": "Management-create_index_params"
 }

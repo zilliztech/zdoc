@@ -91,11 +91,29 @@ __PARAMETERS:__
 
     This is mandatory for a __DataType.Array__ field.
 
-- __dim__ (_int_) 
+- __max_capacity__ (_int_) -
+
+    The number of elements in an Array field value.
+
+    This is mandatory for a __DataType.Array__ field.
+
+- __dim__ (_int_) -
 
     The dimension of the vector embeddings.
 
     This is mandatory for a __DataType.FLOAT_VECTOR__ field field.
+
+- __is_partition_key__ (_bool_) -
+
+    Whether the current field serves as the partition key. Each collection can have one partition key.
+
+    <Admonition type="info" icon="📘" title="What is the partition key?">
+
+    <p>To facilitate partition-oriented multi-tenancy, you can set a field as the partition key field so that Zilliz Cloud hashes the field values and distributes entities among the specified number of partitions accordingly.</p>
+    <p>When retrieving entities, ensure that the partition key field is used in the boolean expression to filter out entities of a specific field value.</p>
+    <p>For details, refer to <a href="/docs/use-partition-key">Use Partition Key</a> and <a href="https://milvus.io/docs/multi_tenancy.md">Multi-tenancy</a>.</p>
+
+    </Admonition>
 
 __RETURN TYPE:__
 

@@ -1,6 +1,6 @@
 {
   "created_time": "1706699456",
-  "modified_time": "1709088809",
+  "modified_time": "1709808153",
   "name": "describe_user()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "W9SBfQfXUlZAXDdK6nTcop4rnFd",
@@ -1055,7 +1055,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a role\nclient.create_role(role_name=\"read_only\")\n\n# 3. Create a user\nclient.create_user(user_name=\"user_1\", password=\"P@ssw0rd\")\n\n# 4. Grant the role to the user\nclient.grant_role(user_name=\"user_1\", role_name=\"read_only\")\n\n# 5. Describe the user\nclient.describe_user(user_name=\"user_1\")\n\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Create a user\nclient.create_user(user_name=\"user_1\", password=\"P@ssw0rd\")\n\n# 3. Grant the role to the user\nclient.grant_role(user_name=\"user_1\", role_name=\"db_ro\")\n\n# 4. Describe the user\nclient.describe_user(user_name=\"user_1\")\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1067,7 +1067,7 @@
             },
             {
               "text_run": {
-                "content": "# {'user_name': 'user_1', 'roles': ('read_only',)}",
+                "content": "# {'user_name': 'user_1', 'roles': ('db_ro',)}",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

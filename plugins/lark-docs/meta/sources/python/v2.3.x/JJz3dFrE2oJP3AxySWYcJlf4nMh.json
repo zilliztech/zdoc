@@ -1,6 +1,6 @@
 {
   "created_time": "1706697975",
-  "modified_time": "1709108003",
+  "modified_time": "1709808139",
   "name": "describe_role()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "W9SBfQfXUlZAXDdK6nTcop4rnFd",
@@ -1503,7 +1503,7 @@
             },
             {
               "text_run": {
-                "content": "\n\n# [\n#     {\n#        'object_type': 'Global', \n#        'object_name': '*', \n#        'db_name': 'default', \n#        'role_name': 'read_only', \n#        'privilege': 'DescribeCollection', \n#        'grantor_name': 'root'\n#    }\n",
+                "content": "\n\n# Output\n#\n# {\n#     \"role\": \"read_only\",\n#     \"privileges\": [\n#         {\n#             \"object_type\": \"Global\",\n#             \"object_name\": \"*\",\n#             \"db_name\": \"default\",\n#             \"role_name\": \"read_only\",\n#             \"privilege\": \"DescribeCollection\",\n#             \"grantor_name\": \"root\"\n#         }\n#     ]\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1515,7 +1515,7 @@
             },
             {
               "text_run": {
-                "content": "# ]",
+                "content": "# }",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1593,7 +1593,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Describe the role\nclient.describe_role(role_name=\"db_ro\")\n\n# [\n#     {\n#         \"object_type\": \"Collection\",\n#         \"object_name\": \"*\",\n#         \"db_name\": \"default\",\n#         \"role_name\": \"db_ro\",\n#         \"privilege\": \"GetLoadState\",\n#         \"grantor_name\": \"\"\n#     },\n#     {\n#         \"object_type\": \"Collection\",\n#         \"object_name\": \"*\",\n#         \"db_name\": \"default\",\n#         \"role_name\": \"db_ro\",\n#         \"privilege\": \"GetLoadingProgress\",\n#         \"grantor_name\": \"\"\n#     },\n#     {\n#         \"object_type\": \"Collection\",\n#         \"object_name\": \"*\",\n#         \"db_name\": \"default\",\n#         \"role_name\": \"db_ro\",\n#         \"privilege\": \"IndexDetail\",\n#         \"grantor_name\": \"\"\n#     },\n#     ...\n#     {\n#         \"object_type\": \"Global\",\n#         \"object_name\": \"*\",\n#         \"db_name\": \"default\",\n#         \"role_name\": \"db_ro\",\n#         \"privilege\": \"ListDatabases\",\n#         \"grantor_name\": \"\"\n#     },\n#     {\n#         \"object_type\": \"Global\",\n#         \"object_name\": \"*\",\n#         \"db_name\": \"default\",\n#         \"role_name\": \"db_ro\",\n#         \"privilege\": \"ShowCollections\",\n#         \"grantor_name\": \"\"\n#     }\n",
+                "content": "from pymilvus import MilvusClient\n\n# 1. Create a milvus client\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 2. Describe the role\nclient.describe_role(role_name=\"db_ro\")\n\n# Output\n#\n# {\n#     \"role\": \"db_ro\",\n#     \"privileges\": [\n#         {\n#             \"object_type\": \"Collection\",\n#             \"object_name\": \"*\",\n#             \"db_name\": \"default\",\n#             \"role_name\": \"db_ro\",\n#             \"privilege\": \"GetLoadState\",\n#             \"grantor_name\": \"*\"\n#         },\n#         {\n#             \"object_type\": \"Collection\",\n#             \"object_name\": \"*\",\n#             \"db_name\": \"default\",\n#             \"role_name\": \"db_ro\",\n#             \"privilege\": \"GetLoadingProgress\",\n#             \"grantor_name\": \"*\"\n#         },\n#         {\n#             \"object_type\": \"Collection\",\n#             \"object_name\": \"*\",\n#             \"db_name\": \"default\",\n#             \"role_name\": \"db_ro\",\n#             \"privilege\": \"IndexDetail\",\n#             \"grantor_name\": \"*\"\n#         },\n#         {\n#             \"object_type\": \"Collection\",\n#             \"object_name\": \"*\",\n#             \"db_name\": \"default\",\n#             \"role_name\": \"db_ro\",\n#             \"privilege\": \"Load\",\n#             \"grantor_name\": \"*\"\n#         },\n#         {\n#             \"object_type\": \"Collection\",\n#             \"object_name\": \"*\",\n#             \"db_name\": \"default\",\n#             \"role_name\": \"db_ro\",\n#             \"privilege\": \"Query\",\n#             \"grantor_name\": \"*\"\n#         },\n#         {\n#             \"object_type\": \"Collection\",\n#             \"object_name\": \"*\",\n#             \"db_name\": \"default\",\n#             \"role_name\": \"db_ro\",\n#             \"privilege\": \"Search\",\n#             \"grantor_name\": \"*\"\n#         },\n#         {\n#             \"object_type\": \"Global\",\n#             \"object_name\": \"*\",\n#             \"db_name\": \"default\",\n#             \"role_name\": \"db_ro\",\n#             \"privilege\": \"DescribeCollection\",\n#             \"grantor_name\": \"*\"\n#         },\n#         {\n#             \"object_type\": \"Global\",\n#             \"object_name\": \"*\",\n#             \"db_name\": \"default\",\n#             \"role_name\": \"db_ro\",\n#             \"privilege\": \"ListDatabases\",\n#             \"grantor_name\": \"*\"\n#         },\n#         {\n#             \"object_type\": \"Global\",\n#             \"object_name\": \"*\",\n#             \"db_name\": \"default\",\n#             \"role_name\": \"db_ro\",\n#             \"privilege\": \"ShowCollections\",\n#             \"grantor_name\": \"*\"\n#         }\n#     ]\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1605,7 +1605,7 @@
             },
             {
               "text_run": {
-                "content": "# ]",
+                "content": "# }",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

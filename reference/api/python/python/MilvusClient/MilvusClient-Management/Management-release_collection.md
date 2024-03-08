@@ -116,7 +116,7 @@ client.create_collection(
 )
 
 # 4. Prepare index parameters
-index_params = client.prepare_index_params()
+index_params = client.create_index_params()
 
 # 5. Add indexes
 index_params.add_index(
@@ -128,7 +128,7 @@ index_params.add_index(
     field_name="my_vector", 
     index_type="IVF_FLAT",
     metric_type="L2",
-    params: {nlist: 1024}
+    params={nlist: 1024}
 )
 
 # 6. Create indexes

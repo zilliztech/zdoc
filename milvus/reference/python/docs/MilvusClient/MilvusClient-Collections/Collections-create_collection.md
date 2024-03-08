@@ -44,7 +44,7 @@ __PARAMETERS:__
 
     The value is usually determined by the model you use to generate vector embeddings.
 
-     This is required to set up a collection with default settings. Skip this parameter if you need to set up a collection with a customized schema.
+    This parameter is designed for the quick setup of a collection and will be ignored if __schema__ is not __None __and a field in the schema has its __dim __set to a positive integer.
 
 - __primary_field_name__ (_str_) -
 
@@ -52,17 +52,23 @@ __PARAMETERS:__
 
     The value defaults to __id__. You can use another name you see fit. Skip this parameter if you need to set up a collection with a customized schema.
 
+    This parameter is designed for the quick setup of a collection and will ignored if the __schema__ is not __None __and a field in the schema has its __is_primary__ set to __True__.
+
 - __id_type__ (_[DataType](./Collections-DataType)_) -
 
     The data type of the primary field in this collection.
 
-    The value defaults to __DataType.INT64__. Possible values are __DataType.INT64__ and __DataType.VARCHAR__. Skip this parameter if you need to set up a collection with a customized schema.
+    The value defaults to __DataType.INT64__. Possible values are __DataType.INT64__ and __DataType.VARCHAR__. 
+
+    This parameter is designed for the quick setup of a collection and will be ignored if __schema__ is not __None__.
 
 - __vector_field_name__ (_str_) -
 
     The name of the collection field to hold vector embeddings.
 
-    The value defaults to __vector__. You can use another name you see fit. Skip this parameter if you need to set up a collection with a customized schema.
+    The value defaults to __vector__. You can use another name you see fit. 
+
+    This parameter is designed for the quick setup of a collection and will be ignored if __schema__ is not __None__.
 
 - __metric_type__ (_str_) -
 
@@ -70,13 +76,15 @@ __PARAMETERS:__
 
     The value defaults to __COSINE__. Possible values are __L2__, __IP__, and __COSINE__. For details on these metric types, refer to [Similarity Metrics](https://milvus.io/docs/metric.md).
 
-    Skip this parameter if you need to set up a collection with a customized schema.
+    This parameter is designed for the quick setup of a collection and will be ignored if __schema__ is not __None__.
 
 - __auto_id__ (_bool_) -
 
     Whether the primary field automatically increments upon data insertions into this collection.
 
-    The value defaults to __False__. Setting this to __True__ makes the primary field automatically increment. Skip this parameter if you need to set up a collection with a customized schema.
+    The value defaults to __False__. Setting this to __True__ makes the primary field automatically increment. 
+
+    This parameter is designed for the quick setup of a collection and will be ignored if __schema__ is not __None__.
 
 - __timeout__ (_float_ | _None_) -
 
@@ -102,7 +110,9 @@ __PARAMETERS:__
 
         Whether to use a reserved JSON field named __$meta__ to store undefined fields and their values in key-value pairs.
 
-        The value defaults to __True__, indicating that the meta field is used.
+        The value defaults to __True__, indicating that the __$meta__ field is used.
+
+        This parameter is ignored if __schema__ is not __None__.
 
     - __num_shards__ (_int_) -
 
@@ -119,6 +129,28 @@ __PARAMETERS:__
 
         </div>
 
+    - __partition_key_field__ (_str_) -
+
+        The name of the field that serves as the partition key. Each collection can have one partition key.
+
+        This parameter is ignored if __schema__ is not __None __and a field in the schema has its __is_parition_key__ set to __True__.
+
+        <div class="admonition note">
+
+        <p><b>what is the partition key?</b></p>
+
+        <p>To facilitate partition-oriented multi-tenancy, you can set a field as the partition key field so that Milvus hashes the field values and distributes entities among the specified number of partitions accordingly.</p>
+        <p>When retrieving entities, ensure that the partition key field is used in the boolean expression to filter out entities of a specific field value.</p>
+        <p>For details, refer to <a href="https://milvus.io/docs/use-partition-key">Use Partition Key</a> and <a href="https://milvus.io/docs/multi_tenancy.md">Multi-tenancy</a>.</p>
+
+        </div>
+
+    - __num_partitions__ (_int_) -
+
+        The number of partitions to create for the partition key feature.
+
+        The value defaults to __64__, indicating that 64 partitions are to be created along with this collection. This parameter applies when __partition_key_field __is set to the name of a field.
+
     - __consistency_level__ (_int_ | _str_)
 
         The consistency level of the target collection.
@@ -134,6 +166,14 @@ __PARAMETERS:__
         <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
 
         </div>
+
+    - __properties__ (_dict_) -
+
+        Additional properties in key-value pairs.
+
+        - __collection.ttl.seconds__ (_int_)
+
+            The time-to-live (TTL) of a collection in seconds.
 
 __RETURN TYPE:__
 
@@ -185,7 +225,7 @@ You can choose between a quick setup or a customized setup as follows:
 
     - The primary and vector fields use their default names (__id__ and __vector__).
 
-    - The metric type is also set to its default value (__IP__).
+    - The metric type is also set to its default value (__COSINE__).
 
     - The primary field accepts integers and does not automatically increments.
 
@@ -226,7 +266,7 @@ You can choose between a quick setup or a customized setup as follows:
     schema.add_field(field_name="my_vector", datatype=DataType.FLOAT_VECTOR, dim=5)
     
     # 3. Prepare index parameters
-    index_params = client.prepare_index_params()
+    index_params = client.create_index_params()
     
     # 4. Add indexes
     index_params.add_index(

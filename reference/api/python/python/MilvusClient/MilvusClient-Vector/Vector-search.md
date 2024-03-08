@@ -47,6 +47,10 @@ __PARAMETERS:__
 
     Zilliz Cloud searches for the most similar vector embeddings to the specified ones.
 
+- __anns_field__ (_str_) -
+
+    The name of the target vector field of the current search.
+
 - __filter__ (_str_) -
 
     A scalar filtering condition to filter matching entities. 

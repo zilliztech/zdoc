@@ -1,14 +1,14 @@
 ---
 displayed_sidbar: pythonSidebar
-slug: /python/Management-prepare_index_params
+slug: /python/Management-create_index_params
 beta: false
 notebook: false
 type: docx
 token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
-sidebar_position: 8
+sidebar_position: 3
 ---
 
-# prepare_index_params()
+# create_index_params()
 
 This operation prepares index parameters to build indexes for a specific collection.
 
@@ -16,14 +16,14 @@ This operation prepares index parameters to build indexes for a specific collect
 
 <p><b>notes</b></p>
 
-<p>This is a class method. You should call this method like this: <code>MilvusClient.prepare_index_params()</code>.</p>
+<p>This is a class method. You should call this method like this: <code>MilvusClient.create_index_params()</code>.</p>
 
 </div>
 
 ## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.prepare_index_params() -> IndexParams
+pymilvus.MilvusClient.create_index_params() -> IndexParams
 ```
 
 __PARAMETERS:__
@@ -58,7 +58,7 @@ None
 ```python
 from pymilvus import MilvusClient
 
-index_params = MilvusClient.prepare_index_params()
+index_params = MilvusClient.create_index_params()
 ```
 
 - [add_index()](./Management-add_index)

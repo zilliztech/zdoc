@@ -90,11 +90,31 @@ __PARAMETERS:__
 
     This is mandatory for a __DataType.Array__ field.
 
-- __dim__ (_int_) 
+- __max_capacity__ (_int_) -
+
+    The number of elements in an Array field value.
+
+    This is mandatory for a __DataType.Array__ field.
+
+- __dim__ (_int_) -
 
     The dimension of the vector embeddings.
 
     This is mandatory for a __DataType.FLOAT_VECTOR__ field or a __DataType.BINARY_VECTOR__ field.
+
+- __is_partition_key__ (_bool_) -
+
+    Whether the current field serves as the partition key. Each collection can have one partition key.
+
+    <div class="admonition note">
+
+    <p><b>what is the partition key?</b></p>
+
+    <p>To facilitate partition-oriented multi-tenancy, you can set a field as the partition key field so that Milvus hashes the field values and distributes entities among the specified number of partitions accordingly.</p>
+    <p>When retrieving entities, ensure that the partition key field is used in the boolean expression to filter out entities of a specific field value.</p>
+    <p>For details, refer to <a href="https://milvus.io/docs/use-partition-key">Use Partition Key</a> and <a href="https://milvus.io/docs/multi_tenancy.md">Multi-tenancy</a>.</p>
+
+    </div>
 
 __RETURN TYPE:__
 

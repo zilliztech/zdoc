@@ -41,7 +41,7 @@ __PARAMETERS:__
 
     A specific entity ID or a list of entity IDs.
 
-    The value defaults to __None__, indicating that a scalar filtering condition applies.  Setting both __ids__ and __filter__ results in a __ParamError__ exception.
+    The value defaults to __None__, indicating that a scalar filtering condition applies. Setting both __ids__ and __filter__ results in a __ParamError__ exception.
 
 - __timeout__ (_float_ | _None_) -
 

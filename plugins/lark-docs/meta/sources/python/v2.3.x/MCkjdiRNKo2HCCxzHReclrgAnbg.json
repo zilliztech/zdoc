@@ -1,6 +1,6 @@
 {
   "created_time": "1704871577",
-  "modified_time": "1709111657",
+  "modified_time": "1709633575",
   "name": "describe_collection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -2646,7 +2646,9 @@
           }
         },
         "children": [
-          "J2nbdWtdgozBd8x3UrFcK1zPnCf"
+          "J2nbdWtdgozBd8x3UrFcK1zPnCf",
+          "PF6qdislEokaUExdgW3cIrGsnUd",
+          "VRhidBw2RoTaeRxJD0QcAuPkn1b"
         ],
         "parent_id": "MCkjdiRNKo2HCCxzHReclrgAnbg"
       },
@@ -2658,7 +2660,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "The number of partitions in the current collection.",
+                "content": "The number of partitions in the current collection. ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -2674,6 +2676,56 @@
             "folded": false
           }
         }
+      },
+      {
+        "block_id": "PF6qdislEokaUExdgW3cIrGsnUd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If the current collection has an enabled partition key, <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> manages all created partitions for the collection. The number of partitions managed should match the number specified when the collection was created.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "QFIddMDoToEwh7x2idbc9Zrzngc"
+      },
+      {
+        "block_id": "VRhidBw2RoTaeRxJD0QcAuPkn1b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If the current collection does not enable the partition key, the number should match the number of partitions already created in this collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "QFIddMDoToEwh7x2idbc9Zrzngc"
       },
       {
         "block_id": "Ox4GdAgrCobxsLxsVhzcMQzKn10",
@@ -3540,7 +3592,7 @@
         }
       }
     ],
-    "counts": 83
+    "counts": 85
   },
   "slug": "Collections-describe_collection"
 }

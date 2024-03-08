@@ -40,9 +40,9 @@ __PARAMETERS:__
 
 - __anns_field__ (str) -
 
-    __[REQUIRED]__
+    The name of the target vector field of the current search.
 
-    The name of the vector field in the current collection.
+    This parameter defaults to an empty string. If this parameter is left unspecified, the default value applies, indicating that the only vector field in the collection will be used as the search target.
 
 - __param__ (dict) -
 

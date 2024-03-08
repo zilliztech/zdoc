@@ -82,19 +82,16 @@ client = MilvusClient(
     token="user:password"
 )
 
-# 2. Create a role
-client.create_role(role_name="read_only")
-
-# 3. Create a user
+# 2. Create a user
 client.create_user(user_name="user_1", password="P@ssw0rd")
 
-# 4. Grant the role to the user
-client.grant_role(user_name="user_1", role_name="read_only")
+# 3. Grant the role to the user
+client.grant_role(user_name="user_1", role_name="db_ro")
 
-# 5. Describe the user
+# 4. Describe the user
 client.describe_user(user_name="user_1")
 
-# {'user_name': 'user_1', 'roles': ('read_only',)}
+# {'user_name': 'user_1', 'roles': ('db_ro',)}
 ```
 
 ## Related methods{#related-methods}

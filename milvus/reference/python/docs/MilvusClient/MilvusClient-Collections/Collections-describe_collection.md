@@ -161,7 +161,11 @@ __PARAMETERS:__
 
 - __num_partitions__ (_int_) 
 
-    The number of partitions in the current collection.
+    The number of partitions in the current collection. 
+
+    - If the current collection has an enabled partition key, Milvus manages all created partitions for the collection. The number of partitions managed should match the number specified when the collection was created.
+
+    - If the current collection does not enable the partition key, the number should match the number of partitions already created in this collection.
 
 - __enable_dynamic_field__ (_bool_)
 

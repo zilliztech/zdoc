@@ -118,7 +118,7 @@ schema.add_field(field_name="my_vector", datatype=DataType.FLOAT_VECTOR, dim=5)
 # }
 
 # 3. Create index parameters
-index_params = client.prepare_index_params()
+index_params = client.create_index_params()
 
 # 4. Add indexes
 # - For a scalar field
@@ -146,5 +146,5 @@ index_params.add_index(
 
 - [list_indexes()](./Management-list_indexes)
 
-- [prepare_index_params()](./Management-prepare_index_params)
+- [create_index_params()](./Management-create_index_params)
 

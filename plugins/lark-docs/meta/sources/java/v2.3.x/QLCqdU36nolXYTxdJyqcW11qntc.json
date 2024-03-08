@@ -1,6 +1,6 @@
 {
   "created_time": "1709007388",
-  "modified_time": "1709176955",
+  "modified_time": "1709880603",
   "name": "CollectionSchema",
   "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_token": "EfYXfQjt7lz77odlUj7cjJZVnMh",
@@ -32,9 +32,6 @@
           "S9nPdvvjdodNS2xjA3EcE2Ylnje",
           "YVh0dHJzqobAOlxuPLycmmwjnug",
           "GmyPd4tTooGztyx5o81czkxMnKm",
-          "RYnqdTIQ2oOEeaxDjBpc5efWnFb",
-          "AvCrdTHG8osF8gxTDTOcH8cbncg",
-          "Tumad92x2oXxGExPKBRc4svqn2f",
           "Srvbdj5U7onJ52xNBtXcGdNFnEd"
         ],
         "page": {
@@ -1296,90 +1293,6 @@
         }
       },
       {
-        "block_id": "RYnqdTIQ2oOEeaxDjBpc5efWnFb",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 22,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": "addPrimaryField()",
-                "token": "Ld6Qdvc5doyc4tx4R6ocWNBinUb",
-                "url": "https://zilliverse.feishu.cn/docx/Ld6Qdvc5doyc4tx4R6ocWNBinUb"
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "QLCqdU36nolXYTxdJyqcW11qntc"
-      },
-      {
-        "block_id": "AvCrdTHG8osF8gxTDTOcH8cbncg",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 22,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": " addScalarField()",
-                "token": "UydVdfQtroGMHaxjvEdcEe5Nnng",
-                "url": "https://zilliverse.feishu.cn/docx/UydVdfQtroGMHaxjvEdcEe5Nnng"
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "QLCqdU36nolXYTxdJyqcW11qntc"
-      },
-      {
-        "block_id": "Tumad92x2oXxGExPKBRc4svqn2f",
-        "block_type": 12,
-        "bullet": {
-          "elements": [
-            {
-              "mention_doc": {
-                "obj_type": 22,
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                },
-                "title": " addVectorField()",
-                "token": "ZqxddbCEzoxibpx4KqdcuTd8nLf",
-                "url": "https://zilliverse.feishu.cn/docx/ZqxddbCEzoxibpx4KqdcuTd8nLf"
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "QLCqdU36nolXYTxdJyqcW11qntc"
-      },
-      {
         "block_id": "Srvbdj5U7onJ52xNBtXcGdNFnEd",
         "block_type": 2,
         "parent_id": "QLCqdU36nolXYTxdJyqcW11qntc",
@@ -1405,7 +1318,7 @@
         }
       }
     ],
-    "counts": 36
+    "counts": 33
   },
-  "slug": "CollectionSchema-CollectionSchema"
+  "slug": "Collections-CollectionSchema"
 }
