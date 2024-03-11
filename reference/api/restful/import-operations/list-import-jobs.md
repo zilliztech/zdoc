@@ -41,8 +41,9 @@ curl --request GET \
     | Parameter        | Description                                                                               |
     |------------------|-------------------------------------------------------------------------------------------|
     | `clusterId`  | **string**(required)<br/>The ID of a specific cluster on Zilliz Cloud.|
-    | `pageSize`  | **string**<br/>The number of records to return at each request.|
-    | `currentPage`  | **string**<br/>The current page number.|
+    | `pageSize`  | **integer**<br/>The number of records to return at each request.|
+    | `currentPage`  | **integer**<br/>The current page number.|
+    | `count`  | **integer**<br/>The number of import jobs.|
 
 - No path parameters required
 
@@ -62,9 +63,9 @@ Returns a list of import jobs.
 {
     "code": "string",
     "data": {
-        "count": "string",
-        "currentPage": "string",
-        "pageSize": "string",
+        "count": "integer",
+        "currentPage": "integer",
+        "pageSize": "integer",
         "records": [
             {
                 "collectionName": "string",
@@ -93,9 +94,9 @@ The properties in the returned response are listed in the following table.
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | `code`   | **integer**<br/>Indicates whether the request succeeds.<br/><ul><li>`200`: The request succeeds.</li><li>Others: Some error occurs.</li></ul> |
 | `data`    | **object**<br/>A data object. |
-| `data.count`   | **string**<br/>Total number of records listed in this response. |
-| `data.currentPage`   | **string**<br/>The current page number for your reference. |
-| `data.pageSize`   | **string**<br/>The maximum number of records to be included in each return. |
+| `data.count`   | **integer**<br/>Total number of records listed in this response. |
+| `data.currentPage`   | **integer**<br/>The current page number for your reference. |
+| `data.pageSize`   | **integer**<br/>The maximum number of records to be included in each return. |
 | `data.records`   | **array**<br/> |
 | `data.records[].collectionName`   | **string**<br/>The target collection name of a import task. |
 | `data.records[].jobId`   | **string**<br/>The ID of an import task. |
