@@ -22,7 +22,6 @@ Zilliz Cloud offers these CU types: **Performance-optimized**, **Capacity-optimi
 | ---------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------- | -------------------------------------- |
 |  **Performance-optimized**                           |  Low                                            |  High                                          |  Low                                   |
 |  **Capacity-optimized**                              |  Medium                                         |  Medium                                        |  High                                  |
-|   |  <br/>  |  <br/>  |   |
 
 ### Performance-optimized CU{#performance-optimized-cu}
 
@@ -46,11 +45,11 @@ The table below illustrates the load capacity for each CU type, taking into acco
 
 |  Vector Dimensions |  Performance-optimized (Max. Vectors per CU) |  Capacity-optimized (Max. Vectors per CU) |   |
 | ------------------ | -------------------------------------------- | ----------------------------------------- | ---------------------------------------------------------------------- |
-|  128               |  5 million                                   |  25 million                               |                             |
-|  256               |  3 million                                   |  15 million                               |                             |
-|  512               |  1.5 million                                 |  7.5 million                              |                            |
-|  768               |  1 million                                   |  5 million                                |                              |
-|  1024              |  0.75 million                                |  3.75 million                             |                           |
+|  128               |  8 million                                   |  25 million                               |                             |
+|  256               |  6 million                                   |  15 million                               |                             |
+|  512               |  3 million                                   |  7.5 million                              |                            |
+|  768               |  2 million<br/>                           |  5 million                                |                              |
+|  1024              |  1.5 million                                 |  3.75 million                             |                           |
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -82,17 +81,17 @@ The following table shows the test result of how each CU type performs in terms 
 
 ## Scenario breakdown{#scenario-breakdown}
 
-Suppose you are building an image recommendation application with a library of 10 million images. Each image in your library is represented by a 768-dimensional embedding vector. Your goal is to swiftly handle a QPS of 1,000 recommendation requests and deliver the top 100 image recommendations in under 30 milliseconds.
+Suppose you are building an image recommendation application with a library of 8 million images. Each image in your library is represented by a 768-dimensional embedding vector. Your goal is to swiftly handle a QPS of 1,000 recommendation requests and deliver the top 100 image recommendations in under 30 milliseconds.
 
 To select the right CU for this requirement, follow these steps:
 
 1. **Evaluate Latency**: The Performance-optimized CU is the only type that meets the 30-millisecond latency requirement.
 
-1. **Assess Capacity**: A single Performance-optimized CU accommodates 1.2 million 768-dimensional vectors. To store all 10 million vectors, you would need at least nine CUs.
+1. **Assess Capacity**: A single Performance-optimized CU accommodates 2 million 768-dimensional vectors. To store all 8 million vectors, you would need at least 4 CUs.
 
 1. **Check Throughput**: With a `top-k` setting of 100, the Performance-optimized CU can achieve a QPS of 440. To sustain a consistent 1,000 QPS, you would need to triple the number of replicas.
 
-In conclusion, for this scenario, the Performance-optimized CU is your best bet. A configuration of three replicas, with each replica consisting of nine CUs, should serve you perfectly.
+In conclusion, for this scenario, the Performance-optimized CU is your best bet. A configuration of 3 replicas, with each replica consisting of 4 CUs, should serve you perfectly.
 
 ## Related topics{#related-topics}
 

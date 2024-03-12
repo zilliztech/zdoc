@@ -98,55 +98,21 @@ For more information, please refer to [Change Azure subscription and/or resource
 
 ## Cancel Azure Marketplace subscription{#cancel-azure-marketplace-subscription}
 
-To cancel your Azure Marketplace subscription, you need to open the Azure Marketplace console and follow the instructions [here](https://learn.microsoft.com/en-us/marketplace/saas-subscription-lifecycle-management#cancel-subscription).
+1. Open the Azure Marketplace homepage.
+
+1. Click **All resources** or find your subscription in the **Resources/Recent** tab.
+
+    ![azure_all_resources](/img/azure_all_resources.png)
+
+1. Navigate to the subscription you want to cancel. Click **Cancel subscription**. Wait for a few minutes for Azure Marketplace to complete the process.
+
+    ![cancel_azure_subscription](/img/cancel_azure_subscription.png)
+
+For more information about how to cancel subscription on Azure Marketplace, see [here](https://learn.microsoft.com/en-us/marketplace/saas-subscription-lifecycle-management#cancel-subscription).
 
 ## Azure Marketplace pricing terms{#azure-marketplace-pricing-terms}
 
-<Admonition type="info" icon="📘" title="Notes">
-
-You can subscribe to our service in Azure Marketplace and choose among AWS, GCP, and Azure to create your Zilliz Cloud clusters.
-
-</Admonition>
-
-- Zilliz Cloud Standard Plan
-
-    |  **Unit**                                              |  **Cost**      |
-    | ------------------------------------------------------ | -------------- |
-    |  1 Azure performance-optimized CU per hour as one unit |  $0.159 / unit |
-    |  1 Azure capacity-optimized CU per hour as one unit    |  $0.159 / unit |
-    |  1 GB for storage on Azure per month as one unit       |  $0.025 / unit |
-    |  1 GB for backup service on Azure as one unit          |  $0.025 / unit |
-    |  1 GCP performance-optimized CU per hour as one unit   |  $0.137 / unit |
-    |  1 GCP capacity-optimized CU per hour as one unit      |  $0.137 / unit |
-    |  1 GCP cost-optimized CU per hour as one unit          |  $0.091 / unit |
-    |  1 GB for storage on GCP per month as one unit         |  $0.02 / unit  |
-    |  1 GB for backup service on GCP as one unit            |  $0.02 / unit  |
-    |  1 AWS performance-optimized CU per hour as one unit   |  $0.159 / unit |
-    |  1 AWS capacity-optimized CU per hour as one unit      |  $0.159 / unit |
-    |  1 AWS cost-optimized CU per hour as one unit          |  $0.107 / unit |
-    |  1 GB for storage on AWS per month as one unit         |  $0.025 / unit |
-    |  1 GB for backup service on AWS as one unit            |  $0.025 / unit |
-
-- Zilliz Cloud Enterprise Plan
-
-    |  **Unit**                                              |  **Cost**      |
-    | ------------------------------------------------------ | -------------- |
-    |  1 Azure performance-optimized CU per hour as one unit |  $0.248 / unit |
-    |  1 Azure capacity-optimized CU per hour as one unit    |  $0.248 / unit |
-    |  1 GB for storage on Azure per month as one unit       |  $0.025 / unit |
-    |  1 GB for backup service on Azure as one unit          |  $0.025 / unit |
-    |  1 GCP performance-optimized CU per hour as one unit   |  $0.215 / unit |
-    |  1 GCP capacity-optimized CU per hour as one unit      |  $0.215 / unit |
-    |  1 GCP cost-optimized CU per hour as one unit          |  $0.137 / unit |
-    |  1 GB for storage on GCP per month as one unit         |  $0.02 / unit  |
-    |  1 GB for backup service on GCP as one unit            |  $0.02 / unit  |
-    |  1 AWS performance-optimized CU per hour as one unit   |  $0.248 / unit |
-    |  1 AWS capacity-optimized CU per hour as one unit      |  $0.248 / unit |
-    |  1 AWS cost-optimized CU per hour as one unit          |  $0.159 / unit |
-    |  1 GB for storage on AWS per month as one unit         |  $0.025 / unit |
-    |  1 GB for backup service on AWS as one unit            |  $0.025 / unit |
-
-Using the above table, if you have deployed a vector database in the **Standard Plan** on Zilliz Cloud with one performance-optimized CU on GCP, you will be charged 215 unit per hour, that is $0.215/hour.
+Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more information.
 
 ## Related topics{#related-topics}
 

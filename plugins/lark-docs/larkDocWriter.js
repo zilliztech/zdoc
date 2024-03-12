@@ -7,12 +7,12 @@ const fetch = require('node-fetch')
 const cheerio = require('cheerio')
 
 class larkDocWriter {
-    constructor(root_token, docSourceDir='plugins/lark-docs/meta/sources', imageDir='static/img', target='saas', skip_image_download=false) {
+    constructor(root_token, docSourceDir='plugins/lark-docs/meta/sources', imageDir='static/img', targets='zilliz.saas', skip_image_download=false) {
         this.root_token = root_token
         this.docSourceDir = docSourceDir
         this.page_blocks = []
         this.blocks = []
-        this.target = target
+        this.targets = targets
         this.skip_image_download = skip_image_download
         this.imageDir = imageDir
         this.block_types = [
@@ -167,7 +167,7 @@ class larkDocWriter {
             const children = node.children.filter(child => child.obj_type != 'bitable' && child != undefined)
             await forEachAsync(children, async (child, index) => {
                 if (child.has_child) {
-                    const meta = await this.__is_to_publish(child.title) 
+                    const meta = await this.__is_to_publish(child.title, child.slug) 
                     if (meta['publish']) {
                         const token = child.node_token
                         const slug = child.slug
@@ -206,7 +206,7 @@ class larkDocWriter {
                             await this.write_faqs(`${current_path}/faqs`)
                             break;
                         default:
-                            const meta = await this.__is_to_publish(child.title)
+                            const meta = await this.__is_to_publish(child.title, child.slug)
                             if (meta['publish']) {
                                 const token = child.node_token
                                 const slug = child.slug
@@ -303,7 +303,7 @@ class larkDocWriter {
             })
 
             let a = await this.__markdown()
-            a = this.__filter_content(a, this.target).split('\n')
+            a = this.__filter_content(a, this.targets).split('\n')
             let header_pos = a.map((line, index) => {
                 if (line.startsWith('##')) {
                     return index
@@ -390,16 +390,20 @@ class larkDocWriter {
         })).json()).data.items
     }
 
-    async __is_to_publish (title) {
+    async __is_to_publish (title, slug) {
+        console.log(title, slug)
         if (!this.records) {
             await this.__listed_docs()
         }
 
         const result = this.records.filter(record => {
-            if (record["fields"]["Docs"] && record["fields"]["Docs"]["text"] === title &&
+            const record_slug = record["fields"]["Slug"] instanceof Array ? record["fields"]["Slug"][0].text : record["fields"]["Slug"]
+            if (record["fields"]["Docs"] && record["fields"]["Docs"]["text"] === title && record_slug == slug && record["fields"]["Targets"] &&
                 record["fields"]["Progress"] && (record["fields"]["Progress"] === "Draft" || record["fields"]["Progress"] === "Publish")) {
 
-                if (record["fields"]["Targets"] && record["fields"]["Targets"].map(a => a.toLowerCase()).includes(this.target)) {
+                const targets = record["fields"]["Targets"].map(item => item.trim().toLowerCase())
+
+                if (targets.includes(this.targets.toLowerCase())) {
                     return record
                 }
             }
@@ -408,11 +412,13 @@ class larkDocWriter {
         if (result.length > 0) {
             return {
                 publish: true,
+                title: result[0]["fields"]["Docs"].text,
                 slug: result[0]["fields"]["Slug"],
                 beta: result[0]["fields"]["Beta"],
                 notebook: result[0]["fields"]["Notebook"],
                 labels: result[0]["fields"]["Labels"],
-                keywords: result[0]["fields"]["Keywords"]
+                keywords: result[0]["fields"]["Keywords"],
+                description: result[0]["fields"]["Description"]
             }
         } else {
             return {
@@ -422,34 +428,74 @@ class larkDocWriter {
         
     }
 
-    __filter_content (markdown, target) {
-        const regex = /<(include|exclude) target="(\b(\w+,)*\w+\b)">[\s\S]*?<\/\1>/g
-        markdown = markdown.replace(regex, (match, tag, value) => {
-            value = value.split(',').map(item => item.trim())
-            if (tag == 'include' && value.includes(target)) {
-                return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
+    __filter_content (markdown, targets) {
+        const matches = this.__match_filter_tags(markdown)
+
+        if (matches.length > 0) {
+            var preText = markdown.slice(0, matches[0].startIndex)
+            var matchText = markdown.slice(matches[0].startIndex, matches[0].endIndex)
+            var postText = markdown.slice(matches[0].endIndex)
+            var isTargetValid = targets.split('.').includes(matches[0].target.trim())
+            var startTagLength = `<${matches[0].tag} target="${matches[0].target}">`.length
+            var endTagLength = `</${matches[0].tag}>`.length
+
+            if (matches[0].tag == 'include' && isTargetValid || matches[0].tag == 'exclude' && !isTargetValid) {
+                matchText = matchText.slice(startTagLength, -endTagLength)
             }
 
-            if (tag == 'exclude' && !value.includes(target)) {
-                return match.replace(new RegExp(`<\/?${tag}[ target="${value.join(',')}"]*>`, 'g'), '')
+            if (matches[0].tag == 'include' && !isTargetValid || matches[0].tag == 'exclude' &&  isTargetValid) {
+                matchText = ""
             }
+ 
+            markdown = this.__filter_content(preText + matchText + postText , targets)
+        }
 
-            if (tag == 'exclude' && value.includes(target)) {
-                return ""
+        return markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
+    }
+
+    __match_filter_tags(markdown) {
+        const startTagRegex = /<(include|exclude) target="(.+?)"/gm
+        const endTagRegex = /<\/(include|exclude)>/gm
+        const matches = [... markdown.matchAll(startTagRegex)]
+        var returns = []
+
+        matches.forEach(match => {
+            var tag = match[1]
+            var rest = markdown.slice(match.index)
+            
+            var closeTagRegex = new RegExp(`</${tag}>`, 'gm')
+            var closeTagMatch = [... rest.matchAll(closeTagRegex)]
+            
+            var startIndex = match.index
+            var endIndex = 0
+            
+            for (let i = 0; i < closeTagMatch.length; i++) {
+                var t = markdown.slice(startIndex, startIndex+closeTagMatch[i].index+closeTagMatch[i][0].length)
+            
+                var startCount = t.match(startTagRegex) ? t.match(startTagRegex).length : 0
+                var endCount = t.match(endTagRegex) ? t.match(endTagRegex).length : 0
+        
+                if (startCount === endCount) {
+                    endIndex = startIndex + closeTagMatch[i].index + closeTagMatch[i][0].length
+                    break
+                }
             }
             
-            if (tag == 'include' && !value.includes(target)) {
-                return ""
-            }
+            returns.push({
+                tag: tag,
+                target: match[2],
+                startIndex: startIndex,
+                endIndex: endIndex
+            })           
         })
 
-        return markdown.replace(/\n{3,}/g, '\n\n').replace(/^\|(\s*\|)*\s*\n/gm, '')
+        return returns
     }
 
     async __write_page({slug, beta, notebook, path, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
         let front_matter = this.__front_matters(slug, beta, notebook, token, sidebar_position, sidebar_label, keywords)
         let markdown = await this.__markdown()
-        markdown = this.__filter_content(markdown, this.target)
+        markdown = this.__filter_content(markdown, this.targets)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
         markdown = markdown.replace(/^[\||\s][\s|\||<br\/>]*\|\n/gm, '')
 
@@ -567,7 +613,7 @@ class larkDocWriter {
     async __heading(heading, level) {
         let content = await this.__text_elements(heading['elements'])
         if (content.length > 0) {
-            content = this.__filter_content(content, this.target)
+            content = this.__filter_content(content, this.targets)
             let slug = slugify(content, {lower: true, strict: true})
             return '#'.repeat(level) + ' ' + content + '{#'+slug+'}';
         } else {

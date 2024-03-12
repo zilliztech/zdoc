@@ -80,6 +80,50 @@ Zilliz Cloud offers flexibility in switching between different payment methods:
 
 - Resubscribe using the new [AWS](./subscribe-on-aws-marketplace) or [GCP](./subscribe-on-gcp-marketplace) or [Azure](./subscribe-on-azure-marketplace) Marketplace account.
 
+## Marketplace Pricing Terms{#marketplace-pricing-terms}
+
+You can subscribe to Zilliz Cloud services on [AWS](./subscribe-on-aws-marketplace), [GPC](./subscribe-on-gcp-marketplace), or [Azure](./subscribe-on-azure-marketplace) Marketplace and then create a cluster deployed on the [supported cloud providers](./cloud-providers-and-regions).
+
+- Zilliz Cloud Standard Plan
+
+    |  **Unit/Count**                                        |  **Cost per unit or count** |
+    | ------------------------------------------------------ | --------------------------- |
+    |  1 AWS performance-optimized CU per hour as one unit   |  $0.159                     |
+    |  1 AWS capacity-optimized CU per hour as one unit      |  $0.159                     |
+    |  1 AWS cost-optimized CU per hour as one unit          |  $0.107                     |
+    |  1 GB for storage on AWS per month as one unit         |  $0.025                     |
+    |  1 GB for backup service on AWS as one unit            |  $0.025                     |
+    |  1 GCP performance-optimized CU per hour as one unit   |  $0.137                     |
+    |  1 GCP capacity-optimized CU per hour as one unit      |  $0.137                     |
+    |  1 GCP cost-optimized CU per hour as one unit          |  $0.091                     |
+    |  1 GB for storage on GCP per month as one unit         |  $0.02                      |
+    |  1 GB for backup service on GCP as one unit            |  $0.02                      |
+    |  1 Azure performance-optimized CU per hour as one unit |  $0.159                     |
+    |  1 Azure capacity-optimized CU per hour as one unit    |  $0.159                     |
+    |  1 GB for storage on Azure per month as one unit       |  $0.025                     |
+    |  1 GB for backup service on Azure as one unit          |  $0.025                     |
+
+- Zilliz Cloud Enterprise Plan
+
+    |  **Unit/Count**                                        |  **Cost per unit or count** |
+    | ------------------------------------------------------ | --------------------------- |
+    |  1 AWS performance-optimized CU per hour as one unit   |  $0.248                     |
+    |  1 AWS capacity-optimized CU per hour as one unit      |  $0.248                     |
+    |  1 AWS cost-optimized CU per hour as one unit          |  $0.159                     |
+    |  1 GB for storage on AWS per month as one unit         |  $0.025                     |
+    |  1 GB for backup service on AWS as one unit            |  $0.025                     |
+    |  1 GCP performance-optimized CU per hour as one unit   |  $0.215                     |
+    |  1 GCP capacity-optimized CU per hour as one unit      |  $0.215                     |
+    |  1 GCP cost-optimized CU per hour as one unit          |  $0.137                     |
+    |  1 GB for storage on GCP per month as one unit         |  $0.02                      |
+    |  1 GB for backup service on GCP as one unit            |  $0.02                      |
+    |  1 Azure performance-optimized CU per hour as one unit |  $0.248                     |
+    |  1 Azure capacity-optimized CU per hour as one unit    |  $0.248                     |
+    |  1 GB for storage on Azure per month as one unit       |  $0.025                     |
+    |  1 GB for backup service on Azure as one unit          |  $0.025                     |
+
+Using the above table, if you have deployed a Zilliz Cloud cluster in the **Standard Plan** with one performance-optimized CU on AWS, you will be charged via your Marketplace subscription 159 units per hour, that is $0.159/hour.
+
 
 
 import DocCardList from '@theme/DocCardList';

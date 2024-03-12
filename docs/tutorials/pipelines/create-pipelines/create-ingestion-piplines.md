@@ -74,19 +74,45 @@ A collection will be created automatically as part of Ingestion pipeline creatio
             |  openai/text-embedding-3-large  |  Hosted by OpenAI. This is OpenAI's best performing model. Compared to text-embedding-ada-002, the MTEB score has increased from 61.0% to 64.6%. This model is only available when `language` is `ENGLISH`.                                                                                    |
             |  zilliz/bge-base-zh-v1.5        |  Released by BAAI, this state-of-the-art open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model when `language` is `CHINESE`.                                                  |
 
-        1. (Optional) Customize the chunk size. The function segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size for custom chunking strategies. Moreover, for markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size.
+        1. (Optional) Customize the chunking strategy used to segment each document into smaller chunks. Use this feature if you want to improve retrieval quality.
 
-            The following table lists the mapping relationship between applicable models and their corresponding chunk sizes.
+            <Admonition type="info" icon="📘" title="Notes">
 
-            |  **Model**                     |  **Chunk Size Range (tokens)** |
-            | ------------------------------ | ------------------------------ |
-            |  zilliz/bge-base-en-v1.5       |  20-500 tokens                 |
-            |  zilliz/bge-base-zh-v1.5       |  20-500 tokens                 |
-            |  voyageai/voyage-2             |  20-3,000 tokens               |
-            |  voyageai/voyage-code-2        |  20-12,000 tokens              |
-            |  voyageai/voyage-large-2       |  20-12,000 tokens              |
-            |  openai/text-embedding-3-small |  250-8,191 tokens              |
-            |  openai/text-embedding-3-large |  250-8,191 tokens              |
+            For markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size.
+
+            </Admonition>
+
+            - Choose optimizer. 
+
+                Optimizers are used to enhance the parsing of text from files for better retrieval quality. However, please be aware that using optimizers can increase latency or token usage.
+
+                Currently, only 1 type of optimizer is available.
+
+                |  **Optimizer**    |  **Description**                                                                                                                       |
+                | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+                |  pdf_ocr<br/>  |  This optimizer converts a scanned or image-based PDF file into editable and searchable text, allowing for better document retrieval.  |
+
+            - Choose or customize the splitter.
+
+                Splitters are used to split the document based on a list of separators in order until the chunks are small enough - smaller or equal to the defined chunk size.
+
+                By default, Zilliz Cloud Pipelines uses **"\n\n", "\n", " ", ""** as separators. **"\n\n"** refers to two new lines, while **"\n" **refers to one new line , and **" " **refers to a space. The **"" **separator means that Zilliz Cloud Pipelines will split the chunks according to the defined chunk size.
+
+                You can also choose to split the document by sentences (use ".", "" as separators ), paragraphs (use "\n\n", "" as separators), lines (use "\n", "" as separators), or a list of customized strings. The customized separators should be combined with commas.
+
+            - Define the chunk size.
+
+                By default, each chunk contains no more than 500 tokens. The following table lists the mapping relationship between applicable models and their corresponding chunk size ranges.
+
+                |  **Model**                     |  **Chunk Size Range** |
+                | ------------------------------ | --------------------- |
+                |  zilliz/bge-base-en-v1.5       |  20-500 tokens        |
+                |  zilliz/bge-base-zh-v1.5       |  20-500 tokens        |
+                |  voyageai/voyage-2             |  20-3,000 tokens      |
+                |  voyageai/voyage-code-2        |  20-12,000 tokens     |
+                |  voyageai/voyage-large-2       |  20-12,000 tokens     |
+                |  openai/text-embedding-3-small |  250-8,191 tokens     |
+                |  openai/text-embedding-3-large |  250-8,191 tokens     |
 
             ![customize-chunk-size](/img/customize-chunk-size.png)
 
@@ -145,7 +171,9 @@ curl --request POST \
                 "inputField": "doc_url", 
                 "language": "ENGLISH",
                 "chunkSize": 500,
-                "embedding": "zilliz/bge-base-en-v1.5"
+                "embedding": "zilliz/bge-base-en-v1.5",
+                "splitBy": ["\n\n", "\n", " ", ""], 
+                "optimizers": ["pdf_ocr"]
             },
             {
                 "name": "keep_doc_info",
@@ -208,21 +236,29 @@ The parameters in the above code are described as follows:
         |  openai/text-embedding-3-small |  250-8,191 tokens              |
         |  openai/text-embedding-3-large |  250-8,191 tokens              |
 
-    - `outputField`: The name of the output field which will be used in the collection schema. Currently, the output field name must be identical to the input field name. *(This parameter is only used in the `PRESERVE` function.)*
+    - `splitBy` (optional): Splitters are used to split the document based on a list of separators in order until the chunks are small enough - smaller or equal to the defined chunk size. By default, Zilliz Cloud Pipelines uses `["\n\n", "\n", " ", ""] `as separators. *(This parameter is only used in the `INDEX_DOC` function.)*
 
-    - `fieldType`: The data type of the input and output fields. Possible values include `Bool`, `Int8`, `Int16`, `Int32`, `Int64`, `Float`, `Double`, and `VarChar`. *(This parameter is only used in the `PRESERVE` function.)*
+    - `optimizers` (optional): Optimizers are used to enhance the parsing of text from files for better retrieval quality. However, please be aware that using optimizers can increase latency or token usage. Currently, only 1 type of optimizer is available. *(This parameter is only used in the `INDEX_DOC` function.)*
 
-        <Admonition type="info" icon="📘" title="Notes">
+        |  **Optimizer**    |  **Description**                                                                                                                       |
+        | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+        |  pdf_ocr<br/>  |  This optimizer converts a scanned or image-based PDF file into editable and searchable text, allowing for better document retrieval.  |
 
-        When storing date-time in scalar fields, it is recommended to use the **Int16** data type for year data, and **Int32** for timestamps.        
-        
-        For `VarChar` field type, the `max_length` of the data in this field cannot exceed 4,000.
+- `outputField`: The name of the output field which will be used in the collection schema. Currently, the output field name must be identical to the input field name. *(This parameter is only used in the `PRESERVE` function.)*
 
-        </Admonition>
+- `fieldType`: The data type of the input and output fields. Possible values include `Bool`, `Int8`, `Int16`, `Int32`, `Int64`, `Float`, `Double`, and `VarChar`. *(This parameter is only used in the `PRESERVE` function.)*
 
-    - `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a serverless cluster or a dedicated cluster deployed on GCP us-west1. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+    <Admonition type="info" icon="📘" title="Notes">
 
-    - `newCollectionName`: The name of the collection in which you want to create a pipeline.
+    When storing date-time in scalar fields, it is recommended to use the **Int16** data type for year data, and **Int32** for timestamps.    
+    
+    For `VarChar` field type, the `max_length` of the data in this field cannot exceed 4,000.
+
+    </Admonition>
+
+- `clusterId`: The ID of the cluster in which you want to create a pipeline. Currently, you can only choose a serverless cluster or a dedicated cluster deployed on GCP us-west1. Learn more about [How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+
+- `newCollectionName`: The name of the collection in which you want to create a pipeline.
 
 Below is an example output.
 
@@ -243,7 +279,9 @@ Below is an example output.
         "inputField": "doc_url",
         "language": "ENGLISH",
         "chunkSize": 500,
-        "embedding": "zilliz/bge-base-en-v1.5"
+        "embedding": "zilliz/bge-base-en-v1.5"，
+        "splitBy": ["\n\n", "\n", " ", ""], 
+        "optimizers": ["pdf_ocr"]
       },
       {
         "action": "PRESERVE",

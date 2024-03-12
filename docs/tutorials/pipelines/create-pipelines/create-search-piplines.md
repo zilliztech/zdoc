@@ -58,9 +58,9 @@ Unlike Ingestion and Deletion pipelines, when creating a Search pipeline, the cl
 
     1. (Optional) Enable reranker if you want to reorder or rank a set of candidate outputs to improve the quality of the search results. By default, this feature is disabled. Once enabled, you can choose the model service used for reranking. Currently, only **zilliz/bge-reranker-base** is available.
 
-        |  **Reranker Mode Service** |  **Description**                                                                                                                                                                                                    |
-        | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-        |  zilliz/bge-reranker-base  |  Open-source reranker model published by BAAI. This model is hosted on Zilliz Cloud and co-located with other Zilliz services, thus has the best latency. One of the best performers according to MTEB leaderboard. |
+        |  **Reranker Model Service** |  **Description**                                                                                                                                                                                                    |
+        | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+        |  zilliz/bge-reranker-base   |  Open-source reranker model published by BAAI. This model is hosted on Zilliz Cloud and co-located with other Zilliz services, thus has the best latency. One of the best performers according to MTEB leaderboard. |
 
         ![add-function-to-search-pipeline](/img/add-function-to-search-pipeline.png)
 
@@ -111,7 +111,7 @@ The parameters in the above code are described as follows:
 
 - `name`: The name of the pipeline to create. The pipeline name should be a string of 3-64 characters and can contain only alphanumeric letters and underscores.
 
-- `description` (optional): The description of the pipeline to create
+- `description` (optional): The description of the pipeline to create.
 
 - `type`: The type of the pipeline to create. Currently, available pipeline types include `INGESTION`, `SEARCH`, and `DELETION`.
 

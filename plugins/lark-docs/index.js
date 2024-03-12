@@ -82,7 +82,7 @@ module.exports = function (context, options) {
                             await scraper.fetch(recursive=false, page_token=token)
     
                             const writer = new docWriter(options.root, options.docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown)
-                            const meta = await writer.__is_to_publish(opts.docTitle)
+                            const meta = await writer.__is_to_publish(opts.docTitle, source.slug)
 
                             var file_path = outputDir + '/' + utils.determine_file_path(token, options.docSourceDir)
 
