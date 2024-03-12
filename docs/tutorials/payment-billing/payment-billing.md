@@ -124,6 +124,10 @@ You can subscribe to Zilliz Cloud services on [AWS](./subscribe-on-aws-marketpla
 
 Using the above table, if you have deployed a Zilliz Cloud cluster in the **Standard Plan** with one performance-optimized CU on AWS, you will be charged via your Marketplace subscription 159 units per hour, that is $0.159/hour.
 
+## Related topics{#related-topics}
+
+To learn more about subscribing to Zilliz Cloud using different payment methods and viewing your invoices, please refer to the following topics.
+
 
 
 import DocCardList from '@theme/DocCardList';

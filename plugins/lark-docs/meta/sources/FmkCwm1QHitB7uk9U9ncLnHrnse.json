@@ -5,7 +5,7 @@
   "node_token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
   "node_type": "origin",
   "obj_create_time": "1689059641",
-  "obj_edit_time": "1710226365",
+  "obj_edit_time": "1710239188",
   "obj_token": "T1JedzGx9oVUcpxdjX7c6SmanqX",
   "obj_type": "docx",
   "origin_node_token": "FmkCwm1QHitB7uk9U9ncLnHrnse",
@@ -54,7 +54,9 @@
           "N3TEdw56aoWlVyxmwo9cqk5Xnuf",
           "CzCodrRvyoLJxoxMwTRc4JQdnqz",
           "CuaNdIzV3oSBhSxAIF2cjuQJnAc",
-          "ZpOMdU5b3obSRyxf1IWcNQetnJg"
+          "ZpOMdU5b3obSRyxf1IWcNQetnJg",
+          "Crq9dXAHboM2B4xWjM6cMB8znze",
+          "SLdAd5QTXoes6qxSQ5Ec7lWAnab"
         ],
         "page": {
           "elements": [
@@ -4578,6 +4580,56 @@
       },
       {
         "block_id": "ZpOMdU5b3obSRyxf1IWcNQetnJg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Related topics",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX"
+      },
+      {
+        "block_id": "Crq9dXAHboM2B4xWjM6cMB8znze",
+        "block_type": 2,
+        "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To learn more about subscribing to Zilliz Cloud using different payment methods and viewing your invoices, please refer to the following topics.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "SLdAd5QTXoes6qxSQ5Ec7lWAnab",
         "block_type": 2,
         "parent_id": "T1JedzGx9oVUcpxdjX7c6SmanqX",
         "text": {
@@ -4602,7 +4654,7 @@
         }
       }
     ],
-    "counts": 189
+    "counts": 191
   },
   "children": [
     {
