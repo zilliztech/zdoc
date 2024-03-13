@@ -1,30 +1,30 @@
 ---
 displayed_sidbar: pythonSidebar
-slug: /python/Management-create_index_params
+slug: /python/Management-prepare_index_params
 beta: false
 notebook: false
 type: docx
 token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
-sidebar_position: 3
+sidebar_position: 8
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# create_index_params()
+# prepare_index_params()
 
 This operation prepares index parameters to build indexes for a specific collection.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This is a class method. You should call this method like this: <code>MilvusClient.create_index_params()</code>.</p>
+<p>This is a class method. You should call this method like this: <code>MilvusClient.prepare_index_params()</code>.</p>
 
 </Admonition>
 
 ## Request syntax{#request-syntax}
 
 ```python
-pymilvus.MilvusClient.create_index_params() -> IndexParams
+pymilvus.MilvusClient.prepare_index_params() -> IndexParams
 ```
 
 __PARAMETERS:__
@@ -59,7 +59,7 @@ None
 ```python
 from pymilvus import MilvusClient
 
-index_params = MilvusClient.create_index_params()
+index_params = MilvusClient.prepare_index_params()
 ```
 
 - [add_index()](./Management-add_index)

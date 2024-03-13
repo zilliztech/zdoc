@@ -13,7 +13,7 @@ import Admonition from '@theme/Admonition';
 
 # MilvusClient
 
-A __MilvusClient__ instance represents a python client that connects to a specific Zilliz Cloud cluster.
+A __MilvusClient__ instance represents a Python client that connects to a specific Zilliz Cloud cluster.
 
 ```python
 pymilvus.MilvusClient
@@ -25,7 +25,7 @@ Constructs a client for common use cases.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This client serves as an easy-to-use alternative for the current set of APIs that handles CRUD operations on Zilliz Cloud.</p>
+<p>This client serves as an easy-to-use alternative for the current set of APIs that handles Create, Read, Update, and Delete (CRUD) operations on Zilliz Cloud.</p>
 
 </Admonition>
 

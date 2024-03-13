@@ -58,6 +58,14 @@ __PARAMETERS:__
 
         - __DataType.DOUBLE__,
 
+        - __DataType.BINARY_VECTOR,__
+
+        - __DataType.FLOAT_VECTOR,__
+
+        - __DataType.FLOAT16_VECTOR,__
+
+        - __DataType.BFLOAT16_VECTOR,
+
         - __DataType.VARCHAR__,
 
         - __DataType.JSON__, and

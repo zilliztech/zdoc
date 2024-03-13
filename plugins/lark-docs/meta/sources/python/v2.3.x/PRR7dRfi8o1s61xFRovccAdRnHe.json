@@ -1,6 +1,6 @@
 {
   "created_time": "1706669916",
-  "modified_time": "1709805612",
+  "modified_time": "1710122102",
   "name": "release_collection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "IZKcfUEfClhhnWdFhk2co7krnAV",
@@ -35,7 +35,8 @@
           "QaW3d7daVoVOkCxM66FcfS56n4c",
           "SuDzdjB1Doc3Q9xia7tcyn7knSc",
           "AWGBdbJY3obL3vxeghFcjNJHn7P",
-          "YIm3dyz3Mo8b6bxmgzocCO1GnWd"
+          "YIm3dyz3Mo8b6bxmgzocCO1GnWd",
+          "Q38TdynKooGBAdxb1vVcngZOnBg"
         ],
         "page": {
           "elements": [
@@ -683,7 +684,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient, DataType\n\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }\n#     ]\n# }\n\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }, \n#         {\n#             'name': 'my_vector', \n#             'description': '', \n#             'type': <DataType.FLOAT_VECTOR: 101>, \n#             'params': {\n#                 'dim': 5\n#             }\n#         }        \n#     ]\n# }\n\n# 3. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema\n)\n\n# 4. Prepare index parameters\nindex_params = client.create_index_params()\n\n# 5. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"IVF_FLAT\",\n    metric_type=\"L2\",\n    params={nlist: 1024}\n)\n\n# 6. Create indexes\nclient.create_index(\n    collection_name=\"customized_setup\",\n    index_params=index_params\n)\n\n# 7. Load the collection\nclient.load_collection(\n    collection_name=\"customized_setup\"\n)\n\n# 8. Get load status\nclient.get_load_state(\n    collection_name=\"customized_setup\",\n",
+                "content": "from pymilvus import MilvusClient, DataType\n\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }\n#     ]\n# }\n\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }, \n#         {\n#             'name': 'my_vector', \n#             'description': '', \n#             'type': <DataType.FLOAT_VECTOR: 101>, \n#             'params': {\n#                 'dim': 5\n#             }\n#         }        \n#     ]\n# }\n\n# 3. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema\n)\n\n# 4. Prepare index parameters\nindex_params = client.prepare_index_params()\n\n# 5. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"IVF_FLAT\",\n    metric_type=\"L2\",\n    params={nlist: 1024}\n)\n\n# 6. Create indexes\nclient.create_index(\n    collection_name=\"customized_setup\",\n    index_params=index_params\n)\n\n# 7. Load the collection\nclient.load_collection(\n    collection_name=\"customized_setup\"\n)\n\n# 8. Get load status\nclient.get_load_state(\n    collection_name=\"customized_setup\",\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -852,7 +853,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient, DataType\n\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }\n#     ]\n# }\n\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }, \n#         {\n#             'name': 'my_vector', \n#             'description': '', \n#             'type': <DataType.FLOAT_VECTOR: 101>, \n#             'params': {\n#                 'dim': 5\n#             }\n#         }        \n#     ]\n# }\n\n# 3. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema\n)\n\n# 4. Prepare index parameters\nindex_params = client.create_index_params()\n\n# 5. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"IVF_FLAT\",\n    metric_type=\"L2\",\n    params={nlist: 1024}\n)\n\n# 6. Create indexes\nclient.create_index(\n    collection_name=\"customized_setup\",\n    index_params=index_params\n)\n\n# 7. Load the collection\nclient.load_collection(\n    collection_name=\"customized_setup\"\n)\n\n# 8. Get load status\nclient.get_load_state(\n    collection_name=\"customized_setup\",\n) # Loaded\n\n# {'state': <LoadState: Loaded>}\n\n# 9. Release the collection\nclient.release_collection(\n    collection_name=\"customized_setup\"\n)\n\n# 10. Get load status\nclient.get_load_state(\n    collection_name=\"customized_setup\"\n) # Unloaded\n\n",
+                "content": "from pymilvus import MilvusClient, DataType\n\nclient = MilvusClient(\n    uri=\"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530\",\n    token=\"user:password\"\n)\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }\n#     ]\n# }\n\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }, \n#         {\n#             'name': 'my_vector', \n#             'description': '', \n#             'type': <DataType.FLOAT_VECTOR: 101>, \n#             'params': {\n#                 'dim': 5\n#             }\n#         }        \n#     ]\n# }\n\n# 3. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema\n)\n\n# 4. Prepare index parameters\nindex_params = client.prepare_index_params()\n\n# 5. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"IVF_FLAT\",\n    metric_type=\"L2\",\n    params={nlist: 1024}\n)\n\n# 6. Create indexes\nclient.create_index(\n    collection_name=\"customized_setup\",\n    index_params=index_params\n)\n\n# 7. Load the collection\nclient.load_collection(\n    collection_name=\"customized_setup\"\n)\n\n# 8. Get load status\nclient.get_load_state(\n    collection_name=\"customized_setup\",\n) # Loaded\n\n# {'state': <LoadState: Loaded>}\n\n# 9. Release the collection\nclient.release_collection(\n    collection_name=\"customized_setup\"\n)\n\n# 10. Get load status\nclient.get_load_state(\n    collection_name=\"customized_setup\"\n) # Unloaded\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1015,9 +1016,34 @@
           }
         },
         "parent_id": "PRR7dRfi8o1s61xFRovccAdRnHe"
+      },
+      {
+        "block_id": "Q38TdynKooGBAdxb1vVcngZOnBg",
+        "block_type": 2,
+        "parent_id": "PRR7dRfi8o1s61xFRovccAdRnHe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       }
     ],
-    "counts": 29
+    "counts": 30
   },
   "slug": "Management-release_collection"
 }

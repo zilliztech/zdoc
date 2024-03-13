@@ -10,7 +10,7 @@ sidebar_position: 2
 
 # MilvusClient
 
-A __MilvusClient__ instance represents a python client that connects to a specific Milvus instance.
+A __MilvusClient__ instance represents a Python client that connects to a specific Milvus instance.
 
 ```python
 pymilvus.MilvusClient
@@ -24,7 +24,7 @@ Constructs a client for common use cases.
 
 <p><b>notes</b></p>
 
-<p>This client serves as an easy-to-use alternative for the current set of APIs that handles CRUD operations in Milvus.</p>
+<p>This client serves as an easy-to-use alternative for the current set of APIs that handles Create, Read, Update, and Delete (CRUD) operations in Milvus.</p>
 
 </div>
 

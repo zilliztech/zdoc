@@ -1,6 +1,6 @@
 {
   "created_time": "1704785712",
-  "modified_time": "1708495725",
+  "modified_time": "1710310219",
   "name": "MilvusClient",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "M0pgf1TX3lTotndwA7Vc3gJsnAd",
@@ -98,7 +98,7 @@
             },
             {
               "text_run": {
-                "content": " instance represents a python client that connects to a specific <include target=\"milvus\">Milvus instance</include><include target=\"zilliz\">Zilliz Cloud cluster</include>.",
+                "content": " instance represents a Python client that connects to a specific <include target=\"milvus\">Milvus instance</include><include target=\"zilliz\">Zilliz Cloud cluster</include>.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -237,7 +237,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "This client serves as an easy-to-use alternative for the current set of APIs that handles CRUD operations <include target=\"milvus\">in Milvus</include><include target=\"zilliz\">on Zilliz Cloud</include>.",
+                "content": "This client serves as an easy-to-use alternative for the current set of APIs that handles Create, Read, Update, and Delete (CRUD) operations <include target=\"milvus\">in Milvus</include><include target=\"zilliz\">on Zilliz Cloud</include>.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1951,8 +1951,7 @@
           ],
           "style": {
             "align": 1,
-            "folded": false,
-            "indentation_level": "NoIndent"
+            "folded": false
           }
         },
         "parent_id": "DxzpdGVe8oHrh3xzBEPcNYW4nuf"

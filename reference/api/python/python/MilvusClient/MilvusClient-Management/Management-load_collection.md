@@ -5,7 +5,7 @@ beta: false
 notebook: false
 type: docx
 token: FLmWdFP9Zo3JcixOEgucU8JMnLc
-sidebar_position: 8
+sidebar_position: 7
 ---
 
 import Admonition from '@theme/Admonition';
@@ -116,7 +116,7 @@ client.create_collection(
 )
 
 # 4. Prepare index parameters
-index_params = client.create_index_params()
+index_params = client.prepare_index_params()
 
 # 5. Add indexes
 index_params.add_index(

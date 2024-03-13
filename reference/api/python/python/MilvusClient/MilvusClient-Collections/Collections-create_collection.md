@@ -263,7 +263,7 @@ You can choose between a quick setup or a customized setup as follows:
     schema.add_field(field_name="my_vector", datatype=DataType.FLOAT_VECTOR, dim=5)
     
     # 3. Prepare index parameters
-    index_params = client.create_index_params()
+    index_params = client.prepare_index_params()
     
     # 4. Add indexes
     index_params.add_index(
@@ -274,6 +274,8 @@ You can choose between a quick setup or a customized setup as follows:
     index_params.add_index(
         field_name="my_vector", 
         index_type="AUTOINDEX",
+        metric_type="L2",
+        params={"nlist": 1024}
     )
     
     # 5. Create a collection

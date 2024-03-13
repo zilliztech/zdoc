@@ -770,7 +770,6 @@
             }
           ],
           "style": {
-            "indentation_level": "NoIndent",
             "language": 49,
             "wrap": false
           }
@@ -861,7 +860,6 @@
             }
           ],
           "style": {
-            "indentation_level": "NoIndent",
             "language": 49,
             "wrap": false
           }

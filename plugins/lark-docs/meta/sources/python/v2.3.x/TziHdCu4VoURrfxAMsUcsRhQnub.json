@@ -1,6 +1,6 @@
 {
   "created_time": "1704790733",
-  "modified_time": "1709805120",
+  "modified_time": "1710121459",
   "name": "create_collection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -349,6 +349,9 @@
                 "content": "dimension",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7345021195274240004"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -402,6 +405,9 @@
           "PoTydzM0yoI1i3x6MePce84nndd",
           "YPazdCmwCoD4e9x8HLlcUHRfnxd",
           "NBJLdEXS8o67I9xCvgGcmLk2nAd"
+        ],
+        "comment_ids": [
+          "7345021195274240004"
         ],
         "parent_id": "TziHdCu4VoURrfxAMsUcsRhQnub"
       },
@@ -4571,8 +4577,7 @@
           ],
           "style": {
             "align": 1,
-            "folded": false,
-            "indentation_level": "NoIndent"
+            "folded": false
           }
         },
         "children": [
@@ -5706,6 +5711,9 @@
                 "content": "Customized setup with index parameters",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7343909141118140419"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -5723,6 +5731,9 @@
           "RhgPdFSxhoEuElx4fKMcf8wunvh",
           "GUYhd8iPHoXX0xxewE0ceI1Inme",
           "TP7Ddsw7LoQAwcx5tbmcwP3Ansc"
+        ],
+        "comment_ids": [
+          "7343909141118140419"
         ],
         "parent_id": "TziHdCu4VoURrfxAMsUcsRhQnub"
       },
@@ -5797,7 +5808,7 @@
             },
             {
               "text_run": {
-                "content": "\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Prepare index parameters\nindex_params = client.create_index_params()\n\n# 4. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n)\n\n# 5. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema,\n    index_params=index_params\n",
+                "content": "\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# 3. Prepare index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n    metric_type=\"L2\",\n    params={\"nlist\": 1024}\n)\n\n# 5. Create a collection\nclient.create_collection(\n    collection_name=\"customized_setup\",\n    schema=schema,\n    index_params=index_params\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

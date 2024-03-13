@@ -1,6 +1,6 @@
 {
   "created_time": "1704186662",
-  "modified_time": "1709634784",
+  "modified_time": "1710144006",
   "name": "add_field()",
   "owner_id": "ou_e55a208a81fc721928685fc3df9cb678",
   "parent_token": "SeaffVvutlNtvTdpV17cy78un5T",
@@ -563,6 +563,10 @@
           "DhQydH2BloJlQlxl5cccmxNZnBh",
           "IbwkdZhTLolcKDxIl9ccSVfAnGf",
           "BGr4doERyo9PlzxToXWcf6kAnEc",
+          "VmjrdDRiloEVGXxA4Y7cBPTxnFb",
+          "HQVjdSPLZo0kjhxAoRIcTDOenmh",
+          "SDe7duHiEo9ighxRh6Tc7efyn4g",
+          "HudYdT8i5ocKV9xCKZScqaimnbc",
           "S4q9dv5FJoWoUdxiUOscKWy2nZe",
           "Pz84dk3UQoAggAxAv0DcN4eInth",
           "Z44BdLUFpoQWs6x5bWocpT7Lndc"
@@ -810,9 +814,121 @@
             },
             {
               "text_run": {
-                "content": ", ",
+                "content": ",",
                 "text_element_style": {
                   "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Dd74dCpf7owvT6xlt0hcBWginEW"
+      },
+      {
+        "block_id": "VmjrdDRiloEVGXxA4Y7cBPTxnFb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "DataType.BINARY_VECTOR,",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Dd74dCpf7owvT6xlt0hcBWginEW"
+      },
+      {
+        "block_id": "HQVjdSPLZo0kjhxAoRIcTDOenmh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "DataType.FLOAT_VECTOR,",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Dd74dCpf7owvT6xlt0hcBWginEW"
+      },
+      {
+        "block_id": "SDe7duHiEo9ighxRh6Tc7efyn4g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "DataType.FLOAT16_VECTOR,",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Dd74dCpf7owvT6xlt0hcBWginEW"
+      },
+      {
+        "block_id": "HudYdT8i5ocKV9xCKZScqaimnbc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "DataType.BFLOAT16_VECTOR,",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": true,
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3713,7 +3829,7 @@
         "parent_id": "TG3Rd9aM5offvFxKy2CcKXn9nWc"
       }
     ],
-    "counts": 71
+    "counts": 75
   },
   "slug": "CollectionSchema-add_field"
 }

@@ -143,5 +143,5 @@ index_params.add_index(
 
 - [list_indexes()](./Management-list_indexes)
 
-- [create_index_params()](./Management-create_index_params)
+- [prepare_index_params()](./Management-prepare_index_params)
 

@@ -1,6 +1,6 @@
 {
   "created_time": "1705563350",
-  "modified_time": "1709879930",
+  "modified_time": "1710121553",
   "name": "add_index()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "IZKcfUEfClhhnWdFhk2co7krnAV",
@@ -327,8 +327,7 @@
           ],
           "style": {
             "align": 1,
-            "folded": false,
-            "indentation_level": "NoIndent"
+            "folded": false
           }
         },
         "children": [
@@ -1182,7 +1181,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "from pymilvus import MilvusClient, DataType\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }\n#     ]\n# }\n\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }, \n#         {\n#             'name': 'my_vector', \n#             'description': '', \n#             'type': <DataType.FLOAT_VECTOR: 101>, \n#             'params': {\n#                 'dim': 5\n#             }\n#         }        \n#     ]\n# }\n\n# 3. Create index parameters\nindex_params = client.create_index_params()\n\n# 4. Add indexes\n# - For a scalar field\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\n# - For a vector field\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n    metric_type=\"L2\",\n    params={\"nlist\": 1024}\n",
+                "content": "from pymilvus import MilvusClient, DataType\n\n# 1. Create schema\nschema = MilvusClient.create_schema(\n    auto_id=False,\n    enable_dynamic_field=False,\n)\n\n# 2. Add fields to schema\nschema.add_field(field_name=\"my_id\", datatype=DataType.INT64, is_primary=True)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }\n#     ]\n# }\n\nschema.add_field(field_name=\"my_vector\", datatype=DataType.FLOAT_VECTOR, dim=5)\n\n# {\n#     'auto_id': False, \n#     'description': '', \n#     'fields': [\n#         {\n#             'name': 'my_id', \n#             'description': '', \n#             'type': <DataType.INT64: 5>, \n#             'is_primary': True, \n#             'auto_id': False\n#         }, \n#         {\n#             'name': 'my_vector', \n#             'description': '', \n#             'type': <DataType.FLOAT_VECTOR: 101>, \n#             'params': {\n#                 'dim': 5\n#             }\n#         }        \n#     ]\n# }\n\n# 3. Create index parameters\nindex_params = client.prepare_index_params()\n\n# 4. Add indexes\n# - For a scalar field\nindex_params.add_index(\n    field_name=\"my_id\",\n    index_type=\"STL_SORT\"\n)\n\n# - For a vector field\nindex_params.add_index(\n    field_name=\"my_vector\", \n    index_type=\"AUTOINDEX\",\n    metric_type=\"L2\",\n    params={\"nlist\": 1024}\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -1476,7 +1475,7 @@
                   "strikethrough": false,
                   "underline": false
                 },
-                "title": "create_index_params()",
+                "title": "prepare_index_params()",
                 "token": "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
                 "url": "https://zilliverse.feishu.cn/docx/CAzpdAw3wo4ZqrxhjTLcEGBBn1S"
               }

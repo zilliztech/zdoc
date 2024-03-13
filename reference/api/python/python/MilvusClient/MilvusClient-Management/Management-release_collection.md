@@ -116,7 +116,7 @@ client.create_collection(
 )
 
 # 4. Prepare index parameters
-index_params = client.create_index_params()
+index_params = client.prepare_index_params()
 
 # 5. Add indexes
 index_params.add_index(
