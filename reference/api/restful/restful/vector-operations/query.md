@@ -44,6 +44,12 @@ curl --request POST \
     }'
 ```
 
+:::info Notes
+
+When setting `outputFields` to `count(*)`, you need to set `limit` to `0` to get the total count of entities that meet the specified conditions.
+
+:::
+
 
 ## Request
 
