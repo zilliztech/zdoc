@@ -3014,7 +3014,73 @@
             },
             {
               "text_run": {
-                "content": "\n#     'auto_id': False,\n#     'num_shards': 1,\n#     'description': '',\n#     'fields': [\n#           {\n#               'field_id': 100,\n#               'name': 'id',\n#               'description': '',\n#               'type': 5,\n#               'params': {},\n#               'element_type': 0,\n#               'is_primary': True\n#           },\n#           {\n#               'field_id': 101,\n#               'name': 'vector',\n#               'description': '',\n#               'type': 101,\n#               'params': {\n",
+                "content": "\n#     'auto_id': False,\n#     'num_shards': 1,\n#     'description': '',\n#     'fields': [\n#           {\n#               'field_id': 100,\n#               'name': 'id',\n#               'description': '',\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#               'type': ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "5",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346015238166757404"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",\n#               'params': {},\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "#               'element_type': 0,",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7346014549935718402"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n#               'is_primary': True\n#           },\n#           {\n#               'field_id': 101,\n#               'name': 'vector',\n#               'description': '',\n#               'type': 101,\n#               'params': {\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -3121,6 +3187,8 @@
           }
         },
         "comment_ids": [
+          "7346015238166757404",
+          "7346014549935718402",
           "7330898859042013187",
           "7330898707563347972",
           "7330898467315400707"

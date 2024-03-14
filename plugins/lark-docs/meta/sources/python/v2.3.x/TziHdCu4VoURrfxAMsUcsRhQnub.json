@@ -1,6 +1,6 @@
 {
   "created_time": "1704790733",
-  "modified_time": "1710121459",
+  "modified_time": "1710386650",
   "name": "create_collection()",
   "owner_id": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_token": "AzdefBpvklrrFOdFnA1cicgonLf",
@@ -3042,6 +3042,9 @@
                 "content": "partition_key_field",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7346098034540888066"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -3095,6 +3098,9 @@
           "DNcCdjN6Wo0WVcx8xS1c7c9nnMh",
           "FyjfdvZOoot51jxbTv3cMNr4nWc",
           "L9WUd8ZUSoHHI2x7ou8cmxHanBh"
+        ],
+        "comment_ids": [
+          "7346098034540888066"
         ],
         "parent_id": "doxcnsNqv3WIX0ycyUz9VkYRGxd"
       },
@@ -4621,6 +4627,9 @@
                 "content": "collection.ttl.seconds",
                 "text_element_style": {
                   "bold": true,
+                  "comment_ids": [
+                    "7346106255607808002"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -4633,6 +4642,9 @@
                 "content": " (",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7346106255607808002"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -4645,6 +4657,9 @@
                 "content": "int",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7346106255607808002"
+                  ],
                   "inline_code": false,
                   "italic": true,
                   "strikethrough": false,
@@ -4657,6 +4672,9 @@
                 "content": ")",
                 "text_element_style": {
                   "bold": false,
+                  "comment_ids": [
+                    "7346106255607808002"
+                  ],
                   "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
@@ -4672,6 +4690,9 @@
         },
         "children": [
           "Xs2Tdp008oXE7LxDiokcfCN9nAh"
+        ],
+        "comment_ids": [
+          "7346106255607808002"
         ],
         "parent_id": "DU8xdf85koW0ByxghPWcSLaCnde"
       },

@@ -710,7 +710,7 @@
             },
             {
               "text_run": {
-                "content": "output_fields=[\"",
+                "content": "output_fields=[\"\\",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -740,7 +740,10 @@
                 "content": " ",
                 "text_element_style": {
                   "bold": false,
-                  "inline_code": true,
+                  "comment_ids": [
+                    "7340835908511940611"
+                  ],
+                  "inline_code": false,
                   "italic": false,
                   "strikethrough": false,
                   "underline": false
@@ -789,7 +792,7 @@
             },
             {
               "text_run": {
-                "content": "output_fields=[\"count(*)\"] ",
+                "content": "output_fields=[\"count(\\*)\"]",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": true,
@@ -801,7 +804,7 @@
             },
             {
               "text_run": {
-                "content": "outputs",
+                "content": " outputs",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,

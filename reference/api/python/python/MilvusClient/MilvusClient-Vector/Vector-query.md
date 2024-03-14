@@ -52,8 +52,8 @@ __PARAMETERS:__
     <Admonition type="info" icon="📘" title="Notes">
 
     <ul>
-    <li><p>Setting this as `output_fields=["*"] outputs all fields.</p></li>
-    <li><p>Setting this as <code>output_fields=["count(*)"]</code>outputs the loaded entities that match the conditions specified in the <strong>filter</strong> argument. </p></li>
+    <li><p>Setting this as <code>output_fields=["\*"]</code> outputs all fields.</p></li>
+    <li><p>Setting this as <code>output_fields=["count(\*)"]</code> outputs the loaded entities that match the conditions specified in the <strong>filter</strong> argument. </p></li>
     </ul>
 
     </Admonition>

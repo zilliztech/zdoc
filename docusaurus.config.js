@@ -1,9 +1,6 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
-
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Zilliz Cloud Developer Hub',
@@ -65,8 +62,23 @@ const config = {
         },
       }),
     ],
+    [
+      'redocusaurus',
+      {
+        specs: [
+          {
+            spec: 'plugins/apifox-docs/meta/openapi.json',
+            route: '/reference/restful'
+          }
+        ],
+        theme: {
+          primaryColor: '#0077cc',
+        }
+      }
+    ]
   ],
   plugins: [
+    'docusaurus-lunr-search',
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -339,11 +351,11 @@ const config = {
         ],
         copyright: `LF AI, LF AI & data, Milvus, and associated open-source project names are trademarks of the the Linux Foundation. <br/>© Zilliz ${new Date().getFullYear()} All rights reserved. <a class="setting-cookie-btn" >Cookie Settings</a>`,
       },
-      prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
-        additionalLanguages: ['java', 'go'],
-      },
+      // prism: {
+      //   theme: lightCodeTheme,
+      //   darkTheme: darkCodeTheme,
+      //   additionalLanguages: ['java', 'go'],
+      // },
       colorMode: {
         disableSwitch: true,
       },
@@ -352,16 +364,16 @@ const config = {
       },
     }),
   themes: [
-    [ '@easyops-cn/docusaurus-search-local', {
-      id: 'saas',
-      hashed: true,
-      indexBlog: false,
-      language: ['en', 'zh'],
-      docsDir: ['docs', 'reference'],
-      docsRouteBasePath: 'docs',
-      highlightSearchTermsOnTargetPage: true,
-    }],
-    'docusaurus-theme-frontmatter',
+    // [ '@easyops-cn/docusaurus-search-local', {
+    //   id: 'saas',
+    //   hashed: true,
+    //   indexBlog: false,
+    //   language: ['en', 'zh'],
+    //   docsDir: ['docs', 'reference'],
+    //   docsRouteBasePath: 'docs',
+    //   highlightSearchTermsOnTargetPage: true,
+    // }],
+    // 'docusaurus-theme-frontmatter',
   ],
   headTags: [
     {
