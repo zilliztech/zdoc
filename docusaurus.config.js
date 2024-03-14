@@ -132,9 +132,30 @@ const config = {
           },
           {
             href: '/reference',
-            label: 'API Reference',
+            label: 'Reference',
             position: 'left',
-            className: 'header-link',
+            items: [
+              {
+                label: 'RESTful API',
+                to: '/reference/restful'
+              },
+              {
+                label: 'Python SDK',
+                to: '/reference/python'
+              },
+              {
+                label: 'Java SDK',
+                to: '/reference/java',
+              },
+              {
+                label: 'Go SDK',
+                to: '/reference/go'
+              },
+              {
+                label: 'Node.js SDK',
+                to: '/reference/nodejs'
+              }
+            ]
           },
           {
             href: 'https://zilliz.com/pricing',
@@ -191,8 +212,24 @@ const config = {
                 to: '/docs/quick-start',
               },
               {
-                label: 'API Reference',
-                to: '/reference',
+                label: 'RESTful API',
+                to: '/reference/restful',
+              },
+              {
+                label: 'Python SDK',
+                to: '/reference/python',
+              },
+              {
+                label: 'Java SDK',
+                to: '/reference/java',
+              },
+              {
+                label: 'Go SDK',
+                to: '/reference/go',
+              },
+              {
+                label: 'Node.js SDK',
+                to: '/reference/nodejs',
               },
             ],
           },
