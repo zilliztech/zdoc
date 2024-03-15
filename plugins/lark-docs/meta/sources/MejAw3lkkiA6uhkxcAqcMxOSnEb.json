@@ -5,7 +5,7 @@
   "node_token": "MejAw3lkkiA6uhkxcAqcMxOSnEb",
   "node_type": "origin",
   "obj_create_time": "1689059084",
-  "obj_edit_time": "1701853380",
+  "obj_edit_time": "1709048492",
   "obj_token": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
   "obj_type": "docx",
   "origin_node_token": "MejAw3lkkiA6uhkxcAqcMxOSnEb",
@@ -13,37 +13,47 @@
   "owner": "ou_8554528ee6e965bad56710acde1c7847",
   "parent_node_token": "M1PDwYLKsi4TQRka9xUcDhMjnzc",
   "space_id": "7167193056431783939",
-  "title": "Documentation QA using Zilliz Cloud and LlamaIndex",
-  "slug": "documentation-qa-using-zilliz-cloud-and-llamaindex",
+  "title": "Retrieval-Augmented Generation (RAG) with Zilliz Cloud and LlamaIndex",
+  "slug": "rag-with-zilliz-cloud-and-llamaindex",
   "blocks": {
     "items": [
       {
         "block_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
         "block_type": 1,
         "children": [
-          "Q5ZsdYMbhoQf7WxwuZecQxAjnae",
-          "OXVZdSqhCoxOAixVDHHciAZcnVg",
-          "PyTTd3FbWoZo49xl7IEcPPkInAb",
-          "LcePdhrWroLkjtxBRnicWjYcnRg",
-          "Mb7XdgINvoHOo3x0QFWcOj71nHe",
-          "HE3gdslC4oJIsXxLRnFceJJCn2b",
-          "OwYldcrHuo45RgxIzCbcZBlcnHg",
-          "Uu6mdsorRoYo0lxLh2jcp6qrnHc",
-          "Tmafd3yozochiNxlMi8czsAjnDb",
-          "CvGpdL2rIobRTux706QckJ8TnNb",
-          "QFySdWdIjoPFdgxtc5qchuHannf",
-          "Sy8odh5wlomoSPxwP8ycsjMjnmd",
-          "Cskbdu4Cso97qrxJccpc4DUhnnc",
-          "YCKYd0QbUourrrx5eGpcmnVRnIe",
-          "NJkcdqQVqouxc3xZvrAcwJw6nog",
-          "CrajdCQIlojzc3xQcytcdm4Anfc",
-          "SW6XdVCM6oVd0VxWZyOcTyzEnFh",
-          "JVkudBwcVoAE81xGIR1csn8hnEc",
-          "W3JedYoMpoWSuGxcOXtcG80znhf",
-          "QNxGduzgLoG4ZVxYTyIcJqxZnkc",
-          "IHtPdyZ9noR7rLxM9HncyZwJnOh",
-          "DLefdYturouqb1x5D81czz5Ln5e",
-          "Ml35dslwmouwoYxj22cc3JFbnWf",
+          "Yfj4dsK2AoWRrhxvrnOcIXEQnOe",
+          "RgOidKjWYol00yxcED5cZlcvnnf",
+          "NU7XdKfSyocqKCxhZF9c2xxPndg",
+          "EbQFdstFZoiNiQxoAizcoImRnPe",
+          "Fy5ld1PWlocpnYxCBpJcOQDTnhb",
+          "OuaDdHOvSoZFvcx1dh0cyPcbnV4",
+          "T4JIdjttuoXa1Gx7WUscCKurnpg",
+          "J2YFd33Fao2JSyxd0VRcXo2GnYd",
+          "C29Nds4c3o4E2IxSOHCcz3lInSd",
+          "Fnr6dQXZzoVKpWxFmLXcFA5Rncd",
+          "FtJrdooLEoNzq5xbGTFcyVJ2nzh",
+          "YlBtd6yUuoUxVUx7RgJcnEHjnse",
+          "JicbdlqS5oTVVLxBEyqctFl0nAh",
+          "CWSBd1dfhoEc8CxuxqscGnTdnHb",
+          "FdTXdwFoRogyZCxeBgvcn5MpnGg",
+          "NrX9dqc36ooeY3xVNtgcFCMVn1e",
+          "ALcQdsPVJoIiJNxlLH5ctPGpnxc",
+          "U6o4d23h2ozbK6xG3hHcfDebnEe",
+          "XiJQddi8YoSdYfxWb5Pc9Cwmn7x",
+          "HJTDdEC2soMyCUxBnBqcV5j0nQc",
+          "QfqBdi2Puo7E8oxyeFXcPITTnjy",
+          "W8f6dQVhNoCRndxsk43cTIjBnSe",
+          "ZwwNdfahfocq1bxcU3fcIW6znfb",
+          "Dterd4Wv5otitYxofzEcuSAunBh",
+          "VgBPdsIPdoSrvsxL6tlcQnJjnRs",
+          "VYduduQjmo0DpdxIEWTcxbGenDe",
+          "JAVvddEKIoqIpWxx7aycw3uSnCh",
+          "IeMnd329porP5yxTvuqc6yW1nJg",
+          "QDhCdONi4oVOxbxNxNRcPZeAnsg",
+          "IBRrdhAVYobNkmxxiTncofPAncb",
+          "N95BdpIWGoDcFrxihAVcffUnn0b",
+          "UfXwdACSVom4Z6xKrQ2cx1XPnzJ",
+          "S6uadtLVGoXhYzxu3ZqcbYnan9f",
           "EakndB2eYoLY6gxn2Bscfa2nnye",
           "EQGcdZ9uEoQhNyxcC4tc1iZLnsg",
           "RKFHdIISroUeoJxcha8c1Pdhnyb",
@@ -56,31 +66,7 @@
           "elements": [
             {
               "text_run": {
-                "content": "Documentation ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "QA",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " using Zilliz Cloud and LlamaIndex",
+                "content": "Retrieval-Augmented Generation (RAG) with Zilliz Cloud and LlamaIndex",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -98,14 +84,14 @@
         "parent_id": ""
       },
       {
-        "block_id": "Q5ZsdYMbhoQf7WxwuZecQxAjnae",
+        "block_id": "Yfj4dsK2AoWRrhxvrnOcIXEQnOe",
         "block_type": 2,
         "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "This guide demonstrates how to integrate LlamaIndex with Zilliz Cloud to retrieve information from designated sources.",
+                "content": "This guide demonstrates how to build a Retrieval-Augmented Generation (RAG) system using LlamaIndex and Milvus.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -123,14 +109,14 @@
         }
       },
       {
-        "block_id": "OXVZdSqhCoxOAixVDHHciAZcnVg",
+        "block_id": "RgOidKjWYol00yxcED5cZlcvnnf",
         "block_type": 2,
         "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "With ChatGPT taking the headlines, many companies are wondering how they can take advantage of it for their current products. One big use case that stands out is improving the tedious and limited search functionality of product documentation. Currently, if a user wants to figure out how to use a product, they must comb through all the document pages hoping to come up with an answer. What if we could replace this tedious process with ChatGPT? What if ChatGPT could summarize all the info that is needed and answer any questions that a user might have? This is where LlamaIndex and Zilliz Cloud come in.",
+                "content": "The RAG system combines a retrieval system with a generative model to generate new text based on a given prompt. The system first retrieves relevant documents from a corpus using a vector similarity search engine like Milvus, and then uses a generative model to generate new text based on the retrieved documents.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -148,39 +134,29 @@
         }
       },
       {
-        "block_id": "PyTTd3FbWoZo49xl7IEcPPkInAb",
+        "block_id": "NU7XdKfSyocqKCxhZF9c2xxPndg",
         "block_type": 2,
         "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "LlamaIndex and Zilliz Cloud are worth together to ingest and retrieve relevant information. LlamaIndex begins by taking in all the different documents you may have and embedding them using OpenAI. Once we have the embeddings we can push them into Zilliz Cloud along with any relevant text and metadata. When a user wants to ask a question, LlamaIndex will search through Zilliz Cloud for the closest answers and use ChatGPT to summarize those answers.",
+                "content": "LlamaIndex",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fwww.llamaindex.ai%2F"
+                  },
                   "strikethrough": false,
                   "underline": false
                 }
               }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "LcePdhrWroLkjtxBRnicWjYcnRg",
-        "block_type": 2,
-        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
-        "text": {
-          "elements": [
+            },
             {
               "text_run": {
-                "content": "For this example, the documentation that we are going to be searching through is the documentation found on the Milvus ",
+                "content": " is a simple, flexible data framework for connecting custom data sources to large language models (LLMs). ",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -192,13 +168,215 @@
             },
             {
               "text_run": {
-                "content": "website",
+                "content": "Milvus",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
                   "italic": false,
                   "link": {
-                    "url": "https%3A%2F%2Fmilvus.io%2Fdocs"
+                    "url": "https%3A%2F%2Fmilvus.io%2F"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is the world's most advanced open-source vector database, built to power embedding similarity search and AI applications. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.zilliz.com"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is the managed Milvus service.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EbQFdstFZoiNiQxoAizcoImRnPe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you begin",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "Fy5ld1PWlocpnYxCBpJcOQDTnhb",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Code snippets on this page require ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pymilvus",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "llamaindex",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " libraries. You can install them using the following commands:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OuaDdHOvSoZFvcx1dh0cyPcbnV4",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "python3 -m pip install --upgrade pymilvus llamaindex openai",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 60,
+            "wrap": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "T4JIdjttuoXa1Gx7WUscCKurnpg",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What's more, LlamaIndex requires an LLM model at the backend. In this article, we will use the OpenAI as the LLM backend. You can sign up for a free API key at ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "OpenAI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fopenai.com%2F"
                   },
                   "strikethrough": false,
                   "underline": false
@@ -225,236 +403,13 @@
         }
       },
       {
-        "block_id": "Mb7XdgINvoHOo3x0QFWcOj71nHe",
-        "block_type": 2,
-        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "This example was run on a Zilliz Cloud cluster using 1 CU.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "HE3gdslC4oJIsXxLRnFceJJCn2b",
-        "block_type": 2,
-        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Let's get started.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "OwYldcrHuo45RgxIzCbcZBlcnHg",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Before you start",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
-      },
-      {
-        "block_id": "Uu6mdsorRoYo0lxLh2jcp6qrnHc",
-        "block_type": 2,
-        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "For this example, we are going to be using ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "pymilvus",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " to connect to use Zilliz Cloud and ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "llama-index",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " to handle the data manipulation and pipelining. This example will also require having an OpenAI ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "API",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " key for embedding generation.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Tmafd3yozochiNxlMi8czsAjnDb",
+        "block_id": "J2YFd33Fao2JSyxd0VRcXo2GnYd",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "pip install pymilvus llama-index",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 7,
-            "wrap": false
-          }
-        },
-        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
-      },
-      {
-        "block_id": "CvGpdL2rIobRTux706QckJ8TnNb",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Prepare data",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
-      },
-      {
-        "block_id": "QFySdWdIjoPFdgxtc5qchuHannf",
-        "block_type": 2,
-        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "We are going to use ",
+                "content": "import openai\n\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -466,142 +421,7 @@
             },
             {
               "text_run": {
-                "content": "git",
-                "text_element_style": {
-                  "bold": true,
-                  "inline_code": true,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " to pull the Milvus website data. A majority of the documents come in the form of markdown files.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "Sy8odh5wlomoSPxwP8ycsjMjnmd",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "git clone ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "https://github.com/milvus-io/milvus-docs",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "language": 7,
-            "wrap": false
-          }
-        },
-        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
-      },
-      {
-        "block_id": "Cskbdu4Cso97qrxJccpc4DUhnnc",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Parameters",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
-      },
-      {
-        "block_id": "YCKYd0QbUourrrx5eGpcmnVRnIe",
-        "block_type": 2,
-        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
-        "text": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Here we can find the main parameters that need to be modified for running with your own accounts. Beside each is a description of what it is.",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        }
-      },
-      {
-        "block_id": "NJkcdqQVqouxc3xZvrAcwJw6nog",
-        "block_type": 14,
-        "code": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "from os import environ\n\n# 1. Set up the name of the collection to be created.\nCOLLECTION_NAME = 'document_qa_db'\n\n# 2. Set up the dimension of the embeddings.\nDIMENSION = 1536\n\n# 3. Set the inference parameters\nBATCH_SIZE = 128\nTOP_K = 3\n\n# 4. Set up the connection parameters for your Zilliz Cloud cluster.\nURI = 'YOUR_CLUSTER_ENDPOINT'\n\nTOKEN = 'YOUR_CLUSTER_TOKEN'\n\n# OpenAI API key\nenviron[\"OPENAI_API_KEY\"] = \"YOUR_OPENAI_API_KEY\"\n",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "environ[\"TOKENIZERS_PARALLELISM\"] = \"false\"",
+                "content": "openai.api_key = \"sk-**************************\"",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -620,13 +440,13 @@
         "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
       },
       {
-        "block_id": "CrajdCQIlojzc3xQcytcdm4Anfc",
+        "block_id": "C29Nds4c3o4E2IxSOHCcz3lInSd",
         "block_type": 4,
         "heading2": {
           "elements": [
             {
               "text_run": {
-                "content": "Consume the knowledge",
+                "content": "Prepare Data",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -645,41 +465,14 @@
         "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
       },
       {
-        "block_id": "SW6XdVCM6oVd0VxWZyOcTyzEnFh",
+        "block_id": "Fnr6dQXZzoVKpWxFmLXcFA5Rncd",
         "block_type": 2,
         "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Once we have our data on the system we can proceed to consume it using LlamaIndex and upload it to Zilliz Cloud. This comes in the form of two steps. We begin by loading in a markdown reader from ",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": "Llama Hub",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "link": {
-                    "url": "https%3A%2F%2Fllamahub.ai%2F"
-                  },
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            },
-            {
-              "text_run": {
-                "content": " and converting all our markdowns into documents.",
+                "content": "In this section, you need to prepare the data for the RAG system. Run the following command to download the example data.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -697,13 +490,13 @@
         }
       },
       {
-        "block_id": "JVkudBwcVoAE81xGIR1csn8hnEc",
+        "block_id": "FtJrdooLEoNzq5xbGTFcyVJ2nzh",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "from llama_index import download_loader\nfrom glob import glob\n\n# Load the markdown reader from the hub\nMarkdownReader = download_loader(\"MarkdownReader\")\nmarkdownreader = MarkdownReader()\n\n# Grab all markdown files and convert them using the reader\ndocs = []\nfor file in glob(\"./milvus-docs/site/en/**/*.md\", recursive=True):\n    docs.extend(markdownreader.load_data(file=file))\n",
+                "content": "mkdir -p 'data/paul_graham/'\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -715,7 +508,93 @@
             },
             {
               "text_run": {
-                "content": "print(len(docs))",
+                "content": "wget 'https://raw.githubusercontent.com/run-llama/llama_index/main/docs/examples/data/paul_graham/paul_graham_essay.txt' -O 'data/paul_graham/paul_graham_essay.txt'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 60,
+            "wrap": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "YlBtd6yUuoUxVUx7RgJcnEHjnse",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The example data is a single essay from Paul Graham titled ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "What I Worked On",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Before you can use it for the RAG system, you need to make it accessible to LLamaIndex.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JicbdlqS5oTVVLxBEyqctFl0nAh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from llamaindex import SimpleDirectoryReader\n\ndocuments = SimpleDirectoryReader(\"./data/paul_graham/\").load_data()\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(\"Document ID:\", documents[0].doc_id)",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -734,14 +613,14 @@
         "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
       },
       {
-        "block_id": "W3JedYoMpoWSuGxcOXtcG80znhf",
+        "block_id": "CWSBd1dfhoEc8CxuxqscGnTdnHb",
         "block_type": 2,
         "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "Once we have our documents formed, we can proceed to push them through into Zilliz Cloud. This step requires the configs for both Zilliz Cloud and OpenAI.",
+                "content": "Now we can create a Milvus collection and insert the documents into it.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -759,13 +638,1165 @@
         }
       },
       {
-        "block_id": "QNxGduzgLoG4ZVxYTyIcJqxZnkc",
+        "block_id": "FdTXdwFoRogyZCxeBgvcn5MpnGg",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "from llama_index import download_loader, VectorStoreIndex, ServiceContext\nfrom llama_index.vector_stores import MilvusVectorStore\n\n# Push all markdown files into Zilliz Cloud\nvector_store = MilvusVectorStore(\n    uri=URI, \n    token=TOKEN, \n    collection_name=COLLECTION_NAME, \n    similarity_metric=\"L2\",\n    dim=DIMENSION,\n)\n\nembed_model = HuggingFaceEmbedding(model_name=\"sentence-transformers/all-MiniLM-L12-v2\")\nservice_context = ServiceContext.from_defaults(embed_model=embed_model)\n\nindex = VectorStoreIndex.from_documents(\n    documents=docs, \n    service_context=service_context,\n    show_progress=True\n",
+                "content": "from llama_index.vector_stores import VectorStoreIndex, MilvusVectorStore\nfrom llama_index.storage.storage_context import StorageContext\n\nvector_store = MilvusVectorStore(dim=1536, overwrite=True)\nstorage_context = StorageContext.from_defaults(vector_store=vector_store)\nindex = VectorStoreIndex.from_documents(\n    documents, storage_context=storage_context\n)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "Eschdvkrhog2fBxna2kcvIxtnmf",
+          "PA1HdaQHjozNNXxiNjGcW1nbnZe",
+          "IWdDdYfHCo3CRrxu0WVciPWYnAc",
+          "USSidtotIocD6JxkmRXcEOkYnGe",
+          "Oo0qdb6Hzo5U2nxsKHdcodYGn3d",
+          "PuBIdyfn0oYpPHxc8HAc3MQEnqz",
+          "A2QndbCAJoQc8UxkI7iccOHZnIe",
+          "QaGWd1YDro3DSjxdshyc7kAhnLd",
+          "NxZndBnidode3pxER5icT1FCncl",
+          "Abx9doAprohgzZxCLZ2cqJiVnng",
+          "AasHd5VrJohH9zxDnUvcWLhanaf",
+          "W5Iad1qEFoKHY0xfFNRckt8cnNL",
+          "CAqsdtV5cou6QUxeJqzcJAbtned",
+          "SiBdd80QUoGAyZxfo70cmU0dnrh"
+        ],
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "Eschdvkrhog2fBxna2kcvIxtnmf",
+        "block_type": 2,
+        "parent_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PA1HdaQHjozNNXxiNjGcW1nbnZe",
+        "block_type": 2,
+        "parent_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The above code will generate a Milvus collection named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "llamalection",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " on the Milvus server with default settings. You can include the following arguments to customize the MilvusVectorStore object to your needs:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IWdDdYfHCo3CRrxu0WVciPWYnAc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "uri",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": the URI to connect to, comes in the form of ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e"
+      },
+      {
+        "block_id": "USSidtotIocD6JxkmRXcEOkYnGe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "token",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": the token used to authenticate the connection. You can leave it unspecified if RBAC is not enabled. Otherwise, use the username and password of an existing user. To be authenticated as the root user with the default password, use \"root:Milvus\".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e"
+      },
+      {
+        "block_id": "Oo0qdb6Hzo5U2nxsKHdcodYGn3d",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "collection_name",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": the name of the Milvus collection to create or use.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e"
+      },
+      {
+        "block_id": "PuBIdyfn0oYpPHxc8HAc3MQEnqz",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "dim",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": the dimension of the vector embeddings. If it is not provided, collection creation will be done upon the first insertion.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e"
+      },
+      {
+        "block_id": "A2QndbCAJoQc8UxkI7iccOHZnIe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "embedding_field",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": the name of the field used to hold vector embeddings in the collection to create, defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "DEFAULT_EMBEDDING_KEY",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e"
+      },
+      {
+        "block_id": "QaGWd1YDro3DSjxdshyc7kAhnLd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "doc_id_field",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": the name of the field used to hold doc IDs in the collection to create, defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "DEFAULT_DOC_ID_KEY",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e"
+      },
+      {
+        "block_id": "NxZndBnidode3pxER5icT1FCncl",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "similarity_metric",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": the similarity metric to use. Possible options are ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "L2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "IP",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e"
+      },
+      {
+        "block_id": "Abx9doAprohgzZxCLZ2cqJiVnng",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "consistency_level",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": the consistency level to use in the collection to create. Possible options are ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Strong",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Bounded",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Staleness",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Eventually",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Strong",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e"
+      },
+      {
+        "block_id": "AasHd5VrJohH9zxDnUvcWLhanaf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "overwrite",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": whether to overwrite the existing collection if it exists.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e"
+      },
+      {
+        "block_id": "W5Iad1qEFoKHY0xfFNRckt8cnNL",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "text_key",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": the name of the field that holds text in an existing collection, defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". This applies only when you want to use an existing collection instead of create a new one.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e"
+      },
+      {
+        "block_id": "CAqsdtV5cou6QUxeJqzcJAbtned",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "index_config",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": the index parameters used to build an index for the specified collection, defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e"
+      },
+      {
+        "block_id": "SiBdd80QUoGAyZxfo70cmU0dnrh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "search_config",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": the search parameters used to prepare searches in the specified collection, defaults to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "None",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NrX9dqc36ooeY3xVNtgcFCMVn1e"
+      },
+      {
+        "block_id": "ALcQdsPVJoIiJNxlLH5ctPGpnxc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Query the data",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "U6o4d23h2ozbK6xG3hHcfDebnEe",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Now that you have our document stored in the Milvus collection, you can ask questions against the collection. The collection will use its data as the knowledge base for ChatGPT to generate answers.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XiJQddi8YoSdYfxWb5Pc9Cwmn7x",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "query_engine = index.as_query_engine()\nresponse = query_engine.query(\"What did the author learn?\")\nprint(textwrap.fill(str(response), 100))\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# The author learned several things during their time at Interleaf. They learned that it's better for technology companies to be run by product people than sales people, that code edited by too many people leads to bugs, that cheap office space is not worth it if it's depressing, that planned meetings are inferior to corridor conversations, that big bureaucratic customers can be a dangerous source of money, and that there's not much overlap between conventional office hours and the optimal time for hacking. However, the most important thing the author learned is that the low end eats the high end, meaning that it's advantageous to be the \"entry level\" option because if you're not, someone else will be and will surpass you.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "HJTDdEC2soMyCUxBnBqcV5j0nQc",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Let's give it another try.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QfqBdi2Puo7E8oxyeFXcPITTnjy",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "response = query_engine.query(\"What was a hard moment for the author?\")\nprint(textwrap.fill(str(response), 100))\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# The author experienced a difficult moment when their mother had a stroke and was put in a nursing home. The stroke destroyed her balance, and the author and their sister were determined to help her get out of the nursing home and back to her house.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "W8f6dQVhNoCRndxsk43cTIjBnSe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes on overwriting the Milvus collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "ZwwNdfahfocq1bxcU3fcIW6znfb",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you want to reuse an existing Milvus collection and overwrite its data, you can use the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "overwrite",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " argument when creating the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "MilvusVectorStore",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " object.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Dterd4Wv5otitYxofzEcuSAunBh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "vector_store = MilvusVectorStore(\n    dim=1536,\n    overwrite=True,\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -796,39 +1827,14 @@
         "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
       },
       {
-        "block_id": "IHtPdyZ9noR7rLxM9HncyZwJnOh",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Ask question",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
-      },
-      {
-        "block_id": "DLefdYturouqb1x5D81czz5Ln5e",
+        "block_id": "VgBPdsIPdoSrvsxL6tlcQnJjnRs",
         "block_type": 2,
         "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
         "text": {
           "elements": [
             {
               "text_run": {
-                "content": "With our documents loaded into Zilliz Cloud, we can begin asking questions. The questions will be searched against the knowledge base and any relevant documents will be used to generate an answer.",
+                "content": "In such a case, when you run the following code, all the data in the Milvus collection will be erased and replaced with the new data.",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -846,13 +1852,13 @@
         }
       },
       {
-        "block_id": "Ml35dslwmouwoYxj22cc3JFbnWf",
+        "block_id": "VYduduQjmo0DpdxIEWTcxbGenDe",
         "block_type": 14,
         "code": {
           "elements": [
             {
               "text_run": {
-                "content": "query_engine = index.as_query_engine()\nresponse = query_engine.query(\"What is IVF_FLAT?\")\nprint(str(response))\n\n# Output\n#\n",
+                "content": "storage_context = StorageContext.from_defaults(vector_store=vector_store)\nindex = VectorStoreIndex.from_documents(\n    [Document(text=\"The number that is being searched for is ten.\")], \n    storage_context=storage_context\n",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -864,7 +1870,7 @@
             },
             {
               "text_run": {
-                "content": "# IVF_FLAT is an index used in Milvus that divides vector space into list clusters. It compares the distances between the target vector and the centroids of all the clusters to return the nearest clusters. Then, it compares the distances between the target vector and the vectors in the selected clusters to find the nearest vectors. IVF_FLAT has performance advantages over FLAT when the number of vectors exceeds a certain threshold.",
+                "content": ")",
                 "text_element_style": {
                   "bold": false,
                   "inline_code": false,
@@ -881,6 +1887,277 @@
           }
         },
         "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "JAVvddEKIoqIpWxx7aycw3uSnCh",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Now when you ask the same questions again, you will receive different answers.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IeMnd329porP5yxTvuqc6yW1nJg",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you want to append additional data to an existing Milvus collection, you should not use the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "overwrite",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " argument or set it to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "False",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " when creating the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "MilvusVectorStore",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " object.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QDhCdONi4oVOxbxNxNRcPZeAnsg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "vector_store = MilvusVectorStore(\n    dim=1536,\n    overwrite=False,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "IBRrdhAVYobNkmxxiTncofPAncb",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In such a case, when you run the following code, the new data will be appended to the existing data in the Milvus collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "N95BdpIWGoDcFrxihAVcffUnn0b",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "storage_context = StorageContext.from_defaults(vector_store=vector_store)\nindex = VectorStoreIndex.from_documents(\n    documents, storage_context=storage_context\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "UfXwdACSVom4Z6xKrQ2cx1XPnzJ",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Conclusion",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
+      },
+      {
+        "block_id": "S6uadtLVGoXhYzxu3ZqcbYnan9f",
+        "block_type": 2,
+        "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this article, we demonstrated how to build a (RAG) system using LlamaIndex and Milvus. We used the OpenAI as the LLM backend and prepared the example data for the RAG system. We also demonstrated how to query the data and generate new text using the ChatGPT model.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
       },
       {
         "block_id": "EakndB2eYoLY6gxn2Bscfa2nnye",
@@ -1151,6 +2428,6 @@
         "parent_id": "MVk7diXw8oWlnuxqbhjcSHDXnWg"
       }
     ],
-    "counts": 31
+    "counts": 55
   }
 }

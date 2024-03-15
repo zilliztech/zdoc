@@ -5,7 +5,7 @@
   "node_token": "M1PDwYLKsi4TQRka9xUcDhMjnzc",
   "node_type": "origin",
   "obj_create_time": "1698025810",
-  "obj_edit_time": "1707101120",
+  "obj_edit_time": "1708758080",
   "obj_token": "LeOOdpq6OoCCmNxs9YzcjJTBnsI",
   "obj_type": "docx",
   "origin_node_token": "M1PDwYLKsi4TQRka9xUcDhMjnzc",
@@ -21,8 +21,7 @@
         "block_id": "LeOOdpq6OoCCmNxs9YzcjJTBnsI",
         "block_type": 1,
         "children": [
-          "EMwcdpUExoa6MBxz5q7ceLR2nDg",
-          "AoqTdpWpoouHfVxnZAPcYbqxnEg"
+          "EMwcdpUExoa6MBxz5q7ceLR2nDg"
         ],
         "page": {
           "elements": [
@@ -69,34 +68,9 @@
             "folded": false
           }
         }
-      },
-      {
-        "block_id": "AoqTdpWpoouHfVxnZAPcYbqxnEg",
-        "block_type": 4,
-        "heading2": {
-          "elements": [
-            {
-              "text_run": {
-                "content": "Contents",
-                "text_element_style": {
-                  "bold": false,
-                  "inline_code": false,
-                  "italic": false,
-                  "strikethrough": false,
-                  "underline": false
-                }
-              }
-            }
-          ],
-          "style": {
-            "align": 1,
-            "folded": false
-          }
-        },
-        "parent_id": "LeOOdpq6OoCCmNxs9YzcjJTBnsI"
       }
     ],
-    "counts": 3
+    "counts": 2
   },
   "children": [
     {
@@ -196,7 +170,7 @@
       "node_token": "MejAw3lkkiA6uhkxcAqcMxOSnEb",
       "node_type": "origin",
       "obj_create_time": "1689059084",
-      "obj_edit_time": "1701853380",
+      "obj_edit_time": "1709048492",
       "obj_token": "MVk7diXw8oWlnuxqbhjcSHDXnWg",
       "obj_type": "docx",
       "origin_node_token": "MejAw3lkkiA6uhkxcAqcMxOSnEb",
@@ -204,8 +178,8 @@
       "owner": "ou_8554528ee6e965bad56710acde1c7847",
       "parent_node_token": "M1PDwYLKsi4TQRka9xUcDhMjnzc",
       "space_id": "7167193056431783939",
-      "title": "Documentation QA using Zilliz Cloud and LlamaIndex",
-      "slug": "documentation-qa-using-zilliz-cloud-and-llamaindex"
+      "title": "Retrieval-Augmented Generation (RAG) with Zilliz Cloud and LlamaIndex",
+      "slug": "rag-with-zilliz-cloud-and-llamaindex"
     },
     {
       "creator": "ou_8554528ee6e965bad56710acde1c7847",

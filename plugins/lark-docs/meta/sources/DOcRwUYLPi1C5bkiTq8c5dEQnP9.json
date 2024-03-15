@@ -1,0 +1,398 @@
+{
+  "creator": "ou_fbc044d19930afd389d5c369466c38b1",
+  "has_child": false,
+  "node_create_time": "1710484983",
+  "node_token": "DOcRwUYLPi1C5bkiTq8c5dEQnP9",
+  "node_type": "origin",
+  "obj_create_time": "1710484983",
+  "obj_edit_time": "1710496438",
+  "obj_token": "Kp9QdlOvdofLSjxHbytclsUVnjg",
+  "obj_type": "docx",
+  "origin_node_token": "DOcRwUYLPi1C5bkiTq8c5dEQnP9",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_fbc044d19930afd389d5c369466c38b1",
+  "parent_node_token": "V5DNwjhUmimGnuksnkAcmch3n0c",
+  "space_id": "7167193056431783939",
+  "title": "Reranker",
+  "slug": "reranker",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Kp9QdlOvdofLSjxHbytclsUVnjg",
+        "block_type": 1,
+        "children": [
+          "BL7bd07D4oobN0xXChvcuc9JnTb",
+          "HGXwdt6zuohQQUxDZwqcGuEpnH6",
+          "PbhcdR1CGozH2WxbszBcNmcdnFc",
+          "MgEwd8wuroOeOVxFvnocf9wFnef",
+          "EjdGdZziFoc1lkxVLMHc5UEhnBc",
+          "Scmkd9l5toXtgbx1Nq1cWOO6neg",
+          "W6fndUdXToVgM6x3RL9c46NTnmf",
+          "UrlPdgcFmowWsGx70MCc5Cemn5g",
+          "MrDddPYLuoyKLoxrrCycpomnnCd",
+          "TbBsduFOooPihXx0lqAcXlBInxg",
+          "XFzyd3wxQowFrqxRXh0c1cBcn7e",
+          "HUyhdwCUzosc2txG0QrcJtQDnQb",
+          "Z23JdkiQdoufTvxsM0McNZ4AnFd",
+          "DwtOdbYXVoQ5Hkx2NvacdNmonQe"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Reranker",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "BL7bd07D4oobN0xXChvcuc9JnTb",
+        "block_type": 2,
+        "parent_id": "Kp9QdlOvdofLSjxHbytclsUVnjg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In information retrieval tasks, a reranker might reorganize search results ranked by relevance scores obtained from the initial retrieval such as vector Approximate Nearest Neighbor (ANN) search. This can help improve the overall quality of search results by prioritizing the documents most relevant to the query. Using a reranker is an effective approach to enhance the answer quality of RAG applications. Note that reranker is computationally heavy thus incurring higher cost and higher query latency.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HGXwdt6zuohQQUxDZwqcGuEpnH6",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "What is reranker?",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Kp9QdlOvdofLSjxHbytclsUVnjg"
+      },
+      {
+        "block_id": "PbhcdR1CGozH2WxbszBcNmcdnFc",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D41654-1493%26mode%3Ddesign%26t%3DOTnXNGDnmP8rwLTN-4"
+          }
+        },
+        "parent_id": "Kp9QdlOvdofLSjxHbytclsUVnjg"
+      },
+      {
+        "block_id": "MgEwd8wuroOeOVxFvnocf9wFnef",
+        "block_type": 2,
+        "parent_id": "Kp9QdlOvdofLSjxHbytclsUVnjg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Reranker is typically a machine learning model trained to better assess the semantic relevance between query text and a specific document. Production-level information retrieval systems such as web search and recommender system usually consists of two stages: the initial retrieval and reranking. The initial retrieval phase, often utilizing vector Approximate Nearest Neighbor (ANN) search, efficiently sifts through vast datasets to identify relevant information, such as retrieving the top 20 candidates from millions of options. Once this initial set is obtained, the reranker steps in to further refine the ranking based on relevance to the query text. Then a smaller set, say top 5 from the reranked list, is used to provide better quality than if selecting the first 5 based on the original order.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EjdGdZziFoc1lkxVLMHc5UEhnBc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Using reranker in RAG application",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Kp9QdlOvdofLSjxHbytclsUVnjg"
+      },
+      {
+        "block_id": "Scmkd9l5toXtgbx1Nq1cWOO6neg",
+        "block_type": 2,
+        "parent_id": "Kp9QdlOvdofLSjxHbytclsUVnjg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The RAG application consists of the retrieval phase, which is responsible for retrieving information pieces most relevant to the user's query, and the generation phase using LLM to summarize and reason about the retrieved knowledge. The relevancy of the context provided to the LLM in the retrieval phase is crucial to final answer quality. Reranker is an effective tool to improve retrieval thus enhancing the answer quality of the RAG application.  ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "W6fndUdXToVgM6x3RL9c46NTnmf",
+        "block_type": 2,
+        "parent_id": "Kp9QdlOvdofLSjxHbytclsUVnjg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The diagram below illustrates the position of a reranker in an RAG pipeline:  ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UrlPdgcFmowWsGx70MCc5Cemn5g",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D41654-1496%26mode%3Ddesign%26t%3DOTnXNGDnmP8rwLTN-4"
+          }
+        },
+        "parent_id": "Kp9QdlOvdofLSjxHbytclsUVnjg"
+      },
+      {
+        "block_id": "MrDddPYLuoyKLoxrrCycpomnnCd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When to use reranker",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Kp9QdlOvdofLSjxHbytclsUVnjg"
+      },
+      {
+        "block_id": "TbBsduFOooPihXx0lqAcXlBInxg",
+        "block_type": 2,
+        "parent_id": "Kp9QdlOvdofLSjxHbytclsUVnjg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The initial multi-way retrieval stage retrieves candidates from a massive amount of data, requiring fast speed but allowing for some errors. Therefore, in practical scenarios, fast retrieval methods are usually adopted, such as Approximate Nearest Neighbor (ANN) based on vector search algorithms, which can retrieve more candidate results and allow for certain erroneous candidates. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XFzyd3wxQowFrqxRXh0c1cBcn7e",
+        "block_type": 2,
+        "parent_id": "Kp9QdlOvdofLSjxHbytclsUVnjg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The initial retrieval with Approximate Nearest Neighbor (ANN) vector search is very efficient and often yields satisfactory results. In many scenarios, the secondary stage of reranking may not be deemed essential. Nevertheless, applications with stringent quality standards may opt to integrate a reranker model to enhance quality, albeit at the expense of increased computational overhead and longer search latency. Using reranker model generally adds 100ms to a few seconds of latency to the search query, depending on the size of topK. In situations where the initial retrieval result contains incorrect or irrelevant docs, using a reranker can effectively filter them out which in turn improve quality of final answer from LLM.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HUyhdwCUzosc2txG0QrcJtQDnQb",
+        "block_type": 2,
+        "parent_id": "Kp9QdlOvdofLSjxHbytclsUVnjg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If a reranker is deemed necessary for your use case, you can choose to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "enable it in your Search pipeline",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FTQnswMmIpiTmUSkf1iscU05Lnfb"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Z23JdkiQdoufTvxsM0McNZ4AnFd",
+        "block_type": 26,
+        "iframe": {
+          "component": {
+            "iframe_type": 8,
+            "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D39309-1180%26mode%3Ddesign%26t%3DJwNw3ufDtfY5CmiK-4"
+          }
+        },
+        "parent_id": "Kp9QdlOvdofLSjxHbytclsUVnjg"
+      },
+      {
+        "block_id": "DwtOdbYXVoQ5Hkx2NvacdNmonQe",
+        "block_type": 2,
+        "parent_id": "Kp9QdlOvdofLSjxHbytclsUVnjg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 15
+  }
+}
