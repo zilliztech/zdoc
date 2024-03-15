@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@docusaurus/core": "3.1.1",
+    "@docusaurus/plugin-content-docs": "^3.1.1",
     "@docusaurus/preset-classic": "3.1.1",
     "@docusaurus/theme-common": "^3.1.1",
     "@docusaurus/utils": "^3.1.1",
@@ -59,6 +60,5 @@
   },
   "engines": {
     "node": ">=18.0"
-  },
-  "packageManager": "yarn@4.1.1"
+  }
 }
