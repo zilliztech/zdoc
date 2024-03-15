@@ -16,8 +16,11 @@
   "dependencies": {
     "@docusaurus/core": "3.1.1",
     "@docusaurus/preset-classic": "3.1.1",
+    "@docusaurus/theme-common": "^3.1.1",
+    "@docusaurus/utils": "^3.1.1",
     "@jupyterlab/nbformat": "^4.0.7",
     "@mdx-js/react": "^3.0.0",
+    "@types/react": "^18.2.66",
     "bottleneck": "^2.19.5",
     "cheerio": "^1.0.0-rc.12",
     "clsx": "^2.0.0",
@@ -56,5 +59,6 @@
   },
   "engines": {
     "node": ">=18.0"
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }
