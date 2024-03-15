@@ -1,0 +1,95 @@
+#!/usr/bin/env groovy
+
+def github="https://github.com/zilliztech/zdoc.git"
+def devops_cd_git="github.com/zilliztech/vdc-deploy.git"
+
+pipeline {
+    agent {
+        kubernetes {
+            defaultContainer 'main'
+            yamlFile "ci/pod/pod.yaml"
+            customWorkspace '/home/jenkins/agent/workspace'
+        }
+    }
+
+    environment {
+        CI_DOCKER_CREDENTIAL_ID = "harbor-us-vdc"
+        GITHUB_TOKEN_ID="github-token"
+        TEST_ENVIRONMENT="uat3"
+        ARGOCD_TOKEN_ID="argocd-token"
+    }
+    parameters {
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'dev', name: 'BRANCH', type: 'PT_BRANCH'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                git credentialsId: 'zilliz-ci',  branch: "${params.BRANCH}", url: "${github}"
+                script {
+                    sh 'pwd'
+                    sh 'ls -la'
+                    sh './ci/set_docker_mirror.sh'
+                    def date = sh(returnStdout: true, script: 'date +%Y%m%d').trim()
+                    def gitShortCommit = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+                    def image_tag= "${params.BRANCH}-${date}-${gitShortCommit}"
+                    echo "${image_tag}"
+                    withCredentials([string(credentialsId: 'APP_SECRET_ZDOCS', variable: 'APP_SECRET'), string(credentialsId: 'SPACE_ID_ZDOCS', variable: 'SPACE_ID'), string(credentialsId: 'FIGMA_API_KEY_ZDOCS', variable: 'FIGMA_API_KEY'), string(credentialsId: 'BAIDU_TRANS_SECRET_ZDOCS', variable: 'BAIDU_TRANS_SECRET')]) {
+                        sh """
+                        export IMAGE_TAG=${image_tag}
+                        docker build . -t harbor-us-vdc.zilliz.cc/vdc/zilliz-docs:\${IMAGE_TAG} --build-arg APP_ID=cli_a3eb7209253f5013 --build-arg APP_SECRET='${APP_SECRET}' --build-arg SPACE_ID=${SPACE_ID} --build-arg FIGMA_API_KEY=${FIGMA_API_KEY} --build-arg BAIDU_TRANS_APP_ID=20230821001788625 --build-arg BAIDU_TRANS_SECRET=${BAIDU_TRANS_SECRET} --build-arg ENVIRONMENT=development  
+                        """
+                    }
+
+                    withCredentials([usernamePassword(credentialsId: "${env.CI_DOCKER_CREDENTIAL_ID}", usernameVariable: 'CI_REGISTRY_USERNAME', passwordVariable: 'CI_REGISTRY_PASSWORD')]){
+                        sh "docker login harbor-us-vdc.zilliz.cc -u '${CI_REGISTRY_USERNAME}' -p '${CI_REGISTRY_PASSWORD}'"
+                        sh """
+                        export IMAGE_TAG=${image_tag}
+                        docker push harbor-us-vdc.zilliz.cc/vdc/zilliz-docs:\${IMAGE_TAG}
+                        """
+                    }
+
+                    sh "echo ${image_tag} > imageTag.txt"
+                    stash includes: 'imageTag.txt', name: 'imageTag'
+                }
+            }
+        }
+        stage('Deploy'){
+            steps{
+                container('deploy') {
+                    script {
+                        sh "ls -la"
+                        dir ("imageTag"){
+                            unstash 'imageTag'
+                            image_tag=sh(returnStdout: true, script: 'cat imageTag.txt | tr -d \'\n\r\'')
+                        }
+                        withCredentials([usernamePassword(credentialsId: "${env.GITHUB_TOKEN_ID}", usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]){
+                        sh """
+                            git remote set-url origin https://${GITHUB_USER}:${GITHUB_TOKEN}@${devops_cd_git}
+                            git config --global user.name "${GITHUB_USER}"
+                            git config --global user.email "test@zilliz.com"
+                            git clone https://${GITHUB_USER}:${GITHUB_TOKEN}@${devops_cd_git} /opt/devops-cd
+                            cd /opt/devops-cd
+                            git pull
+                            cd /opt/devops-cd/zdocs/overlays/${env.TEST_ENVIRONMENT}
+                            kustomize edit set image zdocs=harbor-us-vdc.zilliz.cc/vdc/zilliz-docs:${image_tag}
+                            git commit -am "[automated]Update zdocs image for uat3 environment" --allow-empty
+                            git push origin master
+                        """
+                        }
+
+                        withCredentials([usernamePassword(credentialsId: "${env.ARGOCD_TOKEN_ID}", usernameVariable: 'ARGOCD_SERVER', passwordVariable: 'ARGOCD_AUTH_TOKEN')]){
+                            sh """
+                             argocd app sync ${env.TEST_ENVIRONMENT}-zdocs --retry-limit 3 --prune --grpc-web
+                             argocd app wait ${env.TEST_ENVIRONMENT}-zdocs --grpc-web
+                            """
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
